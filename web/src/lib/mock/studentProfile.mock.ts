@@ -766,3 +766,21 @@ export const LIBRARY_BOOKS = [
   { id: '4', title: 'Introduction to Algorithms', author: 'Thomas H. Cormen', category: 'Computer Science', format: 'Physical', status: 'Overdue', dueDate: 'Feb 10, 2026', icon: '??', iconBg: 'rgba(255, 126, 147, 0.1)', iconColor: '#ff7e93' },
   { id: '5', title: 'The Elements of Style', author: 'William Strunk Jr.', category: 'Language Arts', format: 'E-Book', status: 'Available', dueDate: '-', icon: '??', iconBg: 'rgba(245, 200, 66, 0.1)', iconColor: '#f5c842' },
 ];
+
+// -----------------------------------------
+// DOWNLOADABLE FORMS DATA
+// -----------------------------------------
+
+export const FORMS_STATS = {
+  totalForms: 18,
+  newForms: 2,
+  mostDownloaded: 'Excuse Slip'
+};
+
+export const DOWNLOADABLE_FORMS = [
+  { id: '1', title: 'Official Excuse Slip', category: 'General', format: 'PDF', size: '120 KB', lastUpdated: 'Aug 10, 2025', icon: '??', iconBg: 'rgba(92, 199, 137, 0.1)', iconColor: '#5cc789' },
+  { id: '2', title: 'Leave of Absence (LOA) Request', category: 'Registrar', format: 'PDF', size: '250 KB', lastUpdated: 'Sep 05, 2025', icon: '??', iconBg: 'rgba(132, 169, 255, 0.1)', iconColor: '#84a9ff' },
+  { id: '3', title: 'Clinic Medical Clearance Form', category: 'Clinic', format: 'PDF', size: '180 KB', lastUpdated: 'Oct 01, 2025', icon: '??', iconBg: 'rgba(255, 126, 147, 0.1)', iconColor: '#ff7e93' },
+  { id: '4', title: 'Guidance Counseling Intake Form', category: 'Guidance', format: 'DOCX', size: '320 KB', lastUpdated: 'Oct 15, 2025', icon: '??', iconBg: 'rgba(182, 142, 255, 0.1)', iconColor: '#b68eff' },
+  { id: '5', title: 'Extracurricular Club Registration', category: 'Student Affairs', format: 'DOCX', size: '145 KB', lastUpdated: 'Aug 20, 2025', icon: '??', iconBg: 'rgba(245, 200, 66, 0.1)', iconColor: '#f5c842' },
+];
