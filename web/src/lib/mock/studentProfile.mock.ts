@@ -728,3 +728,22 @@ export const PAYMENT_HISTORY_LIST = [
   { id: '2', date: 'Oct 10, 2025 - 02:15 PM', receiptNo: 'TXN-882194', description: '1st Quarter Installment', method: 'GCash', amount: '?10,000.00', status: 'Failed', icon: '??', iconBg: 'rgba(255, 126, 147, 0.1)', iconColor: '#ff7e93' },
   { id: '3', date: 'Aug 10, 2025 - 09:30 AM', receiptNo: 'OR-2025-0812', description: 'Downpayment upon Enrollment', method: 'Over-the-Counter Cash', amount: '?10,000.00', status: 'Completed', icon: '??', iconBg: 'rgba(92, 199, 137, 0.1)', iconColor: '#5cc789' },
 ];
+
+// -----------------------------------------
+// DIGITAL ID & GATE PASS DATA
+// -----------------------------------------
+
+export const DIGITAL_ID_STATS = {
+  status: 'Active',
+  lastScanTime: 'Today, 07:15 AM',
+  lastScanLocation: 'Main Gate - Entrance',
+  validUntil: 'July 2026'
+};
+
+export const GATE_PASS_HISTORY = [
+  { id: '1', date: 'Oct 12, 2025 - 04:30 PM', action: 'Exit', location: 'South Gate', status: 'Allowed', icon: '??', iconBg: 'rgba(182, 142, 255, 0.1)', iconColor: '#b68eff' },
+  { id: '2', date: 'Oct 12, 2025 - 07:15 AM', action: 'Entry', location: 'Main Gate', status: 'Allowed', icon: '??', iconBg: 'rgba(92, 199, 137, 0.1)', iconColor: '#5cc789' },
+  { id: '3', date: 'Oct 11, 2025 - 05:00 PM', action: 'Exit', location: 'Main Gate', status: 'Allowed', icon: '??', iconBg: 'rgba(182, 142, 255, 0.1)', iconColor: '#b68eff' },
+  { id: '4', date: 'Oct 11, 2025 - 07:20 AM', action: 'Entry', location: 'Main Gate', status: 'Allowed', icon: '??', iconBg: 'rgba(92, 199, 137, 0.1)', iconColor: '#5cc789' },
+  { id: '5', date: 'Oct 10, 2025 - 07:10 AM', action: 'Entry', location: 'South Gate', status: 'Denied - Invalid Time', icon: '??', iconBg: 'rgba(255, 126, 147, 0.1)', iconColor: '#ff7e93' },
+];
