@@ -784,3 +784,30 @@ export const DOWNLOADABLE_FORMS = [
   { id: '4', title: 'Guidance Counseling Intake Form', category: 'Guidance', format: 'DOCX', size: '320 KB', lastUpdated: 'Oct 15, 2025', icon: '??', iconBg: 'rgba(182, 142, 255, 0.1)', iconColor: '#b68eff' },
   { id: '5', title: 'Extracurricular Club Registration', category: 'Student Affairs', format: 'DOCX', size: '145 KB', lastUpdated: 'Aug 20, 2025', icon: '??', iconBg: 'rgba(245, 200, 66, 0.1)', iconColor: '#f5c842' },
 ];
+
+// -----------------------------------------
+// MESSAGES & CHATS DATA
+// -----------------------------------------
+
+export const STUDENT_CHATS = [
+  { id: '1', name: 'STEM - Archimedes (Homeroom)', type: 'Group', role: 'Class', lastMessage: 'Mr. Gomez: Don\'t forget to submit your slips.', time: '10:45 AM', unread: 2, avatar: '??' },
+  { id: '2', name: 'Mr. Richard Gomez', type: 'Direct', role: 'Teacher', lastMessage: 'Juan, your recent project was excellent.', time: 'Yesterday', unread: 0, avatar: '?????' },
+  { id: '3', name: 'Registrar Office', type: 'Direct', role: 'School Admin', lastMessage: 'Your requested forms are ready for pickup.', time: 'Monday', unread: 1, avatar: '??' },
+  { id: '4', name: 'Computer Programming 1', type: 'Group', role: 'Class', lastMessage: 'Anna: Does anyone have the notes for Chapter 4?', time: 'Oct 12', unread: 5, avatar: '??' },
+  { id: '5', name: 'Mrs. Liza Mendoza', type: 'Direct', role: 'Teacher', lastMessage: 'Please see me after class tomorrow.', time: 'Oct 10', unread: 0, avatar: '?????' },
+];
+
+export const STUDENT_MESSAGES = {
+  '1': [
+    { id: 'm1', sender: 'Mr. Richard Gomez', isMe: false, text: 'Good morning class, a reminder that we have a short quiz tomorrow.', time: '09:00 AM' },
+    { id: 'm2', sender: 'Anna Reyes', isMe: false, text: 'Sir, will it cover chapters 1 to 3?', time: '09:05 AM' },
+    { id: 'm3', sender: 'Mr. Richard Gomez', isMe: false, text: 'Yes, exactly.', time: '09:10 AM' },
+    { id: 'm4', sender: 'You', isMe: true, text: 'Noted sir, thank you!', time: '09:15 AM' },
+    { id: 'm5', sender: 'Mr. Richard Gomez', isMe: false, text: 'Don\'t forget to submit your slips.', time: '10:45 AM' },
+  ],
+  '2': [
+    { id: 'm1', sender: 'Mr. Richard Gomez', isMe: false, text: 'Hi Juan, I wanted to discuss your science project.', time: 'Yesterday, 02:00 PM' },
+    { id: 'm2', sender: 'You', isMe: true, text: 'Yes sir! Is there something I need to change?', time: 'Yesterday, 02:15 PM' },
+    { id: 'm3', sender: 'Mr. Richard Gomez', isMe: false, text: 'Not at all. Juan, your recent project was excellent. I want to feature it in the exhibit.', time: 'Yesterday, 02:20 PM' },
+  ]
+};
