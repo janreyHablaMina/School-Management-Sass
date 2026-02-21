@@ -747,3 +747,22 @@ export const GATE_PASS_HISTORY = [
   { id: '4', date: 'Oct 11, 2025 - 07:20 AM', action: 'Entry', location: 'Main Gate', status: 'Allowed', icon: '??', iconBg: 'rgba(92, 199, 137, 0.1)', iconColor: '#5cc789' },
   { id: '5', date: 'Oct 10, 2025 - 07:10 AM', action: 'Entry', location: 'South Gate', status: 'Denied - Invalid Time', icon: '??', iconBg: 'rgba(255, 126, 147, 0.1)', iconColor: '#ff7e93' },
 ];
+
+// -----------------------------------------
+// LIBRARY & E-BOOKS DATA
+// -----------------------------------------
+
+export const LIBRARY_STATS = {
+  borrowedBooks: 2,
+  overdueBooks: 1,
+  totalRead: 14,
+  libraryFines: '?50.00'
+};
+
+export const LIBRARY_BOOKS = [
+  { id: '1', title: 'Physics for Scientists and Engineers', author: 'Raymond A. Serway', category: 'Science', format: 'Physical', status: 'Borrowed', dueDate: 'Feb 28, 2026', icon: '??', iconBg: 'rgba(132, 169, 255, 0.1)', iconColor: '#84a9ff' },
+  { id: '2', title: 'World History: Patterns of Interaction', author: 'Roger B. Beck', category: 'History', format: 'E-Book', status: 'Downloaded', dueDate: '-', icon: '??', iconBg: 'rgba(182, 142, 255, 0.1)', iconColor: '#b68eff' },
+  { id: '3', title: 'Noli Me Tangere', author: 'Jose Rizal', category: 'Literature', format: 'Physical', status: 'Returned', dueDate: 'Jan 15, 2026', icon: '??', iconBg: 'rgba(92, 199, 137, 0.1)', iconColor: '#5cc789' },
+  { id: '4', title: 'Introduction to Algorithms', author: 'Thomas H. Cormen', category: 'Computer Science', format: 'Physical', status: 'Overdue', dueDate: 'Feb 10, 2026', icon: '??', iconBg: 'rgba(255, 126, 147, 0.1)', iconColor: '#ff7e93' },
+  { id: '5', title: 'The Elements of Style', author: 'William Strunk Jr.', category: 'Language Arts', format: 'E-Book', status: 'Available', dueDate: '-', icon: '??', iconBg: 'rgba(245, 200, 66, 0.1)', iconColor: '#f5c842' },
+];
