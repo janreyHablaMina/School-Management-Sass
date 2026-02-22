@@ -22,6 +22,7 @@ import { StudentClinicView } from '@/components/Student/Clinic/StudentClinicView
 import { StudentGuidanceView } from '@/components/Student/Guidance/StudentGuidanceView';
 import { StudentDocumentsView } from '@/components/Student/Documents/StudentDocumentsView';
 import { StudentAnnouncementsView } from '@/components/Student/Announcements/StudentAnnouncementsView';
+import { StudentTuitionView } from '@/components/Student/Tuition/StudentTuitionView';
 
 // Temporary placeholder for settings
 const StudentPlaceholder = ({ title }: { title: string }) => (
@@ -66,6 +67,7 @@ export default function StudentPortal() {
     if (activeTab === 'Guidance Office') return <StudentGuidanceView />;
     if (activeTab === 'Documents') return <StudentDocumentsView />;
     if (activeTab === 'Announcements') return <StudentAnnouncementsView />;
+    if (activeTab === 'Tuition & Fees') return <StudentTuitionView />;
     return <StudentPlaceholder title={activeTab} />;
   };
 

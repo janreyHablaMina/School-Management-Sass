@@ -684,3 +684,30 @@ export const STUDENT_ANNOUNCEMENTS_LIST = [
     icon: '??', iconBg: 'rgba(92, 199, 137, 0.1)', iconColor: '#5cc789' 
   }
 ];
+
+// -----------------------------------------
+// TUITION & FEES DATA
+// -----------------------------------------
+
+export const TUITION_STATS = {
+  totalAssessment: '?45,000.00',
+  totalPaid: '?20,000.00',
+  outstandingBalance: '?25,000.00',
+  nextDeadline: 'Mar 15, 2026',
+  nextAmountDue: '?12,500.00',
+  status: 'On Track'
+};
+
+export const FEE_BREAKDOWN = [
+  { id: '1', description: 'Basic Tuition Fee', type: 'Tuition', amount: '?30,000.00', icon: '??', iconBg: 'rgba(132, 169, 255, 0.1)', iconColor: '#84a9ff' },
+  { id: '2', description: 'Miscellaneous Fees', type: 'Misc', amount: '?10,000.00', icon: '??', iconBg: 'rgba(245, 200, 66, 0.1)', iconColor: '#f5c842' },
+  { id: '3', description: 'Science Laboratory Fee', type: 'Lab', amount: '?3,000.00', icon: '??', iconBg: 'rgba(92, 199, 137, 0.1)', iconColor: '#5cc789' },
+  { id: '4', description: 'Computer Laboratory Fee', type: 'Lab', amount: '?2,000.00', icon: '??', iconBg: 'rgba(182, 142, 255, 0.1)', iconColor: '#b68eff' },
+];
+
+export const PAYMENT_SCHEDULE = [
+  { id: '1', term: 'Upon Enrollment (Downpayment)', dueDate: 'Aug 15, 2025', amount: '?10,000.00', status: 'Paid', datePaid: 'Aug 10, 2025' },
+  { id: '2', term: '1st Quarter (Prelims)', dueDate: 'Oct 15, 2025', amount: '?10,000.00', status: 'Paid', datePaid: 'Oct 12, 2025' },
+  { id: '3', term: '2nd Quarter (Midterms)', dueDate: 'Dec 15, 2025', amount: '?12,500.00', status: 'Pending', datePaid: '-' },
+  { id: '4', term: '3rd Quarter (Finals)', dueDate: 'Mar 15, 2026', amount: '?12,500.00', status: 'Upcoming', datePaid: '-' },
+];
