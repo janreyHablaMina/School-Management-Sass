@@ -23,6 +23,7 @@ import { StudentGuidanceView } from '@/components/Student/Guidance/StudentGuidan
 import { StudentDocumentsView } from '@/components/Student/Documents/StudentDocumentsView';
 import { StudentAnnouncementsView } from '@/components/Student/Announcements/StudentAnnouncementsView';
 import { StudentTuitionView } from '@/components/Student/Tuition/StudentTuitionView';
+import { StudentPaymentHistoryView } from '@/components/Student/PaymentHistory/StudentPaymentHistoryView';
 
 // Temporary placeholder for settings
 const StudentPlaceholder = ({ title }: { title: string }) => (
@@ -68,6 +69,7 @@ export default function StudentPortal() {
     if (activeTab === 'Documents') return <StudentDocumentsView />;
     if (activeTab === 'Announcements') return <StudentAnnouncementsView />;
     if (activeTab === 'Tuition & Fees') return <StudentTuitionView />;
+    if (activeTab === 'Payment History') return <StudentPaymentHistoryView />;
     return <StudentPlaceholder title={activeTab} />;
   };
 

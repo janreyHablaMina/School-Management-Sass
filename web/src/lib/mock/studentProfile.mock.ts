@@ -711,3 +711,20 @@ export const PAYMENT_SCHEDULE = [
   { id: '3', term: '2nd Quarter (Midterms)', dueDate: 'Dec 15, 2025', amount: '?12,500.00', status: 'Pending', datePaid: '-' },
   { id: '4', term: '3rd Quarter (Finals)', dueDate: 'Mar 15, 2026', amount: '?12,500.00', status: 'Upcoming', datePaid: '-' },
 ];
+
+// -----------------------------------------
+// PAYMENT HISTORY DATA
+// -----------------------------------------
+
+export const PAYMENT_HISTORY_STATS = {
+  totalRemitted: '?20,000.00',
+  lastPaymentDate: 'Oct 12, 2025',
+  lastPaymentAmount: '?10,000.00',
+  receiptsGenerated: 2
+};
+
+export const PAYMENT_HISTORY_LIST = [
+  { id: '1', date: 'Oct 12, 2025 - 10:45 AM', receiptNo: 'OR-2025-1045', description: '1st Quarter Installment', method: 'Bank Transfer (BPI)', amount: '?10,000.00', status: 'Completed', icon: '??', iconBg: 'rgba(92, 199, 137, 0.1)', iconColor: '#5cc789' },
+  { id: '2', date: 'Oct 10, 2025 - 02:15 PM', receiptNo: 'TXN-882194', description: '1st Quarter Installment', method: 'GCash', amount: '?10,000.00', status: 'Failed', icon: '??', iconBg: 'rgba(255, 126, 147, 0.1)', iconColor: '#ff7e93' },
+  { id: '3', date: 'Aug 10, 2025 - 09:30 AM', receiptNo: 'OR-2025-0812', description: 'Downpayment upon Enrollment', method: 'Over-the-Counter Cash', amount: '?10,000.00', status: 'Completed', icon: '??', iconBg: 'rgba(92, 199, 137, 0.1)', iconColor: '#5cc789' },
+];
