@@ -616,3 +616,71 @@ export const DISCIPLINARY_RECORDS = [
   { id: '1', date: 'Oct 12, 2025', incident: 'Tardiness (3rd Offense)', reportedBy: 'Mr. James Cruz', action: 'Verbal Warning', status: 'Resolved', icon: '?', iconBg: 'rgba(245, 200, 66, 0.1)', iconColor: '#f5c842' },
   { id: '2', date: 'Sep 20, 2025', incident: 'Improper Uniform', reportedBy: 'Ms. Anna Reyes', action: 'Reminder sent to parents', status: 'Resolved', icon: '??', iconBg: 'rgba(245, 200, 66, 0.1)', iconColor: '#f5c842' }
 ];
+
+// -----------------------------------------
+// STUDENT ANNOUNCEMENTS DATA
+// -----------------------------------------
+
+export const STUDENT_ANNOUNCEMENTS_STATS = {
+  unreadCount: 2,
+  totalCount: 15,
+  importantCount: 3
+};
+
+export const STUDENT_ANNOUNCEMENTS_LIST = [
+  { 
+    id: '1', 
+    title: 'System Maintenance Notice', 
+    message: 'The learning portal will be down for scheduled maintenance this Saturday from 12:00 AM to 4:00 AM.', 
+    sender: 'Super Admin', 
+    senderRole: 'System Owner', 
+    date: 'Feb 24, 2026', 
+    isRead: false, 
+    category: 'System', 
+    icon: '??', iconBg: 'rgba(255, 126, 147, 0.1)', iconColor: '#ff7e93' 
+  },
+  { 
+    id: '2', 
+    title: 'Final Examination Schedule', 
+    message: 'The final examination schedule for the current semester is now available. Please check the Quizzes & Exams tab.', 
+    sender: 'Mr. Richard Gomez', 
+    senderRole: 'School Admin', 
+    date: 'Feb 22, 2026', 
+    isRead: false, 
+    category: 'Academic', 
+    icon: '??', iconBg: 'rgba(245, 200, 66, 0.1)', iconColor: '#f5c842' 
+  },
+  { 
+    id: '3', 
+    title: 'Math Project Deadline Extension', 
+    message: 'The deadline for the 3rd Quarter Math Project has been moved to March 1, 2026. Keep up the good work!', 
+    sender: 'Ms. Anna Reyes', 
+    senderRole: 'Teacher', 
+    date: 'Feb 20, 2026', 
+    isRead: true, 
+    category: 'Class Update', 
+    icon: '??', iconBg: 'rgba(132, 169, 255, 0.1)', iconColor: '#84a9ff' 
+  },
+  { 
+    id: '4', 
+    title: 'Foundation Day Celebration', 
+    message: 'Join us for the 25th Foundation Day Celebration next week. Various booths and activities await!', 
+    sender: 'Student Affairs', 
+    senderRole: 'School Admin', 
+    date: 'Feb 15, 2026', 
+    isRead: true, 
+    category: 'Event', 
+    icon: '??', iconBg: 'rgba(182, 142, 255, 0.1)', iconColor: '#b68eff' 
+  },
+  { 
+    id: '5', 
+    title: 'Welcome to the New School Year', 
+    message: 'Welcome back, students! We have upgraded our learning management system for a better experience.', 
+    sender: 'System Admin', 
+    senderRole: 'System Owner', 
+    date: 'Aug 1, 2025', 
+    isRead: true, 
+    category: 'Announcement', 
+    icon: '??', iconBg: 'rgba(92, 199, 137, 0.1)', iconColor: '#5cc789' 
+  }
+];

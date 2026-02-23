@@ -21,6 +21,7 @@ import { StudentClubsView } from '@/components/Student/Clubs/StudentClubsView';
 import { StudentClinicView } from '@/components/Student/Clinic/StudentClinicView';
 import { StudentGuidanceView } from '@/components/Student/Guidance/StudentGuidanceView';
 import { StudentDocumentsView } from '@/components/Student/Documents/StudentDocumentsView';
+import { StudentAnnouncementsView } from '@/components/Student/Announcements/StudentAnnouncementsView';
 
 // Temporary placeholder for settings
 const StudentPlaceholder = ({ title }: { title: string }) => (
@@ -64,6 +65,7 @@ export default function StudentPortal() {
     if (activeTab === 'Clinic & Health') return <StudentClinicView />;
     if (activeTab === 'Guidance Office') return <StudentGuidanceView />;
     if (activeTab === 'Documents') return <StudentDocumentsView />;
+    if (activeTab === 'Announcements') return <StudentAnnouncementsView />;
     return <StudentPlaceholder title={activeTab} />;
   };
 
