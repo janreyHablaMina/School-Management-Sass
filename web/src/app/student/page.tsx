@@ -13,6 +13,7 @@ import { StudentDashboardView } from '@/components/Student/Dashboard/StudentDash
 import { StudentSubjectsView } from '@/components/Student/Subjects/StudentSubjectsView';
 import { StudentScheduleView } from '@/components/Student/Schedule/StudentScheduleView';
 import { StudentAssignmentsView } from '@/components/Student/Assignments/StudentAssignmentsView';
+import { StudentQuizzesExamsView } from '@/components/Student/QuizzesExams/StudentQuizzesExamsView';
 
 // Temporary placeholder for settings
 const StudentPlaceholder = ({ title }: { title: string }) => (
@@ -48,6 +49,7 @@ export default function StudentPortal() {
     if (activeTab === 'My Subjects') return <StudentSubjectsView />;
     if (activeTab === 'Class Schedule') return <StudentScheduleView />;
     if (activeTab === 'Assignments') return <StudentAssignmentsView />;
+    if (activeTab === 'Quizzes & Exams') return <StudentQuizzesExamsView />;
     return <StudentPlaceholder title={activeTab} />;
   };
 
