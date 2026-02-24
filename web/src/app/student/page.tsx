@@ -19,6 +19,7 @@ import { StudentAttendanceView } from '@/components/Student/Attendance/StudentAt
 import { StudentClearanceView } from '@/components/Student/Clearance/StudentClearanceView';
 import { StudentClubsView } from '@/components/Student/Clubs/StudentClubsView';
 import { StudentClinicView } from '@/components/Student/Clinic/StudentClinicView';
+import { StudentGuidanceView } from '@/components/Student/Guidance/StudentGuidanceView';
 
 // Temporary placeholder for settings
 const StudentPlaceholder = ({ title }: { title: string }) => (
@@ -60,6 +61,7 @@ export default function StudentPortal() {
     if (activeTab === 'Clearance Status') return <StudentClearanceView />;
     if (activeTab === 'Clubs & Orgs') return <StudentClubsView />;
     if (activeTab === 'Clinic & Health') return <StudentClinicView />;
+    if (activeTab === 'Guidance Office') return <StudentGuidanceView />;
     return <StudentPlaceholder title={activeTab} />;
   };
 

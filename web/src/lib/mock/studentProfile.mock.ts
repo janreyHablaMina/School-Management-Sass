@@ -594,3 +594,25 @@ export const MEDICAL_REQUIREMENTS = [
   { id: '2', requirement: 'Vaccination Card', dateSubmitted: 'Aug 1, 2025', status: 'Compliant', icon: '??' },
   { id: '3', requirement: 'Dental Record', dateSubmitted: '-', status: 'Missing', icon: '??' }
 ];
+
+// -----------------------------------------
+// GUIDANCE OFFICE DATA
+// -----------------------------------------
+
+export const GUIDANCE_STATS = {
+  counselor: 'Dr. Robert Tan',
+  upcomingAppointments: 1,
+  completedSessions: 3,
+  disciplinaryStatus: 'Clear'
+};
+
+export const GUIDANCE_APPOINTMENTS = [
+  { id: '1', date: 'Feb 28, 2026 - 02:00 PM', type: 'Career Counseling', counselor: 'Dr. Robert Tan', status: 'Upcoming', notes: 'Discuss college application plans.', icon: '??', iconBg: 'rgba(92, 199, 137, 0.1)', iconColor: '#5cc789' },
+  { id: '2', date: 'Jan 15, 2026 - 10:00 AM', type: 'Routine Check-in', counselor: 'Dr. Robert Tan', status: 'Completed', notes: 'General well-being and academic stress discussion.', icon: '??', iconBg: 'rgba(132, 169, 255, 0.1)', iconColor: '#84a9ff' },
+  { id: '3', date: 'Oct 05, 2025 - 09:00 AM', type: 'Academic Guidance', counselor: 'Ms. Liza Mendoza', status: 'Completed', notes: 'Time management and study habits.', icon: '??', iconBg: 'rgba(182, 142, 255, 0.1)', iconColor: '#b68eff' },
+];
+
+export const DISCIPLINARY_RECORDS = [
+  { id: '1', date: 'Oct 12, 2025', incident: 'Tardiness (3rd Offense)', reportedBy: 'Mr. James Cruz', action: 'Verbal Warning', status: 'Resolved', icon: '?', iconBg: 'rgba(245, 200, 66, 0.1)', iconColor: '#f5c842' },
+  { id: '2', date: 'Sep 20, 2025', incident: 'Improper Uniform', reportedBy: 'Ms. Anna Reyes', action: 'Reminder sent to parents', status: 'Resolved', icon: '??', iconBg: 'rgba(245, 200, 66, 0.1)', iconColor: '#f5c842' }
+];
