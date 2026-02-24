@@ -552,3 +552,22 @@ export const CLEARANCE_LIST = [
   { id: '5', department: 'Athletics / PE', signatory: 'Mr. Mark Garcia', status: 'Cleared', date: 'Feb 10, 2026', remarks: 'Uniforms returned.', icon: '?', iconColor: '#ffab6b', iconBg: 'rgba(255, 171, 107, 0.1)' },
   { id: '6', department: 'Adviser', signatory: 'Ms. Liza Mendoza', status: 'Pending', date: '-', remarks: 'Waiting for Finance clearance first.', icon: '??', iconColor: '#f5c842', iconBg: 'rgba(245, 200, 66, 0.1)' },
 ];
+
+// -----------------------------------------
+// CLUBS & ORGS DATA
+// -----------------------------------------
+
+export const CLUBS_STATS = {
+  activeMemberships: 2,
+  pendingApplications: 1,
+  availableClubs: 15
+};
+
+export const CLUBS_LIST = [
+  { id: '1', name: 'Supreme Student Government (SSG)', category: 'Leadership', role: 'Grade 10 Representative', status: 'Active', adviser: 'Mr. Richard Gomez', schedule: 'Mondays, 4:00 PM', description: 'The highest governing body of students.', icon: '???', iconBg: 'rgba(245, 200, 66, 0.1)', iconColor: '#f5c842' },
+  { id: '2', name: 'Math Club', category: 'Academic', role: 'Member', status: 'Active', adviser: 'Ms. Anna Reyes', schedule: 'Wednesdays, 3:30 PM', description: 'For students who love mathematics and problem solving.', icon: '?', iconBg: 'rgba(132, 169, 255, 0.1)', iconColor: '#84a9ff' },
+  { id: '3', name: 'Drama Club', category: 'Arts', role: 'Applicant', status: 'Pending', adviser: 'Mr. James Cruz', schedule: 'Fridays, 4:00 PM', description: 'Theatrical performances and stage acting.', icon: '??', iconBg: 'rgba(182, 142, 255, 0.1)', iconColor: '#b68eff' },
+  { id: '4', name: 'Varsity Basketball', category: 'Sports', role: '-', status: 'Available', adviser: 'Mr. Mark Garcia', schedule: 'Tue & Thu, 5:00 PM', description: 'Official school basketball team.', icon: '??', iconBg: 'rgba(255, 171, 107, 0.1)', iconColor: '#ffab6b' },
+  { id: '5', name: 'Science Explorer Society', category: 'Academic', role: '-', status: 'Available', adviser: 'Ms. Liza Mendoza', schedule: 'Thursdays, 3:30 PM', description: 'Conduct experiments and scientific research.', icon: '??', iconBg: 'rgba(92, 199, 137, 0.1)', iconColor: '#5cc789' },
+  { id: '6', name: 'Glee Club', category: 'Arts', role: '-', status: 'Available', adviser: 'Dr. Robert Tan', schedule: 'Mondays, 4:00 PM', description: 'School choir and vocal ensemble.', icon: '??', iconBg: 'rgba(255, 126, 147, 0.1)', iconColor: '#ff7e93' },
+];

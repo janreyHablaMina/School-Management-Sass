@@ -17,6 +17,7 @@ import { StudentQuizzesExamsView } from '@/components/Student/QuizzesExams/Stude
 import { StudentGradesView } from '@/components/Student/Grades/StudentGradesView';
 import { StudentAttendanceView } from '@/components/Student/Attendance/StudentAttendanceView';
 import { StudentClearanceView } from '@/components/Student/Clearance/StudentClearanceView';
+import { StudentClubsView } from '@/components/Student/Clubs/StudentClubsView';
 
 // Temporary placeholder for settings
 const StudentPlaceholder = ({ title }: { title: string }) => (
@@ -56,6 +57,7 @@ export default function StudentPortal() {
     if (activeTab === 'Grades (Form 138)') return <StudentGradesView />;
     if (activeTab === 'Attendance') return <StudentAttendanceView />;
     if (activeTab === 'Clearance Status') return <StudentClearanceView />;
+    if (activeTab === 'Clubs & Orgs') return <StudentClubsView />;
     return <StudentPlaceholder title={activeTab} />;
   };
 
