@@ -533,3 +533,22 @@ export const ADVISOR_NOTES = {
   advisorRole: 'Adviser',
   avatarUrl: 'https://i.pravatar.cc/150?u=liza'
 };
+
+// -----------------------------------------
+// CLEARANCE STATUS DATA
+// -----------------------------------------
+
+export const CLEARANCE_STATS = {
+  overall: 'Pending', // Cleared, Pending, Overdue
+  clearedCount: 4,
+  totalCount: 6
+};
+
+export const CLEARANCE_LIST = [
+  { id: '1', department: 'Library', signatory: 'Ms. Maria Santos', status: 'Cleared', date: 'Feb 15, 2026', remarks: 'No unreturned books.', icon: '??', iconColor: '#b68eff', iconBg: 'rgba(182, 142, 255, 0.1)' },
+  { id: '2', department: 'Science Laboratory', signatory: 'Mr. James Cruz', status: 'Cleared', date: 'Feb 16, 2026', remarks: 'All equipment accounted for.', icon: '??', iconColor: '#5cc789', iconBg: 'rgba(92, 199, 137, 0.1)' },
+  { id: '3', department: 'Finance / Cashier', signatory: 'Ms. Anna Reyes', status: 'Pending', date: '-', remarks: 'Outstanding balance of ?1,500.', icon: '??', iconColor: '#f5c842', iconBg: 'rgba(245, 200, 66, 0.1)' },
+  { id: '4', department: 'Guidance Office', signatory: 'Dr. Robert Tan', status: 'Cleared', date: 'Feb 18, 2026', remarks: 'Exit interview completed.', icon: '??', iconColor: '#84a9ff', iconBg: 'rgba(132, 169, 255, 0.1)' },
+  { id: '5', department: 'Athletics / PE', signatory: 'Mr. Mark Garcia', status: 'Cleared', date: 'Feb 10, 2026', remarks: 'Uniforms returned.', icon: '?', iconColor: '#ffab6b', iconBg: 'rgba(255, 171, 107, 0.1)' },
+  { id: '6', department: 'Adviser', signatory: 'Ms. Liza Mendoza', status: 'Pending', date: '-', remarks: 'Waiting for Finance clearance first.', icon: '??', iconColor: '#f5c842', iconBg: 'rgba(245, 200, 66, 0.1)' },
+];
