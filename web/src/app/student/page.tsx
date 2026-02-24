@@ -15,6 +15,7 @@ import { StudentScheduleView } from '@/components/Student/Schedule/StudentSchedu
 import { StudentAssignmentsView } from '@/components/Student/Assignments/StudentAssignmentsView';
 import { StudentQuizzesExamsView } from '@/components/Student/QuizzesExams/StudentQuizzesExamsView';
 import { StudentGradesView } from '@/components/Student/Grades/StudentGradesView';
+import { StudentAttendanceView } from '@/components/Student/Attendance/StudentAttendanceView';
 
 // Temporary placeholder for settings
 const StudentPlaceholder = ({ title }: { title: string }) => (
@@ -52,6 +53,7 @@ export default function StudentPortal() {
     if (activeTab === 'Assignments') return <StudentAssignmentsView />;
     if (activeTab === 'Quizzes & Exams') return <StudentQuizzesExamsView />;
     if (activeTab === 'Grades (Form 138)') return <StudentGradesView />;
+    if (activeTab === 'Attendance') return <StudentAttendanceView />;
     return <StudentPlaceholder title={activeTab} />;
   };
 
