@@ -571,3 +571,26 @@ export const CLUBS_LIST = [
   { id: '5', name: 'Science Explorer Society', category: 'Academic', role: '-', status: 'Available', adviser: 'Ms. Liza Mendoza', schedule: 'Thursdays, 3:30 PM', description: 'Conduct experiments and scientific research.', icon: '??', iconBg: 'rgba(92, 199, 137, 0.1)', iconColor: '#5cc789' },
   { id: '6', name: 'Glee Club', category: 'Arts', role: '-', status: 'Available', adviser: 'Dr. Robert Tan', schedule: 'Mondays, 4:00 PM', description: 'School choir and vocal ensemble.', icon: '??', iconBg: 'rgba(255, 126, 147, 0.1)', iconColor: '#ff7e93' },
 ];
+
+// -----------------------------------------
+// CLINIC & HEALTH DATA
+// -----------------------------------------
+
+export const CLINIC_STATS = {
+  healthStatus: 'Cleared for PE',
+  lastVisit: 'Feb 10, 2026',
+  bloodType: 'O+',
+  bmi: '21.5 (Normal)'
+};
+
+export const CLINIC_VISITS = [
+  { id: '1', date: 'Feb 10, 2026 - 10:15 AM', type: 'Routine Checkup', reason: 'Annual physical examination.', diagnosis: 'Normal vitals. Healthy.', treatment: 'None required.', attendedBy: 'Nurse Maria Santos', status: 'Cleared', icon: '??', iconBg: 'rgba(92, 199, 137, 0.1)', iconColor: '#5cc789' },
+  { id: '2', date: 'Nov 15, 2025 - 01:30 PM', type: 'Consultation', reason: 'Headache and mild fever.', diagnosis: 'Mild viral infection.', treatment: 'Given paracetamol. Rested for 1 hour.', attendedBy: 'Dr. Robert Tan', status: 'Resolved', icon: '??', iconBg: 'rgba(182, 142, 255, 0.1)', iconColor: '#b68eff' },
+  { id: '3', date: 'Aug 22, 2025 - 09:45 AM', type: 'First Aid', reason: 'Minor scrape during P.E.', diagnosis: 'Superficial abrasion.', treatment: 'Cleaned wound and applied bandage.', attendedBy: 'Nurse Maria Santos', status: 'Resolved', icon: '??', iconBg: 'rgba(132, 169, 255, 0.1)', iconColor: '#84a9ff' },
+];
+
+export const MEDICAL_REQUIREMENTS = [
+  { id: '1', requirement: 'Medical Certificate', dateSubmitted: 'Aug 1, 2025', status: 'Compliant', icon: '??' },
+  { id: '2', requirement: 'Vaccination Card', dateSubmitted: 'Aug 1, 2025', status: 'Compliant', icon: '??' },
+  { id: '3', requirement: 'Dental Record', dateSubmitted: '-', status: 'Missing', icon: '??' }
+];
