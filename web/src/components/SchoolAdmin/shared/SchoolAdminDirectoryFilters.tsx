@@ -1,5 +1,5 @@
 import React from 'react';
-import { FilterSelect, listStyles, SearchField } from '@/components/ui/shared';;;
+import { FilterSelect, listStyles, SearchField } from '@/components/ui/shared';
 
 export interface SchoolAdminFilterSelect {
   label: string;

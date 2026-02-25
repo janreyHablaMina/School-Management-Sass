@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { EyeIcon, EyeOffIcon } from 'lucide-react';
-import { listStyles, modalStyles, Modal as TeacherModal } from '@/components/ui/shared';;;
+import { listStyles, modalStyles, Modal as TeacherModal } from '@/components/ui/shared';
 
 interface ChangePasswordModalProps {
   onClose: () => void;
