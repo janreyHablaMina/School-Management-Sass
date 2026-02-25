@@ -1,11 +1,27 @@
 'use client';
 
 import React, { useState } from 'react';
-import { PageHeader, SummaryMetrics, listStyles } from '@/components/ui/shared';
-import { SUBJECTS_DATA, SCHEDULE_DATA, SUMMARY_DATA } from '@/lib/mock/studentProfile.mock';
-import styles from './studentSubjects.module.css';
+import {
+  ChalkBadge, DataTable, SummaryMetrics, listStyles,
+  RowActionsMenu, ResourceBulkBar, RowSelectCell, SelectAllCheckbox,
+  type DataTableColumn
+} from '@/components/ui/shared';
+import { PageHeader } from '@/components/ui/shared';
+import { SchoolAdminDirectoryFilters } from '@/components/SchoolAdmin/shared/SchoolAdminDirectoryFilters';
+import { SUBJECTS_DATA, SCHEDULE_DATA, SUMMARY_DATA, ATTENDANCE_SUBJECT_DATA } from '@/lib/mock/studentProfile.mock';
 
-const GRADE_DESCRIPTOR = (g: number) => {
+const COLUMNS: DataTableColumn[] = [
+  { id: 'subject', label: 'Subject' },
+  { id: 'teacher', label: 'Teacher' },
+  { id: 'schedule', label: 'Schedule' },
+  { id: 'units', label: 'Units' },
+  { id: 'attendance', label: 'Attendance' },
+  { id: 'grade', label: 'Q1 Grade' },
+  { id: 'status', label: 'Status' },
+  { id: 'actions', label: 'Actions' },
+];
+
+const GRADE_DESCRIPTOR = (g: number): { label: string; color: string } => {
   if (g >= 98) return { label: 'Outstanding', color: '#5cc789' };
   if (g >= 90) return { label: 'Very Good', color: '#84a9ff' };
   if (g >= 85) return { label: 'Good', color: '#b68eff' };
@@ -15,18 +31,49 @@ const GRADE_DESCRIPTOR = (g: number) => {
 };
 
 export function StudentSubjectsView() {
-  const [activeSubject, setActiveSubject] = useState<string | null>(null);
+  const [search, setSearch] = useState('');
+  const [teacherFilter, setTeacherFilter] = useState('All Teachers');
+  const [gradeFilter, setGradeFilter] = useState('All Grades');
+  const [statusFilter, setStatusFilter] = useState('All Status');
+  const [selected, setSelected] = useState<string[]>([]);
 
-  const selected = SUBJECTS_DATA.find(s => s.id === activeSubject) ?? null;
+  const hasActiveFilters = search !== '' || teacherFilter !== 'All Teachers' || gradeFilter !== 'All Grades' || statusFilter !== 'All Status';
+  const teachers = ['All Teachers', ...Array.from(new Set(SUBJECTS_DATA.map(s => s.teacher)))];
+
+  const filtered = SUBJECTS_DATA.filter(subject => {
+    const matchSearch = subject.name.toLowerCase().includes(search.toLowerCase()) ||
+      subject.teacher.toLowerCase().includes(search.toLowerCase());
+    const matchTeacher = teacherFilter === 'All Teachers' || subject.teacher === teacherFilter;
+    const matchGrade = gradeFilter === 'All Grades' ||
+      (gradeFilter === '90 - 100 (Very Good / Outstanding)' && subject.quarterGrade >= 90) ||
+      (gradeFilter === '85 - 89 (Good)' && subject.quarterGrade >= 85 && subject.quarterGrade < 90) ||
+      (gradeFilter === '80 - 84 (Satisfactory)' && subject.quarterGrade >= 80 && subject.quarterGrade < 85) ||
+      (gradeFilter === 'Below 80' && subject.quarterGrade < 80);
+    const matchStatus = statusFilter === 'All Status';
+    return matchSearch && matchTeacher && matchGrade && matchStatus;
+  });
+
+  const allVisibleSelected = filtered.length > 0 && filtered.every(s => selected.includes(s.id));
+
+  const handleSelectAll = (checked: boolean) => {
+    if (checked) {
+      setSelected(prev => Array.from(new Set([...prev, ...filtered.map(s => s.id)])));
+    } else {
+      setSelected(prev => prev.filter(id => !filtered.map(s => s.id).includes(id)));
+    }
+  };
+
+  const handleSelectOne = (id: string) => {
+    setSelected(prev => prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]);
+  };
 
   return (
     <div className={listStyles.page}>
       <PageHeader
         title="My Subjects"
-        subtitle="View all your enrolled subjects, teachers, schedules, and current grades for this school year."
+        subtitle="View all your enrolled subjects, teachers, schedules, and grades for this school year."
       />
 
-      {/* Summary Metrics */}
       <SummaryMetrics
         metrics={SUMMARY_DATA.map(s => ({
           label: s.label,
@@ -38,133 +85,157 @@ export function StudentSubjectsView() {
         columns={4}
       />
 
-      <div className={styles.layout}>
-        {/* LEFT: Subject Cards Grid */}
-        <div className={styles.subjectGrid}>
-          {SUBJECTS_DATA.map(subject => {
-            const desc = GRADE_DESCRIPTOR(subject.quarterGrade);
-            const isSelected = activeSubject === subject.id;
-            return (
-              <div
-                key={subject.id}
-                className={`${styles.subjectCard} ${isSelected ? styles.subjectCardActive : ''}`}
-                onClick={() => setActiveSubject(isSelected ? null : subject.id)}
-                style={{ borderColor: isSelected ? subject.iconColor : undefined }}
-              >
-                <div className={styles.subjectIconRow}>
-                  <div className={styles.subjectIcon} style={{ background: subject.iconBg, color: subject.iconColor }}>
+      <SchoolAdminDirectoryFilters
+        searchTerm={search}
+        onSearchChange={setSearch}
+        searchPlaceholder="Search subjects or teachers..."
+        searchAriaLabel="Search subjects"
+        selects={[
+          {
+            label: 'Teacher',
+            value: teacherFilter,
+            onChange: setTeacherFilter,
+            options: teachers,
+          },
+          {
+            label: 'Grade Range',
+            value: gradeFilter,
+            onChange: setGradeFilter,
+            options: [
+              'All Grades',
+              '90 - 100 (Very Good / Outstanding)',
+              '85 - 89 (Good)',
+              '80 - 84 (Satisfactory)',
+              'Below 80',
+            ],
+          },
+          {
+            label: 'Status',
+            value: statusFilter,
+            onChange: setStatusFilter,
+            options: ['All Status', 'Active', 'Incomplete'],
+          },
+        ]}
+        hasActiveFilters={hasActiveFilters}
+        onReset={() => {
+          setSearch('');
+          setTeacherFilter('All Teachers');
+          setGradeFilter('All Grades');
+          setStatusFilter('All Status');
+        }}
+      />
+
+      <ResourceBulkBar
+        selectedCount={selected.length}
+        itemLabel="subject"
+        onClearSelection={() => setSelected([])}
+        actions={[
+          { label: 'Export Grades', onClick: () => {} },
+          { label: 'View Assignments', onClick: () => {} },
+        ]}
+      />
+
+      <DataTable
+        columns={COLUMNS}
+        minWidth={1000}
+        leadingHeader={
+          <SelectAllCheckbox
+            checked={allVisibleSelected}
+            onChange={(e) => handleSelectAll(e.target.checked)}
+            label="Select all visible subjects"
+          />
+        }
+      >
+        {filtered.map((subject) => {
+          const sched = SCHEDULE_DATA.find(s => s.subject === subject.name);
+          const attendance = ATTENDANCE_SUBJECT_DATA.find(a => a.subject === subject.name);
+          const desc = GRADE_DESCRIPTOR(subject.quarterGrade);
+          const attendanceRate = attendance?.rate ?? 95;
+          const attendanceColor = attendanceRate >= 90 ? '#5cc789' : attendanceRate >= 80 ? '#f5c842' : '#ff7e93';
+
+          return (
+            <tr
+              key={subject.id}
+              className={`${listStyles.clickableRow}${selected.includes(subject.id) ? ` ${listStyles.rowSelected}` : ''}`}
+            >
+              <RowSelectCell
+                selected={selected.includes(subject.id)}
+                onToggle={() => handleSelectOne(subject.id)}
+                label={`Select ${subject.name}`}
+              />
+
+              {/* Subject */}
+              <td>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                  <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: subject.iconBg, color: subject.iconColor, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.1rem', flexShrink: 0 }}>
                     {subject.icon}
                   </div>
-                  <div className={styles.subjectGradeBadge} style={{ background: `${subject.iconColor}15`, color: subject.iconColor }}>
-                    {subject.quarterGrade}
+                  <div>
+                    <div style={{ fontWeight: 600, fontSize: '0.9rem', color: '#f0efed' }}>{subject.name}</div>
+                    <div style={{ fontSize: '0.75rem', color: 'rgba(240,239,237,0.5)' }}>Grade 11 · STEM-A</div>
                   </div>
                 </div>
-                <h4 className={styles.subjectName}>{subject.name}</h4>
-                <p className={styles.subjectTeacher}>👤 {subject.teacher}</p>
-                <div className={styles.subjectFooter}>
-                  <span className={styles.subjectUnits}>{subject.units} units</span>
-                  <span className={styles.subjectDescriptor} style={{ color: desc.color }}>{desc.label}</span>
-                </div>
-                <div className={styles.gradeBar}>
-                  <div className={styles.gradeBarFill} style={{ width: `${subject.quarterGrade}%`, background: subject.iconColor }} />
-                </div>
-              </div>
-            );
-          })}
-        </div>
+              </td>
 
-        {/* RIGHT: Subject Detail Panel */}
-        <div className={styles.detailPanel}>
-          {selected ? (
-            <div className={styles.card}>
-              {/* Header */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
-                <div className={styles.subjectIcon} style={{ background: selected.iconBg, color: selected.iconColor, fontSize: '1.75rem', width: '52px', height: '52px' }}>
-                  {selected.icon}
-                </div>
-                <div>
-                  <h3 style={{ margin: 0, fontSize: '1.15rem', fontWeight: 700, color: '#f0efed' }}>{selected.name}</h3>
-                  <p style={{ margin: 0, fontSize: '0.85rem', color: 'rgba(240,239,237,0.6)' }}>{selected.teacher}</p>
-                </div>
-              </div>
+              {/* Teacher */}
+              <td>
+                <span style={{ fontSize: '0.875rem', color: 'rgba(240,239,237,0.8)' }}>{subject.teacher}</span>
+              </td>
 
-              {/* Grades Section */}
-              <div className={styles.cardHeader}>
-                <h4 className={styles.cardSectionTitle}>Quarterly Grades</h4>
-              </div>
-              <div className={styles.gradesRow}>
-                {['Q1', 'Q2', 'Q3', 'Q4'].map((q, i) => {
-                  const grade = i === 0 ? selected.quarterGrade : i === 3 ? selected.finalGrade : Math.max(75, selected.quarterGrade - i * 2);
-                  const desc = GRADE_DESCRIPTOR(grade);
-                  return (
-                    <div key={q} className={styles.gradeBlock}>
-                      <span className={styles.gradeLabel}>{q}</span>
-                      <span className={styles.gradeValue} style={{ color: desc.color }}>{grade}</span>
-                      <span className={styles.gradeDesc}>{desc.label}</span>
-                    </div>
-                  );
-                })}
-              </div>
-
-              {/* Schedule for this subject */}
-              <div className={styles.cardHeader} style={{ marginTop: '1.5rem' }}>
-                <h4 className={styles.cardSectionTitle}>Class Schedule</h4>
-              </div>
-              {(() => {
-                const sched = SCHEDULE_DATA.find(s => s.subject === selected.name);
-                return sched ? (
-                  <div className={styles.scheduleBlock}>
-                    <div className={styles.scheduleRow}>
-                      <span className={styles.scheduleLabel}>📅 Days</span>
-                      <span className={styles.scheduleValue}>{sched.day}</span>
-                    </div>
-                    <div className={styles.scheduleRow}>
-                      <span className={styles.scheduleLabel}>⏰ Time</span>
-                      <span className={styles.scheduleValue}>{sched.time}</span>
-                    </div>
-                    <div className={styles.scheduleRow}>
-                      <span className={styles.scheduleLabel}>📍 Room</span>
-                      <span className={styles.scheduleValue}>{sched.room}</span>
-                    </div>
-                    <div className={styles.scheduleRow}>
-                      <span className={styles.scheduleLabel}>👤 Teacher</span>
-                      <span className={styles.scheduleValue}>{sched.teacher}</span>
-                    </div>
+              {/* Schedule */}
+              <td>
+                {sched ? (
+                  <div>
+                    <div style={{ fontSize: '0.8rem', color: 'rgba(240,239,237,0.8)', fontWeight: 500 }}>{sched.day}</div>
+                    <div style={{ fontSize: '0.75rem', color: 'rgba(240,239,237,0.45)' }}>{sched.time}</div>
                   </div>
                 ) : (
-                  <p style={{ color: 'rgba(240,239,237,0.4)', fontSize: '0.85rem' }}>No schedule data available.</p>
-                );
-              })()}
+                  <span style={{ fontSize: '0.8rem', color: 'rgba(240,239,237,0.3)' }}>TBA</span>
+                )}
+              </td>
 
-              {/* Quick stats */}
-              <div className={styles.cardHeader} style={{ marginTop: '1.5rem' }}>
-                <h4 className={styles.cardSectionTitle}>At a Glance</h4>
-              </div>
-              <div className={styles.glanceGrid}>
-                <div className={styles.glanceItem}>
-                  <span className={styles.glanceValue} style={{ color: selected.iconColor }}>{selected.units}</span>
-                  <span className={styles.glanceLabel}>Units</span>
+              {/* Units */}
+              <td>
+                <span style={{ fontSize: '0.875rem', color: 'rgba(240,239,237,0.7)' }}>{subject.units}</span>
+              </td>
+
+              {/* Attendance */}
+              <td>
+                <ChalkBadge label={`${attendanceRate}%`} accent={attendanceColor} />
+              </td>
+
+              {/* Grade */}
+              <td>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.1rem' }}>
+                  <span style={{ fontSize: '1.2rem', fontWeight: 700, color: desc.color, fontFamily: 'Caveat, cursive', lineHeight: 1 }}>
+                    {subject.quarterGrade}
+                  </span>
+                  <span style={{ fontSize: '0.7rem', color: 'rgba(240,239,237,0.5)' }}>{desc.label}</span>
                 </div>
-                <div className={styles.glanceItem}>
-                  <span className={styles.glanceValue} style={{ color: selected.iconColor }}>{selected.finalGrade}</span>
-                  <span className={styles.glanceLabel}>Final Grade</span>
-                </div>
-                <div className={styles.glanceItem}>
-                  <span className={styles.glanceValue} style={{ color: selected.iconColor }}>Q1</span>
-                  <span className={styles.glanceLabel}>Current Quarter</span>
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div className={styles.card} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '300px', textAlign: 'center' }}>
-              <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>📚</div>
-              <p style={{ color: 'rgba(240,239,237,0.5)', fontSize: '1rem', margin: 0 }}>Select a subject card to view details</p>
-              <p style={{ color: 'rgba(240,239,237,0.3)', fontSize: '0.85rem', marginTop: '0.5rem' }}>Grades, schedule, and more</p>
-            </div>
-          )}
-        </div>
-      </div>
+              </td>
+
+              {/* Status */}
+              <td>
+                <ChalkBadge label="Active" accent="#5cc789" />
+              </td>
+
+              {/* Actions */}
+              <td onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()}>
+                <RowActionsMenu
+                  label={`Actions for ${subject.name}`}
+                  actions={[
+                    { icon: '👁️', label: 'View Details' },
+                    { icon: '📝', label: 'View Assignments' },
+                    { icon: '🎓', label: 'View Grades' },
+                  ]}
+                  dangerActions={[]}
+                  onAction={() => {}}
+                />
+              </td>
+            </tr>
+          );
+        })}
+      </DataTable>
     </div>
   );
 }
-
