@@ -110,3 +110,57 @@ export const teacherMenuGroups: NavGroup[] = [
     ],
   },
 ];
+
+export const studentMenuGroups: NavGroup[] = [
+  {
+    title: 'Academics',
+    items: [
+      { label: 'My Subjects', icon: '📚' },
+      { label: 'Class Schedule', icon: '⏰' },
+      { label: 'Assignments', icon: '📝' },
+      { label: 'Quizzes & Exams', icon: '📄' },
+      { label: 'Grades (Form 138)', icon: '🎓' },
+      { label: 'Attendance', icon: '✅' },
+    ],
+  },
+  {
+    title: 'Student Life',
+    items: [
+      { label: 'Clubs & Orgs', icon: '🏅' },
+      { label: 'Clearance Status', icon: '📋' },
+      { label: 'Clinic & Health', icon: '🏥' },
+      { label: 'Guidance Office', icon: '🤝' },
+    ],
+  },
+  {
+    title: 'Communication',
+    items: [
+      { label: 'Announcements', icon: '📢' },
+      { label: 'Calendar', icon: '📅' },
+      { label: 'Messages', icon: '💬' },
+    ],
+  },
+  {
+    title: 'Finances',
+    items: [
+      { label: 'Tuition & Fees', icon: '💰' },
+      { label: 'Payment History', icon: '🧾' },
+    ],
+  },
+  {
+    title: 'Resources',
+    items: [
+      { label: 'Digital ID & Pass', icon: '📱' },
+      { label: 'Library & E-Books', icon: '📖' },
+      { label: 'Downloadable Forms', icon: '📥' },
+    ],
+  },
+  {
+    title: 'Account',
+    items: [
+      { label: 'My Profile', icon: '👤' },
+      { label: 'Documents', icon: '📁' },
+      { label: 'Settings', icon: '⚙️' },
+    ],
+  },
+];

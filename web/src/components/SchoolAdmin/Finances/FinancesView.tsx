@@ -61,10 +61,10 @@ export const FinancesView: React.FC = () => {
       title="Finances"
       subtitle="Manage school finances, tuition payments, and miscellaneous fees."
       metrics={[
-        { label: 'Total Revenue', value: '$45,200', subtitle: '+12% this month', icon: '💰', accent: '#5cc789' },
-        { label: 'Pending Payments', value: '$8,450', subtitle: '32 students', icon: '⏳', accent: '#f5c842' },
-        { label: 'Overdue Fees', value: '$1,200', subtitle: 'Requires attention', icon: '⚠️', accent: '#ff7e93' },
-        { label: 'Misc Collected', value: '$4,150', subtitle: 'View details', icon: '📎', accent: '#84a9ff' },
+        { title: 'Total Revenue', value: '$45,200', subtitle: '+12% this month', iconName: '💰', iconColor: '#5cc789', iconBg: 'rgba(92, 199, 137, 0.1)' },
+        { title: 'Pending Payments', value: '$8,450', subtitle: '32 students', iconName: '⏳', iconColor: '#f5c842', iconBg: 'rgba(245, 200, 66, 0.1)' },
+        { title: 'Overdue Fees', value: '$1,200', subtitle: 'Requires attention', iconName: '⚠️', iconColor: '#ff7e93', iconBg: 'rgba(255, 126, 147, 0.1)' },
+        { title: 'Misc Collected', value: '$4,150', subtitle: 'View details', iconName: '📎', iconColor: '#84a9ff', iconBg: 'rgba(132, 169, 255, 0.1)' },
       ]}
       metricColumns={4}
       pagination={{
