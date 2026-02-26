@@ -1,53 +1,39 @@
-import type {
-  AppearanceSettings,
-  NotificationSettings,
-  SettingsSection,
-} from '@/types/teacherSettings';
+import type { SchoolSettingsSection, PermissionSettings } from '@/types/schoolSettings';
 
 export const SECTION_META: Array<{
-  id: SettingsSection;
+  id: SchoolSettingsSection;
   icon: string;
   hint: string;
 }> = [
-  { id: 'Profile', icon: '👤', hint: 'Name & contact' },
-  { id: 'Notifications', icon: '🔔', hint: 'Alerts & reminders' },
-  { id: 'Preferences', icon: '⚙️', hint: 'Classroom defaults' },
-  { id: 'Security', icon: '🔒', hint: 'Password & access' },
-  { id: 'Appearance', icon: '🎨', hint: 'Look & density' },
+  { id: 'School Profile', icon: '🏫', hint: 'Name, logo & contact' },
+  { id: 'Academics', icon: '📚', hint: 'Years, terms & grading' },
+  { id: 'Permissions', icon: '🛡️', hint: 'Access & defaults' },
+  { id: 'Billing', icon: '💳', hint: 'Eskwelahan+ Sub' },
 ];
 
-export const NOTIFICATION_ITEMS: Array<{
-  key: keyof NotificationSettings;
+export const PERMISSION_ITEMS: Array<{
+  key: keyof PermissionSettings;
   label: string;
   hint: string;
 }> = [
   {
-    key: 'emailAlerts' as keyof NotificationSettings,
-    label: 'Critical System Alerts',
-    hint: 'Get emails for urgent server or security issues.',
+    key: 'teachersCanEditPastGrades',
+    label: 'Allow Teachers to Edit Past Grades',
+    hint: 'If enabled, teachers can change grades after submission deadline.',
   },
   {
-    key: 'smsAlerts' as keyof NotificationSettings,
-    label: 'SMS Alerts',
-    hint: 'Receive text messages for emergency broadcasts.',
+    key: 'teachersCanSendSchoolWideAnnouncements',
+    label: 'Allow School-Wide Announcements',
+    hint: 'Let teachers post announcements to everyone, not just their classes.',
   },
   {
-    key: 'inAppAlerts' as keyof NotificationSettings,
-    label: 'Portal Notifications',
-    hint: 'Show the notification bell for new enrollments and requests.',
+    key: 'studentsCanViewRankings',
+    label: 'Show Class Rankings to Students',
+    hint: 'Students will see their position relative to peers.',
   },
   {
-    key: 'weeklyDigest' as keyof NotificationSettings,
-    label: 'Weekly Digest',
-    hint: 'A Friday summary of school performance and metrics.',
+    key: 'requireAdminApprovalForEvents',
+    label: 'Require Admin Approval for Events',
+    hint: 'Calendar events created by teachers must be approved before publishing.',
   },
-];
-
-export const ACCENT_OPTIONS: Array<{
-  value: AppearanceSettings['accent'];
-  color: string;
-}> = [
-  { value: 'Chalk yellow', color: '#f5c842' },
-  { value: 'Soft green', color: '#5cc789' },
-  { value: 'Sky blue', color: '#84a9ff' },
 ];

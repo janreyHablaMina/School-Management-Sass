@@ -11,6 +11,7 @@ import {
   SelectAllCheckbox,
   RowSelectCell,
   ResourceBulkBar,
+  RowActionsMenu,
 } from '@/components/ui/shared';
 import { adminTeacherCreditsMock, type TeacherCredit } from '@/lib/mock/adminAiAssistant.mock';
 
@@ -63,6 +64,7 @@ export function AiAssistantView() {
     { id: 'creditsLeft', label: 'Credits Left', sortable: true },
     { id: 'totalCredits', label: 'Total Credits', sortable: true },
     { id: 'usageBar', label: 'Usage' },
+    { id: 'actions', label: '' },
   ];
 
   const handleRequestCredits = () => {
@@ -192,6 +194,22 @@ export function AiAssistantView() {
                       <div style={{ height: '100%', width: percent + '%', background: color }} />
                     </div>
                   </div>
+                </td>
+                <td>
+                  <RowActionsMenu
+                    label={`Actions for ${row.name}`}
+                    actions={[
+                      { icon: '➕', label: 'Give Credits' },
+                      { icon: '➖', label: 'Deduct Credits' },
+                    ]}
+                    dangerActions={[
+                      { icon: '🛑', label: 'Revoke Access' },
+                    ]}
+                    onAction={(action) => {
+                      setToastMessage(`Action "${action}" performed on ${row.name}.`);
+                      setTimeout(() => setToastMessage(null), 3000);
+                    }}
+                  />
                 </td>
               </tr>
             );

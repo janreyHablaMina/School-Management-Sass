@@ -9,10 +9,10 @@ import styles from './reports.module.css';
 
 export const ReportsView = () => {
   const REPORTS_METRICS: Metric[] = [
-    { title: 'Total Students', value: '1,240', subtitle: '↑ 2.1% vs last semester', iconBg: 'rgba(132, 169, 255, 0.1)', iconColor: '#84a9ff' },
-    { title: 'Active Teachers', value: '85', subtitle: '↑ 1.5% vs last semester', iconBg: 'rgba(92, 199, 137, 0.1)', iconColor: '#5cc789' },
+    { title: 'Total Students', value: '1,240', subtitle: 'Active enrollment', iconBg: 'rgba(132, 169, 255, 0.1)', iconColor: '#84a9ff' },
+    { title: 'Registered Parents', value: '890', subtitle: '71% engagement rate', iconBg: 'rgba(92, 199, 137, 0.1)', iconColor: '#5cc789' },
     { title: 'Avg. Attendance', value: '94.2%', subtitle: '↑ 0.8% vs last month', iconBg: 'rgba(245, 200, 66, 0.1)', iconColor: '#f5c842' },
-    { title: 'Average Grade', value: 'B+', subtitle: 'Stable across departments', iconBg: 'rgba(182, 142, 255, 0.1)', iconColor: '#b68eff' },
+    { title: 'Total Revenue', value: '$1.2M', subtitle: '85% collection rate', iconBg: 'rgba(182, 142, 255, 0.1)', iconColor: '#b68eff' },
   ];
 
   return (
