@@ -11,6 +11,7 @@ import { useGreeting } from '@/lib/utils/greeting';
 
 import { StudentDashboardView } from '@/components/Student/Dashboard/StudentDashboardView';
 import { StudentSubjectsView } from '@/components/Student/Subjects/StudentSubjectsView';
+import { StudentScheduleView } from '@/components/Student/Schedule/StudentScheduleView';
 
 // Temporary placeholder for settings
 const StudentPlaceholder = ({ title }: { title: string }) => (
@@ -44,6 +45,7 @@ export default function StudentPortal() {
   const renderContent = () => {
     if (activeTab === 'Dashboard') return <StudentDashboardView />;
     if (activeTab === 'My Subjects') return <StudentSubjectsView />;
+    if (activeTab === 'Class Schedule') return <StudentScheduleView />;
     return <StudentPlaceholder title={activeTab} />;
   };
 
