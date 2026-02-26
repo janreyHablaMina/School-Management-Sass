@@ -10,6 +10,7 @@ import { useWorkspaceScroll } from '@/hooks/useWorkspaceScroll';
 import { useGreeting } from '@/lib/utils/greeting';
 
 import { StudentDashboardView } from '@/components/Student/Dashboard/StudentDashboardView';
+import { StudentSubjectsView } from '@/components/Student/Subjects/StudentSubjectsView';
 
 // Temporary placeholder for settings
 const StudentPlaceholder = ({ title }: { title: string }) => (
@@ -41,9 +42,8 @@ export default function StudentPortal() {
   };
 
   const renderContent = () => {
-    if (activeTab === 'Dashboard') {
-      return <StudentDashboardView />;
-    }
+    if (activeTab === 'Dashboard') return <StudentDashboardView />;
+    if (activeTab === 'My Subjects') return <StudentSubjectsView />;
     return <StudentPlaceholder title={activeTab} />;
   };
 

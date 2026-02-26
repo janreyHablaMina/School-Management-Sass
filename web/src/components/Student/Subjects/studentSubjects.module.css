@@ -1,0 +1,247 @@
+.layout {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 1.5rem;
+  margin-top: 2rem;
+  align-items: start;
+}
+
+@media (max-width: 1100px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Subject Cards Grid */
+.subjectGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+@media (max-width: 768px) {
+  .subjectGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.subjectCard {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px dashed rgba(240, 239, 237, 0.25);
+  border-radius: 12px;
+  padding: 1.25rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.subjectCard:hover {
+  transform: translateY(-2px);
+  background: rgba(0, 0, 0, 0.3);
+  border-style: solid;
+}
+
+.subjectCardActive {
+  border-style: solid;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.subjectIconRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.subjectIcon {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  flex-shrink: 0;
+}
+
+.subjectGradeBadge {
+  font-size: 1.15rem;
+  font-weight: 700;
+  padding: 0.2rem 0.65rem;
+  border-radius: 8px;
+  font-family: 'Caveat', cursive;
+}
+
+.subjectName {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #f0efed;
+  margin: 0 0 0.35rem 0;
+  line-height: 1.3;
+}
+
+.subjectTeacher {
+  font-size: 0.8rem;
+  color: rgba(240, 239, 237, 0.55);
+  margin: 0 0 0.75rem 0;
+}
+
+.subjectFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.65rem;
+}
+
+.subjectUnits {
+  font-size: 0.75rem;
+  color: rgba(240, 239, 237, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.subjectDescriptor {
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.gradeBar {
+  height: 3px;
+  background: rgba(240, 239, 237, 0.08);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.gradeBarFill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+
+/* Detail Panel */
+.detailPanel {
+  position: sticky;
+  top: 1rem;
+}
+
+.card {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px dashed rgba(240, 239, 237, 0.25);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.cardSectionTitle {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(240, 239, 237, 0.5);
+  margin: 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(240, 239, 237, 0.08);
+  width: 100%;
+}
+
+/* Quarterly Grades */
+.gradesRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.gradeBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(240, 239, 237, 0.03);
+  border: 1px solid rgba(240, 239, 237, 0.08);
+  border-radius: 8px;
+  padding: 0.75rem 0.5rem;
+  gap: 0.2rem;
+}
+
+.gradeLabel {
+  font-size: 0.7rem;
+  color: rgba(240, 239, 237, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.gradeValue {
+  font-size: 1.4rem;
+  font-weight: 700;
+  font-family: 'Caveat', cursive;
+}
+
+.gradeDesc {
+  font-size: 0.65rem;
+  color: rgba(240, 239, 237, 0.4);
+  text-align: center;
+  line-height: 1.2;
+}
+
+/* Schedule Block */
+.scheduleBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.scheduleRow {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.scheduleLabel {
+  font-size: 0.8rem;
+  color: rgba(240, 239, 237, 0.5);
+  min-width: 80px;
+}
+
+.scheduleValue {
+  font-size: 0.85rem;
+  color: #f0efed;
+  font-weight: 500;
+}
+
+/* At a Glance */
+.glanceGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+
+.glanceItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(240, 239, 237, 0.03);
+  border: 1px solid rgba(240, 239, 237, 0.08);
+  border-radius: 8px;
+  padding: 0.85rem 0.5rem;
+  gap: 0.25rem;
+}
+
+.glanceValue {
+  font-size: 1.3rem;
+  font-weight: 700;
+  font-family: 'Caveat', cursive;
+}
+
+.glanceLabel {
+  font-size: 0.7rem;
+  color: rgba(240, 239, 237, 0.45);
+  text-align: center;
+  line-height: 1.2;
+}
+
