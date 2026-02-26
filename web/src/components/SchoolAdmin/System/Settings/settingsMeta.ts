@@ -6,7 +6,6 @@ export const SECTION_META: Array<{
   hint: string;
 }> = [
   { id: 'School Profile', icon: '🏫', hint: 'Name, logo & contact' },
-  { id: 'Academics', icon: '📚', hint: 'Years, terms & grading' },
   { id: 'Permissions', icon: '🛡️', hint: 'Access & defaults' },
   { id: 'Billing', icon: '💳', hint: 'Billing & System' },
 ];

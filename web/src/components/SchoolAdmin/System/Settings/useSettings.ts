@@ -5,7 +5,6 @@ import { schoolSettingsMock } from '@/lib/mock/schoolSettings.mock';
 import type {
   SchoolSettingsData,
   SchoolProfileSettings,
-  AcademicSettings,
   PermissionSettings,
   BillingSettings,
   SchoolSettingsSection,
@@ -21,7 +20,6 @@ export function useSettings() {
   const [section, setSection] = useState<SchoolSettingsSection>('School Profile');
   
   const [profile, setProfile] = useState<SchoolProfileSettings>(seed.profile);
-  const [academics, setAcademics] = useState<AcademicSettings>(seed.academics);
   const [permissions, setPermissions] = useState<PermissionSettings>(seed.permissions);
   const [billing, setBilling] = useState<BillingSettings>(seed.billing);
   
@@ -29,8 +27,8 @@ export function useSettings() {
   const [saveMessage, setSaveMessage] = useState<string | null>(null);
 
   const isDirty = useMemo(
-    () => snapshotOf({ profile, academics, permissions, billing }) !== savedSnapshot,
-    [profile, academics, permissions, billing, savedSnapshot],
+    () => snapshotOf({ profile, permissions, billing }) !== savedSnapshot,
+    [profile, permissions, billing, savedSnapshot],
   );
 
   const markDirty = () => {
@@ -39,11 +37,6 @@ export function useSettings() {
 
   const updateProfile = <K extends keyof SchoolProfileSettings>(key: K, value: SchoolProfileSettings[K]) => {
     setProfile((prev) => ({ ...prev, [key]: value }));
-    markDirty();
-  };
-
-  const updateAcademics = <K extends keyof AcademicSettings>(key: K, value: AcademicSettings[K]) => {
-    setAcademics((prev) => ({ ...prev, [key]: value }));
     markDirty();
   };
 
@@ -58,7 +51,7 @@ export function useSettings() {
   };
 
   const saveChanges = () => {
-    setSavedSnapshot(snapshotOf({ profile, academics, permissions, billing }));
+    setSavedSnapshot(snapshotOf({ profile, permissions, billing }));
     setSaveMessage('School settings saved for this session.');
   };
 
@@ -67,8 +60,6 @@ export function useSettings() {
     setSection,
     profile,
     updateProfile,
-    academics,
-    updateAcademics,
     permissions,
     updatePermissions,
     billing,

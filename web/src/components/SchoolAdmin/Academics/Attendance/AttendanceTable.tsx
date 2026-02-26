@@ -96,13 +96,11 @@ export const AttendanceTable: React.FC<AttendanceTableProps> = ({
             onClick={() => onRowClick?.(record.id)}
             style={{ cursor: onRowClick ? 'pointer' : 'default' }}
           >
-            <td onClick={(e) => e.stopPropagation()}>
-              <RowSelectCell
-                selected={selectedAttendance.includes(record.id)}
-                onToggle={() => onSelectAttendance(record.id)}
-                label={`Select ${record.gradeSection}`}
-              />
-            </td>
+            <RowSelectCell
+              selected={selectedAttendance.includes(record.id)}
+              onToggle={() => onSelectAttendance(record.id)}
+              label={`Select ${record.gradeSection}`}
+            />
             <td>
               <div className={peopleStyles.studentCell}>
                 <div className={peopleStyles.avatar} style={{ background: record.accent }}>

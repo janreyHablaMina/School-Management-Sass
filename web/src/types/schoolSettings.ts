@@ -1,6 +1,5 @@
 export type SchoolSettingsSection =
   | 'School Profile'
-  | 'Academics'
   | 'Permissions'
   | 'Billing';
 
@@ -13,20 +12,10 @@ export interface SchoolProfileSettings {
   address: string;
   websiteUrl: string;
   principalName: string;
-  accentColor: string;
-}
-
-export interface AcademicSettings {
-  academicYear: string;
-  gradingSystem: 'Numerical (1-100)' | 'Letter (A-F)';
-  termStructure: 'Quarters' | 'Semesters' | 'Trimesters';
-  passingGrade: string;
-  schoolLevels: string[];
-  classSizeLimit: string;
-  scheduleType: 'Traditional' | 'Block Scheduling';
-  attendanceTracking: 'Once Daily' | 'Per Subject';
-  lateWorkPenalty: string;
-  tardyThresholdMinutes: string;
+  facebookUrl: string;
+  twitterUrl: string;
+  instagramUrl: string;
+  youtubeUrl: string;
 }
 
 export interface PermissionSettings {
@@ -53,8 +42,6 @@ export interface BillingSettings {
 
 export interface SchoolSettingsData {
   profile: SchoolProfileSettings;
-  academics: AcademicSettings;
   permissions: PermissionSettings;
   billing: BillingSettings;
 }
-
