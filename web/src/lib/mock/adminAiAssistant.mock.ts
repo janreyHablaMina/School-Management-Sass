@@ -1,4 +1,5 @@
 import type { TeacherAiAssistantData } from '@/types/teacherAiAssistant';
+import { TEACHERS_LIST } from './teachers.mock';
 
 const adminTools = [
   {
@@ -108,3 +109,41 @@ export const adminAiAssistantMock: TeacherAiAssistantData = {
     },
   ],
 };
+
+export interface TeacherCredit {
+  id: string;
+  name: string;
+  email: string;
+  avatar: string;
+  department: string;
+  creditsUsed: number;
+  creditsLeft: number;
+  totalCredits: number;
+}
+
+// Generate realistic-looking static mock data for teacher credits
+export const adminTeacherCreditsMock: TeacherCredit[] = TEACHERS_LIST.map((teacher, index) => {
+  const totalCredits = 1250;
+  
+  // Create some varied realistic usage patterns
+  let creditsUsed = 0;
+  if (index === 0) creditsUsed = 1150; // Very high usage
+  else if (index === 1) creditsUsed = 980; // High usage
+  else if (index === 2) creditsUsed = 1200; // Almost exhausted
+  else if (index === 3) creditsUsed = 50; // Barely used
+  else creditsUsed = (index * 153 + 45) % totalCredits;
+
+  const creditsLeft = totalCredits - creditsUsed;
+
+  return {
+    id: teacher.id,
+    name: teacher.name,
+    email: teacher.email,
+    avatar: teacher.avatar,
+    department: teacher.department,
+    creditsUsed,
+    creditsLeft,
+    totalCredits,
+  };
+}).sort((a, b) => b.creditsUsed - a.creditsUsed);
+

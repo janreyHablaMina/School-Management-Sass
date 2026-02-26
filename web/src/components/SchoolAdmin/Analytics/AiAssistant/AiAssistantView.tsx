@@ -1,212 +1,202 @@
 'use client';
 
-import type { TeacherClassFocus, TeacherNavRequest } from '@/lib/teacher/classFocus';
-import { listStyles, PageHeader, SummaryMetrics } from '@/components/ui/shared';;;
-import { ChatThread } from './components/ChatThread';
-import { PromptComposer } from './components/PromptComposer';
-import { useAiAssistant } from './useAiAssistant';
-import styles from './aiAssistant.module.css';
+import React, { useMemo, useState, useCallback } from 'react';
+import {
+  listStyles,
+  PageHeader,
+  SummaryMetrics,
+  DataTable,
+  type DataTableColumn,
+  Toast,
+  SelectAllCheckbox,
+  RowSelectCell,
+  ResourceBulkBar,
+} from '@/components/ui/shared';
+import { adminTeacherCreditsMock, type TeacherCredit } from '@/lib/mock/adminAiAssistant.mock';
 
-interface AiAssistantViewProps {
-  classFocus?: TeacherClassFocus | null;
-  initialToolId?: number | null;
-  initialPrompt?: string | null;
-  onNavigate?: (request: TeacherNavRequest | string) => void;
-}
+export function AiAssistantView() {
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
-export function AiAssistantView({
-  classFocus = null,
-  initialToolId = null,
-  initialPrompt = null,
-  onNavigate,
-}: AiAssistantViewProps) {
-  const {
-    metrics,
-    tools,
-    starterPrompts,
-    classroomOptions,
-    creditsLeft,
-    usage,
-    selectedToolId,
-    selectedTool,
-    classroom,
-    setClassroom,
-    prompt,
-    setPrompt,
-    attachments,
-    addFiles,
-    removeAttachment,
-    messages,
-    recentRuns,
-    isGenerating,
-    statusMessage,
-    error,
-    selectTool,
-    applyStarter,
-    clearChat,
-    loadRecentRun,
-    sendPrompt,
-    runMessageAction,
-  } = useAiAssistant({ classFocus, initialToolId, initialPrompt, onNavigate });
+  const metrics = useMemo(() => {
+    const totalTeachers = adminTeacherCreditsMock.length;
+    const totalAllocated = adminTeacherCreditsMock.reduce((sum, t) => sum + t.totalCredits, 0);
+    const totalUsed = adminTeacherCreditsMock.reduce((sum, t) => sum + t.creditsUsed, 0);
+    const totalLeft = totalAllocated - totalUsed;
+    
+    return [
+      {
+        label: 'Total Teachers',
+        value: totalTeachers.toString(),
+        subtitle: 'With AI access',
+        icon: '👨‍🏫',
+        accent: '#84a9ff',
+      },
+      {
+        label: 'Allocated Credits',
+        value: totalAllocated.toLocaleString(),
+        subtitle: 'Across all teachers',
+        icon: '📊',
+        accent: '#b68eff',
+      },
+      {
+        label: 'Credits Used',
+        value: totalUsed.toLocaleString(),
+        subtitle: 'This billing cycle',
+        icon: '📈',
+        accent: '#ffab6b',
+      },
+      {
+        label: 'Credits Left',
+        value: totalLeft.toLocaleString(),
+        subtitle: 'Available to use',
+        icon: '✅',
+        accent: '#5cc789',
+      }
+    ];
+  }, []);
+
+  const columns: DataTableColumn[] = [
+    { id: 'teacher', label: 'Teacher', sortable: true },
+    { id: 'department', label: 'Department', sortable: true },
+    { id: 'creditsUsed', label: 'Credits Used', sortable: true },
+    { id: 'creditsLeft', label: 'Credits Left', sortable: true },
+    { id: 'totalCredits', label: 'Total Credits', sortable: true },
+    { id: 'usageBar', label: 'Usage' },
+  ];
+
+  const handleRequestCredits = () => {
+    // Mock sending request to super admin
+    setToastMessage('Request sent to Super Admin to purchase more credits.');
+    setTimeout(() => setToastMessage(null), 3000);
+  };
+
+  const handleToggleAll = useCallback(() => {
+    if (selectedIds.size === adminTeacherCreditsMock.length) {
+      setSelectedIds(new Set());
+    } else {
+      setSelectedIds(new Set(adminTeacherCreditsMock.map((t) => t.id)));
+    }
+  }, [selectedIds.size]);
+
+  const handleToggleOne = useCallback((id: string) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }, []);
+
+  const handleBulkAllocate = () => {
+    setToastMessage(`Allocated additional credits to ${selectedIds.size} teacher(s).`);
+    setSelectedIds(new Set());
+    setTimeout(() => setToastMessage(null), 3000);
+  };
+
+  const isAllSelected = 
+    adminTeacherCreditsMock.length > 0 && selectedIds.size === adminTeacherCreditsMock.length;
 
   return (
     <div className={listStyles.page}>
       <PageHeader
-        title="PieYah Assistant"
-        subtitle="Upload PDF or Word files, then draft announcements, memos, and summaries."
+        title="PieYah Assistant (AI Credits)"
+        subtitle="Manage and monitor AI credit usage across all teachers."
       >
-        <button type="button" className={listStyles.secondaryBtn} onClick={clearChat}>
-          Clear chat
-        </button>
         <button
           type="button"
           className={listStyles.primaryBtn}
-          onClick={sendPrompt}
-          disabled={isGenerating}
+          onClick={handleRequestCredits}
         >
-          {isGenerating ? 'Generating…' : 'Generate'}
+          Buy More Credits
         </button>
       </PageHeader>
-
-      {error ? (
-        <p className={`${listStyles.statusBanner} ${listStyles.statusError}`}>{error}</p>
-      ) : null}
-      {!error && statusMessage ? (
-        <p className={`${listStyles.statusBanner} ${listStyles.statusInfo}`}>{statusMessage}</p>
-      ) : null}
+      
+      {toastMessage && (
+        <Toast
+          message={toastMessage}
+          type="success"
+          onClose={() => setToastMessage(null)}
+        />
+      )}
 
       <SummaryMetrics metrics={metrics} columns={4} />
 
-      <div className={styles.layout}>
-        <aside className={styles.sideColumn}>
-          <section className={styles.panel}>
-            <div className={styles.usageTop}>
-              <div>
-                <p className={styles.panelEyebrow}>Monthly allowance</p>
-                <h2 className={styles.panelTitle}>Credits this month</h2>
-              </div>
-              <span className={styles.usagePill}>✨ {creditsLeft.toLocaleString()} left</span>
-            </div>
-            <div className={styles.usageMeta}>
-              <span>
-                {usage.used} / {usage.total.toLocaleString()} used
-              </span>
-              <span>{usage.percent}%</span>
-            </div>
-            <div className={styles.usageTrack} aria-hidden>
-              <div className={styles.usageFill} style={{ width: `${usage.percent}%` }} />
-            </div>
-          </section>
+      <ResourceBulkBar
+        selectedCount={selectedIds.size}
+        itemLabel="teacher"
+        onClearSelection={() => setSelectedIds(new Set())}
+        actions={[
+          {
+            label: 'Give Credits',
+            onClick: handleBulkAllocate,
+          }
+        ]}
+      />
 
-          <section className={styles.panel}>
-            <p className={styles.panelEyebrow}>History</p>
-            <h2 className={styles.panelTitle}>Recent runs</h2>
-            {recentRuns.length === 0 ? (
-              <p className={styles.recentEmpty}>Generated work will show up here.</p>
-            ) : (
-              <ul className={styles.recentList}>
-                {recentRuns.map((run) => (
-                  <li key={run.id}>
-                    <button
-                      type="button"
-                      className={styles.recentItem}
-                      onClick={() => loadRecentRun(run)}
-                    >
-                      <span className={styles.recentIcon}>{run.toolIcon}</span>
-                      <span className={styles.recentBody}>
-                        <span className={styles.recentItemTitle}>{run.toolTitle}</span>
-                        <span className={styles.recentPreview}>{run.preview}</span>
-                        <span className={styles.recentMeta}>
-                          {run.classroom} · {run.createdAt}
-                          {run.creditsSpent > 0 ? ` · ${run.creditsSpent} cr` : ' · Free'}
-                        </span>
-                      </span>
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </section>
-
-          <section className={styles.panel}>
-            <p className={styles.panelEyebrow}>Toolkit</p>
-            <h2 className={styles.panelTitle}>AI tools</h2>
-            <div className={styles.toolGrid}>
-              {tools.map((tool) => {
-                const active = tool.id === selectedToolId;
-                return (
-                  <button
-                    key={tool.id}
-                    type="button"
-                    className={`${styles.toolCard} ${active ? styles.toolCardActive : ''}`}
-                    onClick={() => selectTool(tool)}
-                  >
-                    <span
-                      className={styles.toolIcon}
-                      style={{ background: tool.iconBg, color: tool.iconColor }}
-                    >
-                      {tool.icon}
-                    </span>
-                    <span className={styles.toolBody}>
-                      <span className={styles.toolTitle}>{tool.title}</span>
-                      <span className={styles.toolDesc}>{tool.desc}</span>
-                    </span>
-                    <span className={styles.toolCredits}>{tool.credits}</span>
-                  </button>
-                );
-              })}
-            </div>
-          </section>
-        </aside>
-
-        <section className={`${styles.panel} ${styles.workspace}`}>
-          <div>
-            <p className={styles.panelEyebrow}>Workspace</p>
-            <h2 className={styles.panelTitle}>
-              {selectedTool ? selectedTool.title : 'Ask PieYah'}
-            </h2>
-            <p className={styles.workspaceCopy}>
-              Attach documents, pick a starter or write a prompt, then generate a draft
-              you can edit before sending to parents or staff.
-            </p>
-          </div>
-
-          <div className={styles.starterRow}>
-            {starterPrompts.map((item) => (
-              <button
-                key={item.id}
-                type="button"
-                className={styles.starterChip}
-                onClick={() => applyStarter(item)}
-              >
-                {item.label}
-              </button>
-            ))}
-          </div>
-
-          <div className={styles.threadWrap}>
-            <ChatThread
-              messages={messages}
-              selectedTool={selectedTool}
-              isGenerating={isGenerating}
-              onMessageAction={runMessageAction}
+      <div className={listStyles.tableWrap}>
+        <DataTable 
+          columns={columns}
+          leadingHeader={
+            <SelectAllCheckbox
+              checked={isAllSelected}
+              onChange={handleToggleAll}
+              label="Select all"
             />
-          </div>
+          }
+        >
+          {adminTeacherCreditsMock.map((row) => {
+            const percent = Math.min(100, (row.creditsUsed / row.totalCredits) * 100);
+            const isHigh = percent > 85;
+            const color = isHigh ? 'var(--danger-color)' : 'var(--primary-color)';
+            const isSelected = selectedIds.has(row.id);
 
-          <PromptComposer
-            prompt={prompt}
-            onPromptChange={setPrompt}
-            classroom={classroom}
-            classroomOptions={classroomOptions}
-            onClassroomChange={setClassroom}
-            selectedTool={selectedTool}
-            attachments={attachments}
-            onAddFiles={addFiles}
-            onRemoveAttachment={removeAttachment}
-            isGenerating={isGenerating}
-            onSend={sendPrompt}
-          />
-        </section>
+            return (
+              <tr key={row.id} className={isSelected ? listStyles.selectedRow : ''}>
+                <RowSelectCell
+                  selected={isSelected}
+                  onToggle={() => handleToggleOne(row.id)}
+                  label={`Select ${row.name}`}
+                />
+                <td>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                    <img 
+                      src={row.avatar} 
+                      alt={row.name}
+                      style={{ width: 32, height: 32, borderRadius: '50%', objectFit: 'cover' }}
+                    />
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                      <span style={{ fontWeight: 500 }}>{row.name}</span>
+                      <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>{row.email}</span>
+                    </div>
+                  </div>
+                </td>
+                <td>{row.department}</td>
+                <td>
+                  <span style={{ fontWeight: 500, color: 'var(--text-primary)' }}>
+                    {row.creditsUsed.toLocaleString()}
+                  </span>
+                </td>
+                <td>
+                  <span style={{ fontWeight: 500, color: 'var(--success-color)' }}>
+                    {row.creditsLeft.toLocaleString()}
+                  </span>
+                </td>
+                <td>{row.totalCredits.toLocaleString()}</td>
+                <td>
+                  <div style={{ width: 100, display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
+                      <span>{Math.round(percent)}%</span>
+                    </div>
+                    <div style={{ height: 6, background: 'var(--bg-tertiary)', borderRadius: 3, overflow: 'hidden' }}>
+                      <div style={{ height: '100%', width: percent + '%', background: color }} />
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            );
+          })}
+        </DataTable>
       </div>
     </div>
   );
