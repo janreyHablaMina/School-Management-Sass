@@ -8,7 +8,7 @@ export const SECTION_META: Array<{
   { id: 'School Profile', icon: '🏫', hint: 'Name, logo & contact' },
   { id: 'Academics', icon: '📚', hint: 'Years, terms & grading' },
   { id: 'Permissions', icon: '🛡️', hint: 'Access & defaults' },
-  { id: 'Billing', icon: '💳', hint: 'Eskwelahan+ Sub' },
+  { id: 'Billing', icon: '💳', hint: 'Billing & System' },
 ];
 
 export const PERMISSION_ITEMS: Array<{
@@ -16,6 +16,31 @@ export const PERMISSION_ITEMS: Array<{
   label: string;
   hint: string;
 }> = [
+  {
+    key: 'lockStudentPortalsDuringGrading',
+    label: 'Lock Student Portals During Grading',
+    hint: 'Temporarily disable student access to prevent seeing grades while teachers are finalizing them.',
+  },
+  {
+    key: 'studentsCanMessageTeachers',
+    label: 'Allow Direct Messaging',
+    hint: 'Let students message teachers directly through the platform.',
+  },
+  {
+    key: 'teachersCanCreateSubjects',
+    label: 'Teachers Can Create Subjects',
+    hint: 'Allow teachers to add their own custom subjects without admin approval.',
+  },
+  {
+    key: 'requireStaff2FA',
+    label: 'Require Staff 2FA',
+    hint: 'Mandate Two-Factor Authentication for all admin and teacher accounts.',
+  },
+  {
+    key: 'parentPortalAccess',
+    label: 'Enable Parent Portal',
+    hint: 'Allow parents to securely log in and view their child\'s progress.',
+  },
   {
     key: 'teachersCanEditPastGrades',
     label: 'Allow Teachers to Edit Past Grades',
