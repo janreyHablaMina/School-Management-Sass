@@ -1,101 +1,143 @@
-.twoColRow {
+.reportsLayout {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.25rem;
-}
-
-.threeColRow {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.25rem;
-}
-
-.chartBody {
-  height: 250px;
-  padding: 1rem 0;
-}
-
-.donutBody {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex: 1;
-}
-
-.donutWrapper {
-  width: 160px;
-  height: 160px;
-  margin-bottom: 1.5rem;
-}
-
-.donutLegend {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.actionLink {
+  grid-template-columns: 280px 1fr;
+  gap: 2rem;
   margin-top: 1.5rem;
-  text-align: center;
-  padding-top: 1rem;
-  border-top: 1px dashed rgba(240, 239, 237, 0.15);
-  color: #84a9ff;
+  align-items: start;
+}
+
+.filtersSidebar {
+  background: rgba(10, 25, 17, 0.4);
+  border: 1px solid rgba(240, 239, 237, 0.12);
+  border-radius: 12px;
+  padding: 1.5rem;
+  position: sticky;
+  top: 1.5rem;
+}
+
+.filterTitle {
   font-size: 0.85rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: opacity 0.2s;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(240, 239, 237, 0.6);
+  margin-bottom: 1rem;
 }
 
-.actionLink:hover {
-  opacity: 0.8;
-}
-
-.quickReportItem {
+.categoryList {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 0;
-  border-bottom: 1px dashed rgba(240, 239, 237, 0.15);
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.categoryBtn {
+  background: transparent;
+  border: 1px solid transparent;
+  color: rgba(240, 239, 237, 0.7);
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  text-align: left;
+  font-size: 0.95rem;
   cursor: pointer;
   transition: all 0.2s ease;
+  font-family: inherit;
 }
 
-.quickReportItem:hover {
-  transform: translateX(4px);
-}
-
-.quickReportLeft {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.quickReportIcon {
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2rem;
-}
-
-.quickReportTitle {
-  margin: 0 0 0.25rem 0;
-  font-size: 0.95rem;
-  font-weight: 600;
+.categoryBtn:hover {
+  background: rgba(240, 239, 237, 0.05);
   color: #f0efed;
 }
 
-.quickReportDesc {
-  margin: 0;
-  font-size: 0.8rem;
-  color: rgba(240, 239, 237, 0.6);
+.categoryBtnActive {
+  background: rgba(240, 239, 237, 0.1);
+  color: #f0efed;
+  font-weight: 500;
+  border-color: rgba(240, 239, 237, 0.2);
 }
 
+.reportsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.reportCard {
+  background: rgba(10, 25, 17, 0.4);
+  border: 1px solid rgba(240, 239, 237, 0.12);
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.reportCard:hover {
+  transform: translateY(-2px);
+  border-color: rgba(240, 239, 237, 0.3);
+}
+
+.reportHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.reportIcon {
+  font-size: 1.75rem;
+  background: rgba(240, 239, 237, 0.05);
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+}
+
+.formatBadge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  letter-spacing: 0.05em;
+}
+
+.formatPDF {
+  background: rgba(255, 107, 107, 0.15);
+  color: #ff6b6b;
+}
+
+.formatExcel, .formatCSV {
+  background: rgba(92, 199, 137, 0.15);
+  color: #5cc789;
+}
+
+.reportTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #f0efed;
+  margin: 0 0 0.5rem 0;
+}
+
+.reportDesc {
+  font-size: 0.9rem;
+  color: rgba(240, 239, 237, 0.7);
+  line-height: 1.5;
+  margin: 0 0 1.5rem 0;
+}
+
+/* Responsive */
 @media (max-width: 1024px) {
-  .twoColRow, .threeColRow {
+  .reportsLayout {
     grid-template-columns: 1fr;
+  }
+  
+  .filtersSidebar {
+    position: static;
+  }
+  
+  .categoryList {
+    flex-direction: row;
+    flex-wrap: wrap;
   }
 }
