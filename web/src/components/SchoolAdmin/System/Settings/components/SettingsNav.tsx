@@ -1,13 +1,13 @@
 'use client';
 
 import React from 'react';
-import type { SettingsSection } from '@/types/teacherSettings';
+import type { SchoolSettingsSection } from '@/types/schoolSettings';
 import { SECTION_META } from '../settingsMeta';
 import styles from '../settings.module.css';
 
 interface SettingsNavProps {
-  active: SettingsSection;
-  onChange: (section: SettingsSection) => void;
+  active: SchoolSettingsSection;
+  onChange: (section: SchoolSettingsSection) => void;
 }
 
 export function SettingsNav({ active, onChange }: SettingsNavProps) {

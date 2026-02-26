@@ -52,9 +52,9 @@ export function mapToTeacherRow(announcement: AnnouncementRecord): TeacherAnnoun
     status: announcement.status as any,
     audience: announcement.audience,
     publishedAt: announcement.publishedAt,
-    publishedSortKey: announcement.publishedSortKey,
+    createdSortKey: announcement.publishedSortKey,
     views: announcement.readRate,
-    isPinned: false,
+    pinned: false,
     scheduledFor: announcement.status === 'Scheduled' ? announcement.publishedAt : undefined,
   };
 }

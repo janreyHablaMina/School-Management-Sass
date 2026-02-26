@@ -116,8 +116,8 @@ export function AiAssistantView() {
       
       {toastMessage && (
         <Toast
+          title="Success"
           message={toastMessage}
-          type="success"
           onClose={() => setToastMessage(null)}
         />
       )}
