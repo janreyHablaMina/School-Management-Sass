@@ -9,15 +9,28 @@ import { studentMenuGroups } from '@/lib/constants/navigation';
 import { useWorkspaceScroll } from '@/hooks/useWorkspaceScroll';
 import { useGreeting } from '@/lib/utils/greeting';
 
+import { StudentDashboardView } from '@/components/Student/Dashboard/StudentDashboardView';
+
 // Temporary placeholder for settings
 const StudentPlaceholder = ({ title }: { title: string }) => (
   <div style={{ padding: '2rem', color: '#f0efed' }}>
-    <h1>{title}</h1>
-    <p>This module is currently under construction.</p>
+    <h2 style={{ fontSize: '1.5rem', marginBottom: '1rem', fontWeight: 600 }}>{title}</h2>
+    <div style={{ 
+      background: 'rgba(10, 25, 17, 0.4)', 
+      border: '1px solid rgba(240, 239, 237, 0.1)', 
+      borderRadius: '12px', 
+      padding: '3rem',
+      textAlign: 'center',
+      color: 'rgba(240, 239, 237, 0.5)'
+    }}>
+      <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🚧</div>
+      <p style={{ fontSize: '1.1rem' }}>This module is currently under construction.</p>
+      <p style={{ fontSize: '0.9rem', marginTop: '0.5rem' }}>We're building something awesome here.</p>
+    </div>
   </div>
 );
 
-export default function StudentDashboard() {
+export default function StudentPortal() {
   const [activeTab, setActiveTab] = useState('Dashboard');
   const workspaceRef = useRef<HTMLDivElement>(null);
   const isScrolled = useWorkspaceScroll(workspaceRef);
@@ -28,6 +41,9 @@ export default function StudentDashboard() {
   };
 
   const renderContent = () => {
+    if (activeTab === 'Dashboard') {
+      return <StudentDashboardView />;
+    }
     return <StudentPlaceholder title={activeTab} />;
   };
 

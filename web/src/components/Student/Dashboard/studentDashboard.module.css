@@ -1,0 +1,133 @@
+.overviewLayout {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.twoColumnRow {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 1024px) {
+  .twoColumnRow {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px dashed rgba(240, 239, 237, 0.25);
+  border-radius: 12px;
+  padding: 1.5rem;
+  height: 100%;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.cardHeader h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #f0efed;
+}
+
+.viewAll {
+  color: #8b5cf6;
+  font-size: 0.8rem;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+/* Timeline specific styles copied exactly from teacher dashboard */
+.timeline {
+  display: flex;
+  flex-direction: column;
+}
+
+.timelineItem {
+  display: flex;
+  gap: 1rem;
+  position: relative;
+  padding-bottom: 1.5rem;
+}
+
+.timelineItem:last-child {
+  padding-bottom: 0;
+}
+
+.timelineItem:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  top: 1rem;
+  left: 4px;
+  width: 2px;
+  height: calc(100% - 0.5rem);
+  background: rgba(240, 239, 237, 0.1);
+}
+
+.timelineDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #111;
+  border: 2px solid rgba(240, 239, 237, 0.3);
+  margin-top: 0.35rem;
+  position: relative;
+  z-index: 1;
+}
+
+.timelineDotActive {
+  border-color: #8b5cf6;
+  background: #8b5cf6;
+  box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.2);
+}
+
+.timelineContent {
+  flex: 1;
+}
+
+.timelineTime {
+  font-size: 0.8rem;
+  color: rgba(240, 239, 237, 0.5);
+  font-weight: 500;
+}
+
+.statusOngoing {
+  font-size: 0.7rem;
+  background: rgba(139, 92, 246, 0.2);
+  color: #b68eff;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.timelineTitle {
+  font-weight: 600;
+  color: #f0efed;
+  margin-bottom: 0.2rem;
+}
+
+.timelineSub {
+  font-size: 0.85rem;
+  color: rgba(240, 239, 237, 0.6);
+}
+
+.actionIconBox {
+  font-size: 1.25rem;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
