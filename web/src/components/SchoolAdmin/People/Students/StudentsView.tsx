@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { useStudents } from './useStudents';
 import { MessageModal, MessageData } from '@/components/ui/MessageModal';
-import { PageHeader } from '../shared/PageHeader';
-import { MetricsGrid, Metric } from '../shared/MetricsGrid';
-import layoutStyles from '../shared/layout.module.css';
+import { SchoolAdminDirectoryPage } from '../../shared/SchoolAdminDirectoryPage';
+import type { Metric } from '../../shared/MetricsGrid';
 import { StudentsFilters } from './StudentsFilters';
 import { StudentsTable } from './StudentsTable';
 import { Student } from './types';
@@ -186,13 +185,22 @@ export const StudentsView: React.FC = () => {
   ];
 
   return (
-    <div className={layoutStyles.studentsContainer}>
-      <PageHeader 
-        title="Students" 
-        subtitle="Management panel for Students" 
-        actionButton={{ label: "Add Student", onClick: openCreate }} 
-      />
-      <MetricsGrid metrics={STUDENTS_METRICS} columns={5} />
+    <SchoolAdminDirectoryPage
+      title="Students"
+      subtitle="Management panel for Students"
+      actionButton={{ label: "Add Student", onClick: openCreate }}
+      metrics={STUDENTS_METRICS}
+      metricColumns={5}
+      pagination={{
+        rangeStart,
+        rangeEnd,
+        total: totalCount,
+        page: currentPage,
+        totalPages,
+        itemLabel: 'students',
+        onPageChange: setCurrentPage,
+      }}
+    >
       <StudentsFilters
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
@@ -279,15 +287,6 @@ export const StudentsView: React.FC = () => {
           }}
         />
       )}
-      <PaginationBar
-        rangeStart={rangeStart}
-        rangeEnd={rangeEnd}
-        total={totalCount}
-        page={currentPage}
-        totalPages={totalPages}
-        itemLabel="students"
-        onPageChange={setCurrentPage}
-      />
       <MessageModal
         isOpen={isMessageModalOpen}
         onClose={() => setIsMessageModalOpen(false)}
@@ -342,6 +341,6 @@ export const StudentsView: React.FC = () => {
           onClose={dismissToast}
         />
       ) : null}
-    </div>
+    </SchoolAdminDirectoryPage>
   );
 };

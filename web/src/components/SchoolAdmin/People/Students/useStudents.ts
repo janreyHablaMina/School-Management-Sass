@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from 'react';
-import { useSchoolAdminDirectory } from '@/components/SchoolAdmin/shared/useSchoolAdminDirectory';
+import { useSchoolAdminDirectory } from '../../shared/useSchoolAdminDirectory';
 import { schoolAdminMockData } from '@/lib/mock/schoolAdmin.mock';
 import type { StudentProfileFormInput } from '@/types/teacherStudents';
 import type { Student } from './types';

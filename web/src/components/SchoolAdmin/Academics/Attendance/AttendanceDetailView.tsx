@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { DataTable, type DataTableColumn, ChalkBadge, ProgressStatCell, listStyles } from '@/components/ui/shared';
-import peopleStyles from '../../People/students.module.css';
+import { DataTable, type DataTableColumn, ChalkBadge, ProgressStatCell, listStyles, RowActionsMenu } from '@/components/ui/shared';
+import { EmptyState } from '@/components/ui/shared';
+import peopleStyles from '../../People/Students/students.module.css';
 
 interface AttendanceDetailViewProps {
   attendanceId: string;
@@ -29,7 +30,13 @@ const COLUMNS: DataTableColumn[] = [
   { id: 'late', label: 'Late', sortable: true },
   { id: 'rate', label: 'Rate', sortable: true },
   { id: 'status', label: 'Status', sortable: true },
+  { id: 'actions', label: 'Action' },
 ];
+
+const ROW_ACTIONS = [
+  { icon: '👁️', label: 'View Attendance' },
+  { icon: '💬', label: 'Message Teacher' },
+] as const;
 
 function statusAccent(status: string) {
   return status === 'Submitted' ? '#5cc789' : '#f5c842';
@@ -102,6 +109,37 @@ export const AttendanceDetailView: React.FC<AttendanceDetailViewProps> = ({
   const [sortKey, setSortKey] = useState<keyof SectionClassRecord | 'rate'>('time');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
 
+  const [selectedClassId, setSelectedClassId] = useState<string | null>(null);
+
+  if (selectedClassId) {
+    return (
+      <div style={{ padding: '24px' }}>
+        <button 
+          onClick={() => setSelectedClassId(null)}
+          style={{
+            background: 'none',
+            border: 'none',
+            color: '#84a9ff',
+            cursor: 'pointer',
+            marginBottom: '24px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            fontSize: '14px',
+            fontWeight: 500,
+          }}
+        >
+          <span>←</span> Back to Class Breakdown
+        </button>
+
+        <EmptyState
+          title={`Student Roll Call: ${selectedClassId}`}
+          description="This detailed view is still a work in progress. Soon, you will be able to see the full list of students and their individual attendance status for this specific class."
+        />
+      </div>
+    );
+  }
+
   const classes = getMockClassesForSection(attendanceId);
 
   const sortedClasses = [...classes].sort((a, b) => {
@@ -166,7 +204,11 @@ export const AttendanceDetailView: React.FC<AttendanceDetailViewProps> = ({
           {sortedClasses.map((cls) => {
             const rate = (cls.present / cls.total) * 100;
             return (
-              <tr key={cls.id}>
+              <tr 
+                key={cls.id}
+                onClick={() => setSelectedClassId(cls.id)}
+                style={{ cursor: 'pointer' }}
+              >
                 <td>
                   <div className={peopleStyles.studentCell}>
                     <div className={peopleStyles.avatar} style={{ background: cls.accent }}>
@@ -191,6 +233,20 @@ export const AttendanceDetailView: React.FC<AttendanceDetailViewProps> = ({
                 </td>
                 <td>
                   <ChalkBadge label={cls.status} accent={statusAccent(cls.status)} />
+                </td>
+                <td>
+                  <RowActionsMenu
+                    label={`More actions for ${cls.subject}`}
+                    actions={ROW_ACTIONS}
+                    onAction={(label) => {
+                      if (label === 'View Attendance') {
+                        setSelectedClassId(cls.id);
+                      }
+                      if (label === 'Message Teacher') {
+                        alert('Message teacher functionality not implemented yet.');
+                      }
+                    }}
+                  />
                 </td>
               </tr>
             );

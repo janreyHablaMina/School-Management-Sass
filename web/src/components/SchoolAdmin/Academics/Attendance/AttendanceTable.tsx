@@ -1,6 +1,6 @@
 import React from 'react';
 import { ChalkBadge, DataTable, listStyles, ProgressStatCell, ResourceBulkBar, RowActionsMenu, RowSelectCell, SelectAllCheckbox, type DataTableColumn } from '@/components/ui/shared';;;
-import peopleStyles from '../../People/students.module.css';
+import peopleStyles from '../../People/Students/students.module.css';
 import type { AttendanceRecord, AttendanceSortKey } from './useAttendance';
 
 interface AttendanceTableProps {
@@ -23,9 +23,9 @@ const COLUMNS: DataTableColumn[] = [
 ];
 
 const ROW_ACTIONS = [
-  { icon: '>', label: 'View Attendance' },
-  { icon: '@', label: 'Message Adviser' },
-  { icon: '#', label: 'Export Section' },
+  { icon: '👁️', label: 'View Attendance' },
+  { icon: '💬', label: 'Message Adviser' },
+  { icon: '📥', label: 'Export Section' },
 ] as const;
 
 function rateAccent(rate: number) {
@@ -127,8 +127,7 @@ export const AttendanceTable: React.FC<AttendanceTableProps> = ({
               <RowActionsMenu
                 label={`More actions for ${record.gradeSection}`}
                 actions={ROW_ACTIONS}
-                onAction={(label, e) => {
-                  e?.stopPropagation();
+                onAction={(label) => {
                   if (label === 'View Attendance') {
                     onRowClick?.(record.id);
                   }

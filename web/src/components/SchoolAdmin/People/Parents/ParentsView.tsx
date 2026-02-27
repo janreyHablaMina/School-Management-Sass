@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import { PaginationBar } from '@/components/ui/shared';
-import { MetricsGrid, type Metric } from '../../shared/MetricsGrid';
-import { PageHeader } from '../../shared/PageHeader';
-import layoutStyles from '../../shared/layout.module.css';
+import { SchoolAdminDirectoryPage } from '../../shared/SchoolAdminDirectoryPage';
+import type { Metric } from '../../shared/MetricsGrid';
 import { MessageModal, type MessageData } from '@/components/ui/MessageModal';
 import { ParentsFilters } from './ParentsFilters';
 import { ConfirmActionModal, Toast, EmptyState } from '@/components/ui/shared';
@@ -99,13 +97,22 @@ export const ParentsView: React.FC = () => {
   }
 
   return (
-    <div className={layoutStyles.studentsContainer}>
-      <PageHeader
-        title="Parents"
-        subtitle="Manage parent and guardian portal access"
-        actionButton={{ label: 'Add Parent', onClick: () => console.log('add parent') }}
-      />
-      <MetricsGrid metrics={PARENTS_METRICS} columns={4} />
+    <SchoolAdminDirectoryPage
+      title="Parents"
+      subtitle="Manage parent and guardian portal access"
+      actionButton={{ label: 'Add Parent', onClick: () => console.log('add parent') }}
+      metrics={PARENTS_METRICS}
+      metricColumns={4}
+      pagination={{
+        rangeStart,
+        rangeEnd,
+        total: totalCount,
+        page: currentPage,
+        totalPages,
+        itemLabel: 'parents',
+        onPageChange: setCurrentPage,
+      }}
+    >
       <ParentsFilters
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
@@ -176,16 +183,6 @@ export const ParentsView: React.FC = () => {
           }}
         />
       )}
-      <PaginationBar
-        rangeStart={rangeStart}
-        rangeEnd={rangeEnd}
-        total={totalCount}
-        page={currentPage}
-        totalPages={totalPages}
-        itemLabel="parents"
-        onPageChange={setCurrentPage}
-      />
-
       <MessageModal
         isOpen={isMessageModalOpen}
         onClose={() => setIsMessageModalOpen(false)}
@@ -215,6 +212,6 @@ export const ParentsView: React.FC = () => {
           onClose={dismissToast}
         />
       ) : null}
-    </div>
+    </SchoolAdminDirectoryPage>
   );
 };

@@ -16,7 +16,7 @@ import { DashboardView } from '@/components/SchoolAdmin/Dashboard/DashboardView'
 import { SchoolAdminPlaceholder } from '@/components/SchoolAdmin/shared/SchoolAdminPlaceholder';
 
 const StudentsView = dynamic(() =>
-  import('@/components/SchoolAdmin/People/StudentsView').then((mod) => mod.StudentsView),
+  import('@/components/SchoolAdmin/People/Students/StudentsView').then((mod) => mod.StudentsView),
 );
 const TeachersView = dynamic(() =>
   import('@/components/SchoolAdmin/People/Teachers/TeachersView').then((mod) => mod.TeachersView),

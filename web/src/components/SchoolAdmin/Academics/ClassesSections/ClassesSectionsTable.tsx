@@ -1,6 +1,6 @@
 import React from 'react';
 import { ChalkBadge, DataTable, listStyles, ProgressStatCell, ResourceBulkBar, RowActionsMenu, RowSelectCell, SelectAllCheckbox, type DataTableColumn } from '@/components/ui/shared';;;
-import peopleStyles from '../../People/students.module.css';
+import peopleStyles from '../../People/Students/students.module.css';
 import type { ClassSectionRecord, ClassSectionSortKey } from './useClassesSections';
 
 interface ClassesSectionsTableProps {
