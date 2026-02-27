@@ -11,6 +11,7 @@ interface AnnouncementsTableProps {
   onSelectAll: (checked: boolean) => void;
   onSelectAnnouncement: (id: string) => void;
   onSort: (key: AnnouncementSortKey) => void;
+  onViewAnnouncement: (announcement: AnnouncementRecord) => void;
 }
 
 const COLUMNS: DataTableColumn[] = [
@@ -68,6 +69,7 @@ export const AnnouncementsTable: React.FC<AnnouncementsTableProps> = ({
   onSelectAll,
   onSelectAnnouncement,
   onSort,
+  onViewAnnouncement,
 }) => {
   const allVisibleSelected =
     selectedAnnouncements.length === announcements.length && announcements.length > 0;
@@ -105,12 +107,22 @@ export const AnnouncementsTable: React.FC<AnnouncementsTableProps> = ({
         }
       >
         {announcements.map((announcement) => (
-          <tr
-            key={announcement.id}
-            className={
-              selectedAnnouncements.includes(announcement.id) ? listStyles.rowSelected : ''
-            }
-          >
+            <tr
+              key={announcement.id}
+              className={`${listStyles.clickableRow} ${
+                selectedAnnouncements.includes(announcement.id) ? listStyles.rowSelected : ''
+              }`}
+              onClick={() => onViewAnnouncement(announcement)}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                  event.preventDefault();
+                  onViewAnnouncement(announcement);
+                }
+              }}
+              tabIndex={0}
+              role="button"
+              aria-label={`View announcement ${announcement.title}`}
+            >
             <RowSelectCell
               selected={selectedAnnouncements.includes(announcement.id)}
               onToggle={() => onSelectAnnouncement(announcement.id)}
@@ -150,13 +162,16 @@ export const AnnouncementsTable: React.FC<AnnouncementsTableProps> = ({
                 accent={priorityAccent(announcement.priority)}
               />
             </td>
-            <td>
+            <td
+              onClick={(event) => event.stopPropagation()}
+              onKeyDown={(event) => event.stopPropagation()}
+            >
               <RowActionsMenu
                 label={`More actions for ${announcement.title}`}
                 actions={ROW_ACTIONS}
                 onAction={(label) => {
                   if (label === 'View Announcement') {
-                    alert('Announcement detail functionality not implemented yet.');
+                    onViewAnnouncement(announcement);
                   }
                   if (label === 'Message Audience') {
                     alert('Message audience functionality not implemented yet.');

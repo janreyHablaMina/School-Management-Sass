@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useSchoolAdminDirectory } from '@/components/SchoolAdmin/shared/useSchoolAdminDirectory';
 import { schoolAdminMockData } from '@/lib/mock/schoolAdmin.mock';
 
@@ -53,17 +54,25 @@ function filterAnnouncement(announcement: AnnouncementRecord, filters: Announcem
 }
 
 export function useAnnouncements() {
+  const [items, setItems] = useState<AnnouncementRecord[]>(schoolAdminMockData.announcementDirectory);
+
   const directory = useSchoolAdminDirectory<
     AnnouncementRecord,
     AnnouncementSortKey,
     AnnouncementFilters
   >({
-    items: schoolAdminMockData.announcementDirectory,
+    items,
     initialFilters: INITIAL_FILTERS,
     getId: (announcement) => announcement.id,
     filterItem: filterAnnouncement,
     getSortValue: valueForSort,
   });
+
+  const addAnnouncement = (newAnnouncement: AnnouncementRecord) => {
+    setItems((prev) => [newAnnouncement, ...prev]);
+  };
+
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
 
   return {
     searchTerm: directory.filters.searchTerm,
@@ -89,5 +98,9 @@ export function useAnnouncements() {
     rangeEnd: directory.rangeEnd,
     resetFilters: directory.clearFilters,
     hasActiveFilters: directory.isDirty,
+    isCreateOpen,
+    openCreate: () => setIsCreateOpen(true),
+    closeCreate: () => setIsCreateOpen(false),
+    addAnnouncement,
   };
 }
