@@ -6,6 +6,7 @@ import { GradesTable } from './GradesTable';
 import { useGrades } from './useGrades';
 import { EmptyState } from '@/components/ui/shared';
 import { GradesDetailView } from './GradesDetailView';
+import { MessageModal, MessageData } from '@/components/ui/MessageModal';
 
 const GRADES_METRICS: Metric[] = [
   {
@@ -64,6 +65,8 @@ export const GradesView: React.FC = () => {
   } = useGrades();
 
   const [selectedGradeId, setSelectedGradeId] = React.useState<string | null>(null);
+  const [isMessageModalOpen, setIsMessageModalOpen] = React.useState(false);
+  const [messageTargetIds, setMessageTargetIds] = React.useState<string[]>([]);
 
   if (selectedGradeId) {
     return (
@@ -116,8 +119,23 @@ export const GradesView: React.FC = () => {
           onSelectGrade={handleSelectGrade}
           onSort={handleSort}
           onViewDetails={(id) => setSelectedGradeId(id)}
+          onMessage={(id) => {
+            setMessageTargetIds([id]);
+            setIsMessageModalOpen(true);
+          }}
         />
       )}
+      
+      <MessageModal
+        isOpen={isMessageModalOpen}
+        onClose={() => setIsMessageModalOpen(false)}
+        recipientCount={messageTargetIds.length}
+        onSend={(data: MessageData) => {
+          console.log('Sending message to', messageTargetIds, data);
+          setIsMessageModalOpen(false);
+          alert(`Message sent to ${messageTargetIds.length} teacher(s)!`);
+        }}
+      />
     </SchoolAdminDirectoryPage>
   );
 };

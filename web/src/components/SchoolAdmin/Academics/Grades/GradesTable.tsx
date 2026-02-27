@@ -12,6 +12,7 @@ interface GradesTableProps {
   onSelectGrade: (id: string) => void;
   onSort: (key: GradeSortKey) => void;
   onViewDetails?: (gradeId: string) => void;
+  onMessage?: (gradeId: string) => void;
 }
 
 const COLUMNS: DataTableColumn[] = [
@@ -25,9 +26,9 @@ const COLUMNS: DataTableColumn[] = [
 ];
 
 const ROW_ACTIONS = [
-  { icon: '>', label: 'View Gradebook' },
-  { icon: '@', label: 'Message Teacher' },
-  { icon: '#', label: 'Export Grades' },
+  { icon: '📖', label: 'View Grade' },
+  { icon: '📧', label: 'Message Teacher' },
+  { icon: '📥', label: 'Export Grades' },
 ] as const;
 
 function statusAccent(status: string) {
@@ -57,6 +58,7 @@ export const GradesTable: React.FC<GradesTableProps> = ({
   onSelectGrade,
   onSort,
   onViewDetails,
+  onMessage,
 }) => {
   const allVisibleSelected = selectedGrades.length === grades.length && grades.length > 0;
 
@@ -80,7 +82,7 @@ export const GradesTable: React.FC<GradesTableProps> = ({
 
       <DataTable
         columns={COLUMNS}
-        minWidth={1540}
+        minWidth={900}
         sortKey={sortKey}
         sortDirection={sortDirection}
         onSort={(key) => onSort(key as GradeSortKey)}
@@ -129,15 +131,19 @@ export const GradesTable: React.FC<GradesTableProps> = ({
                 label={`More actions for ${grade.gradeSection} ${grade.subject}`}
                 actions={ROW_ACTIONS}
                 onAction={(label: string) => {
-                  if (label === 'View Gradebook') {
+                  if (label === 'View Grade') {
                     if (onViewDetails) {
                       onViewDetails(grade.id);
                     } else {
-                      alert('Gradebook detail functionality not implemented yet.');
+                      alert('Grade detail functionality not implemented yet.');
                     }
                   }
                   if (label === 'Message Teacher') {
-                    alert('Message teacher functionality not implemented yet.');
+                    if (onMessage) {
+                      onMessage(grade.id);
+                    } else {
+                      alert('Message teacher functionality not implemented yet.');
+                    }
                   }
                   if (label === 'Export Grades') {
                     alert('Export grades functionality not implemented yet.');
