@@ -48,7 +48,7 @@ export const LESSON_TYPES: LessonType[] = [
 export const AI_LESSON_SAVE_TYPES: LessonType[] = ['PDF', 'Document'];
 
 export const AI_LESSON_SAVE_TYPE_LABELS: Record<
-  (typeof AI_LESSON_SAVE_TYPES)[number],
+  'PDF' | 'Document',
   string
 > = {
   PDF: 'PDF',
@@ -56,7 +56,7 @@ export const AI_LESSON_SAVE_TYPE_LABELS: Record<
 };
 
 export const AI_LESSON_SAVE_TYPE_HINTS: Record<
-  (typeof AI_LESSON_SAVE_TYPES)[number],
+  'PDF' | 'Document',
   string
 > = {
   PDF: 'Shareable file for students',

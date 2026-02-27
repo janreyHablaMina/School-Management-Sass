@@ -287,7 +287,7 @@ export function SaveLessonTitleModal({
             }}
           >
             <span className={modalStyles.multiSelectTriggerText}>
-              {lessonTypeIcon(lessonType)} {AI_LESSON_SAVE_TYPE_LABELS[lessonType]}
+              {lessonTypeIcon(lessonType)} {AI_LESSON_SAVE_TYPE_LABELS[lessonType as 'PDF' | 'Document']}
             </span>
             <span className={modalStyles.multiSelectCaret} aria-hidden />
           </button>
@@ -320,10 +320,10 @@ export function SaveLessonTitleModal({
                       </span>
                       <span className={modalStyles.selectOptionCopy}>
                         <span className={modalStyles.selectOptionLabel}>
-                          {AI_LESSON_SAVE_TYPE_LABELS[option]}
+                          {AI_LESSON_SAVE_TYPE_LABELS[option as 'PDF' | 'Document']}
                         </span>
                         <span className={modalStyles.selectOptionHint}>
-                          {AI_LESSON_SAVE_TYPE_HINTS[option]}
+                          {AI_LESSON_SAVE_TYPE_HINTS[option as 'PDF' | 'Document']}
                         </span>
                       </span>
                     </button>

@@ -56,7 +56,7 @@ export function LessonsTable({
         itemLabel="lesson"
         onClearSelection={onClearSelection}
         actions={[
-          { label: 'Download', onClick: onDownloadSelected, tone: 'neutral' },
+          { label: 'Download', onClick: onDownloadSelected, tone: 'default' },
           { label: 'Archive', onClick: onArchiveSelected, tone: 'danger' },
           { label: 'Delete', onClick: onDeleteSelected, tone: 'danger' },
         ]}

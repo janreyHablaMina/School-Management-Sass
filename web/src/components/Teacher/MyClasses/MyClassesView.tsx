@@ -70,7 +70,6 @@ export function MyClassesView({ onNavigate }: MyClassesViewProps) {
     sortKey,
     sortDirection,
     handleSort,
-    highlightedClassId,
     toast,
     dismissToast,
   } = useMyClasses();

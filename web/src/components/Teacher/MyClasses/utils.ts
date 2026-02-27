@@ -23,6 +23,7 @@ export interface ClassFormValues {
   days: string[];
   startTime: string;
   endTime: string;
+  coverImage?: string;
 }
 
 const SUBJECT_STYLE: Record<string, { accent: string; icon: string }> = {

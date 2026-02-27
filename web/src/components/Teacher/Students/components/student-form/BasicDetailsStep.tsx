@@ -18,7 +18,7 @@ interface BasicDetailsStepProps {
   subjectOptions: string[];
   gradeOptions: string[];
   previewStudent: any; // We can use the appropriate type here, TeacherStudentRow | null
-  fileInputRef: React.RefObject<HTMLInputElement>;
+  fileInputRef: React.RefObject<HTMLInputElement | null>;
   handlePhotoChange: (file?: File) => void;
 }
 

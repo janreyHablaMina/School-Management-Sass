@@ -93,7 +93,7 @@ export function buildAnnouncementFromInput(
     publishedAt = formatDisplayDate(now);
   } else if (input.publishMode === 'schedule' && scheduled && !Number.isNaN(scheduled.getTime())) {
     status = 'Scheduled';
-    scheduledFor = formatScheduledDateTime(input.scheduledAt, input.scheduledTime ?? '12:00');
+    scheduledFor = formatScheduledDateTime(input.scheduledAt || '', input.scheduledTime ?? '12:00');
     publishedAt = 'Not published';
   }
 

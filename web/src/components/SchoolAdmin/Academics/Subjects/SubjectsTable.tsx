@@ -99,6 +99,8 @@ export const SubjectsTable: React.FC<SubjectsTableProps> = ({
           <tr
             key={subject.id}
             className={selectedSubjects.includes(subject.id) ? listStyles.rowSelected : ''}
+            style={{ cursor: 'pointer' }}
+            onClick={() => onViewSubject(subject)}
           >
             <RowSelectCell
               selected={selectedSubjects.includes(subject.id)}
