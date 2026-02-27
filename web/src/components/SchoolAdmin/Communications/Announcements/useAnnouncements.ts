@@ -1,27 +1,9 @@
 import { useState } from 'react';
 import { useSchoolAdminDirectory } from '@/components/SchoolAdmin/shared/useSchoolAdminDirectory';
 import { schoolAdminMockData } from '@/lib/mock/schoolAdmin.mock';
+import type { AnnouncementRecord, AnnouncementSortKey, AnnouncementFiltersState } from './types';
 
-export type AnnouncementRecord = (typeof schoolAdminMockData.announcementDirectory)[number];
-export type AnnouncementSortKey =
-  | 'title'
-  | 'audience'
-  | 'type'
-  | 'status'
-  | 'delivery'
-  | 'author'
-  | 'publishedSortKey'
-  | 'recipientCount'
-  | 'readRate'
-  | 'priority';
-
-interface AnnouncementFilters extends Record<string, string> {
-  searchTerm: string;
-  statusFilter: string;
-  typeFilter: string;
-}
-
-const INITIAL_FILTERS: AnnouncementFilters = {
+const INITIAL_FILTERS: AnnouncementFiltersState = {
   searchTerm: '',
   statusFilter: 'All Status',
   typeFilter: 'All Types',
@@ -31,7 +13,7 @@ function valueForSort(announcement: AnnouncementRecord, key: AnnouncementSortKey
   return announcement[key];
 }
 
-function filterAnnouncement(announcement: AnnouncementRecord, filters: AnnouncementFilters) {
+function filterAnnouncement(announcement: AnnouncementRecord, filters: AnnouncementFiltersState) {
   const normalizedSearch = filters.searchTerm.trim().toLowerCase();
   const matchesSearch =
     normalizedSearch === '' ||
@@ -54,7 +36,7 @@ export function useAnnouncements() {
   const directory = useSchoolAdminDirectory<
     AnnouncementRecord,
     AnnouncementSortKey,
-    AnnouncementFilters
+    AnnouncementFiltersState
   >({
     items,
     initialFilters: INITIAL_FILTERS,

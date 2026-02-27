@@ -1,7 +1,8 @@
 import React from 'react';
 import { ChalkBadge, DataTable, listStyles, ResourceBulkBar, RowActionsMenu, RowSelectCell, SelectAllCheckbox, type DataTableColumn } from '@/components/ui/shared';
 import peopleStyles from '../../People/Students/students.module.css';
-import type { AnnouncementRecord, AnnouncementSortKey } from './useAnnouncements';
+import type { AnnouncementRecord, AnnouncementSortKey } from './types';
+import { statusAccent, typeAccent } from './utils';
 
 interface AnnouncementsTableProps {
   announcements: AnnouncementRecord[];
@@ -29,20 +30,7 @@ const ROW_ACTIONS = [
   { icon: '📋', label: 'Duplicate' },
 ] as const;
 
-function statusAccent(status: string) {
-  if (status === 'Published') return '#5cc789';
-  if (status === 'Scheduled') return '#84a9ff';
-  if (status === 'Draft') return '#f5c842';
-  return '#8a9a90';
-}
 
-function typeAccent(type: string) {
-  if (type === 'Urgent') return '#ff7e93';
-  if (type === 'Event') return '#b68eff';
-  if (type === 'Academic') return '#5cc789';
-  if (type === 'Reminder') return '#f5c842';
-  return '#84a9ff';
-}
 
 export const AnnouncementsTable: React.FC<AnnouncementsTableProps> = ({
   announcements,

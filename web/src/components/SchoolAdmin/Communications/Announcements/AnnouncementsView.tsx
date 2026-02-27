@@ -3,12 +3,14 @@ import type { Metric } from '../../shared/MetricsGrid';
 import { SchoolAdminDirectoryPage } from '../../shared/SchoolAdminDirectoryPage';
 import { AnnouncementsFilters } from './AnnouncementsFilters';
 import { AnnouncementsTable } from './AnnouncementsTable';
-import { useAnnouncements, AnnouncementRecord } from './useAnnouncements';
+import { useAnnouncements } from './useAnnouncements';
+import type { AnnouncementRecord } from './types';
 import { EmptyState, Toast } from '@/components/ui/shared';
 import { AnnouncementDetailView } from '@/components/Teacher/Announcements/components/AnnouncementDetailView';
 import { CreateAnnouncementModal } from '@/components/Teacher/Announcements/components/CreateAnnouncementModal';
 import { schoolAdminMockData } from '@/lib/mock/schoolAdmin.mock';
 import type { CreateAnnouncementInput } from '@/types/teacherAnnouncements';
+import { buildAnnouncementFromInput, mapToTeacherRow } from './utils';
 
 const ANNOUNCEMENT_METRICS: Metric[] = [
   {
@@ -77,30 +79,7 @@ export const AnnouncementsView: React.FC = () => {
   const [selectedAnnouncementForDetails, setSelectedAnnouncementForDetails] = React.useState<AnnouncementRecord | null>(null);
 
   const handleCreate = (input: CreateAnnouncementInput) => {
-    let audience = 'All Users';
-    if (!input.allClasses && input.classrooms.length > 0) {
-        audience = input.classrooms.join(', ');
-        if (input.includeParents) audience += ' and Parents';
-    } else if (input.includeParents) {
-        audience = 'Parents';
-    }
-
-    const newAnnouncement: AnnouncementRecord = {
-      id: `ann${Date.now()}`,
-      title: input.title,
-      description: input.description,
-      audience: audience,
-      type: input.type,
-      status: input.publishMode === 'publish' ? 'Published' : input.publishMode === 'schedule' ? 'Scheduled' : 'Draft',
-      delivery: 'Portal',
-      author: 'Admin', // Indicates it was created by school admin
-      publishedAt: input.publishMode === 'publish' ? new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : input.publishMode === 'schedule' && input.scheduledAt ? new Date(input.scheduledAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Draft',
-      publishedSortKey: new Date().toISOString().split('T')[0],
-      recipientCount: 0,
-      readRate: 0,
-      priority: input.type === 'Urgent' ? 'High' : 'Medium',
-      accent: '#84a9ff',
-    };
+    const newAnnouncement = buildAnnouncementFromInput(input);
     addAnnouncement(newAnnouncement);
     closeCreate();
     
@@ -119,19 +98,7 @@ export const AnnouncementsView: React.FC = () => {
   };
 
   if (selectedAnnouncementForDetails) {
-    const teacherRow = {
-      id: selectedAnnouncementForDetails.id,
-      title: selectedAnnouncementForDetails.title,
-      description: selectedAnnouncementForDetails.description,
-      type: selectedAnnouncementForDetails.type as any,
-      status: selectedAnnouncementForDetails.status as any,
-      audience: selectedAnnouncementForDetails.audience,
-      publishedAt: selectedAnnouncementForDetails.publishedAt,
-      publishedSortKey: selectedAnnouncementForDetails.publishedSortKey,
-      views: selectedAnnouncementForDetails.readRate,
-      isPinned: false,
-      scheduledFor: selectedAnnouncementForDetails.status === 'Scheduled' ? selectedAnnouncementForDetails.publishedAt : undefined,
-    };
+    const teacherRow = mapToTeacherRow(selectedAnnouncementForDetails);
     
     return (
       <AnnouncementDetailView
