@@ -11,15 +11,12 @@ interface AttendanceTableProps {
   onSelectAll: (checked: boolean) => void;
   onSelectAttendance: (id: string) => void;
   onSort: (key: AttendanceSortKey) => void;
+  onRowClick?: (id: string) => void;
 }
 
 const COLUMNS: DataTableColumn[] = [
   { id: 'gradeSection', label: 'Section', sortable: true },
   { id: 'adviser', label: 'Adviser', sortable: true },
-  { id: 'present', label: 'Present', sortable: true },
-  { id: 'absent', label: 'Absent', sortable: true },
-  { id: 'late', label: 'Late', sortable: true },
-  { id: 'rate', label: 'Rate', sortable: true },
   { id: 'status', label: 'Submission', sortable: true },
   { id: 'riskLevel', label: 'Risk', sortable: true },
   { id: 'actions', label: 'Action' },
@@ -55,6 +52,7 @@ export const AttendanceTable: React.FC<AttendanceTableProps> = ({
   onSelectAll,
   onSelectAttendance,
   onSort,
+  onRowClick,
 }) => {
   const allVisibleSelected =
     selectedAttendance.length === attendance.length && attendance.length > 0;
@@ -95,12 +93,16 @@ export const AttendanceTable: React.FC<AttendanceTableProps> = ({
           <tr
             key={record.id}
             className={selectedAttendance.includes(record.id) ? listStyles.rowSelected : ''}
+            onClick={() => onRowClick?.(record.id)}
+            style={{ cursor: onRowClick ? 'pointer' : 'default' }}
           >
-            <RowSelectCell
-              selected={selectedAttendance.includes(record.id)}
-              onToggle={() => onSelectAttendance(record.id)}
-              label={`Select ${record.gradeSection}`}
-            />
+            <td onClick={(e) => e.stopPropagation()}>
+              <RowSelectCell
+                selected={selectedAttendance.includes(record.id)}
+                onToggle={() => onSelectAttendance(record.id)}
+                label={`Select ${record.gradeSection}`}
+              />
+            </td>
             <td>
               <div className={peopleStyles.studentCell}>
                 <div className={peopleStyles.avatar} style={{ background: record.accent }}>
@@ -115,16 +117,6 @@ export const AttendanceTable: React.FC<AttendanceTableProps> = ({
               </div>
             </td>
             <td>{record.adviser}</td>
-            <td>{record.present}</td>
-            <td>{record.absent}</td>
-            <td>{record.late}</td>
-            <td>
-              <ProgressStatCell
-                current={record.present}
-                total={record.total}
-                barColor={rateAccent(record.rate)}
-              />
-            </td>
             <td>
               <ChalkBadge label={record.status} accent={statusAccent(record.status)} />
             </td>
@@ -135,9 +127,10 @@ export const AttendanceTable: React.FC<AttendanceTableProps> = ({
               <RowActionsMenu
                 label={`More actions for ${record.gradeSection}`}
                 actions={ROW_ACTIONS}
-                onAction={(label) => {
+                onAction={(label, e) => {
+                  e?.stopPropagation();
                   if (label === 'View Attendance') {
-                    alert('Attendance detail functionality not implemented yet.');
+                    onRowClick?.(record.id);
                   }
                   if (label === 'Message Adviser') {
                     alert('Message adviser functionality not implemented yet.');

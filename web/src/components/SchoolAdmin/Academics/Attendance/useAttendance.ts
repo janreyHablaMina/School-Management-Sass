@@ -14,12 +14,16 @@ export type AttendanceSortKey =
 
 interface AttendanceFilters extends Record<string, string> {
   searchTerm: string;
+  gradeFilter: string;
+  sectionFilter: string;
   statusFilter: string;
   riskFilter: string;
 }
 
 const INITIAL_FILTERS: AttendanceFilters = {
   searchTerm: '',
+  gradeFilter: 'All Grades',
+  sectionFilter: 'All Sections',
   statusFilter: 'All Status',
   riskFilter: 'All Risk Levels',
 };
@@ -36,12 +40,19 @@ function filterAttendance(record: AttendanceRecord, filters: AttendanceFilters) 
     record.adviser.toLowerCase().includes(normalizedSearch) ||
     record.room.toLowerCase().includes(normalizedSearch);
 
+  const gradeLevel = record.gradeSection.split(' - ')[0] || '';
+  const section = record.gradeSection.split(' - ')[1] || '';
+
+  const matchesGrade =
+    filters.gradeFilter === 'All Grades' || gradeLevel === filters.gradeFilter;
+  const matchesSection =
+    filters.sectionFilter === 'All Sections' || section === filters.sectionFilter;
   const matchesStatus =
     filters.statusFilter === 'All Status' || record.status === filters.statusFilter;
   const matchesRisk =
     filters.riskFilter === 'All Risk Levels' || record.riskLevel === filters.riskFilter;
 
-  return matchesSearch && matchesStatus && matchesRisk;
+  return matchesSearch && matchesGrade && matchesSection && matchesStatus && matchesRisk;
 }
 
 export function useAttendance() {
@@ -60,6 +71,10 @@ export function useAttendance() {
   return {
     searchTerm: directory.filters.searchTerm,
     setSearchTerm: (value: string) => directory.setFilter('searchTerm', value),
+    gradeFilter: directory.filters.gradeFilter,
+    setGradeFilter: (value: string) => directory.setFilter('gradeFilter', value),
+    sectionFilter: directory.filters.sectionFilter,
+    setSectionFilter: (value: string) => directory.setFilter('sectionFilter', value),
     statusFilter: directory.filters.statusFilter,
     setStatusFilter: (value: string) => directory.setFilter('statusFilter', value),
     riskFilter: directory.filters.riskFilter,
@@ -79,5 +94,25 @@ export function useAttendance() {
     rangeEnd: directory.rangeEnd,
     resetFilters: directory.clearFilters,
     hasActiveFilters: directory.isDirty,
+    availableGrades: [
+      'All Grades',
+      ...Array.from(
+        new Set(
+          schoolAdminMockData.attendance.map(
+            (r) => r.gradeSection.split(' - ')[0]
+          )
+        )
+      ).filter(Boolean).sort(),
+    ],
+    availableSections: [
+      'All Sections',
+      ...Array.from(
+        new Set(
+          schoolAdminMockData.attendance.map(
+            (r) => r.gradeSection.split(' - ')[1]
+          )
+        )
+      ).filter(Boolean).sort(),
+    ],
   };
 }

@@ -4,6 +4,12 @@ import { SchoolAdminDirectoryFilters } from '../../shared/SchoolAdminDirectoryFi
 interface AttendanceFiltersProps {
   searchTerm: string;
   setSearchTerm: (term: string) => void;
+  gradeFilter: string;
+  setGradeFilter: (grade: string) => void;
+  availableGrades: string[];
+  sectionFilter: string;
+  setSectionFilter: (section: string) => void;
+  availableSections: string[];
   statusFilter: string;
   setStatusFilter: (status: string) => void;
   riskFilter: string;
@@ -15,6 +21,12 @@ interface AttendanceFiltersProps {
 export const AttendanceFilters: React.FC<AttendanceFiltersProps> = ({
   searchTerm,
   setSearchTerm,
+  gradeFilter,
+  setGradeFilter,
+  availableGrades,
+  sectionFilter,
+  setSectionFilter,
+  availableSections,
   statusFilter,
   setStatusFilter,
   riskFilter,
@@ -29,6 +41,18 @@ export const AttendanceFilters: React.FC<AttendanceFiltersProps> = ({
       searchPlaceholder="Search section, adviser, room..."
       searchAriaLabel="Search attendance"
       selects={[
+        {
+          label: 'Grade Level',
+          value: gradeFilter,
+          onChange: setGradeFilter,
+          options: availableGrades,
+        },
+        {
+          label: 'Section',
+          value: sectionFilter,
+          onChange: setSectionFilter,
+          options: availableSections,
+        },
         {
           label: 'Submission',
           value: statusFilter,

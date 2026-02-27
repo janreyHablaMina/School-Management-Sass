@@ -1,8 +1,10 @@
 import React from 'react';
 import type { Metric } from '../../shared/MetricsGrid';
 import { SchoolAdminDirectoryPage } from '../../shared/SchoolAdminDirectoryPage';
+import { EmptyState } from '@/components/ui/shared';
 import { AttendanceFilters } from './AttendanceFilters';
 import { AttendanceTable } from './AttendanceTable';
+import { AttendanceDetailView } from './AttendanceDetailView';
 import { useAttendance } from './useAttendance';
 
 const ATTENDANCE_METRICS: Metric[] = [
@@ -44,9 +46,15 @@ const ATTENDANCE_METRICS: Metric[] = [
 ];
 
 export const AttendanceView: React.FC = () => {
+  const [selectedDetailId, setSelectedDetailId] = React.useState<string | null>(null);
+
   const {
     searchTerm,
     setSearchTerm,
+    gradeFilter,
+    setGradeFilter,
+    sectionFilter,
+    setSectionFilter,
     statusFilter,
     setStatusFilter,
     riskFilter,
@@ -66,7 +74,18 @@ export const AttendanceView: React.FC = () => {
     rangeEnd,
     resetFilters,
     hasActiveFilters,
+    availableGrades,
+    availableSections,
   } = useAttendance();
+
+  if (selectedDetailId) {
+    return (
+      <AttendanceDetailView
+        attendanceId={selectedDetailId}
+        onBack={() => setSelectedDetailId(null)}
+      />
+    );
+  }
 
   return (
     <SchoolAdminDirectoryPage
@@ -88,6 +107,12 @@ export const AttendanceView: React.FC = () => {
       <AttendanceFilters
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
+        gradeFilter={gradeFilter}
+        setGradeFilter={setGradeFilter}
+        availableGrades={availableGrades}
+        sectionFilter={sectionFilter}
+        setSectionFilter={setSectionFilter}
+        availableSections={availableSections}
         statusFilter={statusFilter}
         setStatusFilter={setStatusFilter}
         riskFilter={riskFilter}
@@ -95,15 +120,23 @@ export const AttendanceView: React.FC = () => {
         hasActiveFilters={hasActiveFilters}
         onReset={resetFilters}
       />
-      <AttendanceTable
-        attendance={attendance}
-        selectedAttendance={selectedAttendance}
-        sortKey={sortKey}
-        sortDirection={sortDirection}
-        onSelectAll={handleSelectAll}
-        onSelectAttendance={handleSelectAttendance}
-        onSort={handleSort}
-      />
+      {attendance.length === 0 ? (
+        <EmptyState
+          title="No attendance records found"
+          description="Try adjusting your search or filters."
+        />
+      ) : (
+        <AttendanceTable
+          attendance={attendance}
+          selectedAttendance={selectedAttendance}
+          sortKey={sortKey}
+          sortDirection={sortDirection}
+          onSelectAll={handleSelectAll}
+          onSelectAttendance={handleSelectAttendance}
+          onSort={handleSort}
+          onRowClick={setSelectedDetailId}
+        />
+      )}
     </SchoolAdminDirectoryPage>
   );
 };
