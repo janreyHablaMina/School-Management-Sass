@@ -4,7 +4,7 @@ import { SchoolAdminDirectoryPage } from '../../shared/SchoolAdminDirectoryPage'
 import { AnnouncementsFilters } from './AnnouncementsFilters';
 import { AnnouncementsTable } from './AnnouncementsTable';
 import { useAnnouncements, AnnouncementRecord } from './useAnnouncements';
-import { EmptyState } from '@/components/ui/shared';
+import { EmptyState, Toast } from '@/components/ui/shared';
 import { AnnouncementDetailView } from '@/components/Teacher/Announcements/components/AnnouncementDetailView';
 import { CreateAnnouncementModal } from '@/components/Teacher/Announcements/components/CreateAnnouncementModal';
 import { schoolAdminMockData } from '@/lib/mock/schoolAdmin.mock';
@@ -68,6 +68,10 @@ export const AnnouncementsView: React.FC = () => {
     openCreate,
     closeCreate,
     addAnnouncement,
+    duplicateItem,
+    toast,
+    dismissToast,
+    setToast,
   } = useAnnouncements();
 
   const [selectedAnnouncementForDetails, setSelectedAnnouncementForDetails] = React.useState<AnnouncementRecord | null>(null);
@@ -99,6 +103,19 @@ export const AnnouncementsView: React.FC = () => {
     };
     addAnnouncement(newAnnouncement);
     closeCreate();
+    
+    setToast({
+      title:
+        newAnnouncement.status === 'Published'
+          ? 'Announcement published'
+          : newAnnouncement.status === 'Scheduled'
+            ? 'Announcement scheduled'
+            : 'Draft saved',
+      message:
+        newAnnouncement.status === 'Scheduled' && input.scheduledAt
+          ? `${newAnnouncement.title} will auto-send on ${new Date(input.scheduledAt).toLocaleDateString()}.`
+          : `${newAnnouncement.title} was added to your announcements.`,
+    });
   };
 
   if (selectedAnnouncementForDetails) {
@@ -169,6 +186,7 @@ export const AnnouncementsView: React.FC = () => {
             onSelectAnnouncement={handleSelectAnnouncement}
             onSort={handleSort}
             onViewAnnouncement={(announcement) => setSelectedAnnouncementForDetails(announcement)}
+            onDuplicateItem={duplicateItem}
           />
         )}
       </SchoolAdminDirectoryPage>
@@ -178,6 +196,14 @@ export const AnnouncementsView: React.FC = () => {
           classrooms={schoolAdminMockData.classesSections.map(c => c.name)}
           onCancel={closeCreate}
           onCreate={handleCreate}
+        />
+      ) : null}
+
+      {toast ? (
+        <Toast
+          title={toast.title}
+          message={toast.message}
+          onClose={dismissToast}
         />
       ) : null}
     </>

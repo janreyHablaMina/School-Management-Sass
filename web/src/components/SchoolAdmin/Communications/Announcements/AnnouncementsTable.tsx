@@ -12,12 +12,12 @@ interface AnnouncementsTableProps {
   onSelectAnnouncement: (id: string) => void;
   onSort: (key: AnnouncementSortKey) => void;
   onViewAnnouncement: (announcement: AnnouncementRecord) => void;
+  onDuplicateItem: (id: string) => void;
 }
 
 const COLUMNS: DataTableColumn[] = [
   { id: 'title', label: 'Announcement', sortable: true },
   { id: 'audience', label: 'Audience', sortable: true },
-  { id: 'type', label: 'Type', sortable: true },
   { id: 'status', label: 'Status', sortable: true },
   { id: 'publishedSortKey', label: 'Publish Date', sortable: true },
   { id: 'actions', label: 'Action' },
@@ -53,6 +53,7 @@ export const AnnouncementsTable: React.FC<AnnouncementsTableProps> = ({
   onSelectAnnouncement,
   onSort,
   onViewAnnouncement,
+  onDuplicateItem,
 }) => {
   const allVisibleSelected =
     selectedAnnouncements.length === announcements.length && announcements.length > 0;
@@ -112,20 +113,14 @@ export const AnnouncementsTable: React.FC<AnnouncementsTableProps> = ({
               label={`Select ${announcement.title}`}
             />
             <td>
-              <div className={peopleStyles.studentCell}>
-                <div className={peopleStyles.avatar} style={{ background: announcement.accent }}>
-                  {announcement.title.slice(0, 2).toUpperCase()}
-                </div>
-                <div className={peopleStyles.studentInfo}>
-                  <span className={peopleStyles.studentName}>{announcement.title}</span>
-                  <span className={peopleStyles.studentEmail}>{announcement.description}</span>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', padding: '4px 0' }}>
+                <span className={peopleStyles.studentName} style={{ whiteSpace: 'normal', display: 'block' }}>{announcement.title}</span>
+                <div>
+                  <ChalkBadge label={announcement.type} accent={typeAccent(announcement.type)} />
                 </div>
               </div>
             </td>
             <td>{announcement.audience}</td>
-            <td>
-              <ChalkBadge label={announcement.type} accent={typeAccent(announcement.type)} />
-            </td>
             <td>
               <ChalkBadge label={announcement.status} accent={statusAccent(announcement.status)} />
             </td>
@@ -145,7 +140,7 @@ export const AnnouncementsTable: React.FC<AnnouncementsTableProps> = ({
                     alert('Message audience functionality not implemented yet.');
                   }
                   if (label === 'Duplicate') {
-                    alert('Duplicate announcement functionality not implemented yet.');
+                    onDuplicateItem(announcement.id);
                   }
                 }}
               />

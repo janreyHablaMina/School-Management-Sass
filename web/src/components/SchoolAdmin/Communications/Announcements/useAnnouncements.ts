@@ -68,6 +68,34 @@ export function useAnnouncements() {
   };
 
   const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [toast, setToast] = useState<{ title: string; message?: string } | null>(null);
+
+  const duplicateItem = (id: string) => {
+    const source = items.find((announcement) => announcement.id === id);
+    if (!source) return;
+
+    setItems((prev) => {
+      const duplicate: AnnouncementRecord = {
+        ...source,
+        id: `ann${Date.now()}`,
+        title: `Copy of ${source.title}`,
+        status: 'Draft',
+        publishedAt: 'Draft',
+        publishedSortKey: new Date().toISOString().split('T')[0],
+        recipientCount: 0,
+        readRate: 0,
+      };
+
+      return [duplicate, ...prev];
+    });
+    directory.setPage(1);
+    setToast({
+      title: `"${source.title}" duplicated`,
+      message: 'A draft copy was added to the list.',
+    });
+  };
+
+  const dismissToast = () => setToast(null);
 
   return {
     searchTerm: directory.filters.searchTerm,
@@ -95,5 +123,9 @@ export function useAnnouncements() {
     openCreate: () => setIsCreateOpen(true),
     closeCreate: () => setIsCreateOpen(false),
     addAnnouncement,
+    duplicateItem,
+    toast,
+    dismissToast,
+    setToast,
   };
 }
