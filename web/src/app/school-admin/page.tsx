@@ -35,15 +35,7 @@ const SubjectsView = dynamic(() =>
 const AttendanceView = dynamic(() =>
   import('@/components/SchoolAdmin/Academics/Attendance').then((mod) => mod.AttendanceView),
 );
-const AssignmentsView = dynamic(() =>
-  import('@/components/SchoolAdmin/Academics/Assignments').then((mod) => mod.AssignmentsView),
-);
-const LessonsView = dynamic(() =>
-  import('@/components/SchoolAdmin/Academics/Lessons').then((mod) => mod.LessonsView),
-);
-const QuizzesView = dynamic(() =>
-  import('@/components/SchoolAdmin/Academics/Quizzes').then((mod) => mod.QuizzesView),
-);
+
 const GradesView = dynamic(() =>
   import('@/components/SchoolAdmin/Academics/Grades').then((mod) => mod.GradesView),
 );
@@ -105,12 +97,7 @@ export default function SchoolAdminDashboard() {
         return <SubjectsView />;
       case 'Attendance':
         return <AttendanceView />;
-      case 'Assignments':
-        return <AssignmentsView />;
-      case 'Lessons':
-        return <LessonsView />;
-      case 'Quizzes':
-        return <QuizzesView />;
+
       case 'Grades':
         return <GradesView />;
       case 'Announcements':

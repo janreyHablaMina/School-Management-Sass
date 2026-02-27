@@ -4,14 +4,16 @@ import { SchoolAdminDirectoryPage } from '../../shared/SchoolAdminDirectoryPage'
 import { GradesFilters } from './GradesFilters';
 import { GradesTable } from './GradesTable';
 import { useGrades } from './useGrades';
+import { EmptyState } from '@/components/ui/shared';
+import { GradesDetailView } from './GradesDetailView';
 
 const GRADES_METRICS: Metric[] = [
   {
-    title: 'Class Average',
-    value: '82.1%',
-    subtitle: 'Across active gradebooks',
-    iconBg: 'rgba(132, 169, 255, 0.1)',
-    iconColor: '#84a9ff',
+    title: 'At-Risk Students',
+    value: '42',
+    subtitle: 'Students failing 2+ subjects',
+    iconBg: 'rgba(255, 171, 107, 0.1)',
+    iconColor: '#ffab6b',
   },
   {
     title: 'Passing Rate',
@@ -61,6 +63,17 @@ export const GradesView: React.FC = () => {
     hasActiveFilters,
   } = useGrades();
 
+  const [selectedGradeId, setSelectedGradeId] = React.useState<string | null>(null);
+
+  if (selectedGradeId) {
+    return (
+      <GradesDetailView
+        gradeId={selectedGradeId}
+        onBack={() => setSelectedGradeId(null)}
+      />
+    );
+  }
+
   return (
     <SchoolAdminDirectoryPage
       title="Grades"
@@ -87,15 +100,24 @@ export const GradesView: React.FC = () => {
         hasActiveFilters={hasActiveFilters}
         onReset={resetFilters}
       />
-      <GradesTable
-        grades={grades}
-        selectedGrades={selectedGrades}
-        sortKey={sortKey}
-        sortDirection={sortDirection}
-        onSelectAll={handleSelectAll}
-        onSelectGrade={handleSelectGrade}
-        onSort={handleSort}
-      />
+      
+      {grades.length === 0 ? (
+        <EmptyState
+          title="No grades found"
+          description="Try adjusting your search or filters."
+        />
+      ) : (
+        <GradesTable
+          grades={grades}
+          selectedGrades={selectedGrades}
+          sortKey={sortKey}
+          sortDirection={sortDirection}
+          onSelectAll={handleSelectAll}
+          onSelectGrade={handleSelectGrade}
+          onSort={handleSort}
+          onViewDetails={(id) => setSelectedGradeId(id)}
+        />
+      )}
     </SchoolAdminDirectoryPage>
   );
 };

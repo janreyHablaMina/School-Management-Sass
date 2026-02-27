@@ -1,1 +1,0 @@
-export { QuizzesView } from './QuizzesView';

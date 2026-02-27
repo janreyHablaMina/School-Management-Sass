@@ -50,9 +50,6 @@ export const schoolAdminMenuGroups: NavGroup[] = [
     title: 'Academics',
     items: [
       { label: 'Attendance', icon: '📅' },
-      { label: 'Assignments', icon: '📝' },
-      { label: 'Lessons', icon: '📖' },
-      { label: 'Quizzes', icon: '📋' },
       { label: 'Grades', icon: '🎓' },
     ],
   },

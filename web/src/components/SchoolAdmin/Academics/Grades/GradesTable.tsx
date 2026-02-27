@@ -11,19 +11,16 @@ interface GradesTableProps {
   onSelectAll: (checked: boolean) => void;
   onSelectGrade: (id: string) => void;
   onSort: (key: GradeSortKey) => void;
+  onViewDetails?: (gradeId: string) => void;
 }
 
 const COLUMNS: DataTableColumn[] = [
-  { id: 'gradeSection', label: 'Gradebook', sortable: true },
+  { id: 'gradeSection', label: 'Class', sortable: true },
   { id: 'teacher', label: 'Teacher', sortable: true },
-  { id: 'term', label: 'Term', sortable: true },
-  { id: 'classAverage', label: 'Average', sortable: true },
   { id: 'passingRate', label: 'Passing', sortable: true },
-  { id: 'gradedStudents', label: 'Completion', sortable: true },
   { id: 'needsAttention', label: 'At Risk', sortable: true },
   { id: 'incomplete', label: 'Incomplete', sortable: true },
   { id: 'status', label: 'Status', sortable: true },
-  { id: 'riskLevel', label: 'Risk', sortable: true },
   { id: 'actions', label: 'Action' },
 ];
 
@@ -59,6 +56,7 @@ export const GradesTable: React.FC<GradesTableProps> = ({
   onSelectAll,
   onSelectGrade,
   onSort,
+  onViewDetails,
 }) => {
   const allVisibleSelected = selectedGrades.length === grades.length && grades.length > 0;
 
@@ -98,6 +96,8 @@ export const GradesTable: React.FC<GradesTableProps> = ({
           <tr
             key={grade.id}
             className={selectedGrades.includes(grade.id) ? listStyles.rowSelected : ''}
+            onClick={() => onViewDetails?.(grade.id)}
+            style={{ cursor: onViewDetails ? 'pointer' : 'default' }}
           >
             <RowSelectCell
               selected={selectedGrades.includes(grade.id)}
@@ -118,36 +118,23 @@ export const GradesTable: React.FC<GradesTableProps> = ({
               </div>
             </td>
             <td>{grade.teacher}</td>
-            <td>{grade.term}</td>
-            <td>
-              <ChalkBadge
-                label={`${grade.classAverage}%`}
-                accent={averageAccent(grade.classAverage)}
-              />
-            </td>
             <td>{grade.passingRate}%</td>
-            <td>
-              <ProgressStatCell
-                current={grade.gradedStudents}
-                total={grade.totalStudents}
-                barColor={grade.accent}
-              />
-            </td>
             <td>{grade.needsAttention}</td>
             <td>{grade.incomplete}</td>
             <td>
               <ChalkBadge label={grade.status} accent={statusAccent(grade.status)} />
             </td>
             <td>
-              <ChalkBadge label={grade.riskLevel} accent={riskAccent(grade.riskLevel)} />
-            </td>
-            <td>
               <RowActionsMenu
                 label={`More actions for ${grade.gradeSection} ${grade.subject}`}
                 actions={ROW_ACTIONS}
-                onAction={(label) => {
+                onAction={(label: string) => {
                   if (label === 'View Gradebook') {
-                    alert('Gradebook detail functionality not implemented yet.');
+                    if (onViewDetails) {
+                      onViewDetails(grade.id);
+                    } else {
+                      alert('Gradebook detail functionality not implemented yet.');
+                    }
                   }
                   if (label === 'Message Teacher') {
                     alert('Message teacher functionality not implemented yet.');
