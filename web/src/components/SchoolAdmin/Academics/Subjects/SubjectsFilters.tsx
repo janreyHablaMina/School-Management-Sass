@@ -8,7 +8,10 @@ interface SubjectsFiltersProps {
   setDepartmentFilter: (department: string) => void;
   statusFilter: string;
   setStatusFilter: (status: string) => void;
+  gradeFilter: string;
+  setGradeFilter: (grade: string) => void;
   departments: string[];
+  grades: string[];
   hasActiveFilters: boolean;
   onReset: () => void;
 }
@@ -20,7 +23,10 @@ export const SubjectsFilters: React.FC<SubjectsFiltersProps> = ({
   setDepartmentFilter,
   statusFilter,
   setStatusFilter,
+  gradeFilter,
+  setGradeFilter,
   departments,
+  grades,
   hasActiveFilters,
   onReset,
 }) => {
@@ -42,6 +48,12 @@ export const SubjectsFilters: React.FC<SubjectsFiltersProps> = ({
           value: statusFilter,
           onChange: setStatusFilter,
           options: ['All Status', 'Active', 'Needs Teacher', 'Draft'],
+        },
+        {
+          label: 'Grade Level',
+          value: gradeFilter,
+          onChange: setGradeFilter,
+          options: grades,
         },
       ]}
       hasActiveFilters={hasActiveFilters}

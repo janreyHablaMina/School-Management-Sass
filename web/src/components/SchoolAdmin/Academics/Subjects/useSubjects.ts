@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { useSchoolAdminDirectory } from '@/components/SchoolAdmin/shared/useSchoolAdminDirectory';
 import { schoolAdminMockData } from '@/lib/mock/schoolAdmin.mock';
 
@@ -16,12 +16,14 @@ interface SubjectFilters extends Record<string, string> {
   searchTerm: string;
   departmentFilter: string;
   statusFilter: string;
+  gradeFilter: string;
 }
 
 const INITIAL_FILTERS: SubjectFilters = {
   searchTerm: '',
   departmentFilter: 'All Departments',
   statusFilter: 'All Status',
+  gradeFilter: 'All Grades',
 };
 
 function valueForSort(subject: SubjectRecord, key: SubjectSortKey) {
@@ -40,10 +42,34 @@ function filterSubject(subject: SubjectRecord, filters: SubjectFilters) {
   const matchesDepartment =
     filters.departmentFilter === 'All Departments' ||
     subject.department === filters.departmentFilter;
-  const matchesStatus =
-    filters.statusFilter === 'All Status' || subject.status === filters.statusFilter;
 
-  return matchesSearch && matchesDepartment && matchesStatus;
+  let matchesStatus = false;
+  if (filters.statusFilter === 'All Status') {
+    matchesStatus = subject.status !== 'Archived';
+  } else {
+    matchesStatus = subject.status === filters.statusFilter;
+  }
+    
+  let matchesGrade = true;
+  if (filters.gradeFilter !== 'All Grades') {
+    const selectedGrade = filters.gradeFilter;
+    const selectedNum = parseInt(selectedGrade.replace('Grade ', ''));
+    
+    if (subject.gradeLevels.includes('-')) {
+      const parts = subject.gradeLevels.split('-');
+      if (parts.length === 2) {
+        const minNum = parseInt(parts[0].trim().replace('Grade ', ''));
+        const maxNum = parseInt(parts[1].trim().replace('Grade ', ''));
+        if (!isNaN(minNum) && !isNaN(maxNum) && !isNaN(selectedNum)) {
+          matchesGrade = selectedNum >= minNum && selectedNum <= maxNum;
+        }
+      }
+    } else {
+      matchesGrade = subject.gradeLevels === selectedGrade;
+    }
+  }
+
+  return matchesSearch && matchesDepartment && matchesStatus && matchesGrade;
 }
 
 export function useSubjects() {
@@ -55,13 +81,59 @@ export function useSubjects() {
     [],
   );
 
+  const grades = useMemo(
+    () => [
+      'All Grades',
+      'Grade 7',
+      'Grade 8',
+      'Grade 9',
+      'Grade 10',
+      'Grade 11',
+      'Grade 12',
+    ],
+    [],
+  );
+
+  const [subjects, setSubjects] = useState<SubjectRecord[]>(schoolAdminMockData.subjects);
+  const [toast, setToast] = useState<{ title: string; message: string } | null>(null);
+
+  useEffect(() => {
+    if (!toast) return;
+    const timer = window.setTimeout(() => setToast(null), 3500);
+    return () => window.clearTimeout(timer);
+  }, [toast]);
+
   const directory = useSchoolAdminDirectory<SubjectRecord, SubjectSortKey, SubjectFilters>({
-    items: schoolAdminMockData.subjects,
+    items: subjects,
     initialFilters: INITIAL_FILTERS,
     getId: (subject) => subject.id,
     filterItem: filterSubject,
     getSortValue: valueForSort,
   });
+
+  const archiveSubjects = (ids: string[]) => {
+    if (ids.length === 0) return;
+    const idSet = new Set(ids);
+    setSubjects((current) =>
+      current.map((subject) =>
+        idSet.has(subject.id) ? { ...subject, status: 'Archived' as any } : subject
+      )
+    );
+    directory.clearSelection();
+    
+    let message = '';
+    if (ids.length === 1) {
+      const subjectName = subjects.find((s) => s.id === ids[0])?.name || 'Subject';
+      message = `${subjectName} moved to archive.`;
+    } else {
+      message = `${ids.length} subjects moved to archive.`;
+    }
+
+    setToast({
+      title: 'Subjects archived',
+      message,
+    });
+  };
 
   return {
     searchTerm: directory.filters.searchTerm,
@@ -71,7 +143,10 @@ export function useSubjects() {
       directory.setFilter('departmentFilter', value),
     statusFilter: directory.filters.statusFilter,
     setStatusFilter: (value: string) => directory.setFilter('statusFilter', value),
+    gradeFilter: directory.filters.gradeFilter,
+    setGradeFilter: (value: string) => directory.setFilter('gradeFilter', value),
     departments,
+    grades,
     currentPage: directory.page,
     setCurrentPage: directory.setPage,
     selectedSubjects: directory.selectedIds,
@@ -87,5 +162,9 @@ export function useSubjects() {
     rangeEnd: directory.rangeEnd,
     resetFilters: directory.clearFilters,
     hasActiveFilters: directory.isDirty,
+    archiveSubject: (id: string) => archiveSubjects([id]),
+    archiveSelectedSubjects: () => archiveSubjects(directory.selectedIds),
+    toast,
+    dismissToast: () => setToast(null),
   };
 }

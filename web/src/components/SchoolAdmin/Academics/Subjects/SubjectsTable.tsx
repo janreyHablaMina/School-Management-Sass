@@ -11,6 +11,8 @@ interface SubjectsTableProps {
   onSelectAll: (checked: boolean) => void;
   onSelectSubject: (id: string) => void;
   onSort: (key: SubjectSortKey) => void;
+  onArchive: (ids: string[]) => void;
+  onViewSubject: (subject: SubjectRecord) => void;
 }
 
 const COLUMNS: DataTableColumn[] = [
@@ -24,12 +26,12 @@ const COLUMNS: DataTableColumn[] = [
 ];
 
 const ROW_ACTIONS = [
-  { icon: '>', label: 'View Subject' },
-  { icon: '+', label: 'Assign Teacher' },
-  { icon: '#', label: 'Map Sections' },
+  { icon: '📚', label: 'View Subject' },
+  { icon: '✏️', label: 'Edit Subject' },
+  { icon: '👨‍🏫', label: 'Assign Teacher' },
 ] as const;
 
-const DANGER_ACTIONS = [{ icon: '!', label: 'Archive Subject' }] as const;
+const DANGER_ACTIONS = [{ icon: '🗃️', label: 'Archive Subject' }] as const;
 
 function statusAccent(status: string) {
   if (status === 'Active') return '#5cc789';
@@ -55,6 +57,8 @@ export const SubjectsTable: React.FC<SubjectsTableProps> = ({
   onSelectAll,
   onSelectSubject,
   onSort,
+  onArchive,
+  onViewSubject,
 }) => {
   const allVisibleSelected = selectedSubjects.length === subjects.length && subjects.length > 0;
 
@@ -71,7 +75,7 @@ export const SubjectsTable: React.FC<SubjectsTableProps> = ({
           },
           {
             label: 'Archive',
-            onClick: () => alert('Archive subject functionality not implemented yet.'),
+            onClick: () => onArchive(selectedSubjects),
             tone: 'danger',
           },
         ]}
@@ -133,16 +137,16 @@ export const SubjectsTable: React.FC<SubjectsTableProps> = ({
                 dangerActions={DANGER_ACTIONS}
                 onAction={(label) => {
                   if (label === 'View Subject') {
-                    alert('Subject detail functionality not implemented yet.');
+                    onViewSubject(subject);
+                  }
+                  if (label === 'Edit Subject') {
+                    alert('Edit subject functionality not implemented yet.');
                   }
                   if (label === 'Assign Teacher') {
                     alert('Assign teacher functionality not implemented yet.');
                   }
-                  if (label === 'Map Sections') {
-                    alert('Map sections functionality not implemented yet.');
-                  }
                   if (label === 'Archive Subject') {
-                    alert('Archive subject functionality not implemented yet.');
+                    onArchive([subject.id]);
                   }
                 }}
               />

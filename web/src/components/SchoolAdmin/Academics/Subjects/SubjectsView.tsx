@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import type { Metric } from '../../shared/MetricsGrid';
 import { SchoolAdminDirectoryPage } from '../../shared/SchoolAdminDirectoryPage';
+import { EmptyState, ConfirmActionModal, TeacherToast } from '@/components/ui/shared';
 import { SubjectsFilters } from './SubjectsFilters';
 import { SubjectsTable } from './SubjectsTable';
+import { SubjectProfileView } from './SubjectProfileView';
 import { useSubjects } from './useSubjects';
 
 const SUBJECTS_METRICS: Metric[] = [
@@ -44,7 +46,10 @@ export const SubjectsView: React.FC = () => {
     setDepartmentFilter,
     statusFilter,
     setStatusFilter,
+    gradeFilter,
+    setGradeFilter,
     departments,
+    grades,
     currentPage,
     setCurrentPage,
     selectedSubjects,
@@ -60,7 +65,35 @@ export const SubjectsView: React.FC = () => {
     rangeEnd,
     resetFilters,
     hasActiveFilters,
+    archiveSubject,
+    archiveSelectedSubjects,
+    toast,
+    dismissToast,
   } = useSubjects();
+
+  const [actionModal, setActionModal] = useState<{
+    id?: string;
+    ids?: string[];
+    title: string;
+    itemLabel: string;
+    count: number;
+    actionType: 'archive' | 'delete' | 'deactivate';
+    onConfirm: () => void;
+  } | null>(null);
+
+  const [selectedSubjectId, setSelectedSubjectId] = useState<string | null>(null);
+  
+  if (selectedSubjectId) {
+    const subject = subjects.find(s => s.id === selectedSubjectId);
+    if (subject) {
+      return (
+        <SubjectProfileView 
+          subject={subject} 
+          onBack={() => setSelectedSubjectId(null)} 
+        />
+      );
+    }
+  }
 
   return (
     <SchoolAdminDirectoryPage
@@ -85,19 +118,61 @@ export const SubjectsView: React.FC = () => {
         setDepartmentFilter={setDepartmentFilter}
         statusFilter={statusFilter}
         setStatusFilter={setStatusFilter}
+        gradeFilter={gradeFilter}
+        setGradeFilter={setGradeFilter}
         departments={departments}
+        grades={grades}
         hasActiveFilters={hasActiveFilters}
         onReset={resetFilters}
       />
-      <SubjectsTable
-        subjects={subjects}
-        selectedSubjects={selectedSubjects}
-        sortKey={sortKey}
-        sortDirection={sortDirection}
-        onSelectAll={handleSelectAll}
-        onSelectSubject={handleSelectSubject}
-        onSort={handleSort}
-      />
+      {subjects.length === 0 ? (
+        <EmptyState
+          title="No subjects found"
+          description="Try adjusting your search or filters."
+        />
+      ) : (
+        <SubjectsTable
+          subjects={subjects}
+          selectedSubjects={selectedSubjects}
+          sortKey={sortKey}
+          sortDirection={sortDirection}
+          onSelectAll={handleSelectAll}
+          onSelectSubject={handleSelectSubject}
+          onSort={handleSort}
+          onViewSubject={(subject) => setSelectedSubjectId(subject.id)}
+          onArchive={(ids) => {
+            setActionModal({
+              ids,
+              title: ids.length === 1 ? 'Archive Subject' : 'Archive Subjects',
+              itemLabel: 'subject',
+              count: ids.length,
+              actionType: 'archive',
+              onConfirm: () => {
+                if (ids.length === 1) archiveSubject(ids[0]);
+                else archiveSelectedSubjects();
+                setActionModal(null);
+              },
+            });
+          }}
+        />
+      )}
+      {actionModal && (
+        <ConfirmActionModal
+          title={actionModal.title}
+          itemLabel={actionModal.itemLabel}
+          count={actionModal.count}
+          actionType={actionModal.actionType}
+          onCancel={() => setActionModal(null)}
+          onConfirm={actionModal.onConfirm}
+        />
+      )}
+      {toast ? (
+        <TeacherToast
+          title={toast.title}
+          message={toast.message}
+          onClose={dismissToast}
+        />
+      ) : null}
     </SchoolAdminDirectoryPage>
   );
 };
