@@ -77,7 +77,7 @@ export const AttendanceTable: React.FC<AttendanceTableProps> = ({
 
       <DataTable
         columns={COLUMNS}
-        minWidth={1320}
+        minWidth={800}
         sortKey={sortKey}
         sortDirection={sortDirection}
         onSort={(key) => onSort(key as AttendanceSortKey)}

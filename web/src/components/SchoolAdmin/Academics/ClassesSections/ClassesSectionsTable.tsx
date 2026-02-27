@@ -81,7 +81,7 @@ export const ClassesSectionsTable: React.FC<ClassesSectionsTableProps> = ({
 
       <DataTable
         columns={COLUMNS}
-        minWidth={1260}
+        minWidth={1000}
         sortKey={sortKey}
         sortDirection={sortDirection}
         onSort={(key) => onSort(key as ClassSectionSortKey)}

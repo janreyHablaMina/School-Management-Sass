@@ -83,7 +83,7 @@ export const SubjectsTable: React.FC<SubjectsTableProps> = ({
 
       <DataTable
         columns={COLUMNS}
-        minWidth={1240}
+        minWidth={1000}
         sortKey={sortKey}
         sortDirection={sortDirection}
         onSort={(key) => onSort(key as SubjectSortKey)}
