@@ -1,16 +1,44 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { TEACHERS_LIST, Teacher } from '@/lib/mock/teachers.mock';
+import { useSchoolAdminDirectory } from '@/components/SchoolAdmin/shared/useSchoolAdminDirectory';
 
 export type SortKey = 'name' | 'employeeId' | 'department' | 'subjects' | 'classes' | 'status' | 'lastActiveDate';
 
+interface TeacherFilters extends Record<string, string> {
+  searchTerm: string;
+  departmentFilter: string;
+  statusFilter: string;
+}
+
+const INITIAL_FILTERS: TeacherFilters = {
+  searchTerm: '',
+  departmentFilter: 'All Departments',
+  statusFilter: 'All Status',
+};
+
+function valueForSort(teacher: Teacher, key: SortKey) {
+  if (key === 'subjects') return Array.isArray(teacher.subjects) ? teacher.subjects.join(', ') : teacher.subjects;
+  return teacher[key];
+}
+
+function filterTeacher(teacher: Teacher, filters: TeacherFilters) {
+  const normalizedSearch = filters.searchTerm.trim().toLowerCase();
+  const matchesSearch =
+    normalizedSearch === '' ||
+    teacher.name.toLowerCase().includes(normalizedSearch) ||
+    teacher.employeeId.toLowerCase().includes(normalizedSearch) ||
+    teacher.email.toLowerCase().includes(normalizedSearch);
+
+  const matchesDepartment =
+    filters.departmentFilter === 'All Departments' || teacher.department === filters.departmentFilter;
+
+  const matchesStatus =
+    filters.statusFilter === 'All Status' || teacher.status === filters.statusFilter;
+
+  return matchesSearch && matchesDepartment && matchesStatus;
+}
+
 export const useTeachers = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [departmentFilter, setDepartmentFilter] = useState('All Departments');
-  const [statusFilter, setStatusFilter] = useState('All Status');
-  const [currentPage, setCurrentPage] = useState(1);
-  const [selectedTeachers, setSelectedTeachers] = useState<string[]>([]);
-  const [sortConfig, setSortConfig] = useState<{ key: SortKey; direction: 'asc' | 'desc' } | null>(null);
-  
   const [toast, setToast] = useState<{ title: string; message?: string } | null>(null);
 
   useEffect(() => {
@@ -19,88 +47,36 @@ export const useTeachers = () => {
     return () => window.clearTimeout(timer);
   }, [toast]);
 
-  const handleSort = (key: SortKey) => {
-    setSortConfig(current => {
-      if (current && current.key === key) {
-        if (current.direction === 'asc') return { key, direction: 'desc' };
-        return null;
-      }
-      return { key, direction: 'asc' };
-    });
-  };
-
-  const getSortIcon = (key: SortKey) => {
-    if (!sortConfig || sortConfig.key !== key) return '↕';
-    return sortConfig.direction === 'asc' ? '↑' : '↓';
-  };
-
-  const sortedTeachers = useMemo(() => {
-    let sortableItems = [...TEACHERS_LIST];
-    
-    // Search Filter
-    if (searchTerm) {
-      const lowerSearch = searchTerm.toLowerCase();
-      sortableItems = sortableItems.filter(t => 
-        t.name.toLowerCase().includes(lowerSearch) || 
-        t.employeeId.toLowerCase().includes(lowerSearch) || 
-        t.email.toLowerCase().includes(lowerSearch)
-      );
-    }
-
-    // Department Filter
-    if (departmentFilter !== 'All Departments') {
-      sortableItems = sortableItems.filter(t => t.department === departmentFilter);
-    }
-
-    // Status Filter
-    if (statusFilter !== 'All Status') {
-      sortableItems = sortableItems.filter(t => t.status === statusFilter);
-    }
-    
-    // Sort
-    if (sortConfig !== null) {
-      sortableItems.sort((a, b) => {
-        if (a[sortConfig.key] < b[sortConfig.key]) return sortConfig.direction === 'asc' ? -1 : 1;
-        if (a[sortConfig.key] > b[sortConfig.key]) return sortConfig.direction === 'asc' ? 1 : -1;
-        return 0;
-      });
-    }
-    
-    return sortableItems;
-  }, [searchTerm, departmentFilter, statusFilter, sortConfig]);
-
-  const handleSelectAll = (checked: boolean) => {
-    if (checked) {
-      setSelectedTeachers(sortedTeachers.map(t => t.id));
-    } else {
-      setSelectedTeachers([]);
-    }
-  };
-
-  const handleSelectTeacher = (id: string) => {
-    setSelectedTeachers(prev => 
-      prev.includes(id) ? prev.filter(tId => tId !== id) : [...prev, id]
-    );
-  };
+  const directory = useSchoolAdminDirectory<Teacher, SortKey, TeacherFilters>({
+    items: TEACHERS_LIST,
+    initialFilters: INITIAL_FILTERS,
+    getId: (teacher) => teacher.id,
+    filterItem: filterTeacher,
+    getSortValue: valueForSort,
+  });
 
   return {
-    searchTerm,
-    setSearchTerm,
-    departmentFilter,
-    setDepartmentFilter,
-    statusFilter,
-    setStatusFilter,
-    currentPage,
-    setCurrentPage,
-    selectedTeachers,
-    handleSelectAll,
-    handleSelectTeacher,
-    handleSort,
-    getSortIcon,
-    sortedTeachers,
-    totalCount: TEACHERS_LIST.length,
-    sortKey: sortConfig?.key ?? null,
-    sortDirection: sortConfig?.direction ?? 'asc',
+    searchTerm: directory.filters.searchTerm,
+    setSearchTerm: (value: string) => directory.setFilter('searchTerm', value),
+    departmentFilter: directory.filters.departmentFilter,
+    setDepartmentFilter: (value: string) => directory.setFilter('departmentFilter', value),
+    statusFilter: directory.filters.statusFilter,
+    setStatusFilter: (value: string) => directory.setFilter('statusFilter', value),
+    currentPage: directory.page,
+    setCurrentPage: directory.setPage,
+    selectedTeachers: directory.selectedIds,
+    handleSelectAll: directory.handleSelectAll,
+    handleSelectTeacher: directory.handleSelectItem,
+    handleSort: directory.handleSort,
+    sortedTeachers: directory.paginatedItems,
+    totalCount: directory.filteredCount,
+    totalPages: directory.totalPages,
+    rangeStart: directory.rangeStart,
+    rangeEnd: directory.rangeEnd,
+    sortKey: directory.sortKey,
+    sortDirection: directory.sortDirection,
+    resetFilters: directory.clearFilters,
+    hasActiveFilters: directory.isDirty,
     toast,
     dismissToast: () => setToast(null),
     showToast: (t: { title: string; message?: string }) => setToast(t),

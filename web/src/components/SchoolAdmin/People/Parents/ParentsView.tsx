@@ -45,10 +45,15 @@ export const ParentsView: React.FC = () => {
   const [selectedParentId, setSelectedParentId] = useState<string | null>(null);
   const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
   const [messageRecipients, setMessageRecipients] = useState<string[]>([]);
-  const [isArchiveModalOpen, setIsArchiveModalOpen] = useState(false);
-  const [parentsToArchive, setParentsToArchive] = useState<string[]>([]);
-  const [isDeactivateModalOpen, setIsDeactivateModalOpen] = useState(false);
-  const [parentsToDeactivate, setParentsToDeactivate] = useState<string[]>([]);
+  const [actionModal, setActionModal] = useState<{
+    id?: string;
+    ids?: string[];
+    title: string;
+    name?: string;
+    count?: number;
+    actionType: 'archive' | 'delete' | 'deactivate';
+    onConfirm: () => void;
+  } | null>(null);
 
   const {
     searchTerm,
@@ -136,12 +141,38 @@ export const ParentsView: React.FC = () => {
           }}
           onEditParent={(parent) => alert(`Edit parent functionality not implemented yet for ${parent.name}.`)}
           onArchive={(ids) => {
-            setParentsToArchive(ids);
-            setIsArchiveModalOpen(true);
+            setActionModal({
+              ids,
+              title: ids.length === 1 ? 'Archive Parent' : 'Archive Parents',
+              count: ids.length,
+              actionType: 'archive',
+              onConfirm: () => {
+                if (ids.length === 1) {
+                  const parent = parents.find(p => p.id === ids[0]);
+                  showToast({ title: `${parent?.name || 'Parent'} archived` });
+                } else {
+                  showToast({ title: `${ids.length} parents archived` });
+                }
+                setActionModal(null);
+              }
+            });
           }}
           onDeactivate={(ids) => {
-            setParentsToDeactivate(ids);
-            setIsDeactivateModalOpen(true);
+            setActionModal({
+              ids,
+              title: ids.length === 1 ? 'Deactivate Account' : 'Deactivate Accounts',
+              count: ids.length,
+              actionType: 'delete',
+              onConfirm: () => {
+                if (ids.length === 1) {
+                  const parent = parents.find(p => p.id === ids[0]);
+                  showToast({ title: `${parent?.name || 'Account'} deactivated` });
+                } else {
+                  showToast({ title: `${ids.length} accounts deactivated` });
+                }
+                setActionModal(null);
+              }
+            });
           }}
         />
       )}
@@ -166,45 +197,14 @@ export const ParentsView: React.FC = () => {
         }}
       />
 
-      {isArchiveModalOpen && (
+      {actionModal && (
         <ConfirmActionModal
-          title={parentsToArchive.length === 1 ? "Archive Parent" : "Archive Parents"}
-          itemLabel="parent"
-          count={parentsToArchive.length}
-          actionType="archive"
-          onCancel={() => setIsArchiveModalOpen(false)}
-          onConfirm={() => {
-            console.log('Archiving parents:', parentsToArchive);
-            if (parentsToArchive.length === 1) {
-              const parent = parents.find(p => p.id === parentsToArchive[0]);
-              showToast({ title: `${parent?.name || 'Parent'} archived` });
-            } else {
-              showToast({ title: `${parentsToArchive.length} parents archived` });
-            }
-            setIsArchiveModalOpen(false);
-            setParentsToArchive([]);
-          }}
-        />
-      )}
-
-      {isDeactivateModalOpen && (
-        <ConfirmActionModal
-          title={parentsToDeactivate.length === 1 ? "Deactivate Account" : "Deactivate Accounts"}
-          itemLabel="account"
-          count={parentsToDeactivate.length}
-          actionType="delete"
-          onCancel={() => setIsDeactivateModalOpen(false)}
-          onConfirm={() => {
-            console.log('Deactivating parents:', parentsToDeactivate);
-            if (parentsToDeactivate.length === 1) {
-              const parent = parents.find(p => p.id === parentsToDeactivate[0]);
-              showToast({ title: `${parent?.name || 'Account'} deactivated` });
-            } else {
-              showToast({ title: `${parentsToDeactivate.length} accounts deactivated` });
-            }
-            setIsDeactivateModalOpen(false);
-            setParentsToDeactivate([]);
-          }}
+          title={actionModal.title}
+          itemLabel={actionModal.count === 1 ? 'account' : 'accounts'}
+          count={actionModal.count || 1}
+          actionType={actionModal.actionType}
+          onCancel={() => setActionModal(null)}
+          onConfirm={actionModal.onConfirm}
         />
       )}
 

@@ -26,6 +26,11 @@ export const TeachersView: React.FC = () => {
     sortDirection,
     sortedTeachers,
     totalCount,
+    totalPages,
+    currentPage,
+    setCurrentPage,
+    rangeStart,
+    rangeEnd,
     toast,
     dismissToast,
     showToast
@@ -34,13 +39,16 @@ export const TeachersView: React.FC = () => {
   const [selectedTeacherForDetails, setSelectedTeacherForDetails] = useState<any | null>(null);
   const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
   const [teacherToMessage, setTeacherToMessage] = useState<string | null>(null);
-  const [isArchiveModalOpen, setIsArchiveModalOpen] = useState(false);
-  const [teachersToArchive, setTeachersToArchive] = useState<string[]>([]);
+  const [actionModal, setActionModal] = useState<{
+    id?: string;
+    ids?: string[];
+    title: string;
+    name?: string;
+    count?: number;
+    actionType: 'archive' | 'delete' | 'deactivate';
+    onConfirm: () => void;
+  } | null>(null);
 
-  // Pagination logic mock
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
-  const totalPages = Math.max(1, Math.ceil(totalCount / itemsPerPage));
 
   if (selectedTeacherForDetails) {
     return <TeacherProfileView teacher={selectedTeacherForDetails} onBack={() => setSelectedTeacherForDetails(null)} />;
@@ -90,8 +98,21 @@ export const TeachersView: React.FC = () => {
             setIsMessageModalOpen(true);
           }}
           onArchive={(ids) => {
-            setTeachersToArchive(ids);
-            setIsArchiveModalOpen(true);
+            setActionModal({
+              ids,
+              title: ids.length === 1 ? 'Archive Teacher' : 'Archive Teachers',
+              count: ids.length,
+              actionType: 'archive',
+              onConfirm: () => {
+                if (ids.length === 1) {
+                  const teacher = sortedTeachers.find(t => t.id === ids[0]);
+                  showToast({ title: `${teacher?.name || 'Teacher'} archived` });
+                } else {
+                  showToast({ title: `${ids.length} teachers archived` });
+                }
+                setActionModal(null);
+              }
+            });
           }}
         />
       )}
@@ -108,8 +129,8 @@ export const TeachersView: React.FC = () => {
       />
 
       <PaginationBar
-        rangeStart={sortedTeachers.length > 0 ? 1 : 0}
-        rangeEnd={sortedTeachers.length}
+        rangeStart={rangeStart}
+        rangeEnd={rangeEnd}
         total={totalCount}
         page={currentPage}
         totalPages={totalPages}
@@ -117,24 +138,14 @@ export const TeachersView: React.FC = () => {
         onPageChange={setCurrentPage}
       />
 
-      {isArchiveModalOpen && (
+      {actionModal && (
         <ConfirmActionModal
-          title={teachersToArchive.length === 1 ? "Archive Teacher" : "Archive Teachers"}
-          itemLabel="teacher"
-          count={teachersToArchive.length}
-          actionType="archive"
-          onCancel={() => setIsArchiveModalOpen(false)}
-          onConfirm={() => {
-            console.log('Archiving teachers:', teachersToArchive);
-            if (teachersToArchive.length === 1) {
-              const teacher = sortedTeachers.find(t => t.id === teachersToArchive[0]);
-              showToast({ title: `${teacher?.name || 'Teacher'} archived` });
-            } else {
-              showToast({ title: `${teachersToArchive.length} teachers archived` });
-            }
-            setIsArchiveModalOpen(false);
-            setTeachersToArchive([]);
-          }}
+          title={actionModal.title}
+          itemLabel={actionModal.count === 1 ? 'teacher' : 'teachers'}
+          count={actionModal.count || 1}
+          actionType={actionModal.actionType}
+          onCancel={() => setActionModal(null)}
+          onConfirm={actionModal.onConfirm}
         />
       )}
 

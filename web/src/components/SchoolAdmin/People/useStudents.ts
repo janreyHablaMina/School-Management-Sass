@@ -1,4 +1,5 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
+import { useSchoolAdminDirectory } from '@/components/SchoolAdmin/shared/useSchoolAdminDirectory';
 import { schoolAdminMockData } from '@/lib/mock/schoolAdmin.mock';
 import type { StudentProfileFormInput } from '@/types/teacherStudents';
 import type { Student } from './types';
@@ -83,80 +84,62 @@ function isAtRiskStudent(student: Student) {
   );
 }
 
+interface StudentFilters extends Record<string, string> {
+  searchTerm: string;
+  statusFilter: string;
+}
+
+const INITIAL_FILTERS: StudentFilters = {
+  searchTerm: '',
+  statusFilter: 'All Status',
+};
+
+function valueForSort(student: Student, key: SortKey) {
+  if (key === 'grade') return student.gradeSection.split(' - ')[0] || student.gradeSection;
+  if (key === 'section') return student.gradeSection.split(' - ')[1] || '';
+  if (key === 'attendanceRate') return student.attendanceRate ?? 0;
+  if (key === 'averageGrade') return student.averageGrade ?? 0;
+  return student[key];
+}
+
+function filterStudent(student: Student, filters: StudentFilters) {
+  if (filters.statusFilter === 'All Status') {
+    if (student.status === 'Archived') return false;
+  } else {
+    if (student.status !== filters.statusFilter) return false;
+  }
+  
+  const normalizedSearch = filters.searchTerm.trim().toLowerCase();
+  if (normalizedSearch) {
+    if (
+      !student.name.toLowerCase().includes(normalizedSearch) &&
+      !student.studentId.toLowerCase().includes(normalizedSearch) &&
+      !student.email.toLowerCase().includes(normalizedSearch)
+    ) {
+      return false;
+    }
+  }
+  return true;
+}
+
 export const useStudents = () => {
   const [students, setStudents] = useState<Student[]>(schoolAdminMockData.students);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [statusFilter, setStatusFilter] = useState<StudentStatusFilter>('All Status');
-  const [currentPage, setCurrentPage] = useState(1);
-  const [selectedStudents, setSelectedStudents] = useState<string[]>([]);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
-  const [sortConfig, setSortConfig] = useState<{ key: SortKey; direction: 'asc' | 'desc' } | null>(null);
-  const [inactiveTargetId, setInactiveTargetId] = useState<string | null>(null);
-  const [isBulkInactiveOpen, setIsBulkInactiveOpen] = useState(false);
-  const [archiveTargetId, setArchiveTargetId] = useState<string | null>(null);
-  const [isBulkArchiveOpen, setIsBulkArchiveOpen] = useState(false);
   const [toast, setToast] = useState<{ title: string; message: string } | null>(null);
 
-  const handleSort = (key: SortKey) => {
-    setSortConfig(current => {
-      if (current && current.key === key) {
-        if (current.direction === 'asc') return { key, direction: 'desc' };
-        return null;
-      }
-      return { key, direction: 'asc' };
-    });
-  };
+  useEffect(() => {
+    if (!toast) return;
+    const timer = window.setTimeout(() => setToast(null), 3500);
+    return () => window.clearTimeout(timer);
+  }, [toast]);
 
-  const getSortIcon = (key: SortKey) => {
-    if (!sortConfig || sortConfig.key !== key) return '↕';
-    return sortConfig.direction === 'asc' ? '↑' : '↓';
-  };
-
-  const sortedStudents = useMemo(() => {
-    let sortableItems = [...students];
-
-    if (statusFilter === 'All Status') {
-      sortableItems = sortableItems.filter((student) => student.status !== 'Archived');
-    } else {
-      sortableItems = sortableItems.filter((student) => student.status === statusFilter);
-    }
-    
-    if (searchTerm) {
-      const lowerSearch = searchTerm.toLowerCase();
-      sortableItems = sortableItems.filter(s => 
-        s.name.toLowerCase().includes(lowerSearch) || 
-        s.studentId.toLowerCase().includes(lowerSearch) || 
-        s.email.toLowerCase().includes(lowerSearch)
-      );
-    }
-    
-    if (sortConfig !== null) {
-      sortableItems.sort((a, b) => {
-        let valA: any = a[sortConfig.key as keyof typeof a];
-        let valB: any = b[sortConfig.key as keyof typeof b];
-
-        if (sortConfig.key === 'grade') {
-          valA = a.gradeSection.split(' - ')[0] || a.gradeSection;
-          valB = b.gradeSection.split(' - ')[0] || b.gradeSection;
-        } else if (sortConfig.key === 'section') {
-          valA = a.gradeSection.split(' - ')[1] || '';
-          valB = b.gradeSection.split(' - ')[1] || '';
-        } else if (sortConfig.key === 'attendanceRate') {
-          valA = a.attendanceRate ?? 0;
-          valB = b.attendanceRate ?? 0;
-        } else if (sortConfig.key === 'averageGrade') {
-          valA = a.averageGrade ?? 0;
-          valB = b.averageGrade ?? 0;
-        }
-
-        if (valA < valB) return sortConfig.direction === 'asc' ? -1 : 1;
-        if (valA > valB) return sortConfig.direction === 'asc' ? 1 : -1;
-        return 0;
-      });
-    }
-    
-    return sortableItems;
-  }, [searchTerm, sortConfig, statusFilter, students]);
+  const directory = useSchoolAdminDirectory<Student, SortKey, StudentFilters>({
+    items: students,
+    initialFilters: INITIAL_FILTERS,
+    getId: (student) => student.id,
+    filterItem: filterStudent,
+    getSortValue: valueForSort,
+  });
 
   const classOptions = useMemo(
     () => Array.from(new Set(students.map((student) => student.gradeSection))).sort(),
@@ -174,7 +157,7 @@ export const useStudents = () => {
   const createStudent = (input: StudentProfileFormInput) => {
     const next = createStudentFromInput(input, students);
     setStudents((current) => [next, ...current]);
-    setCurrentPage(1);
+    directory.setPage(1);
     setIsCreateOpen(false);
   };
 
@@ -191,19 +174,6 @@ export const useStudents = () => {
     [students],
   );
 
-  const handleSelectAll = (checked: boolean) => {
-    if (checked) {
-      setSelectedStudents(sortedStudents.map(s => s.id));
-    } else {
-      setSelectedStudents([]);
-    }
-  };
-
-  const handleSelectStudent = (id: string) => {
-    setSelectedStudents(prev => 
-      prev.includes(id) ? prev.filter(sId => sId !== id) : [...prev, id]
-    );
-  };
 
   const archiveStudents = (ids: string[]) => {
     if (ids.length === 0) return;
@@ -213,7 +183,7 @@ export const useStudents = () => {
         idSet.has(student.id) ? { ...student, status: 'Archived' } : student,
       ),
     );
-    setSelectedStudents((current) => current.filter((id) => !idSet.has(id)));
+    directory.clearSelection();
     setToast({
       title: 'Students archived',
       message: `${ids.length} student${ids.length > 1 ? 's' : ''} moved to archive.`,
@@ -228,7 +198,7 @@ export const useStudents = () => {
         idSet.has(student.id) ? { ...student, status: 'Active' } : student,
       ),
     );
-    setSelectedStudents((current) => current.filter((id) => !idSet.has(id)));
+    directory.clearSelection();
     setToast({
       title: 'Students restored',
       message: `${ids.length} student${ids.length > 1 ? 's' : ''} marked as Active.`,
@@ -243,7 +213,7 @@ export const useStudents = () => {
         idSet.has(student.id) ? { ...student, status: 'Inactive' } : student,
       ),
     );
-    setSelectedStudents((current) => current.filter((id) => !idSet.has(id)));
+    directory.clearSelection();
     setToast({
       title: 'Students deactivated',
       message: `${ids.length} student${ids.length > 1 ? 's' : ''} marked as Inactive.`,
@@ -251,21 +221,25 @@ export const useStudents = () => {
   };
 
   return {
-    searchTerm,
-    setSearchTerm,
-    statusFilter,
-    setStatusFilter,
-    currentPage,
-    setCurrentPage,
-    selectedStudents,
-    handleSelectAll,
-    handleSelectStudent,
-    handleSort,
-    sortKey: sortConfig?.key ?? null,
-    sortDirection: sortConfig?.direction ?? 'asc',
-    getSortIcon,
-    sortedStudents,
-    totalCount: sortedStudents.length,
+    searchTerm: directory.filters.searchTerm,
+    setSearchTerm: (value: string) => directory.setFilter('searchTerm', value),
+    statusFilter: directory.filters.statusFilter as StudentStatusFilter,
+    setStatusFilter: (value: string) => directory.setFilter('statusFilter', value),
+    currentPage: directory.page,
+    setCurrentPage: directory.setPage,
+    selectedStudents: directory.selectedIds,
+    handleSelectAll: directory.handleSelectAll,
+    handleSelectStudent: directory.handleSelectItem,
+    handleSort: directory.handleSort,
+    sortKey: directory.sortKey,
+    sortDirection: directory.sortDirection,
+    sortedStudents: directory.paginatedItems,
+    totalCount: directory.filteredCount,
+    totalPages: directory.totalPages,
+    rangeStart: directory.rangeStart,
+    rangeEnd: directory.rangeEnd,
+    resetFilters: directory.clearFilters,
+    hasActiveFilters: directory.isDirty,
     atRiskCount,
     classOptions,
     gradeLevelOptions,
@@ -276,39 +250,13 @@ export const useStudents = () => {
     createStudent,
     updateStudent,
     archiveStudent: (id: string) => archiveStudents([id]),
-    archiveSelectedStudents: () => archiveStudents(selectedStudents),
+    archiveSelectedStudents: () => archiveStudents(directory.selectedIds),
     restoreStudent: (id: string) => restoreStudents([id]),
-    restoreSelectedStudents: () => restoreStudents(selectedStudents),
-    inactiveTarget: inactiveTargetId ? sortedStudents.find(s => s.id === inactiveTargetId) : null,
-    openMarkInactive: (id: string) => setInactiveTargetId(id),
-    closeMarkInactive: () => setInactiveTargetId(null),
-    confirmMarkInactive: () => {
-      if (inactiveTargetId) markInactive([inactiveTargetId]);
-      setInactiveTargetId(null);
-    },
-    bulkInactiveOpen: isBulkInactiveOpen,
-    openBulkMarkInactive: () => setIsBulkInactiveOpen(true),
-    closeBulkMarkInactive: () => setIsBulkInactiveOpen(false),
-    confirmBulkMarkInactive: () => {
-      markInactive(selectedStudents);
-      setIsBulkInactiveOpen(false);
-    },
+    restoreSelectedStudents: () => restoreStudents(directory.selectedIds),
+    confirmMarkInactive: (ids: string[]) => markInactive(ids),
     restoreActive: (id: string) => restoreStudents([id]),
-    selectedActiveCount: selectedStudents.filter(id => students.find(s => s.id === id)?.status !== 'Inactive').length,
-    archiveTarget: archiveTargetId ? sortedStudents.find(s => s.id === archiveTargetId) : null,
-    openArchive: (id: string) => setArchiveTargetId(id),
-    closeArchive: () => setArchiveTargetId(null),
-    confirmArchive: () => {
-      if (archiveTargetId) archiveStudents([archiveTargetId]);
-      setArchiveTargetId(null);
-    },
-    bulkArchiveOpen: isBulkArchiveOpen,
-    openBulkArchive: () => setIsBulkArchiveOpen(true),
-    closeBulkArchive: () => setIsBulkArchiveOpen(false),
-    confirmBulkArchive: () => {
-      archiveStudents(selectedStudents);
-      setIsBulkArchiveOpen(false);
-    },
+    selectedActiveCount: directory.selectedIds.filter(id => students.find(s => s.id === id)?.status !== 'Inactive').length,
+    confirmArchive: (ids: string[]) => archiveStudents(ids),
     toast,
     dismissToast: () => setToast(null),
   };

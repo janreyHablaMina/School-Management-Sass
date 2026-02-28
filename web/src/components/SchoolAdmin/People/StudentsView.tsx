@@ -7,7 +7,7 @@ import layoutStyles from '../shared/layout.module.css';
 import { StudentsFilters } from './StudentsFilters';
 import { StudentsTable } from './StudentsTable';
 import { Student } from './types';
-import { EmptyState, PaginationBar } from '@/components/ui/shared';;;
+import { EmptyState, PaginationBar, ConfirmActionModal } from '@/components/ui/shared';;;
 import { StudentFormModal } from '@/components/Teacher/Students/components/StudentFormModal';
 import { StudentDetailView } from '@/components/Teacher/Students/components/StudentDetailView';
 import { MarkInactiveModal } from '@/components/Teacher/Students/components/MarkInactiveModal';
@@ -132,6 +132,9 @@ export const StudentsView: React.FC = () => {
     sortDirection,
     sortedStudents,
     totalCount,
+    totalPages,
+    rangeStart,
+    rangeEnd,
     atRiskCount,
     classOptions,
     gradeLevelOptions,
@@ -145,24 +148,10 @@ export const StudentsView: React.FC = () => {
     archiveSelectedStudents,
     restoreStudent,
     restoreSelectedStudents,
-    inactiveTarget,
-    openMarkInactive,
-    closeMarkInactive,
     confirmMarkInactive,
-    bulkInactiveOpen,
-    openBulkMarkInactive,
-    closeBulkMarkInactive,
-    confirmBulkMarkInactive,
     restoreActive,
     selectedActiveCount,
-    archiveTarget,
-    openArchive,
-    closeArchive,
     confirmArchive,
-    bulkArchiveOpen,
-    openBulkArchive,
-    closeBulkArchive,
-    confirmBulkArchive,
     toast,
     dismissToast,
   } = useStudents();
@@ -171,6 +160,13 @@ export const StudentsView: React.FC = () => {
   const [editingStudent, setEditingStudent] = useState<TeacherStudentRow | null>(null);
   const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
   const [messageTargetIds, setMessageTargetIds] = useState<string[]>([]);
+  const [actionModal, setActionModal] = useState<{
+    title: string;
+    itemLabel: string;
+    count: number;
+    actionType: 'archive' | 'delete' | 'deactivate';
+    onConfirm: () => void;
+  } | null>(null);
 
   if (selectedStudentForDetails) {
     return (
@@ -224,21 +220,71 @@ export const StudentsView: React.FC = () => {
             setMessageTargetIds(ids);
             setIsMessageModalOpen(true);
           }}
-          onArchiveStudent={openArchive}
-          onArchiveSelected={openBulkArchive}
+          onArchiveStudent={(id) => {
+            const student = sortedStudents.find((s) => s.id === id);
+            if (student) {
+              setActionModal({
+                title: 'Archive Student',
+                itemLabel: 'student',
+                count: 1,
+                actionType: 'archive',
+                onConfirm: () => {
+                  confirmArchive([id]);
+                  setActionModal(null);
+                },
+              });
+            }
+          }}
+          onArchiveSelected={() => {
+            setActionModal({
+              title: 'Archive Students',
+              itemLabel: 'student',
+              count: selectedStudents.length,
+              actionType: 'archive',
+              onConfirm: () => {
+                archiveSelectedStudents();
+                setActionModal(null);
+              },
+            });
+          }}
           onRestoreStudent={restoreStudent}
           onRestoreSelected={restoreSelectedStudents}
-          onMarkInactive={openMarkInactive}
+          onMarkInactive={(id) => {
+            const student = sortedStudents.find((s) => s.id === id);
+            if (student) {
+              setActionModal({
+                title: 'Mark Student as Inactive',
+                itemLabel: 'student',
+                count: 1,
+                actionType: 'delete',
+                onConfirm: () => {
+                  confirmMarkInactive([id]);
+                  setActionModal(null);
+                },
+              });
+            }
+          }}
           onRestoreActive={restoreActive}
-          onBulkMarkInactive={openBulkMarkInactive}
+          onBulkMarkInactive={() => {
+            setActionModal({
+              title: 'Mark Students as Inactive',
+              itemLabel: 'student',
+              count: selectedActiveCount,
+              actionType: 'delete',
+              onConfirm: () => {
+                confirmMarkInactive(selectedStudents);
+                setActionModal(null);
+              },
+            });
+          }}
         />
       )}
       <PaginationBar
-        rangeStart={sortedStudents.length > 0 ? 1 : 0}
-        rangeEnd={sortedStudents.length}
+        rangeStart={rangeStart}
+        rangeEnd={rangeEnd}
         total={totalCount}
         page={currentPage}
-        totalPages={Math.max(1, Math.ceil(totalCount / 10))}
+        totalPages={totalPages}
         itemLabel="students"
         onPageChange={setCurrentPage}
       />
@@ -278,37 +324,16 @@ export const StudentsView: React.FC = () => {
         />
       ) : null}
       
-      {inactiveTarget ? (
-        <MarkInactiveModal
-          student={inactiveTarget}
-          onCancel={closeMarkInactive}
-          onConfirm={confirmMarkInactive}
+      {actionModal && (
+        <ConfirmActionModal
+          title={actionModal.title}
+          itemLabel={actionModal.itemLabel}
+          count={actionModal.count}
+          actionType={actionModal.actionType}
+          onCancel={() => setActionModal(null)}
+          onConfirm={actionModal.onConfirm}
         />
-      ) : null}
-
-      {bulkInactiveOpen ? (
-        <MarkInactiveModal
-          count={selectedActiveCount}
-          onCancel={closeBulkMarkInactive}
-          onConfirm={confirmBulkMarkInactive}
-        />
-      ) : null}
-
-      {archiveTarget ? (
-        <ArchiveStudentModal
-          student={toTeacherStudentRow(archiveTarget)}
-          onCancel={closeArchive}
-          onConfirm={confirmArchive}
-        />
-      ) : null}
-
-      {bulkArchiveOpen ? (
-        <ArchiveStudentModal
-          count={selectedStudents.length}
-          onCancel={closeBulkArchive}
-          onConfirm={confirmBulkArchive}
-        />
-      ) : null}
+      )}
 
       {toast ? (
         <TeacherToast
