@@ -16,7 +16,7 @@ interface SchoolAdminDirectoryPageProps {
   actionButton?: HeaderAction;
   secondaryButton?: HeaderAction;
   metrics: Metric[];
-  metricColumns?: 4 | 5 | 6;
+  metricColumns?: 3 | 4 | 5 | 6;
   children: React.ReactNode;
   pagination: {
     rangeStart: number;

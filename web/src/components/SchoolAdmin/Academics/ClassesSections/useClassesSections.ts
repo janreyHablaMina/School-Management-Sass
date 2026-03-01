@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useSchoolAdminDirectory } from '@/components/SchoolAdmin/shared/useSchoolAdminDirectory';
 import { schoolAdminMockData } from '@/lib/mock/schoolAdmin.mock';
 
@@ -14,12 +15,14 @@ export type ClassSectionSortKey =
 interface ClassSectionFilters extends Record<string, string> {
   searchTerm: string;
   gradeFilter: string;
+  sectionFilter: string;
   statusFilter: string;
 }
 
 const INITIAL_FILTERS: ClassSectionFilters = {
   searchTerm: '',
   gradeFilter: 'All Grades',
+  sectionFilter: 'All Sections',
   statusFilter: 'All Status',
 };
 
@@ -38,10 +41,12 @@ function filterClassSection(item: ClassSectionRecord, filters: ClassSectionFilte
 
   const matchesGrade =
     filters.gradeFilter === 'All Grades' || item.gradeLevel === filters.gradeFilter;
+  const matchesSection =
+    filters.sectionFilter === 'All Sections' || item.section === filters.sectionFilter;
   const matchesStatus =
     filters.statusFilter === 'All Status' || item.status === filters.statusFilter;
 
-  return matchesSearch && matchesGrade && matchesStatus;
+  return matchesSearch && matchesGrade && matchesSection && matchesStatus;
 }
 
 export function useClassesSections() {
@@ -57,11 +62,18 @@ export function useClassesSections() {
     getSortValue: valueForSort,
   });
 
+  const uniqueSections = useMemo(() => {
+    const sections = new Set(schoolAdminMockData.classesSections.map(c => c.section));
+    return ['All Sections', ...Array.from(sections).sort()];
+  }, []);
+
   return {
     searchTerm: directory.filters.searchTerm,
     setSearchTerm: (value: string) => directory.setFilter('searchTerm', value),
     gradeFilter: directory.filters.gradeFilter,
     setGradeFilter: (value: string) => directory.setFilter('gradeFilter', value),
+    sectionFilter: directory.filters.sectionFilter,
+    setSectionFilter: (value: string) => directory.setFilter('sectionFilter', value),
     statusFilter: directory.filters.statusFilter,
     setStatusFilter: (value: string) => directory.setFilter('statusFilter', value),
     currentPage: directory.page,
@@ -79,5 +91,6 @@ export function useClassesSections() {
     rangeEnd: directory.rangeEnd,
     resetFilters: directory.clearFilters,
     hasActiveFilters: directory.isDirty,
+    availableSections: uniqueSections,
   };
 }

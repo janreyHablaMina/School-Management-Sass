@@ -17,7 +17,13 @@ interface MetricsGridProps {
 
 export const MetricsGrid: React.FC<MetricsGridProps> = ({ metrics, columns = 4 }) => {
   const columnClass =
-    columns === 6 ? styles.metricsCols6 : columns === 5 ? styles.metricsCols5 : styles.metricsCols4;
+    columns === 6
+      ? styles.metricsCols6
+      : columns === 5
+      ? styles.metricsCols5
+      : columns === 3
+      ? styles.metricsCols3
+      : styles.metricsCols4;
 
   return (
     <section className={`${styles.metricsGrid} ${columnClass}`}>

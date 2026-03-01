@@ -105,6 +105,10 @@
   gap: 1rem;
 }
 
+.metricsCols3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
 .metricsCols4 {
   grid-template-columns: repeat(4, 1fr);
 }
@@ -373,6 +377,7 @@
 }
 
 @media (max-width: 900px) {
+  .metricsCols3,
   .metricsCols5,
   .metricsCols6 {
     grid-template-columns: repeat(2, 1fr);
@@ -380,6 +385,7 @@
 }
 
 @media (max-width: 700px) {
+  .metricsCols3,
   .metricsCols4,
   .metricsCols5,
   .metricsCols6 {

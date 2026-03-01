@@ -6,6 +6,9 @@ interface ClassesSectionsFiltersProps {
   setSearchTerm: (term: string) => void;
   gradeFilter: string;
   setGradeFilter: (grade: string) => void;
+  sectionFilter: string;
+  setSectionFilter: (section: string) => void;
+  availableSections: string[];
   statusFilter: string;
   setStatusFilter: (status: string) => void;
   hasActiveFilters: boolean;
@@ -17,6 +20,9 @@ export const ClassesSectionsFilters: React.FC<ClassesSectionsFiltersProps> = ({
   setSearchTerm,
   gradeFilter,
   setGradeFilter,
+  sectionFilter,
+  setSectionFilter,
+  availableSections,
   statusFilter,
   setStatusFilter,
   hasActiveFilters,
@@ -44,10 +50,16 @@ export const ClassesSectionsFilters: React.FC<ClassesSectionsFiltersProps> = ({
           ],
         },
         {
+          label: 'Section',
+          value: sectionFilter,
+          onChange: setSectionFilter,
+          options: availableSections,
+        },
+        {
           label: 'Status',
           value: statusFilter,
           onChange: setStatusFilter,
-          options: ['All Status', 'Active', 'Needs Adviser', 'Draft'],
+          options: ['All Status', 'Active', 'Needs Adviser', 'Draft', 'Archived'],
         },
       ]}
       hasActiveFilters={hasActiveFilters}

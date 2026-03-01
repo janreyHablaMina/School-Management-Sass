@@ -1,5 +1,6 @@
 import React from 'react';
 import type { Metric } from '../../shared/MetricsGrid';
+import { EmptyState } from '@/components/ui/shared';
 import { SchoolAdminDirectoryPage } from '../../shared/SchoolAdminDirectoryPage';
 import { ClassesSectionsFilters } from './ClassesSectionsFilters';
 import { ClassesSectionsTable } from './ClassesSectionsTable';
@@ -21,13 +22,6 @@ const CLASSES_SECTIONS_METRICS: Metric[] = [
     iconColor: '#5cc789',
   },
   {
-    title: 'Avg. Attendance',
-    value: '93%',
-    subtitle: 'Today across classes',
-    iconBg: 'rgba(245, 200, 66, 0.1)',
-    iconColor: '#f5c842',
-  },
-  {
     title: 'Needs Adviser',
     value: '3',
     subtitle: 'Sections requiring assignment',
@@ -42,6 +36,8 @@ export const ClassesSectionsView: React.FC = () => {
     setSearchTerm,
     gradeFilter,
     setGradeFilter,
+    sectionFilter,
+    setSectionFilter,
     statusFilter,
     setStatusFilter,
     currentPage,
@@ -59,6 +55,7 @@ export const ClassesSectionsView: React.FC = () => {
     rangeEnd,
     resetFilters,
     hasActiveFilters,
+    availableSections,
   } = useClassesSections();
 
   return (
@@ -67,6 +64,7 @@ export const ClassesSectionsView: React.FC = () => {
       subtitle="Organize grade sections, advisers, rooms, and class capacity"
       actionButton={{ label: 'Add Section', onClick: () => console.log('add section') }}
       metrics={CLASSES_SECTIONS_METRICS}
+      metricColumns={3}
       pagination={{
         rangeStart,
         rangeEnd,
@@ -82,20 +80,30 @@ export const ClassesSectionsView: React.FC = () => {
         setSearchTerm={setSearchTerm}
         gradeFilter={gradeFilter}
         setGradeFilter={setGradeFilter}
+        sectionFilter={sectionFilter}
+        setSectionFilter={setSectionFilter}
+        availableSections={availableSections}
         statusFilter={statusFilter}
         setStatusFilter={setStatusFilter}
         hasActiveFilters={hasActiveFilters}
         onReset={resetFilters}
       />
-      <ClassesSectionsTable
-        classSections={classSections}
-        selectedClassSections={selectedClassSections}
-        sortKey={sortKey}
-        sortDirection={sortDirection}
-        onSelectAll={handleSelectAll}
-        onSelectClassSection={handleSelectClassSection}
-        onSort={handleSort}
-      />
+      {classSections.length === 0 ? (
+        <EmptyState
+          title="No classes found"
+          description="Try adjusting your search or filters."
+        />
+      ) : (
+        <ClassesSectionsTable
+          classSections={classSections}
+          selectedClassSections={selectedClassSections}
+          sortKey={sortKey}
+          sortDirection={sortDirection}
+          onSelectAll={handleSelectAll}
+          onSelectClassSection={handleSelectClassSection}
+          onSort={handleSort}
+        />
+      )}
     </SchoolAdminDirectoryPage>
   );
 };

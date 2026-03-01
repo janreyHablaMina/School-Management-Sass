@@ -24,12 +24,12 @@ const COLUMNS: DataTableColumn[] = [
 ];
 
 const ROW_ACTIONS = [
-  { icon: '>', label: 'View Section' },
-  { icon: '+', label: 'Assign Adviser' },
-  { icon: '#', label: 'Manage Subjects' },
+  { icon: '👥', label: 'View Section' },
+  { icon: '👩‍🏫', label: 'Assign Adviser' },
+  { icon: '📚', label: 'Manage Subjects' },
 ] as const;
 
-const DANGER_ACTIONS = [{ icon: '!', label: 'Archive Section' }] as const;
+const DANGER_ACTIONS = [{ icon: '🗃️', label: 'Archive Section' }] as const;
 
 function statusAccent(status: string) {
   if (status === 'Active') return '#5cc789';
