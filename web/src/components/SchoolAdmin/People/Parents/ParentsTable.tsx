@@ -11,6 +11,11 @@ interface ParentsTableProps {
   onSelectAll: (checked: boolean) => void;
   onSelectParent: (id: string) => void;
   onSort: (key: ParentSortKey) => void;
+  onViewDetails: (parent: ParentRecord) => void;
+  onMessage: (ids: string[]) => void;
+  onEditParent: (parent: ParentRecord) => void;
+  onArchive?: (ids: string[]) => void;
+  onDeactivate?: (ids: string[]) => void;
 }
 
 const COLUMNS: DataTableColumn[] = [
@@ -23,12 +28,15 @@ const COLUMNS: DataTableColumn[] = [
 ];
 
 const ROW_ACTIONS = [
-  { icon: '>', label: 'View Parent' },
-  { icon: '@', label: 'Message Parent' },
-  { icon: '+', label: 'Link Student' },
+  { icon: '👤', label: 'View Profile' },
+  { icon: '📧', label: 'Send Message' },
+  { icon: '✏️', label: 'Edit Parent' },
 ] as const;
 
-const DANGER_ACTIONS = [{ icon: '!', label: 'Deactivate Account' }] as const;
+const DANGER_ACTIONS = [
+  { icon: '🗃️', label: 'Archive Parent' },
+  { icon: '🚫', label: 'Deactivate Account' }
+] as const;
 
 function getInitials(name: string) {
   return name
@@ -53,6 +61,11 @@ export const ParentsTable: React.FC<ParentsTableProps> = ({
   onSelectAll,
   onSelectParent,
   onSort,
+  onViewDetails,
+  onMessage,
+  onEditParent,
+  onArchive,
+  onDeactivate,
 }) => {
   const allVisibleSelected = selectedParents.length === parents.length && parents.length > 0;
 
@@ -64,12 +77,17 @@ export const ParentsTable: React.FC<ParentsTableProps> = ({
         onClearSelection={() => onSelectAll(false)}
         actions={[
           {
-            label: 'Send Invite',
-            onClick: () => alert('Send invite functionality not implemented yet.'),
+            label: 'Send Message',
+            onClick: () => onMessage(selectedParents),
+          },
+          {
+            label: 'Archive',
+            onClick: () => onArchive?.(selectedParents),
+            tone: 'danger',
           },
           {
             label: 'Deactivate',
-            onClick: () => alert('Deactivate parent functionality not implemented yet.'),
+            onClick: () => onDeactivate?.(selectedParents),
             tone: 'danger',
           },
         ]}
@@ -92,7 +110,17 @@ export const ParentsTable: React.FC<ParentsTableProps> = ({
         {parents.map((parent) => (
           <tr
             key={parent.id}
-            className={selectedParents.includes(parent.id) ? listStyles.rowSelected : ''}
+            className={`${listStyles.clickableRow} ${selectedParents.includes(parent.id) ? listStyles.rowSelected : ''}`}
+            onClick={() => onViewDetails(parent)}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                onViewDetails(parent);
+              }
+            }}
+            tabIndex={0}
+            role="button"
+            aria-label={`Open profile for ${parent.name}`}
           >
             <RowSelectCell
               selected={selectedParents.includes(parent.id)}
@@ -121,23 +149,29 @@ export const ParentsTable: React.FC<ParentsTableProps> = ({
             </td>
             <td>{parent.gradeSection.split(' - ')[0]}</td>
             <td>{parent.gradeSection.split(' - ')[1]}</td>
-            <td>
+            <td
+              onClick={(event) => event.stopPropagation()}
+              onKeyDown={(event) => event.stopPropagation()}
+            >
               <RowActionsMenu
                 label={`More actions for ${parent.name}`}
                 actions={ROW_ACTIONS}
                 dangerActions={DANGER_ACTIONS}
                 onAction={(label) => {
-                  if (label === 'View Parent') {
-                    alert('Parent profile functionality not implemented yet.');
+                  if (label === 'View Profile') {
+                    onViewDetails(parent);
                   }
-                  if (label === 'Message Parent') {
-                    alert('Message parent functionality not implemented yet.');
+                  if (label === 'Send Message') {
+                    onMessage([parent.id]);
                   }
-                  if (label === 'Link Student') {
-                    alert('Link student functionality not implemented yet.');
+                  if (label === 'Edit Parent') {
+                    onEditParent(parent);
+                  }
+                  if (label === 'Archive Parent') {
+                    onArchive?.([parent.id]);
                   }
                   if (label === 'Deactivate Account') {
-                    alert('Deactivate account functionality not implemented yet.');
+                    onDeactivate?.([parent.id]);
                   }
                 }}
               />

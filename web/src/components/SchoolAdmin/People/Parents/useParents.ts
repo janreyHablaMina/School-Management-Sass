@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { useSchoolAdminDirectory } from '@/components/SchoolAdmin/shared/useSchoolAdminDirectory';
 import { schoolAdminMockData } from '@/lib/mock/schoolAdmin.mock';
 
@@ -61,6 +62,14 @@ function filterParent(parent: ParentRecord, filters: ParentFilters) {
 }
 
 export function useParents() {
+  const [toast, setToast] = useState<{ title: string; message?: string } | null>(null);
+
+  useEffect(() => {
+    if (!toast) return;
+    const timer = window.setTimeout(() => setToast(null), 3500);
+    return () => window.clearTimeout(timer);
+  }, [toast]);
+
   const directory = useSchoolAdminDirectory<ParentRecord, ParentSortKey, ParentFilters>({
     items: schoolAdminMockData.parents,
     initialFilters: INITIAL_FILTERS,
@@ -96,5 +105,8 @@ export function useParents() {
     rangeEnd: directory.rangeEnd,
     resetFilters: directory.clearFilters,
     hasActiveFilters: directory.isDirty,
+    toast,
+    dismissToast: () => setToast(null),
+    showToast: (t: { title: string; message?: string }) => setToast(t),
   };
 }
