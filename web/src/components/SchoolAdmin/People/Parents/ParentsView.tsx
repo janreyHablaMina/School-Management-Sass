@@ -5,7 +5,7 @@ import { PageHeader } from '../../shared/PageHeader';
 import layoutStyles from '../../shared/layout.module.css';
 import { MessageModal, type MessageData } from '@/components/ui/MessageModal';
 import { ParentsFilters } from './ParentsFilters';
-import { ConfirmActionModal, Toast } from '@/components/ui/shared';
+import { ConfirmActionModal, Toast, EmptyState } from '@/components/ui/shared';
 import { ParentsTable } from './ParentsTable';
 import { ParentProfileView } from './ParentProfileView';
 import { useParents } from './useParents';
@@ -115,29 +115,36 @@ export const ParentsView: React.FC = () => {
         hasActiveFilters={hasActiveFilters}
         onReset={resetFilters}
       />
-      <ParentsTable
-        parents={parents}
-        selectedParents={selectedParents}
-        sortKey={sortKey}
-        sortDirection={sortDirection}
-        onSelectAll={handleSelectAll}
-        onSelectParent={handleSelectParent}
-        onSort={handleSort}
-        onViewDetails={(parent) => setSelectedParentId(parent.id)}
-        onMessage={(ids) => {
-          setMessageRecipients(ids);
-          setIsMessageModalOpen(true);
-        }}
-        onEditParent={(parent) => alert(`Edit parent functionality not implemented yet for ${parent.name}.`)}
-        onArchive={(ids) => {
-          setParentsToArchive(ids);
-          setIsArchiveModalOpen(true);
-        }}
-        onDeactivate={(ids) => {
-          setParentsToDeactivate(ids);
-          setIsDeactivateModalOpen(true);
-        }}
-      />
+      {parents.length === 0 ? (
+        <EmptyState
+          title="No parents found"
+          description="Try adjusting your search or filters."
+        />
+      ) : (
+        <ParentsTable
+          parents={parents}
+          selectedParents={selectedParents}
+          sortKey={sortKey}
+          sortDirection={sortDirection}
+          onSelectAll={handleSelectAll}
+          onSelectParent={handleSelectParent}
+          onSort={handleSort}
+          onViewDetails={(parent) => setSelectedParentId(parent.id)}
+          onMessage={(ids) => {
+            setMessageRecipients(ids);
+            setIsMessageModalOpen(true);
+          }}
+          onEditParent={(parent) => alert(`Edit parent functionality not implemented yet for ${parent.name}.`)}
+          onArchive={(ids) => {
+            setParentsToArchive(ids);
+            setIsArchiveModalOpen(true);
+          }}
+          onDeactivate={(ids) => {
+            setParentsToDeactivate(ids);
+            setIsDeactivateModalOpen(true);
+          }}
+        />
+      )}
       <PaginationBar
         rangeStart={rangeStart}
         rangeEnd={rangeEnd}
