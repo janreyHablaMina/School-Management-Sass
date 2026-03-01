@@ -1,6 +1,6 @@
 import React from 'react';
-import { ChalkBadge, DataTable, listStyles, ResourceBulkBar, RowActionsMenu, RowSelectCell, SelectAllCheckbox, type DataTableColumn } from '@/components/ui/shared';;;
-import parentStyles from '../students.module.css';
+import { ChalkBadge, DataTable, listStyles, ResourceBulkBar, RowActionsMenu, RowSelectCell, SelectAllCheckbox, type DataTableColumn } from '@/components/ui/shared';
+import parentStyles from './parents.module.css';
 import type { ParentRecord, ParentSortKey } from './useParents';
 
 interface ParentsTableProps {
@@ -17,9 +17,8 @@ const COLUMNS: DataTableColumn[] = [
   { id: 'name', label: 'Parent', sortable: true },
   { id: 'relationship', label: 'Relationship', sortable: true },
   { id: 'studentName', label: 'Linked Student', sortable: true },
-  { id: 'grade', label: 'Grade / Section', sortable: true },
-  { id: 'status', label: 'Portal Status', sortable: true },
-  { id: 'lastLogin', label: 'Last Login', sortable: true },
+  { id: 'grade', label: 'Grade', sortable: true },
+  { id: 'section', label: 'Section', sortable: true },
   { id: 'actions', label: 'Action' },
 ];
 
@@ -101,13 +100,15 @@ export const ParentsTable: React.FC<ParentsTableProps> = ({
               label={`Select ${parent.name}`}
             />
             <td>
-              <div className={parentStyles.studentCell}>
+              <div className={parentStyles.parentCell}>
                 <div className={parentStyles.avatar} style={{ background: parent.avatarColor }}>
                   {getInitials(parent.name)}
                 </div>
-                <div className={parentStyles.studentInfo}>
-                  <span className={parentStyles.studentName}>{parent.name}</span>
-                  <span className={parentStyles.studentEmail}>{parent.email}</span>
+                <div className={parentStyles.parentInfo}>
+                  <span className={parentStyles.parentName}>{parent.name}</span>
+                  <div>
+                    <ChalkBadge label={parent.status} accent={statusAccent(parent.status)} />
+                  </div>
                 </div>
               </div>
             </td>
@@ -118,11 +119,8 @@ export const ParentsTable: React.FC<ParentsTableProps> = ({
                 <span className={listStyles.stackMetaSecondary}>ID: {parent.studentId}</span>
               </div>
             </td>
-            <td>{parent.gradeSection}</td>
-            <td>
-              <ChalkBadge label={parent.status} accent={statusAccent(parent.status)} />
-            </td>
-            <td>{parent.lastLogin}</td>
+            <td>{parent.gradeSection.split(' - ')[0]}</td>
+            <td>{parent.gradeSection.split(' - ')[1]}</td>
             <td>
               <RowActionsMenu
                 label={`More actions for ${parent.name}`}

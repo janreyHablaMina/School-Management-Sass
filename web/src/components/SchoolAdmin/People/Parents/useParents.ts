@@ -7,23 +7,28 @@ export type ParentSortKey =
   | 'relationship'
   | 'studentName'
   | 'grade'
-  | 'status'
-  | 'lastLogin';
+  | 'section'
+  | 'status';
 
 interface ParentFilters extends Record<string, string> {
   searchTerm: string;
   statusFilter: string;
   relationshipFilter: string;
+  gradeFilter: string;
+  sectionFilter: string;
 }
 
 const INITIAL_FILTERS: ParentFilters = {
   searchTerm: '',
   statusFilter: 'All Status',
   relationshipFilter: 'All Relationships',
+  gradeFilter: 'All Grades',
+  sectionFilter: 'All Sections',
 };
 
 function valueForSort(parent: ParentRecord, key: ParentSortKey) {
-  if (key === 'grade') return parent.gradeSection;
+  if (key === 'grade') return parent.gradeSection.split(' - ')[0];
+  if (key === 'section') return parent.gradeSection.split(' - ')[1];
   return parent[key];
 }
 
@@ -44,7 +49,15 @@ function filterParent(parent: ParentRecord, filters: ParentFilters) {
     filters.relationshipFilter === 'All Relationships' ||
     parent.relationship === filters.relationshipFilter;
 
-  return matchesSearch && matchesStatus && matchesRelationship;
+  const [parentGrade, parentSection] = parent.gradeSection.split(' - ');
+
+  const matchesGrade =
+    filters.gradeFilter === 'All Grades' || parentGrade === filters.gradeFilter;
+
+  const matchesSection =
+    filters.sectionFilter === 'All Sections' || parentSection === filters.sectionFilter;
+
+  return matchesSearch && matchesStatus && matchesRelationship && matchesGrade && matchesSection;
 }
 
 export function useParents() {
@@ -64,6 +77,10 @@ export function useParents() {
     relationshipFilter: directory.filters.relationshipFilter,
     setRelationshipFilter: (value: string) =>
       directory.setFilter('relationshipFilter', value),
+    gradeFilter: directory.filters.gradeFilter,
+    setGradeFilter: (value: string) => directory.setFilter('gradeFilter', value),
+    sectionFilter: directory.filters.sectionFilter,
+    setSectionFilter: (value: string) => directory.setFilter('sectionFilter', value),
     currentPage: directory.page,
     setCurrentPage: directory.setPage,
     selectedParents: directory.selectedIds,

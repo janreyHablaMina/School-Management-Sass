@@ -1,5 +1,5 @@
 import React from 'react';
-import { PaginationBar } from '@/components/ui/shared';;;
+import { PaginationBar } from '@/components/ui/shared';
 import { MetricsGrid, type Metric } from '../../shared/MetricsGrid';
 import { PageHeader } from '../../shared/PageHeader';
 import layoutStyles from '../../shared/layout.module.css';
@@ -46,6 +46,10 @@ export const ParentsView: React.FC = () => {
     setStatusFilter,
     relationshipFilter,
     setRelationshipFilter,
+    gradeFilter,
+    setGradeFilter,
+    sectionFilter,
+    setSectionFilter,
     currentPage,
     setCurrentPage,
     selectedParents,
@@ -78,6 +82,10 @@ export const ParentsView: React.FC = () => {
         setStatusFilter={setStatusFilter}
         relationshipFilter={relationshipFilter}
         setRelationshipFilter={setRelationshipFilter}
+        gradeFilter={gradeFilter}
+        setGradeFilter={setGradeFilter}
+        sectionFilter={sectionFilter}
+        setSectionFilter={setSectionFilter}
         hasActiveFilters={hasActiveFilters}
         onReset={resetFilters}
       />
