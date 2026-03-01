@@ -11,6 +11,8 @@ interface ClassesSectionsTableProps {
   onSelectAll: (checked: boolean) => void;
   onSelectClassSection: (id: string) => void;
   onSort: (key: ClassSectionSortKey) => void;
+  onViewClass?: (id: string) => void;
+  onArchiveClass?: (id: string) => void;
 }
 
 const COLUMNS: DataTableColumn[] = [
@@ -24,12 +26,13 @@ const COLUMNS: DataTableColumn[] = [
 ];
 
 const ROW_ACTIONS = [
-  { icon: '👥', label: 'View Section' },
+  { icon: '👥', label: 'View Class' },
+  { icon: '✏️', label: 'Edit Class' },
   { icon: '👩‍🏫', label: 'Assign Adviser' },
   { icon: '📚', label: 'Manage Subjects' },
 ] as const;
 
-const DANGER_ACTIONS = [{ icon: '🗃️', label: 'Archive Section' }] as const;
+const DANGER_ACTIONS = [{ icon: '🗃️', label: 'Archive Class' }] as const;
 
 function statusAccent(status: string) {
   if (status === 'Active') return '#5cc789';
@@ -51,6 +54,8 @@ export const ClassesSectionsTable: React.FC<ClassesSectionsTableProps> = ({
   onSelectAll,
   onSelectClassSection,
   onSort,
+  onViewClass,
+  onArchiveClass,
 }) => {
   const allVisibleSelected =
     selectedClassSections.length === classSections.length && classSections.length > 0;
@@ -91,7 +96,17 @@ export const ClassesSectionsTable: React.FC<ClassesSectionsTableProps> = ({
         {classSections.map((item) => (
           <tr
             key={item.id}
-            className={selectedClassSections.includes(item.id) ? listStyles.rowSelected : ''}
+            className={`${listStyles.clickableRow} ${selectedClassSections.includes(item.id) ? listStyles.rowSelected : ''}`}
+            onClick={() => onViewClass?.(item.id)}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                onViewClass?.(item.id);
+              }
+            }}
+            tabIndex={0}
+            role="button"
+            aria-label={`Open profile for ${item.name}`}
           >
             <RowSelectCell
               selected={selectedClassSections.includes(item.id)}
@@ -129,14 +144,24 @@ export const ClassesSectionsTable: React.FC<ClassesSectionsTableProps> = ({
             <td>
               <ChalkBadge label={item.status} accent={statusAccent(item.status)} />
             </td>
-            <td>
+            <td
+              onClick={(event) => event.stopPropagation()}
+              onKeyDown={(event) => event.stopPropagation()}
+            >
               <RowActionsMenu
                 label={`More actions for ${item.name}`}
                 actions={ROW_ACTIONS}
                 dangerActions={DANGER_ACTIONS}
                 onAction={(label) => {
-                  if (label === 'View Section') {
-                    alert('Section detail functionality not implemented yet.');
+                  if (label === 'View Class') {
+                    if (onViewClass) {
+                      onViewClass(item.id);
+                    } else {
+                      alert('Section detail functionality not implemented yet.');
+                    }
+                  }
+                  if (label === 'Edit Class') {
+                    alert('Edit class functionality not implemented yet.');
                   }
                   if (label === 'Assign Adviser') {
                     alert('Assign adviser functionality not implemented yet.');
@@ -144,8 +169,12 @@ export const ClassesSectionsTable: React.FC<ClassesSectionsTableProps> = ({
                   if (label === 'Manage Subjects') {
                     alert('Manage subjects functionality not implemented yet.');
                   }
-                  if (label === 'Archive Section') {
-                    alert('Archive section functionality not implemented yet.');
+                  if (label === 'Archive Class') {
+                    if (onArchiveClass) {
+                      onArchiveClass(item.id);
+                    } else {
+                      alert('Archive class functionality not implemented yet.');
+                    }
                   }
                 }}
               />

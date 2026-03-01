@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import type { Metric } from '../../shared/MetricsGrid';
-import { EmptyState } from '@/components/ui/shared';
+import { EmptyState, ConfirmActionModal, Toast } from '@/components/ui/shared';
 import { SchoolAdminDirectoryPage } from '../../shared/SchoolAdminDirectoryPage';
 import { ClassesSectionsFilters } from './ClassesSectionsFilters';
 import { ClassesSectionsTable } from './ClassesSectionsTable';
+import { ClassProfileView } from './ClassProfileView';
 import { useClassesSections } from './useClassesSections';
 
 const CLASSES_SECTIONS_METRICS: Metric[] = [
@@ -56,7 +57,31 @@ export const ClassesSectionsView: React.FC = () => {
     resetFilters,
     hasActiveFilters,
     availableSections,
+    toast,
+    dismissToast,
+    showToast,
   } = useClassesSections();
+
+  const [selectedClassId, setSelectedClassId] = useState<string | null>(null);
+  
+  const [actionModal, setActionModal] = useState<{
+    id: string;
+    title: string;
+    name: string;
+    onConfirm: () => void;
+  } | null>(null);
+
+  if (selectedClassId) {
+    const selectedClass = classSections.find(c => c.id === selectedClassId);
+    if (selectedClass) {
+      return (
+        <ClassProfileView 
+          classSection={selectedClass} 
+          onBack={() => setSelectedClassId(null)} 
+        />
+      );
+    }
+  }
 
   return (
     <SchoolAdminDirectoryPage
@@ -102,6 +127,43 @@ export const ClassesSectionsView: React.FC = () => {
           onSelectAll={handleSelectAll}
           onSelectClassSection={handleSelectClassSection}
           onSort={handleSort}
+          onViewClass={setSelectedClassId}
+          onArchiveClass={(id) => {
+            const cls = classSections.find((c) => c.id === id);
+            if (cls) {
+              setActionModal({
+                id,
+                title: 'Archive Class',
+                name: cls.name,
+                onConfirm: () => {
+                  showToast({
+                    title: 'Class Archived',
+                    message: `${cls.name} has been archived successfully.`,
+                  });
+                  setActionModal(null);
+                },
+              });
+            }
+          }}
+        />
+      )}
+
+      {actionModal && (
+        <ConfirmActionModal
+          title={actionModal.title}
+          itemLabel={`class (${actionModal.name})`}
+          count={1}
+          actionType="archive"
+          onCancel={() => setActionModal(null)}
+          onConfirm={actionModal.onConfirm}
+        />
+      )}
+      
+      {toast && (
+        <Toast
+          title={toast.title}
+          message={toast.message}
+          onClose={dismissToast}
         />
       )}
     </SchoolAdminDirectoryPage>

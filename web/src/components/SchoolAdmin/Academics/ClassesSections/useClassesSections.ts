@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { useSchoolAdminDirectory } from '@/components/SchoolAdmin/shared/useSchoolAdminDirectory';
 import { schoolAdminMockData } from '@/lib/mock/schoolAdmin.mock';
 
@@ -67,6 +67,14 @@ export function useClassesSections() {
     return ['All Sections', ...Array.from(sections).sort()];
   }, []);
 
+  const [toast, setToast] = useState<{ title: string; message?: string } | null>(null);
+
+  useEffect(() => {
+    if (!toast) return;
+    const timer = window.setTimeout(() => setToast(null), 3500);
+    return () => window.clearTimeout(timer);
+  }, [toast]);
+
   return {
     searchTerm: directory.filters.searchTerm,
     setSearchTerm: (value: string) => directory.setFilter('searchTerm', value),
@@ -92,5 +100,8 @@ export function useClassesSections() {
     resetFilters: directory.clearFilters,
     hasActiveFilters: directory.isDirty,
     availableSections: uniqueSections,
+    toast,
+    dismissToast: () => setToast(null),
+    showToast: (t: { title: string; message?: string }) => setToast(t),
   };
 }
