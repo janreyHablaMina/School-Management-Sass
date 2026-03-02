@@ -45,21 +45,30 @@
 
 .chartHeader {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: 1rem;
+  gap: 0.5rem;
+  border-bottom: 1.5px dashed rgba(240, 239, 237, 0.15);
+  padding-bottom: 0.55rem;
+}
+
+.chartTitleGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
 }
 
 .chartTitle {
   margin: 0;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #f0efed;
+  font-family: 'Caveat', cursive;
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: #f5c842;
 }
 
 .chartCanvas {
-  height: 220px;
-  flex: 1;
+  height: 320px;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -33,88 +33,116 @@ export const ChalkLineChart = ({
   const areaId = `chalk-line-area-${chartId}`;
   const strokeId = `chalk-line-stroke-${chartId}`;
 
+  const [hoverData, setHoverData] = useState<{ date: string; value: string; svgX: number; svgY: number } | null>(null);
+
   if (variant === 'attendance') {
-    const points = [
-      [52, 106],
-      [118, 92],
-      [184, 98],
-      [250, 76],
-      [316, 82],
-      [382, 62],
-      [448, 54],
+    const pointsData = [
+      { x: 52, y: 106, date: 'MON', value: '89.2%' },
+      { x: 118, y: 92, date: 'TUE', value: '91.8%' },
+      { x: 184, y: 98, date: 'WED', value: '90.5%' },
+      { x: 250, y: 76, date: 'THU', value: '94.3%' },
+      { x: 316, y: 82, date: 'FRI', value: '93.1%' },
+      { x: 382, y: 62, date: 'SAT', value: '96.8%' },
+      { x: 448, y: 54, date: 'TODAY', value: '96.4%' },
     ];
-    const pointPath = points.map(([x, y], index) => `${index === 0 ? 'M' : 'L'} ${x} ${y}`).join(' ');
+    const pointPath = "M 52 106 C 85 106, 85 92, 118 92 C 151 92, 151 98, 184 98 C 217 98, 217 76, 250 76 C 283 76, 283 82, 316 82 C 349 82, 349 62, 382 62 C 415 62, 415 54, 448 54";
     const areaPath = `${pointPath} L 448 150 L 52 150 Z`;
 
+    const handleMouseMove = (date: string, value: string, svgX: number, svgY: number) => {
+      setHoverData({ date, value, svgX, svgY });
+    };
+
     return (
-      <svg width="100%" height="100%" viewBox="0 0 500 180" fill="none" style={{ filter: 'url(#chalk-wobble)' }}>
-        <defs>
-          <linearGradient id={areaId} x1="0" y1="48" x2="0" y2="150" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#f5c842" stopOpacity="0.16" />
-            <stop offset="100%" stopColor="#f5c842" stopOpacity="0" />
-          </linearGradient>
-          <linearGradient id={strokeId} x1="52" y1="0" x2="448" y2="0" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#f5c842" />
-            <stop offset="100%" stopColor="#ffda75" />
-          </linearGradient>
-        </defs>
+      <div style={{ position: 'relative', width: '100%', height: '100%' }} onMouseLeave={() => setHoverData(null)}>
+        <svg width="100%" height="100%" viewBox="10 0 460 180" preserveAspectRatio="none" fill="none">
+          <defs>
+            <linearGradient id={areaId} x1="0" y1="48" x2="0" y2="150" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stopColor="#f5c842" stopOpacity="0.16" />
+              <stop offset="100%" stopColor="#f5c842" stopOpacity="0" />
+            </linearGradient>
+            <linearGradient id={strokeId} x1="52" y1="0" x2="448" y2="0" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stopColor="#f5c842" />
+              <stop offset="100%" stopColor="#ffda75" />
+            </linearGradient>
+          </defs>
 
-        <rect x="38" y="18" width="430" height="132" rx="4" fill="rgba(255, 255, 255, 0.01)" stroke="rgba(240, 239, 237, 0.08)" />
-        {[35, 65, 95, 125, 150].map((y) => (
-          <line key={y} x1="44" y1={y} x2="462" y2={y} stroke="rgba(240, 239, 237, 0.09)" strokeWidth="1" />
-        ))}
-        {[118, 184, 250, 316, 382, 448].map((x) => (
-          <line key={x} x1={x} y1="24" x2={x} y2="150" stroke="rgba(240, 239, 237, 0.035)" strokeWidth="1" />
-        ))}
+          <rect x="38" y="18" width="430" height="132" rx="6" fill="rgba(255, 255, 255, 0.02)" stroke="rgba(240, 239, 237, 0.05)" />
+          {[35, 65, 95, 125, 150].map((y) => (
+            <line key={y} x1="44" y1={y} x2="462" y2={y} stroke="rgba(240, 239, 237, 0.05)" strokeWidth="1" />
+          ))}
+          {[118, 184, 250, 316, 382, 448].map((x) => (
+            <line key={x} x1={x} y1="24" x2={x} y2="150" stroke="rgba(240, 239, 237, 0.035)" strokeWidth="1" />
+          ))}
 
-        <path d={areaPath} fill={`url(#${areaId})`} />
-        <path d={pointPath} fill="none" stroke="rgba(8, 18, 13, 0.75)" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
-        <path d={pointPath} fill="none" stroke={`url(#${strokeId})`} strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" />
+          <path d={areaPath} fill={`url(#${areaId})`} />
+          <path d={pointPath} fill="none" stroke={`url(#${strokeId})`} strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
 
-        {points.map(([x, y], index) => (
-          <circle
-            key={`${x}-${y}`}
-            cx={x}
-            cy={y}
-            r={index === points.length - 1 ? 4.5 : 3.4}
-            fill={index === points.length - 1 ? '#f0efed' : '#f5c842'}
-            stroke="#08120d"
-            strokeWidth="1.8"
-          />
-        ))}
+          {pointsData.map((pt, index) => (
+            <g key={index}>
+              <circle
+                cx={pt.x}
+                cy={pt.y}
+                r={16}
+                fill="transparent"
+                style={{ cursor: 'pointer' }}
+                onMouseMove={() => handleMouseMove(pt.date, pt.value, pt.x, pt.y)}
+              />
+              <circle
+                cx={pt.x}
+                cy={pt.y}
+                r={index === pointsData.length - 1 ? 4.5 : 3.4}
+                fill={index === pointsData.length - 1 ? '#f5c842' : '#08120d'}
+                stroke="#f5c842"
+                strokeWidth={index === pointsData.length - 1 ? "0" : "2"}
+                style={{ pointerEvents: 'none' }}
+              />
+            </g>
+          ))}
 
-        <line x1="448" y1="54" x2="448" y2="150" stroke="rgba(240, 239, 237, 0.28)" strokeWidth="1" strokeDasharray="3 4" />
-        <g transform="translate(334, 24)">
-          <rect x="0" y="0" width="124" height="42" rx="4" fill="rgba(8, 18, 13, 0.94)" stroke="rgba(240, 239, 237, 0.24)" strokeWidth="1" />
-          <text x="12" y="15" fill="rgba(240, 239, 237, 0.48)" fontSize="8" fontWeight="700" fontFamily="Inter, sans-serif">{tooltipDate}</text>
-          <text x="12" y="30" fill="rgba(240, 239, 237, 0.95)" fontSize="12" fontWeight="800" fontFamily="Inter, sans-serif">{tooltipText}</text>
-        </g>
+          {hoverData && (
+            <line x1={hoverData.svgX} y1="0" x2={hoverData.svgX} y2="150" stroke="rgba(240, 239, 237, 0.15)" strokeWidth="1" strokeDasharray="3 4" style={{ pointerEvents: 'none' }} />
+          )}
 
-        <g fontFamily="Inter, sans-serif" fontSize="8" fontWeight="700">
-          <g fill="rgba(240, 239, 237, 0.48)" textAnchor="end">
-            <text x="33" y="38">100%</text>
-            <text x="33" y="68">95%</text>
-            <text x="33" y="98">90%</text>
-            <text x="33" y="128">85%</text>
-            <text x="33" y="153">80%</text>
+          <g fontFamily="Inter, sans-serif" fontSize="8" fontWeight="700">
+            <g fill="rgba(240, 239, 237, 0.48)" textAnchor="end">
+              <text x="33" y="38">100%</text>
+              <text x="33" y="68">95%</text>
+              <text x="33" y="98">90%</text>
+              <text x="33" y="128">85%</text>
+              <text x="33" y="153">80%</text>
+            </g>
+            <g fill="rgba(240, 239, 237, 0.52)" textAnchor="middle">
+              <text x="52" y="168">Mon</text>
+              <text x="118" y="168">Tue</text>
+              <text x="184" y="168">Wed</text>
+              <text x="250" y="168">Thu</text>
+              <text x="316" y="168">Fri</text>
+              <text x="382" y="168">Sat</text>
+              <text x="448" y="168">Today</text>
+            </g>
           </g>
-          <g fill="rgba(240, 239, 237, 0.52)" textAnchor="middle">
-            <text x="52" y="168">Mon</text>
-            <text x="118" y="168">Tue</text>
-            <text x="184" y="168">Wed</text>
-            <text x="250" y="168">Thu</text>
-            <text x="316" y="168">Fri</text>
-            <text x="382" y="168">Sat</text>
-            <text x="448" y="168">Today</text>
-          </g>
-        </g>
-        <g transform="translate(56, 31)" fontFamily="Inter, sans-serif" fontSize="9" fontWeight="700">
-          <text x="0" y="0" fill="rgba(240, 239, 237, 0.48)">Weekly change</text>
-          <text x="0" y="14" fill="#5cc789">+2.8%</text>
-          <text x="64" y="0" fill="rgba(240, 239, 237, 0.48)">Average</text>
-          <text x="64" y="14" fill="#f5c842">96.4%</text>
-        </g>
-      </svg>
+        </svg>
+
+        {hoverData && (
+          <div style={{
+            position: 'absolute',
+            top: `calc(${(hoverData.svgY / 180) * 100}% - 56px)`,
+            left: `${((hoverData.svgX - 10) / 460) * 100}%`,
+            transform: 'translateX(-50%)',
+            background: 'rgba(8, 18, 13, 0.95)',
+            border: '1px solid rgba(240, 239, 237, 0.2)',
+            padding: '0.5rem 0.8rem',
+            borderRadius: '6px',
+            pointerEvents: 'none',
+            zIndex: 10,
+            fontFamily: 'Inter, sans-serif',
+            minWidth: '80px'
+          }}>
+            <div style={{ fontSize: '0.65rem', fontWeight: 700, color: 'rgba(240, 239, 237, 0.48)', marginBottom: '0.2rem' }}>{hoverData.date}</div>
+            <div style={{ fontSize: '1rem', fontWeight: 800, color: 'rgba(240, 239, 237, 0.95)' }}>{hoverData.value}</div>
+          </div>
+        )}
+      </div>
     );
   }
 
@@ -168,40 +196,40 @@ export const ChalkDonutChart = () => {
 
   return (
     <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-      <svg width="100%" height="100%" viewBox="0 0 120 120" style={{ filter: 'url(#chalk-wobble)' }}>
+      <svg width="100%" height="100%" viewBox="0 0 120 120">
         <circle cx="60" cy="60" r="38" fill="none" stroke="rgba(240, 239, 237, 0.05)" strokeWidth="10" />
-        <circle cx="60" cy="60" r="38" fill="none" stroke="#6633ff" strokeWidth="10" strokeDasharray="40.82 238.76" strokeDashoffset="-197.94" strokeLinecap="round" style={{ cursor: 'pointer', transition: 'stroke-width 0.2s ease' }} 
+        <circle cx="60" cy="60" r="38" fill="none" stroke="#6633ff" strokeWidth="10" strokeDasharray="40.82 238.76" strokeDashoffset="-197.94" strokeLinecap="butt" style={{ cursor: 'pointer', transition: 'stroke-width 0.2s ease' }} 
           onMouseMove={(e) => handleMouseMove(e, 'Grade 7: 212 Students (17.1%)')}
           onMouseEnter={(e) => e.currentTarget.style.strokeWidth = '13'}
           onMouseLeave={(e) => { e.currentTarget.style.strokeWidth = '10'; setHoverData(null); }}
         />
-        <circle cx="60" cy="60" r="38" fill="none" stroke="#3399ff" strokeWidth="10" strokeDasharray="37.96 238.76" strokeDashoffset="-159.98" strokeLinecap="round" style={{ cursor: 'pointer', transition: 'stroke-width 0.2s ease' }}
+        <circle cx="60" cy="60" r="38" fill="none" stroke="#3399ff" strokeWidth="10" strokeDasharray="37.96 238.76" strokeDashoffset="-159.98" strokeLinecap="butt" style={{ cursor: 'pointer', transition: 'stroke-width 0.2s ease' }}
           onMouseMove={(e) => handleMouseMove(e, 'Grade 8: 198 Students (15.9%)')}
           onMouseEnter={(e) => e.currentTarget.style.strokeWidth = '13'}
           onMouseLeave={(e) => { e.currentTarget.style.strokeWidth = '10'; setHoverData(null); }}
         />
-        <circle cx="60" cy="60" r="38" fill="none" stroke="#33cc66" strokeWidth="10" strokeDasharray="40.35 238.76" strokeDashoffset="-119.63" strokeLinecap="round" style={{ cursor: 'pointer', transition: 'stroke-width 0.2s ease' }}
+        <circle cx="60" cy="60" r="38" fill="none" stroke="#33cc66" strokeWidth="10" strokeDasharray="40.35 238.76" strokeDashoffset="-119.63" strokeLinecap="butt" style={{ cursor: 'pointer', transition: 'stroke-width 0.2s ease' }}
           onMouseMove={(e) => handleMouseMove(e, 'Grade 9: 210 Students (16.9%)')}
           onMouseEnter={(e) => e.currentTarget.style.strokeWidth = '13'}
           onMouseLeave={(e) => { e.currentTarget.style.strokeWidth = '10'; setHoverData(null); }}
         />
-        <circle cx="60" cy="60" r="38" fill="none" stroke="#ff9933" strokeWidth="10" strokeDasharray="39.39 238.76" strokeDashoffset="-80.24" strokeLinecap="round" style={{ cursor: 'pointer', transition: 'stroke-width 0.2s ease' }}
+        <circle cx="60" cy="60" r="38" fill="none" stroke="#ff9933" strokeWidth="10" strokeDasharray="39.39 238.76" strokeDashoffset="-80.24" strokeLinecap="butt" style={{ cursor: 'pointer', transition: 'stroke-width 0.2s ease' }}
           onMouseMove={(e) => handleMouseMove(e, 'Grade 10: 205 Students (16.5%)')}
           onMouseEnter={(e) => e.currentTarget.style.strokeWidth = '13'}
           onMouseLeave={(e) => { e.currentTarget.style.strokeWidth = '10'; setHoverData(null); }}
         />
-        <circle cx="60" cy="60" r="38" fill="none" stroke="#ff3366" strokeWidth="10" strokeDasharray="42.26 238.76" strokeDashoffset="-37.98" strokeLinecap="round" style={{ cursor: 'pointer', transition: 'stroke-width 0.2s ease' }}
+        <circle cx="60" cy="60" r="38" fill="none" stroke="#ff3366" strokeWidth="10" strokeDasharray="42.26 238.76" strokeDashoffset="-37.98" strokeLinecap="butt" style={{ cursor: 'pointer', transition: 'stroke-width 0.2s ease' }}
           onMouseMove={(e) => handleMouseMove(e, 'Grade 11: 220 Students (17.7%)')}
           onMouseEnter={(e) => e.currentTarget.style.strokeWidth = '13'}
           onMouseLeave={(e) => { e.currentTarget.style.strokeWidth = '10'; setHoverData(null); }}
         />
-        <circle cx="60" cy="60" r="38" fill="none" stroke="#ff3399" strokeWidth="10" strokeDasharray="37.98 238.76" strokeDashoffset="0" strokeLinecap="round" style={{ cursor: 'pointer', transition: 'stroke-width 0.2s ease' }}
+        <circle cx="60" cy="60" r="38" fill="none" stroke="#ff3399" strokeWidth="10" strokeDasharray="37.98 238.76" strokeDashoffset="0" strokeLinecap="butt" style={{ cursor: 'pointer', transition: 'stroke-width 0.2s ease' }}
           onMouseMove={(e) => handleMouseMove(e, 'Grade 12: 200 Students (16.1%)')}
           onMouseEnter={(e) => e.currentTarget.style.strokeWidth = '13'}
           onMouseLeave={(e) => { e.currentTarget.style.strokeWidth = '10'; setHoverData(null); }}
         />
-        <text x="60" y="58" fill="#f5c842" fontSize="20" fontWeight="700" fontFamily="Caveat, cursive" textAnchor="middle">1,245</text>
-        <text x="60" y="70" fill="rgba(240, 239, 237, 0.42)" fontSize="8" fontWeight="700" textAnchor="middle">TOTAL</text>
+        <text x="60" y="56" fill="#f5c842" fontSize="16" fontWeight="800" fontFamily="Inter, sans-serif" textAnchor="middle">1,245</text>
+        <text x="60" y="70" fill="rgba(240, 239, 237, 0.42)" fontSize="7" fontWeight="700" fontFamily="Inter, sans-serif" textAnchor="middle">TOTAL</text>
       </svg>
       {hoverData && (
         <div style={{
