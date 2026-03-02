@@ -1,7 +1,10 @@
 'use client';
 import React from 'react';
+import dynamic from 'next/dynamic';
 import styles from './dashboard.module.css';
-import { ChalkLineChart, ChalkDonutChart } from '@/components/ChalkCharts';
+
+const ChalkLineChart = dynamic(() => import('@/components/ChalkCharts').then(mod => mod.ChalkLineChart), { ssr: false, loading: () => <div style={{width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#f5c842'}}>Loading chart...</div> });
+const ChalkDonutChart = dynamic(() => import('@/components/ChalkCharts').then(mod => mod.ChalkDonutChart), { ssr: false, loading: () => <div style={{width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#f5c842'}}>Loading chart...</div> });
 import { schoolAdminMockData } from '@/lib/mock/schoolAdmin.mock';
 import { DashboardHeader } from '@/components/shared/DashboardHeader';
 import { DashboardListPanel } from '@/components/shared/DashboardListPanel';
