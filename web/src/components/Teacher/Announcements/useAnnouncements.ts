@@ -43,7 +43,6 @@ export type AnnouncementsFiltersState = typeof DEFAULT_FILTERS;
 export type AnnouncementSortKey =
   | 'title'
   | 'audience'
-  | 'type'
   | 'status'
   | 'createdSortKey';
 
@@ -139,6 +138,7 @@ export function useAnnouncements() {
   const { filterOptions, tabs, classroomOptions, announcements: seed } = teacherAnnouncementsPageMock;
   const [announcements, setAnnouncements] = useState(seed);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [toast, setToast] = useState<{ title: string; message?: string } | null>(null);
   const { sortConfig, sortKey, sortDirection, handleSort: toggleSort } =
     useColumnSort<AnnouncementSortKey>();
 
@@ -187,22 +187,55 @@ export function useAnnouncements() {
   const archiveSelected = () => {
     if (selectedIds.length === 0) return;
     setAnnouncements((prev) => archiveRowsByIds(prev, selectedIds));
+    setToast({
+      title: `${selectedIds.length} announcement${selectedIds.length === 1 ? '' : 's'} archived`,
+    });
     clearSelection();
   };
 
   const deleteSelected = () => {
     if (selectedIds.length === 0) return;
     setAnnouncements((prev) => deleteRowsByIds(prev, selectedIds));
+    setToast({
+      title: `${selectedIds.length} announcement${selectedIds.length === 1 ? '' : 's'} deleted`,
+    });
     clearSelection();
   };
 
   const archiveItem = (id: string) => {
     setAnnouncements((prev) => archiveRowById(prev, id));
+    setToast({ title: 'Announcement archived' });
   };
 
   const deleteItem = (id: string) => {
     setAnnouncements((prev) => deleteRowById(prev, id));
     setSelectedIds((prev) => prev.filter((itemId) => itemId !== id));
+    setToast({ title: 'Announcement deleted' });
+  };
+
+  const duplicateItem = (id: string) => {
+    setAnnouncements((prev) => {
+      const source = prev.find((announcement) => announcement.id === id);
+      if (!source) return prev;
+
+      const duplicate: TeacherAnnouncementRow = {
+        ...source,
+        id: `ann-${Date.now()}`,
+        title: `Copy of ${source.title}`,
+        status: 'Draft',
+        pinned: false,
+        publishedAt: 'Not published',
+        createdSortKey: new Date().toISOString().slice(0, 10),
+        views: 0,
+      };
+
+      return [duplicate, ...prev];
+    });
+    list.setPage(1);
+    setToast({
+      title: 'Announcement duplicated',
+      message: 'A draft copy was added to the list.',
+    });
   };
 
   return {
@@ -228,5 +261,8 @@ export function useAnnouncements() {
     deleteSelected,
     archiveItem,
     deleteItem,
+    duplicateItem,
+    toast,
+    dismissToast: () => setToast(null),
   };
 }

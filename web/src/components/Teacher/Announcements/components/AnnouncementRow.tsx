@@ -14,7 +14,6 @@ import styles from '../announcements.module.css';
 const ROW_ACTIONS = [
   { icon: '👁', label: 'View Announcement' },
   { icon: '✎', label: 'Edit Announcement' },
-  { icon: '📌', label: 'Toggle Pin' },
   { icon: '📋', label: 'Duplicate' },
 ] as const;
 
@@ -27,6 +26,8 @@ interface AnnouncementRowProps {
   announcement: TeacherAnnouncementRow;
   selected: boolean;
   onToggleSelect: (id: string) => void;
+  onView: (announcement: TeacherAnnouncementRow) => void;
+  onDuplicate: (id: string) => void;
   onArchive: (id: string) => void;
   onDelete: (id: string) => void;
 }
@@ -35,6 +36,8 @@ export function AnnouncementRow({
   announcement,
   selected,
   onToggleSelect,
+  onView,
+  onDuplicate,
   onArchive,
   onDelete,
 }: AnnouncementRowProps) {
@@ -47,17 +50,19 @@ export function AnnouncementRow({
       />
       <td>
         <div className={styles.titleCell}>
-          <ResourceTitle title={announcement.title} />
+          <ResourceTitle
+            title={announcement.title}
+            footer={
+              <ChalkBadge
+                label={announcement.type}
+                accent={announcementTypeAccent(announcement.type)}
+              />
+            }
+          />
         </div>
       </td>
       <td>
         <span className={styles.audienceText}>{announcement.audience}</span>
-      </td>
-      <td>
-        <ChalkBadge
-          label={announcement.type}
-          accent={announcementTypeAccent(announcement.type)}
-        />
       </td>
       <td>
         <ChalkBadge
@@ -77,6 +82,8 @@ export function AnnouncementRow({
           actions={ROW_ACTIONS}
           dangerActions={DANGER_ACTIONS}
           onAction={(actionLabel) => {
+            if (actionLabel === 'View Announcement') onView(announcement);
+            if (actionLabel === 'Duplicate') onDuplicate(announcement.id);
             if (actionLabel === 'Archive') onArchive(announcement.id);
             if (actionLabel === 'Delete') onDelete(announcement.id);
           }}

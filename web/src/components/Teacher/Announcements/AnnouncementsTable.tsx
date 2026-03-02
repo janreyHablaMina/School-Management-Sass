@@ -18,6 +18,8 @@ interface AnnouncementsTableProps {
   onToggle: (id: string) => void;
   onToggleAllVisible: () => void;
   onClearSelection: () => void;
+  onViewAnnouncement: (announcement: TeacherAnnouncementRow) => void;
+  onDuplicateItem: (id: string) => void;
   onArchiveSelected: () => void;
   onDeleteSelected: () => void;
   onArchiveItem: (id: string) => void;
@@ -27,7 +29,6 @@ interface AnnouncementsTableProps {
 const COLUMNS: DataTableColumn[] = [
   { id: 'title', label: 'Announcement', sortable: true },
   { id: 'audience', label: 'Audience', sortable: true },
-  { id: 'type', label: 'Type', sortable: true },
   { id: 'status', label: 'Status', sortable: true },
   { id: 'createdSortKey', label: 'Date / Views', sortable: true },
   { id: 'actions', label: 'Actions' },
@@ -43,6 +44,8 @@ export function AnnouncementsTable({
   onToggle,
   onToggleAllVisible,
   onClearSelection,
+  onViewAnnouncement,
+  onDuplicateItem,
   onArchiveSelected,
   onDeleteSelected,
   onArchiveItem,
@@ -62,7 +65,7 @@ export function AnnouncementsTable({
 
       <DataTable
         columns={COLUMNS}
-        minWidth={980}
+        minWidth={860}
         sortKey={sortKey}
         sortDirection={sortDirection}
         onSort={(key) => onSort(key as AnnouncementSortKey)}
@@ -80,6 +83,8 @@ export function AnnouncementsTable({
             announcement={announcement}
             selected={selectedIds.includes(announcement.id)}
             onToggleSelect={onToggle}
+            onView={onViewAnnouncement}
+            onDuplicate={onDuplicateItem}
             onArchive={onArchiveItem}
             onDelete={onDeleteItem}
           />
