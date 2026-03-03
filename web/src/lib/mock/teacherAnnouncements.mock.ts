@@ -1,7 +1,6 @@
 import type { TeacherAnnouncementsPageData } from '@/types/teacherAnnouncements';
 
 export const teacherAnnouncementsPageMock: TeacherAnnouncementsPageData = {
-  tabs: ['All Announcements', 'Published', 'Drafts', 'Pinned', 'Scheduled'],
   classroomOptions: [
     'Grade 7 - Section A',
     'Grade 8 - Section B',
@@ -20,7 +19,6 @@ export const teacherAnnouncementsPageMock: TeacherAnnouncementsPageData = {
     ],
     statuses: ['All Status', 'Published', 'Draft', 'Scheduled', 'Archived'],
     types: ['All Types', 'General', 'Reminder', 'Event', 'Urgent'],
-    sorts: ['Newest First', 'Oldest First', 'Title A-Z'],
   },
   announcements: [
     {
@@ -34,8 +32,6 @@ export const teacherAnnouncementsPageMock: TeacherAnnouncementsPageData = {
       publishedAt: 'May 24, 2025',
       createdSortKey: '2025-05-24',
       views: 28,
-      icon: '📋',
-      accent: '#b68eff',
     },
     {
       id: '2',
@@ -48,8 +44,6 @@ export const teacherAnnouncementsPageMock: TeacherAnnouncementsPageData = {
       publishedAt: 'May 23, 2025',
       createdSortKey: '2025-05-23',
       views: 112,
-      icon: '👨‍👩‍👧',
-      accent: '#5cc789',
     },
     {
       id: '3',
@@ -62,8 +56,6 @@ export const teacherAnnouncementsPageMock: TeacherAnnouncementsPageData = {
       publishedAt: 'May 22, 2025',
       createdSortKey: '2025-05-22',
       views: 24,
-      icon: '🔬',
-      accent: '#84a9ff',
     },
     {
       id: '4',
@@ -76,8 +68,6 @@ export const teacherAnnouncementsPageMock: TeacherAnnouncementsPageData = {
       publishedAt: 'May 21, 2025',
       createdSortKey: '2025-05-21',
       views: 22,
-      icon: '💻',
-      accent: '#f5a623',
     },
     {
       id: '5',
@@ -90,8 +80,6 @@ export const teacherAnnouncementsPageMock: TeacherAnnouncementsPageData = {
       publishedAt: 'May 20, 2025',
       createdSortKey: '2025-05-20',
       views: 30,
-      icon: '📚',
-      accent: '#c9a8ff',
     },
     {
       id: '6',
@@ -104,8 +92,6 @@ export const teacherAnnouncementsPageMock: TeacherAnnouncementsPageData = {
       publishedAt: 'May 19, 2025',
       createdSortKey: '2025-05-19',
       views: 28,
-      icon: '🚨',
-      accent: '#ff7e93',
     },
     {
       id: '7',
@@ -118,8 +104,6 @@ export const teacherAnnouncementsPageMock: TeacherAnnouncementsPageData = {
       publishedAt: 'May 28, 2025',
       createdSortKey: '2025-05-18',
       views: 0,
-      icon: '🚌',
-      accent: '#6ed9a0',
     },
     {
       id: '8',
@@ -132,8 +116,6 @@ export const teacherAnnouncementsPageMock: TeacherAnnouncementsPageData = {
       publishedAt: '—',
       createdSortKey: '2025-05-17',
       views: 0,
-      icon: '🗓️',
-      accent: '#f5c842',
     },
     {
       id: '9',
@@ -146,8 +128,6 @@ export const teacherAnnouncementsPageMock: TeacherAnnouncementsPageData = {
       publishedAt: 'May 16, 2025',
       createdSortKey: '2025-05-16',
       views: 96,
-      icon: '📖',
-      accent: '#84a9ff',
     },
     {
       id: '10',
@@ -160,8 +140,6 @@ export const teacherAnnouncementsPageMock: TeacherAnnouncementsPageData = {
       publishedAt: '—',
       createdSortKey: '2025-05-15',
       views: 0,
-      icon: '🏅',
-      accent: '#5cc789',
     },
     {
       id: '11',
@@ -174,8 +152,6 @@ export const teacherAnnouncementsPageMock: TeacherAnnouncementsPageData = {
       publishedAt: 'June 1, 2025',
       createdSortKey: '2025-05-14',
       views: 0,
-      icon: '🎓',
-      accent: '#b68eff',
     },
     {
       id: '12',
@@ -188,8 +164,6 @@ export const teacherAnnouncementsPageMock: TeacherAnnouncementsPageData = {
       publishedAt: 'Mar 10, 2025',
       createdSortKey: '2025-03-10',
       views: 140,
-      icon: '📦',
-      accent: '#8a9a90',
     },
   ],
 };

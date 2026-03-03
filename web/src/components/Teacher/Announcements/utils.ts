@@ -13,13 +13,6 @@ const TYPE_ACCENTS: Record<AnnouncementType, string> = {
   Urgent: '#ff7e93',
 };
 
-const TYPE_ICONS: Record<AnnouncementType, string> = {
-  General: '📢',
-  Reminder: '📋',
-  Event: '🗓️',
-  Urgent: '🚨',
-};
-
 const STATUS_ACCENTS: Record<AnnouncementStatus, string> = {
   Published: '#5cc789',
   Draft: '#f5a623',
@@ -100,7 +93,5 @@ export function buildAnnouncementFromInput(
     publishedAt,
     createdSortKey: toSortKey(now),
     views: 0,
-    icon: TYPE_ICONS[input.type],
-    accent: announcementTypeAccent(input.type),
   };
 }

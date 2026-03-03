@@ -4,9 +4,8 @@ import { useMemo, useState } from 'react';
 import { teacherAnnouncementsPageMock } from '@/lib/mock/teacherAnnouncements.mock';
 import type { TeacherSummaryMetric } from '@/types/teacherList';
 import type {
-  AnnouncementSort,
+  AnnouncementSortKey,
   AnnouncementStatus,
-  AnnouncementTab,
   AnnouncementType,
   CreateAnnouncementInput,
   TeacherAnnouncementRow,
@@ -19,7 +18,6 @@ import {
   deleteRowsByIds,
   matchesAllOrExact,
   matchesSearch,
-  sortByCreatedOrTitle,
   sortWithColumnOverride,
   useColumnSort,
   usePagedList,
@@ -31,20 +29,12 @@ const PAGE_SIZE = 8;
 
 const DEFAULT_FILTERS = {
   searchTerm: '',
-  tab: 'All Announcements' as AnnouncementTab,
   classFilter: 'All Audiences',
   status: 'All Status' as 'All Status' | AnnouncementStatus,
   type: 'All Types' as 'All Types' | AnnouncementType,
-  sort: 'Newest First' as AnnouncementSort,
 };
 
 export type AnnouncementsFiltersState = typeof DEFAULT_FILTERS;
-
-export type AnnouncementSortKey =
-  | 'title'
-  | 'audience'
-  | 'status'
-  | 'createdSortKey';
 
 function matchesAudience(row: TeacherAnnouncementRow, classFilter: string) {
   if (classFilter === 'All Audiences') return true;
@@ -54,29 +44,17 @@ function matchesAudience(row: TeacherAnnouncementRow, classFilter: string) {
   return row.audience.split(', ').includes(classFilter);
 }
 
-function matchesTab(row: TeacherAnnouncementRow, tab: AnnouncementTab) {
-  switch (tab) {
-    case 'Published':
-      return row.status === 'Published';
-    case 'Drafts':
-      return row.status === 'Draft';
-    case 'Pinned':
-      return row.pinned;
-    case 'Scheduled':
-      return row.status === 'Scheduled';
-    default:
-      return true;
-  }
-}
-
 function matchesAnnouncement(row: TeacherAnnouncementRow, filters: AnnouncementsFiltersState) {
   return (
     matchesSearch(filters.searchTerm, [row.title, row.description, row.audience]) &&
-    matchesTab(row, filters.tab) &&
     matchesAudience(row, filters.classFilter) &&
     matchesAllOrExact(filters.status, row.status, 'All Status') &&
     matchesAllOrExact(filters.type, row.type, 'All Types')
   );
+}
+
+function sortNewestFirst(rows: TeacherAnnouncementRow[]) {
+  return [...rows].sort((a, b) => b.createdSortKey.localeCompare(a.createdSortKey));
 }
 
 function getAnnouncementSortValue(
@@ -135,7 +113,7 @@ function buildMetrics(announcements: TeacherAnnouncementRow[]): TeacherSummaryMe
 }
 
 export function useAnnouncements() {
-  const { filterOptions, tabs, classroomOptions, announcements: seed } = teacherAnnouncementsPageMock;
+  const { filterOptions, classroomOptions, announcements: seed } = teacherAnnouncementsPageMock;
   const [announcements, setAnnouncements] = useState(seed);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [toast, setToast] = useState<{ title: string; message?: string } | null>(null);
@@ -149,13 +127,13 @@ export function useAnnouncements() {
     initialFilters: DEFAULT_FILTERS,
     pageSize: PAGE_SIZE,
     filterFn: matchesAnnouncement,
-    sortFn: (items, filters) =>
+    sortFn: (items) =>
       sortWithColumnOverride(
         items,
         sortConfig,
         getAnnouncementSortValue,
-        (rows, f) => sortByCreatedOrTitle(rows, f.sort),
-        filters,
+        sortNewestFirst,
+        undefined,
         (a, b) => a.title.localeCompare(b.title),
       ),
     sortDeps: sortConfig,
@@ -240,7 +218,6 @@ export function useAnnouncements() {
 
   return {
     metrics,
-    tabs,
     filterOptions,
     classroomOptions,
     isCreateOpen,

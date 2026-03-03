@@ -5,8 +5,10 @@ import {
   SelectAllCheckbox,
 } from '../shared';
 import { AnnouncementRow } from './components/AnnouncementRow';
-import type { TeacherAnnouncementRow } from '@/types/teacherAnnouncements';
-import type { AnnouncementSortKey } from './useAnnouncements';
+import type {
+  AnnouncementSortKey,
+  TeacherAnnouncementRow,
+} from '@/types/teacherAnnouncements';
 
 interface AnnouncementsTableProps {
   announcements: TeacherAnnouncementRow[];

@@ -2,14 +2,11 @@ export type AnnouncementStatus = 'Published' | 'Draft' | 'Scheduled' | 'Archived
 
 export type AnnouncementType = 'General' | 'Reminder' | 'Event' | 'Urgent';
 
-export type AnnouncementTab =
-  | 'All Announcements'
-  | 'Published'
-  | 'Drafts'
-  | 'Pinned'
-  | 'Scheduled';
-
-export type AnnouncementSort = 'Newest First' | 'Oldest First' | 'Title A-Z';
+export type AnnouncementSortKey =
+  | 'title'
+  | 'audience'
+  | 'status'
+  | 'createdSortKey';
 
 export interface TeacherAnnouncementRow {
   id: string;
@@ -22,8 +19,6 @@ export interface TeacherAnnouncementRow {
   publishedAt: string;
   createdSortKey: string;
   views: number;
-  icon: string;
-  accent: string;
 }
 
 export type AnnouncementPublishMode = 'publish' | 'draft' | 'schedule';
@@ -42,12 +37,10 @@ export interface CreateAnnouncementInput {
 
 export interface TeacherAnnouncementsPageData {
   announcements: TeacherAnnouncementRow[];
-  tabs: AnnouncementTab[];
   classroomOptions: string[];
   filterOptions: {
     audiences: string[];
     statuses: Array<'All Status' | AnnouncementStatus>;
     types: Array<'All Types' | AnnouncementType>;
-    sorts: AnnouncementSort[];
   };
 }
