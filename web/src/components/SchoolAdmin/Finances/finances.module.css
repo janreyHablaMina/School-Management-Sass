@@ -1,0 +1,104 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding-bottom: 2rem;
+  color: #f0efed;
+}
+
+.tableCard {
+  background: rgba(10, 25, 17, 0.15);
+  border: 2px solid rgba(240, 239, 237, 0.35);
+  border-radius: 12px 14px 11px 13px / 14px 11px 13px 12px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.tableHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.tableTitle {
+  margin: 0;
+  font-family: 'Caveat', cursive;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #f5c842;
+}
+
+.tableWrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.financesTable {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 0.5rem;
+}
+
+.financesTable th {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  font-size: 0.8rem;
+  color: rgba(240, 239, 237, 0.6);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid rgba(240, 239, 237, 0.1);
+}
+
+.financesTable td {
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.15);
+  font-size: 0.9rem;
+  color: #f0efed;
+  border-top: 1px solid rgba(240, 239, 237, 0.1);
+  border-bottom: 1px solid rgba(240, 239, 237, 0.1);
+}
+
+.financesTable td:first-child {
+  border-left: 1px solid rgba(240, 239, 237, 0.1);
+  border-radius: 8px 0 0 8px;
+}
+
+.financesTable td:last-child {
+  border-right: 1px solid rgba(240, 239, 237, 0.1);
+  border-radius: 0 8px 8px 0;
+}
+
+.statusBadge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.statusPaid {
+  background: rgba(92, 199, 137, 0.15);
+  color: #5cc789;
+  border: 1px solid rgba(92, 199, 137, 0.3);
+}
+
+.statusPending {
+  background: rgba(245, 200, 66, 0.15);
+  color: #f5c842;
+  border: 1px solid rgba(245, 200, 66, 0.3);
+}
+
+.statusOverdue {
+  background: rgba(235, 87, 87, 0.15);
+  color: #eb5757;
+  border: 1px solid rgba(235, 87, 87, 0.3);
+}
+
+.amount {
+  font-family: 'Caveat', cursive;
+  font-size: 1.2rem;
+  font-weight: 700;
+}

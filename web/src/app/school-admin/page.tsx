@@ -72,6 +72,11 @@ const SchoolAdminSettingsView = dynamic(() =>
     (mod) => mod.SettingsView,
   ),
 );
+const FinancesView = dynamic(() =>
+  import('@/components/SchoolAdmin/Finances/FinancesView').then(
+    (mod) => mod.FinancesView,
+  ),
+);
 
 export default function SchoolAdminDashboard() {
   const [activeTab, setActiveTab] = useState('Dashboard');
@@ -116,6 +121,8 @@ export default function SchoolAdminDashboard() {
         return <SchoolAdminReportsView />;
       case 'PieYah Assistant':
         return <SchoolAdminAiAssistantView />;
+      case 'Finances':
+        return <FinancesView />;
       case 'Settings':
         return <SchoolAdminSettingsView />;
       default:

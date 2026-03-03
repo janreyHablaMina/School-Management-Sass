@@ -64,6 +64,12 @@ export const schoolAdminMenuGroups: NavGroup[] = [
     ],
   },
   {
+    title: 'Operations',
+    items: [
+      { label: 'Finances', icon: '💰' },
+    ],
+  },
+  {
     title: 'Analytics',
     items: [
       { label: 'Reports', icon: '📊' },

@@ -47,15 +47,15 @@ export const ChalkLineChart = ({
     const areaPath = `${pointPath} L 448 150 L 52 150 Z`;
 
     return (
-      <svg width="100%" height="100%" viewBox="0 0 500 180" preserveAspectRatio="none" fill="none" style={{ filter: 'url(#chalk-wobble)' }}>
+      <svg width="100%" height="100%" viewBox="0 0 500 180" fill="none" style={{ filter: 'url(#chalk-wobble)' }}>
         <defs>
           <linearGradient id={areaId} x1="0" y1="48" x2="0" y2="150" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#84a9ff" stopOpacity="0.16" />
-            <stop offset="100%" stopColor="#84a9ff" stopOpacity="0" />
+            <stop offset="0%" stopColor="#f5c842" stopOpacity="0.16" />
+            <stop offset="100%" stopColor="#f5c842" stopOpacity="0" />
           </linearGradient>
           <linearGradient id={strokeId} x1="52" y1="0" x2="448" y2="0" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#84a9ff" />
-            <stop offset="100%" stopColor="#9eb8ff" />
+            <stop offset="0%" stopColor="#f5c842" />
+            <stop offset="100%" stopColor="#ffda75" />
           </linearGradient>
         </defs>
 
@@ -77,7 +77,7 @@ export const ChalkLineChart = ({
             cx={x}
             cy={y}
             r={index === points.length - 1 ? 4.5 : 3.4}
-            fill={index === points.length - 1 ? '#f0efed' : '#84a9ff'}
+            fill={index === points.length - 1 ? '#f0efed' : '#f5c842'}
             stroke="#08120d"
             strokeWidth="1.8"
           />
@@ -110,9 +110,9 @@ export const ChalkLineChart = ({
         </g>
         <g transform="translate(56, 31)" fontFamily="Inter, sans-serif" fontSize="9" fontWeight="700">
           <text x="0" y="0" fill="rgba(240, 239, 237, 0.48)">Weekly change</text>
-          <text x="0" y="14" fill="#8affad">+2.8%</text>
+          <text x="0" y="14" fill="#5cc789">+2.8%</text>
           <text x="64" y="0" fill="rgba(240, 239, 237, 0.48)">Average</text>
-          <text x="64" y="14" fill="rgba(240, 239, 237, 0.9)">96.4%</text>
+          <text x="64" y="14" fill="#f5c842">96.4%</text>
         </g>
       </svg>
     );

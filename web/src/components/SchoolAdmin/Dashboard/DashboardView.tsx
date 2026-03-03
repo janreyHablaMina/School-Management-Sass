@@ -51,21 +51,6 @@ export const DashboardView: React.FC = () => {
           </div>
           <div className={styles.chartCanvas}><ChalkDonutChart /></div>
         </div>
-
-        <div className={styles.chartCard}>
-          <div className={styles.chartHeader}>
-            <h3 className={styles.chartTitle}>Enrollment Trend</h3>
-            <select className={styles.dropdownSelectSmall}>
-              <option>This Month</option>
-              <option>Last 3 Months</option>
-              <option>Last 6 Months</option>
-              <option>This School Year</option>
-              <option>Previous School Year</option>
-              <option>Year over Year</option>
-            </select>
-          </div>
-          <div className={styles.chartCanvas}><ChalkLineChart tooltipDate="2025-2026" tooltipText="Enrolled: 1,245" /></div>
-        </div>
       </div>
 
       {/* LISTS ROW */}
@@ -83,7 +68,6 @@ export const DashboardView: React.FC = () => {
             badge: 'Update',
           }))}
         />
-
         <DashboardListPanel
           title="Upcoming Events"
           footerLabel="View calendar ›"
@@ -97,7 +81,6 @@ export const DashboardView: React.FC = () => {
             badge: 'Event',
           }))}
         />
-
         <DashboardListPanel
           title="Announcements"
           footerLabel="View all ›"

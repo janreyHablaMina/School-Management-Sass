@@ -1,4 +1,4 @@
-﻿/* Dashboard Container */
+/* Dashboard Container */
 .dashboardContainer {
   display: flex;
   flex-direction: column;
@@ -30,14 +30,14 @@
 /* Charts */
 .chartsGrid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 2fr 1fr;
   gap: 1.5rem;
 }
 
 .chartCard {
-  background: rgba(0, 0, 0, 0.2);
-  border: 1.5px solid rgba(240, 239, 237, 0.15);
-  border-radius: 16px;
+  background: rgba(10, 25, 17, 0.15);
+  border: 2px solid rgba(240, 239, 237, 0.35);
+  border-radius: 12px 14px 11px 13px / 14px 11px 13px 12px;
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
@@ -85,4 +85,3 @@
   composes: dropdownSelect;
   padding: 0.3rem 1.8rem 0.3rem 0.6rem;
 }
-
