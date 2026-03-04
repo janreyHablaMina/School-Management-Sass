@@ -200,7 +200,6 @@ export function useLessons(options?: { classFocus?: TeacherClassFocus | null }) 
     setLessons((prev) => [next, ...prev]);
     setIsCreateOpen(false);
     list.setPage(1);
-    setHighlightId(next.id);
     setToast({
       title: input.status === 'Published' ? 'Lesson published' : 'Draft saved',
       message: `${next.title} · ${next.classLabel}`,
@@ -225,7 +224,6 @@ export function useLessons(options?: { classFocus?: TeacherClassFocus | null }) 
     list.setFilter('type', 'All Types');
     list.setFilter('sort', 'Newest First');
     list.setPage(1);
-    setHighlightId(saved[0].id);
     const first = saved[0];
     const allPublished = saved.every((item) => item.status === 'Published');
     const allDraft = saved.every((item) => item.status === 'Draft');

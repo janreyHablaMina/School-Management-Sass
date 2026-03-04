@@ -15,10 +15,6 @@ const UPLOAD_EXTENSIONS = [
   '.pptx',
   '.doc',
   '.docx',
-  '.txt',
-  '.rtf',
-  '.odt',
-  '.odp',
 ] as const;
 
 export const ACCEPTED_UPLOAD_ACCEPT = UPLOAD_EXTENSIONS.join(',');
@@ -114,7 +110,7 @@ export function collectAttachmentsFromFiles(
     if (!UPLOAD_EXTENSIONS.some((ext) => name.endsWith(ext))) {
       return {
         attachments: [],
-        error: 'Use PDF, PowerPoint, Word, text, or OpenDocument files.',
+        error: 'Use PDF, PowerPoint, or Word files.',
       };
     }
     if (file.size > MAX_ATTACHMENT_BYTES) {
