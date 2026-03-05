@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { teacherLessonsPageMock } from '@/lib/mock/teacherLessons.mock';
 import {
   resolveListFiltersFromFocus,
@@ -26,6 +26,7 @@ import {
   usePagedList,
   useRowSelection,
 } from '../shared';
+import { buildLessonFromInput, type CreateLessonInput } from './utils';
 
 const PAGE_SIZE = 6;
 
@@ -99,6 +100,10 @@ export function useLessons(options?: { classFocus?: TeacherClassFocus | null }) 
   );
 
   const [lessons, setLessons] = useState(seed);
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [toast, setToast] = useState<{ title: string; message?: string } | null>(
+    null,
+  );
   const { sortConfig, sortKey, sortDirection, handleSort: toggleSort } =
     useColumnSort<LessonSortKey>();
 
@@ -120,6 +125,12 @@ export function useLessons(options?: { classFocus?: TeacherClassFocus | null }) 
   });
 
   const handleSort = bindColumnSort(toggleSort, list.setPage);
+
+  useEffect(() => {
+    if (!toast) return;
+    const timer = window.setTimeout(() => setToast(null), 3500);
+    return () => window.clearTimeout(timer);
+  }, [toast]);
 
   const paginatedLessons = list.paginatedItems;
   const visibleIds = paginatedLessons.map((lesson) => lesson.id);
@@ -156,6 +167,17 @@ export function useLessons(options?: { classFocus?: TeacherClassFocus | null }) 
     setSelectedIds((prev) => prev.filter((itemId) => itemId !== id));
   };
 
+  const createLesson = (input: CreateLessonInput) => {
+    const next = buildLessonFromInput(input, lessons);
+    setLessons((prev) => [next, ...prev]);
+    setIsCreateOpen(false);
+    list.setPage(1);
+    setToast({
+      title: input.status === 'Published' ? 'Lesson published' : 'Draft saved',
+      message: `${next.title} · ${next.classLabel}`,
+    });
+  };
+
   return {
     metrics,
     tabs,
@@ -174,5 +196,11 @@ export function useLessons(options?: { classFocus?: TeacherClassFocus | null }) 
     deleteSelected,
     archiveItem,
     deleteItem,
+    isCreateOpen,
+    openCreate: () => setIsCreateOpen(true),
+    closeCreate: () => setIsCreateOpen(false),
+    createLesson,
+    toast,
+    dismissToast: () => setToast(null),
   };
 }

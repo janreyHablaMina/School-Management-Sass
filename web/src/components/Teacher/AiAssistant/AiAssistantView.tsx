@@ -10,11 +10,13 @@ import styles from './aiAssistant.module.css';
 interface AiAssistantViewProps {
   classFocus?: TeacherClassFocus | null;
   initialToolId?: number | null;
+  initialPrompt?: string | null;
 }
 
 export function AiAssistantView({
   classFocus = null,
   initialToolId = null,
+  initialPrompt = null,
 }: AiAssistantViewProps) {
   const {
     metrics,
@@ -42,7 +44,8 @@ export function AiAssistantView({
     clearChat,
     loadRecentRun,
     sendPrompt,
-  } = useAiAssistant({ classFocus, initialToolId });
+    runMessageAction,
+  } = useAiAssistant({ classFocus, initialToolId, initialPrompt });
 
   return (
     <div className={listStyles.page}>
@@ -184,6 +187,7 @@ export function AiAssistantView({
               messages={messages}
               selectedTool={selectedTool}
               isGenerating={isGenerating}
+              onMessageAction={runMessageAction}
             />
           </div>
 

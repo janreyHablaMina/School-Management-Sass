@@ -8,6 +8,7 @@ import styles from '../myClasses.module.css';
 const ACTIVE_ACTIONS = [
   { icon: '🚪', label: 'Open Class' },
   { icon: '✏️', label: 'Edit Class' },
+  { icon: '📨', label: 'Invite Students' },
   { icon: '📄', label: 'Duplicate Class' },
   { icon: '📅', label: 'View Schedule' },
 ] as const;
@@ -25,6 +26,7 @@ interface ClassRowProps {
   onToggleSelect: (id: number) => void;
   onOpen: (id: number) => void;
   onEdit: (id: number) => void;
+  onInvite: (id: number) => void;
   onDuplicate: (id: number) => void;
   onViewSchedule: (id: number) => void;
   onArchive: (id: number) => void;
@@ -37,6 +39,7 @@ export function ClassRow({
   onToggleSelect,
   onOpen,
   onEdit,
+  onInvite,
   onDuplicate,
   onViewSchedule,
   onArchive,
@@ -127,6 +130,7 @@ export function ClassRow({
           onAction={(label) => {
             if (label === 'Open Class') onOpen(cls.id);
             if (label === 'Edit Class') onEdit(cls.id);
+            if (label === 'Invite Students') onInvite(cls.id);
             if (label === 'Duplicate Class') onDuplicate(cls.id);
             if (label === 'View Schedule') onViewSchedule(cls.id);
             if (label === 'Archive Class') onArchive(cls.id);

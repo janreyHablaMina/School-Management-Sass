@@ -24,6 +24,7 @@ interface ClassesTableProps {
   onBulkRestore: () => void;
   onOpen: (id: number) => void;
   onEdit: (id: number) => void;
+  onInvite: (id: number) => void;
   onDuplicate: (id: number) => void;
   onViewSchedule: (id: number) => void;
   onArchive: (id: number) => void;
@@ -55,6 +56,7 @@ export function ClassesTable({
   onBulkRestore,
   onOpen,
   onEdit,
+  onInvite,
   onDuplicate,
   onViewSchedule,
   onArchive,
@@ -112,6 +114,7 @@ export function ClassesTable({
             onToggleSelect={onToggleClass}
             onOpen={onOpen}
             onEdit={onEdit}
+            onInvite={onInvite}
             onDuplicate={onDuplicate}
             onViewSchedule={onViewSchedule}
             onArchive={onArchive}

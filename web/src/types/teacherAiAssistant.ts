@@ -17,6 +17,14 @@ export interface AiAssistantTool extends AiTool {
   creditCost: number;
 }
 
+export type AiReplyIntent =
+  | 'summary'
+  | 'lesson'
+  | 'quiz'
+  | 'exam'
+  | 'upload'
+  | 'generic';
+
 export interface AiChatMessage {
   id: string;
   role: AiMessageRole;
@@ -24,7 +32,13 @@ export interface AiChatMessage {
   createdAt: string;
   toolId?: number;
   attachments?: AiAttachment[];
+  /** Topic used for follow-up actions (Q&A, save labels). */
+  topic?: string;
+  /** Drives Save / Q&A / Share buttons under assistant replies. */
+  intent?: AiReplyIntent;
 }
+
+export type AiFollowUpActionId = 'save' | 'generate-qa' | 'share';
 
 export interface AiRecentRun {
   id: string;

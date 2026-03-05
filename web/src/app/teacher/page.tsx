@@ -62,7 +62,7 @@ export default function TeacherDashboard() {
       case 'Students':
         return <StudentsView classFocus={classFocus} onNavigate={navigateTo} />;
       case 'Lessons':
-        return <LessonsView classFocus={classFocus} />;
+        return <LessonsView classFocus={classFocus} onNavigate={navigateTo} />;
       case 'Assignments':
         return <AssignmentsView classFocus={classFocus} />;
       case 'Quizzes':
@@ -82,6 +82,7 @@ export default function TeacherDashboard() {
           <AiAssistantView
             classFocus={classFocus}
             initialToolId={navRequest?.aiToolId}
+            initialPrompt={navRequest?.aiPrompt}
           />
         );
       case 'Settings':

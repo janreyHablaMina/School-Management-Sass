@@ -134,6 +134,7 @@ export function MyClassesView({ onNavigate }: MyClassesViewProps) {
               onBulkRestore={restoreSelected}
               onOpen={openClass}
               onEdit={openEdit}
+              onInvite={openInvite}
               onDuplicate={duplicateClass}
               onViewSchedule={openSchedule}
               onArchive={openArchive}

@@ -10,12 +10,14 @@ import type {
   AiAssistantTool,
   AiAttachment,
   AiChatMessage,
+  AiFollowUpActionId,
   AiRecentRun,
   AiStarterPrompt,
 } from '@/types/teacherAiAssistant';
 import {
   buildAssistantReply,
   buildMetrics,
+  buildQaFromTopic,
   collectAttachmentsFromFiles,
   createMessage,
   previewFromRun,
@@ -24,6 +26,7 @@ import {
 export function useAiAssistant(options?: {
   classFocus?: TeacherClassFocus | null;
   initialToolId?: number | null;
+  initialPrompt?: string | null;
 }) {
   const seed = teacherAiAssistantMock;
 
@@ -35,7 +38,7 @@ export function useAiAssistant(options?: {
   const [classroom, setClassroom] = useState(() =>
     resolveClassroomOption(seed.classroomOptions, options?.classFocus),
   );
-  const [prompt, setPrompt] = useState('');
+  const [prompt, setPrompt] = useState(() => options?.initialPrompt?.trim() ?? '');
   const [attachments, setAttachments] = useState<AiAttachment[]>([]);
   const [messages, setMessages] = useState<AiChatMessage[]>([]);
   const [recentRuns, setRecentRuns] = useState<AiRecentRun[]>(seed.recentRuns);
@@ -147,7 +150,14 @@ export function useAiAssistant(options?: {
         classroom,
         pendingAttachments,
       );
-      const assistantMessage = createMessage('assistant', reply, selectedTool?.id);
+      const assistantMessage = createMessage(
+        'assistant',
+        reply.content,
+        selectedTool?.id,
+        undefined,
+        reply.topic,
+        reply.intent,
+      );
       setMessages((prev) => [...prev, assistantMessage]);
 
       if (cost > 0) {
@@ -180,9 +190,63 @@ export function useAiAssistant(options?: {
 
       setIsGenerating(false);
       setStatusMessage(
-        cost > 0 ? `Generated · ${cost} credits used` : 'Generated · free tool',
+        cost > 0
+          ? `Generated · ${cost} credits used · Save, Q&A, or Share below`
+          : 'Generated · Save, Q&A, or Share below',
       );
     }, 650);
+  };
+
+  const runMessageAction = (messageId: string, action: AiFollowUpActionId) => {
+    const message = messages.find((item) => item.id === messageId);
+    if (!message || message.role !== 'assistant') return;
+
+    const topic = message.topic ?? 'this draft';
+
+    if (action === 'save') {
+      setError(null);
+      setStatusMessage(`Saved “${topic}” to your drafts (demo).`);
+      return;
+    }
+
+    if (action === 'share') {
+      const payload = message.content;
+      void (async () => {
+        try {
+          if (navigator.clipboard?.writeText) {
+            await navigator.clipboard.writeText(payload);
+            setStatusMessage('Copied to clipboard — paste to share with your class.');
+          } else {
+            setStatusMessage('Share ready — copy the reply text manually.');
+          }
+        } catch {
+          setStatusMessage('Share ready — copy the reply text manually.');
+        }
+        setError(null);
+      })();
+      return;
+    }
+
+    if (action === 'generate-qa') {
+      setError(null);
+      setStatusMessage(null);
+      setIsGenerating(true);
+
+      window.setTimeout(() => {
+        const qaContent = buildQaFromTopic(topic, classroom);
+        const qaMessage = createMessage(
+          'assistant',
+          qaContent,
+          selectedTool?.id,
+          undefined,
+          topic,
+          'quiz',
+        );
+        setMessages((prev) => [...prev, qaMessage]);
+        setIsGenerating(false);
+        setStatusMessage(`Q&A ready for “${topic}” · Save or Share below`);
+      }, 500);
+    }
   };
 
   return {
@@ -211,5 +275,6 @@ export function useAiAssistant(options?: {
     clearChat,
     loadRecentRun,
     sendPrompt,
+    runMessageAction,
   };
 }

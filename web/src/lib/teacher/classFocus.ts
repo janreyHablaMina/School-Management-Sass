@@ -16,6 +16,8 @@ export interface TeacherNavRequest {
   studentFocus?: TeacherStudentFocus;
   /** Prefill AI Assistant tool (e.g. Generate Quiz). */
   aiToolId?: number;
+  /** Prefill AI Assistant composer prompt. */
+  aiPrompt?: string;
 }
 
 /** Build a focus payload from a My Classes row (or similar). */

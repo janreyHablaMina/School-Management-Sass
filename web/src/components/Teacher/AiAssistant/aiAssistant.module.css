@@ -284,6 +284,41 @@
   color: #f0efed;
 }
 
+.bubbleActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 0.75rem;
+  padding-top: 0.65rem;
+  border-top: 1px solid rgba(240, 239, 237, 0.1);
+}
+
+.bubbleAction {
+  appearance: none;
+  border: 1.5px solid rgba(245, 200, 66, 0.35);
+  border-radius: 999px;
+  padding: 0.35rem 0.75rem;
+  background: rgba(245, 200, 66, 0.1);
+  color: #f5c842;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.bubbleAction:hover:not(:disabled) {
+  background: rgba(245, 200, 66, 0.2);
+  border-color: rgba(245, 200, 66, 0.55);
+  color: #ffe08a;
+}
+
+.bubbleAction:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .composer {
   display: flex;
   flex-direction: column;

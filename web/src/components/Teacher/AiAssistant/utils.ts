@@ -3,6 +3,8 @@ import type {
   AiAttachment,
   AiAttachmentKind,
   AiChatMessage,
+  AiFollowUpActionId,
+  AiReplyIntent,
 } from '@/types/teacherAiAssistant';
 import type { TeacherSummaryMetric } from '@/types/teacherList';
 import type { AiUsage } from '@/types/teacherPortal';
@@ -145,6 +147,8 @@ export function createMessage(
   content: string,
   toolId?: number,
   attachments?: AiAttachment[],
+  topic?: string,
+  intent?: AiReplyIntent,
 ): AiChatMessage {
   return {
     id: `msg-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
@@ -153,6 +157,8 @@ export function createMessage(
     createdAt: new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }),
     toolId,
     attachments: attachments?.length ? attachments : undefined,
+    topic,
+    intent,
   };
 }
 
@@ -160,13 +166,165 @@ function joinBlocks(...parts: Array<string | false | undefined>): string {
   return parts.filter(Boolean).join('\n');
 }
 
+export function detectReplyIntent(
+  prompt: string,
+  tool?: AiAssistantTool,
+): AiReplyIntent {
+  const p = prompt.toLowerCase();
+  if (/summar|biography|life of|overview|explain briefly/.test(p)) return 'summary';
+  if (/quiz|question|mcq|true\/false/.test(p)) return 'quiz';
+  if (/exam|midterm|final|test paper/.test(p)) return 'exam';
+  if (/lesson|lesson plan|warm-?up|exit ticket/.test(p)) return 'lesson';
+
+  switch (tool?.id) {
+    case 1:
+      return 'upload';
+    case 2:
+      return 'lesson';
+    case 3:
+      return 'quiz';
+    case 4:
+      return 'exam';
+    case 5:
+      return 'summary';
+    default:
+      return 'generic';
+  }
+}
+
+/** Pull the classroom topic out of casual prompts like “generate me summary life of jose rizal”. */
+export function extractTopicFromPrompt(prompt: string, fallback = 'your topic'): string {
+  let topic = prompt.trim();
+  topic = topic.replace(
+    /^(please\s+)?(can you\s+)?(generate|create|make|write|draft|give|build|summarize)\s+(me\s+)?/i,
+    '',
+  );
+  topic = topic.replace(
+    /^(a\s+|an\s+|the\s+)?(short\s+|quick\s+)?(summary|lesson plan|lesson|quiz|exam|overview|notes?)\s*(of|on|about|for|:)?\s*/i,
+    '',
+  );
+  topic = topic.replace(/^(of|on|about|for)\s+/i, '');
+  topic = topic.replace(/[.?!]+$/g, '').trim();
+  return topic || fallback;
+}
+
+export function followUpActionsFor(
+  intent: AiReplyIntent = 'generic',
+): Array<{ id: AiFollowUpActionId; label: string }> {
+  const share = { id: 'share' as const, label: 'Share' };
+  const save = { id: 'save' as const, label: 'Save' };
+  const qa = { id: 'generate-qa' as const, label: 'Generate Q&A' };
+
+  switch (intent) {
+    case 'summary':
+      return [save, qa, share];
+    case 'lesson':
+      return [
+        { id: 'save', label: 'Save lesson' },
+        qa,
+        share,
+      ];
+    case 'quiz':
+    case 'exam':
+      return [save, share];
+    case 'upload':
+      return [
+        { id: 'save', label: 'Save outline' },
+        qa,
+        share,
+      ];
+    default:
+      return [save, qa, share];
+  }
+}
+
+function buildKnownTopicSummary(topic: string): string | null {
+  const key = topic.toLowerCase();
+  if (/rizal/.test(key)) {
+    return joinBlocks(
+      'In one sentence',
+      'José Rizal was a Filipino writer and reformist whose novels and ideas helped awaken national consciousness under Spanish rule.',
+      '',
+      'Life snapshot',
+      '• Born June 19, 1861 in Calamba, Laguna; executed December 30, 1896 in Bagumbayan (Luneta).',
+      '• Studied medicine and the arts in Europe; became a leading voice of the Propaganda Movement.',
+      '• Wrote Noli Me Tangere and El Filibusterismo, exposing injustice and inspiring reform.',
+      '• Advocated education, dignity, and peaceful change; his martyrdom strengthened the call for independence.',
+      '',
+      '5 takeaways',
+      '1. Rizal used writing as a tool for social reform.',
+      '2. His novels revealed abuses of colonial power and the clergy.',
+      '3. He valued knowledge, civic duty, and love of country.',
+      '4. Spanish authorities saw his ideas as a threat and sentenced him to death.',
+      '5. Filipinos honor him as a national hero whose ideals still shape civic learning.',
+      '',
+      'Classroom tip',
+      'Ask students: Which idea from Rizal still matters in the Philippines today?',
+    );
+  }
+  return null;
+}
+
+export function buildQaFromTopic(topic: string, classroom: string): string {
+  const classLine = classroom ? ` for ${classroom}` : '';
+  const key = topic.toLowerCase();
+
+  if (/rizal/.test(key)) {
+    return joinBlocks(
+      `Questions & answers${classLine} based on “${topic}”.`,
+      '',
+      '1. Where and when was José Rizal born?',
+      'A: Calamba, Laguna — June 19, 1861.',
+      '',
+      '2. Name his two most famous novels.',
+      'A: Noli Me Tangere and El Filibusterismo.',
+      '',
+      '3. What movement did Rizal help lead through writing and ideas?',
+      'A: The Propaganda Movement for reforms under Spanish rule.',
+      '',
+      '4. True or False: Rizal’s main tool for change was armed rebellion.',
+      'A: False — he emphasized education, writing, and peaceful reform.',
+      '',
+      '5. Why is December 30 important in Philippine history?',
+      'A: It marks Rizal’s execution in 1896; the nation commemorates his martyrdom.',
+      '',
+      'Demo mode — edit before assigning.',
+    );
+  }
+
+  return joinBlocks(
+    `Questions & answers${classLine} based on “${topic}”.`,
+    '',
+    '1. Who or what is the main focus?',
+    `A: ${topic} — students should state the core idea in one sentence.`,
+    '',
+    '2. Why does this matter in class?',
+    'A: It connects history/ideas to civic values and critical reading.',
+    '',
+    '3. Name one key detail students should remember.',
+    'A: Pick a landmark fact, date, or contribution from the summary.',
+    '',
+    '4. True or False: The topic only matters for memorization.',
+    'A: False — students should explain significance, not only recall names.',
+    '',
+    '5. Short answer: What is one lesson we can apply today?',
+    'A: Encourage a values-based or skills-based takeaway from the material.',
+    '',
+    'Demo mode — edit before assigning.',
+  );
+}
+
 export function buildAssistantReply(
   tool: AiAssistantTool | undefined,
   prompt: string,
   classroom: string,
   attachments: AiAttachment[] = [],
-): string {
-  const topic = prompt.trim().slice(0, 120) || (attachments[0]?.name ?? 'your request');
+): { content: string; intent: AiReplyIntent; topic: string } {
+  const topic = extractTopicFromPrompt(
+    prompt,
+    attachments[0]?.name ?? 'your request',
+  );
+  const intent = detectReplyIntent(prompt, tool);
   const classLine = classroom ? ` for ${classroom}` : '';
   const filesBlock =
     attachments.length > 0
@@ -177,9 +335,10 @@ export function buildAssistantReply(
         )
       : '';
 
-  switch (tool?.id) {
-    case 1:
-      return joinBlocks(
+  let content: string;
+  switch (intent) {
+    case 'upload':
+      content = joinBlocks(
         attachments.length
           ? `I reviewed your upload${classLine}.`
           : `Ready to analyze materials${classLine}.`,
@@ -196,9 +355,12 @@ export function buildAssistantReply(
         '',
         'Demo mode — files stay in this session only.',
       );
-    case 2:
-      return joinBlocks(
+      break;
+    case 'lesson':
+      content = joinBlocks(
         `Here is a draft lesson plan${classLine}.`,
+        '',
+        `Topic: ${topic}`,
         '',
         'Lesson outline',
         '• Warm-up (5 min): Activate prior knowledge with a quick board prompt.',
@@ -209,15 +371,16 @@ export function buildAssistantReply(
         attachments.length
           ? 'Materials: adapted from your attached file(s), plus chalkboard examples.'
           : 'Materials: chalkboard examples, student notebooks, 1 printable worksheet.',
-        '',
-        `Based on: ${topic}`,
         filesBlock,
         '',
         'Demo mode — copy and edit before assigning to students.',
       );
-    case 3:
-      return joinBlocks(
+      break;
+    case 'quiz':
+      content = joinBlocks(
         `Quiz draft ready${classLine}.`,
+        '',
+        `Topic: ${topic}`,
         '',
         'Item set (sample)',
         '1. Multiple choice — recall of key terms',
@@ -229,13 +392,14 @@ export function buildAssistantReply(
         attachments.length
           ? 'Items were seeded from the attached materials.'
           : 'I can expand this to your full item count, add an answer key, or retarget difficulty.',
-        '',
-        `Based on: ${topic}`,
         filesBlock,
       );
-    case 4:
-      return joinBlocks(
+      break;
+    case 'exam':
+      content = joinBlocks(
         `Exam draft ready${classLine}.`,
+        '',
+        `Topic: ${topic}`,
         '',
         'Structure',
         '• Part A — Multiple choice (40%)',
@@ -244,29 +408,39 @@ export function buildAssistantReply(
         '',
         'Answer key: included as a teacher-only section at the end.',
         'Suggested time: align with your class period + 5 minutes buffer.',
-        '',
-        `Based on: ${topic}`,
         filesBlock,
       );
-    case 5:
-      return joinBlocks(
+      break;
+    case 'summary': {
+      const known = buildKnownTopicSummary(topic);
+      content = joinBlocks(
         `Student-friendly summary${classLine}.`,
         '',
-        'In one sentence',
-        'The main idea is stated clearly, then broken into digestible chalk notes.',
+        `Topic: ${topic}`,
         '',
-        '5 takeaways',
-        '1. Core definition students must remember',
-        '2. Why the idea matters in class',
-        '3. One everyday example',
-        '4. Common mistake to avoid',
-        '5. What to practice tonight',
-        '',
-        `Source: ${topic}`,
+        known ??
+          joinBlocks(
+            'In one sentence',
+            `${topic} is explained in plain language so students can retell the main idea.`,
+            '',
+            '5 takeaways',
+            `1. Who/what: introduce ${topic} clearly`,
+            '2. Why it matters for the class or community',
+            '3. One vivid example or scene students remember',
+            '4. A common misconception to correct',
+            '5. One practice task or reflection for tonight',
+            '',
+            'Classroom tip',
+            'Ask students to underline one fact and one opinion, then discuss the difference.',
+          ),
         filesBlock,
+        '',
+        'What next? Save, generate Q&A, or share.',
       );
+      break;
+    }
     default:
-      return joinBlocks(
+      content = joinBlocks(
         `I can help with lessons, quizzes, exams, and summaries${classLine}.`,
         '',
         'Attach a file or pick a tool, then describe the classroom goal.',
@@ -275,6 +449,8 @@ export function buildAssistantReply(
         filesBlock,
       );
   }
+
+  return { content, intent, topic };
 }
 
 export function previewFromRun(prompt: string, attachments: AiAttachment[]): string {
