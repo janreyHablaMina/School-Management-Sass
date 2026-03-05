@@ -1,9 +1,8 @@
 'use client';
 
 import { useEffect, useMemo, useState, type CSSProperties } from 'react';
-import type { MyClassRow } from '@/types/myClasses';
-import { listStyles, modalStyles, TeacherModal } from '../../shared';
 import {
+  classInvitePath,
   classInviteUrl,
   classJoinCode,
   combineDateAndTime,
@@ -15,8 +14,10 @@ import {
   rememberClassInvite,
   toDateInputValue,
   toTimeInputValue,
-} from '../utils';
-import styles from '../myClasses.module.css';
+} from '@/lib/classroom';
+import type { MyClassRow } from '@/types/myClasses';
+import { listStyles, modalStyles, TeacherModal } from '../../shared';
+import styles from './InviteStudentModal.module.css';
 
 interface InviteStudentModalProps {
   cls: MyClassRow;
@@ -52,8 +53,8 @@ export function InviteStudentModal({
   const link = expiresAt != null ? classInviteUrl(cls, expiresAt) : '';
   const previewHref =
     expiresAt != null
-      ? `/join/${encodeURIComponent(code)}?exp=${expiresAt}`
-      : `/join/${encodeURIComponent(code)}`;
+      ? classInvitePath(cls, expiresAt)
+      : `/login?code=${encodeURIComponent(code)}`;
 
   useEffect(() => {
     if (!expiryValid || expiresAt == null) return;
@@ -68,7 +69,6 @@ export function InviteStudentModal({
   const copyValue = async (kind: 'code' | 'link', value: string) => {
     if (!expiryValid || expiresAt == null) return;
     try {
-      rememberClassInvite({ code, classId: cls.id, expiresAt });
       await navigator.clipboard.writeText(value);
       setCopied(kind);
       onCopied(kind);
@@ -96,7 +96,7 @@ export function InviteStudentModal({
             rel="noreferrer"
             style={{ textDecoration: 'none' }}
           >
-            Preview student page
+            Preview login
           </a>
           <button type="button" className={listStyles.primaryBtn} onClick={onClose}>
             Done

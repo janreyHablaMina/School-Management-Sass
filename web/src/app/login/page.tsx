@@ -1,9 +1,17 @@
 'use client';
 
-import React, { useState, useId } from 'react';
+import React, { useEffect, useMemo, useState, useId, Suspense } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import styles from './login.module.css';
+import {
+  findClassByJoinCode,
+  isInviteExpired,
+  parseInviteExpiry,
+  rememberClassInvite,
+  storedInviteExpiry,
+} from '@/lib/classroom';
+import { myClassesPageMock } from '@/lib/mock/myClasses.mock';
 
 /* ────────────────────────────────────────────────────────────
    Inline SVG Icons
@@ -285,17 +293,59 @@ const starPositions = [
 /* ────────────────────────────────────────────────────────────
    Main Login Page Component
    ──────────────────────────────────────────────────────────── */
-export default function LoginPage() {
+function LoginPageContent() {
   const [email, setEmail]               = useState('');
   const [password, setPassword]         = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading]       = useState(false);
   const [error, setError]               = useState('');
   const router                          = useRouter();
+  const searchParams                    = useSearchParams();
 
   const emailId    = useId();
   const passwordId = useId();
   const errorId    = useId();
+
+  const inviteCode = useMemo(() => {
+    const raw = searchParams.get('code')?.trim() ?? '';
+    return raw ? decodeURIComponent(raw).toUpperCase() : '';
+  }, [searchParams]);
+
+  const inviteClass = useMemo(
+    () =>
+      inviteCode
+        ? findClassByJoinCode(inviteCode, myClassesPageMock.classes)
+        : null,
+    [inviteCode],
+  );
+
+  const inviteExpiresAt = useMemo(() => {
+    if (!inviteCode) return null;
+    const fromUrl = parseInviteExpiry(searchParams.get('exp'));
+    if (fromUrl != null) return fromUrl;
+    return storedInviteExpiry(inviteCode);
+  }, [inviteCode, searchParams]);
+
+  const inviteExpired = inviteCode
+    ? isInviteExpired(inviteExpiresAt)
+    : false;
+
+  useEffect(() => {
+    if (!inviteCode || !inviteClass || inviteExpiresAt == null || inviteExpired) {
+      return;
+    }
+    rememberClassInvite({
+      code: inviteCode,
+      classId: inviteClass.id,
+      expiresAt: inviteExpiresAt,
+    });
+  }, [inviteCode, inviteClass, inviteExpiresAt, inviteExpired]);
+
+  const registerHref = inviteCode
+    ? `/register?code=${encodeURIComponent(inviteCode)}${
+        inviteExpiresAt != null ? `&exp=${inviteExpiresAt}` : ''
+      }`
+    : '/register';
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -514,7 +564,27 @@ export default function LoginPage() {
                 </div>
               </div>
               <WelcomeBackSwoosh />
-              <p className={styles.cardSubtitle}>Log in to continue your learning journey.</p>
+              {inviteCode ? (
+                <p className={styles.inviteBanner} role="status">
+                  {inviteExpired ? (
+                    <>This classroom invite has expired.</>
+                  ) : inviteClass ? (
+                    <>
+                      Joining <strong>{inviteClass.subject}</strong>
+                      <span aria-hidden> · </span>
+                      <strong>{inviteCode}</strong>
+                    </>
+                  ) : (
+                    <>
+                      Invite code <strong>{inviteCode}</strong>
+                    </>
+                  )}
+                </p>
+              ) : (
+                <p className={styles.cardSubtitle}>
+                  Log in to continue your learning journey.
+                </p>
+              )}
             </header>
 
             {/* Error */}
@@ -613,7 +683,7 @@ export default function LoginPage() {
             {/* Sign Up */}
             <p className={styles.signupRow}>
               Don&apos;t have an account?
-              <Link href="/register" className={styles.signupLink}>
+              <Link href={registerHref} className={styles.signupLink}>
                 Sign Up →
               </Link>
             </p>
@@ -633,5 +703,13 @@ export default function LoginPage() {
 
       </div>
     </main>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={null}>
+      <LoginPageContent />
+    </Suspense>
   );
 }

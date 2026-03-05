@@ -558,29 +558,34 @@
 .rightPanel {
   width: 50%;
   flex-shrink: 0;
+  min-height: 0;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: flex-end; /* Align the login card exactly to the right edge */
-  padding: 2rem 0 2rem 2rem; /* padding-right set to 0 to align card with header right edge */
+  padding: 0.75rem 0 0.75rem 2rem;
   position: relative;
   z-index: 1;
+  overflow: hidden;
 }
 
 /* ---------- Login Card ---------- */
 .card {
   width: 100%;
   max-width: 420px;
+  max-height: 100%;
+  overflow: hidden;
   background: rgba(10, 23, 17, 0.78); /* Deep slate forest translucent card */
   border: 2.2px solid rgba(240, 239, 237, 0.65); /* Solid wobbly chalk board border */
   border-radius: 24px 28px 24px 30px / 28px 24px 30px 24px; /* Organic hand-drawn effect */
-  padding: 2.2rem 2rem;
+  padding: 1.45rem 1.7rem 1.35rem;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   box-shadow:
     0 15px 35px rgba(0, 0, 0, 0.6),
     0 0 0 1px rgba(255,255,255,0.02) inset;
   position: relative;
+  box-sizing: border-box;
 }
 
 /* Dashed inner chalk border — matching wobbly shape */
@@ -596,7 +601,7 @@
 /* ---------- Card Header ---------- */
 .cardHeader {
   text-align: center;
-  margin-bottom: 1.4rem;
+  margin-bottom: 0.85rem;
   position: relative;
 }
 
@@ -610,7 +615,7 @@
 
 .welcomeTitle {
   font-family: 'Caveat', cursive;
-  font-size: 2.3rem;
+  font-size: 2rem;
   font-weight: 700;
   color: #f0efed;
   margin: 0;
@@ -639,11 +644,27 @@
   line-height: 1.4;
 }
 
+.inviteBanner {
+  margin: 0.45rem 0 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  font-size: 0.78rem;
+  line-height: 1.35;
+  color: rgba(240, 239, 237, 0.62);
+  text-align: center;
+}
+
+.inviteBanner strong {
+  color: #f5c842;
+  font-weight: 700;
+}
+
 /* ---------- Form ---------- */
 .form {
   display: flex;
   flex-direction: column;
-  gap: 0.9rem;
+  gap: 0.7rem;
 }
 
 .formGroup {
@@ -678,7 +699,7 @@
 
 .input {
   width: 100%;
-  padding: 0.75rem 1rem 0.75rem 2.7rem;
+  padding: 0.62rem 1rem 0.62rem 2.7rem;
   background: rgba(255, 255, 255, 0.04);
   border: 1.5px solid rgba(255, 255, 255, 0.15);
   border-radius: 12px 10px 12px 9px / 10px 12px 9px 12px; /* slight wobble */

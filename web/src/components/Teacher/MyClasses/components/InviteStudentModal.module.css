@@ -1,0 +1,271 @@
+/* Invite student modal */
+
+.inviteHero {
+  --invite-accent: #f5c842;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin-top: 0.35rem;
+  padding: 0.95rem 1rem;
+  border-radius: 14px;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--invite-accent) 18%, transparent), transparent 70%),
+    rgba(0, 0, 0, 0.22);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--invite-accent) 35%, transparent);
+  animation: inviteRise 0.35s ease both;
+}
+
+.inviteHeroIcon {
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--invite-accent);
+  background: color-mix(in srgb, var(--invite-accent) 16%, transparent);
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--invite-accent) 45%, transparent);
+}
+
+.inviteHeroCopy {
+  min-width: 0;
+}
+
+.inviteHeroEyebrow {
+  margin: 0;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(240, 239, 237, 0.45);
+}
+
+.inviteHeroTitle {
+  margin: 0.15rem 0 0;
+  font-family: 'Caveat', cursive;
+  font-size: 1.65rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #f0efed;
+}
+
+.inviteHeroMeta {
+  margin: 0.25rem 0 0;
+  font-size: 0.8rem;
+  color: rgba(240, 239, 237, 0.55);
+}
+
+.inviteRail {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.45rem;
+  animation: inviteRise 0.4s ease 0.05s both;
+}
+
+.inviteRail li {
+  position: relative;
+  padding: 0.55rem 0.65rem;
+  border-radius: 10px;
+  background: rgba(240, 239, 237, 0.04);
+  box-shadow: inset 0 0 0 1px rgba(240, 239, 237, 0.1);
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: rgba(240, 239, 237, 0.7);
+  text-align: center;
+}
+
+.inviteRail li::before {
+  content: '';
+  display: block;
+  width: 0.45rem;
+  height: 0.45rem;
+  margin: 0 auto 0.35rem;
+  border-radius: 50%;
+  background: #f5c842;
+  box-shadow: 0 0 0 3px rgba(245, 200, 66, 0.15);
+}
+
+.invitePanel,
+.inviteCodePanel,
+.inviteLinkPanel {
+  margin-top: 1rem;
+  padding: 0.95rem 1rem;
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.18);
+  box-shadow: inset 0 0 0 1px rgba(240, 239, 237, 0.1);
+  animation: inviteRise 0.45s ease 0.08s both;
+}
+
+.inviteCodePanel {
+  background:
+    radial-gradient(circle at 10% 0%, rgba(245, 200, 66, 0.12), transparent 45%),
+    rgba(0, 0, 0, 0.22);
+  box-shadow: inset 0 0 0 1px rgba(245, 200, 66, 0.22);
+}
+
+.inviteShareLabel {
+  margin: 0 0 0.45rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(240, 239, 237, 0.48);
+}
+
+.inviteShareRow {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.inviteCodeStage {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.inviteCode {
+  flex: 1;
+  min-width: min(100%, 12rem);
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.28);
+  box-shadow: inset 0 0 0 1px rgba(245, 200, 66, 0.35);
+  color: #f5c842;
+  font-family: 'Caveat', cursive;
+  font-size: clamp(1.7rem, 4vw, 2.1rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-align: center;
+  line-height: 1.1;
+}
+
+.inviteLink {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  padding: 0.7rem 0.85rem;
+  border-radius: 10px;
+  background: rgba(240, 239, 237, 0.05);
+  box-shadow: inset 0 0 0 1px rgba(240, 239, 237, 0.12);
+  color: rgba(240, 239, 237, 0.72);
+  font-size: 0.78rem;
+  line-height: 1.4;
+  word-break: break-all;
+}
+
+.inviteDateTimeRow {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 0.65rem;
+}
+
+.inviteDateTimeField {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: rgba(240, 239, 237, 0.48);
+}
+
+.inviteDateTimeField input {
+  min-height: 42px;
+  padding: 0.5rem 0.7rem;
+  border-radius: 10px;
+  border: 1.5px solid rgba(240, 239, 237, 0.16);
+  background: rgba(0, 0, 0, 0.22);
+  color: #f0efed;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: normal;
+  text-transform: none;
+  color-scheme: dark;
+}
+
+.inviteDateTimeField input:focus {
+  outline: none;
+  border-color: rgba(245, 200, 66, 0.5);
+}
+
+.inviteQuickRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.7rem;
+}
+
+.inviteQuickChip {
+  min-height: 30px;
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  border: 1.5px dashed rgba(240, 239, 237, 0.2);
+  background: transparent;
+  color: rgba(240, 239, 237, 0.62);
+  font: inherit;
+  font-size: 0.74rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.inviteQuickChip:hover {
+  border-color: rgba(245, 200, 66, 0.45);
+  color: #f5c842;
+}
+
+.inviteExpiryLine {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.55rem;
+  margin: 0.8rem 0 0;
+  font-size: 0.78rem;
+  color: rgba(240, 239, 237, 0.55);
+}
+
+.inviteExpiryError {
+  margin: 0.8rem 0 0;
+  font-size: 0.78rem;
+  color: #ff8a8a;
+}
+
+.inviteCodeHint {
+  margin: 0.55rem 0 0;
+  font-size: 0.74rem;
+  color: rgba(240, 239, 237, 0.45);
+}
+
+@keyframes inviteRise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .inviteRail {
+    grid-template-columns: 1fr;
+  }
+
+  .inviteDateTimeRow {
+    grid-template-columns: 1fr;
+  }
+
+  .inviteCodeStage {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

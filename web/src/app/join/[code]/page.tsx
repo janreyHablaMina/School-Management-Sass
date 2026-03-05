@@ -1,25 +1,20 @@
-'use client';
+import { redirect } from 'next/navigation';
 
-import { Suspense } from 'react';
-import JoinClassPage from './JoinClassClient';
-import styles from './join.module.css';
+interface JoinRedirectPageProps {
+  params: Promise<{ code: string }>;
+  searchParams: Promise<{ exp?: string }>;
+}
 
-export default function JoinClassRoutePage() {
-  return (
-    <Suspense
-      fallback={
-        <main className={styles.page}>
-          <div className={styles.shell}>
-            <p className={styles.brand}>Teachify</p>
-            <section className={styles.board}>
-              <p className={styles.eyebrow}>Classroom invite</p>
-              <h1 className={styles.title}>Loading invite…</h1>
-            </section>
-          </div>
-        </main>
-      }
-    >
-      <JoinClassPage />
-    </Suspense>
-  );
+/** Legacy invite URLs redirect to login with the join code. */
+export default async function JoinRedirectPage({
+  params,
+  searchParams,
+}: JoinRedirectPageProps) {
+  const { code } = await params;
+  const { exp } = await searchParams;
+  const query = new URLSearchParams();
+  if (code) query.set('code', decodeURIComponent(code).trim().toUpperCase());
+  if (exp) query.set('exp', exp);
+  const qs = query.toString();
+  redirect(qs ? `/login?${qs}` : '/login');
 }
