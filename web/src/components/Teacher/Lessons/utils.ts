@@ -3,6 +3,12 @@ import type {
   LessonType,
   TeacherLessonRow,
 } from '@/types/teacherLessons';
+import { teacherLessonsPageMock } from '@/lib/mock/teacherLessons.mock';
+import {
+  loadTeacherLessons,
+  persistTeacherLessons,
+  setLessonsPendingToast,
+} from '@/lib/lessons/storage';
 import { accentFromMap } from '../shared';
 
 const TYPE_ACCENTS: Record<LessonType, string> = {
@@ -133,4 +139,166 @@ export function buildLessonFromInput(
     updatedBy: 'You',
     updatedSortKey: sortKey,
   };
+}
+
+export function titleFromAiTopic(topic: string, content = ''): string {
+  const fromContent = content.match(/^Topic:\s*(.+)$/im)?.[1]?.trim();
+  let cleaned = (fromContent || topic).replace(/\s+/g, ' ').trim();
+
+  const onTopic = cleaned.match(
+    /\blesson\s+on\s+(.+?)(?:,?\s+with\s+|\s+for\s+grade\b|$)/i,
+  );
+  if (onTopic?.[1]) {
+    cleaned = onTopic[1].trim();
+  } else {
+    cleaned = cleaned
+      .replace(/^(a\s+|an\s+|the\s+)?\d+\s*-?\s*minute\s+/i, '')
+      .replace(/,?\s*with\s+(a\s+)?warm-?up.*$/i, '')
+      .replace(/\s+for\s+grade\s+[\d\w\s.\-–,—]+$/i, '')
+      .trim();
+
+    const subjectOnly = cleaned.match(
+      /^(mathematics|math|science|english|ict|information technology)\s+lesson\b/i,
+    );
+    if (subjectOnly) {
+      const label =
+        subjectOnly[1].toLowerCase() === 'ict'
+          ? 'ICT'
+          : subjectOnly[1].replace(/\b\w/g, (c) => c.toUpperCase());
+      cleaned = `${label} Lesson`;
+    }
+  }
+
+  if (!cleaned || cleaned.length < 3 || /^grade\s+\d/i.test(cleaned)) {
+    cleaned = 'AI Lesson Draft';
+  }
+
+  const titled = cleaned.replace(/\b\w/g, (char) => char.toUpperCase());
+  return titled.length > 48 ? `${titled.slice(0, 45)}…` : titled;
+}
+
+function truncateText(value: string, max: number): string {
+  const cleaned = value.replace(/\s+/g, ' ').trim();
+  if (cleaned.length <= max) return cleaned;
+  return `${cleaned.slice(0, Math.max(0, max - 1)).trimEnd()}…`;
+}
+
+/** Short blurb for the Lessons list — not the full AI draft body. */
+export function shortLessonDescription(content: string, topic: string): string {
+  const oneSentence = content.match(/In one sentence\s*\n+([^\n]+)/i)?.[1];
+  if (oneSentence) return truncateText(oneSentence, 110);
+
+  const skip =
+    /^(here is|student-friendly|topic:|lesson outline|materials|demo mode|what next|source files|based on|quiz draft|exam draft|questions\s*&)/i;
+
+  const line = content
+    .split('\n')
+    .map((part) => part.trim())
+    .find(
+      (part) =>
+        part.length > 24 &&
+        !skip.test(part) &&
+        !part.startsWith('•') &&
+        !/^\d+\./.test(part),
+    );
+
+  if (line) return truncateText(line.replace(/^[-•]\s*/, ''), 110);
+
+  const title = titleFromAiTopic(topic, content);
+  return `AI lesson draft on ${title}`;
+}
+
+/** Map AI classroom + optional focus into Create Lesson fields. */
+export function buildLessonInputFromAiDraft(input: {
+  topic: string;
+  content: string;
+  classroom: string;
+  classFocus?: { gradeSection: string; subject: string } | null;
+}): CreateLessonInput {
+  const classes = teacherLessonsPageMock.filterOptions.classes.filter(
+    (item) => item !== 'All Classes',
+  );
+  const subjects = teacherLessonsPageMock.filterOptions.subjects.filter(
+    (item) => item !== 'All Subjects',
+  );
+
+  const classLabel =
+    (input.classFocus &&
+      classes.find(
+        (option) =>
+          option === input.classFocus!.gradeSection ||
+          option.includes(input.classFocus!.gradeSection) ||
+          input.classFocus!.gradeSection.includes(option),
+      )) ||
+    classes.find((option) => option === input.classroom) ||
+    classes.find(
+      (option) =>
+        input.classroom.includes(option) || option.includes(input.classroom),
+    ) ||
+    classes[0] ||
+    input.classroom ||
+    'Grade 7 - Section A';
+
+  const focusSubject = input.classFocus?.subject?.trim() ?? '';
+  const subject =
+    subjects.find((option) => option === focusSubject) ||
+    (focusSubject === 'ICT'
+      ? subjects.find((option) => option.includes('Information'))
+      : undefined) ||
+    subjects.find((option) =>
+      focusSubject
+        ? option.toLowerCase().includes(focusSubject.toLowerCase()) ||
+          focusSubject.toLowerCase().includes(option.toLowerCase())
+        : false,
+    ) ||
+    subjects[0] ||
+    'English';
+
+  return {
+    title: titleFromAiTopic(input.topic, input.content),
+    description: shortLessonDescription(input.content, input.topic),
+    classLabel,
+    subject,
+    type: 'Text Lesson',
+    status: 'Draft',
+    durationMins: 45,
+  };
+}
+
+/** Persist an AI draft into the shared Lessons list (local mock store). */
+export function saveAiDraftAsLesson(input: {
+  topic: string;
+  content: string;
+  classroom: string;
+  classFocus?: { gradeSection: string; subject: string } | null;
+}): TeacherLessonRow {
+  const existing = loadTeacherLessons();
+  const lesson = buildLessonFromInput(buildLessonInputFromAiDraft(input), existing);
+  persistTeacherLessons([lesson, ...existing]);
+  setLessonsPendingToast({
+    title: 'Lesson saved',
+    message: `${lesson.title} · ${lesson.classLabel} (Draft)`,
+  });
+  return lesson;
+}
+
+/** Compact long AI drafts already sitting in the Lessons list. */
+export function sanitizeLessonListRow(lesson: TeacherLessonRow): TeacherLessonRow {
+  const titleTooLong = lesson.title.length > 56;
+  const descTooLong = lesson.description.length > 140;
+  if (!titleTooLong && !descTooLong) return lesson;
+
+  return {
+    ...lesson,
+    title: titleTooLong
+      ? titleFromAiTopic(lesson.title, lesson.description)
+      : lesson.title,
+    description: descTooLong
+      ? shortLessonDescription(lesson.description, lesson.title)
+      : lesson.description,
+  };
+}
+
+export function sanitizeLessonList(lessons: TeacherLessonRow[]): TeacherLessonRow[] {
+  return lessons.map(sanitizeLessonListRow);
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import type { TeacherClassFocus } from '@/lib/teacher/classFocus';
+import type { TeacherClassFocus, TeacherNavRequest } from '@/lib/teacher/classFocus';
 import { listStyles, PageHeader, SummaryMetrics } from '../shared';
 import { ChatThread } from './components/ChatThread';
 import { PromptComposer } from './components/PromptComposer';
@@ -11,12 +11,14 @@ interface AiAssistantViewProps {
   classFocus?: TeacherClassFocus | null;
   initialToolId?: number | null;
   initialPrompt?: string | null;
+  onNavigate?: (request: TeacherNavRequest | string) => void;
 }
 
 export function AiAssistantView({
   classFocus = null,
   initialToolId = null,
   initialPrompt = null,
+  onNavigate,
 }: AiAssistantViewProps) {
   const {
     metrics,
@@ -45,7 +47,7 @@ export function AiAssistantView({
     loadRecentRun,
     sendPrompt,
     runMessageAction,
-  } = useAiAssistant({ classFocus, initialToolId, initialPrompt });
+  } = useAiAssistant({ classFocus, initialToolId, initialPrompt, onNavigate });
 
   return (
     <div className={listStyles.page}>

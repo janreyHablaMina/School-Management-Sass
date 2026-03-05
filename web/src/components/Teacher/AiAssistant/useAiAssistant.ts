@@ -5,6 +5,7 @@ import { teacherAiAssistantMock } from '@/lib/mock/teacherAiAssistant.mock';
 import {
   resolveClassroomOption,
   type TeacherClassFocus,
+  type TeacherNavRequest,
 } from '@/lib/teacher/classFocus';
 import type {
   AiAssistantTool,
@@ -14,6 +15,7 @@ import type {
   AiRecentRun,
   AiStarterPrompt,
 } from '@/types/teacherAiAssistant';
+import { saveAiDraftAsLesson } from '../Lessons/utils';
 import {
   buildAssistantReply,
   buildMetrics,
@@ -27,6 +29,7 @@ export function useAiAssistant(options?: {
   classFocus?: TeacherClassFocus | null;
   initialToolId?: number | null;
   initialPrompt?: string | null;
+  onNavigate?: (request: TeacherNavRequest | string) => void;
 }) {
   const seed = teacherAiAssistantMock;
 
@@ -191,8 +194,8 @@ export function useAiAssistant(options?: {
       setIsGenerating(false);
       setStatusMessage(
         cost > 0
-          ? `Generated · ${cost} credits used · Save, Q&A, or Share below`
-          : 'Generated · Save, Q&A, or Share below',
+          ? `Generated · ${cost} credits used · Save as Lesson, Q&A, or Share below`
+          : 'Generated · Save as Lesson, Q&A, or Share below',
       );
     }, 650);
   };
@@ -204,8 +207,34 @@ export function useAiAssistant(options?: {
     const topic = message.topic ?? 'this draft';
 
     if (action === 'save') {
+      if (message.savedLessonId) {
+        options?.onNavigate?.({
+          tab: 'Lessons',
+          classFocus: options.classFocus ?? undefined,
+        });
+        setStatusMessage(`Opening “${topic}” in Lessons`);
+        setError(null);
+        return;
+      }
+
+      const lesson = saveAiDraftAsLesson({
+        topic,
+        content: message.content,
+        classroom,
+        classFocus: options?.classFocus ?? null,
+      });
+
+      setMessages((prev) =>
+        prev.map((item) =>
+          item.id === messageId ? { ...item, savedLessonId: lesson.id } : item,
+        ),
+      );
       setError(null);
-      setStatusMessage(`Saved “${topic}” to your drafts (demo).`);
+      setStatusMessage(`Saved “${lesson.title}” to Lessons as a draft`);
+      options?.onNavigate?.({
+        tab: 'Lessons',
+        classFocus: options.classFocus ?? undefined,
+      });
       return;
     }
 
@@ -244,7 +273,9 @@ export function useAiAssistant(options?: {
         );
         setMessages((prev) => [...prev, qaMessage]);
         setIsGenerating(false);
-        setStatusMessage(`Q&A ready for “${topic}” · Save or Share below`);
+        setStatusMessage(
+          `Q&A ready for “${topic}” · Save as Lesson for now (Quiz/Exam next)`,
+        );
       }, 500);
     }
   };

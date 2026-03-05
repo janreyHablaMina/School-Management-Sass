@@ -83,6 +83,7 @@ export default function TeacherDashboard() {
             classFocus={classFocus}
             initialToolId={navRequest?.aiToolId}
             initialPrompt={navRequest?.aiPrompt}
+            onNavigate={navigateTo}
           />
         );
       case 'Settings':

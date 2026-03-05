@@ -48,7 +48,9 @@ export function ChatThread({
       {messages.map((message) => {
         const actions =
           message.role === 'assistant' && message.intent
-            ? followUpActionsFor(message.intent)
+            ? followUpActionsFor(message.intent, {
+                savedLessonId: message.savedLessonId,
+              })
             : [];
 
         return (

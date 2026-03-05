@@ -210,29 +210,24 @@ export function extractTopicFromPrompt(prompt: string, fallback = 'your topic'):
 
 export function followUpActionsFor(
   intent: AiReplyIntent = 'generic',
+  options?: { savedLessonId?: string },
 ): Array<{ id: AiFollowUpActionId; label: string }> {
   const share = { id: 'share' as const, label: 'Share' };
-  const save = { id: 'save' as const, label: 'Save' };
+  const save = {
+    id: 'save' as const,
+    label: options?.savedLessonId ? 'Open in Lessons' : 'Save as Lesson',
+  };
   const qa = { id: 'generate-qa' as const, label: 'Generate Q&A' };
 
   switch (intent) {
     case 'summary':
-      return [save, qa, share];
     case 'lesson':
-      return [
-        { id: 'save', label: 'Save lesson' },
-        qa,
-        share,
-      ];
+    case 'upload':
+    case 'generic':
+      return [save, qa, share];
     case 'quiz':
     case 'exam':
       return [save, share];
-    case 'upload':
-      return [
-        { id: 'save', label: 'Save outline' },
-        qa,
-        share,
-      ];
     default:
       return [save, qa, share];
   }

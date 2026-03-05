@@ -3,6 +3,11 @@
 import { useEffect, useState } from 'react';
 import { teacherLessonsPageMock } from '@/lib/mock/teacherLessons.mock';
 import {
+  consumeLessonsPendingToast,
+  loadTeacherLessons,
+  persistTeacherLessons,
+} from '@/lib/lessons/storage';
+import {
   resolveListFiltersFromFocus,
   type TeacherClassFocus,
 } from '@/lib/teacher/classFocus';
@@ -26,7 +31,7 @@ import {
   usePagedList,
   useRowSelection,
 } from '../shared';
-import { buildLessonFromInput, type CreateLessonInput } from './utils';
+import { buildLessonFromInput, sanitizeLessonList, type CreateLessonInput } from './utils';
 
 const PAGE_SIZE = 6;
 
@@ -99,7 +104,14 @@ export function useLessons(options?: { classFocus?: TeacherClassFocus | null }) 
     DEFAULT_FILTERS,
   );
 
-  const [lessons, setLessons] = useState(seed);
+  const [lessons, setLessons] = useState(() => {
+    const loaded = loadTeacherLessons(seed);
+    const sanitized = sanitizeLessonList(loaded);
+    if (sanitized.some((lesson, index) => lesson !== loaded[index])) {
+      persistTeacherLessons(sanitized);
+    }
+    return sanitized;
+  });
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [toast, setToast] = useState<{ title: string; message?: string } | null>(
     null,
@@ -125,6 +137,15 @@ export function useLessons(options?: { classFocus?: TeacherClassFocus | null }) 
   });
 
   const handleSort = bindColumnSort(toggleSort, list.setPage);
+
+  useEffect(() => {
+    persistTeacherLessons(lessons);
+  }, [lessons]);
+
+  useEffect(() => {
+    const pending = consumeLessonsPendingToast();
+    if (pending) setToast(pending);
+  }, []);
 
   useEffect(() => {
     if (!toast) return;

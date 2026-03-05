@@ -36,6 +36,8 @@ export interface AiChatMessage {
   topic?: string;
   /** Drives Save / Q&A / Share buttons under assistant replies. */
   intent?: AiReplyIntent;
+  /** Set after Save as Lesson succeeds. */
+  savedLessonId?: string;
 }
 
 export type AiFollowUpActionId = 'save' | 'generate-qa' | 'share';
