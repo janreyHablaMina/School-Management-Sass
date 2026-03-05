@@ -1,5 +1,6 @@
 import { teacherLessonsPageMock } from '@/lib/mock/teacherLessons.mock';
 import { teacherStudentsPageMock } from '@/lib/mock/teacherStudents.mock';
+import { parseSectionFromGradeSection } from '@/lib/classroom';
 import type { ClassFormInput, MyClassRow } from '@/types/myClasses';
 import type { TeacherSummaryMetric } from '@/types/teacherList';
 import type { TeacherLessonRow } from '@/types/teacherLessons';
@@ -63,11 +64,6 @@ export function formatClassSchedule(
   endTime: string,
 ): string {
   return `${days.join(', ')} · ${formatTimeLabel(startTime)} - ${formatTimeLabel(endTime)}`;
-}
-
-export function parseSectionFromGradeSection(gradeSection: string): string {
-  const match = gradeSection.match(/Section\s+(.+)$/i);
-  return match?.[1]?.trim() ?? gradeSection.trim();
 }
 
 export function parseScheduleParts(schedule: string): {

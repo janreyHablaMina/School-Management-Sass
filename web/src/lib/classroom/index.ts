@@ -10,10 +10,11 @@ export {
   inviteExpiresAt,
   INVITE_QUICK_EXPIRY,
   isInviteExpired,
+  loginInvitePath,
   parseInviteExpiry,
+  parseSectionFromGradeSection,
   rememberClassInvite,
   storedInviteExpiry,
   toDateInputValue,
   toTimeInputValue,
-  type StoredClassInvite,
 } from './invite';

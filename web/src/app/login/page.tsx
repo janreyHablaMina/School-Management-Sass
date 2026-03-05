@@ -341,12 +341,6 @@ function LoginPageContent() {
     });
   }, [inviteCode, inviteClass, inviteExpiresAt, inviteExpired]);
 
-  const registerHref = inviteCode
-    ? `/register?code=${encodeURIComponent(inviteCode)}${
-        inviteExpiresAt != null ? `&exp=${inviteExpiresAt}` : ''
-      }`
-    : '/register';
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError('');
@@ -683,7 +677,7 @@ function LoginPageContent() {
             {/* Sign Up */}
             <p className={styles.signupRow}>
               Don&apos;t have an account?
-              <Link href={registerHref} className={styles.signupLink}>
+              <Link href="/register" className={styles.signupLink}>
                 Sign Up →
               </Link>
             </p>

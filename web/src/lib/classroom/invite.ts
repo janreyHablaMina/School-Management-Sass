@@ -17,7 +17,7 @@ export interface StoredClassInvite {
   expiresAt: number;
 }
 
-function sectionToken(gradeSection: string): string {
+export function parseSectionFromGradeSection(gradeSection: string): string {
   const match = gradeSection.match(/Section\s+(.+)$/i);
   return match?.[1]?.trim() ?? gradeSection.trim();
 }
@@ -27,7 +27,7 @@ export function classJoinCode(cls: MyClassRow): string {
   const subject =
     cls.subject.replace(/[^A-Za-z]/g, '').slice(0, 4).toUpperCase() || 'CLASS';
   const section =
-    sectionToken(cls.gradeSection)
+    parseSectionFromGradeSection(cls.gradeSection)
       .replace(/[^A-Za-z0-9]/g, '')
       .slice(0, 2)
       .toUpperCase() || 'A';
@@ -92,9 +92,22 @@ export function formatInviteRemaining(expiresAt: number, now = Date.now()): stri
   return `${days} day${days === 1 ? '' : 's'}`;
 }
 
+export function loginInvitePath(
+  code: string,
+  expiresAt?: number | string | null,
+): string {
+  const query = new URLSearchParams();
+  const normalized = decodeURIComponent(code).trim().toUpperCase();
+  if (normalized) query.set('code', normalized);
+  if (expiresAt != null && `${expiresAt}`.trim() !== '') {
+    query.set('exp', String(expiresAt));
+  }
+  const qs = query.toString();
+  return qs ? `/login?${qs}` : '/login';
+}
+
 export function classInvitePath(cls: MyClassRow, expiresAt: number): string {
-  const code = encodeURIComponent(classJoinCode(cls));
-  return `/login?code=${code}&exp=${expiresAt}`;
+  return loginInvitePath(classJoinCode(cls), expiresAt);
 }
 
 export function classInviteUrl(cls: MyClassRow, expiresAt: number): string {
@@ -105,16 +118,24 @@ export function classInviteUrl(cls: MyClassRow, expiresAt: number): string {
   return path;
 }
 
+function readStoredInvites(): StoredClassInvite[] {
+  if (typeof window === 'undefined') return [];
+  try {
+    const raw = window.localStorage.getItem(INVITE_STORAGE_KEY);
+    if (!raw) return [];
+    const list = JSON.parse(raw) as StoredClassInvite[];
+    return Array.isArray(list) ? list : [];
+  } catch {
+    return [];
+  }
+}
+
 export function rememberClassInvite(invite: StoredClassInvite) {
   if (typeof window === 'undefined') return;
   try {
-    const raw = window.localStorage.getItem(INVITE_STORAGE_KEY);
-    const list: StoredClassInvite[] = raw
-      ? (JSON.parse(raw) as StoredClassInvite[])
-      : [];
     const next = [
       invite,
-      ...list.filter(
+      ...readStoredInvites().filter(
         (item) => item.code !== invite.code && item.expiresAt > Date.now(),
       ),
     ].slice(0, 20);
@@ -125,17 +146,12 @@ export function rememberClassInvite(invite: StoredClassInvite) {
 }
 
 export function storedInviteExpiry(code: string): number | null {
-  if (typeof window === 'undefined') return null;
-  try {
-    const raw = window.localStorage.getItem(INVITE_STORAGE_KEY);
-    if (!raw) return null;
-    const list = JSON.parse(raw) as StoredClassInvite[];
-    const normalized = decodeURIComponent(code).trim().toUpperCase();
-    const match = list.find((item) => item.code.toUpperCase() === normalized);
-    return match?.expiresAt ?? null;
-  } catch {
-    return null;
-  }
+  const normalized = decodeURIComponent(code).trim().toUpperCase();
+  if (!normalized) return null;
+  const match = readStoredInvites().find(
+    (item) => item.code.toUpperCase() === normalized,
+  );
+  return match?.expiresAt ?? null;
 }
 
 export function findClassByJoinCode(

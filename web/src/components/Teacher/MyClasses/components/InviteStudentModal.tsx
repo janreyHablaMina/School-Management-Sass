@@ -11,6 +11,7 @@ import {
   formatInviteRemaining,
   inviteExpiresAt,
   INVITE_QUICK_EXPIRY,
+  loginInvitePath,
   rememberClassInvite,
   toDateInputValue,
   toTimeInputValue,
@@ -54,7 +55,7 @@ export function InviteStudentModal({
   const previewHref =
     expiresAt != null
       ? classInvitePath(cls, expiresAt)
-      : `/login?code=${encodeURIComponent(code)}`;
+      : loginInvitePath(code);
 
   useEffect(() => {
     if (!expiryValid || expiresAt == null) return;

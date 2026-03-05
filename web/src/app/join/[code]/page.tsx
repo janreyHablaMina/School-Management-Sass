@@ -1,4 +1,5 @@
 import { redirect } from 'next/navigation';
+import { loginInvitePath } from '@/lib/classroom';
 
 interface JoinRedirectPageProps {
   params: Promise<{ code: string }>;
@@ -12,9 +13,5 @@ export default async function JoinRedirectPage({
 }: JoinRedirectPageProps) {
   const { code } = await params;
   const { exp } = await searchParams;
-  const query = new URLSearchParams();
-  if (code) query.set('code', decodeURIComponent(code).trim().toUpperCase());
-  if (exp) query.set('exp', exp);
-  const qs = query.toString();
-  redirect(qs ? `/login?${qs}` : '/login');
+  redirect(loginInvitePath(code ?? '', exp));
 }
