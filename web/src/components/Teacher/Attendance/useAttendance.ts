@@ -11,7 +11,12 @@ import type {
   AttendanceStudentRow,
   AttendanceViewMode,
 } from '@/types/teacherAttendance';
-import { sortByConfig, useColumnSort } from '../shared';
+import {
+  bindColumnSort,
+  sortByConfig,
+  useColumnSort,
+  useRowSelection,
+} from '../shared';
 import {
   clampDay,
   formatAttendanceDate,
@@ -57,7 +62,6 @@ export function useAttendance(options?: { classFocus?: TeacherClassFocus | null 
   const [students, setStudents] = useState<AttendanceStudentRow[]>(() =>
     focusedClass ? focusedClass.students.map((student) => ({ ...student })) : [],
   );
-  const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [page, setPage] = useState(1);
   const didHydrateFocus = useRef(false);
   const { sortConfig, sortKey, sortDirection, handleSort: toggleSort } =
@@ -93,23 +97,25 @@ export function useAttendance(options?: { classFocus?: TeacherClassFocus | null 
     return sortedStudents.slice(start, start + PAGE_SIZE);
   }, [sortedStudents, currentPage]);
 
-  const handleSort = (key: AttendanceSortKey) => {
-    toggleSort(key);
-    setPage(1);
-  };
+  const handleSort = bindColumnSort(toggleSort, setPage);
 
   const rangeStart = totalStudents === 0 ? 0 : (currentPage - 1) * PAGE_SIZE + 1;
   const rangeEnd = Math.min(currentPage * PAGE_SIZE, totalStudents);
 
-  const allVisibleSelected =
-    paginatedStudents.length > 0 &&
-    paginatedStudents.every((student) => selectedIds.includes(student.id));
+  const visibleIds = paginatedStudents.map((student) => student.id);
+  const {
+    selectedIds,
+    allVisibleSelected,
+    toggle: toggleStudent,
+    toggleAllVisible,
+    clearSelection,
+  } = useRowSelection<string>({ visibleIds });
 
   const openClass = (id: string) => {
     const match = classes.find((item) => item.id === id);
     if (!match) return;
     setSelectedClassId(id);
-    setSelectedIds([]);
+    clearSelection();
     setPage(1);
     session.loadSessionForClass(
       id,
@@ -131,7 +137,7 @@ export function useAttendance(options?: { classFocus?: TeacherClassFocus | null 
   const backToClasses = () => {
     setSelectedClassId(null);
     setStudents([]);
-    setSelectedIds([]);
+    clearSelection();
     setPage(1);
     session.clearSessionUi();
   };
@@ -152,26 +158,6 @@ export function useAttendance(options?: { classFocus?: TeacherClassFocus | null 
     setSelectedYear(viewYear);
     setSelectedMonth(viewMonth);
     setSelectedDay(clampDay(viewYear, viewMonth, day));
-  };
-
-  const toggleStudent = (id: string) => {
-    setSelectedIds((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
-    );
-  };
-
-  const toggleAllVisible = () => {
-    if (allVisibleSelected) {
-      setSelectedIds((prev) =>
-        prev.filter((id) => !paginatedStudents.some((student) => student.id === id))
-      );
-      return;
-    }
-    setSelectedIds((prev) => {
-      const next = new Set(prev);
-      paginatedStudents.forEach((student) => next.add(student.id));
-      return Array.from(next);
-    });
   };
 
   const markStudents = (ids: string[] | 'all', status: AttendanceStatus) => {
@@ -223,9 +209,9 @@ export function useAttendance(options?: { classFocus?: TeacherClassFocus | null 
     markSelected: (status: AttendanceStatus) => {
       if (selectedIds.length === 0) return;
       markStudents(selectedIds, status);
-      setSelectedIds([]);
+      clearSelection();
     },
-    clearSelection: () => setSelectedIds([]),
+    clearSelection,
     page: currentPage,
     totalPages,
     setPage,

@@ -56,3 +56,28 @@ export function sortByConfig<T, K extends string>(
   });
   return sorted;
 }
+
+/** Prefer active column sort; otherwise use the module's filter/dropdown sort. */
+export function sortWithColumnOverride<T, K extends string, F>(
+  items: T[],
+  sortConfig: SortConfig<K>,
+  getValue: (item: T, key: K) => unknown,
+  filterSort: (items: T[], filters: F) => T[],
+  filters: F,
+  tieBreak?: (a: T, b: T) => number,
+): T[] {
+  if (sortConfig) {
+    return sortByConfig(items, sortConfig, getValue, tieBreak);
+  }
+  return filterSort(items, filters);
+}
+
+export function bindColumnSort<K extends string>(
+  toggleSort: (key: K) => void,
+  setPage: (page: number) => void,
+) {
+  return (key: K) => {
+    toggleSort(key);
+    setPage(1);
+  };
+}

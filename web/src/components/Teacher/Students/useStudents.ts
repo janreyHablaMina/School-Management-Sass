@@ -11,7 +11,15 @@ import type {
   StudentStatus,
   TeacherStudentRow,
 } from '@/types/teacherStudents';
-import { matchesAllOrExact, matchesSearch, usePagedList } from '../shared';
+import {
+  bindColumnSort,
+  matchesAllOrExact,
+  matchesSearch,
+  sortByConfig,
+  useColumnSort,
+  usePagedList,
+  useRowSelection,
+} from '../shared';
 import { applyStudentFormInput, buildStudentFromInput } from './studentForm';
 
 const PAGE_SIZE = 8;
@@ -34,8 +42,6 @@ export type StudentSortKey =
   | 'averageGrade'
   | 'status';
 
-type SortConfig = { key: StudentSortKey; direction: 'asc' | 'desc' };
-
 function matchesStudent(student: TeacherStudentRow, filters: StudentsFiltersState) {
   return (
     matchesSearch(filters.searchTerm, [
@@ -49,28 +55,8 @@ function matchesStudent(student: TeacherStudentRow, filters: StudentsFiltersStat
   );
 }
 
-function sortStudents(items: TeacherStudentRow[], sortConfig: SortConfig | null) {
-  if (!sortConfig) return items;
-  const { key, direction } = sortConfig;
-  const sorted = [...items];
-  sorted.sort((a, b) => {
-    const left = a[key];
-    const right = b[key];
-    let cmp = 0;
-    if (typeof left === 'number' && typeof right === 'number') {
-      cmp = left - right;
-    } else {
-      cmp = String(left).localeCompare(String(right), undefined, {
-        numeric: true,
-        sensitivity: 'base',
-      });
-    }
-    if (cmp === 0 && key === 'classLabel') {
-      cmp = a.subject.localeCompare(b.subject);
-    }
-    return direction === 'asc' ? cmp : -cmp;
-  });
-  return sorted;
+function studentSortValue(student: TeacherStudentRow, key: StudentSortKey): unknown {
+  return student[key];
 }
 
 type Overlay =
@@ -89,33 +75,45 @@ export function useStudents(options?: { classFocus?: TeacherClassFocus | null })
   const [students, setStudents] = useState(teacherStudentsPageMock.students);
   const [selectedStudentId, setSelectedStudentId] = useState<string | null>(null);
   const [overlay, setOverlay] = useState<Overlay>({ kind: 'none' });
-  const [selectedIds, setSelectedIds] = useState<string[]>([]);
-  const [sortConfig, setSortConfig] = useState<SortConfig | null>(null);
   const [toast, setToast] = useState<{ title: string; message?: string } | null>(
     null,
   );
+
+  const {
+    sortConfig,
+    sortKey,
+    sortDirection,
+    handleSort: toggleSort,
+  } = useColumnSort<StudentSortKey>();
 
   const list = usePagedList({
     items: students,
     initialFilters: { ...DEFAULT_FILTERS, classFilter },
     pageSize: PAGE_SIZE,
     filterFn: matchesStudent,
-    sortFn: (items) => sortStudents(items, sortConfig),
+    sortFn: (items) =>
+      sortByConfig(items, sortConfig, studentSortValue, (a, b) =>
+        sortConfig?.key === 'classLabel' ? a.subject.localeCompare(b.subject) : 0,
+      ),
     sortDeps: sortConfig,
   });
 
-  const handleSort = (key: StudentSortKey) => {
-    setSortConfig((current) => {
-      if (current && current.key === key) {
-        if (current.direction === 'asc') return { key, direction: 'desc' };
-        return null;
-      }
-      return { key, direction: 'asc' };
-    });
-    list.setPage(1);
-  };
+  const handleSort = bindColumnSort(toggleSort, list.setPage);
 
   const paginatedStudents = list.paginatedItems;
+  const visibleIds = paginatedStudents.map((student) => student.id);
+
+  const {
+    selectedIds,
+    allVisibleSelected,
+    toggle: toggleStudent,
+    toggleAllVisible,
+    clearSelection: clearRowSelection,
+    setSelectedIds,
+  } = useRowSelection<string>({
+    visibleIds,
+    resetKey: `${list.page}:${JSON.stringify(list.filters)}`,
+  });
 
   const selectedStudent = useMemo(
     () => students.find((student) => student.id === selectedStudentId) ?? null,
@@ -143,10 +141,6 @@ export function useStudents(options?: { classFocus?: TeacherClassFocus | null })
     [students, selectedIds],
   );
 
-  const allVisibleSelected =
-    paginatedStudents.length > 0 &&
-    paginatedStudents.every((student) => selectedIds.includes(student.id));
-
   const selectedInactiveCount = selectedStudents.filter(
     (student) => student.status === 'Inactive',
   ).length;
@@ -159,28 +153,12 @@ export function useStudents(options?: { classFocus?: TeacherClassFocus | null })
   }, [toast]);
 
   useEffect(() => {
-    setSelectedIds([]);
     setOverlay((prev) => (prev.kind === 'bulkInactive' ? { kind: 'none' } : prev));
   }, [list.filters, list.page]);
 
   const clearSelection = () => {
-    setSelectedIds([]);
+    clearRowSelection();
     setOverlay((prev) => (prev.kind === 'bulkInactive' ? { kind: 'none' } : prev));
-  };
-
-  const toggleStudent = (id: string) => {
-    setSelectedIds((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
-    );
-  };
-
-  const toggleAllVisible = () => {
-    const visibleIds = paginatedStudents.map((student) => student.id);
-    if (allVisibleSelected) {
-      setSelectedIds((prev) => prev.filter((id) => !visibleIds.includes(id)));
-      return;
-    }
-    setSelectedIds((prev) => Array.from(new Set([...prev, ...visibleIds])));
   };
 
   const subjectOptions = useMemo(() => {
@@ -312,7 +290,6 @@ export function useStudents(options?: { classFocus?: TeacherClassFocus | null })
     confirmMarkInactive,
     restoreActive,
     selectedIds,
-    selectedCount: selectedIds.length,
     selectedActiveCount,
     selectedInactiveCount,
     allVisibleSelected,
@@ -327,8 +304,8 @@ export function useStudents(options?: { classFocus?: TeacherClassFocus | null })
     closeBulkMarkInactive: () => setOverlay({ kind: 'none' }),
     confirmBulkMarkInactive,
     restoreSelectedActive,
-    sortKey: sortConfig?.key ?? null,
-    sortDirection: sortConfig?.direction ?? 'asc',
+    sortKey,
+    sortDirection,
     handleSort,
     toast,
     dismissToast: () => setToast(null),

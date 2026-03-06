@@ -48,3 +48,40 @@ export function sortByCreatedOrTitle<T extends SortableByCreated>(
   sorted.sort((a, b) => b.createdSortKey.localeCompare(a.createdSortKey));
   return sorted;
 }
+
+type ArchivableRow = { id: string; status: string };
+
+export function archiveRowsByIds<T extends ArchivableRow>(
+  rows: T[],
+  ids: Iterable<string>,
+  archivedStatus = 'Archived',
+): T[] {
+  const idSet = ids instanceof Set ? ids : new Set(ids);
+  if (idSet.size === 0) return rows;
+  return rows.map((row) =>
+    idSet.has(row.id) && row.status !== archivedStatus
+      ? { ...row, status: archivedStatus as T['status'] }
+      : row,
+  );
+}
+
+export function deleteRowsByIds<T extends { id: string }>(
+  rows: T[],
+  ids: Iterable<string>,
+): T[] {
+  const idSet = ids instanceof Set ? ids : new Set(ids);
+  if (idSet.size === 0) return rows;
+  return rows.filter((row) => !idSet.has(row.id));
+}
+
+export function archiveRowById<T extends ArchivableRow>(
+  rows: T[],
+  id: string,
+  archivedStatus = 'Archived',
+): T[] {
+  return archiveRowsByIds(rows, [id], archivedStatus);
+}
+
+export function deleteRowById<T extends { id: string }>(rows: T[], id: string): T[] {
+  return deleteRowsByIds(rows, [id]);
+}

@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   ChalkBadge,
   ClassMeta,
@@ -7,6 +6,7 @@ import {
   rateBarColor,
   ResourceTitle,
   RowActionsMenu,
+  RowSelectCell,
 } from '../../shared';
 import { examStatusAccent, examTypeAccent } from '../utils';
 import type { TeacherExamRow } from '@/types/teacherExams';
@@ -44,19 +44,11 @@ export function ExamRow({
 
   return (
     <tr className={selected ? listStyles.rowSelected : undefined}>
-      <td
-        className={listStyles.checkCell}
-        onClick={(e) => e.stopPropagation()}
-        onKeyDown={(e) => e.stopPropagation()}
-      >
-        <input
-          type="checkbox"
-          className={listStyles.checkbox}
-          checked={selected}
-          onChange={() => onToggleSelect(exam.id)}
-          aria-label={`Select ${exam.title}`}
-        />
-      </td>
+      <RowSelectCell
+        selected={selected}
+        onToggle={() => onToggleSelect(exam.id)}
+        label={`Select ${exam.title}`}
+      />
       <td>
         <ResourceTitle
           icon={exam.icon}

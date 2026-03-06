@@ -1,7 +1,12 @@
 'use client';
 
 import type { TeacherStudentRow } from '@/types/teacherStudents';
-import { ChalkBadge, listStyles, RowActionsMenu } from '../../shared';
+import {
+  ChalkBadge,
+  listStyles,
+  RowActionsMenu,
+  RowSelectCell,
+} from '../../shared';
 import {
   attendanceBarColor,
   letterGradeAccent,
@@ -51,7 +56,7 @@ export function StudentRow({
 
   return (
     <tr
-      className={`${styles.clickableRow}${selected ? ` ${styles.rowSelected}` : ''}`}
+      className={`${styles.clickableRow}${selected ? ` ${listStyles.rowSelected}` : ''}`}
       onClick={() => onOpen(student.id)}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {
@@ -63,19 +68,11 @@ export function StudentRow({
       role="button"
       aria-label={`Open profile for ${student.fullName}`}
     >
-      <td
-        className={styles.checkCell}
-        onClick={(e) => e.stopPropagation()}
-        onKeyDown={(e) => e.stopPropagation()}
-      >
-        <input
-          type="checkbox"
-          className={styles.checkbox}
-          checked={selected}
-          onChange={() => onToggleSelect(student.id)}
-          aria-label={`Select ${student.fullName}`}
-        />
-      </td>
+      <RowSelectCell
+        selected={selected}
+        onToggle={() => onToggleSelect(student.id)}
+        label={`Select ${student.fullName}`}
+      />
       <td>
         <div className={styles.studentCell}>
           <StudentAvatar student={student} size="row" />

@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { myClassesPageMock } from '@/lib/mock/myClasses.mock';
 import type { ClassFormInput, ClassStatus, MyClassRow } from '@/types/myClasses';
 import {
+  bindColumnSort,
   sortByConfig,
   useColumnSort,
   usePagedList,
@@ -31,7 +32,6 @@ const DEFAULT_FILTERS = {
 };
 
 export type MyClassesFiltersState = typeof DEFAULT_FILTERS;
-export type MyClassesFilterKey = keyof MyClassesFiltersState;
 
 export type MyClassSortKey =
   | 'subject'
@@ -96,17 +96,13 @@ export function useMyClasses() {
     sortDeps: sortConfig,
   });
 
-  const handleSort = (key: MyClassSortKey) => {
-    toggleSort(key);
-    list.setPage(1);
-  };
+  const handleSort = bindColumnSort(toggleSort, list.setPage);
 
   const paginatedClasses = list.paginatedItems;
   const visibleIds = paginatedClasses.map((cls) => cls.id);
 
   const {
     selectedIds,
-    selectedCount,
     allVisibleSelected,
     toggle: toggleClass,
     toggleAllVisible,
@@ -345,7 +341,6 @@ export function useMyClasses() {
     confirmArchive,
     restoreClass,
     selectedIds,
-    selectedCount,
     selectedActiveCount,
     selectedArchivedCount,
     allVisibleSelected,

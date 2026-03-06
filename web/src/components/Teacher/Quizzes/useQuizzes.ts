@@ -14,10 +14,15 @@ import type {
   TeacherQuizRow,
 } from '@/types/teacherQuizzes';
 import {
+  archiveRowById,
+  archiveRowsByIds,
+  bindColumnSort,
+  deleteRowById,
+  deleteRowsByIds,
   matchesAllOrExact,
   matchesSearch,
-  sortByConfig,
   sortByCreatedOrTitle,
+  sortWithColumnOverride,
   useColumnSort,
   usePagedList,
   useRowSelection,
@@ -94,27 +99,24 @@ export function useQuizzes(options?: { classFocus?: TeacherClassFocus | null }) 
     initialFilters: { ...DEFAULT_FILTERS, classFilter, subject },
     pageSize: PAGE_SIZE,
     filterFn: matchesQuiz,
-    sortFn: (items, filters) => {
-      if (sortConfig) {
-        return sortByConfig(items, sortConfig, getQuizSortValue, (a, b) =>
-          a.title.localeCompare(b.title),
-        );
-      }
-      return sortByCreatedOrTitle(items, filters.sort);
-    },
+    sortFn: (items, filters) =>
+      sortWithColumnOverride(
+        items,
+        sortConfig,
+        getQuizSortValue,
+        (rows, f) => sortByCreatedOrTitle(rows, f.sort),
+        filters,
+        (a, b) => a.title.localeCompare(b.title),
+      ),
     sortDeps: sortConfig,
   });
 
-  const handleSort = (key: QuizSortKey) => {
-    toggleSort(key);
-    list.setPage(1);
-  };
+  const handleSort = bindColumnSort(toggleSort, list.setPage);
 
   const paginatedQuizzes = list.paginatedItems;
   const visibleIds = paginatedQuizzes.map((quiz) => quiz.id);
   const {
     selectedIds,
-    selectedCount,
     allVisibleSelected,
     toggle,
     toggleAllVisible,
@@ -127,36 +129,22 @@ export function useQuizzes(options?: { classFocus?: TeacherClassFocus | null }) 
 
   const archiveSelected = () => {
     if (selectedIds.length === 0) return;
-    const idSet = new Set(selectedIds);
-    setQuizzes((prev) =>
-      prev.map((quiz) =>
-        idSet.has(quiz.id) && quiz.status !== 'Archived'
-          ? { ...quiz, status: 'Archived' }
-          : quiz,
-      ),
-    );
+    setQuizzes((prev) => archiveRowsByIds(prev, selectedIds));
     clearSelection();
   };
 
   const deleteSelected = () => {
     if (selectedIds.length === 0) return;
-    const idSet = new Set(selectedIds);
-    setQuizzes((prev) => prev.filter((quiz) => !idSet.has(quiz.id)));
+    setQuizzes((prev) => deleteRowsByIds(prev, selectedIds));
     clearSelection();
   };
 
   const archiveItem = (id: string) => {
-    setQuizzes((prev) =>
-      prev.map((quiz) =>
-        quiz.id === id && quiz.status !== 'Archived'
-          ? { ...quiz, status: 'Archived' }
-          : quiz,
-      ),
-    );
+    setQuizzes((prev) => archiveRowById(prev, id));
   };
 
   const deleteItem = (id: string) => {
-    setQuizzes((prev) => prev.filter((quiz) => quiz.id !== id));
+    setQuizzes((prev) => deleteRowById(prev, id));
     setSelectedIds((prev) => prev.filter((itemId) => itemId !== id));
   };
 
@@ -170,7 +158,6 @@ export function useQuizzes(options?: { classFocus?: TeacherClassFocus | null }) 
     sortDirection,
     handleSort,
     selectedIds,
-    selectedCount,
     allVisibleSelected,
     toggle,
     toggleAllVisible,

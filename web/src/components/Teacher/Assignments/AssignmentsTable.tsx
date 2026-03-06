@@ -1,9 +1,8 @@
-import React from 'react';
 import {
   DataTable,
   type DataTableColumn,
-  listStyles,
   ResourceBulkBar,
+  SelectAllCheckbox,
 } from '../shared';
 import { AssignmentRow } from './components/AssignmentRow';
 import type { TeacherAssignmentRow } from '@/types/teacherAssignments';
@@ -70,12 +69,10 @@ export function AssignmentsTable({
         sortDirection={sortDirection}
         onSort={(key) => onSort(key as AssignmentSortKey)}
         leadingHeader={
-          <input
-            type="checkbox"
-            className={listStyles.checkbox}
+          <SelectAllCheckbox
             checked={allVisibleSelected}
             onChange={onToggleAllVisible}
-            aria-label="Select all visible assignments"
+            label="Select all visible assignments"
           />
         }
       >

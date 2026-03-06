@@ -14,9 +14,14 @@ import type {
   TeacherLessonRow,
 } from '@/types/teacherLessons';
 import {
+  archiveRowById,
+  archiveRowsByIds,
+  bindColumnSort,
+  deleteRowById,
+  deleteRowsByIds,
   matchesAllOrExact,
   matchesSearch,
-  sortByConfig,
+  sortWithColumnOverride,
   useColumnSort,
   usePagedList,
   useRowSelection,
@@ -102,27 +107,24 @@ export function useLessons(options?: { classFocus?: TeacherClassFocus | null }) 
     initialFilters: { ...DEFAULT_FILTERS, classFilter, subject },
     pageSize: PAGE_SIZE,
     filterFn: matchesLesson,
-    sortFn: (items, filters) => {
-      if (sortConfig) {
-        return sortByConfig(items, sortConfig, getLessonSortValue, (a, b) =>
-          a.title.localeCompare(b.title),
-        );
-      }
-      return sortLessons(items, filters);
-    },
+    sortFn: (items, filters) =>
+      sortWithColumnOverride(
+        items,
+        sortConfig,
+        getLessonSortValue,
+        sortLessons,
+        filters,
+        (a, b) => a.title.localeCompare(b.title),
+      ),
     sortDeps: sortConfig,
   });
 
-  const handleSort = (key: LessonSortKey) => {
-    toggleSort(key);
-    list.setPage(1);
-  };
+  const handleSort = bindColumnSort(toggleSort, list.setPage);
 
   const paginatedLessons = list.paginatedItems;
   const visibleIds = paginatedLessons.map((lesson) => lesson.id);
   const {
     selectedIds,
-    selectedCount,
     allVisibleSelected,
     toggle,
     toggleAllVisible,
@@ -135,36 +137,22 @@ export function useLessons(options?: { classFocus?: TeacherClassFocus | null }) 
 
   const archiveSelected = () => {
     if (selectedIds.length === 0) return;
-    const idSet = new Set(selectedIds);
-    setLessons((prev) =>
-      prev.map((lesson) =>
-        idSet.has(lesson.id) && lesson.status !== 'Archived'
-          ? { ...lesson, status: 'Archived' }
-          : lesson,
-      ),
-    );
+    setLessons((prev) => archiveRowsByIds(prev, selectedIds));
     clearSelection();
   };
 
   const deleteSelected = () => {
     if (selectedIds.length === 0) return;
-    const idSet = new Set(selectedIds);
-    setLessons((prev) => prev.filter((lesson) => !idSet.has(lesson.id)));
+    setLessons((prev) => deleteRowsByIds(prev, selectedIds));
     clearSelection();
   };
 
   const archiveItem = (id: string) => {
-    setLessons((prev) =>
-      prev.map((lesson) =>
-        lesson.id === id && lesson.status !== 'Archived'
-          ? { ...lesson, status: 'Archived' }
-          : lesson,
-      ),
-    );
+    setLessons((prev) => archiveRowById(prev, id));
   };
 
   const deleteItem = (id: string) => {
-    setLessons((prev) => prev.filter((lesson) => lesson.id !== id));
+    setLessons((prev) => deleteRowById(prev, id));
     setSelectedIds((prev) => prev.filter((itemId) => itemId !== id));
   };
 
@@ -178,7 +166,6 @@ export function useLessons(options?: { classFocus?: TeacherClassFocus | null }) 
     sortDirection,
     handleSort,
     selectedIds,
-    selectedCount,
     allVisibleSelected,
     toggle,
     toggleAllVisible,

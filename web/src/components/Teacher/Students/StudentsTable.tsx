@@ -1,9 +1,12 @@
-import { DataTable, type DataTableColumn } from '../shared';
+import {
+  DataTable,
+  ResourceBulkBar,
+  SelectAllCheckbox,
+  type DataTableColumn,
+} from '../shared';
 import { StudentRow } from './components/StudentRow';
-import { StudentsBulkBar } from './components/StudentsBulkBar';
 import type { TeacherStudentRow } from '@/types/teacherStudents';
 import type { StudentSortKey } from './useStudents';
-import styles from './students.module.css';
 
 interface StudentsTableProps {
   students: TeacherStudentRow[];
@@ -59,15 +62,34 @@ export function StudentsTable({
   onMarkInactive,
   onRestoreActive,
 }: StudentsTableProps) {
+  const bulkActions = [
+    ...(selectedActiveCount > 0
+      ? [
+          {
+            label: `Mark inactive (${selectedActiveCount})`,
+            onClick: onBulkMarkInactive,
+            tone: 'danger' as const,
+          },
+        ]
+      : []),
+    ...(selectedInactiveCount > 0
+      ? [
+          {
+            label: `Restore active (${selectedInactiveCount})`,
+            onClick: onBulkRestoreActive,
+            tone: 'restore' as const,
+          },
+        ]
+      : []),
+  ];
+
   return (
     <div>
-      <StudentsBulkBar
+      <ResourceBulkBar
         selectedCount={selectedIds.length}
-        selectedActiveCount={selectedActiveCount}
-        selectedInactiveCount={selectedInactiveCount}
-        onMarkInactive={onBulkMarkInactive}
-        onRestoreActive={onBulkRestoreActive}
+        itemLabel="student"
         onClearSelection={onClearSelection}
+        actions={bulkActions}
       />
 
       <DataTable
@@ -77,12 +99,10 @@ export function StudentsTable({
         sortDirection={sortDirection}
         onSort={(key) => onSort(key as StudentSortKey)}
         leadingHeader={
-          <input
-            type="checkbox"
-            className={styles.checkbox}
+          <SelectAllCheckbox
             checked={allVisibleSelected}
             onChange={onToggleAllVisible}
-            aria-label="Select all visible students"
+            label="Select all visible students"
           />
         }
       >

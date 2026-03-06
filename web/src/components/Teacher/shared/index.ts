@@ -8,9 +8,15 @@ export { DataTable } from './DataTable';
 export type { DataTableColumn } from './DataTable';
 export { ResourceBulkBar } from './ResourceBulkBar';
 export type { ResourceBulkAction } from './ResourceBulkBar';
-export { useColumnSort, sortByConfig, compareSortValues } from './useColumnSort';
+export {
+  useColumnSort,
+  sortByConfig,
+  sortWithColumnOverride,
+  bindColumnSort,
+} from './useColumnSort';
 export type { SortConfig, SortDirection } from './useColumnSort';
 export { useRowSelection } from './useRowSelection';
+export { SelectAllCheckbox, RowSelectCell } from './SelectCheckbox';
 export { ListTabs } from './ListTabs';
 export { ChalkBadge } from './ChalkBadge';
 export { ClassMeta } from './ClassMeta';
@@ -31,6 +37,10 @@ export { TeacherModal } from './TeacherModal';
 export { TeacherToast } from './TeacherToast';
 export {
   accentFromMap,
+  archiveRowById,
+  archiveRowsByIds,
+  deleteRowById,
+  deleteRowsByIds,
   matchesAllOrExact,
   matchesSearch,
   rateBarColor,

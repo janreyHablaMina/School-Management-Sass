@@ -1,10 +1,10 @@
-import React from 'react';
 import {
   ChalkBadge,
   ClassMeta,
   listStyles,
   ResourceTitle,
   RowActionsMenu,
+  RowSelectCell,
 } from '../../shared';
 import { lessonStatusAccent, lessonTypeAccent } from '../utils';
 import type { TeacherLessonRow } from '@/types/teacherLessons';
@@ -38,19 +38,11 @@ export function LessonRow({
 }: LessonRowProps) {
   return (
     <tr className={selected ? listStyles.rowSelected : undefined}>
-      <td
-        className={listStyles.checkCell}
-        onClick={(e) => e.stopPropagation()}
-        onKeyDown={(e) => e.stopPropagation()}
-      >
-        <input
-          type="checkbox"
-          className={listStyles.checkbox}
-          checked={selected}
-          onChange={() => onToggleSelect(lesson.id)}
-          aria-label={`Select ${lesson.title}`}
-        />
-      </td>
+      <RowSelectCell
+        selected={selected}
+        onToggle={() => onToggleSelect(lesson.id)}
+        label={`Select ${lesson.title}`}
+      />
       <td>
         <ResourceTitle
           icon={lesson.icon}

@@ -1,10 +1,10 @@
 'use client';
 
-import React from 'react';
 import {
   ChalkBadge,
   ResourceTitle,
   RowActionsMenu,
+  RowSelectCell,
   listStyles,
 } from '../../shared';
 import type { TeacherAnnouncementRow } from '@/types/teacherAnnouncements';
@@ -40,19 +40,11 @@ export function AnnouncementRow({
 }: AnnouncementRowProps) {
   return (
     <tr className={selected ? listStyles.rowSelected : undefined}>
-      <td
-        className={listStyles.checkCell}
-        onClick={(e) => e.stopPropagation()}
-        onKeyDown={(e) => e.stopPropagation()}
-      >
-        <input
-          type="checkbox"
-          className={listStyles.checkbox}
-          checked={selected}
-          onChange={() => onToggleSelect(announcement.id)}
-          aria-label={`Select ${announcement.title}`}
-        />
-      </td>
+      <RowSelectCell
+        selected={selected}
+        onToggle={() => onToggleSelect(announcement.id)}
+        label={`Select ${announcement.title}`}
+      />
       <td>
         <div className={styles.titleCell}>
           <ResourceTitle

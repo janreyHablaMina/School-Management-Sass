@@ -14,10 +14,15 @@ import type {
   TeacherExamRow,
 } from '@/types/teacherExams';
 import {
+  archiveRowById,
+  archiveRowsByIds,
+  bindColumnSort,
+  deleteRowById,
+  deleteRowsByIds,
   matchesAllOrExact,
   matchesSearch,
-  sortByConfig,
   sortByCreatedOrTitle,
+  sortWithColumnOverride,
   useColumnSort,
   usePagedList,
   useRowSelection,
@@ -95,27 +100,24 @@ export function useExams(options?: { classFocus?: TeacherClassFocus | null }) {
     initialFilters: { ...DEFAULT_FILTERS, classFilter, subject },
     pageSize: PAGE_SIZE,
     filterFn: matchesExam,
-    sortFn: (items, filters) => {
-      if (sortConfig) {
-        return sortByConfig(items, sortConfig, getExamSortValue, (a, b) =>
-          a.title.localeCompare(b.title),
-        );
-      }
-      return sortByCreatedOrTitle(items, filters.sort);
-    },
+    sortFn: (items, filters) =>
+      sortWithColumnOverride(
+        items,
+        sortConfig,
+        getExamSortValue,
+        (rows, f) => sortByCreatedOrTitle(rows, f.sort),
+        filters,
+        (a, b) => a.title.localeCompare(b.title),
+      ),
     sortDeps: sortConfig,
   });
 
-  const handleSort = (key: ExamSortKey) => {
-    toggleSort(key);
-    list.setPage(1);
-  };
+  const handleSort = bindColumnSort(toggleSort, list.setPage);
 
   const paginatedExams = list.paginatedItems;
   const visibleIds = paginatedExams.map((exam) => exam.id);
   const {
     selectedIds,
-    selectedCount,
     allVisibleSelected,
     toggle,
     toggleAllVisible,
@@ -128,36 +130,22 @@ export function useExams(options?: { classFocus?: TeacherClassFocus | null }) {
 
   const archiveSelected = () => {
     if (selectedIds.length === 0) return;
-    const idSet = new Set(selectedIds);
-    setExams((prev) =>
-      prev.map((exam) =>
-        idSet.has(exam.id) && exam.status !== 'Archived'
-          ? { ...exam, status: 'Archived' }
-          : exam,
-      ),
-    );
+    setExams((prev) => archiveRowsByIds(prev, selectedIds));
     clearSelection();
   };
 
   const deleteSelected = () => {
     if (selectedIds.length === 0) return;
-    const idSet = new Set(selectedIds);
-    setExams((prev) => prev.filter((exam) => !idSet.has(exam.id)));
+    setExams((prev) => deleteRowsByIds(prev, selectedIds));
     clearSelection();
   };
 
   const archiveItem = (id: string) => {
-    setExams((prev) =>
-      prev.map((exam) =>
-        exam.id === id && exam.status !== 'Archived'
-          ? { ...exam, status: 'Archived' }
-          : exam,
-      ),
-    );
+    setExams((prev) => archiveRowById(prev, id));
   };
 
   const deleteItem = (id: string) => {
-    setExams((prev) => prev.filter((exam) => exam.id !== id));
+    setExams((prev) => deleteRowById(prev, id));
     setSelectedIds((prev) => prev.filter((itemId) => itemId !== id));
   };
 
@@ -171,7 +159,6 @@ export function useExams(options?: { classFocus?: TeacherClassFocus | null }) {
     sortDirection,
     handleSort,
     selectedIds,
-    selectedCount,
     allVisibleSelected,
     toggle,
     toggleAllVisible,

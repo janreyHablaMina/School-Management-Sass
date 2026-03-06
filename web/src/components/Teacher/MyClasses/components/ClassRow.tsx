@@ -1,6 +1,6 @@
 'use client';
 
-import { listStyles, RowActionsMenu } from '../../shared';
+import { listStyles, RowActionsMenu, RowSelectCell } from '../../shared';
 import type { MyClassRow } from '@/types/myClasses';
 import { AttendanceRing } from './AttendanceRing';
 import styles from '../myClasses.module.css';
@@ -58,19 +58,11 @@ export function ClassRow({
       role="button"
       aria-label={`Open ${cls.subject}, ${cls.gradeSection}`}
     >
-      <td
-        className={listStyles.checkCell}
-        onClick={(e) => e.stopPropagation()}
-        onKeyDown={(e) => e.stopPropagation()}
-      >
-        <input
-          type="checkbox"
-          className={listStyles.checkbox}
-          checked={selected}
-          onChange={() => onToggleSelect(cls.id)}
-          aria-label={`Select ${cls.subject}, ${cls.gradeSection}`}
-        />
-      </td>
+      <RowSelectCell
+        selected={selected}
+        onToggle={() => onToggleSelect(cls.id)}
+        label={`Select ${cls.subject}, ${cls.gradeSection}`}
+      />
       <td>
         <div className={styles.classCell}>
           <div

@@ -14,10 +14,15 @@ import type {
   TeacherAssignmentRow,
 } from '@/types/teacherAssignments';
 import {
+  archiveRowById,
+  archiveRowsByIds,
+  bindColumnSort,
+  deleteRowById,
+  deleteRowsByIds,
   matchesAllOrExact,
   matchesSearch,
-  sortByConfig,
   sortByCreatedOrTitle,
+  sortWithColumnOverride,
   useColumnSort,
   usePagedList,
   useRowSelection,
@@ -106,27 +111,24 @@ export function useAssignments(options?: { classFocus?: TeacherClassFocus | null
     initialFilters: { ...DEFAULT_FILTERS, classFilter, subject },
     pageSize: PAGE_SIZE,
     filterFn: matchesAssignment,
-    sortFn: (items, filters) => {
-      if (sortConfig) {
-        return sortByConfig(items, sortConfig, getAssignmentSortValue, (a, b) =>
-          a.title.localeCompare(b.title),
-        );
-      }
-      return sortByCreatedOrTitle(items, filters.sort);
-    },
+    sortFn: (items, filters) =>
+      sortWithColumnOverride(
+        items,
+        sortConfig,
+        getAssignmentSortValue,
+        (rows, f) => sortByCreatedOrTitle(rows, f.sort),
+        filters,
+        (a, b) => a.title.localeCompare(b.title),
+      ),
     sortDeps: sortConfig,
   });
 
-  const handleSort = (key: AssignmentSortKey) => {
-    toggleSort(key);
-    list.setPage(1);
-  };
+  const handleSort = bindColumnSort(toggleSort, list.setPage);
 
   const paginatedAssignments = list.paginatedItems;
   const visibleIds = paginatedAssignments.map((assignment) => assignment.id);
   const {
     selectedIds,
-    selectedCount,
     allVisibleSelected,
     toggle,
     toggleAllVisible,
@@ -139,36 +141,22 @@ export function useAssignments(options?: { classFocus?: TeacherClassFocus | null
 
   const archiveSelected = () => {
     if (selectedIds.length === 0) return;
-    const idSet = new Set(selectedIds);
-    setAssignments((prev) =>
-      prev.map((assignment) =>
-        idSet.has(assignment.id) && assignment.status !== 'Archived'
-          ? { ...assignment, status: 'Archived' }
-          : assignment,
-      ),
-    );
+    setAssignments((prev) => archiveRowsByIds(prev, selectedIds));
     clearSelection();
   };
 
   const deleteSelected = () => {
     if (selectedIds.length === 0) return;
-    const idSet = new Set(selectedIds);
-    setAssignments((prev) => prev.filter((assignment) => !idSet.has(assignment.id)));
+    setAssignments((prev) => deleteRowsByIds(prev, selectedIds));
     clearSelection();
   };
 
   const archiveItem = (id: string) => {
-    setAssignments((prev) =>
-      prev.map((assignment) =>
-        assignment.id === id && assignment.status !== 'Archived'
-          ? { ...assignment, status: 'Archived' }
-          : assignment,
-      ),
-    );
+    setAssignments((prev) => archiveRowById(prev, id));
   };
 
   const deleteItem = (id: string) => {
-    setAssignments((prev) => prev.filter((assignment) => assignment.id !== id));
+    setAssignments((prev) => deleteRowById(prev, id));
     setSelectedIds((prev) => prev.filter((itemId) => itemId !== id));
   };
 
@@ -182,7 +170,6 @@ export function useAssignments(options?: { classFocus?: TeacherClassFocus | null
     sortDirection,
     handleSort,
     selectedIds,
-    selectedCount,
     allVisibleSelected,
     toggle,
     toggleAllVisible,

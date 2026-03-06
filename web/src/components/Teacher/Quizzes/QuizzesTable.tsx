@@ -1,9 +1,8 @@
-import React from 'react';
 import {
   DataTable,
   type DataTableColumn,
-  listStyles,
   ResourceBulkBar,
+  SelectAllCheckbox,
 } from '../shared';
 import { QuizRow } from './components/QuizRow';
 import type { TeacherQuizRow } from '@/types/teacherQuizzes';
@@ -69,12 +68,10 @@ export function QuizzesTable({
         sortDirection={sortDirection}
         onSort={(key) => onSort(key as QuizSortKey)}
         leadingHeader={
-          <input
-            type="checkbox"
-            className={listStyles.checkbox}
+          <SelectAllCheckbox
             checked={allVisibleSelected}
             onChange={onToggleAllVisible}
-            aria-label="Select all visible quizzes"
+            label="Select all visible quizzes"
           />
         }
       >

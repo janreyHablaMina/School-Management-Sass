@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   ChalkBadge,
   ClassMeta,
@@ -7,6 +6,7 @@ import {
   rateBarColor,
   ResourceTitle,
   RowActionsMenu,
+  RowSelectCell,
 } from '../../shared';
 import { assignmentStatusAccent, assignmentTypeAccent } from '../utils';
 import type { TeacherAssignmentRow } from '@/types/teacherAssignments';
@@ -44,19 +44,11 @@ export function AssignmentRow({
 
   return (
     <tr className={selected ? listStyles.rowSelected : undefined}>
-      <td
-        className={listStyles.checkCell}
-        onClick={(e) => e.stopPropagation()}
-        onKeyDown={(e) => e.stopPropagation()}
-      >
-        <input
-          type="checkbox"
-          className={listStyles.checkbox}
-          checked={selected}
-          onChange={() => onToggleSelect(assignment.id)}
-          aria-label={`Select ${assignment.title}`}
-        />
-      </td>
+      <RowSelectCell
+        selected={selected}
+        onToggle={() => onToggleSelect(assignment.id)}
+        label={`Select ${assignment.title}`}
+      />
       <td>
         <ResourceTitle
           icon={assignment.icon}

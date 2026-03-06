@@ -12,10 +12,15 @@ import type {
   TeacherAnnouncementRow,
 } from '@/types/teacherAnnouncements';
 import {
+  archiveRowById,
+  archiveRowsByIds,
+  bindColumnSort,
+  deleteRowById,
+  deleteRowsByIds,
   matchesAllOrExact,
   matchesSearch,
-  sortByConfig,
   sortByCreatedOrTitle,
+  sortWithColumnOverride,
   useColumnSort,
   usePagedList,
   useRowSelection,
@@ -144,27 +149,24 @@ export function useAnnouncements() {
     initialFilters: DEFAULT_FILTERS,
     pageSize: PAGE_SIZE,
     filterFn: matchesAnnouncement,
-    sortFn: (items, filters) => {
-      if (sortConfig) {
-        return sortByConfig(items, sortConfig, getAnnouncementSortValue, (a, b) =>
-          a.title.localeCompare(b.title),
-        );
-      }
-      return sortByCreatedOrTitle(items, filters.sort);
-    },
+    sortFn: (items, filters) =>
+      sortWithColumnOverride(
+        items,
+        sortConfig,
+        getAnnouncementSortValue,
+        (rows, f) => sortByCreatedOrTitle(rows, f.sort),
+        filters,
+        (a, b) => a.title.localeCompare(b.title),
+      ),
     sortDeps: sortConfig,
   });
 
-  const handleSort = (key: AnnouncementSortKey) => {
-    toggleSort(key);
-    list.setPage(1);
-  };
+  const handleSort = bindColumnSort(toggleSort, list.setPage);
 
   const paginatedAnnouncements = list.paginatedItems;
   const visibleIds = paginatedAnnouncements.map((row) => row.id);
   const {
     selectedIds,
-    selectedCount,
     allVisibleSelected,
     toggle,
     toggleAllVisible,
@@ -184,36 +186,22 @@ export function useAnnouncements() {
 
   const archiveSelected = () => {
     if (selectedIds.length === 0) return;
-    const idSet = new Set(selectedIds);
-    setAnnouncements((prev) =>
-      prev.map((row) =>
-        idSet.has(row.id) && row.status !== 'Archived'
-          ? { ...row, status: 'Archived' }
-          : row,
-      ),
-    );
+    setAnnouncements((prev) => archiveRowsByIds(prev, selectedIds));
     clearSelection();
   };
 
   const deleteSelected = () => {
     if (selectedIds.length === 0) return;
-    const idSet = new Set(selectedIds);
-    setAnnouncements((prev) => prev.filter((row) => !idSet.has(row.id)));
+    setAnnouncements((prev) => deleteRowsByIds(prev, selectedIds));
     clearSelection();
   };
 
   const archiveItem = (id: string) => {
-    setAnnouncements((prev) =>
-      prev.map((row) =>
-        row.id === id && row.status !== 'Archived'
-          ? { ...row, status: 'Archived' }
-          : row,
-      ),
-    );
+    setAnnouncements((prev) => archiveRowById(prev, id));
   };
 
   const deleteItem = (id: string) => {
-    setAnnouncements((prev) => prev.filter((row) => row.id !== id));
+    setAnnouncements((prev) => deleteRowById(prev, id));
     setSelectedIds((prev) => prev.filter((itemId) => itemId !== id));
   };
 
@@ -232,7 +220,6 @@ export function useAnnouncements() {
     sortDirection,
     handleSort,
     selectedIds,
-    selectedCount,
     allVisibleSelected,
     toggle,
     toggleAllVisible,

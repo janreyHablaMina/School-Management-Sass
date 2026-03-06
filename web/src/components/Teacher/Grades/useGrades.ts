@@ -15,9 +15,10 @@ import type {
   TeacherGradeRow,
 } from '@/types/teacherGrades';
 import {
+  bindColumnSort,
   matchesAllOrExact,
   matchesSearch,
-  sortByConfig,
+  sortWithColumnOverride,
   useColumnSort,
   usePagedList,
   useRowSelection,
@@ -121,14 +122,15 @@ export function useGrades(options?: {
     initialFilters: DEFAULT_FILTERS,
     pageSize: PAGE_SIZE,
     filterFn: matchesGrade,
-    sortFn: (items, filters) => {
-      if (sortConfig) {
-        return sortByConfig(items, sortConfig, gradeSortValue, (a, b) =>
-          a.fullName.localeCompare(b.fullName),
-        );
-      }
-      return sortGradesByFilter(items, filters);
-    },
+    sortFn: (items, filters) =>
+      sortWithColumnOverride(
+        items,
+        sortConfig,
+        gradeSortValue,
+        sortGradesByFilter,
+        filters,
+        (a, b) => a.fullName.localeCompare(b.fullName),
+      ),
     sortDeps: sortConfig,
   });
 
@@ -140,7 +142,6 @@ export function useGrades(options?: {
 
   const {
     selectedIds,
-    selectedCount,
     allVisibleSelected,
     toggle,
     toggleAllVisible,
@@ -150,10 +151,7 @@ export function useGrades(options?: {
     resetKey: selectedClassId,
   });
 
-  const handleSort = (key: GradeSortKey) => {
-    toggleSort(key);
-    list.setPage(1);
-  };
+  const handleSort = bindColumnSort(toggleSort, list.setPage);
 
   const flagSelectedForReview = () => {
     if (selectedIds.length === 0 || !selectedClassId) return;
@@ -211,7 +209,6 @@ export function useGrades(options?: {
     sortDirection,
     handleSort,
     selectedIds,
-    selectedCount,
     allVisibleSelected,
     toggleStudent: toggle,
     toggleAllVisible,

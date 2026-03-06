@@ -1,8 +1,7 @@
-import React from 'react';
 import {
   DataTable,
-  listStyles,
   ResourceBulkBar,
+  SelectAllCheckbox,
   type DataTableColumn,
 } from '../shared';
 import { GradeRow } from './components/GradeRow';
@@ -13,7 +12,6 @@ interface GradesTableProps {
   grades: TeacherGradeRow[];
   selectedIds: string[];
   allVisibleSelected: boolean;
-  selectedCount: number;
   sortKey: GradeSortKey | null;
   sortDirection: 'asc' | 'desc';
   onSort: (key: GradeSortKey) => void;
@@ -40,7 +38,6 @@ export function GradesTable({
   grades,
   selectedIds,
   allVisibleSelected,
-  selectedCount,
   sortKey,
   sortDirection,
   onSort,
@@ -53,7 +50,7 @@ export function GradesTable({
   return (
     <div>
       <ResourceBulkBar
-        selectedCount={selectedCount}
+        selectedCount={selectedIds.length}
         itemLabel="student"
         onClearSelection={onClearSelection}
         actions={[{ label: 'Flag for review', onClick: onFlagForReview }]}
@@ -66,12 +63,10 @@ export function GradesTable({
         sortDirection={sortDirection}
         onSort={(key) => onSort(key as GradeSortKey)}
         leadingHeader={
-          <input
-            type="checkbox"
-            className={listStyles.checkbox}
+          <SelectAllCheckbox
             checked={allVisibleSelected}
             onChange={onToggleAllVisible}
-            aria-label="Select all visible students"
+            label="Select all visible students"
           />
         }
       >

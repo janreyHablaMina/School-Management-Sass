@@ -1,11 +1,11 @@
 'use client';
 
-import React from 'react';
 import {
   ChalkBadge,
   ClassMeta,
   listStyles,
   RowActionsMenu,
+  RowSelectCell,
 } from '../../shared';
 import type { TeacherGradeRow } from '@/types/teacherGrades';
 import {
@@ -59,19 +59,11 @@ export function GradeRow({ grade, selected, onToggleSelect, onOpen }: GradeRowPr
       role={onOpen ? 'button' : undefined}
       aria-label={onOpen ? `Open grades for ${grade.fullName}` : undefined}
     >
-      <td
-        className={listStyles.checkCell}
-        onClick={(e) => e.stopPropagation()}
-        onKeyDown={(e) => e.stopPropagation()}
-      >
-        <input
-          type="checkbox"
-          className={listStyles.checkbox}
-          checked={selected}
-          onChange={() => onToggleSelect(grade.id)}
-          aria-label={`Select ${grade.fullName}`}
-        />
-      </td>
+      <RowSelectCell
+        selected={selected}
+        onToggle={() => onToggleSelect(grade.id)}
+        label={`Select ${grade.fullName}`}
+      />
       <td>
         <div className={styles.studentCell}>
           <div

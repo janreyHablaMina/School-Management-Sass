@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   ChalkBadge,
   ClassMeta,
@@ -6,6 +5,7 @@ import {
   ProgressStatCell,
   ResourceTitle,
   RowActionsMenu,
+  RowSelectCell,
 } from '../../shared';
 import { attemptBarColor, quizStatusAccent } from '../utils';
 import type { TeacherQuizRow } from '@/types/teacherQuizzes';
@@ -43,19 +43,11 @@ export function QuizRow({
 
   return (
     <tr className={selected ? listStyles.rowSelected : undefined}>
-      <td
-        className={listStyles.checkCell}
-        onClick={(e) => e.stopPropagation()}
-        onKeyDown={(e) => e.stopPropagation()}
-      >
-        <input
-          type="checkbox"
-          className={listStyles.checkbox}
-          checked={selected}
-          onChange={() => onToggleSelect(quiz.id)}
-          aria-label={`Select ${quiz.title}`}
-        />
-      </td>
+      <RowSelectCell
+        selected={selected}
+        onToggle={() => onToggleSelect(quiz.id)}
+        label={`Select ${quiz.title}`}
+      />
       <td>
         <ResourceTitle
           icon={quiz.icon}

@@ -1,9 +1,8 @@
-import React from 'react';
 import {
   DataTable,
   type DataTableColumn,
-  listStyles,
   ResourceBulkBar,
+  SelectAllCheckbox,
 } from '../shared';
 import { AnnouncementRow } from './components/AnnouncementRow';
 import type { TeacherAnnouncementRow } from '@/types/teacherAnnouncements';
@@ -68,12 +67,10 @@ export function AnnouncementsTable({
         sortDirection={sortDirection}
         onSort={(key) => onSort(key as AnnouncementSortKey)}
         leadingHeader={
-          <input
-            type="checkbox"
-            className={listStyles.checkbox}
+          <SelectAllCheckbox
             checked={allVisibleSelected}
             onChange={onToggleAllVisible}
-            aria-label="Select all visible announcements"
+            label="Select all visible announcements"
           />
         }
       >

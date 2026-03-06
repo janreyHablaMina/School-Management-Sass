@@ -1,7 +1,7 @@
 import {
   DataTable,
-  listStyles,
   ResourceBulkBar,
+  SelectAllCheckbox,
   type DataTableColumn,
 } from '../shared';
 import type { MyClassRow } from '@/types/myClasses';
@@ -97,12 +97,10 @@ export function ClassesTable({
         sortDirection={sortDirection}
         onSort={(key) => onSort(key as MyClassSortKey)}
         leadingHeader={
-          <input
-            type="checkbox"
-            className={listStyles.checkbox}
+          <SelectAllCheckbox
             checked={allVisibleSelected}
             onChange={onToggleAllVisible}
-            aria-label="Select all visible classes"
+            label="Select all visible classes"
           />
         }
       >

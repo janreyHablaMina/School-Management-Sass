@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import {
   EmptyState,
   listStyles,
@@ -49,7 +48,6 @@ export function GradesView({
     sortDirection,
     handleSort,
     selectedIds,
-    selectedCount,
     allVisibleSelected,
     toggleStudent,
     toggleAllVisible,
@@ -106,7 +104,6 @@ export function GradesView({
           grades={paginatedGrades}
           selectedIds={selectedIds}
           allVisibleSelected={allVisibleSelected}
-          selectedCount={selectedCount}
           sortKey={sortKey}
           sortDirection={sortDirection}
           onSort={handleSort}
