@@ -12,7 +12,7 @@ import type {
   TeacherStudentRow,
 } from '@/types/teacherStudents';
 import { matchesAllOrExact, matchesSearch, usePagedList } from '../shared';
-import { applyStudentFormInput, buildStudentFromInput } from './utils';
+import { applyStudentFormInput, buildStudentFromInput } from './studentForm';
 
 const PAGE_SIZE = 8;
 
@@ -24,7 +24,6 @@ const DEFAULT_FILTERS = {
 };
 
 export type StudentsFiltersState = typeof DEFAULT_FILTERS;
-export type StudentsFilterKey = keyof StudentsFiltersState;
 
 function matchesStudent(student: TeacherStudentRow, filters: StudentsFiltersState) {
   return (
@@ -39,6 +38,13 @@ function matchesStudent(student: TeacherStudentRow, filters: StudentsFiltersStat
   );
 }
 
+type Overlay =
+  | { kind: 'none' }
+  | { kind: 'create' }
+  | { kind: 'edit'; id: string }
+  | { kind: 'inactive'; id: string }
+  | { kind: 'bulkInactive' };
+
 export function useStudents(options?: { classFocus?: TeacherClassFocus | null }) {
   const { metrics, filterOptions } = teacherStudentsPageMock;
   const classFilter =
@@ -47,10 +53,7 @@ export function useStudents(options?: { classFocus?: TeacherClassFocus | null })
 
   const [students, setStudents] = useState(teacherStudentsPageMock.students);
   const [selectedStudentId, setSelectedStudentId] = useState<string | null>(null);
-  const [editingStudentId, setEditingStudentId] = useState<string | null>(null);
-  const [isCreateOpen, setIsCreateOpen] = useState(false);
-  const [inactiveTargetId, setInactiveTargetId] = useState<string | null>(null);
-  const [bulkInactiveOpen, setBulkInactiveOpen] = useState(false);
+  const [overlay, setOverlay] = useState<Overlay>({ kind: 'none' });
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [toast, setToast] = useState<{ title: string; message?: string } | null>(
     null,
@@ -71,13 +74,19 @@ export function useStudents(options?: { classFocus?: TeacherClassFocus | null })
   );
 
   const editingStudent = useMemo(
-    () => students.find((student) => student.id === editingStudentId) ?? null,
-    [students, editingStudentId],
+    () =>
+      overlay.kind === 'edit'
+        ? (students.find((student) => student.id === overlay.id) ?? null)
+        : null,
+    [students, overlay],
   );
 
   const inactiveTarget = useMemo(
-    () => students.find((student) => student.id === inactiveTargetId) ?? null,
-    [students, inactiveTargetId],
+    () =>
+      overlay.kind === 'inactive'
+        ? (students.find((student) => student.id === overlay.id) ?? null)
+        : null,
+    [students, overlay],
   );
 
   const selectedStudents = useMemo(
@@ -102,12 +111,12 @@ export function useStudents(options?: { classFocus?: TeacherClassFocus | null })
 
   useEffect(() => {
     setSelectedIds([]);
-    setBulkInactiveOpen(false);
+    setOverlay((prev) => (prev.kind === 'bulkInactive' ? { kind: 'none' } : prev));
   }, [list.filters, list.page]);
 
   const clearSelection = () => {
     setSelectedIds([]);
-    setBulkInactiveOpen(false);
+    setOverlay((prev) => (prev.kind === 'bulkInactive' ? { kind: 'none' } : prev));
   };
 
   const toggleStudent = (id: string) => {
@@ -131,15 +140,16 @@ export function useStudents(options?: { classFocus?: TeacherClassFocus | null })
   }, [students]);
 
   const updateStudent = (input: StudentProfileFormInput) => {
-    if (!editingStudentId) return;
-    const source = students.find((student) => student.id === editingStudentId);
+    if (overlay.kind !== 'edit') return;
+    const editingId = overlay.id;
+    const source = students.find((student) => student.id === editingId);
     if (!source) return;
 
     const next = applyStudentFormInput(source, input);
     setStudents((prev) =>
-      prev.map((student) => (student.id === editingStudentId ? next : student)),
+      prev.map((student) => (student.id === editingId ? next : student)),
     );
-    setEditingStudentId(null);
+    setOverlay({ kind: 'none' });
     setToast({
       title: 'Profile updated',
       message: `${next.fullName}'s details were saved.`,
@@ -148,7 +158,7 @@ export function useStudents(options?: { classFocus?: TeacherClassFocus | null })
 
   const createStudent = (input: StudentProfileFormInput) => {
     const next = buildStudentFromInput(input, students);
-    setIsCreateOpen(false);
+    setOverlay({ kind: 'none' });
     setStudents((prev) => [next, ...prev]);
     setToast({
       title: 'Student added',
@@ -157,20 +167,21 @@ export function useStudents(options?: { classFocus?: TeacherClassFocus | null })
   };
 
   const confirmMarkInactive = () => {
-    if (!inactiveTargetId) return;
-    const source = students.find((student) => student.id === inactiveTargetId);
+    if (overlay.kind !== 'inactive') return;
+    const targetId = overlay.id;
+    const source = students.find((student) => student.id === targetId);
     if (!source || source.status === 'Inactive') {
-      setInactiveTargetId(null);
+      setOverlay({ kind: 'none' });
       return;
     }
 
     setStudents((prev) =>
       prev.map((student) =>
-        student.id === inactiveTargetId ? { ...student, status: 'Inactive' } : student,
+        student.id === targetId ? { ...student, status: 'Inactive' } : student,
       ),
     );
-    setSelectedIds((prev) => prev.filter((id) => id !== inactiveTargetId));
-    setInactiveTargetId(null);
+    setSelectedIds((prev) => prev.filter((id) => id !== targetId));
+    setOverlay({ kind: 'none' });
     setToast({
       title: 'Student marked inactive',
       message: `${source.fullName} is now Inactive. Find them under the Inactive status filter.`,
@@ -180,7 +191,7 @@ export function useStudents(options?: { classFocus?: TeacherClassFocus | null })
   const confirmBulkMarkInactive = () => {
     const targets = selectedStudents.filter((student) => student.status !== 'Inactive');
     if (targets.length === 0) {
-      setBulkInactiveOpen(false);
+      setOverlay({ kind: 'none' });
       return;
     }
 
@@ -238,32 +249,17 @@ export function useStudents(options?: { classFocus?: TeacherClassFocus | null })
     selectedStudent,
     openStudent: (id: string) => setSelectedStudentId(id),
     backToStudents: () => setSelectedStudentId(null),
-    isCreateOpen,
-    openCreate: () => {
-      setEditingStudentId(null);
-      setInactiveTargetId(null);
-      setBulkInactiveOpen(false);
-      setIsCreateOpen(true);
-    },
-    closeCreate: () => setIsCreateOpen(false),
+    isCreateOpen: overlay.kind === 'create',
+    openCreate: () => setOverlay({ kind: 'create' }),
+    closeCreate: () => setOverlay({ kind: 'none' }),
     createStudent,
     editingStudent,
-    openEdit: (id: string) => {
-      setIsCreateOpen(false);
-      setInactiveTargetId(null);
-      setBulkInactiveOpen(false);
-      setEditingStudentId(id);
-    },
-    closeEdit: () => setEditingStudentId(null),
+    openEdit: (id: string) => setOverlay({ kind: 'edit', id }),
+    closeEdit: () => setOverlay({ kind: 'none' }),
     updateStudent,
     inactiveTarget,
-    openMarkInactive: (id: string) => {
-      setIsCreateOpen(false);
-      setEditingStudentId(null);
-      setBulkInactiveOpen(false);
-      setInactiveTargetId(id);
-    },
-    closeMarkInactive: () => setInactiveTargetId(null),
+    openMarkInactive: (id: string) => setOverlay({ kind: 'inactive', id }),
+    closeMarkInactive: () => setOverlay({ kind: 'none' }),
     confirmMarkInactive,
     restoreActive,
     selectedIds,
@@ -274,15 +270,12 @@ export function useStudents(options?: { classFocus?: TeacherClassFocus | null })
     toggleStudent,
     toggleAllVisible,
     clearSelection,
-    bulkInactiveOpen,
+    bulkInactiveOpen: overlay.kind === 'bulkInactive',
     openBulkMarkInactive: () => {
       if (selectedActiveCount === 0) return;
-      setIsCreateOpen(false);
-      setEditingStudentId(null);
-      setInactiveTargetId(null);
-      setBulkInactiveOpen(true);
+      setOverlay({ kind: 'bulkInactive' });
     },
-    closeBulkMarkInactive: () => setBulkInactiveOpen(false),
+    closeBulkMarkInactive: () => setOverlay({ kind: 'none' }),
     confirmBulkMarkInactive,
     restoreSelectedActive,
     toast,

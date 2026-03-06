@@ -9,6 +9,7 @@ import type {
 } from '@/types/teacherStudents';
 import { listStyles, modalStyles, TeacherModal } from '../../shared';
 import {
+  emptyGuardianInput,
   emptyStudentFormValues,
   getStudentFormStepError,
   gradeLevelFromClassLabel,
@@ -18,21 +19,12 @@ import {
   STUDENT_PHOTO_ACCEPT,
   studentToFormValues,
   type StudentEditStep,
-  type StudentProfileFormValues,
-} from '../utils';
+} from '../studentForm';
 import styles from '../students.module.css';
 import { StudentAvatar } from './StudentAvatar';
 
 const STATUSES: StudentStatus[] = ['Active', 'At Risk', 'Inactive'];
 const LAST_STEP = STUDENT_EDIT_STEPS.length - 1;
-
-const EMPTY_GUARDIAN: StudentGuardianFormInput = {
-  name: '',
-  relationship: 'Parent',
-  phone: '',
-  email: '',
-  occupation: '',
-};
 
 interface StudentFormModalProps {
   mode: 'create' | 'edit';
@@ -44,7 +36,7 @@ interface StudentFormModalProps {
   onSubmit: (input: StudentProfileFormInput) => void;
 }
 
-export function EditStudentModal({
+export function StudentFormModal({
   mode,
   student = null,
   classes,
@@ -61,56 +53,33 @@ export function EditStudentModal({
       ? subjects
       : ['Mathematics', 'English', 'Science', 'Filipino', 'Araling Panlipunan'];
 
-  const initial = student
-    ? studentToFormValues(student)
-    : emptyStudentFormValues({
-        classLabel: classOptions[0] ?? '',
-        subject: subjectOptions[0] ?? 'Mathematics',
-        gradeLevel:
-          gradeOptions[0] ??
-          gradeLevelFromClassLabel(classOptions[0] ?? 'Grade 7 - Section A'),
-      });
-
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const [step, setStep] = useState<StudentEditStep>(0);
-  const [fullName, setFullName] = useState(initial.fullName);
-  const [phone, setPhone] = useState(initial.phone);
-  const [email, setEmail] = useState(initial.email);
-  const [status, setStatus] = useState<StudentStatus>(initial.status);
-  const [address, setAddress] = useState(initial.address);
-  const [allergies, setAllergies] = useState(initial.allergies);
-  const [medicalNotes, setMedicalNotes] = useState(initial.medicalNotes);
-  const [teacherNotes, setTeacherNotes] = useState(initial.teacherNotes);
-  const [photoUrl, setPhotoUrl] = useState<string | null>(initial.photoUrl);
-  const [guardians, setGuardians] = useState(initial.guardians);
-  const [emergencyContact, setEmergencyContact] = useState(initial.emergencyContact);
-  const [classLabel, setClassLabel] = useState(initial.classLabel ?? '');
-  const [subject, setSubject] = useState(initial.subject ?? '');
-  const [gradeLevel, setGradeLevel] = useState(initial.gradeLevel ?? '');
+  const [values, setValues] = useState<StudentProfileFormInput>(() =>
+    student
+      ? studentToFormValues(student)
+      : emptyStudentFormValues({
+          classLabel: classOptions[0] ?? '',
+          subject: subjectOptions[0] ?? 'Mathematics',
+          gradeLevel:
+            gradeOptions[0] ??
+            gradeLevelFromClassLabel(classOptions[0] ?? 'Grade 7 - Section A'),
+        }),
+  );
   const [error, setError] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const formValues = (): StudentProfileFormValues => ({
-    fullName,
-    phone,
-    email,
-    status,
-    address,
-    allergies,
-    medicalNotes,
-    teacherNotes,
-    photoUrl,
-    guardians,
-    emergencyContact,
-    classLabel,
-    subject,
-    gradeLevel,
-  });
+  const patch = <K extends keyof StudentProfileFormInput>(
+    key: K,
+    value: StudentProfileFormInput[K],
+  ) => {
+    setValues((prev) => ({ ...prev, [key]: value }));
+  };
 
   const previewStudent = {
-    fullName: fullName || 'New student',
-    initials: initialsFromName(fullName) || (student?.initials ?? 'ST'),
+    fullName: values.fullName || 'New student',
+    initials: initialsFromName(values.fullName) || (student?.initials ?? 'ST'),
     avatarAccent: student?.avatarAccent ?? '#f5c842',
-    photoUrl,
+    photoUrl: values.photoUrl,
   };
 
   const updateGuardian = (
@@ -118,16 +87,19 @@ export function EditStudentModal({
     key: keyof StudentGuardianFormInput,
     value: string,
   ) => {
-    setGuardians((prev) =>
-      prev.map((item, i) => (i === index ? { ...item, [key]: value } : item)),
-    );
+    setValues((prev) => ({
+      ...prev,
+      guardians: prev.guardians.map((item, i) =>
+        i === index ? { ...item, [key]: value } : item,
+      ),
+    }));
   };
 
   const handlePhotoChange = async (file: File | undefined) => {
     if (!file) return;
     try {
       const next = await readStudentPhotoFile(file);
-      setPhotoUrl(next);
+      patch('photoUrl', next);
       setError(null);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Could not use that photo.');
@@ -135,7 +107,7 @@ export function EditStudentModal({
   };
 
   const validateStep = (nextStep: StudentEditStep) =>
-    getStudentFormStepError(nextStep, formValues(), {
+    getStudentFormStepError(nextStep, values, {
       requireClassPlacement: isCreate,
     });
 
@@ -161,7 +133,6 @@ export function EditStudentModal({
       return;
     }
 
-    const values = formValues();
     const validationError = validateStep(2);
     if (validationError) {
       setError(validationError);
@@ -254,13 +225,13 @@ export function EditStudentModal({
                   className={listStyles.secondaryBtn}
                   onClick={() => fileInputRef.current?.click()}
                 >
-                  {photoUrl ? 'Change photo' : 'Upload photo'}
+                  {values.photoUrl ? 'Change photo' : 'Upload photo'}
                 </button>
-                {photoUrl ? (
+                {values.photoUrl ? (
                   <button
                     type="button"
                     className={listStyles.secondaryBtn}
-                    onClick={() => setPhotoUrl(null)}
+                    onClick={() => patch('photoUrl', null)}
                   >
                     Remove
                   </button>
@@ -285,8 +256,8 @@ export function EditStudentModal({
               <input
                 className={modalStyles.modalInput}
                 type="text"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
+                value={values.fullName}
+                onChange={(e) => patch('fullName', e.target.value)}
                 placeholder="Student full name"
                 maxLength={80}
                 autoComplete="off"
@@ -297,8 +268,8 @@ export function EditStudentModal({
               <span className={modalStyles.modalLabel}>Status</span>
               <select
                 className={modalStyles.modalInput}
-                value={status}
-                onChange={(e) => setStatus(e.target.value as StudentStatus)}
+                value={values.status}
+                onChange={(e) => patch('status', e.target.value as StudentStatus)}
               >
                 {STATUSES.map((option) => (
                   <option key={option} value={option}>
@@ -316,11 +287,14 @@ export function EditStudentModal({
                   <span className={modalStyles.modalLabel}>Class</span>
                   <select
                     className={modalStyles.modalInput}
-                    value={classLabel}
+                    value={values.classLabel ?? ''}
                     onChange={(e) => {
                       const nextClass = e.target.value;
-                      setClassLabel(nextClass);
-                      setGradeLevel(gradeLevelFromClassLabel(nextClass));
+                      setValues((prev) => ({
+                        ...prev,
+                        classLabel: nextClass,
+                        gradeLevel: gradeLevelFromClassLabel(nextClass),
+                      }));
                     }}
                   >
                     {classOptions.map((option) => (
@@ -335,8 +309,8 @@ export function EditStudentModal({
                   <span className={modalStyles.modalLabel}>Subject</span>
                   <select
                     className={modalStyles.modalInput}
-                    value={subject}
-                    onChange={(e) => setSubject(e.target.value)}
+                    value={values.subject ?? ''}
+                    onChange={(e) => patch('subject', e.target.value)}
                   >
                     {subjectOptions.map((option) => (
                       <option key={option} value={option}>
@@ -351,8 +325,8 @@ export function EditStudentModal({
                 <span className={modalStyles.modalLabel}>Grade level</span>
                 <select
                   className={modalStyles.modalInput}
-                  value={gradeLevel}
-                  onChange={(e) => setGradeLevel(e.target.value)}
+                  value={values.gradeLevel ?? ''}
+                  onChange={(e) => patch('gradeLevel', e.target.value)}
                 >
                   {gradeOptions.map((option) => (
                     <option key={option} value={option}>
@@ -370,8 +344,8 @@ export function EditStudentModal({
               <input
                 className={modalStyles.modalInput}
                 type="tel"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
+                value={values.phone}
+                onChange={(e) => patch('phone', e.target.value)}
                 placeholder="09XX XXX XXXX"
                 maxLength={40}
               />
@@ -382,8 +356,8 @@ export function EditStudentModal({
               <input
                 className={modalStyles.modalInput}
                 type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={values.email}
+                onChange={(e) => patch('email', e.target.value)}
                 placeholder="student@email.com"
                 maxLength={80}
               />
@@ -395,8 +369,8 @@ export function EditStudentModal({
             <input
               className={modalStyles.modalInput}
               type="text"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
+              value={values.address}
+              onChange={(e) => patch('address', e.target.value)}
               placeholder="Street, barangay, city"
               maxLength={160}
             />
@@ -406,7 +380,7 @@ export function EditStudentModal({
 
       {step === 1 ? (
         <>
-          {guardians.map((guardian, index) => (
+          {values.guardians.map((guardian, index) => (
             <div key={`guardian-${index}`} className={styles.editGuardianBlock}>
               <p className={styles.editGuardianLabel}>
                 {index === 0 ? 'Primary guardian' : `Guardian ${index + 1}`}
@@ -475,11 +449,16 @@ export function EditStudentModal({
             </div>
           ))}
 
-          {guardians.length < 3 ? (
+          {values.guardians.length < 3 ? (
             <button
               type="button"
               className={styles.editAddGuardian}
-              onClick={() => setGuardians((prev) => [...prev, { ...EMPTY_GUARDIAN }])}
+              onClick={() =>
+                setValues((prev) => ({
+                  ...prev,
+                  guardians: [...prev.guardians, emptyGuardianInput()],
+                }))
+              }
             >
               + Add another guardian
             </button>
@@ -493,9 +472,12 @@ export function EditStudentModal({
               <input
                 className={modalStyles.modalInput}
                 type="text"
-                value={emergencyContact.name}
+                value={values.emergencyContact.name}
                 onChange={(e) =>
-                  setEmergencyContact((prev) => ({ ...prev, name: e.target.value }))
+                  patch('emergencyContact', {
+                    ...values.emergencyContact,
+                    name: e.target.value,
+                  })
                 }
                 placeholder="Emergency contact name"
                 maxLength={80}
@@ -506,12 +488,12 @@ export function EditStudentModal({
               <input
                 className={modalStyles.modalInput}
                 type="text"
-                value={emergencyContact.relationship}
+                value={values.emergencyContact.relationship}
                 onChange={(e) =>
-                  setEmergencyContact((prev) => ({
-                    ...prev,
+                  patch('emergencyContact', {
+                    ...values.emergencyContact,
                     relationship: e.target.value,
-                  }))
+                  })
                 }
                 placeholder="Father, Aunt…"
                 maxLength={40}
@@ -524,9 +506,12 @@ export function EditStudentModal({
             <input
               className={modalStyles.modalInput}
               type="tel"
-              value={emergencyContact.phone}
+              value={values.emergencyContact.phone}
               onChange={(e) =>
-                setEmergencyContact((prev) => ({ ...prev, phone: e.target.value }))
+                patch('emergencyContact', {
+                  ...values.emergencyContact,
+                  phone: e.target.value,
+                })
               }
               placeholder="09XX XXX XXXX"
               maxLength={40}
@@ -542,8 +527,8 @@ export function EditStudentModal({
             <input
               className={modalStyles.modalInput}
               type="text"
-              value={allergies}
-              onChange={(e) => setAllergies(e.target.value)}
+              value={values.allergies}
+              onChange={(e) => patch('allergies', e.target.value)}
               placeholder="None on file"
               maxLength={120}
             />
@@ -553,8 +538,8 @@ export function EditStudentModal({
             <span className={modalStyles.modalLabel}>Medical notes</span>
             <textarea
               className={modalStyles.modalTextarea}
-              value={medicalNotes}
-              onChange={(e) => setMedicalNotes(e.target.value)}
+              value={values.medicalNotes}
+              onChange={(e) => patch('medicalNotes', e.target.value)}
               placeholder="Health notes for classroom awareness"
               maxLength={400}
               rows={3}
@@ -565,8 +550,8 @@ export function EditStudentModal({
             <span className={modalStyles.modalLabel}>Teacher notes</span>
             <textarea
               className={modalStyles.modalTextarea}
-              value={teacherNotes}
-              onChange={(e) => setTeacherNotes(e.target.value)}
+              value={values.teacherNotes}
+              onChange={(e) => patch('teacherNotes', e.target.value)}
               placeholder="Private classroom notes"
               maxLength={400}
               rows={3}

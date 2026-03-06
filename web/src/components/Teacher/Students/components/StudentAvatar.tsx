@@ -1,6 +1,7 @@
 'use client';
 
 import type { TeacherStudentRow } from '@/types/teacherStudents';
+import dossierStyles from './dossier/dossier.module.css';
 import styles from '../students.module.css';
 
 type AvatarSize = 'row' | 'dossier' | 'edit';
@@ -12,7 +13,7 @@ interface StudentAvatarProps {
 
 const SIZE_CLASS: Record<AvatarSize, string> = {
   row: styles.avatar,
-  dossier: styles.dossierAvatar,
+  dossier: dossierStyles.dossierAvatar,
   edit: styles.editPhotoPreview,
 };
 

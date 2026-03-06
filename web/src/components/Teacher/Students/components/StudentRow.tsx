@@ -1,8 +1,12 @@
 'use client';
 
 import type { TeacherStudentRow } from '@/types/teacherStudents';
-import { listStyles, RowActionsMenu } from '../../shared';
-import { attendanceBarColor, letterGradeAccent, statusAccent } from '../utils';
+import { ChalkBadge, listStyles, RowActionsMenu } from '../../shared';
+import {
+  attendanceBarColor,
+  letterGradeAccent,
+  statusAccent,
+} from '../studentDisplay';
 import styles from '../students.module.css';
 import { StudentAvatar } from './StudentAvatar';
 
@@ -110,29 +114,11 @@ export function StudentRow({
       <td>
         <div className={styles.gradeCell}>
           <span className={styles.gradeValue}>{student.averageGrade.toFixed(1)}</span>
-          <span
-            className={styles.letterBadge}
-            style={{
-              color: letterColor,
-              borderColor: `${letterColor}88`,
-              background: `${letterColor}18`,
-            }}
-          >
-            {student.letterGrade}
-          </span>
+          <ChalkBadge label={student.letterGrade} accent={letterColor} />
         </div>
       </td>
       <td>
-        <span
-          className={styles.statusBadge}
-          style={{
-            color: statusColor,
-            borderColor: `${statusColor}88`,
-            background: `${statusColor}18`,
-          }}
-        >
-          {student.status}
-        </span>
+        <ChalkBadge label={student.status} accent={statusColor} />
       </td>
       <td
         onClick={(e) => e.stopPropagation()}

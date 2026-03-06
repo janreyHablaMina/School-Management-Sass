@@ -5,14 +5,14 @@ import type { TeacherNavRequest } from '@/lib/teacher/classFocus';
 import type { TeacherStudentRow } from '@/types/teacherStudents';
 import { listStyles, TeacherToast } from '../../shared';
 import { useGuardianContact } from '../useGuardianContact';
-import { toStudentGradesNav } from '../utils';
-import styles from '../students.module.css';
+import { toStudentGradesNav } from '../studentDisplay';
 import { ContactGuardianModal } from './ContactGuardianModal';
 import {
   StudentDossierBody,
   StudentDossierHero,
   type DossierTab,
 } from './dossier';
+import dossierStyles from './dossier/dossier.module.css';
 
 interface StudentDetailViewProps {
   student: TeacherStudentRow;
@@ -42,7 +42,7 @@ export function StudentDetailView({
 
   return (
     <div className={listStyles.page}>
-      <div className={styles.dossier}>
+      <div className={dossierStyles.dossier}>
         <StudentDossierHero
           student={student}
           onBack={onBack}

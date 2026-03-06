@@ -6,14 +6,14 @@ import {
   openGuardianChannel,
   type GuardianContactChannel,
 } from './contactChannels';
-import { primaryGuardian } from './utils';
+import { primaryGuardian } from './studentDisplay';
 
-export interface GuardianContactTarget {
+interface GuardianContactTarget {
   student: TeacherStudentRow;
   guardian: StudentGuardian;
 }
 
-export interface GuardianToast {
+interface GuardianToast {
   title: string;
   message?: string;
 }

@@ -6,8 +6,8 @@ import {
   attendanceBarColor,
   letterGradeAccent,
   statusAccent,
-} from '../../utils';
-import styles from '../../students.module.css';
+} from '../../studentDisplay';
+import styles from './dossier.module.css';
 import { StudentAvatar } from '../StudentAvatar';
 
 interface StudentDossierHeroProps {

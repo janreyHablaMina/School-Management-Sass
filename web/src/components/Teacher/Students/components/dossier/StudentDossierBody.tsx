@@ -11,8 +11,8 @@ import {
   primaryGuardian,
   toStudentClassFocus,
   toStudentGradesNav,
-} from '../../utils';
-import styles from '../../students.module.css';
+} from '../../studentDisplay';
+import styles from './dossier.module.css';
 import { DossierFact } from './DossierFact';
 
 export type DossierTab = 'overview' | 'family' | 'record';

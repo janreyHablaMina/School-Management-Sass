@@ -3,14 +3,14 @@
 import type { TeacherClassFocus, TeacherNavRequest } from '@/lib/teacher/classFocus';
 import { listStyles, ResourceListPage, TeacherToast } from '../shared';
 import { ContactGuardianModal } from './components/ContactGuardianModal';
-import { EditStudentModal } from './components/EditStudentModal';
+import { StudentFormModal } from './components/StudentFormModal';
 import { MarkInactiveModal } from './components/MarkInactiveModal';
 import { StudentDetailView } from './components/StudentDetailView';
 import { StudentsFilters } from './StudentsFilters';
 import { StudentsTable } from './StudentsTable';
 import { useGuardianContact } from './useGuardianContact';
 import { useStudents } from './useStudents';
-import { toStudentGradesNav } from './utils';
+import { toStudentGradesNav } from './studentDisplay';
 
 interface StudentsViewProps {
   classFocus?: TeacherClassFocus | null;
@@ -163,7 +163,7 @@ export function StudentsView({
       />
 
       {isCreateOpen ? (
-        <EditStudentModal
+        <StudentFormModal
           mode="create"
           classes={filterOptions.classes}
           subjects={subjectOptions}
@@ -174,7 +174,7 @@ export function StudentsView({
       ) : null}
 
       {editingStudent ? (
-        <EditStudentModal
+        <StudentFormModal
           mode="edit"
           student={editingStudent}
           classes={filterOptions.classes}

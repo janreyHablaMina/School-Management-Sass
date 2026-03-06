@@ -1,4 +1,3 @@
-import React from 'react';
 import { DataTable } from '../shared';
 import { StudentRow } from './components/StudentRow';
 import { StudentsBulkBar } from './components/StudentsBulkBar';

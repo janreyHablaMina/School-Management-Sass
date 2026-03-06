@@ -1,4 +1,4 @@
-import styles from '../../students.module.css';
+import styles from './dossier.module.css';
 
 export function DossierFact({ label, value }: { label: string; value: string }) {
   return (

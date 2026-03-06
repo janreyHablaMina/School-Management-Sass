@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { FilterSelect, listStyles, SearchField } from '../shared';
 import type { StudentsFiltersState } from './useStudents';
 
