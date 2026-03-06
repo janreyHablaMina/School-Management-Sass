@@ -5,6 +5,7 @@ import { listStyles } from '../shared';
 import type { AttendanceStatus, AttendanceStudentRow } from '@/types/teacherAttendance';
 import { AttendanceBulkBar } from './components/AttendanceBulkBar';
 import { AttendanceStudentRow as StudentRow } from './components/AttendanceStudentRow';
+import type { AttendanceSortKey } from './useAttendance';
 import styles from './attendance.module.css';
 
 interface AttendanceTableProps {
@@ -12,17 +13,39 @@ interface AttendanceTableProps {
   totalStudents: number;
   selectedIds: string[];
   allVisibleSelected: boolean;
+  sortKey: AttendanceSortKey | null;
+  sortDirection: 'asc' | 'desc';
+  onSort: (key: AttendanceSortKey) => void;
   onToggleStudent: (id: string) => void;
   onToggleAllVisible: () => void;
   onMarkSelected: (status: AttendanceStatus) => void;
   onClearSelection: () => void;
 }
 
+function sortIcon(
+  columnId: AttendanceSortKey,
+  sortKey: AttendanceSortKey | null,
+  sortDirection: 'asc' | 'desc',
+) {
+  if (!sortKey || sortKey !== columnId) return '↕';
+  return sortDirection === 'asc' ? '↑' : '↓';
+}
+
+const SORTABLE_HEADERS: { id: AttendanceSortKey; label: string }[] = [
+  { id: 'fullName', label: 'Student' },
+  { id: 'status', label: 'Status' },
+  { id: 'time', label: 'Time in' },
+  { id: 'notes', label: 'Notes' },
+];
+
 export function AttendanceTable({
   students,
   totalStudents,
   selectedIds,
   allVisibleSelected,
+  sortKey,
+  sortDirection,
+  onSort,
   onToggleStudent,
   onToggleAllVisible,
   onMarkSelected,
@@ -58,10 +81,34 @@ export function AttendanceTable({
                   aria-label="Select all visible students"
                 />
               </th>
-              <th>Student</th>
-              <th>Status</th>
-              <th>Time in</th>
-              <th>Notes</th>
+              {SORTABLE_HEADERS.map((column) => {
+                const active = sortKey === column.id;
+                return (
+                  <th
+                    key={column.id}
+                    className={listStyles.sortableTh}
+                    aria-sort={
+                      active
+                        ? sortDirection === 'asc'
+                          ? 'ascending'
+                          : 'descending'
+                        : 'none'
+                    }
+                  >
+                    <button
+                      type="button"
+                      className={listStyles.sortButton}
+                      onClick={() => onSort(column.id)}
+                      aria-label={`Sort by ${column.label}`}
+                    >
+                      {column.label}
+                      <span className={listStyles.sortIcon} aria-hidden>
+                        {sortIcon(column.id, sortKey, sortDirection)}
+                      </span>
+                    </button>
+                  </th>
+                );
+              })}
               <th />
             </tr>
           </thead>

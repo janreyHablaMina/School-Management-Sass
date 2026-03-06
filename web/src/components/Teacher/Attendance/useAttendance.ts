@@ -11,6 +11,7 @@ import type {
   AttendanceStudentRow,
   AttendanceViewMode,
 } from '@/types/teacherAttendance';
+import { sortByConfig, useColumnSort } from '../shared';
 import {
   clampDay,
   formatAttendanceDate,
@@ -21,6 +22,15 @@ import {
 import { useAttendanceSession } from './useAttendanceSession';
 
 const PAGE_SIZE = 8;
+
+export type AttendanceSortKey = 'fullName' | 'status' | 'time' | 'notes';
+
+function attendanceSortValue(
+  student: AttendanceStudentRow,
+  key: AttendanceSortKey,
+): unknown {
+  return student[key] ?? '';
+}
 
 export function useAttendance(options?: { classFocus?: TeacherClassFocus | null }) {
   const {
@@ -50,6 +60,8 @@ export function useAttendance(options?: { classFocus?: TeacherClassFocus | null 
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [page, setPage] = useState(1);
   const didHydrateFocus = useRef(false);
+  const { sortConfig, sortKey, sortDirection, handleSort: toggleSort } =
+    useColumnSort<AttendanceSortKey>();
 
   const selectedClass = useMemo(
     () => classes.find((item) => item.id === selectedClassId) ?? null,
@@ -64,14 +76,27 @@ export function useAttendance(options?: { classFocus?: TeacherClassFocus | null 
   const visibleCalendarDays =
     viewYear === initialYear && viewMonth === initialMonth ? calendarDays : [];
 
-  const totalStudents = students.length;
+  const sortedStudents = useMemo(
+    () =>
+      sortByConfig(students, sortConfig, attendanceSortValue, (a, b) =>
+        a.fullName.localeCompare(b.fullName),
+      ),
+    [students, sortConfig],
+  );
+
+  const totalStudents = sortedStudents.length;
   const totalPages = Math.max(1, Math.ceil(totalStudents / PAGE_SIZE));
   const currentPage = Math.min(page, totalPages);
 
   const paginatedStudents = useMemo(() => {
     const start = (currentPage - 1) * PAGE_SIZE;
-    return students.slice(start, start + PAGE_SIZE);
-  }, [students, currentPage]);
+    return sortedStudents.slice(start, start + PAGE_SIZE);
+  }, [sortedStudents, currentPage]);
+
+  const handleSort = (key: AttendanceSortKey) => {
+    toggleSort(key);
+    setPage(1);
+  };
 
   const rangeStart = totalStudents === 0 ? 0 : (currentPage - 1) * PAGE_SIZE + 1;
   const rangeEnd = Math.min(currentPage * PAGE_SIZE, totalStudents);
@@ -191,6 +216,9 @@ export function useAttendance(options?: { classFocus?: TeacherClassFocus | null 
     toggleStudent,
     toggleAllVisible,
     allVisibleSelected,
+    sortKey,
+    sortDirection,
+    handleSort,
     markAll: (status: AttendanceStatus) => markStudents('all', status),
     markSelected: (status: AttendanceStatus) => {
       if (selectedIds.length === 0) return;

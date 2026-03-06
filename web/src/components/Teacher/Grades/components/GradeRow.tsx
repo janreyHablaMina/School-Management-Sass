@@ -28,10 +28,12 @@ const DANGER_ACTIONS = [{ icon: '🚩', label: 'Flag for Review' }] as const;
 
 interface GradeRowProps {
   grade: TeacherGradeRow;
+  selected: boolean;
+  onToggleSelect: (id: string) => void;
   onOpen?: (id: string) => void;
 }
 
-export function GradeRow({ grade, onOpen }: GradeRowProps) {
+export function GradeRow({ grade, selected, onToggleSelect, onOpen }: GradeRowProps) {
   const letterColor = gradeLetterAccent(grade.letterGrade);
   const statusColor = gradeStatusAccent(grade.status);
   const scoreColor = gradeScoreBarColor(grade.overallScore);
@@ -39,7 +41,12 @@ export function GradeRow({ grade, onOpen }: GradeRowProps) {
 
   return (
     <tr
-      className={onOpen ? styles.clickableRow : undefined}
+      className={[
+        onOpen ? styles.clickableRow : null,
+        selected ? listStyles.rowSelected : null,
+      ]
+        .filter(Boolean)
+        .join(' ') || undefined}
       onClick={() => onOpen?.(grade.id)}
       onKeyDown={(e) => {
         if (!onOpen) return;
@@ -52,6 +59,19 @@ export function GradeRow({ grade, onOpen }: GradeRowProps) {
       role={onOpen ? 'button' : undefined}
       aria-label={onOpen ? `Open grades for ${grade.fullName}` : undefined}
     >
+      <td
+        className={listStyles.checkCell}
+        onClick={(e) => e.stopPropagation()}
+        onKeyDown={(e) => e.stopPropagation()}
+      >
+        <input
+          type="checkbox"
+          className={listStyles.checkbox}
+          checked={selected}
+          onChange={() => onToggleSelect(grade.id)}
+          aria-label={`Select ${grade.fullName}`}
+        />
+      </td>
       <td>
         <div className={styles.studentCell}>
           <div

@@ -21,14 +21,36 @@ const DANGER_ACTIONS = [
   { icon: '🗑', label: 'Delete Lesson' },
 ] as const;
 
-
 interface LessonRowProps {
   lesson: TeacherLessonRow;
+  selected: boolean;
+  onToggleSelect: (id: string) => void;
+  onArchive: (id: string) => void;
+  onDelete: (id: string) => void;
 }
 
-export function LessonRow({ lesson }: LessonRowProps) {
+export function LessonRow({
+  lesson,
+  selected,
+  onToggleSelect,
+  onArchive,
+  onDelete,
+}: LessonRowProps) {
   return (
-    <tr>
+    <tr className={selected ? listStyles.rowSelected : undefined}>
+      <td
+        className={listStyles.checkCell}
+        onClick={(e) => e.stopPropagation()}
+        onKeyDown={(e) => e.stopPropagation()}
+      >
+        <input
+          type="checkbox"
+          className={listStyles.checkbox}
+          checked={selected}
+          onChange={() => onToggleSelect(lesson.id)}
+          aria-label={`Select ${lesson.title}`}
+        />
+      </td>
       <td>
         <ResourceTitle
           icon={lesson.icon}
@@ -66,6 +88,10 @@ export function LessonRow({ lesson }: LessonRowProps) {
           label={`More actions for ${lesson.title}`}
           actions={ROW_ACTIONS}
           dangerActions={DANGER_ACTIONS}
+          onAction={(actionLabel) => {
+            if (actionLabel === 'Archive Lesson') onArchive(lesson.id);
+            if (actionLabel === 'Delete Lesson') onDelete(lesson.id);
+          }}
         />
       </td>
     </tr>

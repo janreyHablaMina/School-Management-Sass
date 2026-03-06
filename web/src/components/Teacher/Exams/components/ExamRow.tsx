@@ -25,15 +25,38 @@ const DANGER_ACTIONS = [
 
 interface ExamRowProps {
   exam: TeacherExamRow;
+  selected: boolean;
+  onToggleSelect: (id: string) => void;
+  onArchive: (id: string) => void;
+  onDelete: (id: string) => void;
 }
 
-export function ExamRow({ exam }: ExamRowProps) {
+export function ExamRow({
+  exam,
+  selected,
+  onToggleSelect,
+  onArchive,
+  onDelete,
+}: ExamRowProps) {
   const completionRate = Math.round(
     (exam.completedCount / Math.max(exam.totalStudents, 1)) * 100
   );
 
   return (
-    <tr>
+    <tr className={selected ? listStyles.rowSelected : undefined}>
+      <td
+        className={listStyles.checkCell}
+        onClick={(e) => e.stopPropagation()}
+        onKeyDown={(e) => e.stopPropagation()}
+      >
+        <input
+          type="checkbox"
+          className={listStyles.checkbox}
+          checked={selected}
+          onChange={() => onToggleSelect(exam.id)}
+          aria-label={`Select ${exam.title}`}
+        />
+      </td>
       <td>
         <ResourceTitle
           icon={exam.icon}
@@ -72,6 +95,10 @@ export function ExamRow({ exam }: ExamRowProps) {
           label={`More actions for ${exam.title}`}
           actions={ROW_ACTIONS}
           dangerActions={DANGER_ACTIONS}
+          onAction={(actionLabel) => {
+            if (actionLabel === 'Archive Exam') onArchive(exam.id);
+            if (actionLabel === 'Delete Exam') onDelete(exam.id);
+          }}
         />
       </td>
     </tr>

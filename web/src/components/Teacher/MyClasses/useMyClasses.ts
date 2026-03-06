@@ -3,7 +3,12 @@
 import { useEffect, useMemo, useState } from 'react';
 import { myClassesPageMock } from '@/lib/mock/myClasses.mock';
 import type { ClassFormInput, ClassStatus, MyClassRow } from '@/types/myClasses';
-import { usePagedList } from '../shared';
+import {
+  sortByConfig,
+  useColumnSort,
+  usePagedList,
+  useRowSelection,
+} from '../shared';
 import {
   applyClassFormInput,
   archiveClassRow,
@@ -28,6 +33,13 @@ const DEFAULT_FILTERS = {
 export type MyClassesFiltersState = typeof DEFAULT_FILTERS;
 export type MyClassesFilterKey = keyof MyClassesFiltersState;
 
+export type MyClassSortKey =
+  | 'subject'
+  | 'schedule'
+  | 'studentCount'
+  | 'attendanceRate'
+  | 'courseProgress';
+
 function matchesClass(cls: MyClassRow, filters: MyClassesFiltersState) {
   const q = filters.searchTerm.trim().toLowerCase();
   const matchesSearch =
@@ -45,6 +57,10 @@ function matchesClass(cls: MyClassRow, filters: MyClassesFiltersState) {
   );
 }
 
+function classSortValue(cls: MyClassRow, key: MyClassSortKey): unknown {
+  return cls[key];
+}
+
 export function useMyClasses() {
   const { filterOptions } = myClassesPageMock;
   const [classes, setClasses] = useState(myClassesPageMock.classes);
@@ -53,10 +69,18 @@ export function useMyClasses() {
   const [editingClassId, setEditingClassId] = useState<number | null>(null);
   const [scheduleClassId, setScheduleClassId] = useState<number | null>(null);
   const [archiveClassId, setArchiveClassId] = useState<number | null>(null);
+  const [bulkArchiveOpen, setBulkArchiveOpen] = useState(false);
   const [archivedSnapshots, setArchivedSnapshots] = useState<
     Record<number, ArchivedClassSnapshot>
   >({});
   const [toast, setToast] = useState<{ title: string; message?: string } | null>(null);
+
+  const {
+    sortConfig,
+    sortKey,
+    sortDirection,
+    handleSort: toggleSort,
+  } = useColumnSort<MyClassSortKey>();
 
   const metrics = useMemo(() => buildMyClassesMetrics(classes), [classes]);
 
@@ -65,6 +89,32 @@ export function useMyClasses() {
     initialFilters: DEFAULT_FILTERS,
     pageSize: PAGE_SIZE,
     filterFn: matchesClass,
+    sortFn: (items) =>
+      sortByConfig(items, sortConfig, classSortValue, (a, b) =>
+        a.gradeSection.localeCompare(b.gradeSection),
+      ),
+    sortDeps: sortConfig,
+  });
+
+  const handleSort = (key: MyClassSortKey) => {
+    toggleSort(key);
+    list.setPage(1);
+  };
+
+  const paginatedClasses = list.paginatedItems;
+  const visibleIds = paginatedClasses.map((cls) => cls.id);
+
+  const {
+    selectedIds,
+    selectedCount,
+    allVisibleSelected,
+    toggle: toggleClass,
+    toggleAllVisible,
+    clearSelection: clearRowSelection,
+    setSelectedIds,
+  } = useRowSelection<number>({
+    visibleIds,
+    resetKey: `${JSON.stringify(list.filters)}-${list.page}`,
   });
 
   const selectedClass = useMemo(
@@ -87,11 +137,30 @@ export function useMyClasses() {
     [classes, archiveClassId],
   );
 
+  const selectedClasses = useMemo(
+    () => classes.filter((cls) => selectedIds.includes(cls.id)),
+    [classes, selectedIds],
+  );
+
+  const selectedArchivedCount = selectedClasses.filter(
+    (cls) => cls.status === 'Archived',
+  ).length;
+  const selectedActiveCount = selectedClasses.length - selectedArchivedCount;
+
   useEffect(() => {
     if (!toast) return;
     const timer = window.setTimeout(() => setToast(null), 3500);
     return () => window.clearTimeout(timer);
   }, [toast]);
+
+  useEffect(() => {
+    setBulkArchiveOpen(false);
+  }, [list.filters, list.page]);
+
+  const clearSelection = () => {
+    clearRowSelection();
+    setBulkArchiveOpen(false);
+  };
 
   const createClass = (input: ClassFormInput) => {
     const next = buildClassFromInput(input, classes);
@@ -143,6 +212,7 @@ export function useMyClasses() {
     setClasses((prev) =>
       prev.map((cls) => (cls.id === source.id ? archiveClassRow(cls) : cls)),
     );
+    setSelectedIds((prev) => prev.filter((id) => id !== source.id));
     setArchiveClassId(null);
     setEditingClassId((id) => (id === source.id ? null : id));
     setScheduleClassId((id) => (id === source.id ? null : id));
@@ -150,6 +220,36 @@ export function useMyClasses() {
     setToast({
       title: 'Class archived',
       message: `${source.subject} · ${source.gradeSection}. Find it under Archived.`,
+    });
+  };
+
+  const confirmBulkArchive = () => {
+    const targets = selectedClasses.filter((cls) => cls.status !== 'Archived');
+    if (targets.length === 0) {
+      setBulkArchiveOpen(false);
+      return;
+    }
+
+    const targetIds = new Set(targets.map((cls) => cls.id));
+    setArchivedSnapshots((prev) => {
+      const next = { ...prev };
+      for (const source of targets) {
+        next[source.id] = snapshotBeforeArchive(source);
+      }
+      return next;
+    });
+    setClasses((prev) =>
+      prev.map((cls) => (targetIds.has(cls.id) ? archiveClassRow(cls) : cls)),
+    );
+    setEditingClassId((id) => (id != null && targetIds.has(id) ? null : id));
+    setScheduleClassId((id) => (id != null && targetIds.has(id) ? null : id));
+    if (selectedClassId != null && targetIds.has(selectedClassId)) {
+      setSelectedClassId(null);
+    }
+    clearSelection();
+    setToast({
+      title: 'Classes archived',
+      message: `${targets.length} class${targets.length === 1 ? '' : 'es'} moved to Archived.`,
     });
   };
 
@@ -171,11 +271,35 @@ export function useMyClasses() {
     });
   };
 
+  const restoreSelected = () => {
+    const targets = selectedClasses.filter((cls) => cls.status === 'Archived');
+    if (targets.length === 0) return;
+
+    const targetIds = new Set(targets.map((cls) => cls.id));
+    setClasses((prev) =>
+      prev.map((cls) =>
+        targetIds.has(cls.id)
+          ? restoreClassRow(cls, archivedSnapshots[cls.id])
+          : cls,
+      ),
+    );
+    setArchivedSnapshots((prev) => {
+      const next = { ...prev };
+      for (const id of targetIds) delete next[id];
+      return next;
+    });
+    clearSelection();
+    setToast({
+      title: 'Classes restored',
+      message: `${targets.length} class${targets.length === 1 ? '' : 'es'} set back to Active.`,
+    });
+  };
+
   return {
     metrics,
     filterOptions,
     ...list,
-    paginatedClasses: list.paginatedItems,
+    paginatedClasses,
     selectedClass,
     openClass: (id: number) => setSelectedClassId(id),
     backToClasses: () => setSelectedClassId(null),
@@ -184,6 +308,7 @@ export function useMyClasses() {
       setEditingClassId(null);
       setScheduleClassId(null);
       setArchiveClassId(null);
+      setBulkArchiveOpen(false);
       setIsCreateOpen(true);
     },
     closeCreate: () => setIsCreateOpen(false),
@@ -193,6 +318,7 @@ export function useMyClasses() {
       setIsCreateOpen(false);
       setScheduleClassId(null);
       setArchiveClassId(null);
+      setBulkArchiveOpen(false);
       setEditingClassId(id);
     },
     closeEdit: () => setEditingClassId(null),
@@ -203,6 +329,7 @@ export function useMyClasses() {
       setIsCreateOpen(false);
       setEditingClassId(null);
       setArchiveClassId(null);
+      setBulkArchiveOpen(false);
       setScheduleClassId(id);
     },
     closeSchedule: () => setScheduleClassId(null),
@@ -211,11 +338,35 @@ export function useMyClasses() {
       setIsCreateOpen(false);
       setEditingClassId(null);
       setScheduleClassId(null);
+      setBulkArchiveOpen(false);
       setArchiveClassId(id);
     },
     closeArchive: () => setArchiveClassId(null),
     confirmArchive,
     restoreClass,
+    selectedIds,
+    selectedCount,
+    selectedActiveCount,
+    selectedArchivedCount,
+    allVisibleSelected,
+    toggleClass,
+    toggleAllVisible,
+    clearSelection,
+    bulkArchiveOpen,
+    openBulkArchive: () => {
+      if (selectedActiveCount === 0) return;
+      setIsCreateOpen(false);
+      setEditingClassId(null);
+      setScheduleClassId(null);
+      setArchiveClassId(null);
+      setBulkArchiveOpen(true);
+    },
+    closeBulkArchive: () => setBulkArchiveOpen(false),
+    confirmBulkArchive,
+    restoreSelected,
+    sortKey,
+    sortDirection,
+    handleSort,
     toast,
     dismissToast: () => setToast(null),
   };

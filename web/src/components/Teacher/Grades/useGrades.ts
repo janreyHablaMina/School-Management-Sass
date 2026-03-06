@@ -14,7 +14,14 @@ import type {
   GradeTab,
   TeacherGradeRow,
 } from '@/types/teacherGrades';
-import { matchesAllOrExact, matchesSearch, usePagedList } from '../shared';
+import {
+  matchesAllOrExact,
+  matchesSearch,
+  sortByConfig,
+  useColumnSort,
+  usePagedList,
+  useRowSelection,
+} from '../shared';
 
 const PAGE_SIZE = 8;
 
@@ -27,6 +34,15 @@ const DEFAULT_FILTERS = {
 };
 
 export type GradesFiltersState = typeof DEFAULT_FILTERS;
+
+export type GradeSortKey =
+  | 'fullName'
+  | 'classLabel'
+  | 'term'
+  | 'overallScore'
+  | 'letterGrade'
+  | 'trend'
+  | 'status';
 
 function matchesTab(row: TeacherGradeRow, tab: GradeTab) {
   switch (tab) {
@@ -50,7 +66,11 @@ function matchesGrade(row: TeacherGradeRow, filters: GradesFiltersState) {
   );
 }
 
-function sortGrades(items: TeacherGradeRow[], filters: GradesFiltersState) {
+function gradeSortValue(row: TeacherGradeRow, key: GradeSortKey): unknown {
+  return row[key];
+}
+
+function sortGradesByFilter(items: TeacherGradeRow[], filters: GradesFiltersState) {
   const next = [...items];
   switch (filters.sort) {
     case 'Lowest First':
@@ -66,7 +86,14 @@ export function useGrades(options?: {
   classFocus?: TeacherClassFocus | null;
   studentFocus?: TeacherStudentFocus | null;
 }) {
-  const { metrics, classes, filterOptions, tabs } = teacherGradesPageMock;
+  const { metrics, filterOptions, tabs } = teacherGradesPageMock;
+  const [classes, setClasses] = useState(() =>
+    teacherGradesPageMock.classes.map((cls) => ({
+      ...cls,
+      grades: cls.grades.map((grade) => ({ ...grade })),
+    })),
+  );
+
   const initialClassId = findClassIdByFocus(classes, options?.classFocus);
   const initialClass = classes.find((item) => item.id === initialClassId) ?? null;
   const initialGradeId =
@@ -74,6 +101,8 @@ export function useGrades(options?: {
 
   const [selectedClassId, setSelectedClassId] = useState<string | null>(initialClassId);
   const [selectedGradeId, setSelectedGradeId] = useState<string | null>(initialGradeId);
+  const { sortConfig, sortKey, sortDirection, handleSort: toggleSort } =
+    useColumnSort<GradeSortKey>();
 
   const selectedClass = useMemo(
     () => classes.find((item) => item.id === selectedClassId) ?? null,
@@ -92,8 +121,62 @@ export function useGrades(options?: {
     initialFilters: DEFAULT_FILTERS,
     pageSize: PAGE_SIZE,
     filterFn: matchesGrade,
-    sortFn: sortGrades,
+    sortFn: (items, filters) => {
+      if (sortConfig) {
+        return sortByConfig(items, sortConfig, gradeSortValue, (a, b) =>
+          a.fullName.localeCompare(b.fullName),
+        );
+      }
+      return sortGradesByFilter(items, filters);
+    },
+    sortDeps: sortConfig,
   });
+
+  const paginatedGrades = list.paginatedItems;
+  const visibleIds = useMemo(
+    () => paginatedGrades.map((grade) => grade.id),
+    [paginatedGrades],
+  );
+
+  const {
+    selectedIds,
+    selectedCount,
+    allVisibleSelected,
+    toggle,
+    toggleAllVisible,
+    clearSelection,
+  } = useRowSelection({
+    visibleIds,
+    resetKey: selectedClassId,
+  });
+
+  const handleSort = (key: GradeSortKey) => {
+    toggleSort(key);
+    list.setPage(1);
+  };
+
+  const flagSelectedForReview = () => {
+    if (selectedIds.length === 0 || !selectedClassId) return;
+    const idSet = new Set(selectedIds);
+    setClasses((prev) =>
+      prev.map((cls) => {
+        if (cls.id !== selectedClassId) return cls;
+        let flagged = 0;
+        const grades = cls.grades.map((grade) => {
+          if (!idSet.has(grade.id) || grade.status === 'Needs Attention') return grade;
+          flagged += 1;
+          return { ...grade, status: 'Needs Attention' as const };
+        });
+        if (flagged === 0) return cls;
+        return {
+          ...cls,
+          grades,
+          needsAttention: grades.filter((g) => g.status === 'Needs Attention').length,
+        };
+      }),
+    );
+    clearSelection();
+  };
 
   const openClass = (id: string) => {
     setSelectedGradeId(null);
@@ -123,6 +206,16 @@ export function useGrades(options?: {
     backToClasses,
     backToGradebook,
     ...list,
-    paginatedGrades: list.paginatedItems,
+    paginatedGrades,
+    sortKey,
+    sortDirection,
+    handleSort,
+    selectedIds,
+    selectedCount,
+    allVisibleSelected,
+    toggleStudent: toggle,
+    toggleAllVisible,
+    clearSelection,
+    flagSelectedForReview,
   };
 }

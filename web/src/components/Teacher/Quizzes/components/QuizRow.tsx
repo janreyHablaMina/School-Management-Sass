@@ -24,15 +24,38 @@ const DANGER_ACTIONS = [
 
 interface QuizRowProps {
   quiz: TeacherQuizRow;
+  selected: boolean;
+  onToggleSelect: (id: string) => void;
+  onArchive: (id: string) => void;
+  onDelete: (id: string) => void;
 }
 
-export function QuizRow({ quiz }: QuizRowProps) {
+export function QuizRow({
+  quiz,
+  selected,
+  onToggleSelect,
+  onArchive,
+  onDelete,
+}: QuizRowProps) {
   const attemptRate = Math.round(
     (quiz.attemptCount / Math.max(quiz.totalStudents, 1)) * 100
   );
 
   return (
-    <tr>
+    <tr className={selected ? listStyles.rowSelected : undefined}>
+      <td
+        className={listStyles.checkCell}
+        onClick={(e) => e.stopPropagation()}
+        onKeyDown={(e) => e.stopPropagation()}
+      >
+        <input
+          type="checkbox"
+          className={listStyles.checkbox}
+          checked={selected}
+          onChange={() => onToggleSelect(quiz.id)}
+          aria-label={`Select ${quiz.title}`}
+        />
+      </td>
       <td>
         <ResourceTitle
           icon={quiz.icon}
@@ -71,6 +94,10 @@ export function QuizRow({ quiz }: QuizRowProps) {
           label={`More actions for ${quiz.title}`}
           actions={ROW_ACTIONS}
           dangerActions={DANGER_ACTIONS}
+          onAction={(actionLabel) => {
+            if (actionLabel === 'Archive Quiz') onArchive(quiz.id);
+            if (actionLabel === 'Delete Quiz') onDelete(quiz.id);
+          }}
         />
       </td>
     </tr>

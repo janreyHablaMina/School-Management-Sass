@@ -5,22 +5,32 @@ import { listStyles, TeacherModal } from '../../shared';
 import styles from '../myClasses.module.css';
 
 interface ArchiveClassModalProps {
-  cls: MyClassRow;
+  cls?: MyClassRow | null;
+  count?: number;
   onCancel: () => void;
   onConfirm: () => void;
 }
 
 export function ArchiveClassModal({
-  cls,
+  cls = null,
+  count = 1,
   onCancel,
   onConfirm,
 }: ArchiveClassModalProps) {
+  const isBulk = !cls && count > 0;
+  const title = isBulk
+    ? `${count} class${count === 1 ? '' : 'es'}`
+    : (cls?.subject ?? 'Class');
+  const copy = isBulk
+    ? 'Selected from your class list'
+    : `${cls?.gradeSection ?? ''} · ${cls?.academicYear ?? ''}`;
+
   return (
     <TeacherModal
       titleId="archive-class-title"
       eyebrow="Archive class"
-      title={cls.subject}
-      copy={`${cls.gradeSection} · ${cls.academicYear}`}
+      title={title}
+      copy={copy}
       onClose={onCancel}
       showClose
       footer={
@@ -29,29 +39,41 @@ export function ArchiveClassModal({
             Cancel
           </button>
           <button type="button" className={styles.dangerBtn} onClick={onConfirm}>
-            Archive class
+            {isBulk ? `Archive ${count}` : 'Archive class'}
           </button>
         </>
       }
     >
       <p className={styles.archiveCopy}>
-        This class will move to <strong>Archived</strong> and leave your Active
-        list. You can restore it anytime from the Archived filter.
+        {isBulk ? (
+          <>
+            <strong>{count}</strong> selected class{count === 1 ? '' : 'es'} will move
+            to <strong>Archived</strong> and leave your Active list. You can restore
+            them anytime from the Archived filter.
+          </>
+        ) : (
+          <>
+            This class will move to <strong>Archived</strong> and leave your Active
+            list. You can restore it anytime from the Archived filter.
+          </>
+        )}
       </p>
-      <ul className={styles.archiveFacts}>
-        <li>
-          <span>Room</span>
-          <strong>{cls.room}</strong>
-        </li>
-        <li>
-          <span>Students</span>
-          <strong>{cls.studentCount}</strong>
-        </li>
-        <li>
-          <span>Schedule</span>
-          <strong>{cls.schedule}</strong>
-        </li>
-      </ul>
+      {!isBulk && cls ? (
+        <ul className={styles.archiveFacts}>
+          <li>
+            <span>Room</span>
+            <strong>{cls.room}</strong>
+          </li>
+          <li>
+            <span>Students</span>
+            <strong>{cls.studentCount}</strong>
+          </li>
+          <li>
+            <span>Schedule</span>
+            <strong>{cls.schedule}</strong>
+          </li>
+        </ul>
+      ) : null}
     </TeacherModal>
   );
 }

@@ -28,6 +28,18 @@ export function ExamsView({ classFocus = null }: ExamsViewProps) {
     setPage,
     rangeStart,
     rangeEnd,
+    selectedIds,
+    allVisibleSelected,
+    sortKey,
+    sortDirection,
+    handleSort,
+    toggle,
+    toggleAllVisible,
+    clearSelection,
+    archiveSelected,
+    deleteSelected,
+    archiveItem,
+    deleteItem,
   } = useExams({ classFocus });
 
   return (
@@ -65,7 +77,23 @@ export function ExamsView({ classFocus = null }: ExamsViewProps) {
       itemsCount={paginatedExams.length}
       emptyTitle="No exams found"
       emptyDescription="Try adjusting your search or filters."
-      table={<ExamsTable exams={paginatedExams} />}
+      table={
+        <ExamsTable
+          exams={paginatedExams}
+          selectedIds={selectedIds}
+          allVisibleSelected={allVisibleSelected}
+          sortKey={sortKey}
+          sortDirection={sortDirection}
+          onSort={handleSort}
+          onToggle={toggle}
+          onToggleAllVisible={toggleAllVisible}
+          onClearSelection={clearSelection}
+          onArchiveSelected={archiveSelected}
+          onDeleteSelected={deleteSelected}
+          onArchiveItem={archiveItem}
+          onDeleteItem={deleteItem}
+        />
+      }
       rangeStart={rangeStart}
       rangeEnd={rangeEnd}
       total={filteredCount}

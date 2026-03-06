@@ -52,6 +52,9 @@ export function AttendanceView({ classFocus = null }: AttendanceViewProps) {
     toggleStudent,
     toggleAllVisible,
     allVisibleSelected,
+    sortKey,
+    sortDirection,
+    handleSort,
     markAll,
     markSelected,
     clearSelection,
@@ -147,6 +150,9 @@ export function AttendanceView({ classFocus = null }: AttendanceViewProps) {
         totalStudents={totalStudents}
         selectedIds={selectedIds}
         allVisibleSelected={allVisibleSelected}
+        sortKey={sortKey}
+        sortDirection={sortDirection}
+        onSort={handleSort}
         onToggleStudent={toggleStudent}
         onToggleAllVisible={toggleAllVisible}
         onMarkSelected={markSelected}

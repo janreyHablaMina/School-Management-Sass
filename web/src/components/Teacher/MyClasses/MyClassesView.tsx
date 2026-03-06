@@ -50,6 +50,21 @@ export function MyClassesView({ onNavigate }: MyClassesViewProps) {
     closeArchive,
     confirmArchive,
     restoreClass,
+    selectedIds,
+    selectedActiveCount,
+    selectedArchivedCount,
+    allVisibleSelected,
+    toggleClass,
+    toggleAllVisible,
+    clearSelection,
+    bulkArchiveOpen,
+    openBulkArchive,
+    closeBulkArchive,
+    confirmBulkArchive,
+    restoreSelected,
+    sortKey,
+    sortDirection,
+    handleSort,
     toast,
     dismissToast,
   } = useMyClasses();
@@ -95,6 +110,18 @@ export function MyClassesView({ onNavigate }: MyClassesViewProps) {
           table={
             <ClassesTable
               classes={paginatedClasses}
+              selectedIds={selectedIds}
+              allVisibleSelected={allVisibleSelected}
+              selectedActiveCount={selectedActiveCount}
+              selectedArchivedCount={selectedArchivedCount}
+              sortKey={sortKey}
+              sortDirection={sortDirection}
+              onSort={handleSort}
+              onToggleClass={toggleClass}
+              onToggleAllVisible={toggleAllVisible}
+              onClearSelection={clearSelection}
+              onBulkArchive={openBulkArchive}
+              onBulkRestore={restoreSelected}
               onOpen={openClass}
               onEdit={openEdit}
               onDuplicate={duplicateClass}
@@ -156,6 +183,14 @@ export function MyClassesView({ onNavigate }: MyClassesViewProps) {
           cls={archiveTarget}
           onCancel={closeArchive}
           onConfirm={confirmArchive}
+        />
+      ) : null}
+
+      {bulkArchiveOpen ? (
+        <ArchiveClassModal
+          count={selectedActiveCount}
+          onCancel={closeBulkArchive}
+          onConfirm={confirmBulkArchive}
         />
       ) : null}
 

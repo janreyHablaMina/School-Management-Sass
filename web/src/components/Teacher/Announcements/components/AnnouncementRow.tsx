@@ -25,11 +25,34 @@ const DANGER_ACTIONS = [
 
 interface AnnouncementRowProps {
   announcement: TeacherAnnouncementRow;
+  selected: boolean;
+  onToggleSelect: (id: string) => void;
+  onArchive: (id: string) => void;
+  onDelete: (id: string) => void;
 }
 
-export function AnnouncementRow({ announcement }: AnnouncementRowProps) {
+export function AnnouncementRow({
+  announcement,
+  selected,
+  onToggleSelect,
+  onArchive,
+  onDelete,
+}: AnnouncementRowProps) {
   return (
-    <tr>
+    <tr className={selected ? listStyles.rowSelected : undefined}>
+      <td
+        className={listStyles.checkCell}
+        onClick={(e) => e.stopPropagation()}
+        onKeyDown={(e) => e.stopPropagation()}
+      >
+        <input
+          type="checkbox"
+          className={listStyles.checkbox}
+          checked={selected}
+          onChange={() => onToggleSelect(announcement.id)}
+          aria-label={`Select ${announcement.title}`}
+        />
+      </td>
       <td>
         <div className={styles.titleCell}>
           <ResourceTitle
@@ -67,6 +90,10 @@ export function AnnouncementRow({ announcement }: AnnouncementRowProps) {
           label={`More actions for ${announcement.title}`}
           actions={ROW_ACTIONS}
           dangerActions={DANGER_ACTIONS}
+          onAction={(actionLabel) => {
+            if (actionLabel === 'Archive') onArchive(announcement.id);
+            if (actionLabel === 'Delete') onDelete(announcement.id);
+          }}
         />
       </td>
     </tr>

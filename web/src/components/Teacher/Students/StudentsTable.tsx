@@ -1,7 +1,8 @@
-import { DataTable } from '../shared';
+import { DataTable, type DataTableColumn } from '../shared';
 import { StudentRow } from './components/StudentRow';
 import { StudentsBulkBar } from './components/StudentsBulkBar';
 import type { TeacherStudentRow } from '@/types/teacherStudents';
+import type { StudentSortKey } from './useStudents';
 import styles from './students.module.css';
 
 interface StudentsTableProps {
@@ -10,6 +11,9 @@ interface StudentsTableProps {
   allVisibleSelected: boolean;
   selectedActiveCount: number;
   selectedInactiveCount: number;
+  sortKey: StudentSortKey | null;
+  sortDirection: 'asc' | 'desc';
+  onSort: (key: StudentSortKey) => void;
   onToggleStudent: (id: string) => void;
   onToggleAllVisible: () => void;
   onClearSelection: () => void;
@@ -23,16 +27,16 @@ interface StudentsTableProps {
   onRestoreActive?: (id: string) => void;
 }
 
-const COLUMNS = [
-  'Student',
-  'ID Number',
-  'Class',
-  'Contact',
-  'Attendance',
-  'Average Grade',
-  'Status',
-  'Actions',
-] as const;
+const COLUMNS: DataTableColumn[] = [
+  { id: 'fullName', label: 'Student', sortable: true },
+  { id: 'idNumber', label: 'ID Number', sortable: true },
+  { id: 'classLabel', label: 'Class', sortable: true },
+  { id: 'phone', label: 'Contact', sortable: true },
+  { id: 'attendanceRate', label: 'Attendance', sortable: true },
+  { id: 'averageGrade', label: 'Average Grade', sortable: true },
+  { id: 'status', label: 'Status', sortable: true },
+  { id: 'actions', label: 'Actions' },
+];
 
 export function StudentsTable({
   students,
@@ -40,6 +44,9 @@ export function StudentsTable({
   allVisibleSelected,
   selectedActiveCount,
   selectedInactiveCount,
+  sortKey,
+  sortDirection,
+  onSort,
   onToggleStudent,
   onToggleAllVisible,
   onClearSelection,
@@ -66,6 +73,9 @@ export function StudentsTable({
       <DataTable
         columns={COLUMNS}
         minWidth={1140}
+        sortKey={sortKey}
+        sortDirection={sortDirection}
+        onSort={(key) => onSort(key as StudentSortKey)}
         leadingHeader={
           <input
             type="checkbox"

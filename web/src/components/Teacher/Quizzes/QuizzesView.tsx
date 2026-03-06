@@ -28,6 +28,18 @@ export function QuizzesView({ classFocus = null }: QuizzesViewProps) {
     setPage,
     rangeStart,
     rangeEnd,
+    selectedIds,
+    allVisibleSelected,
+    sortKey,
+    sortDirection,
+    handleSort,
+    toggle,
+    toggleAllVisible,
+    clearSelection,
+    archiveSelected,
+    deleteSelected,
+    archiveItem,
+    deleteItem,
   } = useQuizzes({ classFocus });
 
   return (
@@ -65,7 +77,23 @@ export function QuizzesView({ classFocus = null }: QuizzesViewProps) {
       itemsCount={paginatedQuizzes.length}
       emptyTitle="No quizzes found"
       emptyDescription="Try adjusting your search or filters."
-      table={<QuizzesTable quizzes={paginatedQuizzes} />}
+      table={
+        <QuizzesTable
+          quizzes={paginatedQuizzes}
+          selectedIds={selectedIds}
+          allVisibleSelected={allVisibleSelected}
+          sortKey={sortKey}
+          sortDirection={sortDirection}
+          onSort={handleSort}
+          onToggle={toggle}
+          onToggleAllVisible={toggleAllVisible}
+          onClearSelection={clearSelection}
+          onArchiveSelected={archiveSelected}
+          onDeleteSelected={deleteSelected}
+          onArchiveItem={archiveItem}
+          onDeleteItem={deleteItem}
+        />
+      }
       rangeStart={rangeStart}
       rangeEnd={rangeEnd}
       total={filteredCount}

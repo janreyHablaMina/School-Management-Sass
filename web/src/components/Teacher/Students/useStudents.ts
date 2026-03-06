@@ -25,6 +25,17 @@ const DEFAULT_FILTERS = {
 
 export type StudentsFiltersState = typeof DEFAULT_FILTERS;
 
+export type StudentSortKey =
+  | 'fullName'
+  | 'idNumber'
+  | 'classLabel'
+  | 'phone'
+  | 'attendanceRate'
+  | 'averageGrade'
+  | 'status';
+
+type SortConfig = { key: StudentSortKey; direction: 'asc' | 'desc' };
+
 function matchesStudent(student: TeacherStudentRow, filters: StudentsFiltersState) {
   return (
     matchesSearch(filters.searchTerm, [
@@ -36,6 +47,30 @@ function matchesStudent(student: TeacherStudentRow, filters: StudentsFiltersStat
     matchesAllOrExact(filters.gradeLevel, student.gradeLevel, 'All Grades') &&
     matchesAllOrExact(filters.status, student.status, 'All Status')
   );
+}
+
+function sortStudents(items: TeacherStudentRow[], sortConfig: SortConfig | null) {
+  if (!sortConfig) return items;
+  const { key, direction } = sortConfig;
+  const sorted = [...items];
+  sorted.sort((a, b) => {
+    const left = a[key];
+    const right = b[key];
+    let cmp = 0;
+    if (typeof left === 'number' && typeof right === 'number') {
+      cmp = left - right;
+    } else {
+      cmp = String(left).localeCompare(String(right), undefined, {
+        numeric: true,
+        sensitivity: 'base',
+      });
+    }
+    if (cmp === 0 && key === 'classLabel') {
+      cmp = a.subject.localeCompare(b.subject);
+    }
+    return direction === 'asc' ? cmp : -cmp;
+  });
+  return sorted;
 }
 
 type Overlay =
@@ -55,6 +90,7 @@ export function useStudents(options?: { classFocus?: TeacherClassFocus | null })
   const [selectedStudentId, setSelectedStudentId] = useState<string | null>(null);
   const [overlay, setOverlay] = useState<Overlay>({ kind: 'none' });
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [sortConfig, setSortConfig] = useState<SortConfig | null>(null);
   const [toast, setToast] = useState<{ title: string; message?: string } | null>(
     null,
   );
@@ -64,7 +100,20 @@ export function useStudents(options?: { classFocus?: TeacherClassFocus | null })
     initialFilters: { ...DEFAULT_FILTERS, classFilter },
     pageSize: PAGE_SIZE,
     filterFn: matchesStudent,
+    sortFn: (items) => sortStudents(items, sortConfig),
+    sortDeps: sortConfig,
   });
+
+  const handleSort = (key: StudentSortKey) => {
+    setSortConfig((current) => {
+      if (current && current.key === key) {
+        if (current.direction === 'asc') return { key, direction: 'desc' };
+        return null;
+      }
+      return { key, direction: 'asc' };
+    });
+    list.setPage(1);
+  };
 
   const paginatedStudents = list.paginatedItems;
 
@@ -278,6 +327,9 @@ export function useStudents(options?: { classFocus?: TeacherClassFocus | null })
     closeBulkMarkInactive: () => setOverlay({ kind: 'none' }),
     confirmBulkMarkInactive,
     restoreSelectedActive,
+    sortKey: sortConfig?.key ?? null,
+    sortDirection: sortConfig?.direction ?? 'asc',
+    handleSort,
     toast,
     dismissToast: () => setToast(null),
   };

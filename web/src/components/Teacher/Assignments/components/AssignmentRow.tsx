@@ -25,15 +25,38 @@ const DANGER_ACTIONS = [
 
 interface AssignmentRowProps {
   assignment: TeacherAssignmentRow;
+  selected: boolean;
+  onToggleSelect: (id: string) => void;
+  onArchive: (id: string) => void;
+  onDelete: (id: string) => void;
 }
 
-export function AssignmentRow({ assignment }: AssignmentRowProps) {
+export function AssignmentRow({
+  assignment,
+  selected,
+  onToggleSelect,
+  onArchive,
+  onDelete,
+}: AssignmentRowProps) {
   const submissionRate = Math.round(
     (assignment.submittedCount / Math.max(assignment.totalStudents, 1)) * 100
   );
 
   return (
-    <tr>
+    <tr className={selected ? listStyles.rowSelected : undefined}>
+      <td
+        className={listStyles.checkCell}
+        onClick={(e) => e.stopPropagation()}
+        onKeyDown={(e) => e.stopPropagation()}
+      >
+        <input
+          type="checkbox"
+          className={listStyles.checkbox}
+          checked={selected}
+          onChange={() => onToggleSelect(assignment.id)}
+          aria-label={`Select ${assignment.title}`}
+        />
+      </td>
       <td>
         <ResourceTitle
           icon={assignment.icon}
@@ -79,6 +102,10 @@ export function AssignmentRow({ assignment }: AssignmentRowProps) {
           label={`More actions for ${assignment.title}`}
           actions={ROW_ACTIONS}
           dangerActions={DANGER_ACTIONS}
+          onAction={(actionLabel) => {
+            if (actionLabel === 'Archive Assignment') onArchive(assignment.id);
+            if (actionLabel === 'Delete Assignment') onDelete(assignment.id);
+          }}
         />
       </td>
     </tr>

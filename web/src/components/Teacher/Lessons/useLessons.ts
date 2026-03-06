@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { teacherLessonsPageMock } from '@/lib/mock/teacherLessons.mock';
 import {
   resolveListFiltersFromFocus,
@@ -12,7 +13,14 @@ import type {
   LessonType,
   TeacherLessonRow,
 } from '@/types/teacherLessons';
-import { matchesAllOrExact, matchesSearch, usePagedList } from '../shared';
+import {
+  matchesAllOrExact,
+  matchesSearch,
+  sortByConfig,
+  useColumnSort,
+  usePagedList,
+  useRowSelection,
+} from '../shared';
 
 const PAGE_SIZE = 6;
 
@@ -27,6 +35,13 @@ const DEFAULT_FILTERS = {
 };
 
 export type LessonsFiltersState = typeof DEFAULT_FILTERS;
+
+export type LessonSortKey =
+  | 'title'
+  | 'classLabel'
+  | 'type'
+  | 'status'
+  | 'updatedSortKey';
 
 function matchesLesson(lesson: TeacherLessonRow, filters: LessonsFiltersState) {
   return (
@@ -66,27 +81,111 @@ function sortLessons(lessons: TeacherLessonRow[], filters: LessonsFiltersState) 
   return sorted;
 }
 
+function getLessonSortValue(lesson: TeacherLessonRow, key: LessonSortKey): unknown {
+  return lesson[key];
+}
+
 export function useLessons(options?: { classFocus?: TeacherClassFocus | null }) {
-  const { metrics, lessons, filterOptions, tabs } = teacherLessonsPageMock;
+  const { metrics, lessons: seed, filterOptions, tabs } = teacherLessonsPageMock;
   const { classFilter, subject } = resolveListFiltersFromFocus(
     filterOptions,
     options?.classFocus,
     DEFAULT_FILTERS,
   );
 
+  const [lessons, setLessons] = useState(seed);
+  const { sortConfig, sortKey, sortDirection, handleSort: toggleSort } =
+    useColumnSort<LessonSortKey>();
+
   const list = usePagedList({
     items: lessons,
     initialFilters: { ...DEFAULT_FILTERS, classFilter, subject },
     pageSize: PAGE_SIZE,
     filterFn: matchesLesson,
-    sortFn: sortLessons,
+    sortFn: (items, filters) => {
+      if (sortConfig) {
+        return sortByConfig(items, sortConfig, getLessonSortValue, (a, b) =>
+          a.title.localeCompare(b.title),
+        );
+      }
+      return sortLessons(items, filters);
+    },
+    sortDeps: sortConfig,
   });
+
+  const handleSort = (key: LessonSortKey) => {
+    toggleSort(key);
+    list.setPage(1);
+  };
+
+  const paginatedLessons = list.paginatedItems;
+  const visibleIds = paginatedLessons.map((lesson) => lesson.id);
+  const {
+    selectedIds,
+    selectedCount,
+    allVisibleSelected,
+    toggle,
+    toggleAllVisible,
+    clearSelection,
+    setSelectedIds,
+  } = useRowSelection({
+    visibleIds,
+    resetKey: `${list.page}:${JSON.stringify(list.filters)}`,
+  });
+
+  const archiveSelected = () => {
+    if (selectedIds.length === 0) return;
+    const idSet = new Set(selectedIds);
+    setLessons((prev) =>
+      prev.map((lesson) =>
+        idSet.has(lesson.id) && lesson.status !== 'Archived'
+          ? { ...lesson, status: 'Archived' }
+          : lesson,
+      ),
+    );
+    clearSelection();
+  };
+
+  const deleteSelected = () => {
+    if (selectedIds.length === 0) return;
+    const idSet = new Set(selectedIds);
+    setLessons((prev) => prev.filter((lesson) => !idSet.has(lesson.id)));
+    clearSelection();
+  };
+
+  const archiveItem = (id: string) => {
+    setLessons((prev) =>
+      prev.map((lesson) =>
+        lesson.id === id && lesson.status !== 'Archived'
+          ? { ...lesson, status: 'Archived' }
+          : lesson,
+      ),
+    );
+  };
+
+  const deleteItem = (id: string) => {
+    setLessons((prev) => prev.filter((lesson) => lesson.id !== id));
+    setSelectedIds((prev) => prev.filter((itemId) => itemId !== id));
+  };
 
   return {
     metrics,
     tabs,
     filterOptions,
     ...list,
-    paginatedLessons: list.paginatedItems,
+    paginatedLessons,
+    sortKey,
+    sortDirection,
+    handleSort,
+    selectedIds,
+    selectedCount,
+    allVisibleSelected,
+    toggle,
+    toggleAllVisible,
+    clearSelection,
+    archiveSelected,
+    deleteSelected,
+    archiveItem,
+    deleteItem,
   };
 }

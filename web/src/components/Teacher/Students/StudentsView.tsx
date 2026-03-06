@@ -62,6 +62,9 @@ export function StudentsView({
     closeBulkMarkInactive,
     confirmBulkMarkInactive,
     restoreSelectedActive,
+    sortKey,
+    sortDirection,
+    handleSort,
     toast,
     dismissToast,
   } = useStudents({ classFocus });
@@ -133,6 +136,9 @@ export function StudentsView({
             allVisibleSelected={allVisibleSelected}
             selectedActiveCount={selectedActiveCount}
             selectedInactiveCount={selectedInactiveCount}
+            sortKey={sortKey}
+            sortDirection={sortDirection}
+            onSort={handleSort}
             onToggleStudent={toggleStudent}
             onToggleAllVisible={toggleAllVisible}
             onClearSelection={clearSelection}

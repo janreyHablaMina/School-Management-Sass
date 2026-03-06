@@ -45,6 +45,16 @@ export function GradesView({
     setPage,
     rangeStart,
     rangeEnd,
+    sortKey,
+    sortDirection,
+    handleSort,
+    selectedIds,
+    selectedCount,
+    allVisibleSelected,
+    toggleStudent,
+    toggleAllVisible,
+    clearSelection,
+    flagSelectedForReview,
   } = useGrades({ classFocus, studentFocus });
 
   if (!selectedClass) {
@@ -92,7 +102,20 @@ export function GradesView({
           description="Try adjusting your search or filters."
         />
       ) : (
-        <GradesTable grades={paginatedGrades} onOpen={openGrade} />
+        <GradesTable
+          grades={paginatedGrades}
+          selectedIds={selectedIds}
+          allVisibleSelected={allVisibleSelected}
+          selectedCount={selectedCount}
+          sortKey={sortKey}
+          sortDirection={sortDirection}
+          onSort={handleSort}
+          onToggleStudent={toggleStudent}
+          onToggleAllVisible={toggleAllVisible}
+          onClearSelection={clearSelection}
+          onFlagForReview={flagSelectedForReview}
+          onOpen={openGrade}
+        />
       )}
 
       <PaginationBar

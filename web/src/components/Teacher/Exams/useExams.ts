@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { teacherExamsPageMock } from '@/lib/mock/teacherExams.mock';
 import {
   resolveListFiltersFromFocus,
@@ -15,8 +16,11 @@ import type {
 import {
   matchesAllOrExact,
   matchesSearch,
+  sortByConfig,
   sortByCreatedOrTitle,
+  useColumnSort,
   usePagedList,
+  useRowSelection,
 } from '../shared';
 
 const PAGE_SIZE = 8;
@@ -32,6 +36,15 @@ const DEFAULT_FILTERS = {
 };
 
 export type ExamsFiltersState = typeof DEFAULT_FILTERS;
+
+export type ExamSortKey =
+  | 'title'
+  | 'classLabel'
+  | 'type'
+  | 'dueSortKey'
+  | 'duration'
+  | 'completedCount'
+  | 'status';
 
 function matchesTab(exam: TeacherExamRow, tab: ExamTab) {
   switch (tab) {
@@ -61,27 +74,111 @@ function matchesExam(exam: TeacherExamRow, filters: ExamsFiltersState) {
   );
 }
 
+function getExamSortValue(exam: TeacherExamRow, key: ExamSortKey): unknown {
+  return exam[key];
+}
+
 export function useExams(options?: { classFocus?: TeacherClassFocus | null }) {
-  const { metrics, exams, filterOptions, tabs } = teacherExamsPageMock;
+  const { metrics, exams: seed, filterOptions, tabs } = teacherExamsPageMock;
   const { classFilter, subject } = resolveListFiltersFromFocus(
     filterOptions,
     options?.classFocus,
     DEFAULT_FILTERS,
   );
 
+  const [exams, setExams] = useState(seed);
+  const { sortConfig, sortKey, sortDirection, handleSort: toggleSort } =
+    useColumnSort<ExamSortKey>();
+
   const list = usePagedList({
     items: exams,
     initialFilters: { ...DEFAULT_FILTERS, classFilter, subject },
     pageSize: PAGE_SIZE,
     filterFn: matchesExam,
-    sortFn: (items, filters) => sortByCreatedOrTitle(items, filters.sort),
+    sortFn: (items, filters) => {
+      if (sortConfig) {
+        return sortByConfig(items, sortConfig, getExamSortValue, (a, b) =>
+          a.title.localeCompare(b.title),
+        );
+      }
+      return sortByCreatedOrTitle(items, filters.sort);
+    },
+    sortDeps: sortConfig,
   });
+
+  const handleSort = (key: ExamSortKey) => {
+    toggleSort(key);
+    list.setPage(1);
+  };
+
+  const paginatedExams = list.paginatedItems;
+  const visibleIds = paginatedExams.map((exam) => exam.id);
+  const {
+    selectedIds,
+    selectedCount,
+    allVisibleSelected,
+    toggle,
+    toggleAllVisible,
+    clearSelection,
+    setSelectedIds,
+  } = useRowSelection({
+    visibleIds,
+    resetKey: `${list.page}:${JSON.stringify(list.filters)}`,
+  });
+
+  const archiveSelected = () => {
+    if (selectedIds.length === 0) return;
+    const idSet = new Set(selectedIds);
+    setExams((prev) =>
+      prev.map((exam) =>
+        idSet.has(exam.id) && exam.status !== 'Archived'
+          ? { ...exam, status: 'Archived' }
+          : exam,
+      ),
+    );
+    clearSelection();
+  };
+
+  const deleteSelected = () => {
+    if (selectedIds.length === 0) return;
+    const idSet = new Set(selectedIds);
+    setExams((prev) => prev.filter((exam) => !idSet.has(exam.id)));
+    clearSelection();
+  };
+
+  const archiveItem = (id: string) => {
+    setExams((prev) =>
+      prev.map((exam) =>
+        exam.id === id && exam.status !== 'Archived'
+          ? { ...exam, status: 'Archived' }
+          : exam,
+      ),
+    );
+  };
+
+  const deleteItem = (id: string) => {
+    setExams((prev) => prev.filter((exam) => exam.id !== id));
+    setSelectedIds((prev) => prev.filter((itemId) => itemId !== id));
+  };
 
   return {
     metrics,
     tabs,
     filterOptions,
     ...list,
-    paginatedExams: list.paginatedItems,
+    paginatedExams,
+    sortKey,
+    sortDirection,
+    handleSort,
+    selectedIds,
+    selectedCount,
+    allVisibleSelected,
+    toggle,
+    toggleAllVisible,
+    clearSelection,
+    archiveSelected,
+    deleteSelected,
+    archiveItem,
+    deleteItem,
   };
 }

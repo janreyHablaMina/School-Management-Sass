@@ -290,6 +290,154 @@
   padding-right: 0.35rem !important;
 }
 
+.sortableTh {
+  padding: 0 !important;
+}
+
+.sortButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  width: 100%;
+  margin: 0;
+  padding: 0.85rem 1rem;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  text-align: left;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.sortButton:hover {
+  color: rgba(245, 200, 66, 0.9);
+}
+
+.sortIcon {
+  font-size: 0.7rem;
+  opacity: 0.7;
+}
+
+.checkCell {
+  width: 44px;
+  padding-right: 0.35rem !important;
+  vertical-align: middle;
+}
+
+.checkbox {
+  width: 16px;
+  height: 16px;
+  accent-color: #f5c842;
+  cursor: pointer;
+}
+
+.rowSelected td {
+  background: rgba(245, 200, 66, 0.06);
+}
+
+.bulkBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+  padding: 0.7rem 1.1rem;
+  border: 1.5px dashed rgba(245, 200, 66, 0.35);
+  border-radius: 12px;
+  background: rgba(245, 200, 66, 0.08);
+}
+
+.bulkBarInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.84rem;
+  color: rgba(240, 239, 237, 0.75);
+}
+
+.bulkBarCount {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.5rem;
+  height: 1.5rem;
+  padding: 0 0.4rem;
+  border-radius: 999px;
+  background: rgba(245, 200, 66, 0.22);
+  color: #f5c842;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.bulkBarActions {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.bulkBtn {
+  min-height: 34px;
+  padding: 0.4rem 0.85rem;
+  border-radius: 8px;
+  border: 1.5px solid transparent;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.bulkDefault {
+  border-color: rgba(245, 200, 66, 0.45);
+  background: rgba(245, 200, 66, 0.12);
+  color: #f5c842;
+}
+
+.bulkDefault:hover {
+  background: rgba(245, 200, 66, 0.2);
+}
+
+.bulkDanger {
+  border-color: rgba(255, 138, 138, 0.5);
+  background: rgba(255, 138, 138, 0.12);
+  color: #ff8a8a;
+}
+
+.bulkDanger:hover {
+  background: rgba(255, 138, 138, 0.2);
+}
+
+.bulkRestore {
+  border-color: rgba(92, 199, 137, 0.45);
+  background: rgba(92, 199, 137, 0.12);
+  color: #5cc789;
+}
+
+.bulkRestore:hover {
+  background: rgba(92, 199, 137, 0.2);
+}
+
+.clearSelectionBtn {
+  border: none;
+  background: transparent;
+  color: rgba(240, 239, 237, 0.55);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 0.35rem 0.45rem;
+}
+
+.clearSelectionBtn:hover {
+  color: #f5c842;
+}
+
 .table td {
   padding: 0.95rem 1rem;
   border-bottom: 1px solid rgba(240, 239, 237, 0.06);

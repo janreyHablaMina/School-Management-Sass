@@ -14,8 +14,11 @@ import type {
 import {
   matchesAllOrExact,
   matchesSearch,
+  sortByConfig,
   sortByCreatedOrTitle,
+  useColumnSort,
   usePagedList,
+  useRowSelection,
 } from '../shared';
 import { buildAnnouncementFromInput } from './utils';
 
@@ -31,6 +34,13 @@ const DEFAULT_FILTERS = {
 };
 
 export type AnnouncementsFiltersState = typeof DEFAULT_FILTERS;
+
+export type AnnouncementSortKey =
+  | 'title'
+  | 'audience'
+  | 'type'
+  | 'status'
+  | 'createdSortKey';
 
 function matchesAudience(row: TeacherAnnouncementRow, classFilter: string) {
   if (classFilter === 'All Audiences') return true;
@@ -63,6 +73,13 @@ function matchesAnnouncement(row: TeacherAnnouncementRow, filters: Announcements
     matchesAllOrExact(filters.status, row.status, 'All Status') &&
     matchesAllOrExact(filters.type, row.type, 'All Types')
   );
+}
+
+function getAnnouncementSortValue(
+  row: TeacherAnnouncementRow,
+  key: AnnouncementSortKey,
+): unknown {
+  return row[key];
 }
 
 function buildMetrics(announcements: TeacherAnnouncementRow[]): TeacherSummaryMetric[] {
@@ -117,6 +134,8 @@ export function useAnnouncements() {
   const { filterOptions, tabs, classroomOptions, announcements: seed } = teacherAnnouncementsPageMock;
   const [announcements, setAnnouncements] = useState(seed);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const { sortConfig, sortKey, sortDirection, handleSort: toggleSort } =
+    useColumnSort<AnnouncementSortKey>();
 
   const metrics = useMemo(() => buildMetrics(announcements), [announcements]);
 
@@ -125,7 +144,35 @@ export function useAnnouncements() {
     initialFilters: DEFAULT_FILTERS,
     pageSize: PAGE_SIZE,
     filterFn: matchesAnnouncement,
-    sortFn: (items, filters) => sortByCreatedOrTitle(items, filters.sort),
+    sortFn: (items, filters) => {
+      if (sortConfig) {
+        return sortByConfig(items, sortConfig, getAnnouncementSortValue, (a, b) =>
+          a.title.localeCompare(b.title),
+        );
+      }
+      return sortByCreatedOrTitle(items, filters.sort);
+    },
+    sortDeps: sortConfig,
+  });
+
+  const handleSort = (key: AnnouncementSortKey) => {
+    toggleSort(key);
+    list.setPage(1);
+  };
+
+  const paginatedAnnouncements = list.paginatedItems;
+  const visibleIds = paginatedAnnouncements.map((row) => row.id);
+  const {
+    selectedIds,
+    selectedCount,
+    allVisibleSelected,
+    toggle,
+    toggleAllVisible,
+    clearSelection,
+    setSelectedIds,
+  } = useRowSelection({
+    visibleIds,
+    resetKey: `${list.page}:${JSON.stringify(list.filters)}`,
   });
 
   const createAnnouncement = (input: CreateAnnouncementInput) => {
@@ -133,6 +180,41 @@ export function useAnnouncements() {
     setAnnouncements((prev) => [next, ...prev]);
     setIsCreateOpen(false);
     list.setPage(1);
+  };
+
+  const archiveSelected = () => {
+    if (selectedIds.length === 0) return;
+    const idSet = new Set(selectedIds);
+    setAnnouncements((prev) =>
+      prev.map((row) =>
+        idSet.has(row.id) && row.status !== 'Archived'
+          ? { ...row, status: 'Archived' }
+          : row,
+      ),
+    );
+    clearSelection();
+  };
+
+  const deleteSelected = () => {
+    if (selectedIds.length === 0) return;
+    const idSet = new Set(selectedIds);
+    setAnnouncements((prev) => prev.filter((row) => !idSet.has(row.id)));
+    clearSelection();
+  };
+
+  const archiveItem = (id: string) => {
+    setAnnouncements((prev) =>
+      prev.map((row) =>
+        row.id === id && row.status !== 'Archived'
+          ? { ...row, status: 'Archived' }
+          : row,
+      ),
+    );
+  };
+
+  const deleteItem = (id: string) => {
+    setAnnouncements((prev) => prev.filter((row) => row.id !== id));
+    setSelectedIds((prev) => prev.filter((itemId) => itemId !== id));
   };
 
   return {
@@ -145,6 +227,19 @@ export function useAnnouncements() {
     closeCreate: () => setIsCreateOpen(false),
     createAnnouncement,
     ...list,
-    paginatedAnnouncements: list.paginatedItems,
+    paginatedAnnouncements,
+    sortKey,
+    sortDirection,
+    handleSort,
+    selectedIds,
+    selectedCount,
+    allVisibleSelected,
+    toggle,
+    toggleAllVisible,
+    clearSelection,
+    archiveSelected,
+    deleteSelected,
+    archiveItem,
+    deleteItem,
   };
 }

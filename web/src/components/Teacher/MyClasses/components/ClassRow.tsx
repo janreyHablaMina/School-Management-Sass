@@ -21,6 +21,8 @@ const ARCHIVED_ACTIONS = [
 
 interface ClassRowProps {
   cls: MyClassRow;
+  selected: boolean;
+  onToggleSelect: (id: number) => void;
   onOpen: (id: number) => void;
   onEdit: (id: number) => void;
   onDuplicate: (id: number) => void;
@@ -31,6 +33,8 @@ interface ClassRowProps {
 
 export function ClassRow({
   cls,
+  selected,
+  onToggleSelect,
   onOpen,
   onEdit,
   onDuplicate,
@@ -42,7 +46,7 @@ export function ClassRow({
 
   return (
     <tr
-      className={styles.clickableRow}
+      className={`${styles.clickableRow}${selected ? ` ${listStyles.rowSelected}` : ''}`}
       onClick={() => onOpen(cls.id)}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {
@@ -54,6 +58,19 @@ export function ClassRow({
       role="button"
       aria-label={`Open ${cls.subject}, ${cls.gradeSection}`}
     >
+      <td
+        className={listStyles.checkCell}
+        onClick={(e) => e.stopPropagation()}
+        onKeyDown={(e) => e.stopPropagation()}
+      >
+        <input
+          type="checkbox"
+          className={listStyles.checkbox}
+          checked={selected}
+          onChange={() => onToggleSelect(cls.id)}
+          aria-label={`Select ${cls.subject}, ${cls.gradeSection}`}
+        />
+      </td>
       <td>
         <div className={styles.classCell}>
           <div

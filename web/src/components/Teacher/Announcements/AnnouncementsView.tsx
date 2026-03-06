@@ -26,6 +26,18 @@ export function AnnouncementsView() {
     openCreate,
     closeCreate,
     createAnnouncement,
+    selectedIds,
+    allVisibleSelected,
+    sortKey,
+    sortDirection,
+    handleSort,
+    toggle,
+    toggleAllVisible,
+    clearSelection,
+    archiveSelected,
+    deleteSelected,
+    archiveItem,
+    deleteItem,
   } = useAnnouncements();
 
   return (
@@ -59,7 +71,23 @@ export function AnnouncementsView() {
         itemsCount={paginatedAnnouncements.length}
         emptyTitle="No announcements found"
         emptyDescription="Try adjusting your search or filters."
-        table={<AnnouncementsTable announcements={paginatedAnnouncements} />}
+        table={
+          <AnnouncementsTable
+            announcements={paginatedAnnouncements}
+            selectedIds={selectedIds}
+            allVisibleSelected={allVisibleSelected}
+            sortKey={sortKey}
+            sortDirection={sortDirection}
+            onSort={handleSort}
+            onToggle={toggle}
+            onToggleAllVisible={toggleAllVisible}
+            onClearSelection={clearSelection}
+            onArchiveSelected={archiveSelected}
+            onDeleteSelected={deleteSelected}
+            onArchiveItem={archiveItem}
+            onDeleteItem={deleteItem}
+          />
+        }
         rangeStart={rangeStart}
         rangeEnd={rangeEnd}
         total={filteredCount}
