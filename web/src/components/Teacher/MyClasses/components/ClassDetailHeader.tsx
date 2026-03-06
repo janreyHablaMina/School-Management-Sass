@@ -7,6 +7,7 @@ interface ClassDetailHeaderProps {
   cls: MyClassRow;
   onBack: () => void;
   onEdit?: () => void;
+  onInvite?: () => void;
   onAddLesson?: () => void;
 }
 
@@ -14,6 +15,7 @@ export function ClassDetailHeader({
   cls,
   onBack,
   onEdit,
+  onInvite,
   onAddLesson,
 }: ClassDetailHeaderProps) {
   return (
@@ -39,9 +41,16 @@ export function ClassDetailHeader({
       }
       actions={
         <>
-          <button type="button" className={listStyles.secondaryBtn} onClick={onEdit}>
-            Edit Class
-          </button>
+          {onEdit ? (
+            <button type="button" className={listStyles.secondaryBtn} onClick={onEdit}>
+              Edit Class
+            </button>
+          ) : null}
+          {onInvite ? (
+            <button type="button" className={listStyles.secondaryBtn} onClick={onInvite}>
+              Invite student
+            </button>
+          ) : null}
           <button type="button" className={listStyles.primaryBtn} onClick={onAddLesson}>
             + Add Lesson
           </button>

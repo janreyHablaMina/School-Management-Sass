@@ -7,6 +7,7 @@ import { ClassDetailView } from './components/ClassDetailView';
 import { ClassFormModal } from './components/ClassFormModal';
 import { ClassScheduleModal } from './components/ClassScheduleModal';
 import { CreateClassModal } from './components/CreateClassModal';
+import { InviteStudentModal } from './components/InviteStudentModal';
 import { ClassesTable } from './ClassesTable';
 import { MyClassesFilters } from './MyClassesFilters';
 import { classToFormValues } from './utils';
@@ -45,6 +46,10 @@ export function MyClassesView({ onNavigate }: MyClassesViewProps) {
     scheduleClass,
     openSchedule,
     closeSchedule,
+    inviteClass,
+    openInvite,
+    closeInvite,
+    notifyInviteCopied,
     archiveTarget,
     openArchive,
     closeArchive,
@@ -78,6 +83,11 @@ export function MyClassesView({ onNavigate }: MyClassesViewProps) {
           onEdit={
             selectedClass.status === 'Active'
               ? () => openEdit(selectedClass.id)
+              : undefined
+          }
+          onInvite={
+            selectedClass.status === 'Active'
+              ? () => openInvite(selectedClass.id)
               : undefined
           }
           onNavigate={onNavigate}
@@ -175,6 +185,14 @@ export function MyClassesView({ onNavigate }: MyClassesViewProps) {
             closeSchedule();
             onNavigate?.('Calendar');
           }}
+        />
+      ) : null}
+
+      {inviteClass ? (
+        <InviteStudentModal
+          cls={inviteClass}
+          onClose={closeInvite}
+          onCopied={notifyInviteCopied}
         />
       ) : null}
 

@@ -8,9 +8,10 @@ import styles from '../myClasses.module.css';
 interface ClassPulseProps {
   cls: MyClassRow;
   onNavigate?: (request: TeacherNavRequest | string) => void;
+  onInvite?: () => void;
 }
 
-export function ClassPulse({ cls, onNavigate }: ClassPulseProps) {
+export function ClassPulse({ cls, onNavigate, onInvite }: ClassPulseProps) {
   const roster = rosterForClass(cls, 4);
   const lessons = lessonsForClass(cls, 3);
   const remaining = Math.max(0, cls.studentCount - roster.length);
@@ -24,13 +25,20 @@ export function ClassPulse({ cls, onNavigate }: ClassPulseProps) {
             <p className={styles.pulseEyebrow}>People</p>
             <h3 className={styles.pulseTitle}>Roster</h3>
           </div>
-          <button
-            type="button"
-            className={styles.pulseLink}
-            onClick={() => onNavigate?.({ tab: 'Students', classFocus })}
-          >
-            View all ›
-          </button>
+          <div className={styles.pulseActions}>
+            {onInvite ? (
+              <button type="button" className={styles.pulseLink} onClick={onInvite}>
+                Invite
+              </button>
+            ) : null}
+            <button
+              type="button"
+              className={styles.pulseLink}
+              onClick={() => onNavigate?.({ tab: 'Students', classFocus })}
+            >
+              View all ›
+            </button>
+          </div>
         </div>
 
         <div className={styles.avatarStack}>

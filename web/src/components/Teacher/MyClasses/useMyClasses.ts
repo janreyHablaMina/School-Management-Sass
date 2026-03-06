@@ -68,6 +68,7 @@ export function useMyClasses() {
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [editingClassId, setEditingClassId] = useState<number | null>(null);
   const [scheduleClassId, setScheduleClassId] = useState<number | null>(null);
+  const [inviteClassId, setInviteClassId] = useState<number | null>(null);
   const [archiveClassId, setArchiveClassId] = useState<number | null>(null);
   const [bulkArchiveOpen, setBulkArchiveOpen] = useState(false);
   const [archivedSnapshots, setArchivedSnapshots] = useState<
@@ -126,6 +127,11 @@ export function useMyClasses() {
   const scheduleClass = useMemo(
     () => classes.find((cls) => cls.id === scheduleClassId) ?? null,
     [classes, scheduleClassId],
+  );
+
+  const inviteClass = useMemo(
+    () => classes.find((cls) => cls.id === inviteClassId) ?? null,
+    [classes, inviteClassId],
   );
 
   const archiveTarget = useMemo(
@@ -303,6 +309,7 @@ export function useMyClasses() {
     openCreate: () => {
       setEditingClassId(null);
       setScheduleClassId(null);
+      setInviteClassId(null);
       setArchiveClassId(null);
       setBulkArchiveOpen(false);
       setIsCreateOpen(true);
@@ -313,6 +320,7 @@ export function useMyClasses() {
     openEdit: (id: number) => {
       setIsCreateOpen(false);
       setScheduleClassId(null);
+      setInviteClassId(null);
       setArchiveClassId(null);
       setBulkArchiveOpen(false);
       setEditingClassId(id);
@@ -324,16 +332,37 @@ export function useMyClasses() {
     openSchedule: (id: number) => {
       setIsCreateOpen(false);
       setEditingClassId(null);
+      setInviteClassId(null);
       setArchiveClassId(null);
       setBulkArchiveOpen(false);
       setScheduleClassId(id);
     },
     closeSchedule: () => setScheduleClassId(null),
+    inviteClass,
+    openInvite: (id: number) => {
+      setIsCreateOpen(false);
+      setEditingClassId(null);
+      setScheduleClassId(null);
+      setArchiveClassId(null);
+      setBulkArchiveOpen(false);
+      setInviteClassId(id);
+    },
+    closeInvite: () => setInviteClassId(null),
+    notifyInviteCopied: (kind: 'code' | 'link') => {
+      setToast({
+        title: kind === 'code' ? 'Join code copied' : 'Invite link copied',
+        message:
+          kind === 'code'
+            ? 'Share the code with students so they can join this class.'
+            : 'Anyone with the link can create an account and join this class.',
+      });
+    },
     archiveTarget,
     openArchive: (id: number) => {
       setIsCreateOpen(false);
       setEditingClassId(null);
       setScheduleClassId(null);
+      setInviteClassId(null);
       setBulkArchiveOpen(false);
       setArchiveClassId(id);
     },
@@ -353,6 +382,7 @@ export function useMyClasses() {
       setIsCreateOpen(false);
       setEditingClassId(null);
       setScheduleClassId(null);
+      setInviteClassId(null);
       setArchiveClassId(null);
       setBulkArchiveOpen(true);
     },

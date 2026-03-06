@@ -12,6 +12,7 @@ interface ClassDetailViewProps {
   cls: MyClassRow;
   onBack: () => void;
   onEdit?: () => void;
+  onInvite?: () => void;
   onNavigate?: (request: TeacherNavRequest | string) => void;
 }
 
@@ -19,6 +20,7 @@ export function ClassDetailView({
   cls,
   onBack,
   onEdit,
+  onInvite,
   onNavigate,
 }: ClassDetailViewProps) {
   const classFocus = toClassFocus(cls);
@@ -29,12 +31,13 @@ export function ClassDetailView({
         cls={cls}
         onBack={onBack}
         onEdit={onEdit}
+        onInvite={onInvite}
         onAddLesson={() => onNavigate?.({ tab: 'Lessons', classFocus })}
       />
 
       <ClassSpotlight cls={cls} />
       <ClassQuickActions cls={cls} onNavigate={onNavigate} />
-      <ClassPulse cls={cls} onNavigate={onNavigate} />
+      <ClassPulse cls={cls} onNavigate={onNavigate} onInvite={onInvite} />
     </div>
   );
 }
