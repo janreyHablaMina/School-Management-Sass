@@ -421,7 +421,7 @@ export const teacherStudentsPageMock: TeacherStudentsPageData = {
       'Grade 10 - Section A',
     ],
     gradeLevels: ['All Grades', 'Grade 7', 'Grade 8', 'Grade 9', 'Grade 10'],
-    statuses: ['All Status', 'Active', 'At Risk'],
+    statuses: ['All Status', 'Active', 'At Risk', 'Inactive'],
   },
   students: studentSeeds.map(withDetails),
 };

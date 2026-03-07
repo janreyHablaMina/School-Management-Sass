@@ -221,7 +221,9 @@ export function attendanceBarColor(rate: number): string {
 }
 
 export function statusAccent(status: StudentStatus): string {
-  return status === 'Active' ? '#5cc789' : '#f5a623';
+  if (status === 'Active') return '#5cc789';
+  if (status === 'At Risk') return '#f5a623';
+  return 'rgba(240, 239, 237, 0.55)';
 }
 
 export function toStudentClassFocus(student: TeacherStudentRow): TeacherClassFocus {
@@ -229,6 +231,17 @@ export function toStudentClassFocus(student: TeacherStudentRow): TeacherClassFoc
     gradeSection: student.classLabel,
     subject: student.subject,
     gradeLevel: student.gradeLevel,
+  };
+}
+
+export function toStudentGradesNav(student: TeacherStudentRow) {
+  return {
+    tab: 'Grades' as const,
+    classFocus: toStudentClassFocus(student),
+    studentFocus: {
+      fullName: student.fullName,
+      studentCode: student.studentCode,
+    },
   };
 }
 

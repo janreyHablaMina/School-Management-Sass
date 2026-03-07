@@ -4,9 +4,16 @@ export interface TeacherClassFocus {
   gradeLevel?: string;
 }
 
+/** Prefer opening a specific student record after landing on a module. */
+export interface TeacherStudentFocus {
+  fullName: string;
+  studentCode?: string;
+}
+
 export interface TeacherNavRequest {
   tab: string;
   classFocus?: TeacherClassFocus;
+  studentFocus?: TeacherStudentFocus;
   /** Prefill AI Assistant tool (e.g. Generate Quiz). */
   aiToolId?: number;
 }
@@ -65,6 +72,30 @@ export function findClassIdByFocus<T extends { id: string; gradeSection: string;
 
   const bySubject = classes.find((item) => subjectsMatch(item.subject, focus.subject));
   return bySubject?.id ?? null;
+}
+
+function studentCodeTail(code: string) {
+  const match = code.trim().match(/(\d{4})$/);
+  return match?.[1] ?? code.trim().toLowerCase();
+}
+
+/** Resolve a gradebook student row from a Students-module focus payload. */
+export function findGradeByStudentFocus<
+  T extends { id: string; fullName: string; studentCode: string },
+>(grades: T[], focus: TeacherStudentFocus | null | undefined): T | null {
+  if (!focus || grades.length === 0) return null;
+
+  if (focus.studentCode) {
+    const exactCode = grades.find((item) => item.studentCode === focus.studentCode);
+    if (exactCode) return exactCode;
+
+    const focusTail = studentCodeTail(focus.studentCode);
+    const byTail = grades.find((item) => studentCodeTail(item.studentCode) === focusTail);
+    if (byTail) return byTail;
+  }
+
+  const name = focus.fullName.trim().toLowerCase();
+  return grades.find((item) => item.fullName.trim().toLowerCase() === name) ?? null;
 }
 
 /** Pick a list filter option that best matches the focused class. */

@@ -4,12 +4,13 @@ import type { TeacherClassFocus, TeacherNavRequest } from '@/lib/teacher/classFo
 import { listStyles, ResourceListPage, TeacherToast } from '../shared';
 import { ContactGuardianModal } from './components/ContactGuardianModal';
 import { EditStudentModal } from './components/EditStudentModal';
+import { MarkInactiveModal } from './components/MarkInactiveModal';
 import { StudentDetailView } from './components/StudentDetailView';
 import { StudentsFilters } from './StudentsFilters';
 import { StudentsTable } from './StudentsTable';
 import { useGuardianContact } from './useGuardianContact';
 import { useStudents } from './useStudents';
-import { toStudentClassFocus } from './utils';
+import { toStudentGradesNav } from './utils';
 
 interface StudentsViewProps {
   classFocus?: TeacherClassFocus | null;
@@ -39,6 +40,23 @@ export function StudentsView({
     openEdit,
     closeEdit,
     updateStudent,
+    inactiveTarget,
+    openMarkInactive,
+    closeMarkInactive,
+    confirmMarkInactive,
+    restoreActive,
+    selectedIds,
+    selectedActiveCount,
+    selectedInactiveCount,
+    allVisibleSelected,
+    toggleStudent,
+    toggleAllVisible,
+    clearSelection,
+    bulkInactiveOpen,
+    openBulkMarkInactive,
+    closeBulkMarkInactive,
+    confirmBulkMarkInactive,
+    restoreSelectedActive,
     toast,
     dismissToast,
   } = useStudents({ classFocus });
@@ -106,17 +124,28 @@ export function StudentsView({
         table={
           <StudentsTable
             students={paginatedStudents}
+            selectedIds={selectedIds}
+            allVisibleSelected={allVisibleSelected}
+            selectedActiveCount={selectedActiveCount}
+            selectedInactiveCount={selectedInactiveCount}
+            onToggleStudent={toggleStudent}
+            onToggleAllVisible={toggleAllVisible}
+            onClearSelection={clearSelection}
+            onBulkMarkInactive={openBulkMarkInactive}
+            onBulkRestoreActive={restoreSelectedActive}
             onOpen={openStudent}
             onEdit={openEdit}
             onViewGrades={(id) => {
               const student = paginatedStudents.find((item) => item.id === id);
               if (!student) return;
-              onNavigate?.({ tab: 'Grades', classFocus: toStudentClassFocus(student) });
+              onNavigate?.(toStudentGradesNav(student));
             }}
             onMessage={(id) => {
               const student = paginatedStudents.find((item) => item.id === id);
               if (student) openContact(student);
             }}
+            onMarkInactive={openMarkInactive}
+            onRestoreActive={restoreActive}
           />
         }
         rangeStart={rangeStart}
@@ -133,6 +162,22 @@ export function StudentsView({
           student={editingStudent}
           onCancel={closeEdit}
           onSubmit={updateStudent}
+        />
+      ) : null}
+
+      {inactiveTarget ? (
+        <MarkInactiveModal
+          student={inactiveTarget}
+          onCancel={closeMarkInactive}
+          onConfirm={confirmMarkInactive}
+        />
+      ) : null}
+
+      {bulkInactiveOpen ? (
+        <MarkInactiveModal
+          count={selectedActiveCount}
+          onCancel={closeBulkMarkInactive}
+          onConfirm={confirmBulkMarkInactive}
         />
       ) : null}
 

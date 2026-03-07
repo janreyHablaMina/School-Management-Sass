@@ -51,6 +51,7 @@ export default function TeacherDashboard() {
   };
 
   const classFocus = navRequest?.classFocus ?? null;
+  const studentFocus = navRequest?.studentFocus ?? null;
 
   const renderContent = () => {
     switch (activeTab) {
@@ -71,7 +72,7 @@ export default function TeacherDashboard() {
       case 'Attendance':
         return <AttendanceView classFocus={classFocus} />;
       case 'Grades':
-        return <GradesView classFocus={classFocus} />;
+        return <GradesView classFocus={classFocus} studentFocus={studentFocus} />;
       case 'Announcements':
         return <AnnouncementsView />;
       case 'Calendar':

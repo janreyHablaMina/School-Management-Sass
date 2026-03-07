@@ -285,6 +285,11 @@
   background: rgba(0, 0, 0, 0.15);
 }
 
+.checkHeader {
+  width: 44px;
+  padding-right: 0.35rem !important;
+}
+
 .table td {
   padding: 0.95rem 1rem;
   border-bottom: 1px solid rgba(240, 239, 237, 0.06);

@@ -5,6 +5,7 @@ import type { TeacherGradeRow } from '@/types/teacherGrades';
 
 interface GradesTableProps {
   grades: TeacherGradeRow[];
+  onOpen?: (id: string) => void;
 }
 
 const COLUMNS = [
@@ -19,11 +20,11 @@ const COLUMNS = [
   'Actions',
 ] as const;
 
-export function GradesTable({ grades }: GradesTableProps) {
+export function GradesTable({ grades, onOpen }: GradesTableProps) {
   return (
     <DataTable columns={COLUMNS} minWidth={1080}>
       {grades.map((grade) => (
-        <GradeRow key={grade.id} grade={grade} />
+        <GradeRow key={grade.id} grade={grade} onOpen={onOpen} />
       ))}
     </DataTable>
   );

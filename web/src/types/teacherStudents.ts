@@ -2,7 +2,7 @@ import type { TeacherSummaryMetric } from './teacherList';
 
 export type { TeacherSummaryMetric };
 
-export type StudentStatus = 'Active' | 'At Risk';
+export type StudentStatus = 'Active' | 'At Risk' | 'Inactive';
 
 export type LetterGrade = 'A' | 'A-' | 'B+' | 'B' | 'C+' | 'C' | 'D' | 'F';
 

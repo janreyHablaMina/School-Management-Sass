@@ -4,7 +4,9 @@ import { useMemo, useState } from 'react';
 import { teacherGradesPageMock } from '@/lib/mock/teacherGrades.mock';
 import {
   findClassIdByFocus,
+  findGradeByStudentFocus,
   type TeacherClassFocus,
+  type TeacherStudentFocus,
 } from '@/lib/teacher/classFocus';
 import type {
   GradeSort,
@@ -60,18 +62,30 @@ function sortGrades(items: TeacherGradeRow[], filters: GradesFiltersState) {
   }
 }
 
-export function useGrades(options?: { classFocus?: TeacherClassFocus | null }) {
+export function useGrades(options?: {
+  classFocus?: TeacherClassFocus | null;
+  studentFocus?: TeacherStudentFocus | null;
+}) {
   const { metrics, classes, filterOptions, tabs } = teacherGradesPageMock;
-  const [selectedClassId, setSelectedClassId] = useState<string | null>(() =>
-    findClassIdByFocus(classes, options?.classFocus),
-  );
+  const initialClassId = findClassIdByFocus(classes, options?.classFocus);
+  const initialClass = classes.find((item) => item.id === initialClassId) ?? null;
+  const initialGradeId =
+    findGradeByStudentFocus(initialClass?.grades ?? [], options?.studentFocus)?.id ?? null;
+
+  const [selectedClassId, setSelectedClassId] = useState<string | null>(initialClassId);
+  const [selectedGradeId, setSelectedGradeId] = useState<string | null>(initialGradeId);
 
   const selectedClass = useMemo(
     () => classes.find((item) => item.id === selectedClassId) ?? null,
-    [classes, selectedClassId]
+    [classes, selectedClassId],
   );
 
   const classGrades = selectedClass?.grades ?? [];
+
+  const selectedGrade = useMemo(
+    () => classGrades.find((item) => item.id === selectedGradeId) ?? null,
+    [classGrades, selectedGradeId],
+  );
 
   const list = usePagedList({
     items: classGrades,
@@ -82,14 +96,20 @@ export function useGrades(options?: { classFocus?: TeacherClassFocus | null }) {
   });
 
   const openClass = (id: string) => {
+    setSelectedGradeId(null);
     setSelectedClassId(id);
     list.clearFilters();
   };
 
   const backToClasses = () => {
+    setSelectedGradeId(null);
     setSelectedClassId(null);
     list.clearFilters();
   };
+
+  const openGrade = (id: string) => setSelectedGradeId(id);
+
+  const backToGradebook = () => setSelectedGradeId(null);
 
   return {
     metrics,
@@ -97,8 +117,11 @@ export function useGrades(options?: { classFocus?: TeacherClassFocus | null }) {
     tabs,
     filterOptions,
     selectedClass,
+    selectedGrade,
     openClass,
+    openGrade,
     backToClasses,
+    backToGradebook,
     ...list,
     paginatedGrades: list.paginatedItems,
   };

@@ -8,26 +8,34 @@ import {
   PaginationBar,
   SummaryMetrics,
 } from '../shared';
-import type { TeacherClassFocus } from '@/lib/teacher/classFocus';
+import type { TeacherClassFocus, TeacherStudentFocus } from '@/lib/teacher/classFocus';
 import { GradesFilters } from './GradesFilters';
 import { GradesTable } from './GradesTable';
 import { GradeClassGrid } from './components/GradeClassGrid';
 import { GradesDetailHeader } from './components/GradesDetailHeader';
+import { StudentGradeDetailView } from './components/StudentGradeDetailView';
 import { useGrades } from './useGrades';
 
 interface GradesViewProps {
   classFocus?: TeacherClassFocus | null;
+  studentFocus?: TeacherStudentFocus | null;
 }
 
-export function GradesView({ classFocus = null }: GradesViewProps) {
+export function GradesView({
+  classFocus = null,
+  studentFocus = null,
+}: GradesViewProps) {
   const {
     metrics,
     classes,
     tabs,
     filterOptions,
     selectedClass,
+    selectedGrade,
     openClass,
+    openGrade,
     backToClasses,
+    backToGradebook,
     filters,
     setFilter,
     filteredCount,
@@ -37,7 +45,7 @@ export function GradesView({ classFocus = null }: GradesViewProps) {
     setPage,
     rangeStart,
     rangeEnd,
-  } = useGrades({ classFocus });
+  } = useGrades({ classFocus, studentFocus });
 
   if (!selectedClass) {
     return (
@@ -53,6 +61,14 @@ export function GradesView({ classFocus = null }: GradesViewProps) {
 
         <SummaryMetrics metrics={metrics} columns={5} />
         <GradeClassGrid classes={classes} onOpen={openClass} />
+      </div>
+    );
+  }
+
+  if (selectedGrade) {
+    return (
+      <div className={listStyles.page}>
+        <StudentGradeDetailView grade={selectedGrade} onBack={backToGradebook} />
       </div>
     );
   }
@@ -76,7 +92,7 @@ export function GradesView({ classFocus = null }: GradesViewProps) {
           description="Try adjusting your search or filters."
         />
       ) : (
-        <GradesTable grades={paginatedGrades} />
+        <GradesTable grades={paginatedGrades} onOpen={openGrade} />
       )}
 
       <PaginationBar

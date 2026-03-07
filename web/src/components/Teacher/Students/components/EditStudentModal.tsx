@@ -21,7 +21,7 @@ import {
 import styles from '../students.module.css';
 import { StudentAvatar } from './StudentAvatar';
 
-const STATUSES: StudentStatus[] = ['Active', 'At Risk'];
+const STATUSES: StudentStatus[] = ['Active', 'At Risk', 'Inactive'];
 const LAST_STEP = STUDENT_EDIT_STEPS.length - 1;
 
 const EMPTY_GUARDIAN: StudentGuardianFormInput = {

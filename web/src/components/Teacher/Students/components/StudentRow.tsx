@@ -13,30 +13,41 @@ const ROW_ACTIONS = [
   { icon: '📊', label: 'View Grades' },
 ] as const;
 
-const DANGER_ACTIONS = [{ icon: '🚫', label: 'Mark Inactive' }] as const;
-
 interface StudentRowProps {
   student: TeacherStudentRow;
+  selected: boolean;
+  onToggleSelect: (id: string) => void;
   onOpen: (id: string) => void;
   onEdit?: (id: string) => void;
   onViewGrades?: (id: string) => void;
   onMessage?: (id: string) => void;
+  onMarkInactive?: (id: string) => void;
+  onRestoreActive?: (id: string) => void;
 }
 
 export function StudentRow({
   student,
+  selected,
+  onToggleSelect,
   onOpen,
   onEdit,
   onViewGrades,
   onMessage,
+  onMarkInactive,
+  onRestoreActive,
 }: StudentRowProps) {
   const letterColor = letterGradeAccent(student.letterGrade);
   const statusColor = statusAccent(student.status);
   const attendanceColor = attendanceBarColor(student.attendanceRate);
+  const isInactive = student.status === 'Inactive';
+
+  const dangerActions = isInactive
+    ? ([{ icon: '♻️', label: 'Restore Active' }] as const)
+    : ([{ icon: '🚫', label: 'Mark Inactive' }] as const);
 
   return (
     <tr
-      className={styles.clickableRow}
+      className={`${styles.clickableRow}${selected ? ` ${styles.rowSelected}` : ''}`}
       onClick={() => onOpen(student.id)}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {
@@ -48,6 +59,19 @@ export function StudentRow({
       role="button"
       aria-label={`Open profile for ${student.fullName}`}
     >
+      <td
+        className={styles.checkCell}
+        onClick={(e) => e.stopPropagation()}
+        onKeyDown={(e) => e.stopPropagation()}
+      >
+        <input
+          type="checkbox"
+          className={styles.checkbox}
+          checked={selected}
+          onChange={() => onToggleSelect(student.id)}
+          aria-label={`Select ${student.fullName}`}
+        />
+      </td>
       <td>
         <div className={styles.studentCell}>
           <StudentAvatar student={student} size="row" />
@@ -117,12 +141,14 @@ export function StudentRow({
         <RowActionsMenu
           label={`More actions for ${student.fullName}`}
           actions={ROW_ACTIONS}
-          dangerActions={DANGER_ACTIONS}
+          dangerActions={dangerActions}
           onAction={(label) => {
             if (label === 'View Profile') onOpen(student.id);
             if (label === 'Edit Student') onEdit?.(student.id);
             if (label === 'View Grades') onViewGrades?.(student.id);
             if (label === 'Message Parent') onMessage?.(student.id);
+            if (label === 'Mark Inactive') onMarkInactive?.(student.id);
+            if (label === 'Restore Active') onRestoreActive?.(student.id);
           }}
         />
       </td>

@@ -5,7 +5,7 @@ import type { TeacherNavRequest } from '@/lib/teacher/classFocus';
 import type { TeacherStudentRow } from '@/types/teacherStudents';
 import { listStyles, TeacherToast } from '../../shared';
 import { useGuardianContact } from '../useGuardianContact';
-import { toStudentClassFocus } from '../utils';
+import { toStudentGradesNav } from '../utils';
 import styles from '../students.module.css';
 import { ContactGuardianModal } from './ContactGuardianModal';
 import {
@@ -25,7 +25,6 @@ export function StudentDetailView({
   onBack,
   onNavigate,
 }: StudentDetailViewProps) {
-  const classFocus = toStudentClassFocus(student);
   const [tab, setTab] = useState<DossierTab>('overview');
   const {
     target,
@@ -48,7 +47,7 @@ export function StudentDetailView({
           student={student}
           onBack={onBack}
           onContact={() => openContact(student)}
-          onViewGrades={() => onNavigate?.({ tab: 'Grades', classFocus })}
+          onViewGrades={() => onNavigate?.(toStudentGradesNav(student))}
         />
 
         <StudentDossierBody

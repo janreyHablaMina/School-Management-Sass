@@ -10,6 +10,7 @@ import {
   buildStudentActivity,
   primaryGuardian,
   toStudentClassFocus,
+  toStudentGradesNav,
 } from '../../utils';
 import styles from '../../students.module.css';
 import { DossierFact } from './DossierFact';
@@ -90,7 +91,8 @@ export function StudentDossierBody({
                       type="button"
                       className={styles.dossierSignal}
                       onClick={() => {
-                        if (item.tab) onNavigate?.({ tab: item.tab, classFocus });
+                        if (item.tab === 'Grades') onNavigate?.(toStudentGradesNav(student));
+                        else if (item.tab) onNavigate?.({ tab: item.tab, classFocus });
                         else if (item.id === 'guardian') onContact?.();
                       }}
                     >
@@ -119,7 +121,13 @@ export function StudentDossierBody({
                     key={jump.tab}
                     type="button"
                     className={styles.dossierJump}
-                    onClick={() => onNavigate?.({ tab: jump.tab, classFocus })}
+                    onClick={() =>
+                      onNavigate?.(
+                        jump.tab === 'Grades'
+                          ? toStudentGradesNav(student)
+                          : { tab: jump.tab, classFocus },
+                      )
+                    }
                   >
                     <span aria-hidden>{jump.icon}</span>
                     {jump.label}
@@ -282,7 +290,7 @@ export function StudentDossierBody({
                 <button
                   type="button"
                   className={styles.dossierLink}
-                  onClick={() => onNavigate?.({ tab: 'Grades', classFocus })}
+                  onClick={() => onNavigate?.(toStudentGradesNav(student))}
                 >
                   Grades ›
                 </button>

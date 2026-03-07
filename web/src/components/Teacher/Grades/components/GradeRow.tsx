@@ -28,16 +28,30 @@ const DANGER_ACTIONS = [{ icon: '🚩', label: 'Flag for Review' }] as const;
 
 interface GradeRowProps {
   grade: TeacherGradeRow;
+  onOpen?: (id: string) => void;
 }
 
-export function GradeRow({ grade }: GradeRowProps) {
+export function GradeRow({ grade, onOpen }: GradeRowProps) {
   const letterColor = gradeLetterAccent(grade.letterGrade);
   const statusColor = gradeStatusAccent(grade.status);
   const scoreColor = gradeScoreBarColor(grade.overallScore);
   const trendColor = gradeTrendAccent(grade.trend);
 
   return (
-    <tr>
+    <tr
+      className={onOpen ? styles.clickableRow : undefined}
+      onClick={() => onOpen?.(grade.id)}
+      onKeyDown={(e) => {
+        if (!onOpen) return;
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onOpen(grade.id);
+        }
+      }}
+      tabIndex={onOpen ? 0 : undefined}
+      role={onOpen ? 'button' : undefined}
+      aria-label={onOpen ? `Open grades for ${grade.fullName}` : undefined}
+    >
       <td>
         <div className={styles.studentCell}>
           <div
@@ -102,11 +116,17 @@ export function GradeRow({ grade }: GradeRowProps) {
       <td>
         <ChalkBadge label={grade.status} accent={statusColor} />
       </td>
-      <td>
+      <td
+        onClick={(e) => e.stopPropagation()}
+        onKeyDown={(e) => e.stopPropagation()}
+      >
         <RowActionsMenu
           label={`More actions for ${grade.fullName}`}
           actions={ROW_ACTIONS}
           dangerActions={DANGER_ACTIONS}
+          onAction={(label) => {
+            if (label === 'View Gradebook') onOpen?.(grade.id);
+          }}
         />
       </td>
     </tr>
