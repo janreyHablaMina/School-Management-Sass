@@ -58,6 +58,43 @@ export function studentToFormValues(student: TeacherStudentRow): StudentProfileF
       relationship: student.details.emergencyContact.relationship,
       phone: student.details.emergencyContact.phone,
     },
+    classLabel: student.classLabel,
+    subject: student.subject,
+    gradeLevel: student.gradeLevel,
+  };
+}
+
+export function emptyStudentFormValues(
+  defaults?: Partial<StudentProfileFormValues>,
+): StudentProfileFormValues {
+  return {
+    fullName: '',
+    phone: '',
+    email: '',
+    status: 'Active',
+    address: '',
+    allergies: 'None on file',
+    medicalNotes: '',
+    teacherNotes: '',
+    photoUrl: null,
+    classLabel: '',
+    subject: '',
+    gradeLevel: '',
+    ...defaults,
+    guardians: defaults?.guardians ?? [
+      {
+        name: '',
+        relationship: 'Parent',
+        phone: '',
+        email: '',
+        occupation: '',
+      },
+    ],
+    emergencyContact: defaults?.emergencyContact ?? {
+      name: '',
+      relationship: 'Parent',
+      phone: '',
+    },
   };
 }
 
@@ -72,6 +109,7 @@ export const STUDENT_EDIT_STEPS = [
 export function getStudentFormStepError(
   step: StudentEditStep,
   values: StudentProfileFormValues,
+  options?: { requireClassPlacement?: boolean },
 ): string | null {
   if (step === 0) {
     if (!values.fullName.trim()) return 'Student name is required.';
@@ -79,6 +117,11 @@ export function getStudentFormStepError(
     if (!values.email.trim()) return 'Student email is required.';
     if (!values.email.includes('@')) return 'Enter a valid student email address.';
     if (!values.address.trim()) return 'Home address is required.';
+    if (options?.requireClassPlacement) {
+      if (!values.classLabel?.trim()) return 'Class is required.';
+      if (!values.subject?.trim()) return 'Subject is required.';
+      if (!values.gradeLevel?.trim()) return 'Grade level is required.';
+    }
     return null;
   }
 
@@ -202,6 +245,107 @@ export function applyStudentFormInput(
         relationship: input.emergencyContact.relationship.trim() || 'Emergency',
         phone: input.emergencyContact.phone.trim(),
       },
+    },
+  };
+}
+
+const AVATAR_ACCENTS = [
+  '#b68eff',
+  '#5cc789',
+  '#ff7e93',
+  '#84a9ff',
+  '#f5c842',
+  '#f5a623',
+  '#6ed9a0',
+  '#c9a8ff',
+];
+
+function nextStudentIdentity(students: TeacherStudentRow[]) {
+  let max = 0;
+  for (const student of students) {
+    const match = student.idNumber.match(/(\d+)$/);
+    if (match) max = Math.max(max, Number(match[1]));
+    const codeMatch = student.studentCode.match(/(\d+)$/);
+    if (codeMatch) max = Math.max(max, Number(codeMatch[1]));
+  }
+  const next = String(max + 1).padStart(4, '0');
+  return {
+    id: `new-${max + 1}`,
+    idNumber: `2026-${next}`,
+    studentCode: `STU-2026-${next}`,
+  };
+}
+
+function enrollmentDateLabel(date = new Date()) {
+  return date.toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  });
+}
+
+export function gradeLevelFromClassLabel(classLabel: string) {
+  const match = classLabel.match(/Grade\s+\d+/i);
+  return match?.[0] ?? 'Grade 7';
+}
+
+export function buildStudentFromInput(
+  input: StudentProfileFormInput,
+  students: TeacherStudentRow[],
+): TeacherStudentRow {
+  const fullName = input.fullName.trim();
+  const classLabel = input.classLabel?.trim() || 'Grade 7 - Section A';
+  const subject = input.subject?.trim() || 'Mathematics';
+  const gradeLevel =
+    input.gradeLevel?.trim() || gradeLevelFromClassLabel(classLabel);
+  const identity = nextStudentIdentity(students);
+  const guardians = mergeGuardians([], input.guardians);
+  const primary = guardians[0];
+  const emergency = {
+    name: input.emergencyContact.name.trim(),
+    relationship: input.emergencyContact.relationship.trim() || 'Emergency',
+    phone: input.emergencyContact.phone.trim(),
+  };
+
+  return {
+    id: identity.id,
+    fullName,
+    studentCode: identity.studentCode,
+    idNumber: identity.idNumber,
+    initials: initialsFromName(fullName) || 'ST',
+    avatarAccent: AVATAR_ACCENTS[students.length % AVATAR_ACCENTS.length],
+    photoUrl: input.photoUrl,
+    classLabel,
+    subject,
+    classFilter: classLabel,
+    gradeLevel,
+    phone: input.phone.trim(),
+    email: input.email.trim(),
+    attendanceRate: 100,
+    averageGrade: 0,
+    letterGrade: 'C',
+    status: input.status,
+    details: {
+      gender: 'Male',
+      birthDate: 'January 1, 2013',
+      age: 13,
+      address: input.address.trim(),
+      enrollmentDate: enrollmentDateLabel(),
+      lrn: `1${identity.idNumber.replace(/-/g, '')}`.padEnd(12, '0').slice(0, 12),
+      guardians,
+      emergencyContact: emergency,
+      authorizedPickup: primary
+        ? [
+            {
+              name: primary.name,
+              relationship: primary.relationship,
+              phone: primary.phone,
+            },
+          ]
+        : [],
+      allergies: input.allergies.trim() || 'None on file',
+      medicalNotes: input.medicalNotes.trim() || 'No medical notes on file.',
+      teacherNotes: input.teacherNotes.trim() || 'No special notes.',
     },
   };
 }

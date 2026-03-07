@@ -24,6 +24,7 @@ export function StudentsView({
   const {
     metrics,
     filterOptions,
+    subjectOptions,
     filters,
     setFilter,
     filteredCount,
@@ -36,6 +37,10 @@ export function StudentsView({
     selectedStudent,
     openStudent,
     backToStudents,
+    isCreateOpen,
+    openCreate,
+    closeCreate,
+    createStudent,
     editingStudent,
     openEdit,
     closeEdit,
@@ -102,7 +107,7 @@ export function StudentsView({
             <button type="button" className={listStyles.secondaryBtn}>
               ⬆ Import Students
             </button>
-            <button type="button" className={listStyles.primaryBtn}>
+            <button type="button" className={listStyles.primaryBtn} onClick={openCreate}>
               + Add Student
             </button>
           </>
@@ -157,9 +162,24 @@ export function StudentsView({
         onPageChange={setPage}
       />
 
+      {isCreateOpen ? (
+        <EditStudentModal
+          mode="create"
+          classes={filterOptions.classes}
+          subjects={subjectOptions}
+          gradeLevels={filterOptions.gradeLevels}
+          onCancel={closeCreate}
+          onSubmit={createStudent}
+        />
+      ) : null}
+
       {editingStudent ? (
         <EditStudentModal
+          mode="edit"
           student={editingStudent}
+          classes={filterOptions.classes}
+          subjects={subjectOptions}
+          gradeLevels={filterOptions.gradeLevels}
           onCancel={closeEdit}
           onSubmit={updateStudent}
         />

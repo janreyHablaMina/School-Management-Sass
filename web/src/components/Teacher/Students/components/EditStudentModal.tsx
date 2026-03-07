@@ -9,7 +9,9 @@ import type {
 } from '@/types/teacherStudents';
 import { listStyles, modalStyles, TeacherModal } from '../../shared';
 import {
+  emptyStudentFormValues,
   getStudentFormStepError,
+  gradeLevelFromClassLabel,
   initialsFromName,
   readStudentPhotoFile,
   STUDENT_EDIT_STEPS,
@@ -32,18 +34,43 @@ const EMPTY_GUARDIAN: StudentGuardianFormInput = {
   occupation: '',
 };
 
-interface EditStudentModalProps {
-  student: TeacherStudentRow;
+interface StudentFormModalProps {
+  mode: 'create' | 'edit';
+  student?: TeacherStudentRow | null;
+  classes: string[];
+  subjects: string[];
+  gradeLevels: string[];
   onCancel: () => void;
   onSubmit: (input: StudentProfileFormInput) => void;
 }
 
 export function EditStudentModal({
-  student,
+  mode,
+  student = null,
+  classes,
+  subjects,
+  gradeLevels,
   onCancel,
   onSubmit,
-}: EditStudentModalProps) {
-  const initial = studentToFormValues(student);
+}: StudentFormModalProps) {
+  const isCreate = mode === 'create';
+  const classOptions = classes.filter((item) => item !== 'All Classes');
+  const gradeOptions = gradeLevels.filter((item) => item !== 'All Grades');
+  const subjectOptions =
+    subjects.length > 0
+      ? subjects
+      : ['Mathematics', 'English', 'Science', 'Filipino', 'Araling Panlipunan'];
+
+  const initial = student
+    ? studentToFormValues(student)
+    : emptyStudentFormValues({
+        classLabel: classOptions[0] ?? '',
+        subject: subjectOptions[0] ?? 'Mathematics',
+        gradeLevel:
+          gradeOptions[0] ??
+          gradeLevelFromClassLabel(classOptions[0] ?? 'Grade 7 - Section A'),
+      });
+
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [step, setStep] = useState<StudentEditStep>(0);
   const [fullName, setFullName] = useState(initial.fullName);
@@ -57,6 +84,9 @@ export function EditStudentModal({
   const [photoUrl, setPhotoUrl] = useState<string | null>(initial.photoUrl);
   const [guardians, setGuardians] = useState(initial.guardians);
   const [emergencyContact, setEmergencyContact] = useState(initial.emergencyContact);
+  const [classLabel, setClassLabel] = useState(initial.classLabel ?? '');
+  const [subject, setSubject] = useState(initial.subject ?? '');
+  const [gradeLevel, setGradeLevel] = useState(initial.gradeLevel ?? '');
   const [error, setError] = useState<string | null>(null);
 
   const formValues = (): StudentProfileFormValues => ({
@@ -71,12 +101,15 @@ export function EditStudentModal({
     photoUrl,
     guardians,
     emergencyContact,
+    classLabel,
+    subject,
+    gradeLevel,
   });
 
   const previewStudent = {
-    fullName,
-    initials: initialsFromName(fullName) || student.initials,
-    avatarAccent: student.avatarAccent,
+    fullName: fullName || 'New student',
+    initials: initialsFromName(fullName) || (student?.initials ?? 'ST'),
+    avatarAccent: student?.avatarAccent ?? '#f5c842',
     photoUrl,
   };
 
@@ -101,8 +134,13 @@ export function EditStudentModal({
     }
   };
 
+  const validateStep = (nextStep: StudentEditStep) =>
+    getStudentFormStepError(nextStep, formValues(), {
+      requireClassPlacement: isCreate,
+    });
+
   const goNext = () => {
-    const validationError = getStudentFormStepError(step, formValues());
+    const validationError = validateStep(step);
     if (validationError) {
       setError(validationError);
       return;
@@ -124,7 +162,7 @@ export function EditStudentModal({
     }
 
     const values = formValues();
-    const validationError = getStudentFormStepError(2, values);
+    const validationError = validateStep(2);
     if (validationError) {
       setError(validationError);
       return;
@@ -135,17 +173,21 @@ export function EditStudentModal({
 
   const stepCopy =
     step === 0
-      ? 'Photo and basic student details.'
+      ? isCreate
+        ? 'Photo, class placement, and basic details.'
+        : 'Photo and basic student details.'
       : step === 1
         ? 'Parent contacts and emergency reach-out.'
         : 'Allergies, medical info, and classroom notes.';
 
+  const titlePrefix = isCreate ? 'Add student' : student?.fullName ?? 'Student';
+
   return (
     <TeacherModal
-      titleId="edit-student-title"
+      titleId={isCreate ? 'create-student-title' : 'edit-student-title'}
       eyebrow="Students"
-      title="Edit student profile"
-      copy={`${student.fullName} · Step ${step + 1} of ${STUDENT_EDIT_STEPS.length} · ${stepCopy}`}
+      title={isCreate ? 'Add student' : 'Edit student profile'}
+      copy={`${titlePrefix} · Step ${step + 1} of ${STUDENT_EDIT_STEPS.length} · ${stepCopy}`}
       onClose={onCancel}
       as="form"
       onSubmit={handleSubmit}
@@ -168,13 +210,13 @@ export function EditStudentModal({
             </button>
           ) : (
             <button type="submit" className={listStyles.primaryBtn}>
-              Save changes
+              {isCreate ? 'Add student' : 'Save changes'}
             </button>
           )}
         </>
       }
     >
-      <ol className={styles.editSteps} aria-label="Edit profile steps">
+      <ol className={styles.editSteps} aria-label="Student form steps">
         {STUDENT_EDIT_STEPS.map((item) => {
           const isActive = item.id === step;
           const isDone = item.id < step;
@@ -266,6 +308,61 @@ export function EditStudentModal({
               </select>
             </label>
           </div>
+
+          {isCreate ? (
+            <>
+              <div className={styles.formGrid}>
+                <label className={modalStyles.modalField}>
+                  <span className={modalStyles.modalLabel}>Class</span>
+                  <select
+                    className={modalStyles.modalInput}
+                    value={classLabel}
+                    onChange={(e) => {
+                      const nextClass = e.target.value;
+                      setClassLabel(nextClass);
+                      setGradeLevel(gradeLevelFromClassLabel(nextClass));
+                    }}
+                  >
+                    {classOptions.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+
+                <label className={modalStyles.modalField}>
+                  <span className={modalStyles.modalLabel}>Subject</span>
+                  <select
+                    className={modalStyles.modalInput}
+                    value={subject}
+                    onChange={(e) => setSubject(e.target.value)}
+                  >
+                    {subjectOptions.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </div>
+
+              <label className={modalStyles.modalField}>
+                <span className={modalStyles.modalLabel}>Grade level</span>
+                <select
+                  className={modalStyles.modalInput}
+                  value={gradeLevel}
+                  onChange={(e) => setGradeLevel(e.target.value)}
+                >
+                  {gradeOptions.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </>
+          ) : null}
 
           <div className={styles.formGrid}>
             <label className={modalStyles.modalField}>

@@ -107,4 +107,8 @@ export interface StudentProfileFormInput {
   photoUrl: string | null;
   guardians: StudentGuardianFormInput[];
   emergencyContact: StudentEmergencyFormInput;
+  /** Required when creating a student. */
+  classLabel?: string;
+  subject?: string;
+  gradeLevel?: string;
 }

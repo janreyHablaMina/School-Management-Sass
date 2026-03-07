@@ -12,7 +12,7 @@ import type {
   TeacherStudentRow,
 } from '@/types/teacherStudents';
 import { matchesAllOrExact, matchesSearch, usePagedList } from '../shared';
-import { applyStudentFormInput } from './utils';
+import { applyStudentFormInput, buildStudentFromInput } from './utils';
 
 const PAGE_SIZE = 8;
 
@@ -48,6 +48,7 @@ export function useStudents(options?: { classFocus?: TeacherClassFocus | null })
   const [students, setStudents] = useState(teacherStudentsPageMock.students);
   const [selectedStudentId, setSelectedStudentId] = useState<string | null>(null);
   const [editingStudentId, setEditingStudentId] = useState<string | null>(null);
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [inactiveTargetId, setInactiveTargetId] = useState<string | null>(null);
   const [bulkInactiveOpen, setBulkInactiveOpen] = useState(false);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
@@ -124,6 +125,11 @@ export function useStudents(options?: { classFocus?: TeacherClassFocus | null })
     setSelectedIds((prev) => Array.from(new Set([...prev, ...visibleIds])));
   };
 
+  const subjectOptions = useMemo(() => {
+    const unique = Array.from(new Set(students.map((student) => student.subject)));
+    return unique.sort((a, b) => a.localeCompare(b));
+  }, [students]);
+
   const updateStudent = (input: StudentProfileFormInput) => {
     if (!editingStudentId) return;
     const source = students.find((student) => student.id === editingStudentId);
@@ -137,6 +143,16 @@ export function useStudents(options?: { classFocus?: TeacherClassFocus | null })
     setToast({
       title: 'Profile updated',
       message: `${next.fullName}'s details were saved.`,
+    });
+  };
+
+  const createStudent = (input: StudentProfileFormInput) => {
+    const next = buildStudentFromInput(input, students);
+    setIsCreateOpen(false);
+    setStudents((prev) => [next, ...prev]);
+    setToast({
+      title: 'Student added',
+      message: `${next.fullName} was added to ${next.classLabel}.`,
     });
   };
 
@@ -216,13 +232,24 @@ export function useStudents(options?: { classFocus?: TeacherClassFocus | null })
   return {
     metrics,
     filterOptions,
+    subjectOptions,
     ...list,
     paginatedStudents,
     selectedStudent,
     openStudent: (id: string) => setSelectedStudentId(id),
     backToStudents: () => setSelectedStudentId(null),
+    isCreateOpen,
+    openCreate: () => {
+      setEditingStudentId(null);
+      setInactiveTargetId(null);
+      setBulkInactiveOpen(false);
+      setIsCreateOpen(true);
+    },
+    closeCreate: () => setIsCreateOpen(false),
+    createStudent,
     editingStudent,
     openEdit: (id: string) => {
+      setIsCreateOpen(false);
       setInactiveTargetId(null);
       setBulkInactiveOpen(false);
       setEditingStudentId(id);
@@ -231,6 +258,7 @@ export function useStudents(options?: { classFocus?: TeacherClassFocus | null })
     updateStudent,
     inactiveTarget,
     openMarkInactive: (id: string) => {
+      setIsCreateOpen(false);
       setEditingStudentId(null);
       setBulkInactiveOpen(false);
       setInactiveTargetId(id);
@@ -249,6 +277,7 @@ export function useStudents(options?: { classFocus?: TeacherClassFocus | null })
     bulkInactiveOpen,
     openBulkMarkInactive: () => {
       if (selectedActiveCount === 0) return;
+      setIsCreateOpen(false);
       setEditingStudentId(null);
       setInactiveTargetId(null);
       setBulkInactiveOpen(true);
