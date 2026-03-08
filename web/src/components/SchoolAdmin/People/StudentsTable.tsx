@@ -34,11 +34,9 @@ const COLUMNS: DataTableColumn[] = [
 ];
 
 const ROW_ACTIONS = [
-  { icon: 'i', label: 'View Details' },
-  { icon: 'E', label: 'Edit Student' },
-  { icon: 'G', label: 'Manage Grades' },
-  { icon: 'A', label: 'View Attendance' },
-  { icon: 'P', label: 'Contact Parent' },
+  { icon: '👤', label: 'View Profile' },
+  { icon: '✏️', label: 'Edit Student' },
+  { icon: '📧', label: 'Message Parent' },
 ] as const;
 
 const DANGER_ACTIONS = [{ icon: '!', label: 'Delete Student' }] as const;
@@ -143,7 +141,13 @@ export const StudentsTable: React.FC<StudentsTableProps> = ({
                 actions={ROW_ACTIONS}
                 dangerActions={DANGER_ACTIONS}
                 onAction={(label) => {
-                  if (label === 'View Details') onViewDetails(student);
+                  if (label === 'View Profile') onViewDetails(student);
+                  if (label === 'Edit Student') {
+                    alert('Edit student functionality not implemented yet.');
+                  }
+                  if (label === 'Message Parent') {
+                    alert('Message parent functionality not implemented yet.');
+                  }
                   if (label === 'Delete Student') {
                     alert('Delete student functionality not implemented yet.');
                   }
