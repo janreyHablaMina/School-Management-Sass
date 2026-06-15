@@ -83,6 +83,12 @@ const WelcomeBackSwoosh = () => (
   </svg>
 );
 
+const ActiveLinkSwoosh = () => (
+  <svg className={styles.navActiveSwoosh} viewBox="0 0 60 6" fill="none" aria-hidden="true" preserveAspectRatio="none">
+    <path d="M2 3 Q25 1 58 4" stroke="#f5c842" strokeWidth="2.2" strokeLinecap="round" fill="none" opacity="0.8"/>
+  </svg>
+);
+
 /* ────────────────────────────────────────────────────────────
    Chalk Doodle Illustrations — matching reference positions
    ──────────────────────────────────────────────────────────── */
@@ -300,6 +306,68 @@ export default function LoginPage() {
 
   return (
     <main className={styles.page}>
+
+      {/* ── Floating Header Bar ── */}
+      <header className={styles.headerBar}>
+        {/* Left: Logo */}
+        <Link href="/" className={styles.headerLogo} aria-label="SchoolSaaS home">
+          <div className={styles.headerLogoIcon} aria-hidden="true">🎓</div>
+          <span className={styles.headerLogoText}>School<span>SaaS</span></span>
+        </Link>
+
+        {/* Center: Navigation Links */}
+        <nav className={styles.headerNav} aria-label="Main navigation">
+          {[
+            { label: 'Courses', active: true },
+            { label: 'Teachers' },
+            { label: 'Students' },
+            { label: 'Resources' },
+            { label: 'Pricing' }
+          ].map((item) => (
+            <div key={item.label} className={styles.navItemWrapper}>
+              <Link 
+                href={`/${item.label.toLowerCase()}`} 
+                className={`${styles.navLink} ${item.active ? styles.navActive : ''}`}
+              >
+                {item.label}
+              </Link>
+              {item.active && <ActiveLinkSwoosh />}
+            </div>
+          ))}
+        </nav>
+
+        {/* Right: Search + Buttons */}
+        <div className={styles.headerActions}>
+          <button className={styles.searchBtn} aria-label="Search">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+          </button>
+
+          <Link href="/login" className={styles.headerLoginBtn}>
+            Login
+          </Link>
+
+          <Link href="/register" className={styles.headerStartBtn}>
+            Get Started
+          </Link>
+
+          {/* Little yellow rays above the buttons */}
+          <div className={styles.headerRays} aria-hidden="true">
+            <svg width="24" height="16" viewBox="0 0 24 16" fill="none" stroke="#f5c842" strokeWidth="2" strokeLinecap="round">
+              <line x1="12" y1="14" x2="12" y2="3" />
+              <line x1="5" y1="12" x2="2" y2="6" />
+              <line x1="19" y1="12" x2="22" y2="6" />
+            </svg>
+          </div>
+
+          {/* Header Star Decor */}
+          <div className={styles.headerStar}>
+            <DoodleChalkStar width={18} height={18} color="rgba(240, 239, 237, 0.6)" />
+          </div>
+        </div>
+      </header>
 
       {/* ── Floating stars ── */}
       <div className={styles.floatingStars} aria-hidden="true">
