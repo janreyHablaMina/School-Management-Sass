@@ -89,6 +89,28 @@ const ActiveLinkSwoosh = () => (
   </svg>
 );
 
+const DoodleChalkSchoolTools = () => (
+  <svg width="120" height="120" viewBox="0 0 120 120" fill="none" stroke="rgba(240, 239, 237, 0.45)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    {/* Triangle Ruler (Set Square) */}
+    <path d="M20 20 L20 95 L95 95 Z" stroke="rgba(245, 200, 66, 0.55)" />
+    <path d="M30 40 L30 85 L75 85 Z" stroke="rgba(245, 200, 66, 0.4)" strokeWidth="1" />
+    {/* Tick marks on triangle ruler */}
+    <path d="M20 30h4 M20 40h4 M20 50h4 M20 60h4 M20 70h4 M20 85h4 M30 95v-4 M40 95v-4 M50 95v-4 M60 95v-4 M70 95v-4 M85 95v-4" stroke="rgba(245, 200, 66, 0.5)" strokeWidth="1" />
+
+    {/* Straight Ruler crossing behind at an angle */}
+    <g transform="translate(10, 50) rotate(-25)">
+      <rect x="0" y="0" width="95" height="20" rx="2" stroke="rgba(240, 239, 237, 0.5)" />
+      {/* Tick marks on straight ruler */}
+      <path d="M5 0v5 M15 0v3 M25 0v5 M35 0v3 M45 0v5 M55 0v3 M65 0v5 M75 0v3 M85 0v5" stroke="rgba(240, 239, 237, 0.4)" strokeWidth="1" />
+    </g>
+
+    {/* Small details */}
+    <path d="M85 30 l2 2 -2 2 -2-2 z" fill="rgba(245, 200, 66, 0.4)" stroke="none" />
+    <path d="M85 55h6M88 52v6" stroke="rgba(240, 239, 237, 0.3)" strokeWidth="1.2" />
+    <path d="M15 110 Q45 100 75 110" stroke="rgba(240, 239, 237, 0.2)" strokeDasharray="3 3" />
+  </svg>
+);
+
 /* ────────────────────────────────────────────────────────────
    Chalk Doodle Illustrations — matching reference positions
    ──────────────────────────────────────────────────────────── */
@@ -394,11 +416,6 @@ export default function LoginPage() {
         {/* ═══════════ LEFT PANEL ═══════════ */}
         <section className={styles.leftPanel} aria-label="Product introduction">
 
-          {/* Logo */}
-          <Link href="/" className={styles.logo} aria-label="SchoolSaaS home">
-            <div className={styles.logoIcon} aria-hidden="true">🎓</div>
-            <span className={styles.logoText}>School<span>SaaS</span></span>
-          </Link>
 
           {/* Hero Content */}
           <div className={styles.hero}>
@@ -419,6 +436,9 @@ export default function LoginPage() {
 
           {/* Decorative Doodles absolutely positioned */}
           <div className={styles.doodlesContainer} aria-hidden="true">
+            <div className={styles.topLeftPaperPlane}>
+              <DoodlePaperPlane width={36} height={36} color="rgba(240, 239, 237, 0.45)" />
+            </div>
             <div className={styles.lightbulbDoodle}>
               <DoodleLightbulb />
             </div>
@@ -434,6 +454,10 @@ export default function LoginPage() {
             
             <div className={styles.chalkTrailsDoodle}>
               <DoodleChalkTrails />
+            </div>
+            
+            <div className={styles.schoolToolsDoodle}>
+              <DoodleChalkSchoolTools />
             </div>
             
             {/* Hand-drawn chalk stars in specific reference layout positions */}

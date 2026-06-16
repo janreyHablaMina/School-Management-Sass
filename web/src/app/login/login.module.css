@@ -247,7 +247,7 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  padding: 2.5rem 1rem 1.5rem 2.5rem; /* Reduced right padding to allow text to expand closer to the card */
+  padding: 2.5rem 1rem 1.5rem 3px; /* Padding-left set to 3px to keep a tiny offset but maintain alignment with header left edge */
   position: relative;
   z-index: 1;
 }
@@ -347,10 +347,26 @@
   z-index: 1;
 }
 
+.topLeftPaperPlane {
+  position: absolute;
+  top: 15px; /* Sits nicely in the empty top-left space under the header */
+  left: 20px;
+  width: 36px;
+  height: 36px;
+  transform: rotate(-15deg);
+  animation: planeFloatTopLeft 6s ease-in-out infinite;
+  opacity: 0.7;
+}
+
+@keyframes planeFloatTopLeft {
+  0%, 100% { transform: translateY(0) rotate(-15deg); }
+  50%      { transform: translateY(-6px) rotate(-12deg); }
+}
+
 .lightbulbDoodle {
   position: absolute;
-  top: 50px;
-  left: 310px;
+  top: 10px; /* Moved higher from 50px to prevent tagline overlap */
+  left: 280px; /* Adjusted left position */
   width: 75px;
   height: auto;
   transform: rotate(-6deg);
@@ -364,8 +380,8 @@
 
 .graduationCapDoodle {
   position: absolute;
-  top: 90px;
-  left: 425px;
+  top: 35px; /* Moved higher from 90px to prevent tagline overlap */
+  left: 390px; /* Adjusted left position */
   width: 110px;
   height: auto;
   transform: rotate(12deg);
@@ -375,6 +391,21 @@
 .graduationCapDoodle svg {
   width: 100%;
   height: auto;
+}
+
+.schoolToolsDoodle {
+  position: absolute;
+  top: 230px; /* Positioned lower to align with the tagline height */
+  left: 565px; /* Shifted even further right to ensure zero overlap with the tagline */
+  width: 110px;
+  height: 110px;
+  animation: toolsFloat 6s ease-in-out infinite;
+  opacity: 0.75;
+}
+
+@keyframes toolsFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%      { transform: translateY(-6px) rotate(4deg); }
 }
 
 .booksDoodle {
@@ -409,9 +440,9 @@
 
 .chalkTrailsDoodle {
   position: absolute;
-  top: 160px;
-  left: 320px;
-  width: 200px;
+  top: 250px; /* Shifted down to clear the tagline text completely */
+  left: 440px; /* Shifted right into the visible open space */
+  width: 180px;
   height: auto;
   opacity: 0.85;
 }
@@ -424,16 +455,16 @@
 /* Hand-drawn chalk stars on Left Panel */
 .leftPanelStar1 {
   position: absolute;
-  top: 230px;
-  left: 355px;
+  top: 295px; /* Shifted down from 230px to clear the word LEARNING. */
+  left: 395px; /* Shifted right */
   transform: rotate(15deg);
   opacity: 0.6;
 }
 
 .leftPanelStar2 {
   position: absolute;
-  bottom: 250px;
-  left: 410px;
+  bottom: 210px; /* Shifted slightly to remain fully visible */
+  left: 450px; /* Shifted right */
   transform: rotate(-10deg);
   opacity: 0.55;
 }
@@ -525,8 +556,8 @@
   height: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 2rem;
+  justify-content: flex-end; /* Align the login card exactly to the right edge */
+  padding: 2rem 0 2rem 2rem; /* padding-right set to 0 to align card with header right edge */
   position: relative;
   z-index: 1;
 }
