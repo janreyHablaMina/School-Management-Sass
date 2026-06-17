@@ -436,8 +436,8 @@ export default function LoginPage() {
 
           {/* Decorative Doodles absolutely positioned */}
           <div className={styles.doodlesContainer} aria-hidden="true">
-            <div className={styles.topLeftPaperPlane}>
-              <DoodlePaperPlane width={36} height={36} color="rgba(240, 239, 237, 0.45)" />
+            <div className={styles.topLeftSchoolTools}>
+              <DoodleChalkSchoolTools />
             </div>
             <div className={styles.lightbulbDoodle}>
               <DoodleLightbulb />
@@ -456,8 +456,8 @@ export default function LoginPage() {
               <DoodleChalkTrails />
             </div>
             
-            <div className={styles.schoolToolsDoodle}>
-              <DoodleChalkSchoolTools />
+            <div className={styles.middlePaperPlane}>
+              <DoodlePaperPlane width={45} height={45} color="rgba(240, 239, 237, 0.45)" />
             </div>
             
             {/* Hand-drawn chalk stars in specific reference layout positions */}
