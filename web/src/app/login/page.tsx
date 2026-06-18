@@ -2,6 +2,7 @@
 
 import React, { useState, useId } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import styles from './login.module.css';
 
 /* ────────────────────────────────────────────────────────────
@@ -290,6 +291,7 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading]       = useState(false);
   const [error, setError]               = useState('');
+  const router                          = useRouter();
 
   const emailId    = useId();
   const passwordId = useId();
@@ -317,9 +319,14 @@ export default function LoginPage() {
     }
 
     setIsLoading(true);
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    await new Promise(resolve => setTimeout(resolve, 1000));
     setIsLoading(false);
-    setError('Demo mode: API integration coming soon.');
+
+    if (email === 'admin@gmail.com' && password === 'admin@gmail.com') {
+      router.push('/admin');
+    } else {
+      setError('Invalid credentials. (Hint: Use admin@gmail.com / admin@gmail.com to login)');
+    }
   };
 
   const handleGoogleLogin = () => {

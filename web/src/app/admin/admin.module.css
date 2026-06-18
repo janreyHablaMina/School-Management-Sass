@@ -1,0 +1,410 @@
+/* ============================================================
+   BLACKBOARD THEME — SaaS Admin Console
+   Consistent with the high-fidelity school chalkboard aesthetic
+   ============================================================ */
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #08120d; /* Matching slate green blackboard color */
+  position: relative;
+  overflow-y: auto;
+  font-family: 'Inter', sans-serif;
+  padding: 1.5rem 2.5rem 2.5rem;
+  box-sizing: border-box;
+  gap: 1.5rem;
+  color: rgba(240, 239, 237, 0.9);
+}
+
+/* Chalkboard texture background layers */
+.page::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    /* Chalk dust smudges */
+    radial-gradient(ellipse at 10% 30%, rgba(255, 255, 255, 0.035) 0%, transparent 60%),
+    radial-gradient(ellipse at 90% 70%, rgba(255, 255, 255, 0.04) 0%, transparent 55%),
+    radial-gradient(ellipse at 50% 20%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
+    
+    /* Horizontal eraser wipes */
+    linear-gradient(90deg, rgba(255,255,255,0.008) 0%, rgba(255,255,255,0.012) 40%, transparent 70%),
+    
+    /* Slate board color variations */
+    radial-gradient(ellipse at 25% 15%, #10251b 0%, transparent 60%),
+    radial-gradient(ellipse at 75% 75%, #0d1e14 0%, transparent 60%),
+
+    /* Slate stone micro-scratches */
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.008) 0px, rgba(255, 255, 255, 0.008) 1px, transparent 1px, transparent 15px),
+    repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.005) 0px, rgba(255, 255, 255, 0.005) 1.5px, transparent 1.5px, transparent 20px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Grain overlay */
+.page::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ---------- Header Bar ---------- */
+.headerBar {
+  width: 100%;
+  max-width: 1300px;
+  height: 60px;
+  flex-shrink: 0;
+  background: transparent;
+  border: 2px solid rgba(240, 239, 237, 0.55);
+  border-radius: 13px 11px 14px 12px / 12px 14px 11px 13px;
+  padding: 0 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 10;
+}
+
+.headerTitle {
+  font-family: 'Caveat', cursive;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #f5c842;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logoutBtn {
+  font-family: 'Caveat', cursive;
+  font-size: 1.2rem;
+  font-weight: 700;
+  background: transparent;
+  border: 1.5px solid rgba(240, 239, 237, 0.5);
+  border-radius: 6px 8px 5px 7px / 7px 5px 8px 6px;
+  color: rgba(240, 239, 237, 0.8);
+  padding: 0.3rem 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.logoutBtn:hover {
+  border-color: #f5c842;
+  color: #f5c842;
+  transform: translateY(-1px) rotate(-1deg);
+}
+
+/* ---------- Dashboard Grid ---------- */
+.mainContainer {
+  width: 100%;
+  max-width: 1300px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  z-index: 5;
+}
+
+/* ---------- Metrics Section ---------- */
+.metricsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+.metricCard {
+  border: 2px solid rgba(240, 239, 237, 0.4);
+  border-radius: 11px 13px 10px 12px / 13px 10px 12px 11px;
+  padding: 1.2rem 1.5rem;
+  position: relative;
+  background: rgba(10, 25, 17, 0.2);
+  transition: transform 0.2s ease;
+}
+
+.metricCard:hover {
+  transform: translateY(-2px);
+}
+
+.metricLabel {
+  font-size: 0.85rem;
+  color: rgba(240, 239, 237, 0.55);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.metricValue {
+  font-family: 'Caveat', cursive;
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: rgba(240, 239, 237, 0.95);
+  margin-top: 0.4rem;
+  line-height: 1;
+}
+
+.metricValueGreen {
+  color: #8affad; /* Chalk green */
+}
+
+.metricValueYellow {
+  color: #f5c842; /* Chalk yellow */
+}
+
+.metricBadge {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.5rem;
+  font-family: 'Caveat', cursive;
+  font-size: 0.95rem;
+  color: #f5c842;
+  border: 1px dashed rgba(245, 200, 66, 0.5);
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  transform: rotate(5deg);
+}
+
+/* ---------- Layout Split Section ---------- */
+.layoutSplit {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 950px) {
+  .layoutSplit {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- Board Section Panels ---------- */
+.boardPanel {
+  border: 2px solid rgba(240, 239, 237, 0.4);
+  border-radius: 14px 12px 15px 13px / 12px 15px 13px 14px;
+  padding: 1.5rem;
+  background: rgba(10, 25, 17, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.panelTitle {
+  font-family: 'Caveat', cursive;
+  font-size: 1.6rem;
+  color: #f5c842;
+  border-bottom: 1.5px dashed rgba(240, 239, 237, 0.2);
+  padding-bottom: 0.5rem;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* ---------- Custom Blackboard Table ---------- */
+.tableContainer {
+  overflow-x: auto;
+}
+
+.schoolTable {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.schoolTable th {
+  font-size: 0.85rem;
+  color: rgba(240, 239, 237, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.6rem 0.8rem;
+  border-bottom: 1.5px solid rgba(240, 239, 237, 0.2);
+}
+
+.schoolTable td {
+  padding: 0.9rem 0.8rem;
+  font-size: 0.92rem;
+  border-bottom: 1px dashed rgba(240, 239, 237, 0.12);
+  vertical-align: middle;
+}
+
+.schoolName {
+  font-weight: 600;
+  color: rgba(240, 239, 237, 0.95);
+}
+
+.tierBadge {
+  font-family: 'Caveat', cursive;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 0.1rem 0.5rem;
+  border-radius: 4px;
+}
+
+.tierBasic {
+  border: 1px solid rgba(240, 239, 237, 0.4);
+  color: rgba(240, 239, 237, 0.7);
+}
+
+.tierPro {
+  border: 1px solid rgba(245, 200, 66, 0.4);
+  color: #f5c842;
+}
+
+.tierEnterprise {
+  border: 1px solid rgba(138, 255, 173, 0.4);
+  color: #8affad;
+}
+
+.statusIndicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+}
+
+.statusDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.statusActive {
+  background-color: #8affad;
+  box-shadow: 0 0 6px rgba(138, 255, 173, 0.6);
+}
+
+.statusSuspended {
+  background-color: #ff8a8a;
+  box-shadow: 0 0 6px rgba(255, 138, 138, 0.6);
+}
+
+/* ---------- Activity Ledger ---------- */
+.ledgerList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ledgerItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  font-size: 0.88rem;
+  border-left: 1.5px dashed rgba(240, 239, 237, 0.2);
+  padding-left: 0.8rem;
+}
+
+.ledgerTime {
+  font-size: 0.75rem;
+  color: rgba(240, 239, 237, 0.4);
+}
+
+.ledgerText {
+  color: rgba(240, 239, 237, 0.75);
+}
+
+/* ---------- Yellow Sticky Notes Sidepanel ---------- */
+.stickyPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.stickyNote {
+  background: #fdf09d; /* Yellow Post-it Sticky Note */
+  background-image: 
+    linear-gradient(90deg, transparent 15px, rgba(220, 60, 60, 0.2) 15px, rgba(220, 60, 60, 0.2) 16px, transparent 16px),
+    repeating-linear-gradient(transparent, transparent 11px, rgba(0, 102, 204, 0.05) 11px, rgba(0, 102, 204, 0.05) 12px);
+  border: 1.5px solid #2e2e2e;
+  border-radius: 4px 6px 3px 5px / 6px 3px 5px 4px;
+  color: #2b2b2b;
+  padding: 1.2rem 1.4rem;
+  box-shadow: 3px 6px 12px rgba(0, 0, 0, 0.35);
+  transform: rotate(-1.5deg);
+  transition: transform 0.2s ease;
+  position: relative;
+  overflow: visible;
+}
+
+.stickyNote:nth-child(even) {
+  transform: rotate(2deg);
+  background: #fbf9f0; /* White paper pad */
+  background-image: 
+    linear-gradient(90deg, transparent 15px, rgba(220, 60, 60, 0.2) 15px, rgba(220, 60, 60, 0.2) 16px, transparent 16px),
+    repeating-linear-gradient(transparent, transparent 11px, rgba(0, 102, 204, 0.05) 11px, rgba(0, 102, 204, 0.05) 12px);
+}
+
+.stickyNote:hover {
+  transform: translateY(-3px) scale(1.02) rotate(0deg);
+  box-shadow: 5px 10px 18px rgba(0, 0, 0, 0.45);
+}
+
+/* Translucent Tape on sticky note */
+.stickyNote::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 35%;
+  width: 40px;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(1px);
+  border: 0.5px solid rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  transform: rotate(-2deg);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  pointer-events: none;
+}
+
+.stickyTitle {
+  font-family: 'Caveat', cursive;
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+  color: #1a1a1a;
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+  padding-bottom: 0.2rem;
+}
+
+.stickyBody {
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: #333;
+}
+
+.stickyActionBtn {
+  font-family: 'Caveat', cursive;
+  font-size: 1.15rem;
+  font-weight: 700;
+  display: block;
+  width: 100%;
+  text-align: center;
+  margin-top: 1rem;
+  padding: 0.35rem 0.5rem;
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px dashed #2e2e2e;
+  border-radius: 4px;
+  color: #2b2b2b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.stickyActionBtn:hover {
+  background: #2e2e2e;
+  color: #f5c842;
+  border-style: solid;
+}
