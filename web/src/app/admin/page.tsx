@@ -189,6 +189,7 @@ const NavLinkItem: React.FC<NavItemProps> = ({ label, icon, active, onClick }) =
 export default function AdminDashboard() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState('Dashboard');
+  const [showProfileDropdown, setShowProfileDropdown] = useState(false);
 
   const handleLogout = () => {
     router.push('/login');
@@ -313,16 +314,37 @@ export default function AdminDashboard() {
               <span className={styles.bellBadge}>12</span>
             </button>
 
-            {/* Profile Avatar */}
-            <div className={styles.profileBadge}>
-              <div className={styles.profileAvatar}>SA</div>
-              <span className={styles.profileNameText}>Super Admin</span>
-            </div>
+            {/* Profile Avatar with Dropdown */}
+            <div className={styles.profileContainer}>
+              <button 
+                onClick={() => setShowProfileDropdown(!showProfileDropdown)} 
+                className={styles.profileBadge}
+                aria-haspopup="true"
+                aria-expanded={showProfileDropdown}
+              >
+                <div className={styles.profileAvatar}>SA</div>
+                <span className={styles.profileNameText}>Super Admin</span>
+                <span className={styles.profileChevron}>▾</span>
+              </button>
 
-            {/* Logout button */}
-            <button onClick={handleLogout} className={styles.logoutBtn}>
-              Log Out
-            </button>
+              {showProfileDropdown && (
+                <>
+                  <div className={styles.dropdownOverlay} onClick={() => setShowProfileDropdown(false)} />
+                  <div className={styles.dropdownMenu}>
+                    <button onClick={() => { setShowProfileDropdown(false); alert('My Profile settings coming soon.'); }} className={styles.dropdownItem}>
+                      👤 My Profile
+                    </button>
+                    <button onClick={() => { setShowProfileDropdown(false); alert('Change Password form coming soon.'); }} className={styles.dropdownItem}>
+                      🔑 Change Password
+                    </button>
+                    <div className={styles.dropdownSeparator} />
+                    <button onClick={handleLogout} className={`${styles.dropdownItem} ${styles.dropdownLogout}`}>
+                      🚪 Log Out
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
           </div>
         </header>
 
