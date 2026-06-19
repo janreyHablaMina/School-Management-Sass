@@ -56,9 +56,12 @@
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
-  background: rgba(8, 18, 13, 0.3);
-  position: relative;
-  z-index: 10;
+  background: #0b1c14; /* Solid chalkboard slate green */
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  z-index: 100;
   box-sizing: border-box;
 }
 
@@ -197,6 +200,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
+  margin-top: auto; /* Push it to the bottom of the fixed sidebar */
 }
 
 .creditsLabel {
@@ -270,6 +274,7 @@
   position: relative;
   z-index: 5;
   box-sizing: border-box;
+  margin-left: 260px;
 }
 
 /* ---------- Top Action Bar ---------- */
@@ -632,12 +637,12 @@
 .chartCard {
   border: 2px solid rgba(240, 239, 237, 0.35);
   border-radius: 12px 14px 11px 13px / 14px 11px 13px 12px;
-  padding: 1.1rem;
+  padding: 1rem 1.1rem;
   background: rgba(10, 25, 17, 0.15);
   display: flex;
   flex-direction: column;
-  gap: 0.85rem;
-  min-height: 270px;
+  gap: 0.55rem;
+  min-height: 220px;
   position: relative;
   box-sizing: border-box;
 }
