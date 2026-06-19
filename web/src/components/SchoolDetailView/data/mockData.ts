@@ -76,3 +76,14 @@ export const mockTeachers = [
   { name: 'Mark Joseph Villanueva', id: 'TCH-2025-0007', subject: 'Computer', position: 'Subject Teacher', type: 'Part-time', status: 'Active', join: 'Jun 2, 2025', gender: 'Male' },
   { name: 'Christine Faith Go', id: 'TCH-2025-0008', subject: 'TLE', position: 'Subject Teacher', type: 'Full-time', status: 'Inactive', join: 'May 15, 2025', gender: 'Female' },
 ];
+
+export const mockSections = [
+  { id: 'SEC-001', short: '7A', name: 'Grade 7 - St. Augustine', adviser: 'Maria Elena Reyes', students: 32, capacity: 35, utilization: 91.4, status: 'Near Capacity', year: '2024 - 2025' },
+  { id: 'SEC-002', short: '7B', name: 'Grade 7 - St. Monica', adviser: 'Robert Santos', students: 28, capacity: 35, utilization: 80.0, status: 'Near Capacity', year: '2024 - 2025' },
+  { id: 'SEC-003', short: '8A', name: 'Grade 8 - St. Benedict', adviser: 'Michelle Garcia', students: 30, capacity: 35, utilization: 85.7, status: 'Near Capacity', year: '2024 - 2025' },
+  { id: 'SEC-004', short: '8B', name: 'Grade 8 - St. Clare', adviser: 'Daniel Lim', students: 25, capacity: 35, utilization: 71.4, status: 'Active', year: '2024 - 2025' },
+  { id: 'SEC-005', short: '9A', name: 'Grade 9 - St. Francis', adviser: 'Patricia Torres', students: 27, capacity: 35, utilization: 77.1, status: 'Active', year: '2024 - 2025' },
+  { id: 'SEC-006', short: '9B', name: 'Grade 9 - St. Therese', adviser: 'Mark Joseph Villanueva', students: 26, capacity: 35, utilization: 74.3, status: 'Active', year: '2024 - 2025' },
+  { id: 'SEC-007', short: '10A', name: 'Grade 10 - St. John', adviser: 'Christine Faith Go', students: 33, capacity: 35, utilization: 94.3, status: 'Full Capacity', year: '2024 - 2025' },
+  { id: 'SEC-008', short: '10B', name: 'Grade 10 - St. Paul', adviser: 'Juan Dela Cruz', students: 31, capacity: 35, utilization: 88.6, status: 'Near Capacity', year: '2024 - 2025' },
+];
