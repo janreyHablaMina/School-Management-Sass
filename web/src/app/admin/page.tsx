@@ -442,7 +442,7 @@ export default function AdminDashboard() {
                 <div className={styles.chartHeader}>
                   <h3 className={styles.chartTitle}>Subscription Status</h3>
                 </div>
-                <div className={styles.chartCanvas}>
+                <div className={`${styles.chartCanvas} ${styles.donutCanvas}`}>
                   <ChalkDonutChart />
                 </div>
                 <div className={styles.donutLegend}>
@@ -521,11 +521,11 @@ export default function AdminDashboard() {
                     </thead>
                     <tbody>
                       {[
-                        { name: "St. Mary's Academy", status: "Active", students: 512, teachers: 45, plan: "School Plan", joined: "May 31, 2025" },
-                        { name: "Greenfield High School", status: "Active", students: 326, teachers: 28, plan: "School Plan", joined: "May 30, 2025" },
-                        { name: "Riverside National HS", status: "Active", students: 846, teachers: 67, plan: "School Plan", joined: "May 28, 2025" },
-                        { name: "Bright Future School", status: "Expiring Soon", students: 458, teachers: 39, plan: "School Plan", joined: "May 27, 2025" },
-                        { name: "Unity Christian School", status: "Expired", students: 234, teachers: 21, plan: "School Plan", joined: "May 25, 2025" },
+                        { name: "St. Mary's Academy", status: "Active", plan: "School Plan", joined: "May 31, 2025" },
+                        { name: "Greenfield High School", status: "Active", plan: "School Plan", joined: "May 30, 2025" },
+                        { name: "Riverside National HS", status: "Active", plan: "School Plan", joined: "May 28, 2025" },
+                        { name: "Bright Future School", status: "Expiring Soon", plan: "School Plan", joined: "May 27, 2025" },
+                        { name: "Unity Christian School", status: "Expired", plan: "School Plan", joined: "May 25, 2025" },
                       ].map((school, i) => (
                         <tr key={i}>
                           <td className={styles.schoolNameCol}>{school.name}</td>
