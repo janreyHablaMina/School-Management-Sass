@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from './admin.module.css';
 
@@ -190,6 +190,27 @@ export default function AdminDashboard() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState('Dashboard');
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const workspaceRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const workspace = workspaceRef.current;
+      const scrollTop = workspace ? workspace.scrollTop : 0;
+      const scrollY = window.scrollY;
+
+      if (scrollTop > 10 || scrollY > 10) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, true);
+    return () => {
+      window.removeEventListener('scroll', handleScroll, true);
+    };
+  }, []);
 
   const handleLogout = () => {
     router.push('/login');
@@ -283,9 +304,9 @@ export default function AdminDashboard() {
       </aside>
 
       {/* ────────────────── Main Workspace ────────────────── */}
-      <section className={styles.mainWorkspace}>
+      <section ref={workspaceRef} className={styles.mainWorkspace}>
         {/* Top Bar */}
-        <header className={styles.topBar}>
+        <header className={`${styles.topBar} ${isScrolled ? styles.topBarScrolled : ''}`}>
           <div className={styles.titleArea}>
             <h1 className={styles.pageTitle}>{activeTab}</h1>
             <span className={styles.pageSubtitle}>
@@ -487,9 +508,6 @@ export default function AdminDashboard() {
               <div className={styles.tableCard}>
                 <div className={styles.tableHeader}>
                   <h3 className={styles.tableTitle}>Recent Schools</h3>
-                  <button className={styles.tableLink} onClick={() => setActiveTab('Schools')}>
-                    View All Schools →
-                  </button>
                 </div>
                 <div className={styles.tableWrapper}>
                   <table className={styles.dashboardTable}>
@@ -497,9 +515,6 @@ export default function AdminDashboard() {
                       <tr>
                         <th>School Name</th>
                         <th>Status</th>
-                        <th>Students</th>
-                        <th>Teachers</th>
-                        <th>Subscription</th>
                         <th>Joined</th>
                         <th></th>
                       </tr>
@@ -522,9 +537,6 @@ export default function AdminDashboard() {
                               {school.status}
                             </span>
                           </td>
-                          <td>{school.students}</td>
-                          <td>{school.teachers}</td>
-                          <td>{school.plan}</td>
                           <td>{school.joined}</td>
                           <td>
                             <button className={styles.actionDots} onClick={() => alert(`Actions for ${school.name}`)}>⋮</button>
@@ -534,6 +546,9 @@ export default function AdminDashboard() {
                     </tbody>
                   </table>
                 </div>
+                <button className={styles.viewLink} onClick={() => setActiveTab('Schools')}>
+                  View All Schools →
+                </button>
               </div>
 
               {/* AI Credits circular progress */}

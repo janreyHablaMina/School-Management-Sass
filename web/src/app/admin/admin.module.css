@@ -56,7 +56,7 @@
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
-  background: #0b1c14; /* Solid chalkboard slate green */
+  background: rgba(8, 18, 13, 0.3); /* Translucent chalkboard slate green */
   position: fixed;
   left: 0;
   top: 0;
@@ -267,7 +267,7 @@
   flex: 1;
   min-height: 100vh;
   overflow-y: auto;
-  padding: 1.2rem 2rem 2rem;
+  padding: 85px 2rem 2rem;
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
@@ -283,9 +283,25 @@
   justify-content: space-between;
   align-items: center;
   gap: 1.5rem;
-  width: 100%;
-  padding-bottom: 0.6rem;
+  position: fixed;
+  top: 0;
+  left: 260px;
+  right: 0;
+  height: 65px;
+  background: transparent; /* Reverted back to the original transparent styling */
+  z-index: 90;
+  padding: 0 2rem;
+  box-sizing: border-box;
   border-bottom: 1.5px dashed rgba(240, 239, 237, 0.15);
+  transition: all 0.25s ease;
+}
+
+.topBar.topBarScrolled {
+  background: rgba(8, 18, 13, 0.95) !important; /* Force override to matching translucent slate green background */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1.5px solid rgba(240, 239, 237, 0.22);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .titleArea {
