@@ -1,161 +1,614 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import styles from './admin.module.css';
 
-interface SchoolTenant {
-  id: string;
-  name: string;
-  domain: string;
-  students: number;
-  tier: 'Basic' | 'Pro' | 'Enterprise';
-  status: 'Active' | 'Suspended';
+/* ────────────────────────────────────────────────────────────
+   Chalkboard SVG Filter for hand-drawn/wobbly aesthetic
+   ──────────────────────────────────────────────────────────── */
+const ChalkFilter = () => (
+  <svg width="0" height="0" style={{ position: 'absolute', pointerEvents: 'none' }}>
+    <defs>
+      <filter id="chalk-wobble">
+        <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" result="noise" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+    </defs>
+  </svg>
+);
+
+/* ────────────────────────────────────────────────────────────
+   SVG Chalk Charts with Displacement Wobble Filters
+   ──────────────────────────────────────────────────────────── */
+
+// 1. Large Line Chart for "Schools Overview"
+const ChalkLineChart = () => (
+  <svg width="100%" height="100%" viewBox="0 0 500 180" fill="none" style={{ filter: 'url(#chalk-wobble)' }}>
+    {/* Grid lines */}
+    <line x1="40" y1="30" x2="480" y2="30" stroke="rgba(240, 239, 237, 0.12)" strokeWidth="1" strokeDasharray="3 3" />
+    <line x1="40" y1="70" x2="480" y2="70" stroke="rgba(240, 239, 237, 0.12)" strokeWidth="1" strokeDasharray="3 3" />
+    <line x1="40" y1="110" x2="480" y2="110" stroke="rgba(240, 239, 237, 0.12)" strokeWidth="1" strokeDasharray="3 3" />
+    <line x1="40" y1="150" x2="480" y2="150" stroke="rgba(240, 239, 237, 0.22)" strokeWidth="1.5" />
+    <line x1="40" y1="20" x2="40" y2="150" stroke="rgba(240, 239, 237, 0.22)" strokeWidth="1.5" />
+
+    {/* Chart Line Path */}
+    <path
+      d="M 40 120 Q 110 100 180 90 T 320 85 T 410 75 T 480 65"
+      fill="none"
+      stroke="rgba(132, 169, 255, 0.85)"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+    />
+
+    {/* Highlight circle on May 16 */}
+    <circle cx="210" cy="88" r="5" fill="#f5c842" stroke="#08120d" strokeWidth="2" />
+    <line x1="210" y1="88" x2="210" y2="150" stroke="rgba(245, 200, 66, 0.35)" strokeWidth="1" strokeDasharray="2 2" />
+
+    {/* Tooltip on May 16 */}
+    <g transform="translate(220, 60)">
+      <rect x="0" y="0" width="110" height="32" rx="4" fill="rgba(8, 18, 13, 0.9)" stroke="rgba(240, 239, 237, 0.25)" strokeWidth="1" />
+      <text x="8" y="13" fill="rgba(240, 239, 237, 0.42)" fontSize="8" fontWeight="600">MAY 16, 2025</text>
+      <text x="8" y="24" fill="rgba(240, 239, 237, 0.95)" fontSize="9" fontWeight="700">Total Schools: 24</text>
+    </g>
+
+    {/* X Axis Labels */}
+    <g fill="rgba(240, 239, 237, 0.45)" fontSize="8" fontWeight="600">
+      <text x="35" y="165">May 1</text>
+      <text x="110" y="165">May 6</text>
+      <text x="190" y="165">May 11</text>
+      <text x="270" y="165">May 16</text>
+      <text x="350" y="165">May 21</text>
+      <text x="420" y="165">May 26</text>
+      <text x="470" y="165">May 31</text>
+    </g>
+
+    {/* Y Axis Labels */}
+    <g fill="rgba(240, 239, 237, 0.45)" fontSize="8" fontWeight="600" textAnchor="end">
+      <text x="30" y="33">30</text>
+      <text x="30" y="73">20</text>
+      <text x="30" y="113">10</text>
+      <text x="30" y="153">0</text>
+    </g>
+  </svg>
+);
+
+// 2. Donut Chart for "Subscription Status"
+const ChalkDonutChart = () => (
+  <svg width="100%" height="100%" viewBox="0 0 120 120" style={{ filter: 'url(#chalk-wobble)' }}>
+    {/* Base circle background */}
+    <circle cx="60" cy="60" r="38" fill="none" stroke="rgba(240, 239, 237, 0.05)" strokeWidth="10" />
+
+    {/* Expired Segment (4.17% = 1/24) */}
+    <circle
+      cx="60" cy="60" r="38"
+      fill="none"
+      stroke="#e05e5e"
+      strokeWidth="10"
+      strokeDasharray="10 238.76"
+      strokeDashoffset="-228.76"
+      strokeLinecap="round"
+    />
+
+    {/* Expiring Soon Segment (4.17% = 1/24) */}
+    <circle
+      cx="60" cy="60" r="38"
+      fill="none"
+      stroke="#f5c842"
+      strokeWidth="10"
+      strokeDasharray="10 238.76"
+      strokeDashoffset="-218.76"
+      strokeLinecap="round"
+    />
+
+    {/* Active Segment (91.67% = 22/24) */}
+    <circle
+      cx="60" cy="60" r="38"
+      fill="none"
+      stroke="#8affad"
+      strokeWidth="10"
+      strokeDasharray="218.76 238.76"
+      strokeDashoffset="0"
+      strokeLinecap="round"
+    />
+
+    {/* Inner Label values (Total) */}
+    <text x="60" y="58" fill="#f5c842" fontSize="20" fontWeight="700" fontFamily="Caveat, cursive" textAnchor="middle">24</text>
+    <text x="60" y="70" fill="rgba(240, 239, 237, 0.42)" fontSize="8" fontWeight="700" textAnchor="middle">TOTAL</text>
+  </svg>
+);
+
+// 3. Mini Line Chart for "Monthly Revenue"
+const ChalkMiniLineChart = () => (
+  <svg width="100%" height="100%" viewBox="0 0 200 90" fill="none" style={{ filter: 'url(#chalk-wobble)' }}>
+    <path
+      d="M 10 70 Q 50 60 90 65 T 140 50 T 190 35"
+      fill="none"
+      stroke="rgba(74, 144, 226, 0.85)"
+      strokeWidth="2"
+      strokeLinecap="round"
+    />
+    <circle cx="190" cy="35" r="4" fill="#f5c842" stroke="#08120d" strokeWidth="1.5" />
+    <path
+      d="M 10 70 L 50 60 L 90 65 L 140 50 L 190 35 L 190 85 L 10 85 Z"
+      fill="rgba(74, 144, 226, 0.05)"
+    />
+  </svg>
+);
+
+// 4. Large Circle Gauge for "AI Credits Usage" (Radial progress)
+const ChalkRadialGauge = () => (
+  <svg width="100%" height="100%" viewBox="0 0 120 120" style={{ filter: 'url(#chalk-wobble)' }}>
+    {/* Background dashed circle */}
+    <circle
+      cx="60"
+      cy="60"
+      r="42"
+      fill="none"
+      stroke="rgba(240, 239, 237, 0.08)"
+      strokeWidth="8"
+      strokeDasharray="4 4"
+    />
+    
+    {/* Foreground credit progress circle (24.9% of circumference 263.89) */}
+    <circle
+      cx="60"
+      cy="60"
+      r="42"
+      fill="none"
+      stroke="#f5c842"
+      strokeWidth="8"
+      strokeDasharray="65.7 263.89"
+      strokeDashoffset="65.7"
+      strokeLinecap="round"
+      transform="rotate(-90 60 60)"
+    />
+  </svg>
+);
+
+/* ────────────────────────────────────────────────────────────
+   Sidebar Tab Groups Configurations
+   ──────────────────────────────────────────────────────────── */
+interface NavItemProps {
+  label: string;
+  icon: string;
+  active: boolean;
+  onClick: () => void;
 }
 
-const mockSchools: SchoolTenant[] = [
-  { id: '1', name: 'Oakwood Academy', domain: 'oakwood.schoolsaas.com', students: 1200, tier: 'Pro', status: 'Active' },
-  { id: '2', name: 'Beacon Hill Prep', domain: 'beaconhill.schoolsaas.com', students: 450, tier: 'Basic', status: 'Active' },
-  { id: '3', name: 'Horizon Heights', domain: 'horizon.schoolsaas.com', students: 3100, tier: 'Enterprise', status: 'Active' },
-  { id: '4', name: 'Summit Science Charter', domain: 'summit.schoolsaas.com', students: 820, tier: 'Pro', status: 'Suspended' },
-  { id: '5', name: 'Pinecrest Montessori', domain: 'pinecrest.schoolsaas.com', students: 320, tier: 'Basic', status: 'Active' },
-];
+const NavLinkItem: React.FC<NavItemProps> = ({ label, icon, active, onClick }) => (
+  <button
+    onClick={onClick}
+    className={`${styles.navItem} ${active ? styles.navItemActive : ''}`}
+  >
+    <span className={styles.navIcon}>{icon}</span>
+    <span>{label}</span>
+  </button>
+);
 
 export default function AdminDashboard() {
   const router = useRouter();
+  const [activeTab, setActiveTab] = useState('Dashboard');
 
   const handleLogout = () => {
     router.push('/login');
   };
 
-  const handleCreateSchool = () => {
-    alert('Create School Tenant form coming soon.');
-  };
-
-  const handleSystemUpdate = () => {
-    alert('System update broadcast trigger coming soon.');
-  };
+  const menuGroups = [
+    {
+      title: 'Management',
+      items: [
+        { label: 'Schools', icon: '🏫' },
+        { label: 'Subscriptions', icon: '📝' },
+        { label: 'Billing', icon: '💳' },
+        { label: 'AI Credits', icon: '⚡' },
+        { label: 'Users', icon: '👤' },
+        { label: 'Support Tickets', icon: '🎫' },
+      ],
+    },
+    {
+      title: 'Analytics',
+      items: [
+        { label: 'Platform Analytics', icon: '📊' },
+        { label: 'AI Usage', icon: '⚙️' },
+        { label: 'Reports', icon: '📁' },
+      ],
+    },
+    {
+      title: 'System',
+      items: [
+        { label: 'Settings', icon: '⚙️' },
+        { label: 'Logs', icon: '📋' },
+        { label: 'Activity Logs', icon: '📜' },
+      ],
+    },
+  ];
 
   return (
-    <main className={styles.page}>
-      {/* ---------- Header Bar ---------- */}
-      <header className={styles.headerBar}>
-        <div className={styles.headerTitle}>
-          <span>🎓</span> SchoolSaaS Owner Console
+    <div className={styles.adminLayout}>
+      <ChalkFilter />
+
+      {/* ────────────────── Sidebar Navigation ────────────────── */}
+      <aside className={styles.sidebar}>
+        {/* Profile Header */}
+        <div className={styles.logoSection}>
+          <span className={styles.logoIcon}>🎓</span>
+          <div className={styles.logoTextContainer}>
+            <span className={styles.logoMainText}>School<span>SaaS</span></span>
+            <span className={styles.logoSubText}>Super Admin</span>
+          </div>
         </div>
-        <div className={styles.headerActions}>
-          <button onClick={handleLogout} className={styles.logoutBtn}>
-            Log Out
+
+        {/* Sidebar Nav Items */}
+        <div className={styles.navSection}>
+          {/* Main Dashboard Tab */}
+          <NavLinkItem
+            label="Dashboard"
+            icon="🏠"
+            active={activeTab === 'Dashboard'}
+            onClick={() => setActiveTab('Dashboard')}
+          />
+
+          {menuGroups.map((group) => (
+            <div key={group.title} className={styles.navGroup}>
+              <div className={styles.groupTitle}>{group.title}</div>
+              {group.items.map((item) => (
+                <NavLinkItem
+                  key={item.label}
+                  label={item.label}
+                  icon={item.icon}
+                  active={activeTab === item.label}
+                  onClick={() => setActiveTab(item.label)}
+                />
+              ))}
+            </div>
+          ))}
+        </div>
+
+        {/* Sidebar Footer Widget: AI Credits */}
+        <div className={styles.sidebarCredits}>
+          <div className={styles.creditsLabel}>
+            <span>AI Credits Usage</span>
+            <span className={styles.creditsPercent}>24.9%</span>
+          </div>
+          <div className={styles.progressBarOuter}>
+            <div className={styles.progressBarInner} style={{ width: '24.9%' }} />
+          </div>
+          <p className={styles.creditsNumbers}>12,450 / 50,000 credits</p>
+          <button className={styles.creditsBtn} onClick={() => setActiveTab('AI Credits')}>
+            Manage AI Credits
           </button>
         </div>
-      </header>
+      </aside>
 
-      {/* ---------- Main Content ---------- */}
-      <div className={styles.mainContainer}>
-        
-        {/* ---------- Metrics Grid ---------- */}
-        <section className={styles.metricsGrid}>
-          <div className={styles.metricCard}>
-            <div className={styles.metricLabel}>Total Schools / Tenants</div>
-            <div className={`${styles.metricValue} ${styles.metricValueYellow}`}>24</div>
-            <div className={styles.metricBadge}>+3 this week</div>
+      {/* ────────────────── Main Workspace ────────────────── */}
+      <section className={styles.mainWorkspace}>
+        {/* Top Bar */}
+        <header className={styles.topBar}>
+          <div className={styles.titleArea}>
+            <h1 className={styles.pageTitle}>{activeTab}</h1>
+            <span className={styles.pageSubtitle}>
+              {activeTab === 'Dashboard' ? 'Welcome back, Super Admin!' : `Management panel for ${activeTab}`}
+            </span>
           </div>
-          
-          <div className={styles.metricCard}>
-            <div className={styles.metricLabel}>Total Active Students</div>
-            <div className={styles.metricValue}>12,480</div>
-          </div>
-          
-          <div className={styles.metricCard}>
-            <div className={styles.metricLabel}>Monthly Recurring Revenue</div>
-            <div className={`${styles.metricValue} ${styles.metricValueGreen}`}>$18,650</div>
-          </div>
-          
-          <div className={styles.metricCard}>
-            <div className={styles.metricLabel}>System Status</div>
-            <div className={styles.metricValue}>99.98%</div>
-            <div className={styles.metricBadge}>Healthy</div>
-          </div>
-        </section>
 
-        {/* ---------- Layout Split ---------- */}
-        <div className={styles.layoutSplit}>
-          
-          {/* Left Panel: School Ledger */}
-          <section className={styles.boardPanel}>
-            <h2 className={styles.panelTitle}>📂 Active School Tenants Ledger</h2>
-            
-            <div className={styles.tableContainer}>
-              <table className={styles.schoolTable}>
-                <thead>
-                  <tr>
-                    <th>School / Tenant Name</th>
-                    <th>Subdomain</th>
-                    <th>Students</th>
-                    <th>Subscription Tier</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {mockSchools.map((school) => (
-                    <tr key={school.id}>
-                      <td>
-                        <span className={styles.schoolName}>{school.name}</span>
-                      </td>
-                      <td>{school.domain}</td>
-                      <td>{school.students.toLocaleString()}</td>
-                      <td>
-                        <span className={`${styles.tierBadge} ${
-                          school.tier === 'Enterprise' ? styles.tierEnterprise :
-                          school.tier === 'Pro' ? styles.tierPro : styles.tierBasic
-                        }`}>
-                          {school.tier}
-                        </span>
-                      </td>
-                      <td>
-                        <span className={styles.statusIndicator}>
-                          <span className={`${styles.statusDot} ${
-                            school.status === 'Active' ? styles.statusActive : styles.statusSuspended
-                          }`} />
-                          {school.status}
-                        </span>
-                      </td>
-                    </tr>
+          <div className={styles.topActions}>
+            {/* Search Box */}
+            <div className={styles.searchBox}>
+              <span className={styles.searchIcon}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="11" cy="11" r="8"/>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+              </span>
+              <input type="text" placeholder="Search schools, users..." className={styles.searchInput} />
+            </div>
+
+            {/* Notification Bell */}
+            <button className={styles.bellButton} aria-label="Notifications">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+              </svg>
+              <span className={styles.bellBadge}>12</span>
+            </button>
+
+            {/* Profile Avatar */}
+            <div className={styles.profileBadge}>
+              <div className={styles.profileAvatar}>SA</div>
+              <span className={styles.profileNameText}>Super Admin</span>
+            </div>
+
+            {/* Logout button */}
+            <button onClick={handleLogout} className={styles.logoutBtn}>
+              Log Out
+            </button>
+          </div>
+        </header>
+
+        {activeTab === 'Dashboard' ? (
+          <>
+            {/* Control toolbar row */}
+            <div className={styles.controlRow}>
+              <div className={styles.dateRangeSelector}>
+                📅 May 1 – May 31, 2025 ▾
+              </div>
+              <button className={styles.exportReportBtn} onClick={() => alert('Exporting report as PDF...')}>
+                📥 Export Report
+              </button>
+            </div>
+
+            {/* 6 Metrics Grid */}
+            <section className={styles.metricsGrid}>
+              <div className={styles.metricCard}>
+                <div className={styles.metricLabel}>Total Schools</div>
+                <div className={styles.metricValue}>24</div>
+                <div className={`${styles.metricGrowth} ${styles.growthYellow}`}>+3 this month</div>
+              </div>
+
+              <div className={styles.metricCard}>
+                <div className={styles.metricLabel}>Total Students</div>
+                <div className={styles.metricValue}>12,540</div>
+                <div className={`${styles.metricGrowth} ${styles.growthGreen}`}>+320 this month</div>
+              </div>
+
+              <div className={styles.metricCard}>
+                <div className={styles.metricLabel}>Total Teachers</div>
+                <div className={styles.metricValue}>1,024</div>
+                <div className={`${styles.metricGrowth} ${styles.growthGreen}`}>+18 this month</div>
+              </div>
+
+              <div className={styles.metricCard}>
+                <div className={styles.metricLabel}>Total Parents</div>
+                <div className={styles.metricValue}>9,312</div>
+                <div className={`${styles.metricGrowth} ${styles.growthGreen}`}>+210 this month</div>
+              </div>
+
+              <div className={styles.metricCard}>
+                <div className={styles.metricLabel}>Active Subscriptions</div>
+                <div className={styles.metricValue}>22</div>
+                <div className={`${styles.metricGrowth} ${styles.growthYellow}`}>91.67% of schools</div>
+              </div>
+
+              <div className={styles.metricCard}>
+                <div className={styles.metricLabel}>Monthly Revenue</div>
+                <div className={styles.metricValue}>₱65,978</div>
+                <div className={`${styles.metricGrowth} ${styles.growthGreen}`}>+12.5% vs last month</div>
+              </div>
+            </section>
+
+            {/* Row 2: Charts Row */}
+            <section className={styles.chartsRow}>
+              {/* Schools growth overview */}
+              <div className={styles.chartCard}>
+                <div className={styles.chartHeader}>
+                  <h3 className={styles.chartTitle}>Schools Overview</h3>
+                  <select className={styles.chartSelect} defaultValue="month">
+                    <option value="week">This Week</option>
+                    <option value="month">This Month</option>
+                    <option value="year">This Year</option>
+                  </select>
+                </div>
+                <div className={styles.chartCanvas}>
+                  <ChalkLineChart />
+                </div>
+              </div>
+
+              {/* Subscriptions donut ratio */}
+              <div className={styles.chartCard}>
+                <div className={styles.chartHeader}>
+                  <h3 className={styles.chartTitle}>Subscription Status</h3>
+                </div>
+                <div className={styles.chartCanvas}>
+                  <ChalkDonutChart />
+                </div>
+                <div className={styles.donutLegend}>
+                  <div className={styles.legendItem}>
+                    <span className={styles.legendLabel}>
+                      <span className={styles.legendDot} style={{ background: '#8affad' }} /> Active
+                    </span>
+                    <span className={styles.legendValue}>22 (91.67%)</span>
+                  </div>
+                  <div className={styles.legendItem}>
+                    <span className={styles.legendLabel}>
+                      <span className={styles.legendDot} style={{ background: '#f5c842' }} /> Expiring Soon
+                    </span>
+                    <span className={styles.legendValue}>1 (4.17%)</span>
+                  </div>
+                  <div className={styles.legendItem}>
+                    <span className={styles.legendLabel}>
+                      <span className={styles.legendDot} style={{ background: '#e05e5e' }} /> Expired
+                    </span>
+                    <span className={styles.legendValue}>1 (4.17%)</span>
+                  </div>
+                </div>
+                <button className={styles.viewLink} onClick={() => setActiveTab('Subscriptions')}>
+                  View All Subscriptions →
+                </button>
+              </div>
+
+              {/* Monthly Revenue chart */}
+              <div className={styles.chartCard}>
+                <div className={styles.chartHeader}>
+                  <h3 className={styles.chartTitle}>Monthly Revenue</h3>
+                </div>
+                <div className={styles.revenueValContainer}>
+                  <div className={styles.revMainVal}>₱65,978</div>
+                  <div className={styles.revSubVal}>+12.5% vs last month</div>
+                </div>
+                <div className={styles.chartCanvas}>
+                  <ChalkMiniLineChart />
+                </div>
+                <div className={styles.revFooterStats}>
+                  <div className={styles.revStatBlock}>
+                    <span className={styles.revStatLabel}>Last Month</span>
+                    <span className={styles.revStatValue}>₱58,634</span>
+                  </div>
+                  <div className={styles.revStatBlock}>
+                    <span className={styles.revStatLabel}>This Month</span>
+                    <span className={styles.revStatValue}>₱65,978</span>
+                  </div>
+                  <div className={styles.revStatBlock}>
+                    <span className={styles.revStatLabel}>Growth</span>
+                    <span className={`${styles.revStatValue} ${styles.revStatValueHighlight}`}>12.5%</span>
+                  </div>
+                </div>
+                <button className={styles.viewLink} onClick={() => setActiveTab('Billing')}>
+                  View Billing Reports →
+                </button>
+              </div>
+            </section>
+
+            {/* Row 3: Bottom Listings Row */}
+            <section className={styles.bottomRow}>
+              {/* Recent Schools Table */}
+              <div className={styles.tableCard}>
+                <div className={styles.tableHeader}>
+                  <h3 className={styles.tableTitle}>Recent Schools</h3>
+                  <button className={styles.tableLink} onClick={() => setActiveTab('Schools')}>
+                    View All Schools →
+                  </button>
+                </div>
+                <div className={styles.tableWrapper}>
+                  <table className={styles.dashboardTable}>
+                    <thead>
+                      <tr>
+                        <th>School Name</th>
+                        <th>Status</th>
+                        <th>Students</th>
+                        <th>Teachers</th>
+                        <th>Subscription</th>
+                        <th>Joined</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {[
+                        { name: "St. Mary's Academy", status: "Active", students: 512, teachers: 45, plan: "School Plan", joined: "May 31, 2025" },
+                        { name: "Greenfield High School", status: "Active", students: 326, teachers: 28, plan: "School Plan", joined: "May 30, 2025" },
+                        { name: "Riverside National HS", status: "Active", students: 846, teachers: 67, plan: "School Plan", joined: "May 28, 2025" },
+                        { name: "Bright Future School", status: "Expiring Soon", students: 458, teachers: 39, plan: "School Plan", joined: "May 27, 2025" },
+                        { name: "Unity Christian School", status: "Expired", students: 234, teachers: 21, plan: "School Plan", joined: "May 25, 2025" },
+                      ].map((school, i) => (
+                        <tr key={i}>
+                          <td className={styles.schoolNameCol}>{school.name}</td>
+                          <td>
+                            <span className={`${styles.statusBadge} ${
+                              school.status === 'Active' ? styles.statusActive :
+                              school.status === 'Expiring Soon' ? styles.statusExpiring : styles.statusExpired
+                            }`}>
+                              {school.status}
+                            </span>
+                          </td>
+                          <td>{school.students}</td>
+                          <td>{school.teachers}</td>
+                          <td>{school.plan}</td>
+                          <td>{school.joined}</td>
+                          <td>
+                            <button className={styles.actionDots} onClick={() => alert(`Actions for ${school.name}`)}>⋮</button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* AI Credits circular progress */}
+              <div className={styles.radialCard}>
+                <div className={styles.chartHeader} style={{ width: '100%' }}>
+                  <h3 className={styles.chartTitle}>AI Credits Usage</h3>
+                </div>
+                <div className={styles.gaugeContainer}>
+                  <ChalkRadialGauge />
+                  <div className={styles.gaugeTextCenter}>
+                    <span className={styles.gaugePercent}>24.9%</span>
+                    <span className={styles.gaugeValText}>Total Credits Used</span>
+                  </div>
+                </div>
+                <div className={styles.radialStats}>
+                  <div className={styles.radialStatItem}>
+                    <span className={styles.radialStatLabel}>Used</span>
+                    <span className={`${styles.radialStatVal} ${styles.radialStatValHighlight}`}>12,450</span>
+                  </div>
+                  <div className={styles.radialStatItem}>
+                    <span className={styles.radialStatLabel}>Remaining</span>
+                    <span className={styles.radialStatVal}>37,550</span>
+                  </div>
+                  <div className={styles.radialStatItem}>
+                    <span className={styles.radialStatLabel}>Total</span>
+                    <span className={styles.radialStatVal}>50,000</span>
+                  </div>
+                </div>
+                <button className={styles.viewLink} onClick={() => setActiveTab('AI Credits')}>
+                  Manage AI Credits →
+                </button>
+              </div>
+
+              {/* Recent SASS Activities timeline */}
+              <div className={styles.activitiesCard}>
+                <div className={styles.chartHeader}>
+                  <h3 className={styles.chartTitle}>Recent Activities</h3>
+                </div>
+                <ul className={styles.timelineList}>
+                  {[
+                    { text: "New school registered: St. Mary's Academy", time: "2 hours ago", color: styles.timelineDot },
+                    { text: "Subscription renewed: Greenfield High School", time: "5 hours ago", color: styles.timelineDotBlue },
+                    { text: "AI credits purchased: Riverside National HS", time: "1 day ago", color: styles.timelineDotBlue },
+                    { text: "New teacher added: Bright Future School", time: "1 day ago", color: styles.timelineDot },
+                    { text: "Subscription expired: Unity Christian School", time: "2 days ago", color: styles.timelineDotRed },
+                  ].map((activity, i) => (
+                    <li key={i} className={styles.timelineItem}>
+                      <span className={`${styles.timelineDot} ${activity.color}`} />
+                      <span className={styles.timelineText}>{activity.text}</span>
+                      <span className={styles.timelineTime}>{activity.time}</span>
+                    </li>
                   ))}
-                </tbody>
-              </table>
-            </div>
-          </section>
-
-          {/* Right Panel: Sticky Notes Panel */}
-          <div className={styles.stickyPanel}>
-            {/* Sticky Note 1: Create School */}
-            <div className={styles.stickyNote}>
-              <h3 className={styles.stickyTitle}>New Tenant Registration</h3>
-              <p className={styles.stickyBody}>
-                Provision a new school workspace instantly. Onboarding generates their custom subdomain, database schema, and admin credentials automatically.
-              </p>
-              <button onClick={handleCreateSchool} className={styles.stickyActionBtn}>
-                + Onboard New School
-              </button>
-            </div>
-
-            {/* Sticky Note 2: System Update */}
-            <div className={styles.stickyNote}>
-              <h3 className={styles.stickyTitle}>Platform Status & Updates</h3>
-              <p className={styles.stickyBody}>
-                Send maintenance notifications or push system updates to all active school workspaces globally. Scheduled update cycles are active.
-              </p>
-              <button onClick={handleSystemUpdate} className={styles.stickyActionBtn}>
-                Broadcast System Update
-              </button>
-            </div>
+                </ul>
+                <button className={styles.viewLink} onClick={() => alert('Viewing all platform activity logs...')}>
+                  View All Activities →
+                </button>
+              </div>
+            </section>
+          </>
+        ) : (
+          /* Coming Soon placeholder tabs for SASS console content */
+          <div style={{
+            border: '2.2px solid rgba(240, 239, 237, 0.45)',
+            borderRadius: '12px 14px 10px 13px / 14px 10px 13px 10px',
+            padding: '2.5rem',
+            background: 'rgba(10, 25, 17, 0.2)',
+            transform: 'rotate(-0.5deg)',
+            marginTop: '2rem',
+            textAlign: 'center'
+          }}>
+            <h2 style={{ fontFamily: 'Caveat, cursive', fontSize: '2.4rem', color: '#f5c842', margin: 0 }}>
+              🏫 {activeTab} Control Board
+            </h2>
+            <p style={{ fontSize: '1rem', color: 'rgba(240, 239, 237, 0.65)', maxWidth: '500px', margin: '1rem auto 0 auto', lineHeight: '1.6' }}>
+              This section provides SASS platform-wide configurations, ledgers, and management interfaces for your school portal system. Integration with the database console is currently in progress.
+            </p>
+            <button
+              onClick={() => setActiveTab('Dashboard')}
+              style={{
+                fontFamily: 'Caveat, cursive',
+                fontSize: '1.25rem',
+                fontWeight: '700',
+                padding: '0.4rem 1.2rem',
+                background: '#f5c842',
+                border: '1.8px solid #2e2e2e',
+                color: '#0b1a13',
+                borderRadius: '6px 4px 5px 3px / 5px 3px 6px 4px',
+                cursor: 'pointer',
+                marginTop: '1.5rem',
+                boxShadow: '1px 2px 4px rgba(0,0,0,0.15)'
+              }}
+            >
+              ← Back to Main Dashboard
+            </button>
           </div>
-
-        </div>
-
-      </div>
-    </main>
+        )}
+      </section>
+    </div>
   );
 }

@@ -1,33 +1,27 @@
 /* ============================================================
-   BLACKBOARD THEME — SaaS Admin Console
-   Consistent with the high-fidelity school chalkboard aesthetic
+   BLACKBOARD THEME — SaaS Super Admin Dashboard
+   A high-fidelity layout consistent with the chalkboard theme
    ============================================================ */
 
-.page {
-  min-height: 100vh;
+.adminLayout {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: #08120d; /* Matching slate green blackboard color */
+  min-height: 100vh;
+  width: 100%;
+  background: #08120d; /* Slate green board background */
   position: relative;
-  overflow-y: auto;
-  font-family: 'Inter', sans-serif;
-  padding: 1.5rem 2.5rem 2.5rem;
-  box-sizing: border-box;
-  gap: 1.5rem;
-  color: rgba(240, 239, 237, 0.9);
+  overflow: hidden;
 }
 
-/* Chalkboard texture background layers */
-.page::before {
+/* Background Chalkboard Textures */
+.adminLayout::before {
   content: '';
   position: absolute;
   inset: 0;
   background:
     /* Chalk dust smudges */
-    radial-gradient(ellipse at 10% 30%, rgba(255, 255, 255, 0.035) 0%, transparent 60%),
-    radial-gradient(ellipse at 90% 70%, rgba(255, 255, 255, 0.04) 0%, transparent 55%),
-    radial-gradient(ellipse at 50% 20%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
+    radial-gradient(ellipse at 15% 35%, rgba(255, 255, 255, 0.04) 0%, transparent 60%),
+    radial-gradient(ellipse at 85% 65%, rgba(255, 255, 255, 0.045) 0%, transparent 55%),
+    radial-gradient(ellipse at 50% 15%, rgba(255, 255, 255, 0.035) 0%, transparent 50%),
     
     /* Horizontal eraser wipes */
     linear-gradient(90deg, rgba(255,255,255,0.008) 0%, rgba(255,255,255,0.012) 40%, transparent 70%),
@@ -37,374 +31,928 @@
     radial-gradient(ellipse at 75% 75%, #0d1e14 0%, transparent 60%),
 
     /* Slate stone micro-scratches */
-    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.008) 0px, rgba(255, 255, 255, 0.008) 1px, transparent 1px, transparent 15px),
-    repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.005) 0px, rgba(255, 255, 255, 0.005) 1.5px, transparent 1.5px, transparent 20px);
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.01) 0px, rgba(255, 255, 255, 0.01) 1px, transparent 1px, transparent 15px),
+    repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.006) 0px, rgba(255, 255, 255, 0.006) 1.5px, transparent 1.5px, transparent 20px);
   pointer-events: none;
   z-index: 0;
 }
 
 /* Grain overlay */
-.page::after {
+.adminLayout::after {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.065'/%3E%3C/svg%3E");
   pointer-events: none;
   z-index: 0;
 }
 
-/* ---------- Header Bar ---------- */
-.headerBar {
-  width: 100%;
-  max-width: 1300px;
-  height: 60px;
+/* ---------- Sidebar Container ---------- */
+.sidebar {
+  width: 260px;
   flex-shrink: 0;
-  background: transparent;
-  border: 2px solid rgba(240, 239, 237, 0.55);
-  border-radius: 13px 11px 14px 12px / 12px 14px 11px 13px;
-  padding: 0 1.5rem;
+  border-right: 2px dashed rgba(240, 239, 237, 0.22);
+  padding: 1.5rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  background: rgba(8, 18, 13, 0.3);
+  position: relative;
+  z-index: 10;
+  box-sizing: border-box;
+}
+
+.logoSection {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1.5px solid rgba(240, 239, 237, 0.15);
+}
+
+.logoIcon {
+  font-size: 1.6rem;
+}
+
+.logoTextContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.logoMainText {
+  font-family: 'Caveat', cursive;
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: rgba(240, 239, 237, 0.95);
+  line-height: 1;
+}
+
+.logoMainText span {
+  color: #f5c842;
+}
+
+.logoSubText {
+  font-size: 0.7rem;
+  color: rgba(240, 239, 237, 0.45);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 0.15rem;
+}
+
+/* Nav Groups scrollbar container */
+.navSection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  overflow-y: auto;
+  padding-right: 0.2rem;
+}
+
+/* Custom mini chalkboard scrollbar for nav */
+.navSection::-webkit-scrollbar {
+  width: 4px;
+}
+.navSection::-webkit-scrollbar-thumb {
+  background: rgba(240, 239, 237, 0.15);
+  border-radius: 2px;
+}
+
+.navGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.groupTitle {
+  font-size: 0.68rem;
+  color: rgba(240, 239, 237, 0.35);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0.4rem 0 0.2rem 0.5rem;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.42rem 0.6rem;
+  color: rgba(240, 239, 237, 0.72);
+  text-decoration: none;
+  font-size: 0.88rem;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: 1.5px solid transparent;
+  box-sizing: border-box;
+}
+
+.navIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.75;
+}
+
+.navItemActive {
+  color: #0b1a13;
+  background: #f5c842;
+  font-weight: 700;
+  border: 1.5px solid #2e2e2e;
+  border-radius: 5px 3px 6px 4px / 6px 4px 5px 3px;
+  box-shadow: 1px 2px 4px rgba(0,0,0,0.15);
+}
+
+.navItemActive .navIcon {
+  opacity: 1;
+}
+
+.navItemActive:hover {
+  background: #f5c842;
+  color: #0b1a13;
+}
+
+.navItem:hover:not(.navItemActive) {
+  border: 1.5px dashed rgba(240, 239, 237, 0.4);
+  border-radius: 6px 4px 5px 3px / 5px 3px 6px 4px;
+  color: rgba(240, 239, 237, 0.95);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* Sidebar Footer Credits Box */
+.sidebarCredits {
+  background: #fdfbf5; /* Ruled notebook pad paper */
+  background-image: 
+    linear-gradient(90deg, transparent 12px, rgba(220, 60, 60, 0.18) 12px, rgba(220, 60, 60, 0.18) 13px, transparent 13px),
+    repeating-linear-gradient(transparent, transparent 10px, rgba(0, 102, 204, 0.05) 10px, rgba(0, 102, 204, 0.05) 11px);
+  border: 1.5px solid #2e2e2e;
+  border-radius: 4px 6px 3px 5px / 6px 3px 5px 4px;
+  color: #2b2b2b;
+  padding: 0.7rem 0.85rem;
+  box-shadow: 2px 3px 8px rgba(0,0,0,0.3);
+  transform: rotate(-1deg);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.creditsLabel {
+  font-family: 'Caveat', cursive;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.creditsPercent {
+  color: #0056b3;
+}
+
+.creditsNumbers {
+  font-size: 0.72rem;
+  color: #555;
+  font-weight: 600;
+  margin: 0;
+}
+
+.progressBarOuter {
+  width: 100%;
+  height: 6px;
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 3px;
+  overflow: hidden;
+  border: 0.5px solid rgba(0,0,0,0.12);
+  margin: 0.1rem 0;
+}
+
+.progressBarInner {
+  height: 100%;
+  background: #0066cc; /* Lined paper blue */
+  border-radius: 3px;
+}
+
+.creditsBtn {
+  font-family: 'Caveat', cursive;
+  font-size: 1.05rem;
+  font-weight: 700;
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 0.15rem;
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px dashed #2e2e2e;
+  border-radius: 3px;
+  color: #2b2b2b;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.creditsBtn:hover {
+  background: #2e2e2e;
+  color: #f5c842;
+  border-style: solid;
+}
+
+/* ---------- Main Workspace Area ---------- */
+.mainWorkspace {
+  flex: 1;
+  min-height: 100vh;
+  overflow-y: auto;
+  padding: 1.2rem 2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  position: relative;
+  z-index: 5;
+  box-sizing: border-box;
+}
+
+/* ---------- Top Action Bar ---------- */
+.topBar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-sizing: border-box;
-  position: relative;
-  z-index: 10;
+  gap: 1.5rem;
+  width: 100%;
+  padding-bottom: 0.6rem;
+  border-bottom: 1.5px dashed rgba(240, 239, 237, 0.15);
 }
 
-.headerTitle {
-  font-family: 'Caveat', cursive;
-  font-size: 1.8rem;
+.titleArea {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.pageTitle {
+  font-size: 1.35rem;
   font-weight: 700;
+  color: rgba(240, 239, 237, 0.95);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.pageSubtitle {
+  font-size: 0.78rem;
+  color: rgba(240, 239, 237, 0.42);
+}
+
+.topActions {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.searchBox {
+  position: relative;
+  width: 250px;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 0.4rem 0.8rem 0.4rem 2rem;
+  background: rgba(255,255,255,0.01);
+  border: 1.5px dashed rgba(240, 239, 237, 0.35);
+  border-radius: 8px 6px 7px 5px / 6px 7px 5px 8px;
+  color: rgba(240, 239, 237, 0.95);
+  font-size: 0.82rem;
+  font-family: inherit;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.searchInput:focus {
+  border-style: solid;
+  border-color: #f5c842;
+  outline: none;
+  background: rgba(255,255,255,0.03);
+}
+
+.searchIcon {
+  position: absolute;
+  left: 0.7rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(240, 239, 237, 0.35);
+  pointer-events: none;
+  display: flex;
+}
+
+.bellButton {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px dashed rgba(240, 239, 237, 0.35);
+  border-radius: 50%;
+  color: rgba(240, 239, 237, 0.75);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: transparent;
+}
+
+.bellButton:hover {
+  border-color: #f5c842;
   color: #f5c842;
+  transform: scale(1.05) rotate(12deg);
+}
+
+.bellBadge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #e05e5e;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #2e2e2e;
+}
+
+.profileBadge {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  padding-left: 0.8rem;
+  border-left: 1.5px solid rgba(240, 239, 237, 0.15);
 }
 
-.headerActions {
+.profileAvatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #f5c842;
+  border: 1.5px solid #2e2e2e;
   display: flex;
   align-items: center;
-  gap: 1rem;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #0b1a13;
 }
 
-.logoutBtn {
-  font-family: 'Caveat', cursive;
-  font-size: 1.2rem;
-  font-weight: 700;
-  background: transparent;
-  border: 1.5px solid rgba(240, 239, 237, 0.5);
-  border-radius: 6px 8px 5px 7px / 7px 5px 8px 6px;
+.profileNameText {
+  font-size: 0.85rem;
   color: rgba(240, 239, 237, 0.8);
-  padding: 0.3rem 1rem;
+  font-weight: 600;
+}
+
+/* ---------- Control Toolbar Row ---------- */
+.controlRow {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.8rem;
+  width: 100%;
+}
+
+.dateRangeSelector {
+  padding: 0.35rem 0.75rem;
+  background: rgba(255,255,255,0.01);
+  border: 1.5px dashed rgba(240, 239, 237, 0.35);
+  border-radius: 6px;
+  font-size: 0.8rem;
+  color: rgba(240, 239, 237, 0.8);
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
-.logoutBtn:hover {
+.dateRangeSelector:hover {
   border-color: #f5c842;
   color: #f5c842;
-  transform: translateY(-1px) rotate(-1deg);
 }
 
-/* ---------- Dashboard Grid ---------- */
-.mainContainer {
-  width: 100%;
-  max-width: 1300px;
+.exportReportBtn {
+  padding: 0.35rem 0.85rem;
+  background: #f5c842;
+  border: 1.8px solid #2e2e2e;
+  border-radius: 6px 4px 5px 3px / 5px 3px 6px 4px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #0b1a13;
   display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  z-index: 5;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 1px 2px 4px rgba(0,0,0,0.15);
 }
 
-/* ---------- Metrics Section ---------- */
+.exportReportBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 2px 4px 8px rgba(0,0,0,0.22);
+}
+
+/* ---------- 6 Metrics Grid ---------- */
 .metricsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1rem;
+  width: 100%;
+}
+
+@media (max-width: 1200px) {
+  .metricsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .metricsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .metricCard {
-  border: 2px solid rgba(240, 239, 237, 0.4);
-  border-radius: 11px 13px 10px 12px / 13px 10px 12px 11px;
-  padding: 1.2rem 1.5rem;
-  position: relative;
+  border: 2px solid rgba(240, 239, 237, 0.35);
+  border-radius: 8px 10px 7px 9px / 9px 7px 9px 8px;
+  padding: 0.9rem;
   background: rgba(10, 25, 17, 0.2);
-  transition: transform 0.2s ease;
+  position: relative;
+  transition: all 0.2s ease;
 }
 
 .metricCard:hover {
-  transform: translateY(-2px);
+  transform: translateY(-1px);
+  border-color: rgba(240, 239, 237, 0.55);
+  background: rgba(10, 25, 17, 0.3);
 }
 
 .metricLabel {
-  font-size: 0.85rem;
-  color: rgba(240, 239, 237, 0.55);
+  font-size: 0.7rem;
+  color: rgba(240, 239, 237, 0.42);
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-weight: 600;
+  letter-spacing: 0.04em;
 }
 
 .metricValue {
   font-family: 'Caveat', cursive;
-  font-size: 2.6rem;
+  font-size: 2.1rem;
   font-weight: 700;
-  color: rgba(240, 239, 237, 0.95);
-  margin-top: 0.4rem;
+  margin-top: 0.2rem;
   line-height: 1;
 }
 
-.metricValueGreen {
-  color: #8affad; /* Chalk green */
-}
-
-.metricValueYellow {
-  color: #f5c842; /* Chalk yellow */
-}
-
-.metricBadge {
-  position: absolute;
-  top: 1.2rem;
-  right: 1.5rem;
+.metricGrowth {
   font-family: 'Caveat', cursive;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
+  margin-top: 0.2rem;
+}
+
+.growthGreen {
+  color: #8affad;
+}
+
+.growthYellow {
   color: #f5c842;
-  border: 1px dashed rgba(245, 200, 66, 0.5);
-  padding: 0.1rem 0.4rem;
-  border-radius: 4px;
-  transform: rotate(5deg);
 }
 
-/* ---------- Layout Split Section ---------- */
-.layoutSplit {
+/* ---------- Row 2: Charts Row ---------- */
+.chartsRow {
   display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 1.5rem;
+  grid-template-columns: 3.2fr 2fr 2fr;
+  gap: 1.2rem;
+  width: 100%;
 }
 
-@media (max-width: 950px) {
-  .layoutSplit {
+@media (max-width: 1100px) {
+  .chartsRow {
     grid-template-columns: 1fr;
   }
 }
 
-/* ---------- Board Section Panels ---------- */
-.boardPanel {
-  border: 2px solid rgba(240, 239, 237, 0.4);
-  border-radius: 14px 12px 15px 13px / 12px 15px 13px 14px;
-  padding: 1.5rem;
-  background: rgba(10, 25, 17, 0.1);
+.chartCard {
+  border: 2px solid rgba(240, 239, 237, 0.35);
+  border-radius: 12px 14px 11px 13px / 14px 11px 13px 12px;
+  padding: 1.1rem;
+  background: rgba(10, 25, 17, 0.15);
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
+  gap: 0.85rem;
+  min-height: 270px;
+  position: relative;
+  box-sizing: border-box;
 }
 
-.panelTitle {
+.chartHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1.5px dashed rgba(240, 239, 237, 0.15);
+  padding-bottom: 0.4rem;
+}
+
+.chartTitle {
   font-family: 'Caveat', cursive;
-  font-size: 1.6rem;
+  font-size: 1.35rem;
+  font-weight: 700;
   color: #f5c842;
-  border-bottom: 1.5px dashed rgba(240, 239, 237, 0.2);
-  padding-bottom: 0.5rem;
   margin: 0;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.4rem;
 }
 
-/* ---------- Custom Blackboard Table ---------- */
-.tableContainer {
-  overflow-x: auto;
-}
-
-.schoolTable {
-  width: 100%;
-  border-collapse: collapse;
-  text-align: left;
-}
-
-.schoolTable th {
-  font-size: 0.85rem;
-  color: rgba(240, 239, 237, 0.5);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  padding: 0.6rem 0.8rem;
-  border-bottom: 1.5px solid rgba(240, 239, 237, 0.2);
-}
-
-.schoolTable td {
-  padding: 0.9rem 0.8rem;
-  font-size: 0.92rem;
-  border-bottom: 1px dashed rgba(240, 239, 237, 0.12);
-  vertical-align: middle;
-}
-
-.schoolName {
-  font-weight: 600;
-  color: rgba(240, 239, 237, 0.95);
-}
-
-.tierBadge {
-  font-family: 'Caveat', cursive;
-  font-size: 1rem;
-  font-weight: 700;
-  padding: 0.1rem 0.5rem;
+.chartSelect {
+  background: transparent;
+  border: 1px dashed rgba(240, 239, 237, 0.35);
+  color: rgba(240, 239, 237, 0.65);
+  font-size: 0.72rem;
+  padding: 0.1rem 0.35rem;
   border-radius: 4px;
+  outline: none;
+  cursor: pointer;
 }
 
-.tierBasic {
-  border: 1px solid rgba(240, 239, 237, 0.4);
-  color: rgba(240, 239, 237, 0.7);
-}
-
-.tierPro {
-  border: 1px solid rgba(245, 200, 66, 0.4);
-  color: #f5c842;
-}
-
-.tierEnterprise {
-  border: 1px solid rgba(138, 255, 173, 0.4);
-  color: #8affad;
-}
-
-.statusIndicator {
-  display: inline-flex;
+.chartCanvas {
+  flex: 1;
+  width: 100%;
+  position: relative;
+  display: flex;
   align-items: center;
-  gap: 0.35rem;
-  font-size: 0.85rem;
+  justify-content: center;
 }
 
-.statusDot {
+/* Donut chart legend */
+.donutLegend {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.72rem;
+  width: 100%;
+  padding-top: 0.2rem;
+}
+
+.legendItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: rgba(240, 239, 237, 0.68);
+}
+
+.legendLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.legendDot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
 }
 
-.statusActive {
-  background-color: #8affad;
-  box-shadow: 0 0 6px rgba(138, 255, 173, 0.6);
+.legendValue {
+  font-weight: 600;
+  color: rgba(240, 239, 237, 0.9);
 }
 
-.statusSuspended {
-  background-color: #ff8a8a;
-  box-shadow: 0 0 6px rgba(255, 138, 138, 0.6);
-}
-
-/* ---------- Activity Ledger ---------- */
-.ledgerList {
+.viewLink {
+  font-family: 'Caveat', cursive;
+  font-size: 1.15rem;
+  color: #f5c842;
+  text-decoration: none;
+  margin-top: auto;
+  align-self: flex-start;
   display: flex;
-  flex-direction: column;
-  gap: 0.85rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
+  align-items: center;
+  gap: 0.3rem;
+  cursor: pointer;
 }
 
-.ledgerItem {
+.viewLink:hover {
+  text-decoration: underline;
+}
+
+/* Revenue chart details */
+.revenueValContainer {
   display: flex;
   flex-direction: column;
   gap: 0.15rem;
-  font-size: 0.88rem;
-  border-left: 1.5px dashed rgba(240, 239, 237, 0.2);
-  padding-left: 0.8rem;
 }
 
-.ledgerTime {
-  font-size: 0.75rem;
+.revMainVal {
+  font-family: 'Caveat', cursive;
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: rgba(240, 239, 237, 0.95);
+  line-height: 1;
+}
+
+.revSubVal {
+  font-size: 0.78rem;
+  color: #8affad;
+  font-weight: 600;
+}
+
+.revFooterStats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.4rem;
+  border-top: 1px dashed rgba(240, 239, 237, 0.15);
+  padding-top: 0.5rem;
+  margin-top: auto;
+}
+
+.revStatBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.revStatLabel {
+  font-size: 0.65rem;
   color: rgba(240, 239, 237, 0.4);
+  text-transform: uppercase;
 }
 
-.ledgerText {
+.revStatValue {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: rgba(240, 239, 237, 0.8);
+}
+
+.revStatValueHighlight {
+  color: #8affad;
+}
+
+/* ---------- Row 3: Listings Row ---------- */
+.bottomRow {
+  display: grid;
+  grid-template-columns: 3.2fr 2fr 2fr;
+  gap: 1.2rem;
+  width: 100%;
+}
+
+@media (max-width: 1100px) {
+  .bottomRow {
+    grid-template-columns: 1fr;
+  }
+}
+
+.tableCard {
+  border: 2px solid rgba(240, 239, 237, 0.35);
+  border-radius: 12px 14px 11px 13px / 14px 11px 13px 12px;
+  padding: 1.1rem;
+  background: rgba(10, 25, 17, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-height: 310px;
+  box-sizing: border-box;
+}
+
+.tableHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1.5px dashed rgba(240, 239, 237, 0.15);
+  padding-bottom: 0.4rem;
+}
+
+.tableTitle {
+  font-family: 'Caveat', cursive;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #f5c842;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  flex: 1;
+}
+
+.dashboardTable {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.85rem;
+}
+
+.dashboardTable th {
+  color: rgba(240, 239, 237, 0.4);
+  text-transform: uppercase;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 0.4rem 0.5rem;
+  border-bottom: 1.5px solid rgba(240, 239, 237, 0.15);
+}
+
+.dashboardTable td {
+  padding: 0.55rem 0.5rem;
+  border-bottom: 1px dashed rgba(240, 239, 237, 0.1);
+  vertical-align: middle;
+  color: rgba(240, 239, 237, 0.8);
+}
+
+.schoolNameCol {
+  font-weight: 600;
+  color: rgba(240, 239, 237, 0.95);
+}
+
+/* Table statuses */
+.statusBadge {
+  font-size: 0.7rem;
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.statusActive {
+  background: rgba(138, 255, 173, 0.1);
+  border: 1px solid rgba(138, 255, 173, 0.4);
+  color: #8affad;
+}
+
+.statusExpiring {
+  background: rgba(245, 200, 66, 0.1);
+  border: 1px solid rgba(245, 200, 66, 0.4);
+  color: #f5c842;
+}
+
+.statusExpired {
+  background: rgba(255, 138, 138, 0.1);
+  border: 1px solid rgba(255, 138, 138, 0.4);
+  color: #ff8a8a;
+}
+
+/* Action Dots */
+.actionDots {
+  background: transparent;
+  border: none;
+  color: rgba(240, 239, 237, 0.4);
+  cursor: pointer;
+  font-size: 1.1rem;
+  line-height: 1;
+  padding: 0;
+  display: flex;
+}
+
+.actionDots:hover {
+  color: #f5c842;
+}
+
+/* AI Credits Gauge Card */
+.radialCard {
+  border: 2px solid rgba(240, 239, 237, 0.35);
+  border-radius: 12px 14px 11px 13px / 14px 11px 13px 12px;
+  padding: 1.1rem;
+  background: rgba(10, 25, 17, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  min-height: 310px;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.gaugeContainer {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+}
+
+.gaugeTextCenter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.gaugePercent {
+  font-family: 'Caveat', cursive;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #f5c842;
+  line-height: 1;
+}
+
+.gaugeValText {
+  font-size: 0.65rem;
+  color: rgba(240, 239, 237, 0.4);
+  text-transform: uppercase;
+  margin-top: 0.15rem;
+}
+
+.radialStats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.4rem;
+  width: 100%;
+  border-top: 1.5px dashed rgba(240, 239, 237, 0.12);
+  padding-top: 0.6rem;
+  margin-top: auto;
+}
+
+.radialStatItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  text-align: center;
+}
+
+.radialStatLabel {
+  font-size: 0.62rem;
+  color: rgba(240, 239, 237, 0.4);
+  text-transform: uppercase;
+}
+
+.radialStatVal {
+  font-family: 'Caveat', cursive;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: rgba(240, 239, 237, 0.95);
+}
+
+.radialStatValHighlight {
+  color: #f5c842;
+}
+
+/* Recent Activities timeline list */
+.activitiesCard {
+  border: 2px solid rgba(240, 239, 237, 0.35);
+  border-radius: 12px 14px 11px 13px / 14px 11px 13px 12px;
+  padding: 1.1rem;
+  background: rgba(10, 25, 17, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-height: 310px;
+  box-sizing: border-box;
+}
+
+.timelineList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  flex: 1;
+}
+
+.timelineItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  border-left: 1.5px dashed rgba(240, 239, 237, 0.15);
+  padding-left: 0.7rem;
+  position: relative;
+}
+
+.timelineDot {
+  position: absolute;
+  left: -4.5px;
+  top: 4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #f5c842;
+  border: 1px solid #2e2e2e;
+}
+
+.timelineDotBlue {
+  background: #4a90e2;
+}
+
+.timelineDotRed {
+  background: #e05e5e;
+}
+
+.timelineText {
+  font-size: 0.8rem;
   color: rgba(240, 239, 237, 0.75);
 }
 
-/* ---------- Yellow Sticky Notes Sidepanel ---------- */
-.stickyPanel {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.stickyNote {
-  background: #fdf09d; /* Yellow Post-it Sticky Note */
-  background-image: 
-    linear-gradient(90deg, transparent 15px, rgba(220, 60, 60, 0.2) 15px, rgba(220, 60, 60, 0.2) 16px, transparent 16px),
-    repeating-linear-gradient(transparent, transparent 11px, rgba(0, 102, 204, 0.05) 11px, rgba(0, 102, 204, 0.05) 12px);
-  border: 1.5px solid #2e2e2e;
-  border-radius: 4px 6px 3px 5px / 6px 3px 5px 4px;
-  color: #2b2b2b;
-  padding: 1.2rem 1.4rem;
-  box-shadow: 3px 6px 12px rgba(0, 0, 0, 0.35);
-  transform: rotate(-1.5deg);
-  transition: transform 0.2s ease;
-  position: relative;
-  overflow: visible;
-}
-
-.stickyNote:nth-child(even) {
-  transform: rotate(2deg);
-  background: #fbf9f0; /* White paper pad */
-  background-image: 
-    linear-gradient(90deg, transparent 15px, rgba(220, 60, 60, 0.2) 15px, rgba(220, 60, 60, 0.2) 16px, transparent 16px),
-    repeating-linear-gradient(transparent, transparent 11px, rgba(0, 102, 204, 0.05) 11px, rgba(0, 102, 204, 0.05) 12px);
-}
-
-.stickyNote:hover {
-  transform: translateY(-3px) scale(1.02) rotate(0deg);
-  box-shadow: 5px 10px 18px rgba(0, 0, 0, 0.45);
-}
-
-/* Translucent Tape on sticky note */
-.stickyNote::before {
-  content: '';
-  position: absolute;
-  top: -8px;
-  left: 35%;
-  width: 40px;
-  height: 12px;
-  background: rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(1px);
-  -webkit-backdrop-filter: blur(1px);
-  border: 0.5px solid rgba(255, 255, 255, 0.1);
-  border-radius: 2px;
-  transform: rotate(-2deg);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-  pointer-events: none;
-}
-
-.stickyTitle {
-  font-family: 'Caveat', cursive;
-  font-size: 1.4rem;
-  font-weight: 700;
-  margin: 0 0 0.5rem 0;
-  color: #1a1a1a;
-  border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
-  padding-bottom: 0.2rem;
-}
-
-.stickyBody {
-  font-size: 0.85rem;
-  line-height: 1.45;
-  color: #333;
-}
-
-.stickyActionBtn {
-  font-family: 'Caveat', cursive;
-  font-size: 1.15rem;
-  font-weight: 700;
-  display: block;
-  width: 100%;
-  text-align: center;
-  margin-top: 1rem;
-  padding: 0.35rem 0.5rem;
-  background: rgba(0, 0, 0, 0.05);
-  border: 1px dashed #2e2e2e;
-  border-radius: 4px;
-  color: #2b2b2b;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.stickyActionBtn:hover {
-  background: #2e2e2e;
-  color: #f5c842;
-  border-style: solid;
+.timelineTime {
+  font-size: 0.68rem;
+  color: rgba(240, 239, 237, 0.38);
 }
