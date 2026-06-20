@@ -310,7 +310,8 @@ export default function AdminDashboard() {
           <div className={styles.titleArea}>
             <h1 className={styles.pageTitle}>{activeTab}</h1>
             <span className={styles.pageSubtitle}>
-              {activeTab === 'Dashboard' ? 'Welcome back, Super Admin!' : `Management panel for ${activeTab}`}
+              {activeTab === 'Dashboard' ? 'Welcome back, Super Admin!' :
+               activeTab === 'Schools' ? 'Dashboard > Schools' : `Management panel for ${activeTab}`}
             </span>
           </div>
 
@@ -607,6 +608,313 @@ export default function AdminDashboard() {
                 </button>
               </div>
             </section>
+          </>
+        ) : activeTab === 'Schools' ? (
+          <>
+            {/* 1. Schools Stats Grid */}
+            <section className={styles.schoolsStatsGrid}>
+              {/* Total Schools */}
+              <div className={styles.metricCard}>
+                <div className={styles.metricHeader}>
+                  <span className={styles.metricLabel}>Total Schools</span>
+                  <span className={styles.metricIcon}>🏫</span>
+                </div>
+                <div className={styles.metricValContainer}>
+                  <span className={styles.metricVal}>24</span>
+                  <span className={`${styles.trendBadge} ${styles.trendUp}`}>
+                    ▲ +3 this month
+                  </span>
+                </div>
+              </div>
+
+              {/* Active Schools */}
+              <div className={styles.metricCard}>
+                <div className={styles.metricHeader}>
+                  <span className={styles.metricLabel}>Active Schools</span>
+                  <span className={styles.metricIcon}>🟢</span>
+                </div>
+                <div className={styles.metricValContainer}>
+                  <span className={styles.metricVal}>22</span>
+                  <span className={`${styles.trendBadge} ${styles.trendUp}`}>
+                    ▲ 91.67%
+                  </span>
+                </div>
+              </div>
+
+              {/* Pending Schools */}
+              <div className={styles.metricCard}>
+                <div className={styles.metricHeader}>
+                  <span className={styles.metricLabel}>Pending Schools</span>
+                  <span className={styles.metricIcon}>⏳</span>
+                </div>
+                <div className={styles.metricValContainer}>
+                  <span className={styles.metricVal}>2</span>
+                  <span className={`${styles.trendBadge} ${styles.trendFlat}`} style={{ color: '#f5c842', borderColor: 'rgba(245,200,66,0.3)', background: 'rgba(245,200,66,0.05)' }}>
+                    ● 8.33%
+                  </span>
+                </div>
+              </div>
+
+              {/* Inactive Schools */}
+              <div className={styles.metricCard}>
+                <div className={styles.metricHeader}>
+                  <span className={styles.metricLabel}>Inactive Schools</span>
+                  <span className={styles.metricIcon}>🔴</span>
+                </div>
+                <div className={styles.metricValContainer}>
+                  <span className={styles.metricVal}>0</span>
+                  <span className={`${styles.trendBadge} ${styles.trendDown}`} style={{ color: '#ff8a8a', borderColor: 'rgba(255,138,138,0.3)', background: 'rgba(255,138,138,0.05)' }}>
+                    ■ 0%
+                  </span>
+                </div>
+              </div>
+
+              {/* Total Students */}
+              <div className={styles.metricCard}>
+                <div className={styles.metricHeader}>
+                  <span className={styles.metricLabel}>Total Students</span>
+                  <span className={styles.metricIcon}>👥</span>
+                </div>
+                <div className={styles.metricValContainer}>
+                  <span className={styles.metricVal}>12,540</span>
+                  <span className={`${styles.trendBadge} ${styles.trendUp}`}>
+                    ▲ +320 this month
+                  </span>
+                </div>
+              </div>
+            </section>
+
+            {/* 2. All Schools Registry Table card */}
+            <div className={styles.tableCard} style={{ marginTop: '1.2rem', flex: 1, minHeight: '520px' }}>
+              {/* Table Header Section with Toolbar */}
+              <div className={styles.schoolsToolbar}>
+                <div className={styles.toolbarLeft}>
+                  <h3 className={styles.tableTitle} style={{ fontSize: '1.45rem' }}>All Schools</h3>
+                </div>
+                <div className={styles.toolbarRight}>
+                  <button className={styles.toolbarFilterBtn} onClick={() => alert('Filtering options...')}>
+                    <span>🔍</span> Filter
+                  </button>
+                  <select className={styles.chartSelect}>
+                    <option value="all">All Status</option>
+                    <option value="active">Active</option>
+                    <option value="pending">Pending</option>
+                    <option value="expiring">Expiring Soon</option>
+                    <option value="expired">Expired</option>
+                  </select>
+                  <button className={styles.toolbarAddBtn} onClick={() => alert('Add New School logic...')}>
+                    <span>+</span> Add New School
+                  </button>
+                </div>
+              </div>
+
+              {/* Data Table */}
+              <div className={styles.tableWrapper}>
+                <table className={styles.dashboardTable}>
+                  <thead>
+                    <tr>
+                      <th>School Name</th>
+                      <th>Status</th>
+                      <th>Subscription Plan</th>
+                      <th>Students</th>
+                      <th>Teachers</th>
+                      <th>Joined Date</th>
+                      <th>Renewal Date</th>
+                      <th>Monthly Revenue</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[
+                      {
+                        name: "St. Mary's Academy",
+                        location: "Manila, Metro Manila",
+                        status: "Active",
+                        plan: "School Plan",
+                        limit: "Up to 500 students",
+                        students: 512,
+                        teachers: 45,
+                        joined: "May 31, 2025",
+                        renewal: "May 31, 2025",
+                        renewalBadge: "Today",
+                        renewalBadgeColor: styles.badgeSubtextGreen,
+                        revenue: "₱2,999",
+                        revenueBadge: null
+                      },
+                      {
+                        name: "Greenfield High School",
+                        location: "Cebu City, Cebu",
+                        status: "Active",
+                        plan: "School Plan",
+                        limit: "Up to 500 students",
+                        students: 326,
+                        teachers: 28,
+                        joined: "May 30, 2025",
+                        renewal: "Jun 30, 2025",
+                        renewalBadge: "30 days left",
+                        renewalBadgeColor: styles.badgeSubtextGreen,
+                        revenue: "₱2,999",
+                        revenueBadge: null
+                      },
+                      {
+                        name: "Riverside National HS",
+                        location: "Davao City, Davao del Sur",
+                        status: "Active",
+                        plan: "School Plan",
+                        limit: "Up to 500 students",
+                        students: 846,
+                        teachers: 67,
+                        joined: "May 28, 2025",
+                        renewal: "Jun 28, 2025",
+                        renewalBadge: "28 days left",
+                        renewalBadgeColor: styles.badgeSubtextGreen,
+                        revenue: "₱3,999",
+                        revenueBadge: "+500 students"
+                      },
+                      {
+                        name: "Bright Future School",
+                        location: "Bacolod City, Negros Occidental",
+                        status: "Expiring Soon",
+                        plan: "School Plan",
+                        limit: "Up to 500 students",
+                        students: 458,
+                        teachers: 39,
+                        joined: "May 27, 2025",
+                        renewal: "Jun 5, 2025",
+                        renewalBadge: "5 days left",
+                        renewalBadgeColor: styles.badgeSubtextOrange,
+                        revenue: "₱2,999",
+                        revenueBadge: null
+                      },
+                      {
+                        name: "Unity Christian School",
+                        location: "Taguig City, Metro Manila",
+                        status: "Expired",
+                        plan: "School Plan",
+                        limit: "Up to 500 students",
+                        students: 234,
+                        teachers: 21,
+                        joined: "May 25, 2025",
+                        renewal: "May 25, 2025",
+                        renewalBadge: "Expired",
+                        renewalBadgeColor: styles.badgeSubtextRed,
+                        revenue: "₱2,999",
+                        revenueBadge: null
+                      },
+                      {
+                        name: "Faith Academy",
+                        location: "Iloilo City, Iloilo",
+                        status: "Active",
+                        plan: "School Plan",
+                        limit: "Up to 500 students",
+                        students: 298,
+                        teachers: 34,
+                        joined: "May 20, 2025",
+                        renewal: "Jun 20, 2025",
+                        renewalBadge: "20 days left",
+                        renewalBadgeColor: styles.badgeSubtextGreen,
+                        revenue: "₱2,999",
+                        revenueBadge: null
+                      },
+                      {
+                        name: "St. Joseph High School",
+                        location: "Butuan City, Agusan del Norte",
+                        status: "Pending",
+                        plan: "School Plan",
+                        limit: "Up to 500 students",
+                        students: 0,
+                        teachers: 0,
+                        joined: "May 15, 2025",
+                        renewal: "-",
+                        renewalBadge: null,
+                        renewalBadgeColor: null,
+                        revenue: "-",
+                        revenueBadge: null
+                      },
+                      {
+                        name: "New Horizon School",
+                        location: "General Santos City",
+                        status: "Pending",
+                        plan: "School Plan",
+                        limit: "Up to 500 students",
+                        students: 0,
+                        teachers: 0,
+                        joined: "May 14, 2025",
+                        renewal: "-",
+                        renewalBadge: null,
+                        renewalBadgeColor: null,
+                        revenue: "-",
+                        revenueBadge: null
+                      }
+                    ].map((school, i) => (
+                      <tr key={i}>
+                        <td>
+                          <span className={styles.schoolNameColMain}>{school.name}</span>
+                          <span className={styles.schoolNameColSub}>{school.location}</span>
+                        </td>
+                        <td>
+                          <span className={`${styles.statusBadge} ${
+                            school.status === 'Active' ? styles.statusActive :
+                            school.status === 'Expiring Soon' ? styles.statusExpiring :
+                            school.status === 'Expired' ? styles.statusExpired : styles.statusExpiring
+                          }`} style={school.status === 'Pending' ? { background: 'rgba(245,200,66,0.08)', borderColor: 'rgba(245,200,66,0.4)', color: '#f5c842' } : {}}>
+                            {school.status}
+                          </span>
+                        </td>
+                        <td>
+                          <span className={styles.planNameText}>{school.plan}</span>
+                          <span className={styles.planLimitText}>{school.limit}</span>
+                        </td>
+                        <td>{school.students}</td>
+                        <td>{school.teachers}</td>
+                        <td>{school.joined}</td>
+                        <td>
+                          <div>{school.renewal}</div>
+                          {school.renewalBadge && (
+                            <span className={`${styles.badgeSubtext} ${school.renewalBadgeColor}`}>
+                              {school.renewalBadge}
+                            </span>
+                          )}
+                        </td>
+                        <td>
+                          <div>{school.revenue}</div>
+                          {school.revenueBadge && (
+                            <span className={styles.revenueExtraBadge}>
+                              {school.revenueBadge}
+                            </span>
+                          )}
+                        </td>
+                        <td>
+                          <div className={styles.actionsGroup}>
+                            <button className={styles.actionIconBtn} onClick={() => alert(`Viewing details for ${school.name}`)}>
+                              👁
+                            </button>
+                            <button className={styles.actionIconBtn} onClick={() => alert(`Editing school ${school.name}`)}>
+                              ✏
+                            </button>
+                            <button className={`${styles.actionIconBtn} ${styles.actionIconBtnMore}`} onClick={() => alert(`More options for ${school.name}`)}>
+                              ⋮
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Table Pagination Footer */}
+              <div className={styles.schoolsPagination}>
+                <span className={styles.paginationText}>Showing 1 to 8 of 24 schools</span>
+                <div className={styles.paginationButtons}>
+                  <button className={styles.pageBtn} onClick={() => alert('Previous page...')}>&lt;</button>
+                  <button className={`${styles.pageBtn} ${styles.pageBtnActive}`}>1</button>
+                  <button className={styles.pageBtn} onClick={() => alert('Page 2...')}>2</button>
+                  <button className={styles.pageBtn} onClick={() => alert('Page 3...')}>3</button>
+                  <button className={styles.pageBtn} onClick={() => alert('Next page...')}>&gt;</button>
+                </div>
+              </div>
+            </div>
           </>
         ) : (
           /* Coming Soon placeholder tabs for SASS console content */

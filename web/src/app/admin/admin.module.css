@@ -1091,3 +1091,235 @@
   font-size: 0.68rem;
   color: rgba(240, 239, 237, 0.38);
 }
+
+/* ---------- Schools Page Layout and Grids ---------- */
+.schoolsStatsGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+  width: 100%;
+}
+
+@media (max-width: 1200px) {
+  .schoolsStatsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .schoolsStatsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Schools Toolbar Area */
+.schoolsToolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 0.3rem;
+  margin-bottom: 0.1rem;
+}
+
+.toolbarLeft {
+  display: flex;
+  align-items: center;
+}
+
+.toolbarRight {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+/* Custom styles for toolbar elements */
+.toolbarFilterBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.8rem;
+  background: transparent;
+  border: 1.5px dashed rgba(240, 239, 237, 0.35);
+  border-radius: 6px;
+  color: rgba(240, 239, 237, 0.85);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.toolbarFilterBtn:hover {
+  border-color: #f5c842;
+  color: #f5c842;
+}
+
+.toolbarAddBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.95rem;
+  background: #f5c842;
+  border: 1.8px solid #2e2e2e;
+  border-radius: 6px 4px 5px 3px / 5px 3px 6px 4px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #0b1a13;
+  cursor: pointer;
+  box-shadow: 1px 2px 4px rgba(0,0,0,0.15);
+  transition: all 0.15s ease;
+}
+
+.toolbarAddBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 2px 4px 8px rgba(0,0,0,0.22);
+}
+
+/* Schools Name details */
+.schoolNameColMain {
+  font-weight: 600;
+  color: rgba(240, 239, 237, 0.95);
+  display: block;
+}
+
+.schoolNameColSub {
+  font-size: 0.7rem;
+  color: rgba(240, 239, 237, 0.38);
+  display: block;
+  margin-top: 0.1rem;
+}
+
+/* Subscription plan details */
+.planNameText {
+  font-weight: 600;
+  color: rgba(240, 239, 237, 0.85);
+  display: block;
+}
+
+.planLimitText {
+  font-size: 0.7rem;
+  color: rgba(240, 239, 237, 0.38);
+  display: block;
+  margin-top: 0.1rem;
+}
+
+/* Mini indicator subtext for renewal/joined dates */
+.badgeSubtext {
+  font-size: 0.68rem;
+  font-weight: 600;
+  margin-top: 0.15rem;
+  display: inline-block;
+  padding: 0.05rem 0.25rem;
+  border-radius: 3px;
+}
+
+.badgeSubtextGreen {
+  background: rgba(138, 255, 173, 0.08);
+  color: #8affad;
+}
+
+.badgeSubtextOrange {
+  background: rgba(245, 200, 66, 0.08);
+  color: #f5c842;
+}
+
+.badgeSubtextRed {
+  background: rgba(255, 138, 138, 0.08);
+  color: #ff8a8a;
+}
+
+/* Purple sub-badge for extra student revenue */
+.revenueExtraBadge {
+  font-size: 0.62rem;
+  font-weight: 600;
+  background: rgba(162, 107, 253, 0.15);
+  border: 1px solid rgba(162, 107, 253, 0.45);
+  color: #c7a4ff;
+  padding: 0.05rem 0.3rem;
+  border-radius: 3px;
+  display: inline-block;
+  margin-top: 0.15rem;
+}
+
+/* Actions list icons group */
+.actionsGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.actionIconBtn {
+  background: transparent;
+  border: 1px solid transparent;
+  color: rgba(240, 239, 237, 0.45);
+  padding: 0.25rem;
+  cursor: pointer;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.actionIconBtn:hover {
+  background: rgba(255, 255, 255, 0.02);
+  border-color: rgba(240, 239, 237, 0.15);
+  color: #f5c842;
+}
+
+.actionIconBtnMore:hover {
+  color: #ff8a8a;
+}
+
+/* Schools Table Footer Pagination */
+.schoolsPagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  border-top: 1.5px dashed rgba(240, 239, 237, 0.15);
+  padding-top: 0.8rem;
+  margin-top: auto;
+}
+
+.paginationText {
+  font-size: 0.75rem;
+  color: rgba(240, 239, 237, 0.42);
+}
+
+.paginationButtons {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.pageBtn {
+  font-family: 'Caveat', cursive;
+  font-size: 1.1rem;
+  font-weight: 700;
+  background: transparent;
+  border: 1px solid transparent;
+  color: rgba(240, 239, 237, 0.65);
+  min-width: 25px;
+  height: 25px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.15s ease;
+}
+
+.pageBtn:hover:not(.pageBtnActive) {
+  border-color: rgba(240, 239, 237, 0.15);
+  background: rgba(255, 255, 255, 0.02);
+  color: #f5c842;
+}
+
+.pageBtnActive {
+  background: #f5c842;
+  border: 1.5px solid #2e2e2e;
+  color: #0b1a13;
+  border-radius: 5px 3px 4px 3px / 4px 3px 5px 3px;
+  box-shadow: 1px 1px 3px rgba(0,0,0,0.15);
+}
