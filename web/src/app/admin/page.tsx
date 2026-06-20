@@ -190,6 +190,7 @@ export default function AdminDashboard() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState('Dashboard');
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
+  const [activeSchoolDropdownId, setActiveSchoolDropdownId] = useState<number | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const workspaceRef = useRef<HTMLDivElement>(null);
 
@@ -881,10 +882,26 @@ export default function AdminDashboard() {
                           )}
                         </td>
                         <td>
-                          <div className={styles.actionsGroup}>
-                            <button className={styles.actionIconBtn} onClick={(e) => { e.stopPropagation(); alert(`More options for ${school.name}`); }}>
+                          <div className={styles.actionsGroup} style={{ position: 'relative' }}>
+                            <button className={styles.actionIconBtn} onClick={(e) => { e.stopPropagation(); setActiveSchoolDropdownId(activeSchoolDropdownId === i ? null : i); }}>
                               ⋮
                             </button>
+                            {activeSchoolDropdownId === i && (
+                              <>
+                                <div className={styles.dropdownOverlay} onClick={(e) => { e.stopPropagation(); setActiveSchoolDropdownId(null); }} />
+                                <div className={`${styles.actionDropdownMenu} ${i >= 6 ? styles.actionDropdownMenuUp : ''}`}>
+                                  <button onClick={(e) => { e.stopPropagation(); setActiveSchoolDropdownId(null); alert(`Viewing details for ${school.name}...`); }} className={styles.actionDropdownItem}>
+                                    👁️ View Details
+                                  </button>
+                                  <button onClick={(e) => { e.stopPropagation(); setActiveSchoolDropdownId(null); alert(`Editing school ${school.name}...`); }} className={styles.actionDropdownItem}>
+                                    ✏️ Edit
+                                  </button>
+                                  <button onClick={(e) => { e.stopPropagation(); setActiveSchoolDropdownId(null); alert(`Deleting school ${school.name}...`); }} className={`${styles.actionDropdownItem} ${styles.actionDropdownItemDelete}`}>
+                                    🗑️ Delete
+                                  </button>
+                                </div>
+                              </>
+                            )}
                           </div>
                         </td>
                       </tr>
