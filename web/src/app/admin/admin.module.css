@@ -1323,3 +1323,16 @@
   border-radius: 5px 3px 4px 3px / 4px 3px 5px 3px;
   box-shadow: 1px 1px 3px rgba(0,0,0,0.15);
 }
+
+.clickableRow {
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.clickableRow:hover {
+  background-color: rgba(255, 255, 255, 0.035);
+}
+
+.clickableRow:active {
+  background-color: rgba(255, 255, 255, 0.06);
+}

@@ -716,8 +716,6 @@ export default function AdminDashboard() {
                       <th>School Name</th>
                       <th>Status</th>
                       <th>Subscription Plan</th>
-                      <th>Students</th>
-                      <th>Teachers</th>
                       <th>Joined Date</th>
                       <th>Renewal Date</th>
                       <th>Monthly Revenue</th>
@@ -847,7 +845,7 @@ export default function AdminDashboard() {
                         revenueBadge: null
                       }
                     ].map((school, i) => (
-                      <tr key={i}>
+                      <tr key={i} className={styles.clickableRow} onClick={() => alert(`Redirecting/managing details for ${school.name}...`)}>
                         <td>
                           <span className={styles.schoolNameColMain}>{school.name}</span>
                           <span className={styles.schoolNameColSub}>{school.location}</span>
@@ -865,8 +863,6 @@ export default function AdminDashboard() {
                           <span className={styles.planNameText}>{school.plan}</span>
                           <span className={styles.planLimitText}>{school.limit}</span>
                         </td>
-                        <td>{school.students}</td>
-                        <td>{school.teachers}</td>
                         <td>{school.joined}</td>
                         <td>
                           <div>{school.renewal}</div>
@@ -886,13 +882,7 @@ export default function AdminDashboard() {
                         </td>
                         <td>
                           <div className={styles.actionsGroup}>
-                            <button className={styles.actionIconBtn} onClick={() => alert(`Viewing details for ${school.name}`)}>
-                              👁
-                            </button>
-                            <button className={styles.actionIconBtn} onClick={() => alert(`Editing school ${school.name}`)}>
-                              ✏
-                            </button>
-                            <button className={`${styles.actionIconBtn} ${styles.actionIconBtnMore}`} onClick={() => alert(`More options for ${school.name}`)}>
+                            <button className={styles.actionIconBtn} onClick={(e) => { e.stopPropagation(); alert(`More options for ${school.name}`); }}>
                               ⋮
                             </button>
                           </div>
