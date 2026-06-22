@@ -191,6 +191,9 @@ export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('Dashboard');
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const [activeSchoolDropdownId, setActiveSchoolDropdownId] = useState<number | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedStatus, setSelectedStatus] = useState('all');
+  const [selectedPlan, setSelectedPlan] = useState('all');
   const [isScrolled, setIsScrolled] = useState(false);
   const workspaceRef = useRef<HTMLDivElement>(null);
 
@@ -693,16 +696,35 @@ export default function AdminDashboard() {
                   <h3 className={styles.tableTitle} style={{ fontSize: '1.45rem' }}>All Schools</h3>
                 </div>
                 <div className={styles.toolbarRight}>
-                  <button className={styles.toolbarFilterBtn} onClick={() => alert('Filtering options...')}>
-                    <span>🔍</span> Filter
-                  </button>
-                  <select className={styles.chartSelect}>
+                  {/* Permanent Search Input */}
+                  <div className={styles.filterSearchWrapper}>
+                    <span className={styles.filterSearchIcon}>🔍</span>
+                    <input
+                      type="text"
+                      placeholder="Search schools..."
+                      className={styles.filterSearchInput}
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                  </div>
+
+                  {/* Status Dropdown */}
+                  <select className={styles.chartSelect} value={selectedStatus} onChange={(e) => setSelectedStatus(e.target.value)}>
                     <option value="all">All Status</option>
                     <option value="active">Active</option>
                     <option value="pending">Pending</option>
-                    <option value="expiring">Expiring Soon</option>
+                    <option value="expiring soon">Expiring Soon</option>
                     <option value="expired">Expired</option>
                   </select>
+
+                  {/* Plan Dropdown */}
+                  <select className={styles.chartSelect} value={selectedPlan} onChange={(e) => setSelectedPlan(e.target.value)}>
+                    <option value="all">All Plans</option>
+                    <option value="school plan">School Plan</option>
+                    <option value="district plan">District Plan</option>
+                    <option value="enterprise plan">Enterprise Plan</option>
+                  </select>
+
                   <button className={styles.toolbarAddBtn} onClick={() => alert('Add New School logic...')}>
                     <span>+</span> Add New School
                   </button>
@@ -724,188 +746,209 @@ export default function AdminDashboard() {
                     </tr>
                   </thead>
                   <tbody>
-                    {[
-                      {
-                        name: "St. Mary's Academy",
-                        location: "Manila, Metro Manila",
-                        status: "Active",
-                        plan: "School Plan",
-                        limit: "Up to 500 students",
-                        students: 512,
-                        teachers: 45,
-                        joined: "May 31, 2025",
-                        renewal: "May 31, 2025",
-                        renewalBadge: "Today",
-                        renewalBadgeColor: styles.badgeSubtextGreen,
-                        revenue: "₱2,999",
-                        revenueBadge: null
-                      },
-                      {
-                        name: "Greenfield High School",
-                        location: "Cebu City, Cebu",
-                        status: "Active",
-                        plan: "School Plan",
-                        limit: "Up to 500 students",
-                        students: 326,
-                        teachers: 28,
-                        joined: "May 30, 2025",
-                        renewal: "Jun 30, 2025",
-                        renewalBadge: "30 days left",
-                        renewalBadgeColor: styles.badgeSubtextGreen,
-                        revenue: "₱2,999",
-                        revenueBadge: null
-                      },
-                      {
-                        name: "Riverside National HS",
-                        location: "Davao City, Davao del Sur",
-                        status: "Active",
-                        plan: "School Plan",
-                        limit: "Up to 500 students",
-                        students: 846,
-                        teachers: 67,
-                        joined: "May 28, 2025",
-                        renewal: "Jun 28, 2025",
-                        renewalBadge: "28 days left",
-                        renewalBadgeColor: styles.badgeSubtextGreen,
-                        revenue: "₱3,999",
-                        revenueBadge: "+500 students"
-                      },
-                      {
-                        name: "Bright Future School",
-                        location: "Bacolod City, Negros Occidental",
-                        status: "Expiring Soon",
-                        plan: "School Plan",
-                        limit: "Up to 500 students",
-                        students: 458,
-                        teachers: 39,
-                        joined: "May 27, 2025",
-                        renewal: "Jun 5, 2025",
-                        renewalBadge: "5 days left",
-                        renewalBadgeColor: styles.badgeSubtextOrange,
-                        revenue: "₱2,999",
-                        revenueBadge: null
-                      },
-                      {
-                        name: "Unity Christian School",
-                        location: "Taguig City, Metro Manila",
-                        status: "Expired",
-                        plan: "School Plan",
-                        limit: "Up to 500 students",
-                        students: 234,
-                        teachers: 21,
-                        joined: "May 25, 2025",
-                        renewal: "May 25, 2025",
-                        renewalBadge: "Expired",
-                        renewalBadgeColor: styles.badgeSubtextRed,
-                        revenue: "₱2,999",
-                        revenueBadge: null
-                      },
-                      {
-                        name: "Faith Academy",
-                        location: "Iloilo City, Iloilo",
-                        status: "Active",
-                        plan: "School Plan",
-                        limit: "Up to 500 students",
-                        students: 298,
-                        teachers: 34,
-                        joined: "May 20, 2025",
-                        renewal: "Jun 20, 2025",
-                        renewalBadge: "20 days left",
-                        renewalBadgeColor: styles.badgeSubtextGreen,
-                        revenue: "₱2,999",
-                        revenueBadge: null
-                      },
-                      {
-                        name: "St. Joseph High School",
-                        location: "Butuan City, Agusan del Norte",
-                        status: "Pending",
-                        plan: "School Plan",
-                        limit: "Up to 500 students",
-                        students: 0,
-                        teachers: 0,
-                        joined: "May 15, 2025",
-                        renewal: "-",
-                        renewalBadge: null,
-                        renewalBadgeColor: null,
-                        revenue: "-",
-                        revenueBadge: null
-                      },
-                      {
-                        name: "New Horizon School",
-                        location: "General Santos City",
-                        status: "Pending",
-                        plan: "School Plan",
-                        limit: "Up to 500 students",
-                        students: 0,
-                        teachers: 0,
-                        joined: "May 14, 2025",
-                        renewal: "-",
-                        renewalBadge: null,
-                        renewalBadgeColor: null,
-                        revenue: "-",
-                        revenueBadge: null
+                    {(() => {
+                      const filteredSchools = [
+                        {
+                          name: "St. Mary's Academy",
+                          location: "Manila, Metro Manila",
+                          status: "Active",
+                          plan: "School Plan",
+                          limit: "Up to 500 students",
+                          students: 512,
+                          teachers: 45,
+                          joined: "May 31, 2025",
+                          renewal: "May 31, 2025",
+                          renewalBadge: "Today",
+                          renewalBadgeColor: styles.badgeSubtextGreen,
+                          revenue: "₱2,999",
+                          revenueBadge: null
+                        },
+                        {
+                          name: "Greenfield High School",
+                          location: "Cebu City, Cebu",
+                          status: "Active",
+                          plan: "School Plan",
+                          limit: "Up to 500 students",
+                          students: 326,
+                          teachers: 28,
+                          joined: "May 30, 2025",
+                          renewal: "Jun 30, 2025",
+                          renewalBadge: "30 days left",
+                          renewalBadgeColor: styles.badgeSubtextGreen,
+                          revenue: "₱2,999",
+                          revenueBadge: null
+                        },
+                        {
+                          name: "Riverside National HS",
+                          location: "Davao City, Davao del Sur",
+                          status: "Active",
+                          plan: "District Plan",
+                          limit: "Up to 2000 students",
+                          students: 846,
+                          teachers: 67,
+                          joined: "May 28, 2025",
+                          renewal: "Jun 28, 2025",
+                          renewalBadge: "28 days left",
+                          renewalBadgeColor: styles.badgeSubtextGreen,
+                          revenue: "₱3,999",
+                          revenueBadge: "+500 students"
+                        },
+                        {
+                          name: "Bright Future School",
+                          location: "Bacolod City, Negros Occidental",
+                          status: "Expiring Soon",
+                          plan: "School Plan",
+                          limit: "Up to 500 students",
+                          students: 458,
+                          teachers: 39,
+                          joined: "May 27, 2025",
+                          renewal: "Jun 5, 2025",
+                          renewalBadge: "5 days left",
+                          renewalBadgeColor: styles.badgeSubtextOrange,
+                          revenue: "₱2,999",
+                          revenueBadge: null
+                        },
+                        {
+                          name: "Unity Christian School",
+                          location: "Taguig City, Metro Manila",
+                          status: "Expired",
+                          plan: "School Plan",
+                          limit: "Up to 500 students",
+                          students: 234,
+                          teachers: 21,
+                          joined: "May 25, 2025",
+                          renewal: "May 25, 2025",
+                          renewalBadge: "Expired",
+                          renewalBadgeColor: styles.badgeSubtextRed,
+                          revenue: "₱2,999",
+                          revenueBadge: null
+                        },
+                        {
+                          name: "Faith Academy",
+                          location: "Iloilo City, Iloilo",
+                          status: "Active",
+                          plan: "School Plan",
+                          limit: "Up to 500 students",
+                          students: 298,
+                          teachers: 34,
+                          joined: "May 20, 2025",
+                          renewal: "Jun 20, 2025",
+                          renewalBadge: "20 days left",
+                          renewalBadgeColor: styles.badgeSubtextGreen,
+                          revenue: "₱2,999",
+                          revenueBadge: null
+                        },
+                        {
+                          name: "St. Joseph High School",
+                          location: "Butuan City, Agusan del Norte",
+                          status: "Pending",
+                          plan: "District Plan",
+                          limit: "Up to 2000 students",
+                          students: 0,
+                          teachers: 0,
+                          joined: "May 15, 2025",
+                          renewal: "-",
+                          renewalBadge: null,
+                          renewalBadgeColor: null,
+                          revenue: "-",
+                          revenueBadge: null
+                        },
+                        {
+                          name: "New Horizon School",
+                          location: "General Santos City",
+                          status: "Pending",
+                          plan: "Enterprise Plan",
+                          limit: "Unlimited students",
+                          students: 0,
+                          teachers: 0,
+                          joined: "May 14, 2025",
+                          renewal: "-",
+                          renewalBadge: null,
+                          renewalBadgeColor: null,
+                          revenue: "-",
+                          revenueBadge: null
+                        }
+                      ].filter(school => {
+                        const matchesStatus = selectedStatus === 'all' || school.status.toLowerCase() === selectedStatus.toLowerCase();
+                        const matchesPlan = selectedPlan === 'all' || school.plan.toLowerCase() === selectedPlan.toLowerCase();
+                        const matchesSearch = school.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                              school.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                              school.plan.toLowerCase().includes(searchQuery.toLowerCase());
+                        return matchesStatus && matchesPlan && matchesSearch;
+                      });
+
+                      if (filteredSchools.length === 0) {
+                        return (
+                          <tr>
+                            <td colSpan={7} style={{ textAlign: 'center', padding: '3rem', color: 'rgba(240, 239, 237, 0.4)' }}>
+                              No schools found matching your search.
+                            </td>
+                          </tr>
+                        );
                       }
-                    ].map((school, i) => (
-                      <tr key={i} className={styles.clickableRow} onClick={() => alert(`Redirecting/managing details for ${school.name}...`)}>
-                        <td>
-                          <span className={styles.schoolNameColMain}>{school.name}</span>
-                          <span className={styles.schoolNameColSub}>{school.location}</span>
-                        </td>
-                        <td>
-                          <span className={`${styles.statusBadge} ${
-                            school.status === 'Active' ? styles.statusActive :
-                            school.status === 'Expiring Soon' ? styles.statusExpiring :
-                            school.status === 'Expired' ? styles.statusExpired : styles.statusExpiring
-                          }`} style={school.status === 'Pending' ? { background: 'rgba(245,200,66,0.08)', borderColor: 'rgba(245,200,66,0.4)', color: '#f5c842' } : {}}>
-                            {school.status}
-                          </span>
-                        </td>
-                        <td>
-                          <span className={styles.planNameText}>{school.plan}</span>
-                          <span className={styles.planLimitText}>{school.limit}</span>
-                        </td>
-                        <td>{school.joined}</td>
-                        <td>
-                          <div>{school.renewal}</div>
-                          {school.renewalBadge && (
-                            <span className={`${styles.badgeSubtext} ${school.renewalBadgeColor}`}>
-                              {school.renewalBadge}
+
+                      return filteredSchools.map((school, i) => (
+                        <tr key={i} className={styles.clickableRow} onClick={() => alert(`Redirecting/managing details for ${school.name}...`)}>
+                          <td>
+                            <span className={styles.schoolNameColMain}>{school.name}</span>
+                            <span className={styles.schoolNameColSub}>{school.location}</span>
+                          </td>
+                          <td>
+                            <span className={`${styles.statusBadge} ${
+                              school.status === 'Active' ? styles.statusActive :
+                              school.status === 'Expiring Soon' ? styles.statusExpiring :
+                              school.status === 'Expired' ? styles.statusExpired : styles.statusExpiring
+                            }`} style={school.status === 'Pending' ? { background: 'rgba(245,200,66,0.08)', borderColor: 'rgba(245,200,66,0.4)', color: '#f5c842' } : {}}>
+                              {school.status}
                             </span>
-                          )}
-                        </td>
-                        <td>
-                          <div>{school.revenue}</div>
-                          {school.revenueBadge && (
-                            <span className={styles.revenueExtraBadge}>
-                              {school.revenueBadge}
-                            </span>
-                          )}
-                        </td>
-                        <td>
-                          <div className={styles.actionsGroup} style={{ position: 'relative' }}>
-                            <button className={styles.actionIconBtn} onClick={(e) => { e.stopPropagation(); setActiveSchoolDropdownId(activeSchoolDropdownId === i ? null : i); }}>
-                              ⋮
-                            </button>
-                            {activeSchoolDropdownId === i && (
-                              <>
-                                <div className={styles.dropdownOverlay} onClick={(e) => { e.stopPropagation(); setActiveSchoolDropdownId(null); }} />
-                                <div className={`${styles.actionDropdownMenu} ${i >= 6 ? styles.actionDropdownMenuUp : ''}`}>
-                                  <button onClick={(e) => { e.stopPropagation(); setActiveSchoolDropdownId(null); alert(`Viewing details for ${school.name}...`); }} className={styles.actionDropdownItem}>
-                                    👁️ View Details
-                                  </button>
-                                  <button onClick={(e) => { e.stopPropagation(); setActiveSchoolDropdownId(null); alert(`Editing school ${school.name}...`); }} className={styles.actionDropdownItem}>
-                                    ✏️ Edit
-                                  </button>
-                                  <button onClick={(e) => { e.stopPropagation(); setActiveSchoolDropdownId(null); alert(`Deleting school ${school.name}...`); }} className={`${styles.actionDropdownItem} ${styles.actionDropdownItemDelete}`}>
-                                    🗑️ Delete
-                                  </button>
-                                </div>
-                              </>
+                          </td>
+                          <td>
+                            <span className={styles.planNameText}>{school.plan}</span>
+                            <span className={styles.planLimitText}>{school.limit}</span>
+                          </td>
+                          <td>{school.joined}</td>
+                          <td>
+                            <div>{school.renewal}</div>
+                            {school.renewalBadge && (
+                              <span className={`${styles.badgeSubtext} ${school.renewalBadgeColor}`}>
+                                {school.renewalBadge}
+                              </span>
                             )}
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
+                          </td>
+                          <td>
+                            <div>{school.revenue}</div>
+                            {school.revenueBadge && (
+                              <span className={styles.revenueExtraBadge}>
+                                {school.revenueBadge}
+                              </span>
+                            )}
+                          </td>
+                          <td>
+                            <div className={styles.actionsGroup} style={{ position: 'relative' }}>
+                              <button className={styles.actionIconBtn} onClick={(e) => { e.stopPropagation(); setActiveSchoolDropdownId(activeSchoolDropdownId === i ? null : i); }}>
+                                ⋮
+                              </button>
+                              {activeSchoolDropdownId === i && (
+                                <>
+                                  <div className={styles.dropdownOverlay} onClick={(e) => { e.stopPropagation(); setActiveSchoolDropdownId(null); }} />
+                                  <div className={`${styles.actionDropdownMenu} ${i >= filteredSchools.length - 2 ? styles.actionDropdownMenuUp : ''}`}>
+                                    <button onClick={(e) => { e.stopPropagation(); setActiveSchoolDropdownId(null); alert(`Viewing details for ${school.name}...`); }} className={styles.actionDropdownItem}>
+                                      👁️ View Details
+                                    </button>
+                                    <button onClick={(e) => { e.stopPropagation(); setActiveSchoolDropdownId(null); alert(`Editing school ${school.name}...`); }} className={styles.actionDropdownItem}>
+                                      ✏️ Edit
+                                    </button>
+                                    <button onClick={(e) => { e.stopPropagation(); setActiveSchoolDropdownId(null); alert(`Deleting school ${school.name}...`); }} className={`${styles.actionDropdownItem} ${styles.actionDropdownItemDelete}`}>
+                                      🗑️ Delete
+                                    </button>
+                                  </div>
+                                </>
+                              )}
+                            </div>
+                          </td>
+                        </tr>
+                      ));
+                    })()}
                   </tbody>
                 </table>
               </div>

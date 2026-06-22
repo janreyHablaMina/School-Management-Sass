@@ -690,7 +690,9 @@
   border: 1px dashed rgba(240, 239, 237, 0.35);
   color: rgba(240, 239, 237, 0.75);
   font-size: 0.72rem;
-  padding: 0.2rem 1.5rem 0.2rem 0.5rem;
+  padding: 0 1.5rem 0 0.5rem;
+  height: 32px;
+  box-sizing: border-box;
   border-radius: 4px;
   outline: none;
   cursor: pointer;
@@ -1156,8 +1158,11 @@
 .toolbarAddBtn {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.35rem;
-  padding: 0.35rem 0.95rem;
+  padding: 0 0.95rem;
+  height: 32px;
+  box-sizing: border-box;
   background: #f5c842;
   border: 1.8px solid #2e2e2e;
   border-radius: 6px 4px 5px 3px / 5px 3px 6px 4px;
@@ -1396,4 +1401,45 @@
   bottom: 100% !important;
   margin-top: 0 !important;
   margin-bottom: 0.35rem !important;
+}
+
+/* Permanent Filter Search Bar */
+.filterSearchWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 180px;
+}
+
+.filterSearchInput {
+  width: 100%;
+  padding: 0 0.65rem 0 1.6rem; /* Left padding to clear magnifying glass icon */
+  height: 32px;
+  background: rgba(255, 255, 255, 0.01);
+  border: 1.5px dashed rgba(240, 239, 237, 0.35);
+  border-radius: 6px;
+  color: rgba(240, 239, 237, 0.95);
+  font-size: 0.75rem;
+  outline: none;
+  transition: all 0.15s ease;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.filterSearchInput:focus {
+  border-style: solid;
+  border-color: #f5c842;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.filterSearchIcon {
+  position: absolute;
+  left: 0.55rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(240, 239, 237, 0.45);
+  font-size: 0.72rem;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
 }
