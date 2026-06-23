@@ -371,7 +371,7 @@ const SchoolDetailView = ({
             
             <div className={styles.donutWrapper}>
               <div className={styles.donutChartContainer}>
-                <svg width="120" height="120" viewBox="0 0 120 120" style={{ filter: 'url(#chalk-wobble)' }}>
+                <svg width="100%" height="100%" viewBox="0 0 120 120" style={{ filter: 'url(#chalk-wobble)' }}>
                   <circle cx="60" cy="60" r="45" fill="none" stroke="#84a9ff" strokeWidth="12" strokeDasharray="70.68 282.74" strokeDashoffset="0" transform="rotate(-90 60 60)" />
                   <circle cx="60" cy="60" r="45" fill="none" stroke="#f5c842" strokeWidth="12" strokeDasharray="71.8 282.74" strokeDashoffset="-70.68" transform="rotate(-90 60 60)" />
                   <circle cx="60" cy="60" r="45" fill="none" stroke="#4df58a" strokeWidth="12" strokeDasharray="69.55 282.74" strokeDashoffset="-142.48" transform="rotate(-90 60 60)" />
@@ -425,7 +425,7 @@ const SchoolDetailView = ({
 
             <div className={styles.donutWrapper}>
               <div className={styles.donutChartContainer}>
-                <svg width="120" height="120" viewBox="0 0 120 120" style={{ filter: 'url(#chalk-wobble)' }}>
+                <svg width="100%" height="100%" viewBox="0 0 120 120" style={{ filter: 'url(#chalk-wobble)' }}>
                   <circle cx="60" cy="60" r="45" fill="none" stroke="#84a9ff" strokeWidth="12" strokeDasharray="238.6 282.74" strokeDashoffset="0" transform="rotate(-90 60 60)" />
                   <circle cx="60" cy="60" r="45" fill="none" stroke="#f5c842" strokeWidth="12" strokeDasharray="44.1 282.74" strokeDashoffset="-238.6" transform="rotate(-90 60 60)" />
                 </svg>
