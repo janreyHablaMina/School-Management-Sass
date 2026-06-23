@@ -1509,6 +1509,8 @@
   display: flex;
   gap: 0.8rem;
   flex-wrap: wrap;
+  flex-grow: 1;
+  justify-content: flex-end;
 }
 
 .detailStatsTile {
@@ -1518,6 +1520,8 @@
   padding: 0.5rem 1rem;
   text-align: center;
   min-width: 100px;
+  flex-grow: 1;
+  flex-basis: 0;
   transition: all 0.15s ease;
 }
 
