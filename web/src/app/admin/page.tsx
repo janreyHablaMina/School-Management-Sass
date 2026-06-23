@@ -578,55 +578,60 @@ const SchoolDetailView = ({
           <div className={`${styles.detailCard} ${styles.colSpan12}`}>
             <div className={styles.detailCardHeader}>
               <h3 className={styles.detailCardTitle}>Revenue Overview</h3>
+              <select className={styles.chartSelect} defaultValue="6months">
+                <option value="6months">Last 6 Months</option>
+                <option value="year">Year 2025</option>
+              </select>
             </div>
-            <div className={styles.revenueHeader}>
-              <div>
+            
+            <div className={styles.revenueRowContent}>
+              <div className={styles.revenueLeftCol}>
                 <span className={styles.revenueVal}>₱32,989</span>
                 <span className={styles.revenueSub}>Total Revenue (All Time)</span>
+                <span className={styles.revenueTrend}>
+                  ↑ 12.5% vs last month
+                </span>
               </div>
-              <div className={styles.revenueTrend}>
-                ▲ 12.5% vs last month
+
+              <div className={styles.revenueChartArea} style={{ flex: 1, marginTop: 0 }}>
+                <svg width="100%" height="100%" viewBox="0 0 800 180" fill="none" style={{ filter: 'url(#chalk-wobble)' }}>
+                  <line x1="40" y1="30" x2="760" y2="30" stroke="rgba(240, 239, 237, 0.08)" strokeWidth="1" strokeDasharray="3 3" />
+                  <line x1="40" y1="70" x2="760" y2="70" stroke="rgba(240, 239, 237, 0.08)" strokeWidth="1" strokeDasharray="3 3" />
+                  <line x1="40" y1="110" x2="760" y2="110" stroke="rgba(240, 239, 237, 0.08)" strokeWidth="1" strokeDasharray="3 3" />
+                  <line x1="40" y1="150" x2="760" y2="150" stroke="rgba(240, 239, 237, 0.18)" strokeWidth="1.5" />
+                  <line x1="40" y1="20" x2="40" y2="150" stroke="rgba(240, 239, 237, 0.18)" strokeWidth="1.5" />
+
+                  <text x="35" y="168" fill="rgba(240, 239, 237, 0.45)" fontSize="9">Dec 2024</text>
+                  <text x="175" y="168" fill="rgba(240, 239, 237, 0.45)" fontSize="9">Jan 2025</text>
+                  <text x="315" y="168" fill="rgba(240, 239, 237, 0.45)" fontSize="9">Feb 2025</text>
+                  <text x="455" y="168" fill="rgba(240, 239, 237, 0.45)" fontSize="9">Mar 2025</text>
+                  <text x="595" y="168" fill="rgba(240, 239, 237, 0.45)" fontSize="9">Apr 2025</text>
+                  <text x="715" y="168" fill="rgba(240, 239, 237, 0.45)" fontSize="9">May 2025</text>
+
+                  <path
+                    d="M 65 140 L 205 105 L 345 98 L 485 112 L 625 80 L 735 60"
+                    fill="none"
+                    stroke="#84a9ff"
+                    strokeWidth="3.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+
+                  <circle cx="65" cy="140" r="4.5" fill="#f5c842" stroke="#08120d" strokeWidth="1.5" />
+                  <circle cx="205" cy="105" r="4.5" fill="#f5c842" stroke="#08120d" strokeWidth="1.5" />
+                  <circle cx="345" cy="98" r="4.5" fill="#f5c842" stroke="#08120d" strokeWidth="1.5" />
+                  <circle cx="485" cy="112" r="4.5" fill="#f5c842" stroke="#08120d" strokeWidth="1.5" />
+                  <circle cx="625" cy="80" r="4.5" fill="#f5c842" stroke="#08120d" strokeWidth="1.5" />
+                  <circle cx="735" cy="60" r="4.5" fill="#f5c842" stroke="#08120d" strokeWidth="1.5" />
+
+                  <text x="65" y="125" fill="#f5c842" fontSize="9" fontWeight="bold" textAnchor="middle">₱10k</text>
+                  <text x="205" y="90" fill="#f5c842" fontSize="9" fontWeight="bold" textAnchor="middle">₱20k</text>
+                  <text x="345" y="83" fill="#f5c842" fontSize="9" fontWeight="bold" textAnchor="middle">₱22k</text>
+                  <text x="485" y="97" fill="#f5c842" fontSize="9" fontWeight="bold" textAnchor="middle">₱18k</text>
+                  <text x="625" y="65" fill="#f5c842" fontSize="9" fontWeight="bold" textAnchor="middle">₱29k</text>
+                  <text x="735" y="45" fill="#f5c842" fontSize="9" fontWeight="bold" textAnchor="middle">₱33k</text>
+                </svg>
               </div>
-            </div>
-
-            <div className={styles.revenueChartArea}>
-              <svg width="100%" height="100%" viewBox="0 0 800 180" fill="none" style={{ filter: 'url(#chalk-wobble)' }}>
-                <line x1="40" y1="30" x2="760" y2="30" stroke="rgba(240, 239, 237, 0.08)" strokeWidth="1" strokeDasharray="3 3" />
-                <line x1="40" y1="70" x2="760" y2="70" stroke="rgba(240, 239, 237, 0.08)" strokeWidth="1" strokeDasharray="3 3" />
-                <line x1="40" y1="110" x2="760" y2="110" stroke="rgba(240, 239, 237, 0.08)" strokeWidth="1" strokeDasharray="3 3" />
-                <line x1="40" y1="150" x2="760" y2="150" stroke="rgba(240, 239, 237, 0.18)" strokeWidth="1.5" />
-                <line x1="40" y1="20" x2="40" y2="150" stroke="rgba(240, 239, 237, 0.18)" strokeWidth="1.5" />
-
-                <text x="35" y="168" fill="rgba(240, 239, 237, 0.45)" fontSize="9">Dec 2024</text>
-                <text x="175" y="168" fill="rgba(240, 239, 237, 0.45)" fontSize="9">Jan 2025</text>
-                <text x="315" y="168" fill="rgba(240, 239, 237, 0.45)" fontSize="9">Feb 2025</text>
-                <text x="455" y="168" fill="rgba(240, 239, 237, 0.45)" fontSize="9">Mar 2025</text>
-                <text x="595" y="168" fill="rgba(240, 239, 237, 0.45)" fontSize="9">Apr 2025</text>
-                <text x="715" y="168" fill="rgba(240, 239, 237, 0.45)" fontSize="9">May 2025</text>
-
-                <path
-                  d="M 65 140 L 205 105 L 345 98 L 485 112 L 625 80 L 735 60"
-                  fill="none"
-                  stroke="#84a9ff"
-                  strokeWidth="3.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-
-                <circle cx="65" cy="140" r="4.5" fill="#f5c842" stroke="#08120d" strokeWidth="1.5" />
-                <circle cx="205" cy="105" r="4.5" fill="#f5c842" stroke="#08120d" strokeWidth="1.5" />
-                <circle cx="345" cy="98" r="4.5" fill="#f5c842" stroke="#08120d" strokeWidth="1.5" />
-                <circle cx="485" cy="112" r="4.5" fill="#f5c842" stroke="#08120d" strokeWidth="1.5" />
-                <circle cx="625" cy="80" r="4.5" fill="#f5c842" stroke="#08120d" strokeWidth="1.5" />
-                <circle cx="735" cy="60" r="4.5" fill="#f5c842" stroke="#08120d" strokeWidth="1.5" />
-
-                <text x="65" y="125" fill="#f5c842" fontSize="9" fontWeight="bold" textAnchor="middle">₱10k</text>
-                <text x="205" y="90" fill="#f5c842" fontSize="9" fontWeight="bold" textAnchor="middle">₱20k</text>
-                <text x="345" y="83" fill="#f5c842" fontSize="9" fontWeight="bold" textAnchor="middle">₱22k</text>
-                <text x="485" y="97" fill="#f5c842" fontSize="9" fontWeight="bold" textAnchor="middle">₱18k</text>
-                <text x="625" y="65" fill="#f5c842" fontSize="9" fontWeight="bold" textAnchor="middle">₱29k</text>
-                <text x="735" y="45" fill="#f5c842" fontSize="9" fontWeight="bold" textAnchor="middle">₱33k</text>
-              </svg>
             </div>
           </div>
         </section>

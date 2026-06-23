@@ -1832,20 +1832,51 @@
 
 .revenueVal {
   font-family: 'Caveat', cursive;
-  font-size: 2rem;
+  font-size: 2.2rem;
   color: #f5c842;
   font-weight: 700;
+  line-height: 1;
 }
 
 .revenueSub {
-  font-size: 0.78rem;
+  font-size: 0.8rem;
   color: rgba(240, 239, 237, 0.45);
-  margin-left: 0.5rem;
 }
 
 .revenueTrend {
-  font-size: 0.8rem;
+  font-size: 0.88rem;
   color: #4df58a;
   font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.revenueRowContent {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.revenueLeftCol {
+  flex-shrink: 0;
+  width: 170px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+@media (max-width: 768px) {
+  .revenueRowContent {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .revenueLeftCol {
+    width: 100%;
+    text-align: center;
+    align-items: center;
+  }
 }
 
