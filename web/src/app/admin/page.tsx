@@ -594,22 +594,22 @@ const SchoolDetailView = ({
               </div>
 
               <div className={styles.revenueChartArea} style={{ flex: 1, marginTop: 0 }}>
-                <svg width="100%" height="100%" viewBox="0 0 800 180" fill="none" style={{ filter: 'url(#chalk-wobble)' }}>
-                  <line x1="40" y1="30" x2="760" y2="30" stroke="rgba(240, 239, 237, 0.08)" strokeWidth="1" strokeDasharray="3 3" />
-                  <line x1="40" y1="70" x2="760" y2="70" stroke="rgba(240, 239, 237, 0.08)" strokeWidth="1" strokeDasharray="3 3" />
-                  <line x1="40" y1="110" x2="760" y2="110" stroke="rgba(240, 239, 237, 0.08)" strokeWidth="1" strokeDasharray="3 3" />
-                  <line x1="40" y1="150" x2="760" y2="150" stroke="rgba(240, 239, 237, 0.18)" strokeWidth="1.5" />
+                <svg width="100%" height="100%" viewBox="0 0 1200 180" fill="none" style={{ filter: 'url(#chalk-wobble)' }}>
+                  <line x1="40" y1="30" x2="1160" y2="30" stroke="rgba(240, 239, 237, 0.08)" strokeWidth="1" strokeDasharray="3 3" />
+                  <line x1="40" y1="70" x2="1160" y2="70" stroke="rgba(240, 239, 237, 0.08)" strokeWidth="1" strokeDasharray="3 3" />
+                  <line x1="40" y1="110" x2="1160" y2="110" stroke="rgba(240, 239, 237, 0.08)" strokeWidth="1" strokeDasharray="3 3" />
+                  <line x1="40" y1="150" x2="1160" y2="150" stroke="rgba(240, 239, 237, 0.18)" strokeWidth="1.5" />
                   <line x1="40" y1="20" x2="40" y2="150" stroke="rgba(240, 239, 237, 0.18)" strokeWidth="1.5" />
 
-                  <text x="35" y="168" fill="rgba(240, 239, 237, 0.45)" fontSize="9">Dec 2024</text>
-                  <text x="175" y="168" fill="rgba(240, 239, 237, 0.45)" fontSize="9">Jan 2025</text>
-                  <text x="315" y="168" fill="rgba(240, 239, 237, 0.45)" fontSize="9">Feb 2025</text>
-                  <text x="455" y="168" fill="rgba(240, 239, 237, 0.45)" fontSize="9">Mar 2025</text>
-                  <text x="595" y="168" fill="rgba(240, 239, 237, 0.45)" fontSize="9">Apr 2025</text>
-                  <text x="715" y="168" fill="rgba(240, 239, 237, 0.45)" fontSize="9">May 2025</text>
+                  <text x="65" y="168" fill="rgba(240, 239, 237, 0.45)" fontSize="9">Dec 2024</text>
+                  <text x="279" y="168" fill="rgba(240, 239, 237, 0.45)" fontSize="9">Jan 2025</text>
+                  <text x="493" y="168" fill="rgba(240, 239, 237, 0.45)" fontSize="9">Feb 2025</text>
+                  <text x="707" y="168" fill="rgba(240, 239, 237, 0.45)" fontSize="9">Mar 2025</text>
+                  <text x="921" y="168" fill="rgba(240, 239, 237, 0.45)" fontSize="9">Apr 2025</text>
+                  <text x="1135" y="168" fill="rgba(240, 239, 237, 0.45)" fontSize="9">May 2025</text>
 
                   <path
-                    d="M 65 140 L 205 105 L 345 98 L 485 112 L 625 80 L 735 60"
+                    d="M 65 140 L 279 105 L 493 98 L 707 112 L 921 80 L 1135 60"
                     fill="none"
                     stroke="#84a9ff"
                     strokeWidth="3.5"
@@ -618,18 +618,18 @@ const SchoolDetailView = ({
                   />
 
                   <circle cx="65" cy="140" r="4.5" fill="#f5c842" stroke="#08120d" strokeWidth="1.5" />
-                  <circle cx="205" cy="105" r="4.5" fill="#f5c842" stroke="#08120d" strokeWidth="1.5" />
-                  <circle cx="345" cy="98" r="4.5" fill="#f5c842" stroke="#08120d" strokeWidth="1.5" />
-                  <circle cx="485" cy="112" r="4.5" fill="#f5c842" stroke="#08120d" strokeWidth="1.5" />
-                  <circle cx="625" cy="80" r="4.5" fill="#f5c842" stroke="#08120d" strokeWidth="1.5" />
-                  <circle cx="735" cy="60" r="4.5" fill="#f5c842" stroke="#08120d" strokeWidth="1.5" />
+                  <circle cx="279" cy="105" r="4.5" fill="#f5c842" stroke="#08120d" strokeWidth="1.5" />
+                  <circle cx="493" cy="98" r="4.5" fill="#f5c842" stroke="#08120d" strokeWidth="1.5" />
+                  <circle cx="707" cy="112" r="4.5" fill="#f5c842" stroke="#08120d" strokeWidth="1.5" />
+                  <circle cx="921" cy="80" r="4.5" fill="#f5c842" stroke="#08120d" strokeWidth="1.5" />
+                  <circle cx="1135" cy="60" r="4.5" fill="#f5c842" stroke="#08120d" strokeWidth="1.5" />
 
                   <text x="65" y="125" fill="#f5c842" fontSize="9" fontWeight="bold" textAnchor="middle">₱10k</text>
-                  <text x="205" y="90" fill="#f5c842" fontSize="9" fontWeight="bold" textAnchor="middle">₱20k</text>
-                  <text x="345" y="83" fill="#f5c842" fontSize="9" fontWeight="bold" textAnchor="middle">₱22k</text>
-                  <text x="485" y="97" fill="#f5c842" fontSize="9" fontWeight="bold" textAnchor="middle">₱18k</text>
-                  <text x="625" y="65" fill="#f5c842" fontSize="9" fontWeight="bold" textAnchor="middle">₱29k</text>
-                  <text x="735" y="45" fill="#f5c842" fontSize="9" fontWeight="bold" textAnchor="middle">₱33k</text>
+                  <text x="279" y="90" fill="#f5c842" fontSize="9" fontWeight="bold" textAnchor="middle">₱20k</text>
+                  <text x="493" y="83" fill="#f5c842" fontSize="9" fontWeight="bold" textAnchor="middle">₱22k</text>
+                  <text x="707" y="97" fill="#f5c842" fontSize="9" fontWeight="bold" textAnchor="middle">₱18k</text>
+                  <text x="921" y="65" fill="#f5c842" fontSize="9" fontWeight="bold" textAnchor="middle">₱29k</text>
+                  <text x="1135" y="45" fill="#f5c842" fontSize="9" fontWeight="bold" textAnchor="middle">₱33k</text>
                 </svg>
               </div>
             </div>
