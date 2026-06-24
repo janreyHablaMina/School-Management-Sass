@@ -1684,16 +1684,16 @@
 .donutWrapper {
   display: flex;
   align-items: center;
-  gap: 2.5rem;
+  gap: 1.5rem;
   justify-content: space-around;
-  flex-wrap: wrap;
-  padding: 1.5rem 0.5rem;
+  flex-wrap: nowrap;
+  padding: 1.2rem 0.5rem;
 }
 
 .donutChartContainer {
   position: relative;
-  width: 210px;
-  height: 210px;
+  width: 165px;
+  height: 165px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1710,51 +1710,83 @@
 
 .donutCenterVal {
   font-family: 'Caveat', cursive;
-  font-size: 2.8rem;
+  font-size: 2.2rem;
   font-weight: 700;
   color: #f5c842;
   line-height: 1;
 }
 
 .donutCenterLabel {
-  font-size: 0.85rem;
+  font-size: 0.72rem;
   color: rgba(240, 239, 237, 0.45);
   text-transform: uppercase;
-  margin-top: 0.3rem;
+  margin-top: 0.2rem;
   white-space: nowrap;
 }
 
 .legendList {
   display: flex;
   flex-direction: column;
-  gap: 0.9rem;
+  gap: 0.65rem;
   flex: 1;
-  min-width: 180px;
+  min-width: 150px;
 }
 
 .legendItem {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 1.05rem;
+  font-size: 0.88rem;
 }
 
 .legendColorLabel {
   display: flex;
   align-items: center;
-  gap: 0.65rem;
+  gap: 0.55rem;
   color: rgba(240, 239, 237, 0.75);
 }
 
 .legendDot {
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
 }
 
 .legendValue {
   font-weight: 600;
   color: rgba(240, 239, 237, 0.95);
+}
+
+/* Medium Desktop and below (equal or below 1440px screens) */
+@media (max-width: 1440px) {
+  .donutWrapper {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.2rem 0.5rem;
+  }
+  .donutChartContainer {
+    width: 175px;
+    height: 175px;
+  }
+  .donutCenterVal {
+    font-size: 2.3rem;
+  }
+  .donutCenterLabel {
+    font-size: 0.72rem;
+  }
+  .legendList {
+    width: 100%;
+    max-width: 230px;
+    gap: 0.6rem;
+  }
+  .legendItem {
+    font-size: 0.92rem;
+  }
+  .legendDot {
+    width: 10px;
+    height: 10px;
+  }
 }
 
 .creditList {
