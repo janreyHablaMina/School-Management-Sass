@@ -1,0 +1,490 @@
+/* ────────────────── Detailed School View Styles ────────────────── */
+.detailHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  padding: 1.5rem;
+  background: rgba(10, 25, 17, 0.25);
+  border: 2px dashed rgba(240, 239, 237, 0.2);
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+}
+
+.detailHeaderLeft {
+  display: flex;
+  gap: 1.2rem;
+  align-items: center;
+}
+
+.emblemWrapper {
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.03);
+  border: 2px solid rgba(240, 239, 237, 0.4);
+  border-radius: 50% 45% 48% 52% / 46% 52% 48% 54%;
+  padding: 8px;
+}
+
+.schoolTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.schoolMainName {
+  font-family: 'Caveat', cursive;
+  font-size: 2.2rem;
+  color: #f5c842;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.1;
+}
+
+.schoolSubInfo {
+  font-size: 0.82rem;
+  color: rgba(240, 239, 237, 0.55);
+  margin-top: 0.35rem;
+  display: flex;
+  gap: 1.2rem;
+}
+
+.schoolSubInfoItem {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.detailStatsGrid {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  flex-grow: 1;
+  justify-content: flex-end;
+}
+
+.detailStatsTile {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1.5px dashed rgba(240, 239, 237, 0.25);
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  text-align: center;
+  min-width: 100px;
+  flex-grow: 1;
+  flex-basis: 0;
+  transition: all 0.15s ease;
+}
+
+.detailStatsTile:hover {
+  border-style: solid;
+  border-color: #f5c842;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.detailStatsVal {
+  display: block;
+  font-family: 'Caveat', cursive;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #f5c842;
+}
+
+.detailStatsLabel {
+  display: block;
+  font-size: 0.68rem;
+  color: rgba(240, 239, 237, 0.5);
+  margin-top: 0.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.detailTabsBar {
+  display: flex;
+  gap: 0.5rem;
+  border-bottom: 2px dashed rgba(240, 239, 237, 0.18);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.2rem;
+  overflow-x: auto;
+}
+
+.detailTabButton {
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: transparent;
+  border: none;
+  color: rgba(240, 239, 237, 0.6);
+  padding: 0.5rem 1.1rem;
+  cursor: pointer;
+  border-radius: 6px 6px 0 0;
+  position: relative;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.detailTabButton:hover {
+  color: rgba(240, 239, 237, 0.95);
+}
+
+.detailTabButtonActive {
+  color: #f5c842;
+  font-family: 'Caveat', cursive;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.detailTabButtonActive::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: #f5c842;
+  border-radius: 2px;
+}
+
+.detailBodyGrid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 1.5rem;
+}
+
+.colSpan6 {
+  grid-column: span 6;
+}
+
+.colSpan4 {
+  grid-column: span 4;
+}
+
+.colSpan8 {
+  grid-column: span 8;
+}
+
+.colSpan12 {
+  grid-column: span 12;
+}
+
+@media (max-width: 1024px) {
+  .colSpan6, .colSpan4, .colSpan8 {
+    grid-column: span 12;
+  }
+}
+
+.detailCard {
+  border: 2px solid rgba(240, 239, 237, 0.45);
+  border-radius: 12px 14px 10px 13px / 14px 10px 13px 10px;
+  padding: 1.5rem;
+  background: rgba(10, 25, 17, 0.15);
+  position: relative;
+}
+
+.detailCardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.2rem;
+}
+
+.detailCardTitle {
+  font-family: 'Caveat', cursive;
+  font-size: 1.6rem;
+  color: #f5c842;
+  margin: 0;
+}
+
+.detailCardLink {
+  font-size: 0.78rem;
+  color: rgba(240, 239, 237, 0.5);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.detailCardLink:hover {
+  color: #f5c842;
+}
+
+.infoList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.infoItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px dashed rgba(240, 239, 237, 0.1);
+  padding-bottom: 0.5rem;
+}
+
+.infoLabel {
+  font-size: 0.82rem;
+  color: rgba(240, 239, 237, 0.45);
+}
+
+.infoValue {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: rgba(240, 239, 237, 0.95);
+  text-align: right;
+}
+
+.donutWrapper {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  justify-content: space-around;
+  flex-wrap: nowrap;
+  padding: 1.2rem 0.5rem;
+}
+
+.donutChartContainer {
+  position: relative;
+  width: 165px;
+  height: 165px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.donutCenterText {
+  position: absolute;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.donutCenterVal {
+  font-family: 'Caveat', cursive;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #f5c842;
+  line-height: 1;
+}
+
+.donutCenterLabel {
+  font-size: 0.72rem;
+  color: rgba(240, 239, 237, 0.45);
+  text-transform: uppercase;
+  margin-top: 0.2rem;
+  white-space: nowrap;
+}
+
+.legendList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  flex: 1;
+  min-width: 150px;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.88rem;
+}
+
+.legendColorLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: rgba(240, 239, 237, 0.75);
+}
+
+.legendDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.legendValue {
+  font-weight: 600;
+  color: rgba(240, 239, 237, 0.95);
+}
+
+/* Medium Desktop and below (equal or below 1440px screens) */
+@media (max-width: 1440px) {
+  .donutWrapper {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.2rem 0.5rem;
+  }
+  .donutChartContainer {
+    width: 175px;
+    height: 175px;
+  }
+  .donutCenterVal {
+    font-size: 2.3rem;
+  }
+  .donutCenterLabel {
+    font-size: 0.72rem;
+  }
+  .legendList {
+    width: 100%;
+    max-width: 230px;
+    gap: 0.6rem;
+  }
+  .legendItem {
+    font-size: 0.92rem;
+  }
+  .legendDot {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+.creditList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.creditItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+}
+
+.creditTool {
+  color: rgba(240, 239, 237, 0.7);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.creditCount {
+  font-weight: 600;
+  color: #f5c842;
+}
+
+.activityList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.activityItem {
+  display: flex;
+  gap: 0.75rem;
+  font-size: 0.8rem;
+  align-items: flex-start;
+}
+
+.activityDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #f5c842;
+  margin-top: 0.3rem;
+  flex-shrink: 0;
+}
+
+.activityContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.activityText {
+  color: rgba(240, 239, 237, 0.85);
+  line-height: 1.3;
+}
+
+.activityTime {
+  font-size: 0.7rem;
+  color: rgba(240, 239, 237, 0.4);
+  margin-top: 0.15rem;
+}
+
+.revenueChartArea {
+  height: 180px;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.revenueHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.revenueVal {
+  font-family: 'Caveat', cursive;
+  font-size: 2.2rem;
+  color: #f5c842;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.revenueSub {
+  font-size: 0.8rem;
+  color: rgba(240, 239, 237, 0.45);
+}
+
+.revenueTrend {
+  font-size: 0.88rem;
+  color: #4df58a;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.revenueRowContent {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.revenueLeftCol {
+  flex-shrink: 0;
+  width: 170px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+@media (max-width: 768px) {
+  .revenueRowContent {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .revenueLeftCol {
+    width: 100%;
+    text-align: center;
+    align-items: center;
+  }
+}
+
+.chartSelect {
+  background: #08120d;
+  color: rgba(240, 239, 237, 0.8);
+  border: 1.5px solid rgba(240, 239, 237, 0.3);
+  padding: 0.35rem 0.75rem;
+  border-radius: 8px 6px 9px 5px / 6px 9px 5px 8px;
+  font-family: 'Caveat', cursive;
+  font-size: 1.15rem;
+  font-weight: 700;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.chartSelect:hover {
+  border-color: #f5c842;
+  color: #f5c842;
+}
