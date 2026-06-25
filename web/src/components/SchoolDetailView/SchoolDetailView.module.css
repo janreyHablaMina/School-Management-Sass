@@ -488,3 +488,412 @@
   border-color: #f5c842;
   color: #f5c842;
 }
+
+/* Subscription Tab specific styles */
+.subscriptionSplit {
+  display: flex;
+  gap: 1.5rem;
+  align-items: stretch;
+}
+
+.subCardBadge {
+  flex-shrink: 0;
+  width: 175px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 2px solid rgba(240, 239, 237, 0.25);
+  border-radius: 10px 12px 8px 11px / 12px 8px 11px 9px;
+  padding: 1.25rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 0.6rem;
+}
+
+.badgeCrown {
+  color: #f5c842;
+  margin-bottom: 0.4rem;
+  filter: drop-shadow(0 0 5px rgba(245, 200, 98, 0.2));
+}
+
+.badgePlanTitle {
+  font-family: 'Caveat', cursive;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #f5c842;
+  margin: 0;
+}
+
+.badgePlanSub {
+  font-size: 0.75rem;
+  color: rgba(240, 239, 237, 0.45);
+}
+
+.badgePlanPrice {
+  font-family: 'Caveat', cursive;
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: rgba(240, 239, 237, 0.95);
+  margin-top: 0.4rem;
+}
+
+.badgePlanUnit {
+  font-size: 0.75rem;
+  color: rgba(240, 239, 237, 0.4);
+  font-family: inherit;
+  font-weight: normal;
+}
+
+.usageProgressRow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 1rem;
+}
+
+.usageProgressRow:last-child {
+  margin-bottom: 0;
+}
+
+.usageRowHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 0.82rem;
+}
+
+.usageRowLabel {
+  font-weight: 600;
+  color: rgba(240, 239, 237, 0.8);
+}
+
+.usageRowVal {
+  font-size: 0.8rem;
+  color: rgba(240, 239, 237, 0.5);
+}
+
+.usageRowPercent {
+  font-size: 0.78rem;
+  font-weight: 700;
+  font-family: 'Caveat', cursive;
+}
+
+.progressBarOuter {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progressBarInner {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+.addonGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.2rem;
+}
+
+@media (max-width: 768px) {
+  .addonGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.addonSubCard {
+  border: 1.5px dashed rgba(240, 239, 237, 0.25);
+  background: rgba(255, 255, 255, 0.01);
+  border-radius: 10px;
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.addonHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.addonIconBox {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: rgba(132, 169, 255, 0.05);
+  color: #84a9ff;
+  border: 1px solid rgba(132, 169, 255, 0.15);
+}
+
+.addonTitle {
+  font-family: 'Caveat', cursive;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #f5c842;
+  margin: 0;
+}
+
+.addonDesc {
+  font-size: 0.76rem;
+  color: rgba(240, 239, 237, 0.45);
+  line-height: 1.4;
+}
+
+.addonMetricRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.82rem;
+  border-bottom: 1px dashed rgba(240, 239, 237, 0.08);
+  padding-bottom: 0.45rem;
+}
+
+.addonMetricLabel {
+  color: rgba(240, 239, 237, 0.45);
+}
+
+.addonMetricVal {
+  font-weight: 600;
+  color: rgba(240, 239, 237, 0.9);
+}
+
+.actionList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.actionRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0.5rem;
+  border-bottom: 1px dashed rgba(240, 239, 237, 0.08);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border-radius: 6px;
+}
+
+.actionRow:hover {
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom-color: rgba(245, 200, 66, 0.2);
+}
+
+.actionRow:hover .actionLabelTitle {
+  color: #f5c842;
+}
+
+.actionRow:hover .actionChevron {
+  color: #f5c842;
+  transform: translateX(3px);
+}
+
+.actionRowContent {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.actionIcon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  color: rgba(240, 239, 237, 0.5);
+  border: 1px dashed rgba(240, 239, 237, 0.2);
+  transition: all 0.15s ease;
+}
+
+.actionRow:hover .actionIcon {
+  border-color: rgba(245, 200, 66, 0.4);
+  color: #f5c842;
+}
+
+.actionTextContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.actionLabelTitle {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: rgba(240, 239, 237, 0.85);
+  transition: all 0.15s ease;
+}
+
+.actionLabelSub {
+  font-size: 0.72rem;
+  color: rgba(240, 239, 237, 0.4);
+}
+
+.actionChevron {
+  color: rgba(240, 239, 237, 0.35);
+  font-size: 0.8rem;
+  transition: all 0.15s ease;
+}
+
+.actionRowDelete {
+  border-bottom: none;
+}
+
+.actionRowDelete:hover .actionLabelTitle {
+  color: #ff8a8a !important;
+}
+
+.actionRowDelete:hover .actionChevron {
+  color: #ff8a8a !important;
+}
+
+.actionRowDelete:hover .actionIcon {
+  border-color: rgba(255, 138, 138, 0.4) !important;
+  color: #ff8a8a !important;
+}
+
+.historyTableWrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.historyTable {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.historyTable th {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: rgba(240, 239, 237, 0.45);
+  font-weight: 600;
+  padding: 0.65rem 0.5rem;
+  border-bottom: 1.5px dashed rgba(240, 239, 237, 0.15);
+}
+
+.historyTable td {
+  padding: 0.75rem 0.5rem;
+  border-bottom: 1px dashed rgba(240, 239, 237, 0.06);
+  font-size: 0.82rem;
+  color: rgba(240, 239, 237, 0.8);
+}
+
+.historyTable tr:last-child td {
+  border-bottom: none;
+}
+
+.invoiceNum {
+  font-weight: 600;
+  color: #84a9ff;
+}
+
+.downloadIconBtn {
+  background: transparent;
+  border: none;
+  color: rgba(240, 239, 237, 0.4);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.downloadIconBtn:hover {
+  color: #f5c842;
+  transform: translateY(1px);
+}
+
+.historyFooterLink {
+  margin-top: 1rem;
+  text-align: center;
+  border-top: 1px dashed rgba(240, 239, 237, 0.08);
+  padding-top: 0.8rem;
+}
+
+.renewalBox {
+  border: 2px dashed #f5c842;
+  border-radius: 10px;
+  background: rgba(245, 200, 66, 0.02);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.renewalHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.renewalIconBox {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: rgba(245, 200, 66, 0.08);
+  border: 1px solid rgba(245, 200, 66, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #f5c842;
+}
+
+.renewalTitle {
+  font-family: 'Caveat', cursive;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #f5c842;
+  margin: 0;
+}
+
+.renewalText {
+  font-size: 0.82rem;
+  color: rgba(240, 239, 237, 0.85);
+  line-height: 1.45;
+}
+
+.renewalDateVal {
+  display: block;
+  font-family: 'Caveat', cursive;
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: #f5c842;
+  margin-top: 0.2rem;
+}
+
+.renewalSubtext {
+  font-size: 0.74rem;
+  color: rgba(240, 239, 237, 0.45);
+  line-height: 1.4;
+}
+
+.renewalBadgeRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+@media (max-width: 1200px) {
+  .subscriptionSplit {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .subCardBadge {
+    width: 100%;
+    max-width: 250px;
+  }
+}
+
