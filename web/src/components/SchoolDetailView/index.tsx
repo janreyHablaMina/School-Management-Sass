@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './SchoolDetailView.module.css';
 
 const getSchoolDetails = (schoolName: string) => {
@@ -71,6 +71,7 @@ export const SchoolDetailView = ({
   detailTab: string;
   setDetailTab: (tab: string) => void;
 }) => {
+  const [activeStudentDropdownId, setActiveStudentDropdownId] = useState<number | null>(null);
   const details = getSchoolDetails(school.name);
   const totalStudents = school.students || 512;
   const totalTeachers = school.teachers || 45;
@@ -1002,13 +1003,34 @@ export const SchoolDetailView = ({
                     </td>
                     <td style={{ color: 'rgba(240, 239, 237, 0.6)' }}>{s.join}</td>
                     <td style={{ textAlign: 'center' }}>
-                      <button style={{ background: 'transparent', border: 'none', color: 'rgba(240, 239, 237, 0.6)', cursor: 'pointer' }}>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <circle cx="12" cy="12" r="1" />
-                          <circle cx="12" cy="5" r="1" />
-                          <circle cx="12" cy="19" r="1" />
-                        </svg>
-                      </button>
+                      <div style={{ position: 'relative' }}>
+                        <button 
+                          style={{ background: 'transparent', border: 'none', color: 'rgba(240, 239, 237, 0.6)', cursor: 'pointer', padding: '0.2rem 0.5rem', borderRadius: '4px' }}
+                          onClick={(e) => { e.stopPropagation(); setActiveStudentDropdownId(activeStudentDropdownId === i ? null : i); }}
+                        >
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <circle cx="12" cy="12" r="1" />
+                            <circle cx="12" cy="5" r="1" />
+                            <circle cx="12" cy="19" r="1" />
+                          </svg>
+                        </button>
+                        {activeStudentDropdownId === i && (
+                          <>
+                            <div className={styles.dropdownOverlay} onClick={(e) => { e.stopPropagation(); setActiveStudentDropdownId(null); }} />
+                            <div className={`${styles.actionDropdownMenu} ${(i >= 5) ? styles.actionDropdownMenuUp : ''}`}>
+                              <button onClick={(e) => { e.stopPropagation(); setActiveStudentDropdownId(null); alert(`Viewing student ${s.name}...`); }} className={styles.actionDropdownItem}>
+                                👁️ View Details
+                              </button>
+                              <button onClick={(e) => { e.stopPropagation(); setActiveStudentDropdownId(null); alert(`Editing student ${s.name}...`); }} className={styles.actionDropdownItem}>
+                                ✏️ Edit
+                              </button>
+                              <button onClick={(e) => { e.stopPropagation(); setActiveStudentDropdownId(null); alert(`Deleting student ${s.name}...`); }} className={`${styles.actionDropdownItem} ${styles.actionDropdownItemDelete}`}>
+                                🗑️ Delete
+                              </button>
+                            </div>
+                          </>
+                        )}
+                      </div>
                     </td>
                   </tr>
                 ))}
