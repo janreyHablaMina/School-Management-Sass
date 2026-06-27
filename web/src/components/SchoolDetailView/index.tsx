@@ -60,6 +60,17 @@ const getSchoolDetails = (schoolName: string) => {
   };
 };
 
+const mockStudents = [
+  { name: 'Juan Miguel Dela Cruz', id: 'STU-2025-0001', grade: 'Grade 7 - St. Augustine', gender: 'Male', dob: 'Mar 12, 2011', status: 'Active', join: 'May 31, 2025' },
+  { name: 'Maria Sofia Reyes', id: 'STU-2025-0002', grade: 'Grade 7 - St. Augustine', gender: 'Female', dob: 'Jul 24, 2011', status: 'Active', join: 'May 31, 2025' },
+  { name: 'Rafael Antonio Garcia', id: 'STU-2025-0003', grade: 'Grade 8 - St. Benedict', gender: 'Male', dob: 'Feb 5, 2011', status: 'Active', join: 'May 31, 2025' },
+  { name: 'Angela Marie Santos', id: 'STU-2025-0004', grade: 'Grade 8 - St. Benedict', gender: 'Female', dob: 'Oct 18, 2010', status: 'Active', join: 'May 31, 2025' },
+  { name: 'Gabriel Matthew Lim', id: 'STU-2025-0005', grade: 'Grade 9 - St. Francis', gender: 'Male', dob: 'Jan 7, 2010', status: 'Active', join: 'May 31, 2025' },
+  { name: 'Kimberly Anne Tan', id: 'STU-2025-0006', grade: 'Grade 9 - St. Francis', gender: 'Female', dob: 'Aug 30, 2009', status: 'Inactive', join: 'May 31, 2025' },
+  { name: 'Liam Nathaniel Co', id: 'STU-2025-0007', grade: 'Grade 10 - St. John', gender: 'Male', dob: 'May 14, 2009', status: 'Active', join: 'May 31, 2025' },
+  { name: 'Beatriz Isabella Cruz', id: 'STU-2025-0008', grade: 'Grade 10 - St. John', gender: 'Female', dob: 'Nov 3, 2009', status: 'Active', join: 'May 31, 2025' },
+];
+
 export const SchoolDetailView = ({
   school,
   onBack,
@@ -72,6 +83,7 @@ export const SchoolDetailView = ({
   setDetailTab: (tab: string) => void;
 }) => {
   const [activeStudentDropdownId, setActiveStudentDropdownId] = useState<number | null>(null);
+  const [selectedStudents, setSelectedStudents] = useState<string[]>([]);
   const details = getSchoolDetails(school.name);
   const totalStudents = school.students || 512;
   const totalTeachers = school.teachers || 45;
@@ -932,21 +944,42 @@ export const SchoolDetailView = ({
           <div className={styles.studentsActionBar}>
             <h3 className={styles.studentsActionTitle}>All Students (512)</h3>
             <div className={styles.studentsActionControls}>
-              <input type="text" placeholder="Search students..." className={styles.studentSearchInput} />
-              <button className={styles.proGhostBtn} style={{ padding: '0.5rem 1rem' }}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '0.4rem', verticalAlign: 'middle' }}>
-                  <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
-                </svg>
-                Filter
-              </button>
-              <button className={styles.proGhostBtn} style={{ padding: '0.5rem 1rem' }}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '0.4rem', verticalAlign: 'middle' }}>
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                  <polyline points="7 10 12 15 17 10" />
-                  <line x1="12" y1="15" x2="12" y2="3" />
-                </svg>
-                Export
-              </button>
+              {selectedStudents.length > 0 ? (
+                <>
+                  <span style={{ color: 'rgba(240, 239, 237, 0.85)', fontSize: '0.85rem', fontWeight: 500, marginRight: '0.5rem' }}>
+                    {selectedStudents.length} selected
+                  </span>
+                  <button 
+                    className={styles.proGhostBtn} 
+                    style={{ padding: '0.5rem 1rem', color: '#ff8a8a', borderColor: 'rgba(255, 138, 138, 0.3)' }}
+                    onClick={() => { alert(`Deleting ${selectedStudents.length} students...`); setSelectedStudents([]); }}
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '0.4rem', verticalAlign: 'middle' }}>
+                      <path d="M3 6h18" />
+                      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                    </svg>
+                    Delete Selected
+                  </button>
+                </>
+              ) : (
+                <>
+                  <input type="text" placeholder="Search students..." className={styles.studentSearchInput} />
+                  <button className={styles.proGhostBtn} style={{ padding: '0.5rem 1rem' }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '0.4rem', verticalAlign: 'middle' }}>
+                      <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+                    </svg>
+                    Filter
+                  </button>
+                  <button className={styles.proGhostBtn} style={{ padding: '0.5rem 1rem' }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '0.4rem', verticalAlign: 'middle' }}>
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                      <polyline points="7 10 12 15 17 10" />
+                      <line x1="12" y1="15" x2="12" y2="3" />
+                    </svg>
+                    Export
+                  </button>
+                </>
+              )}
               <button className={styles.proPrimaryBtn} style={{ padding: '0.5rem 1rem' }}>
                 + Add Student
               </button>
@@ -958,7 +991,19 @@ export const SchoolDetailView = ({
             <table className={styles.studentsTable}>
               <thead>
                 <tr>
-                  <th style={{ width: '40px', textAlign: 'center' }}><input type="checkbox" /></th>
+                  <th style={{ width: '40px', textAlign: 'center' }}>
+                    <input 
+                      type="checkbox" 
+                      checked={selectedStudents.length === mockStudents.length && mockStudents.length > 0}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setSelectedStudents(mockStudents.map(s => s.id));
+                        } else {
+                          setSelectedStudents([]);
+                        }
+                      }}
+                    />
+                  </th>
                   <th>Student Name</th>
                   <th>Student ID</th>
                   <th>Grade & Section</th>
@@ -970,18 +1015,21 @@ export const SchoolDetailView = ({
                 </tr>
               </thead>
               <tbody>
-                {[
-                  { name: 'Juan Miguel Dela Cruz', id: 'STU-2025-0001', grade: 'Grade 7 - St. Augustine', gender: 'Male', dob: 'Mar 12, 2011', status: 'Active', join: 'May 31, 2025' },
-                  { name: 'Maria Sofia Reyes', id: 'STU-2025-0002', grade: 'Grade 7 - St. Augustine', gender: 'Female', dob: 'Jul 24, 2011', status: 'Active', join: 'May 31, 2025' },
-                  { name: 'Rafael Antonio Garcia', id: 'STU-2025-0003', grade: 'Grade 8 - St. Benedict', gender: 'Male', dob: 'Feb 5, 2011', status: 'Active', join: 'May 31, 2025' },
-                  { name: 'Angela Marie Santos', id: 'STU-2025-0004', grade: 'Grade 8 - St. Benedict', gender: 'Female', dob: 'Oct 18, 2010', status: 'Active', join: 'May 31, 2025' },
-                  { name: 'Gabriel Matthew Lim', id: 'STU-2025-0005', grade: 'Grade 9 - St. Francis', gender: 'Male', dob: 'Jan 7, 2010', status: 'Active', join: 'May 31, 2025' },
-                  { name: 'Kimberly Anne Tan', id: 'STU-2025-0006', grade: 'Grade 9 - St. Francis', gender: 'Female', dob: 'Aug 30, 2009', status: 'Inactive', join: 'May 31, 2025' },
-                  { name: 'Liam Nathaniel Co', id: 'STU-2025-0007', grade: 'Grade 10 - St. John', gender: 'Male', dob: 'May 14, 2009', status: 'Active', join: 'May 31, 2025' },
-                  { name: 'Beatriz Isabella Cruz', id: 'STU-2025-0008', grade: 'Grade 10 - St. John', gender: 'Female', dob: 'Nov 3, 2009', status: 'Active', join: 'May 31, 2025' },
-                ].map((s, i) => (
+                {mockStudents.map((s, i) => (
                   <tr key={i}>
-                    <td style={{ textAlign: 'center' }}><input type="checkbox" /></td>
+                    <td style={{ textAlign: 'center' }}>
+                      <input 
+                        type="checkbox" 
+                        checked={selectedStudents.includes(s.id)}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setSelectedStudents([...selectedStudents, s.id]);
+                          } else {
+                            setSelectedStudents(selectedStudents.filter(id => id !== s.id));
+                          }
+                        }}
+                      />
+                    </td>
                     <td>
                       <div className={styles.studentProfileCell}>
                         <div className={styles.studentAvatar} style={{ background: s.gender === 'Male' ? '#84a9ff' : '#ff8a8a', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#0a1911', fontWeight: 'bold', fontSize: '0.75rem' }}>
