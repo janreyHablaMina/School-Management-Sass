@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './SchoolDetailView.module.css';
 
 // Import Data
-import { getSchoolDetails, mockStudents, mockTeachers, mockSections } from './data/mockData';
+import { getSchoolDetails, mockStudents, mockTeachers, mockSections, mockAICreditHistory } from './data/mockData';
 
 // Import Tabs
 import { OverviewTab } from './tabs/OverviewTab';
@@ -10,6 +10,7 @@ import { SubscriptionTab } from './tabs/SubscriptionTab';
 import { StudentsTab } from './tabs/StudentsTab';
 import { TeachersTab } from './tabs/TeachersTab';
 import { SectionsTab } from './tabs/SectionsTab';
+import { AICreditsTab } from './tabs/AICreditsTab';
 
 export const SchoolDetailView = ({
   school,
@@ -157,8 +158,14 @@ export const SchoolDetailView = ({
         />
       )}
 
+      {detailTab === 'AI Credits' && (
+        <AICreditsTab 
+          mockAICreditHistory={mockAICreditHistory} 
+        />
+      )}
+
       {/* Future Tabs Placeholders */}
-      {['AI Credits', 'Reports', 'Settings'].includes(detailTab) && (
+      {['Reports', 'Settings'].includes(detailTab) && (
         <section className={styles.detailBodyGrid}>
           <div className={`${styles.detailCard} ${styles.colSpan12}`} style={{ textAlign: 'center', padding: '4rem 1rem' }}>
             <h3 style={{ color: 'rgba(240, 239, 237, 0.6)', fontWeight: 'normal' }}>

@@ -87,3 +87,11 @@ export const mockSections = [
   { id: 'SEC-007', short: '10A', name: 'Grade 10 - St. John', adviser: 'Christine Faith Go', students: 33, capacity: 35, utilization: 94.3, status: 'Full Capacity', year: '2024 - 2025' },
   { id: 'SEC-008', short: '10B', name: 'Grade 10 - St. Paul', adviser: 'Juan Dela Cruz', students: 31, capacity: 35, utilization: 88.6, status: 'Near Capacity', year: '2024 - 2025' },
 ];
+
+export const mockAICreditHistory = [
+  { date: 'May 31, 2025 10:30 AM', feature: 'AI Quiz Generator', description: 'Generated quiz for Grade 7 - Science', credits: 10, user: 'Maria Elena Reyes', initials: 'MR', role: 'Teacher', avatarColor: '#b884ff' },
+  { date: 'May 31, 2025 09:15 AM', feature: 'AI Assignment Generator', description: 'Generated assignment for Grade 8 - English', credits: 5, user: 'Robert Santos', initials: 'RS', role: 'Teacher', avatarColor: '#84a9ff' },
+  { date: 'May 30, 2025 04:45 PM', feature: 'AI Reviewer Generator', description: 'Generated reviewer for Grade 9 - Math', credits: 5, user: 'Daniel Lim', initials: 'DL', role: 'Teacher', avatarColor: '#84a9ff' },
+  { date: 'May 30, 2025 02:20 PM', feature: 'AI Quiz Generator', description: 'Generated quiz for Grade 10 - TLE', credits: 10, user: 'Patricia Torres', initials: 'PT', role: 'Teacher', avatarColor: '#4df58a' },
+  { date: 'May 29, 2025 11:05 AM', feature: 'AI Lesson Summary', description: 'Generated lesson summary for Grade 7 - Araling Panlipunan', credits: 10, user: 'Michelle Garcia', initials: 'MG', role: 'Teacher', avatarColor: '#4df58a' },
+];
