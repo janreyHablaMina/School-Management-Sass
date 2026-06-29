@@ -171,7 +171,6 @@ export const SectionsTab = ({
               <th style={{ textAlign: 'center' }}>Students</th>
               <th style={{ textAlign: 'center' }}>Capacity</th>
               <th>Utilization</th>
-              <th>Status</th>
               <th>School Year</th>
               <th style={{ textAlign: 'center' }}>Actions</th>
             </tr>
@@ -184,14 +183,8 @@ export const SectionsTab = ({
                 'Near Capacity': '#f5c842',
                 'Full Capacity': '#ff8a8a',
               };
-              const bgMap: Record<string, string> = {
-                'Active': 'rgba(77, 245, 138, 0.1)',
-                'Near Capacity': 'rgba(245, 200, 66, 0.1)',
-                'Full Capacity': 'rgba(255, 138, 138, 0.1)',
-              };
               
               const color = colorMap[s.status] || '#84a9ff';
-              const bg = bgMap[s.status] || 'rgba(132, 169, 255, 0.1)';
 
               // Generate a badge color for the short name
               // E.g., 7A, 7B use a light purple/blue
@@ -214,14 +207,11 @@ export const SectionsTab = ({
                     />
                   </td>
                   <td>
-                    <div className={styles.studentProfileCell} style={{ gap: '0.8rem' }}>
-                      <div className={styles.studentAvatar} style={{ background: shortBadgeBg, color: shortBadgeColor, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '0.8rem', borderRadius: '6px', border: `1px solid ${shortBadgeColor}40` }}>
-                        {s.short}
-                      </div>
-                      <span className={styles.studentName}>{s.name}</span>
+                    <div className={styles.studentAvatar} style={{ background: shortBadgeBg, color: shortBadgeColor, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '0.8rem', borderRadius: '6px', border: `1px solid ${shortBadgeColor}40` }}>
+                      {s.short}
                     </div>
                   </td>
-                  <td style={{ color: 'rgba(240, 239, 237, 0.85)' }}>{s.name.split(' - ')[0]}</td>
+                  <td style={{ color: 'rgba(240, 239, 237, 0.85)' }}>{s.name}</td>
                   <td style={{ color: 'rgba(240, 239, 237, 0.85)' }}>{s.adviser}</td>
                   <td style={{ textAlign: 'center', fontWeight: 500 }}>{s.students}</td>
                   <td style={{ textAlign: 'center', color: 'rgba(240, 239, 237, 0.6)' }}>{s.capacity}</td>
@@ -232,11 +222,6 @@ export const SectionsTab = ({
                         <div style={{ height: '100%', width: `${s.utilization}%`, background: color }} />
                       </div>
                     </div>
-                  </td>
-                  <td>
-                    <span className="status-badge" style={{ fontSize: '0.65rem', padding: '2px 6px', background: bg, color: color, borderColor: 'transparent' }}>
-                      {s.status}
-                    </span>
                   </td>
                   <td style={{ color: 'rgba(240, 239, 237, 0.6)' }}>{s.year}</td>
                   <td style={{ textAlign: 'center' }}>
