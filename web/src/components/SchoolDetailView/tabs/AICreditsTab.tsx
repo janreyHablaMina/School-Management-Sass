@@ -163,16 +163,16 @@ export const AICreditsTab = ({
       </div>
 
       {/* History Table Card */}
-      <div className={styles.detailCard} style={{ padding: '0', overflow: 'hidden' }}>
-        <div className={styles.detailCardHeader} style={{ padding: '1.5rem' }}>
+      <div className={styles.detailCard}>
+        <div className={styles.detailCardHeader}>
           <h3 className={styles.detailCardTitle}>AI Credits Usage History</h3>
         </div>
         
-        <div className={styles.studentsTableWrapper} style={{ borderTop: '1px solid rgba(240, 239, 237, 0.1)' }}>
+        <div className={styles.studentsTableWrapper} style={{ borderTop: '1px solid rgba(240, 239, 237, 0.1)', paddingTop: '1rem', marginTop: '1rem' }}>
           <table className={styles.studentsTable}>
             <thead>
               <tr>
-                <th style={{ paddingLeft: '1.5rem' }}>Date & Time</th>
+                <th>Date & Time</th>
                 <th>Feature Used</th>
                 <th>Description</th>
                 <th style={{ textAlign: 'center' }}>Credits Used</th>
@@ -182,7 +182,7 @@ export const AICreditsTab = ({
             <tbody>
               {mockAICreditHistory.map((item, i) => (
                 <tr key={i}>
-                  <td style={{ paddingLeft: '1.5rem', color: 'rgba(240, 239, 237, 0.85)' }}>{item.date}</td>
+                  <td style={{ color: 'rgba(240, 239, 237, 0.85)' }}>{item.date}</td>
                   <td style={{ color: 'rgba(240, 239, 237, 0.85)', fontWeight: 500 }}>{item.feature}</td>
                   <td style={{ color: 'rgba(240, 239, 237, 0.6)' }}>{item.description}</td>
                   <td style={{ textAlign: 'center', fontWeight: 'bold' }}>{item.credits}</td>
@@ -209,7 +209,7 @@ export const AICreditsTab = ({
         </div>
         
         {/* Pagination */}
-        <div className={styles.paginationWrapper} style={{ padding: '1rem 1.5rem', borderTop: '1px solid rgba(240, 239, 237, 0.1)' }}>
+        <div className={styles.paginationWrapper} style={{ paddingTop: '1rem', marginTop: '1rem', borderTop: '1px solid rgba(240, 239, 237, 0.1)' }}>
           <span>Showing 1 to 5 of 25 records</span>
           <div className={styles.paginationControls}>
             <button className={styles.pageBtn} disabled>
