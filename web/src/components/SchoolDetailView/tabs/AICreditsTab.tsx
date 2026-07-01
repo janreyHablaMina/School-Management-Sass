@@ -9,12 +9,12 @@ export const AICreditsTab = ({
   return (
     <section className={styles.detailBodyGrid} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
       {/* Top 4 Cards */}
-      <div className={styles.studentsTopGrid} style={{ gridTemplateColumns: 'repeat(4, 1fr)' }}>
+      <div className={styles.studentsTopGrid}>
         
         {/* Card 1: AI Credits Overview */}
         <div className={styles.detailCard} style={{ display: 'flex', flexDirection: 'column' }}>
           <h3 className={styles.detailCardTitle} style={{ marginBottom: '1.5rem' }}>AI Credits Overview</h3>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', flexWrap: 'wrap', justifyContent: 'center' }}>
             {/* Donut Chart */}
             <div style={{ width: '120px', height: '120px', position: 'relative' }}>
               <svg width="100%" height="100%" viewBox="0 0 36 36">
