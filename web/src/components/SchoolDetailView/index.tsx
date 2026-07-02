@@ -11,6 +11,7 @@ import { StudentsTab } from './tabs/StudentsTab';
 import { TeachersTab } from './tabs/TeachersTab';
 import { SectionsTab } from './tabs/SectionsTab';
 import { AICreditsTab } from './tabs/AICreditsTab';
+import { ReportsTab } from './tabs/ReportsTab';
 
 export const SchoolDetailView = ({
   school,
@@ -164,8 +165,12 @@ export const SchoolDetailView = ({
         />
       )}
 
+      {detailTab === 'Reports' && (
+        <ReportsTab />
+      )}
+
       {/* Future Tabs Placeholders */}
-      {['Reports', 'Settings'].includes(detailTab) && (
+      {['Settings'].includes(detailTab) && (
         <section className={styles.detailBodyGrid}>
           <div className={`${styles.detailCard} ${styles.colSpan12}`} style={{ textAlign: 'center', padding: '4rem 1rem' }}>
             <h3 style={{ color: 'rgba(240, 239, 237, 0.6)', fontWeight: 'normal' }}>
