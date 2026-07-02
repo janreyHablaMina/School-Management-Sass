@@ -10,12 +10,15 @@ export const ReportsTab = () => {
         <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
             <label style={{ fontSize: '0.8rem', color: 'rgba(240, 239, 237, 0.6)' }}>Report Category</label>
-            <select className={styles.chartSelect} style={{ width: '200px', background: 'rgba(10, 25, 17, 0.4)', fontFamily: 'inherit', fontSize: '0.85rem' }}>
-              <option>All Reports</option>
-              <option>Academic</option>
-              <option>Attendance</option>
-              <option>AI Usage</option>
-            </select>
+            <div style={{ position: 'relative', width: '200px' }}>
+              <select className={styles.chartSelect} style={{ width: '100%', background: 'rgba(10, 25, 17, 0.4)', fontFamily: 'inherit', fontSize: '0.85rem', appearance: 'none', paddingRight: '2rem' }}>
+                <option>All Reports</option>
+                <option>Academic</option>
+                <option>Attendance</option>
+                <option>AI Usage</option>
+              </select>
+              <span style={{ position: 'absolute', right: '1rem', top: '50%', transform: 'translateY(-50%)', fontSize: '0.7rem', opacity: 0.5, pointerEvents: 'none' }}>▼</span>
+            </div>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
             <label style={{ fontSize: '0.8rem', color: 'rgba(240, 239, 237, 0.6)' }}>Date Range</label>
@@ -74,25 +77,7 @@ export const ReportsTab = () => {
           </div>
         </div>
 
-        {/* Metric 5 */}
-        <div className={styles.detailCard} style={{ display: 'flex', alignItems: 'center', gap: '1rem', padding: '1.2rem' }}>
-          <div className={styles.studentMetricIcon} style={{ background: 'rgba(255, 138, 138, 0.1)', color: '#ff8a8a', borderColor: 'transparent' }}>📝</div>
-          <div>
-            <div style={{ fontSize: '0.75rem', color: 'rgba(240, 239, 237, 0.6)', marginBottom: '0.2rem' }}>Assignments Submitted</div>
-            <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#f0efed' }}>1,248</div>
-            <div style={{ fontSize: '0.7rem', color: '#4df58a', marginTop: '0.2rem' }}>↑ 156 (14.3%) vs Apr 1</div>
-          </div>
-        </div>
 
-        {/* Metric 6 */}
-        <div className={styles.detailCard} style={{ display: 'flex', alignItems: 'center', gap: '1rem', padding: '1.2rem' }}>
-          <div className={styles.studentMetricIcon} style={{ background: 'rgba(184, 132, 255, 0.1)', color: '#b884ff', borderColor: 'transparent' }}>📋</div>
-          <div>
-            <div style={{ fontSize: '0.75rem', color: 'rgba(240, 239, 237, 0.6)', marginBottom: '0.2rem' }}>Assessments Taken</div>
-            <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#f0efed' }}>872</div>
-            <div style={{ fontSize: '0.7rem', color: '#4df58a', marginTop: '0.2rem' }}>↑ 98 (12.6%) vs Apr 1</div>
-          </div>
-        </div>
       </div>
 
       {/* Middle 3 Cards Row */}
