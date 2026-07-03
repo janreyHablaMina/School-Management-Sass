@@ -81,15 +81,18 @@ export const ReportsTab = () => {
       </div>
 
       {/* Middle 3 Cards Row */}
-      <div className={styles.detailBodyGrid} style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
+      <div className={styles.detailBodyGrid}>
         
         {/* Student Enrollment Trend */}
-        <div className={styles.detailCard}>
+        <div className={`${styles.detailCard} ${styles.colSpan4}`}>
           <div className={styles.detailCardHeader}>
             <h3 className={styles.detailCardTitle}>Student Enrollment Trend</h3>
-            <select className={styles.chartSelect} style={{ padding: '0.2rem 0.5rem', fontSize: '0.75rem' }}>
-              <option>Last 6 Months</option>
-            </select>
+            <div style={{ position: 'relative' }}>
+              <select className={styles.chartSelect} style={{ padding: '0.2rem 0.5rem', fontSize: '0.75rem', appearance: 'none', paddingRight: '1.5rem' }}>
+                <option>Last 6 Months</option>
+              </select>
+              <span style={{ position: 'absolute', right: '0.5rem', top: '50%', transform: 'translateY(-50%)', fontSize: '0.6rem', opacity: 0.5, pointerEvents: 'none' }}>▼</span>
+            </div>
           </div>
           <div style={{ height: '200px', width: '100%', position: 'relative', marginTop: '1rem' }}>
              <svg width="100%" height="100%" viewBox="0 0 400 200" fill="none" preserveAspectRatio="none" style={{ filter: 'url(#chalk-wobble)' }}>
@@ -130,7 +133,7 @@ export const ReportsTab = () => {
         </div>
 
         {/* Student Distribution */}
-        <div className={styles.detailCard}>
+        <div className={`${styles.detailCard} ${styles.colSpan4}`}>
           <div className={styles.detailCardHeader}>
             <h3 className={styles.detailCardTitle}>Student Distribution by Grade Level</h3>
           </div>
@@ -169,12 +172,15 @@ export const ReportsTab = () => {
         </div>
 
         {/* Attendance Overview */}
-        <div className={styles.detailCard}>
+        <div className={`${styles.detailCard} ${styles.colSpan4}`}>
           <div className={styles.detailCardHeader}>
             <h3 className={styles.detailCardTitle}>Attendance Overview</h3>
-            <select className={styles.chartSelect} style={{ padding: '0.2rem 0.5rem', fontSize: '0.75rem' }}>
-              <option>This Month</option>
-            </select>
+            <div style={{ position: 'relative' }}>
+              <select className={styles.chartSelect} style={{ padding: '0.2rem 0.5rem', fontSize: '0.75rem', appearance: 'none', paddingRight: '1.5rem' }}>
+                <option>This Month</option>
+              </select>
+              <span style={{ position: 'absolute', right: '0.5rem', top: '50%', transform: 'translateY(-50%)', fontSize: '0.6rem', opacity: 0.5, pointerEvents: 'none' }}>▼</span>
+            </div>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '2rem', marginTop: '1rem', height: '200px' }}>
             <div style={{ width: '140px', height: '140px', position: 'relative' }}>
@@ -211,47 +217,81 @@ export const ReportsTab = () => {
       </div>
 
       {/* Bottom 3 Cards Row */}
-      <div className={styles.detailBodyGrid} style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
+      <div className={styles.detailBodyGrid}>
         
         {/* Top Performing Sections */}
-        <div className={styles.detailCard}>
+        <div className={`${styles.detailCard} ${styles.colSpan4}`}>
           <div className={styles.detailCardHeader}>
-            <h3 className={styles.detailCardTitle}>Top Performing Sections (by Average Grade)</h3>
+            <h3 className={styles.detailCardTitle}>Top Performing Sections</h3>
+            <span style={{ fontSize: '0.72rem', color: 'rgba(240,239,237,0.4)', fontStyle: 'italic' }}>by Average Grade</span>
           </div>
-          <div className={styles.studentsTableWrapper} style={{ marginTop: '1rem', border: 'none', background: 'transparent' }}>
-            <table className={styles.studentsTable} style={{ margin: 0 }}>
-              <thead>
-                <tr>
-                  <th style={{ padding: '0.5rem', background: 'transparent', borderBottom: '1px solid rgba(240, 239, 237, 0.1)' }}>Rank</th>
-                  <th style={{ padding: '0.5rem', background: 'transparent', borderBottom: '1px solid rgba(240, 239, 237, 0.1)' }}>Section</th>
-                  <th style={{ padding: '0.5rem', background: 'transparent', borderBottom: '1px solid rgba(240, 239, 237, 0.1)' }}>Grade Level</th>
-                  <th style={{ padding: '0.5rem', background: 'transparent', borderBottom: '1px solid rgba(240, 239, 237, 0.1)' }}>Average Grade</th>
-                  <th style={{ padding: '0.5rem', background: 'transparent', borderBottom: '1px solid rgba(240, 239, 237, 0.1)' }}>Students</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[
-                  { rank: 1, section: '10A - St. John', grade: 'Grade 10', avg: '92.45', students: 33 },
-                  { rank: 2, section: '9A - St. Francis', grade: 'Grade 9', avg: '90.12', students: 27 },
-                  { rank: 3, section: '8A - St. Benedict', grade: 'Grade 8', avg: '89.33', students: 30 },
-                  { rank: 4, section: '7A - St. Augustine', grade: 'Grade 7', avg: '88.76', students: 32 },
-                  { rank: 5, section: '9B - St. Therese', grade: 'Grade 9', avg: '87.91', students: 26 },
-                ].map((row, i) => (
-                  <tr key={i}>
-                    <td style={{ padding: '0.5rem', borderBottom: '1px dashed rgba(240, 239, 237, 0.05)' }}>{row.rank}</td>
-                    <td style={{ padding: '0.5rem', borderBottom: '1px dashed rgba(240, 239, 237, 0.05)', color: '#84a9ff' }}>{row.section}</td>
-                    <td style={{ padding: '0.5rem', borderBottom: '1px dashed rgba(240, 239, 237, 0.05)' }}>{row.grade}</td>
-                    <td style={{ padding: '0.5rem', borderBottom: '1px dashed rgba(240, 239, 237, 0.05)', fontWeight: 'bold' }}>{row.avg}</td>
-                    <td style={{ padding: '0.5rem', borderBottom: '1px dashed rgba(240, 239, 237, 0.05)' }}>{row.students}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: '1.2rem' }}>
+            {[
+              { rank: 1, section: '10A - St. John', avg: 92.45, medal: '#f5c842' },
+              { rank: 2, section: '9A - St. Francis', avg: 90.12, medal: '#c0c0c0' },
+              { rank: 3, section: '8A - St. Benedict', avg: 89.33, medal: '#cd7f32' },
+              { rank: 4, section: '7A - St. Augustine', avg: 88.76, medal: 'rgba(240,239,237,0.3)' },
+              { rank: 5, section: '9B - St. Therese', avg: 87.91, medal: 'rgba(240,239,237,0.3)' },
+            ].map((row) => (
+              <div key={row.rank} style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.9rem',
+                padding: '0.7rem 0.9rem',
+                background: row.rank <= 3 ? `rgba(${row.rank === 1 ? '245,200,66' : row.rank === 2 ? '192,192,192' : '205,127,50'}, 0.06)` : 'rgba(240,239,237,0.02)',
+                borderRadius: '10px',
+                border: `1px solid ${row.rank <= 3 ? `rgba(${row.rank === 1 ? '245,200,66' : row.rank === 2 ? '192,192,192' : '205,127,50'}, 0.2)` : 'rgba(240,239,237,0.05)'}`,
+              }}>
+                {/* Rank Badge */}
+                <div style={{
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '50%',
+                  background: row.rank <= 3 ? row.medal : 'rgba(240,239,237,0.05)',
+                  border: `2px solid ${row.medal}`,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: row.rank <= 3 ? '1rem' : '0.75rem',
+                  fontWeight: 'bold',
+                  color: row.rank === 1 ? '#1a1200' : row.rank <= 3 ? '#1a1a1a' : 'rgba(240,239,237,0.6)',
+                  flexShrink: 0,
+                }}>
+                  {row.rank <= 3 ? ['🥇','🥈','🥉'][row.rank - 1] : row.rank}
+                </div>
+
+                {/* Section + Bar */}
+                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
+                  <span style={{ fontSize: '0.82rem', fontWeight: 600, color: '#f0efed' }}>{row.section}</span>
+                  <div style={{ width: '100%', height: '4px', background: 'rgba(240,239,237,0.08)', borderRadius: '2px', overflow: 'hidden' }}>
+                    <div style={{
+                      height: '100%',
+                      width: `${(row.avg / 100) * 100}%`,
+                      background: row.rank === 1 ? '#f5c842' : row.rank === 2 ? '#c0c0c0' : row.rank === 3 ? '#cd7f32' : '#84a9ff',
+                      borderRadius: '2px',
+                      transition: 'width 0.5s ease',
+                    }} />
+                  </div>
+                </div>
+
+                {/* Score */}
+                <div style={{
+                  fontSize: '1rem',
+                  fontWeight: 'bold',
+                  color: row.rank === 1 ? '#f5c842' : row.rank === 2 ? '#c0c0c0' : row.rank === 3 ? '#cd7f32' : 'rgba(240,239,237,0.8)',
+                  minWidth: '3.5rem',
+                  textAlign: 'right',
+                  flexShrink: 0,
+                }}>
+                  {row.avg}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 
         {/* AI Usage Summary */}
-        <div className={styles.detailCard} style={{ display: 'flex', flexDirection: 'column' }}>
+        <div className={`${styles.detailCard} ${styles.colSpan4}`} style={{ display: 'flex', flexDirection: 'column' }}>
           <div className={styles.detailCardHeader} style={{ marginBottom: '1.5rem' }}>
             <h3 className={styles.detailCardTitle}>AI Usage Summary</h3>
           </div>
@@ -286,7 +326,7 @@ export const ReportsTab = () => {
         </div>
 
         {/* Reports List */}
-        <div className={styles.detailCard}>
+        <div className={`${styles.detailCard} ${styles.colSpan4}`}>
           <div className={styles.detailCardHeader}>
             <h3 className={styles.detailCardTitle}>Reports List</h3>
           </div>
