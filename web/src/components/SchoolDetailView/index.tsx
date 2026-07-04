@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './SchoolDetailView.module.css';
 
 // Import Data
-import { getSchoolDetails, mockStudents, mockTeachers, mockSections, mockAICreditHistory } from './data/mockData';
+import { getSchoolDetails, mockStudents, mockTeachers, mockSections, mockAICreditHistory } from '@/lib/data/mockData';
 
 // Import Tabs
 import { OverviewTab } from './tabs/OverviewTab';
