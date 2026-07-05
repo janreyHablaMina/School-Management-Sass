@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Caveat } from "next/font/google";
+import { Inter, Caveat, Londrina_Solid } from "next/font/google";
 import "./globals.css";
 
 /** Primary UI font — clean and modern */
@@ -12,6 +12,14 @@ const inter = Inter({
 /** Chalkboard / handwritten font for headings */
 const caveat = Caveat({
   variable: "--font-caveat",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+/** Bold chalk font for tags and titles */
+const londrinaSolid = Londrina_Solid({
+  variable: "--font-londrina-solid",
+  weight: "400",
   subsets: ["latin"],
   display: "swap",
 });
@@ -29,7 +37,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${caveat.variable} h-full antialiased`}
+      className={`${inter.variable} ${caveat.variable} ${londrinaSolid.variable} h-full antialiased`}
     >
       <body>{children}</body>
     </html>

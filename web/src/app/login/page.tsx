@@ -56,6 +56,33 @@ const GoogleLogo = () => (
   </svg>
 );
 
+interface ChalkSVGProps {
+  className?: string;
+  width?: number | string;
+  height?: number | string;
+  color?: string;
+}
+
+const DoodleChalkStar = ({ className, width = 24, height = 24, color = "rgba(240,239,237,0.6)" }: ChalkSVGProps) => (
+  <svg className={className} width={width} height={height} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M12 2 L17.5 19.5 L3 8.5 L21 8.5 L6.5 19.5 Z" />
+  </svg>
+);
+
+const DoodlePaperPlane = ({ className, width = 24, height = 24, color = "rgba(245,200,66,0.6)" }: ChalkSVGProps) => (
+  <svg className={className} width={width} height={height} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M2 12 L22 2 L13 22 L11 13 Z" />
+    <path d="M11 13 L22 2" />
+    <path d="M11 13 L8 17 L8 14" />
+  </svg>
+);
+
+const WelcomeBackSwoosh = () => (
+  <svg className={styles.welcomeUnderline} viewBox="0 0 160 8" fill="none" aria-hidden="true" preserveAspectRatio="none">
+    <path d="M2 5 Q40 2 80 5 Q120 8 158 3" stroke="#f5c842" strokeWidth="2" strokeLinecap="round" fill="none" opacity="0.8"/>
+  </svg>
+);
+
 /* ────────────────────────────────────────────────────────────
    Chalk Doodle Illustrations — matching reference positions
    ──────────────────────────────────────────────────────────── */
@@ -141,6 +168,24 @@ const DoodlePencils = () => (
 
     <line x1="52" y1="58" x2="52" y2="8" stroke="rgba(240,239,237,0.65)" strokeWidth="3" strokeLinecap="round"/>
     <polygon points="51,6 52,8 53,6" fill="rgba(240,239,237,0.4)"/>
+  </svg>
+);
+
+const DoodleChalkTrails = () => (
+  <svg className={styles.chalkTrails} viewBox="0 0 220 280" fill="none" stroke="rgba(240, 239, 237, 0.3)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    {/* Dashed trail from top right (near cap) curving down-left */}
+    <path d="M180 20 Q110 50 130 110" strokeDasharray="3 5" />
+    <path d="M123 102 L130 110 L135 100" /> {/* Arrowhead */}
+
+    {/* Small star doodle near the first trail */}
+    <path d="M145 65 L149 75 L157 75 L151 80 L153 88 L145 83 L137 88 L139 80 L133 75 L141 75 Z" stroke="rgba(240, 239, 237, 0.22)" strokeWidth="1.2" />
+
+    {/* Second dashed trail curving towards the pencil cup */}
+    <path d="M110 150 Q60 210 120 250" strokeDasharray="3 5" />
+    <path d="M110 246 L120 250 L116 240" /> {/* Arrowhead */}
+    
+    {/* Small star doodle near the second trail */}
+    <path d="M70 185 L73 192 L80 192 L75 196 L77 202 L70 198 L63 202 L65 196 L60 192 L67 192 Z" stroke="rgba(245, 200, 66, 0.4)" strokeWidth="1.2" />
   </svg>
 );
 
@@ -259,20 +304,21 @@ export default function LoginPage() {
       {/* ── Floating stars ── */}
       <div className={styles.floatingStars} aria-hidden="true">
         {starPositions.map((s, i) => (
-          <span
+          <div
             key={i}
-            className={styles.star}
+            className={styles.starWrapper}
             style={{
+              position: 'absolute',
               top: s.top,
               left: s.left,
               right: s.right,
               animationDelay: s.delay,
-              fontSize: s.size,
+              transform: `scale(${s.size === '1rem' ? 1.2 : s.size === '0.7rem' ? 0.75 : 1})`,
             }}
-          >✦</span>
+          >
+            <DoodleChalkStar width={18} height={18} color="rgba(240, 239, 237, 0.22)" />
+          </div>
         ))}
-        {/* Paper airplane — bottom right */}
-        <span className={styles.paperPlane}>✈</span>
       </div>
 
       <div className={styles.container}>
@@ -286,34 +332,51 @@ export default function LoginPage() {
             <span className={styles.logoText}>School<span>SaaS</span></span>
           </Link>
 
-          {/* Hero */}
+          {/* Hero Content */}
           <div className={styles.hero}>
-            {/* Headline text + doodles side by side */}
-            <div className={styles.heroRow}>
-              <div className={styles.heroText}>
-                <h1 className={styles.heroTagline}>
-                  Learn.<br />
-                  Engage.<br />
-                  <span className={styles.highlight}>
-                    Empower.
-                  </span>
-                </h1>
-                <UnderlineSwoosh />
-                <p className={styles.heroSubtitle}>
-                  Everything you need in an LMS<br />
-                  that feels like a real classroom.
-                </p>
-              </div>
-              <div className={styles.heroDoodles} aria-hidden="true">
-                <DoodleLightbulb />
-                <DoodleGraduationCap />
-              </div>
+            <div className={styles.heroText}>
+              <h1 className={styles.heroTagline}>
+                EVERY GREAT JOURNEY<br />
+                <span className={styles.highlight}>
+                  BEGINS WITH LEARNING.
+                </span>
+              </h1>
+              <UnderlineSwoosh />
+              <p className={styles.heroSubtitle}>
+                Everything you need in an LMS<br />
+                that feels like a real classroom.
+              </p>
             </div>
+          </div>
 
-            {/* Books + Pencils below */}
-            <div className={styles.doodleArea} aria-hidden="true">
+          {/* Decorative Doodles absolutely positioned */}
+          <div className={styles.doodlesContainer} aria-hidden="true">
+            <div className={styles.lightbulbDoodle}>
+              <DoodleLightbulb />
+            </div>
+            <div className={styles.graduationCapDoodle}>
+              <DoodleGraduationCap />
+            </div>
+            <div className={styles.booksDoodle}>
               <DoodleBooks />
+            </div>
+            <div className={styles.pencilsDoodle}>
               <DoodlePencils />
+            </div>
+            
+            <div className={styles.chalkTrailsDoodle}>
+              <DoodleChalkTrails />
+            </div>
+            
+            {/* Hand-drawn chalk stars in specific reference layout positions */}
+            <div className={styles.leftPanelStar1}>
+              <DoodleChalkStar width={18} height={18} color="rgba(240, 239, 237, 0.45)" />
+            </div>
+            <div className={styles.leftPanelStar2}>
+              <DoodleChalkStar width={24} height={24} color="rgba(245, 200, 66, 0.55)" />
+            </div>
+            <div className={styles.leftPanelStar3}>
+              <DoodleChalkStar width={15} height={15} color="rgba(240, 239, 237, 0.3)" />
             </div>
           </div>
 
@@ -339,10 +402,15 @@ export default function LoginPage() {
 
             {/* Header */}
             <header className={styles.cardHeader}>
-              <h2 className={styles.welcomeTitle}>
-                Welcome Back!
-                <span className={styles.welcomeStarDecor} aria-hidden="true">☆</span>
-              </h2>
+              <div className={styles.welcomeTitleWrapper}>
+                <h2 className={styles.welcomeTitle}>
+                  Welcome Back!
+                </h2>
+                <div className={styles.welcomeStarDecor} aria-hidden="true">
+                  <DoodleChalkStar width={20} height={20} color="rgba(240, 239, 237, 0.5)" />
+                </div>
+              </div>
+              <WelcomeBackSwoosh />
               <p className={styles.cardSubtitle}>Log in to continue your learning journey.</p>
             </header>
 
@@ -446,6 +514,16 @@ export default function LoginPage() {
                 Sign Up →
               </Link>
             </p>
+
+            {/* Inner Card chalk doodles */}
+            <div className={styles.cardDoodles} aria-hidden="true">
+              <div className={styles.cardStarDoodle}>
+                <DoodleChalkStar width={16} height={16} color="rgba(240, 239, 237, 0.45)" />
+              </div>
+              <div className={styles.cardPlaneDoodle}>
+                <DoodlePaperPlane width={22} height={22} color="rgba(245, 200, 66, 0.65)" />
+              </div>
+            </div>
 
           </div>
         </section>
