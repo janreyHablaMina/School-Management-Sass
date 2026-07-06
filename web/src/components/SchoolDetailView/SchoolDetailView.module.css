@@ -1499,6 +1499,12 @@
   gap: 1rem;
 }
 
+@media (max-width: 1440px) {
+  .settingsCardsRow {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 .settingsActionCard {
   border: 1px dashed rgba(240, 239, 237, 0.2);
   border-radius: 8px;
