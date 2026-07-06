@@ -272,7 +272,6 @@ export const SubscriptionTab = ({
               <tr>
                 <th>Invoice #</th>
                 <th>Date</th>
-                <th>Description</th>
                 <th>Amount</th>
                 <th>Status</th>
                 <th>Payment Method</th>
@@ -283,7 +282,6 @@ export const SubscriptionTab = ({
               <tr>
                 <td className={styles.invoiceNum}>INV-2025-00056</td>
                 <td>May 31, 2025</td>
-                <td>School Plan - Monthly (May 31 – Jun 30, 2025)</td>
                 <td style={{ fontWeight: 'bold' }}>₱3,999</td>
                 <td><span className="status-badge active" style={{ fontSize: '0.65rem', padding: '1px 5px' }}>Paid</span></td>
                 <td>💳 •••• 4242</td>
@@ -296,7 +294,6 @@ export const SubscriptionTab = ({
               <tr>
                 <td className={styles.invoiceNum}>INV-2025-00045</td>
                 <td>Apr 30, 2025</td>
-                <td>School Plan - Monthly (Apr 30 – May 31, 2025)</td>
                 <td style={{ fontWeight: 'bold' }}>₱3,999</td>
                 <td><span className="status-badge active" style={{ fontSize: '0.65rem', padding: '1px 5px' }}>Paid</span></td>
                 <td>💳 •••• 4242</td>
@@ -309,7 +306,6 @@ export const SubscriptionTab = ({
               <tr>
                 <td className={styles.invoiceNum}>INV-2025-00034</td>
                 <td>Mar 31, 2025</td>
-                <td>School Plan - Monthly (Mar 31 – Apr 30, 2025)</td>
                 <td style={{ fontWeight: 'bold' }}>₱2,999</td>
                 <td><span className="status-badge active" style={{ fontSize: '0.65rem', padding: '1px 5px' }}>Paid</span></td>
                 <td>💳 •••• 4242</td>

@@ -137,8 +137,8 @@ export const ReportsTab = () => {
           <div className={styles.detailCardHeader}>
             <h3 className={styles.detailCardTitle}>Student Distribution by Grade Level</h3>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '2rem', marginTop: '1rem', height: '200px' }}>
-            <div style={{ width: '140px', height: '140px', position: 'relative' }}>
+          <div className={styles.donutWrapper}>
+            <div style={{ width: '140px', height: '140px', position: 'relative', flexShrink: 0 }}>
               <svg width="100%" height="100%" viewBox="0 0 120 120" style={{ filter: 'url(#chalk-wobble)' }}>
                 <circle cx="60" cy="60" r="45" fill="none" stroke="#84a9ff" strokeWidth="12" strokeDasharray="70.68 282.74" strokeDashoffset="0" transform="rotate(-90 60 60)" />
                 <circle cx="60" cy="60" r="45" fill="none" stroke="#b884ff" strokeWidth="12" strokeDasharray="71.8 282.74" strokeDashoffset="-70.68" transform="rotate(-90 60 60)" />
@@ -150,22 +150,22 @@ export const ReportsTab = () => {
                 <span style={{ fontSize: '0.7rem', color: 'rgba(240, 239, 237, 0.6)' }}>Students</span>
               </div>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem', fontSize: '0.8rem' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', gap: '1rem' }}>
-                <span style={{ color: 'rgba(240, 239, 237, 0.85)' }}><span style={{ color: '#84a9ff' }}>●</span> Grade 7</span>
-                <span>128 <span style={{ color: 'rgba(240, 239, 237, 0.45)' }}>(25.0%)</span></span>
+            <div className={styles.legendList} style={{ fontSize: '0.8rem' }}>
+              <div className={styles.legendItem}>
+                <span className={styles.legendColorLabel}><span className={styles.legendDot} style={{ background: '#84a9ff' }} /> Grade 7</span>
+                <span className={styles.legendValue}>128 <span style={{ color: 'rgba(240, 239, 237, 0.45)' }}>(25.0%)</span></span>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', gap: '1rem' }}>
-                <span style={{ color: 'rgba(240, 239, 237, 0.85)' }}><span style={{ color: '#b884ff' }}>●</span> Grade 8</span>
-                <span>130 <span style={{ color: 'rgba(240, 239, 237, 0.45)' }}>(25.4%)</span></span>
+              <div className={styles.legendItem}>
+                <span className={styles.legendColorLabel}><span className={styles.legendDot} style={{ background: '#b884ff' }} /> Grade 8</span>
+                <span className={styles.legendValue}>130 <span style={{ color: 'rgba(240, 239, 237, 0.45)' }}>(25.4%)</span></span>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', gap: '1rem' }}>
-                <span style={{ color: 'rgba(240, 239, 237, 0.85)' }}><span style={{ color: '#f5c842' }}>●</span> Grade 9</span>
-                <span>126 <span style={{ color: 'rgba(240, 239, 237, 0.45)' }}>(24.6%)</span></span>
+              <div className={styles.legendItem}>
+                <span className={styles.legendColorLabel}><span className={styles.legendDot} style={{ background: '#f5c842' }} /> Grade 9</span>
+                <span className={styles.legendValue}>126 <span style={{ color: 'rgba(240, 239, 237, 0.45)' }}>(24.6%)</span></span>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', gap: '1rem' }}>
-                <span style={{ color: 'rgba(240, 239, 237, 0.85)' }}><span style={{ color: '#ff8a8a' }}>●</span> Grade 10</span>
-                <span>128 <span style={{ color: 'rgba(240, 239, 237, 0.45)' }}>(25.0%)</span></span>
+              <div className={styles.legendItem}>
+                <span className={styles.legendColorLabel}><span className={styles.legendDot} style={{ background: '#ff8a8a' }} /> Grade 10</span>
+                <span className={styles.legendValue}>128 <span style={{ color: 'rgba(240, 239, 237, 0.45)' }}>(25.0%)</span></span>
               </div>
             </div>
           </div>
@@ -182,8 +182,8 @@ export const ReportsTab = () => {
               <span style={{ position: 'absolute', right: '0.5rem', top: '50%', transform: 'translateY(-50%)', fontSize: '0.6rem', opacity: 0.5, pointerEvents: 'none' }}>▼</span>
             </div>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '2rem', marginTop: '1rem', height: '200px' }}>
-            <div style={{ width: '140px', height: '140px', position: 'relative' }}>
+          <div className={styles.donutWrapper}>
+            <div style={{ width: '140px', height: '140px', position: 'relative', flexShrink: 0 }}>
               <svg width="100%" height="100%" viewBox="0 0 120 120" style={{ filter: 'url(#chalk-wobble)' }}>
                 {/* Present 92.4% -> 261.2 */}
                 <circle cx="60" cy="60" r="45" fill="none" stroke="#4df58a" strokeWidth="12" strokeDasharray="261.2 282.74" strokeDashoffset="0" transform="rotate(-90 60 60)" strokeLinecap="round" />
@@ -197,18 +197,18 @@ export const ReportsTab = () => {
                 <span style={{ fontSize: '0.7rem', color: 'rgba(240, 239, 237, 0.6)' }}>Average Rate</span>
               </div>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem', fontSize: '0.8rem' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', gap: '1.5rem' }}>
-                <span style={{ color: 'rgba(240, 239, 237, 0.85)' }}><span style={{ color: '#4df58a' }}>●</span> Present</span>
-                <span>92.4%</span>
+            <div className={styles.legendList} style={{ fontSize: '0.8rem' }}>
+              <div className={styles.legendItem}>
+                <span className={styles.legendColorLabel}><span className={styles.legendDot} style={{ background: '#4df58a' }} /> Present</span>
+                <span className={styles.legendValue}>92.4%</span>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', gap: '1.5rem' }}>
-                <span style={{ color: 'rgba(240, 239, 237, 0.85)' }}><span style={{ color: '#f5c842' }}>●</span> Late</span>
-                <span>5.6%</span>
+              <div className={styles.legendItem}>
+                <span className={styles.legendColorLabel}><span className={styles.legendDot} style={{ background: '#f5c842' }} /> Late</span>
+                <span className={styles.legendValue}>5.6%</span>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', gap: '1.5rem' }}>
-                <span style={{ color: 'rgba(240, 239, 237, 0.85)' }}><span style={{ color: '#ff8a8a' }}>●</span> Absent</span>
-                <span>2.0%</span>
+              <div className={styles.legendItem}>
+                <span className={styles.legendColorLabel}><span className={styles.legendDot} style={{ background: '#ff8a8a' }} /> Absent</span>
+                <span className={styles.legendValue}>2.0%</span>
               </div>
             </div>
           </div>

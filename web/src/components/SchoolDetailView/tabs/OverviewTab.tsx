@@ -223,10 +223,13 @@ export const OverviewTab = ({
       <div className={`${styles.detailCard} ${styles.colSpan12}`}>
         <div className={styles.detailCardHeader}>
           <h3 className={styles.detailCardTitle}>Revenue Overview</h3>
-          <select className={styles.chartSelect} defaultValue="6months">
-            <option value="6months">Last 6 Months</option>
-            <option value="year">Year 2025</option>
-          </select>
+          <div style={{ position: 'relative' }}>
+            <select className={styles.chartSelect} defaultValue="6months" style={{ appearance: 'none', paddingRight: '1.8rem' }}>
+              <option value="6months">Last 6 Months</option>
+              <option value="year">Year 2025</option>
+            </select>
+            <span style={{ position: 'absolute', right: '0.7rem', top: '50%', transform: 'translateY(-50%)', fontSize: '0.6rem', opacity: 0.5, pointerEvents: 'none' }}>▼</span>
+          </div>
         </div>
         
         <div className={styles.revenueRowContent}>
