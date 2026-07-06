@@ -531,6 +531,7 @@ export default function AdminDashboard() {
                         { name: "Riverside National HS", status: "Active", plan: "School Plan", joined: "May 28, 2025" },
                         { name: "Bright Future School", status: "Expiring Soon", plan: "School Plan", joined: "May 27, 2025" },
                         { name: "Unity Christian School", status: "Expired", plan: "School Plan", joined: "May 25, 2025" },
+                        { name: "Faith Academy", status: "Active", plan: "School Plan", joined: "May 20, 2025" },
                       ].map((school, i) => (
                         <tr key={i}>
                           <td className={styles.schoolNameCol}>{school.name}</td>
