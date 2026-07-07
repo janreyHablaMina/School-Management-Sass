@@ -8,6 +8,7 @@ import { Sidebar } from '@/components/AdminLayout/Sidebar';
 import { TopBar } from '@/components/AdminLayout/TopBar';
 import { DashboardView } from '@/components/Dashboard/DashboardView';
 import { SchoolsView } from '@/components/Schools/SchoolsView';
+import { SubscriptionsView } from '@/components/Subscriptions/SubscriptionsView';
 import { ChalkFilter } from '@/components/ChalkCharts';
 import { School } from '@/types/school';
 
@@ -60,6 +61,10 @@ export default function AdminDashboard() {
         );
       }
       return <SchoolsView onSelectSchool={setSelectedSchool} />;
+    }
+
+    if (activeTab === 'Subscriptions') {
+      return <SubscriptionsView />;
     }
 
     return (
