@@ -49,7 +49,7 @@ export const SubscriptionsView = () => {
       </section>
 
       {/* Subscriptions Registry Table */}
-      <div className={styles.tableCard} style={{ marginTop: '1.2rem', flex: 1, minHeight: '520px' }}>
+      <div className={styles.tableCard} style={{ marginTop: '1.2rem', flex: 1, minHeight: '520px', position: 'relative' }}>
         {/* Toolbar */}
         <div className={styles.schoolsToolbar}>
           <div className={styles.toolbarLeft}>
@@ -220,21 +220,35 @@ export const SubscriptionsView = () => {
                       {sub.amount}
                     </td>
                     <td style={{ textAlign: 'center' }}>
-                      <div style={{ position: 'relative', display: 'inline-block' }}>
-                        <button 
-                          className={styles.actionDots}
-                          onClick={() => setActiveDropdownId(activeDropdownId === sub.schoolId ? null : sub.schoolId)}
-                          style={{ background: 'transparent', border: 'none', cursor: 'pointer', padding: '0.2rem 0.5rem', color: 'rgba(240, 239, 237, 0.6)' }}
+                      <div className={styles.actionsGroup} style={{ position: 'relative' }}>
+                        <button
+                          className={styles.actionIconBtn}
+                          onClick={(e) => { e.stopPropagation(); setActiveDropdownId(activeDropdownId === sub.schoolId ? null : sub.schoolId); }}
                         >
                           ⋮
                         </button>
                         
                         {activeDropdownId === sub.schoolId && (
-                          <div className={styles.actionDropdown} style={{ right: '100%', top: '50%', transform: 'translateY(-50%)', marginRight: '10px' }}>
-                            <button className={styles.actionDropdownItem}>View Details</button>
-                            <button className={styles.actionDropdownItem}>Edit Subscription</button>
-                            <button className={styles.actionDropdownItem} style={{ color: '#ff8a8a' }}>Cancel Subscription</button>
-                          </div>
+                          <>
+                            <div className={styles.dropdownOverlay} onClick={(e) => { e.stopPropagation(); setActiveDropdownId(null); }} />
+                            <div className={`${styles.actionDropdownMenu} ${(filteredSubscriptions.length > 4 && index >= filteredSubscriptions.length - 2) ? styles.actionDropdownMenuUp : ''}`}>
+                              <button onClick={(e) => { e.stopPropagation(); setActiveDropdownId(null); }} className={styles.actionDropdownItem}>
+                                👁️ View Details
+                              </button>
+                              <button onClick={(e) => { e.stopPropagation(); setActiveDropdownId(null); }} className={styles.actionDropdownItem}>
+                                ✏️ Edit
+                              </button>
+                              <button onClick={(e) => { e.stopPropagation(); setActiveDropdownId(null); }} className={styles.actionDropdownItem}>
+                                🚫 Cancel Subscription
+                              </button>
+                              <button onClick={(e) => { e.stopPropagation(); setActiveDropdownId(null); }} className={styles.actionDropdownItem}>
+                                ⏸️ Suspend School
+                              </button>
+                              <button onClick={(e) => { e.stopPropagation(); setActiveDropdownId(null); }} className={`${styles.actionDropdownItem} ${styles.actionDropdownItemDelete}`}>
+                                🗑️ Delete
+                              </button>
+                            </div>
+                          </>
                         )}
                       </div>
                     </td>
@@ -258,6 +272,23 @@ export const SubscriptionsView = () => {
             <button className={styles.chartSelect} style={{ padding: '0.3rem 0.6rem', minWidth: 'unset' }}>&gt;</button>
           </div>
         </div>
+
+        {/* Bulk Action Bar (Visible when subscriptions are selected) */}
+        {selectedSubscriptions.length > 0 && (
+          <div className={styles.bulkActionBar} style={{ 
+            position: 'absolute', bottom: '3rem', left: '50%', transform: 'translateX(-50%)',
+            background: 'rgba(20, 25, 22, 0.95)', border: '1px solid rgba(245, 200, 66, 0.3)',
+            borderRadius: '8px', padding: '0.8rem 1.5rem', display: 'flex', alignItems: 'center', gap: '1.5rem',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.4)', zIndex: 10
+          }}>
+            <span style={{ color: '#f5c842', fontWeight: 600 }}>{selectedSubscriptions.length} selected</span>
+            <div style={{ width: '1px', height: '24px', background: 'rgba(240, 239, 237, 0.2)' }}></div>
+            <div style={{ display: 'flex', gap: '0.8rem' }}>
+              <button style={{ background: 'rgba(132, 169, 255, 0.15)', color: '#84a9ff', border: 'none', borderRadius: '4px', padding: '0.4rem 0.8rem', cursor: 'pointer', fontWeight: 500 }}>Export</button>
+              <button style={{ background: 'rgba(255, 138, 138, 0.15)', color: '#ff8a8a', border: 'none', borderRadius: '4px', padding: '0.4rem 0.8rem', cursor: 'pointer', fontWeight: 500 }}>Delete</button>
+            </div>
+          </div>
+        )}
       </div>
     </>
   );
