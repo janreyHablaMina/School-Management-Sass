@@ -9,6 +9,7 @@ export const SubscriptionsView = () => {
   const [selectedPlan, setSelectedPlan] = useState('all');
   const [selectedStatus, setSelectedStatus] = useState('all');
   const [activeDropdownId, setActiveDropdownId] = useState<string | null>(null);
+  const [selectedSubscriptions, setSelectedSubscriptions] = useState<string[]>([]);
 
   // Filtering
   const filteredSubscriptions = mockSubscriptions.filter((sub) => {
@@ -102,14 +103,24 @@ export const SubscriptionsView = () => {
           <table className={styles.dashboardTable}>
             <thead>
               <tr>
+                <th style={{ width: '40px', textAlign: 'center', paddingLeft: '1.5rem' }}>
+                  <input 
+                    type="checkbox" 
+                    checked={selectedSubscriptions.length === filteredSubscriptions.length && filteredSubscriptions.length > 0}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setSelectedSubscriptions(filteredSubscriptions.map(s => s.schoolId));
+                      } else {
+                        setSelectedSubscriptions([]);
+                      }
+                    }}
+                  />
+                </th>
                 <th>School</th>
                 <th>Plan</th>
                 <th>Students</th>
                 <th>Renewal Date</th>
                 <th>Status</th>
-                <th>Monthly Fee</th>
-                <th>Billing Cycle</th>
-                <th>Next Invoice</th>
                 <th>Amount</th>
                 <th style={{ textAlign: 'center' }}>Actions</th>
               </tr>
@@ -144,16 +155,45 @@ export const SubscriptionsView = () => {
                 const sColor = statusColorMap[sub.status] || '#4df58a';
                 const sBg = statusBgMap[sub.status] || 'rgba(77, 245, 138, 0.1)';
 
+                // Colorful avatars
+                const avatarColors = [
+                  { c: '#84a9ff', bg: 'rgba(132, 169, 255, 0.15)' },
+                  { c: '#b884ff', bg: 'rgba(184, 132, 255, 0.15)' },
+                  { c: '#f5c842', bg: 'rgba(245, 200, 66, 0.15)' },
+                  { c: '#4df58a', bg: 'rgba(77, 245, 138, 0.15)' },
+                  { c: '#ff8a8a', bg: 'rgba(255, 138, 138, 0.15)' },
+                  { c: '#ffb366', bg: 'rgba(255, 179, 102, 0.15)' }
+                ];
+                const avatarStyle = avatarColors[index % avatarColors.length];
+
                 return (
                   <tr key={index}>
+                    <td style={{ textAlign: 'center', paddingLeft: '1.5rem' }}>
+                      <input 
+                        type="checkbox" 
+                        checked={selectedSubscriptions.includes(sub.schoolId)}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setSelectedSubscriptions([...selectedSubscriptions, sub.schoolId]);
+                          } else {
+                            setSelectedSubscriptions(selectedSubscriptions.filter(id => id !== sub.schoolId));
+                          }
+                        }}
+                      />
+                    </td>
                     <td>
-                      <div className={styles.tableSchoolCell}>
-                        <div className={styles.schoolAvatarMini}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+                        <div style={{ 
+                          width: '32px', height: '32px', borderRadius: '50%', 
+                          background: avatarStyle.bg, color: avatarStyle.c, 
+                          display: 'flex', alignItems: 'center', justifyContent: 'center', 
+                          fontWeight: 'bold', fontSize: '0.9rem', border: `1px solid ${avatarStyle.c}40`
+                        }}>
                           {sub.schoolName.charAt(0)}
                         </div>
-                        <div className={styles.schoolCellInfo}>
-                          <span className={styles.schoolCellName}>{sub.schoolName}</span>
-                          <span className={styles.schoolCellId}>{sub.schoolId}</span>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
+                          <span style={{ fontWeight: 600, color: '#f0efed' }}>{sub.schoolName}</span>
+                          <span style={{ fontSize: '0.75rem', color: 'rgba(240, 239, 237, 0.45)' }}>{sub.schoolId}</span>
                         </div>
                       </div>
                     </td>
@@ -176,27 +216,27 @@ export const SubscriptionsView = () => {
                         {sub.status}
                       </span>
                     </td>
-                    <td style={{ color: 'rgba(240, 239, 237, 0.85)' }}>{sub.monthlyFee}</td>
-                    <td style={{ color: 'rgba(240, 239, 237, 0.6)' }}>{sub.billingCycle}</td>
-                    <td style={{ color: 'rgba(240, 239, 237, 0.85)' }}>{sub.nextInvoice}</td>
                     <td style={{ color: sub.status === 'Expired' ? '#ff8a8a' : 'rgba(240, 239, 237, 0.85)', fontWeight: 500 }}>
                       {sub.amount}
                     </td>
-                    <td style={{ textAlign: 'center', position: 'relative' }}>
-                      <button 
-                        className={styles.actionDots}
-                        onClick={() => setActiveDropdownId(activeDropdownId === sub.schoolId ? null : sub.schoolId)}
-                      >
-                        ⋮
-                      </button>
-                      
-                      {activeDropdownId === sub.schoolId && (
-                        <div className={styles.actionDropdown} style={{ right: '40px', top: '10px' }}>
-                          <button className={styles.actionDropdownItem}>View Details</button>
-                          <button className={styles.actionDropdownItem}>Edit Subscription</button>
-                          <button className={styles.actionDropdownItem} style={{ color: '#ff8a8a' }}>Cancel Subscription</button>
-                        </div>
-                      )}
+                    <td style={{ textAlign: 'center' }}>
+                      <div style={{ position: 'relative', display: 'inline-block' }}>
+                        <button 
+                          className={styles.actionDots}
+                          onClick={() => setActiveDropdownId(activeDropdownId === sub.schoolId ? null : sub.schoolId)}
+                          style={{ background: 'transparent', border: 'none', cursor: 'pointer', padding: '0.2rem 0.5rem', color: 'rgba(240, 239, 237, 0.6)' }}
+                        >
+                          ⋮
+                        </button>
+                        
+                        {activeDropdownId === sub.schoolId && (
+                          <div className={styles.actionDropdown} style={{ right: '100%', top: '50%', transform: 'translateY(-50%)', marginRight: '10px' }}>
+                            <button className={styles.actionDropdownItem}>View Details</button>
+                            <button className={styles.actionDropdownItem}>Edit Subscription</button>
+                            <button className={styles.actionDropdownItem} style={{ color: '#ff8a8a' }}>Cancel Subscription</button>
+                          </div>
+                        )}
+                      </div>
                     </td>
                   </tr>
                 );
