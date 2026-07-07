@@ -56,41 +56,62 @@ export const SubscriptionsView = () => {
             <h3 className={styles.tableTitle} style={{ fontSize: '1.45rem' }}>All Subscriptions ({filteredSubscriptions.length})</h3>
           </div>
           <div className={styles.toolbarRight}>
-            <div className={styles.filterSearchWrapper}>
-              <span className={styles.filterSearchIcon}>🔍</span>
-              <input
-                type="text"
-                placeholder="Search schools..."
-                className={styles.filterSearchInput}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
-            <select className={styles.chartSelect} value={selectedPlan} onChange={(e) => setSelectedPlan(e.target.value)}>
-              <option value="all">All Plans</option>
-              <option value="school plan">School Plan</option>
-              <option value="basic plan">Basic Plan</option>
-              <option value="pro plan">Pro Plan</option>
-            </select>
-            <select className={styles.chartSelect} value={selectedStatus} onChange={(e) => setSelectedStatus(e.target.value)}>
-              <option value="all">All Status</option>
-              <option value="active">Active</option>
-              <option value="expiring soon">Expiring Soon</option>
-              <option value="expired">Expired</option>
-            </select>
-            
-            <button className={styles.chartSelect} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', background: 'transparent' }}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z" />
-              </svg>
-              More Filters
-            </button>
-            <button className={styles.chartSelect} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', background: 'transparent' }}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" />
-              </svg>
-              Export
-            </button>
+            {selectedSubscriptions.length > 0 ? (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1.2rem', marginRight: '0.5rem' }}>
+                <span style={{ color: 'rgba(240, 239, 237, 0.85)', fontSize: '0.95rem' }}>
+                  {selectedSubscriptions.length} selected
+                </span>
+                <button style={{ 
+                  background: 'transparent', border: '1px solid rgba(255, 138, 138, 0.4)', 
+                  color: '#ff8a8a', padding: '0.5rem 1rem', borderRadius: '4px', 
+                  display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontSize: '0.9rem',
+                  transition: 'all 0.2s'
+                }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                  </svg>
+                  Delete Selected
+                </button>
+              </div>
+            ) : (
+              <>
+                <div className={styles.filterSearchWrapper}>
+                  <span className={styles.filterSearchIcon}>🔍</span>
+                  <input
+                    type="text"
+                    placeholder="Search schools..."
+                    className={styles.filterSearchInput}
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                </div>
+                <select className={styles.chartSelect} value={selectedPlan} onChange={(e) => setSelectedPlan(e.target.value)}>
+                  <option value="all">All Plans</option>
+                  <option value="school plan">School Plan</option>
+                  <option value="basic plan">Basic Plan</option>
+                  <option value="pro plan">Pro Plan</option>
+                </select>
+                <select className={styles.chartSelect} value={selectedStatus} onChange={(e) => setSelectedStatus(e.target.value)}>
+                  <option value="all">All Status</option>
+                  <option value="active">Active</option>
+                  <option value="expiring soon">Expiring Soon</option>
+                  <option value="expired">Expired</option>
+                </select>
+                
+                <button className={styles.chartSelect} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', background: 'transparent' }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z" />
+                  </svg>
+                  More Filters
+                </button>
+                <button className={styles.chartSelect} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', background: 'transparent' }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" />
+                  </svg>
+                  Export
+                </button>
+              </>
+            )}
 
             <button className={styles.toolbarAddBtn}>
               <span>+</span> Add Subscription
@@ -272,23 +293,6 @@ export const SubscriptionsView = () => {
             <button className={styles.chartSelect} style={{ padding: '0.3rem 0.6rem', minWidth: 'unset' }}>&gt;</button>
           </div>
         </div>
-
-        {/* Bulk Action Bar (Visible when subscriptions are selected) */}
-        {selectedSubscriptions.length > 0 && (
-          <div className={styles.bulkActionBar} style={{ 
-            position: 'absolute', bottom: '3rem', left: '50%', transform: 'translateX(-50%)',
-            background: 'rgba(20, 25, 22, 0.95)', border: '1px solid rgba(245, 200, 66, 0.3)',
-            borderRadius: '8px', padding: '0.8rem 1.5rem', display: 'flex', alignItems: 'center', gap: '1.5rem',
-            boxShadow: '0 8px 32px rgba(0,0,0,0.4)', zIndex: 10
-          }}>
-            <span style={{ color: '#f5c842', fontWeight: 600 }}>{selectedSubscriptions.length} selected</span>
-            <div style={{ width: '1px', height: '24px', background: 'rgba(240, 239, 237, 0.2)' }}></div>
-            <div style={{ display: 'flex', gap: '0.8rem' }}>
-              <button style={{ background: 'rgba(132, 169, 255, 0.15)', color: '#84a9ff', border: 'none', borderRadius: '4px', padding: '0.4rem 0.8rem', cursor: 'pointer', fontWeight: 500 }}>Export</button>
-              <button style={{ background: 'rgba(255, 138, 138, 0.15)', color: '#ff8a8a', border: 'none', borderRadius: '4px', padding: '0.4rem 0.8rem', cursor: 'pointer', fontWeight: 500 }}>Delete</button>
-            </div>
-          </div>
-        )}
       </div>
     </>
   );
