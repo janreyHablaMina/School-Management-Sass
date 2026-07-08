@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import styles from '@/app/admin/admin.module.css';
 import { School } from '@/types/school';
 import { schoolsData } from '@/lib/data/schools';
+import { ConfirmModal } from '@/components/ui/ConfirmModal';
 
 interface SchoolsViewProps {
   onSelectSchool: (school: School) => void;
@@ -14,6 +15,14 @@ export const SchoolsView: React.FC<SchoolsViewProps> = ({ onSelectSchool }) => {
   const [selectedStatus, setSelectedStatus] = useState('all');
   const [selectedPlan, setSelectedPlan] = useState('all');
   const [activeSchoolDropdownId, setActiveSchoolDropdownId] = useState<number | null>(null);
+  const [selectedSchools, setSelectedSchools] = useState<string[]>([]);
+  
+  const [confirmModalData, setConfirmModalData] = useState<{
+    isOpen: boolean;
+    title: string;
+    message: string;
+    onConfirm: () => void;
+  }>({ isOpen: false, title: '', message: '', onConfirm: () => {} });
 
   const filteredSchools = schoolsData.filter((school) => {
     const matchesStatus = selectedStatus === 'all' || school.status.toLowerCase() === selectedStatus.toLowerCase();
@@ -59,29 +68,62 @@ export const SchoolsView: React.FC<SchoolsViewProps> = ({ onSelectSchool }) => {
             <h3 className={styles.tableTitle} style={{ fontSize: '1.45rem' }}>All Schools</h3>
           </div>
           <div className={styles.toolbarRight}>
-            <div className={styles.filterSearchWrapper}>
-              <span className={styles.filterSearchIcon}>🔍</span>
-              <input
-                type="text"
-                placeholder="Search schools..."
-                className={styles.filterSearchInput}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
-            <select className={styles.chartSelect} value={selectedStatus} onChange={(e) => setSelectedStatus(e.target.value)}>
-              <option value="all">All Status</option>
-              <option value="active">Active</option>
-              <option value="pending">Pending</option>
-              <option value="expiring soon">Expiring Soon</option>
-              <option value="expired">Expired</option>
-            </select>
-            <select className={styles.chartSelect} value={selectedPlan} onChange={(e) => setSelectedPlan(e.target.value)}>
-              <option value="all">All Plans</option>
-              <option value="school plan">School Plan</option>
-              <option value="district plan">District Plan</option>
-              <option value="enterprise plan">Enterprise Plan</option>
-            </select>
+            {selectedSchools.length > 0 ? (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1.2rem', marginRight: '0.5rem' }}>
+                <span style={{ color: 'rgba(240, 239, 237, 0.85)', fontSize: '0.95rem' }}>
+                  {selectedSchools.length} selected
+                </span>
+                <button 
+                  onClick={() => {
+                    setConfirmModalData({
+                      isOpen: true,
+                      title: 'Delete Selected Schools',
+                      message: `Are you sure you want to delete ${selectedSchools.length} selected schools? This action cannot be undone.`,
+                      onConfirm: () => {
+                        setConfirmModalData(prev => ({ ...prev, isOpen: false }));
+                        setSelectedSchools([]);
+                      }
+                    });
+                  }}
+                  style={{ 
+                  background: 'transparent', border: '1px solid rgba(255, 138, 138, 0.4)', 
+                  color: '#ff8a8a', padding: '0.5rem 1rem', borderRadius: '4px', 
+                  display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontSize: '0.9rem',
+                  transition: 'all 0.2s'
+                }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                  </svg>
+                  Delete Selected
+                </button>
+              </div>
+            ) : (
+              <>
+                <div className={styles.filterSearchWrapper}>
+                  <span className={styles.filterSearchIcon}>🔍</span>
+                  <input
+                    type="text"
+                    placeholder="Search schools..."
+                    className={styles.filterSearchInput}
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                </div>
+                <select className={styles.chartSelect} value={selectedStatus} onChange={(e) => setSelectedStatus(e.target.value)}>
+                  <option value="all">All Status</option>
+                  <option value="active">Active</option>
+                  <option value="pending">Pending</option>
+                  <option value="expiring soon">Expiring Soon</option>
+                  <option value="expired">Expired</option>
+                </select>
+                <select className={styles.chartSelect} value={selectedPlan} onChange={(e) => setSelectedPlan(e.target.value)}>
+                  <option value="all">All Plans</option>
+                  <option value="school plan">School Plan</option>
+                  <option value="district plan">District Plan</option>
+                  <option value="enterprise plan">Enterprise Plan</option>
+                </select>
+              </>
+            )}
             <button className={styles.toolbarAddBtn} onClick={() => alert('Add New School logic...')}>
               <span>+</span> Add New School
             </button>
@@ -93,6 +135,19 @@ export const SchoolsView: React.FC<SchoolsViewProps> = ({ onSelectSchool }) => {
           <table className={styles.dashboardTable}>
             <thead>
               <tr>
+                <th style={{ width: '40px', paddingLeft: '1.5rem' }}>
+                  <input 
+                    type="checkbox" 
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setSelectedSchools(filteredSchools.map(s => s.name));
+                      } else {
+                        setSelectedSchools([]);
+                      }
+                    }}
+                    checked={selectedSchools.length > 0 && selectedSchools.length === filteredSchools.length}
+                  />
+                </th>
                 <th>School Name</th>
                 <th>Status</th>
                 <th>Subscription Plan</th>
@@ -105,13 +160,26 @@ export const SchoolsView: React.FC<SchoolsViewProps> = ({ onSelectSchool }) => {
             <tbody>
               {filteredSchools.length === 0 ? (
                 <tr>
-                  <td colSpan={7} style={{ textAlign: 'center', padding: '3rem', color: 'rgba(240, 239, 237, 0.4)' }}>
+                  <td colSpan={8} style={{ textAlign: 'center', padding: '3rem', color: 'rgba(240, 239, 237, 0.4)' }}>
                     No schools found matching your search.
                   </td>
                 </tr>
               ) : (
                 filteredSchools.map((school, i) => (
                   <tr key={i} className={styles.clickableRow} onClick={() => onSelectSchool(school)}>
+                    <td style={{ paddingLeft: '1.5rem' }} onClick={(e) => e.stopPropagation()}>
+                      <input 
+                        type="checkbox" 
+                        checked={selectedSchools.includes(school.name)}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setSelectedSchools([...selectedSchools, school.name]);
+                          } else {
+                            setSelectedSchools(selectedSchools.filter(name => name !== school.name));
+                          }
+                        }}
+                      />
+                    </td>
                     <td>
                       <span className={styles.schoolNameColMain}>{school.name}</span>
                       <span className={styles.schoolNameColSub}>{school.location}</span>
@@ -165,7 +233,19 @@ export const SchoolsView: React.FC<SchoolsViewProps> = ({ onSelectSchool }) => {
                               <button onClick={(e) => { e.stopPropagation(); setActiveSchoolDropdownId(null); alert(`Editing school ${school.name}...`); }} className={styles.actionDropdownItem}>
                                 ✏️ Edit
                               </button>
-                              <button onClick={(e) => { e.stopPropagation(); setActiveSchoolDropdownId(null); alert(`Deleting school ${school.name}...`); }} className={`${styles.actionDropdownItem} ${styles.actionDropdownItemDelete}`}>
+                              <button onClick={(e) => { 
+                                e.stopPropagation(); 
+                                setActiveSchoolDropdownId(null); 
+                                setConfirmModalData({
+                                  isOpen: true,
+                                  title: 'Delete School',
+                                  message: `Are you sure you want to delete the school ${school.name}? This action cannot be undone.`,
+                                  onConfirm: () => {
+                                    // Implement actual delete logic here
+                                    setConfirmModalData(prev => ({ ...prev, isOpen: false }));
+                                  }
+                                });
+                              }} className={`${styles.actionDropdownItem} ${styles.actionDropdownItemDelete}`}>
                                 🗑️ Delete
                               </button>
                             </div>
@@ -192,6 +272,14 @@ export const SchoolsView: React.FC<SchoolsViewProps> = ({ onSelectSchool }) => {
           </div>
         </div>
       </div>
+
+      <ConfirmModal 
+        isOpen={confirmModalData.isOpen}
+        title={confirmModalData.title}
+        message={confirmModalData.message}
+        onConfirm={confirmModalData.onConfirm}
+        onCancel={() => setConfirmModalData(prev => ({ ...prev, isOpen: false }))}
+      />
     </>
   );
 };

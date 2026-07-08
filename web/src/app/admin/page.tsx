@@ -11,6 +11,7 @@ import { SchoolsView } from '@/components/Schools/SchoolsView';
 import { SubscriptionsView } from '@/components/Subscriptions/SubscriptionsView';
 import { ChalkFilter } from '@/components/ChalkCharts';
 import { School } from '@/types/school';
+import { schoolsData } from '@/lib/data/schools';
 
 export default function AdminDashboard() {
   const router = useRouter();
@@ -64,7 +65,18 @@ export default function AdminDashboard() {
     }
 
     if (activeTab === 'Subscriptions') {
-      return <SubscriptionsView />;
+      return <SubscriptionsView onSelectSchool={(schoolName) => {
+        const school = schoolsData.find(s => s.name === schoolName);
+        if (school) {
+          setActiveTab('Schools');
+          setSelectedSchool(school);
+          setDetailTab('Subscription');
+        } else {
+          setActiveTab('Schools');
+          setSelectedSchool(schoolsData[0]);
+          setDetailTab('Subscription');
+        }
+      }} />;
     }
 
     return (

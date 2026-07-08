@@ -3,13 +3,21 @@
 import React, { useState } from 'react';
 import styles from '@/app/admin/admin.module.css';
 import { mockSubscriptions } from './data';
+import { ConfirmModal } from '@/components/ui/ConfirmModal';
 
-export const SubscriptionsView = () => {
+export const SubscriptionsView = ({ onSelectSchool }: { onSelectSchool?: (schoolName: string) => void }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedPlan, setSelectedPlan] = useState('all');
   const [selectedStatus, setSelectedStatus] = useState('all');
   const [activeDropdownId, setActiveDropdownId] = useState<string | null>(null);
   const [selectedSubscriptions, setSelectedSubscriptions] = useState<string[]>([]);
+  
+  const [confirmModalData, setConfirmModalData] = useState<{
+    isOpen: boolean;
+    title: string;
+    message: string;
+    onConfirm: () => void;
+  }>({ isOpen: false, title: '', message: '', onConfirm: () => {} });
 
   // Filtering
   const filteredSubscriptions = mockSubscriptions.filter((sub) => {
@@ -61,7 +69,20 @@ export const SubscriptionsView = () => {
                 <span style={{ color: 'rgba(240, 239, 237, 0.85)', fontSize: '0.95rem' }}>
                   {selectedSubscriptions.length} selected
                 </span>
-                <button style={{ 
+                <button 
+                  onClick={() => {
+                    setConfirmModalData({
+                      isOpen: true,
+                      title: 'Delete Selected Subscriptions',
+                      message: `Are you sure you want to delete ${selectedSubscriptions.length} selected subscriptions? This action cannot be undone.`,
+                      onConfirm: () => {
+                        // Implement actual delete logic here
+                        setConfirmModalData(prev => ({ ...prev, isOpen: false }));
+                        setSelectedSubscriptions([]);
+                      }
+                    });
+                  }}
+                  style={{ 
                   background: 'transparent', border: '1px solid rgba(255, 138, 138, 0.4)', 
                   color: '#ff8a8a', padding: '0.5rem 1rem', borderRadius: '4px', 
                   display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontSize: '0.9rem',
@@ -188,8 +209,13 @@ export const SubscriptionsView = () => {
                 const avatarStyle = avatarColors[index % avatarColors.length];
 
                 return (
-                  <tr key={index}>
-                    <td style={{ textAlign: 'center', paddingLeft: '1.5rem' }}>
+                  <tr 
+                    key={index} 
+                    onClick={() => onSelectSchool && onSelectSchool(sub.schoolName)} 
+                    style={{ cursor: 'pointer' }}
+                    className={styles.dashboardTableRow}
+                  >
+                    <td style={{ textAlign: 'center', paddingLeft: '1.5rem' }} onClick={(e) => e.stopPropagation()}>
                       <input 
                         type="checkbox" 
                         checked={selectedSubscriptions.includes(sub.schoolId)}
@@ -253,7 +279,11 @@ export const SubscriptionsView = () => {
                           <>
                             <div className={styles.dropdownOverlay} onClick={(e) => { e.stopPropagation(); setActiveDropdownId(null); }} />
                             <div className={`${styles.actionDropdownMenu} ${(filteredSubscriptions.length > 4 && index >= filteredSubscriptions.length - 2) ? styles.actionDropdownMenuUp : ''}`}>
-                              <button onClick={(e) => { e.stopPropagation(); setActiveDropdownId(null); }} className={styles.actionDropdownItem}>
+                              <button onClick={(e) => { 
+                                e.stopPropagation(); 
+                                setActiveDropdownId(null); 
+                                if (onSelectSchool) onSelectSchool(sub.schoolName); 
+                              }} className={styles.actionDropdownItem}>
                                 👁️ View Details
                               </button>
                               <button onClick={(e) => { e.stopPropagation(); setActiveDropdownId(null); }} className={styles.actionDropdownItem}>
@@ -265,7 +295,19 @@ export const SubscriptionsView = () => {
                               <button onClick={(e) => { e.stopPropagation(); setActiveDropdownId(null); }} className={styles.actionDropdownItem}>
                                 ⏸️ Suspend School
                               </button>
-                              <button onClick={(e) => { e.stopPropagation(); setActiveDropdownId(null); }} className={`${styles.actionDropdownItem} ${styles.actionDropdownItemDelete}`}>
+                              <button onClick={(e) => { 
+                                e.stopPropagation(); 
+                                setActiveDropdownId(null); 
+                                setConfirmModalData({
+                                  isOpen: true,
+                                  title: 'Delete Subscription',
+                                  message: `Are you sure you want to delete the subscription for ${sub.schoolName}? This action cannot be undone.`,
+                                  onConfirm: () => {
+                                    // Implement actual delete logic here
+                                    setConfirmModalData(prev => ({ ...prev, isOpen: false }));
+                                  }
+                                });
+                              }} className={`${styles.actionDropdownItem} ${styles.actionDropdownItemDelete}`}>
                                 🗑️ Delete
                               </button>
                             </div>
@@ -294,6 +336,14 @@ export const SubscriptionsView = () => {
           </div>
         </div>
       </div>
+
+      <ConfirmModal 
+        isOpen={confirmModalData.isOpen}
+        title={confirmModalData.title}
+        message={confirmModalData.message}
+        onConfirm={confirmModalData.onConfirm}
+        onCancel={() => setConfirmModalData(prev => ({ ...prev, isOpen: false }))}
+      />
     </>
   );
 };
