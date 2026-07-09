@@ -23,9 +23,9 @@ export const AddSubscriptionView: React.FC<AddSubscriptionViewProps> = ({ onCanc
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
           
           {/* 1. Select School */}
-          <div className={styles.tableCard} style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+          <div className={styles.tableCard} style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '1.5rem', border: '1px dashed rgba(132, 169, 255, 0.3)' }}>
             <div>
-              <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1.2rem', color: '#f5c842' }}>1. Select School</h3>
+              <h3 style={{ fontFamily: 'Caveat, cursive', margin: '0 0 0.2rem 0', fontSize: '1.8rem', color: '#84a9ff' }}>1. Select School</h3>
               <p style={{ color: 'rgba(240, 239, 237, 0.6)', margin: 0, fontSize: '0.9rem' }}>Choose the school that will be assigned this subscription.</p>
             </div>
             
@@ -68,9 +68,9 @@ export const AddSubscriptionView: React.FC<AddSubscriptionViewProps> = ({ onCanc
           </div>
 
           {/* 2. Select Plan */}
-          <div className={styles.tableCard} style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+          <div className={styles.tableCard} style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '1.5rem', border: '1px dashed rgba(92, 199, 137, 0.3)', transform: 'rotate(0.5deg)' }}>
             <div>
-              <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1.2rem', color: '#f5c842' }}>2. Select Plan</h3>
+              <h3 style={{ fontFamily: 'Caveat, cursive', margin: '0 0 0.2rem 0', fontSize: '1.8rem', color: '#5cc789' }}>2. Select Plan</h3>
               <p style={{ color: 'rgba(240, 239, 237, 0.6)', margin: 0, fontSize: '0.9rem' }}>Choose a subscription plan for the school.</p>
             </div>
             
@@ -108,9 +108,9 @@ export const AddSubscriptionView: React.FC<AddSubscriptionViewProps> = ({ onCanc
           </div>
 
           {/* 3. Subscription Details */}
-          <div className={styles.tableCard} style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+          <div className={styles.tableCard} style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '1.5rem', border: '1px dashed rgba(245, 200, 66, 0.3)' }}>
             <div>
-              <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1.2rem', color: '#f5c842' }}>3. Subscription Details</h3>
+              <h3 style={{ fontFamily: 'Caveat, cursive', margin: '0 0 0.2rem 0', fontSize: '1.8rem', color: '#f5c842' }}>3. Subscription Details</h3>
               <p style={{ color: 'rgba(240, 239, 237, 0.6)', margin: 0, fontSize: '0.9rem' }}>Configure the subscription period and billing information.</p>
             </div>
             
@@ -199,9 +199,9 @@ export const AddSubscriptionView: React.FC<AddSubscriptionViewProps> = ({ onCanc
           </div>
 
           {/* 4. Payment Information */}
-          <div className={styles.tableCard} style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+          <div className={styles.tableCard} style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '1.5rem', border: '1px dashed rgba(255, 138, 138, 0.3)' }}>
             <div>
-              <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1.2rem', color: '#f5c842' }}>4. Payment Information</h3>
+              <h3 style={{ fontFamily: 'Caveat, cursive', margin: '0 0 0.2rem 0', fontSize: '1.8rem', color: '#ff8a8a' }}>4. Payment Information</h3>
               <p style={{ color: 'rgba(240, 239, 237, 0.6)', margin: 0, fontSize: '0.9rem' }}>Set the pricing and payment details for this subscription.</p>
             </div>
             
@@ -275,8 +275,8 @@ export const AddSubscriptionView: React.FC<AddSubscriptionViewProps> = ({ onCanc
         {/* Right Column: Summary */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
           
-          <div className={styles.tableCard} style={{ padding: '1.5rem' }}>
-            <h3 style={{ margin: '0 0 1.5rem 0', fontSize: '1.1rem', color: '#f0efed' }}>Subscription Summary</h3>
+          <div className={styles.tableCard} style={{ padding: '1.5rem', borderTop: '4px solid #b388ff' }}>
+            <h3 style={{ fontFamily: 'Caveat, cursive', margin: '0 0 1.5rem 0', fontSize: '1.6rem', color: '#b388ff' }}>📋 Subscription Summary</h3>
             
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', marginBottom: '2rem' }}>
               <div>
@@ -343,8 +343,8 @@ export const AddSubscriptionView: React.FC<AddSubscriptionViewProps> = ({ onCanc
             </div>
           </div>
 
-          <div className={styles.tableCard} style={{ padding: '1.5rem' }}>
-            <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1.1rem', color: '#f0efed' }}>Plan Features (Preview)</h3>
+          <div className={styles.tableCard} style={{ padding: '1.5rem', borderTop: '4px solid #f5c842' }}>
+            <h3 style={{ fontFamily: 'Caveat, cursive', margin: '0 0 0.5rem 0', fontSize: '1.6rem', color: '#f5c842' }}>✨ Plan Features</h3>
             <p style={{ color: 'rgba(240, 239, 237, 0.6)', margin: '0 0 1.5rem 0', fontSize: '0.85rem' }}>Select a plan to see the features and limits included.</p>
             
             <div style={{ background: 'rgba(0,0,0,0.1)', border: '1px solid rgba(240, 239, 237, 0.1)', borderRadius: '8px', padding: '1rem', display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
