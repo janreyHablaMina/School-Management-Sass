@@ -36,8 +36,10 @@ export const AddSubscriptionView: React.FC<AddSubscriptionViewProps> = ({ onCanc
                 onChange={(e) => setSelectedSchool(e.target.value)}
                 style={{ 
                   width: '100%', padding: '0.8rem 1rem', borderRadius: '6px', 
-                  background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(240, 239, 237, 0.2)', 
-                  color: '#f0efed', outline: 'none'
+                  background: 'rgba(0,0,0,0.2) url("data:image/svg+xml;utf8,<svg fill=\'%23f0efed\' height=\'24\' viewBox=\'0 0 24 24\' width=\'24\' xmlns=\'http://www.w3.org/2000/svg\'><path d=\'M7 10l5 5 5-5z\'/><path d=\'M0 0h24v24H0z\' fill=\'none\'/></svg>") no-repeat right 0.5rem center', 
+                  border: '1px solid rgba(240, 239, 237, 0.2)', 
+                  color: '#f0efed', outline: 'none',
+                  appearance: 'none', WebkitAppearance: 'none'
                 }}
               >
                 <option value="">Search and select a school...</option>
@@ -82,8 +84,10 @@ export const AddSubscriptionView: React.FC<AddSubscriptionViewProps> = ({ onCanc
                   onChange={(e) => setSelectedPlan(e.target.value)}
                   style={{ 
                     width: '100%', padding: '0.8rem 1rem', borderRadius: '6px', 
-                    background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(240, 239, 237, 0.2)', 
-                    color: '#f0efed', outline: 'none'
+                    background: 'rgba(0,0,0,0.2) url("data:image/svg+xml;utf8,<svg fill=\'%23f0efed\' height=\'24\' viewBox=\'0 0 24 24\' width=\'24\' xmlns=\'http://www.w3.org/2000/svg\'><path d=\'M7 10l5 5 5-5z\'/><path d=\'M0 0h24v24H0z\' fill=\'none\'/></svg>") no-repeat right 0.5rem center', 
+                    border: '1px solid rgba(240, 239, 237, 0.2)', 
+                    color: '#f0efed', outline: 'none',
+                    appearance: 'none', WebkitAppearance: 'none'
                   }}
                 >
                   <option value="">Select a plan...</option>
@@ -371,9 +375,9 @@ export const AddSubscriptionView: React.FC<AddSubscriptionViewProps> = ({ onCanc
             </button>
             <button 
               onClick={onSave}
+              className={styles.toolbarAddBtn}
               style={{ 
-                flex: 2, padding: '0.8rem', background: '#3b82f6', border: 'none', 
-                color: '#fff', borderRadius: '6px', cursor: 'pointer', fontWeight: 600, transition: 'all 0.2s' 
+                flex: 2, height: 'auto', padding: '0.8rem', fontSize: '1rem'
               }}
             >
               + Create Subscription
