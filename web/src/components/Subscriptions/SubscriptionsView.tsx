@@ -5,7 +5,7 @@ import styles from '@/app/admin/admin.module.css';
 import { mockSubscriptions } from './data';
 import { ConfirmModal } from '@/components/ui/ConfirmModal';
 
-export const SubscriptionsView = ({ onSelectSchool }: { onSelectSchool?: (schoolName: string) => void }) => {
+export const SubscriptionsView = ({ onSelectSchool, onAddSubscription }: { onSelectSchool?: (schoolName: string) => void, onAddSubscription?: () => void }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedPlan, setSelectedPlan] = useState('all');
   const [selectedStatus, setSelectedStatus] = useState('all');
@@ -134,7 +134,7 @@ export const SubscriptionsView = ({ onSelectSchool }: { onSelectSchool?: (school
               </>
             )}
 
-            <button className={styles.toolbarAddBtn}>
+            <button className={styles.toolbarAddBtn} onClick={() => onAddSubscription && onAddSubscription()}>
               <span>+</span> Add Subscription
             </button>
           </div>

@@ -44,6 +44,8 @@ export const TopBar: React.FC<TopBarProps> = ({
       }
       return 'Dashboard > Schools';
     }
+    if (activeTab === 'AddSubscription') return 'Dashboard > Subscriptions > Add Subscription';
+    if (activeTab === 'Subscriptions') return 'Dashboard > Subscriptions';
     return `Management panel for ${activeTab}`;
   };
 
@@ -51,7 +53,7 @@ export const TopBar: React.FC<TopBarProps> = ({
     <header className={`${styles.topBar} ${isScrolled ? styles.topBarScrolled : ''}`}>
       <div className={styles.titleArea}>
         <h1 className={styles.pageTitle}>
-          {activeTab === 'Schools' && selectedSchool ? selectedSchool.name : activeTab}
+          {activeTab === 'Schools' && selectedSchool ? selectedSchool.name : activeTab === 'AddSubscription' ? 'Add New Subscription' : activeTab}
         </h1>
         <span className={styles.pageSubtitle}>{renderSubtitle()}</span>
       </div>

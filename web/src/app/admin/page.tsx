@@ -9,6 +9,7 @@ import { TopBar } from '@/components/AdminLayout/TopBar';
 import { DashboardView } from '@/components/Dashboard/DashboardView';
 import { SchoolsView } from '@/components/Schools/SchoolsView';
 import { SubscriptionsView } from '@/components/Subscriptions/SubscriptionsView';
+import { AddSubscriptionView } from '@/components/Subscriptions/AddSubscriptionView';
 import { ChalkFilter } from '@/components/ChalkCharts';
 import { School } from '@/types/school';
 import { schoolsData } from '@/lib/data/schools';
@@ -65,18 +66,30 @@ export default function AdminDashboard() {
     }
 
     if (activeTab === 'Subscriptions') {
-      return <SubscriptionsView onSelectSchool={(schoolName) => {
-        const school = schoolsData.find(s => s.name === schoolName);
-        if (school) {
-          setActiveTab('Schools');
-          setSelectedSchool(school);
-          setDetailTab('Subscription');
-        } else {
-          setActiveTab('Schools');
-          setSelectedSchool(schoolsData[0]);
-          setDetailTab('Subscription');
-        }
-      }} />;
+      return <SubscriptionsView 
+        onAddSubscription={() => setActiveTab('AddSubscription')}
+        onSelectSchool={(schoolName) => {
+          const school = schoolsData.find(s => s.name === schoolName);
+          if (school) {
+            setActiveTab('Schools');
+            setSelectedSchool(school);
+            setDetailTab('Subscription');
+          } else {
+            setActiveTab('Schools');
+            setSelectedSchool(schoolsData[0]);
+            setDetailTab('Subscription');
+          }
+        }} 
+      />;
+    }
+
+    if (activeTab === 'AddSubscription') {
+      return (
+        <AddSubscriptionView 
+          onCancel={() => setActiveTab('Subscriptions')}
+          onSave={() => setActiveTab('Subscriptions')}
+        />
+      );
     }
 
     return (
