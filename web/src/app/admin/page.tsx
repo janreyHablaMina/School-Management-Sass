@@ -8,7 +8,7 @@ import { Sidebar } from '@/components/AdminLayout/Sidebar';
 import { TopBar } from '@/components/AdminLayout/TopBar';
 import { DashboardView } from '@/components/Dashboard/DashboardView';
 import { SchoolsView } from '@/components/Schools/SchoolsView';
-import { AddSchoolView } from '@/components/Schools/AddSchoolView';
+import { AddSchoolContainer } from '@/components/Schools/AddSchool/AddSchoolContainer';
 import { SubscriptionsView } from '@/components/Subscriptions/SubscriptionsView';
 import { AddSubscriptionView } from '@/components/Subscriptions/AddSubscriptionView';
 import { ChalkFilter } from '@/components/ChalkCharts';
@@ -71,7 +71,7 @@ export default function AdminDashboard() {
 
     if (activeTab === 'AddSchool') {
       return (
-        <AddSchoolView 
+        <AddSchoolContainer 
           onCancel={() => setActiveTab('Schools')}
           onSave={() => setActiveTab('Schools')}
         />

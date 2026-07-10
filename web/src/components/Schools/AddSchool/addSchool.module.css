@@ -1,0 +1,270 @@
+/* AddSchool Layout */
+.pageContainer {
+  color: #f0efed;
+  padding-bottom: 2rem;
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Stepper */
+.stepperContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100px;
+}
+.stepIconActive, .stepIconInactive {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  transition: all 0.3s;
+  flex-shrink: 0;
+}
+.stepIconActive {
+  background: #b388ff;
+  color: #0b1a13;
+  box-shadow: 0 0 15px rgba(179, 136, 255, 0.4);
+}
+.stepIconInactive {
+  background: rgba(240, 239, 237, 0.08);
+  color: rgba(240, 239, 237, 0.5);
+  box-shadow: none;
+}
+.stepLabelActive, .stepLabelInactive {
+  text-align: center;
+  white-space: nowrap;
+}
+.stepLabelActive {
+  font-family: 'Caveat', cursive;
+  font-size: 1.3rem;
+  color: #b388ff;
+  font-weight: 600;
+}
+.stepLabelInactive {
+  font-size: 0.85rem;
+  color: rgba(240, 239, 237, 0.5);
+  font-weight: 400;
+}
+.connector {
+  flex: 1;
+  border-top: 3px dotted rgba(240, 239, 237, 0.2);
+  margin: 0 -10px;
+  margin-top: 28px;
+}
+
+/* Form Sections */
+.sectionCard {
+  padding: 2.5rem;
+}
+.sectionHeader {
+  margin-bottom: 2rem;
+}
+.sectionTitle {
+  font-family: 'Caveat', cursive;
+  margin: 0 0 0.2rem 0;
+  font-size: 2rem;
+}
+.sectionDesc {
+  color: rgba(240, 239, 237, 0.6);
+  margin: 0;
+  font-size: 0.9rem;
+}
+.twoColGrid {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 3rem;
+}
+.formColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.inputRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+.socialGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 1rem;
+}
+.label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+.requiredStar {
+  color: #ff8a8a;
+}
+.optionalText {
+  color: rgba(240, 239, 237, 0.4);
+}
+
+/* Inputs */
+.inputBox {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border-radius: 6px;
+  background: rgba(0,0,0,0.2);
+  border: 1px solid rgba(240, 239, 237, 0.2);
+  color: #f0efed;
+  outline: none;
+}
+.inputBoxDarkScheme {
+  color-scheme: dark;
+}
+.inputGroup {
+  display: flex;
+  align-items: center;
+  background: rgba(0,0,0,0.2);
+  border: 1px solid rgba(240, 239, 237, 0.2);
+  border-radius: 6px;
+  padding: 0 1rem;
+}
+.inputGroupSocial {
+  padding: 0 0.8rem;
+}
+.groupIcon {
+  color: rgba(240, 239, 237, 0.4);
+  font-size: 1.1rem;
+}
+.groupInput {
+  flex: 1;
+  padding: 0.8rem 1rem;
+  background: transparent;
+  border: none;
+  color: #f0efed;
+  outline: none;
+}
+.groupInputSocial {
+  padding: 0.8rem 0.5rem;
+  font-size: 0.85rem;
+}
+.selectInput {
+  appearance: none;
+  -webkit-appearance: none;
+  background: rgba(0,0,0,0.2) url("data:image/svg+xml;utf8,<svg fill='%23f0efed' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>") no-repeat right 0.5rem center;
+}
+.textareaInput {
+  resize: vertical;
+}
+.textareaCharCount {
+  text-align: right;
+  color: rgba(240, 239, 237, 0.4);
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+}
+
+/* Specific Elements */
+.logoUploadWrapper {
+  background: rgba(132, 169, 255, 0.05);
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+.logoUploadBox {
+  flex: 1;
+  border: 2px dashed rgba(132, 169, 255, 0.3);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+/* Info Panels */
+.infoPanelCol {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.infoPanel {
+  background: rgba(92, 199, 137, 0.05);
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+.infoPanelContact {
+  background: rgba(179, 136, 255, 0.05);
+  padding: 2rem 1.5rem;
+  align-items: center;
+  text-align: center;
+}
+.tipsPanel {
+  background: rgba(240, 239, 237, 0.03);
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+.panelHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+.panelTitle {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+.panelTitleContact {
+  font-size: 1.1rem;
+}
+.checkItem {
+  display: flex;
+  gap: 0.8rem;
+}
+.checkCircle {
+  min-width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.checkMark {
+  color: #0b1a13;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+.checkText {
+  color: rgba(240, 239, 237, 0.8);
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+/* Action Bar */
+.actionBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+}
+.secondaryBtn {
+  padding: 0.8rem 2rem;
+  background: transparent;
+  border: 1px solid rgba(240, 239, 237, 0.2);
+  color: #f0efed;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
