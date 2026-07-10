@@ -147,7 +147,7 @@ export const AddSubscriptionView: React.FC<AddSubscriptionViewProps> = ({ onCanc
                     style={{ 
                       width: '100%', padding: '0.8rem', borderRadius: '6px', 
                       background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(240, 239, 237, 0.2)', 
-                      color: '#f0efed', outline: 'none'
+                      color: '#f0efed', outline: 'none', colorScheme: 'dark'
                     }}
                   />
                 </div>
@@ -159,7 +159,7 @@ export const AddSubscriptionView: React.FC<AddSubscriptionViewProps> = ({ onCanc
                     style={{ 
                       width: '100%', padding: '0.8rem', borderRadius: '6px', 
                       background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(240, 239, 237, 0.2)', 
-                      color: '#f0efed', outline: 'none'
+                      color: '#f0efed', outline: 'none', colorScheme: 'dark'
                     }}
                   />
                 </div>
@@ -194,7 +194,7 @@ export const AddSubscriptionView: React.FC<AddSubscriptionViewProps> = ({ onCanc
                     style={{ 
                       width: '100%', padding: '0.8rem', borderRadius: '6px', 
                       background: 'rgba(0,0,0,0.1)', border: '1px dashed rgba(240, 239, 237, 0.1)', 
-                      color: 'rgba(240, 239, 237, 0.4)', outline: 'none', cursor: 'not-allowed'
+                      color: 'rgba(240, 239, 237, 0.4)', outline: 'none', cursor: 'not-allowed', colorScheme: 'dark'
                     }}
                   />
                 </div>

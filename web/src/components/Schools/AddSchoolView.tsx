@@ -119,7 +119,7 @@ export const AddSchoolView: React.FC<AddSchoolViewProps> = ({ onCancel, onSave }
                       style={{ 
                         width: '100%', padding: '0.8rem 1rem', borderRadius: '6px', 
                         background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(240, 239, 237, 0.2)', 
-                        color: '#f0efed', outline: 'none'
+                        color: '#f0efed', outline: 'none', colorScheme: 'dark'
                       }}
                     />
                   </div>
@@ -216,17 +216,171 @@ export const AddSchoolView: React.FC<AddSchoolViewProps> = ({ onCancel, onSave }
         </div>
       )}
 
+      {/* Step 2: Contact Details */}
+      {currentStep === 2 && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+          <div className={styles.tableCard} style={{ padding: '2.5rem', borderLeft: '4px solid #b388ff' }}>
+            <div style={{ marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+              <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: 'rgba(179, 136, 255, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem' }}>
+                📞
+              </div>
+              <div>
+                <h3 style={{ fontFamily: "'Caveat', cursive", margin: '0 0 0.2rem 0', fontSize: '2rem', color: '#b388ff' }}>Contact Details</h3>
+                <p style={{ color: 'rgba(240, 239, 237, 0.6)', margin: 0, fontSize: '0.9rem' }}>Provide the primary contact information for your school.</p>
+              </div>
+            </div>
+            
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: '3rem' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem' }}>Primary Contact Person <span style={{ color: '#ff8a8a' }}>*</span></label>
+                    <div style={{ display: 'flex', alignItems: 'center', background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(240, 239, 237, 0.2)', borderRadius: '6px', padding: '0 1rem' }}>
+                      <span style={{ color: 'rgba(240, 239, 237, 0.4)', fontSize: '1.1rem' }}>👤</span>
+                      <input type="text" placeholder="e.g. John Dela Cruz" style={{ flex: 1, padding: '0.8rem 1rem', background: 'transparent', border: 'none', color: '#f0efed', outline: 'none' }} />
+                    </div>
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem' }}>Designation / Position <span style={{ color: '#ff8a8a' }}>*</span></label>
+                    <div style={{ display: 'flex', alignItems: 'center', background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(240, 239, 237, 0.2)', borderRadius: '6px', padding: '0 1rem' }}>
+                      <span style={{ color: 'rgba(240, 239, 237, 0.4)', fontSize: '1.1rem' }}>💼</span>
+                      <input type="text" placeholder="e.g. School Administrator" style={{ flex: 1, padding: '0.8rem 1rem', background: 'transparent', border: 'none', color: '#f0efed', outline: 'none' }} />
+                    </div>
+                  </div>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem' }}>Email Address <span style={{ color: '#ff8a8a' }}>*</span></label>
+                    <div style={{ display: 'flex', alignItems: 'center', background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(240, 239, 237, 0.2)', borderRadius: '6px', padding: '0 1rem' }}>
+                      <span style={{ color: 'rgba(240, 239, 237, 0.4)', fontSize: '1.1rem' }}>✉️</span>
+                      <input type="email" placeholder="e.g. admin@school.edu.ph" style={{ flex: 1, padding: '0.8rem 1rem', background: 'transparent', border: 'none', color: '#f0efed', outline: 'none' }} />
+                    </div>
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem' }}>Phone Number <span style={{ color: '#ff8a8a' }}>*</span></label>
+                    <div style={{ display: 'flex', alignItems: 'center', background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(240, 239, 237, 0.2)', borderRadius: '6px', padding: '0 1rem' }}>
+                      <span style={{ color: 'rgba(240, 239, 237, 0.4)', fontSize: '1.1rem' }}>📱</span>
+                      <input type="tel" placeholder="e.g. +63 912 345 6789" style={{ flex: 1, padding: '0.8rem 1rem', background: 'transparent', border: 'none', color: '#f0efed', outline: 'none' }} />
+                    </div>
+                  </div>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem' }}>Alternate Phone Number</label>
+                    <div style={{ display: 'flex', alignItems: 'center', background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(240, 239, 237, 0.2)', borderRadius: '6px', padding: '0 1rem' }}>
+                      <span style={{ color: 'rgba(240, 239, 237, 0.4)', fontSize: '1.1rem' }}>📱</span>
+                      <input type="tel" placeholder="e.g. +63 998 765 4321" style={{ flex: 1, padding: '0.8rem 1rem', background: 'transparent', border: 'none', color: '#f0efed', outline: 'none' }} />
+                    </div>
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem' }}>School Landline <span style={{ color: 'rgba(240, 239, 237, 0.4)' }}>(Optional)</span></label>
+                    <div style={{ display: 'flex', alignItems: 'center', background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(240, 239, 237, 0.2)', borderRadius: '6px', padding: '0 1rem' }}>
+                      <span style={{ color: 'rgba(240, 239, 237, 0.4)', fontSize: '1.1rem' }}>☎️</span>
+                      <input type="tel" placeholder="e.g. (045) 123 4567" style={{ flex: 1, padding: '0.8rem 1rem', background: 'transparent', border: 'none', color: '#f0efed', outline: 'none' }} />
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem' }}>Official Website <span style={{ color: 'rgba(240, 239, 237, 0.4)' }}>(Optional)</span></label>
+                  <div style={{ display: 'flex', alignItems: 'center', background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(240, 239, 237, 0.2)', borderRadius: '6px', padding: '0 1rem' }}>
+                    <span style={{ color: 'rgba(240, 239, 237, 0.4)', fontSize: '1.1rem' }}>🌐</span>
+                    <input type="url" placeholder="e.g. www.schoolname.edu.ph" style={{ flex: 1, padding: '0.8rem 1rem', background: 'transparent', border: 'none', color: '#f0efed', outline: 'none' }} />
+                  </div>
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem' }}>Official Social Media <span style={{ color: 'rgba(240, 239, 237, 0.4)' }}>(Optional)</span></label>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: '1rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(240, 239, 237, 0.2)', borderRadius: '6px', padding: '0 0.8rem' }}>
+                      <span style={{ color: '#1877F2', fontSize: '1.1rem' }}>📘</span>
+                      <input type="url" placeholder="Facebook URL" style={{ flex: 1, padding: '0.8rem 0.5rem', background: 'transparent', border: 'none', color: '#f0efed', outline: 'none', fontSize: '0.85rem' }} />
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(240, 239, 237, 0.2)', borderRadius: '6px', padding: '0 0.8rem' }}>
+                      <span style={{ color: '#1DA1F2', fontSize: '1.1rem' }}>🐦</span>
+                      <input type="url" placeholder="Twitter URL" style={{ flex: 1, padding: '0.8rem 0.5rem', background: 'transparent', border: 'none', color: '#f0efed', outline: 'none', fontSize: '0.85rem' }} />
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(240, 239, 237, 0.2)', borderRadius: '6px', padding: '0 0.8rem' }}>
+                      <span style={{ color: '#E4405F', fontSize: '1.1rem' }}>📸</span>
+                      <input type="url" placeholder="Instagram URL" style={{ flex: 1, padding: '0.8rem 0.5rem', background: 'transparent', border: 'none', color: '#f0efed', outline: 'none', fontSize: '0.85rem' }} />
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(240, 239, 237, 0.2)', borderRadius: '6px', padding: '0 0.8rem' }}>
+                      <span style={{ color: '#FF0000', fontSize: '1.1rem' }}>▶️</span>
+                      <input type="url" placeholder="YouTube URL" style={{ flex: 1, padding: '0.8rem 0.5rem', background: 'transparent', border: 'none', color: '#f0efed', outline: 'none', fontSize: '0.85rem' }} />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Info Panel */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                <div style={{ background: 'rgba(179, 136, 255, 0.05)', borderRadius: '12px', padding: '2rem 1.5rem', display: 'flex', flexDirection: 'column', gap: '1.2rem', alignItems: 'center', textAlign: 'center' }}>
+                  <div style={{ fontSize: '4rem', marginBottom: '0.5rem' }}>📇</div>
+                  <h4 style={{ margin: 0, color: '#b388ff', fontSize: '1.1rem', fontWeight: 600 }}>Why is this important?</h4>
+                  <p style={{ color: 'rgba(240, 239, 237, 0.7)', fontSize: '0.85rem', lineHeight: 1.5, margin: 0 }}>
+                    These contact details will be used for important communication, notifications, and account recovery.
+                  </p>
+                </div>
+                
+                <div style={{ background: 'rgba(240, 239, 237, 0.03)', borderRadius: '12px', padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+                    <span style={{ fontSize: '1.2rem' }}>💡</span>
+                    <h4 style={{ margin: 0, color: '#f0efed', fontSize: '1.05rem', fontWeight: 600 }}>Tips</h4>
+                  </div>
+                  
+                  <div style={{ display: 'flex', gap: '0.8rem' }}>
+                    <div style={{ minWidth: '18px', height: '18px', borderRadius: '50%', background: '#b388ff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <span style={{ color: '#0b1a13', fontSize: '0.7rem', fontWeight: 700 }}>✓</span>
+                    </div>
+                    <span style={{ color: 'rgba(240, 239, 237, 0.8)', fontSize: '0.85rem', lineHeight: 1.4 }}>Use an official school email address.</span>
+                  </div>
+                  
+                  <div style={{ display: 'flex', gap: '0.8rem' }}>
+                    <div style={{ minWidth: '18px', height: '18px', borderRadius: '50%', background: '#b388ff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <span style={{ color: '#0b1a13', fontSize: '0.7rem', fontWeight: 700 }}>✓</span>
+                    </div>
+                    <span style={{ color: 'rgba(240, 239, 237, 0.8)', fontSize: '0.85rem', lineHeight: 1.4 }}>Ensure the phone number is active and monitored regularly.</span>
+                  </div>
+                  
+                  <div style={{ display: 'flex', gap: '0.8rem' }}>
+                    <div style={{ minWidth: '18px', height: '18px', borderRadius: '50%', background: '#b388ff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <span style={{ color: '#0b1a13', fontSize: '0.7rem', fontWeight: 700 }}>✓</span>
+                    </div>
+                    <span style={{ color: 'rgba(240, 239, 237, 0.8)', fontSize: '0.85rem', lineHeight: 1.4 }}>You can update these details later in Settings.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Action Bar */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1rem' }}>
-        <button 
-          onClick={onCancel}
-          style={{ 
-            padding: '0.8rem 2rem', background: 'transparent', border: '1px solid rgba(240, 239, 237, 0.2)', 
-            color: '#f0efed', borderRadius: '6px', cursor: 'pointer', fontWeight: 500, transition: 'all 0.2s' 
-          }}
-        >
-          Cancel
-        </button>
+        {currentStep === 1 ? (
+          <button 
+            onClick={onCancel}
+            style={{ 
+              padding: '0.8rem 2rem', background: 'transparent', border: '1px solid rgba(240, 239, 237, 0.2)', 
+              color: '#f0efed', borderRadius: '6px', cursor: 'pointer', fontWeight: 500, transition: 'all 0.2s' 
+            }}
+          >
+            Cancel
+          </button>
+        ) : (
+          <button 
+            onClick={() => setCurrentStep(prev => Math.max(prev - 1, 1))}
+            style={{ 
+              padding: '0.8rem 2rem', background: 'transparent', border: '1px solid rgba(240, 239, 237, 0.2)', 
+              color: '#f0efed', borderRadius: '6px', cursor: 'pointer', fontWeight: 500, transition: 'all 0.2s',
+              display: 'flex', alignItems: 'center', gap: '0.5rem'
+            }}
+          >
+            <span>←</span> Back
+          </button>
+        )}
         <button 
           onClick={() => setCurrentStep(prev => Math.min(prev + 1, 5))}
           className={styles.toolbarAddBtn}
