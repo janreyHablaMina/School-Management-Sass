@@ -23,29 +23,37 @@ export const AddSchoolView: React.FC<AddSchoolViewProps> = ({ onCancel, onSave }
     <div style={{ color: '#f0efed', paddingBottom: '2rem', marginTop: '1rem', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
       
       {/* Stepper Card */}
-      <div className={styles.tableCard} style={{ padding: '2rem 3rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: '1px dashed rgba(240, 239, 237, 0.2)' }}>
+      <div className={styles.tableCard} style={{ padding: '2rem 4rem', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', border: '1px solid rgba(240, 239, 237, 0.1)', minHeight: 'auto' }}>
         {steps.map((step, index) => (
           <React.Fragment key={step.id}>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.8rem', opacity: currentStep >= step.id ? 1 : 0.4 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', width: '100px' }}>
               <div style={{ 
-                width: '48px', height: '48px', borderRadius: '50%', 
-                background: currentStep >= step.id ? 'rgba(179, 136, 255, 0.15)' : 'rgba(240, 239, 237, 0.05)', 
-                border: currentStep >= step.id ? '2px solid #b388ff' : '2px dashed rgba(240, 239, 237, 0.2)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.4rem'
+                width: '56px', height: '56px', borderRadius: '50%', 
+                background: currentStep >= step.id ? '#b388ff' : 'rgba(240, 239, 237, 0.08)', 
+                display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem',
+                color: currentStep >= step.id ? '#0b1a13' : 'rgba(240, 239, 237, 0.5)',
+                boxShadow: currentStep >= step.id ? '0 0 15px rgba(179, 136, 255, 0.4)' : 'none',
+                transition: 'all 0.3s',
+                flexShrink: 0
               }}>
                 {step.icon}
               </div>
               <span style={{ 
                 fontFamily: currentStep >= step.id ? "'Caveat', cursive" : 'inherit', 
-                fontSize: currentStep >= step.id ? '1.2rem' : '0.85rem', 
-                color: currentStep >= step.id ? '#b388ff' : 'rgba(240, 239, 237, 0.6)',
-                fontWeight: currentStep >= step.id ? 600 : 400
+                fontSize: currentStep >= step.id ? '1.3rem' : '0.85rem', 
+                color: currentStep >= step.id ? '#b388ff' : 'rgba(240, 239, 237, 0.5)',
+                fontWeight: currentStep >= step.id ? 600 : 400,
+                textAlign: 'center',
+                whiteSpace: 'nowrap'
               }}>
                 {step.label}
               </span>
             </div>
             {index < steps.length - 1 && (
-              <div style={{ flex: 1, height: '1px', borderTop: '2px dashed rgba(240, 239, 237, 0.1)', margin: '0 1.5rem', alignSelf: 'flex-start', marginTop: '24px' }} />
+              <div style={{ 
+                flex: 1, borderTop: '3px dotted rgba(240, 239, 237, 0.2)', 
+                margin: '0 -10px', marginTop: '28px'
+              }} />
             )}
           </React.Fragment>
         ))}
