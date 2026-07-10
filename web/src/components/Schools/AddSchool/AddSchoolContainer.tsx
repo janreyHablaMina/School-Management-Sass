@@ -6,6 +6,7 @@ import styles from './addSchool.module.css';
 import { Stepper } from './Stepper';
 import { Step1BasicInfo } from './Step1BasicInfo';
 import { Step2ContactDetails } from './Step2ContactDetails';
+import { Step3Address } from './Step3Address';
 
 interface AddSchoolContainerProps {
   onCancel: () => void;
@@ -29,9 +30,9 @@ export const AddSchoolContainer: React.FC<AddSchoolContainerProps> = ({ onCancel
 
       {currentStep === 1 && <Step1BasicInfo />}
       {currentStep === 2 && <Step2ContactDetails />}
+      {currentStep === 3 && <Step3Address />}
       
       {/* Placeholders for future steps */}
-      {currentStep === 3 && <div className={globalStyles.tableCard} style={{ padding: '2.5rem' }}>Step 3: Address</div>}
       {currentStep === 4 && <div className={globalStyles.tableCard} style={{ padding: '2.5rem' }}>Step 4: Preferences</div>}
       {currentStep === 5 && <div className={globalStyles.tableCard} style={{ padding: '2.5rem' }}>Step 5: Review</div>}
 
@@ -46,17 +47,29 @@ export const AddSchoolContainer: React.FC<AddSchoolContainerProps> = ({ onCancel
             <span>←</span> Back
           </button>
         )}
-        <button 
-          onClick={currentStep === 5 ? onSave : handleNext}
-          className={globalStyles.toolbarAddBtn}
-          style={{ 
-            height: 'auto', padding: '0.8rem 2.5rem', fontSize: '1.05rem', 
-            background: currentStep === 5 ? '#5cc789' : '#b388ff', 
-            borderColor: '#2e2e2e', color: '#0b1a13'
-          }}
-        >
-          {currentStep === 5 ? 'Complete →' : 'Next Step →'}
-        </button>
+        
+        <div style={{ display: 'flex', gap: '1rem' }}>
+          {currentStep > 1 && (
+            <button 
+              onClick={onSave}
+              className={styles.secondaryBtn}
+              style={{ background: '#fff', color: '#0b1a13', border: 'none', fontWeight: 600 }}
+            >
+              Save & Exit
+            </button>
+          )}
+          <button 
+            onClick={currentStep === 5 ? onSave : handleNext}
+            className={globalStyles.toolbarAddBtn}
+            style={{ 
+              height: 'auto', padding: '0.8rem 2.5rem', fontSize: '1.05rem', 
+              background: currentStep === 5 ? '#5cc789' : '#b388ff', 
+              borderColor: '#2e2e2e', color: '#0b1a13'
+            }}
+          >
+            {currentStep === 5 ? 'Complete →' : 'Next Step →'}
+          </button>
+        </div>
       </div>
     </div>
   );
