@@ -8,6 +8,7 @@ import { Sidebar } from '@/components/AdminLayout/Sidebar';
 import { TopBar } from '@/components/AdminLayout/TopBar';
 import { DashboardView } from '@/components/Dashboard/DashboardView';
 import { SchoolsView } from '@/components/Schools/SchoolsView';
+import { AddSchoolView } from '@/components/Schools/AddSchoolView';
 import { SubscriptionsView } from '@/components/Subscriptions/SubscriptionsView';
 import { AddSubscriptionView } from '@/components/Subscriptions/AddSubscriptionView';
 import { ChalkFilter } from '@/components/ChalkCharts';
@@ -62,7 +63,19 @@ export default function AdminDashboard() {
           />
         );
       }
-      return <SchoolsView onSelectSchool={setSelectedSchool} />;
+      return <SchoolsView 
+        onSelectSchool={setSelectedSchool} 
+        onAddSchool={() => setActiveTab('AddSchool')} 
+      />;
+    }
+
+    if (activeTab === 'AddSchool') {
+      return (
+        <AddSchoolView 
+          onCancel={() => setActiveTab('Schools')}
+          onSave={() => setActiveTab('Schools')}
+        />
+      );
     }
 
     if (activeTab === 'Subscriptions') {

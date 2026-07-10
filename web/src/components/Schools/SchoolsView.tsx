@@ -8,9 +8,10 @@ import { ConfirmModal } from '@/components/ui/ConfirmModal';
 
 interface SchoolsViewProps {
   onSelectSchool: (school: School) => void;
+  onAddSchool?: () => void;
 }
 
-export const SchoolsView: React.FC<SchoolsViewProps> = ({ onSelectSchool }) => {
+export const SchoolsView: React.FC<SchoolsViewProps> = ({ onSelectSchool, onAddSchool }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedStatus, setSelectedStatus] = useState('all');
   const [selectedPlan, setSelectedPlan] = useState('all');
@@ -124,7 +125,7 @@ export const SchoolsView: React.FC<SchoolsViewProps> = ({ onSelectSchool }) => {
                 </select>
               </>
             )}
-            <button className={styles.toolbarAddBtn} onClick={() => alert('Add New School logic...')}>
+            <button className={styles.toolbarAddBtn} onClick={() => onAddSchool && onAddSchool()}>
               <span>+</span> Add New School
             </button>
           </div>
