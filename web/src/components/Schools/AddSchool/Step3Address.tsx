@@ -1,6 +1,17 @@
 import React from 'react';
+import dynamic from 'next/dynamic';
 import globalStyles from '@/app/admin/admin.module.css';
 import styles from './addSchool.module.css';
+
+// Dynamically import the MapComponent with SSR disabled
+const MapComponent = dynamic(() => import('./MapComponent'), { 
+  ssr: false,
+  loading: () => (
+    <div style={{ height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.2)', color: 'rgba(240, 239, 237, 0.5)' }}>
+      Loading map...
+    </div>
+  )
+});
 
 export const Step3Address: React.FC = () => {
   return (
@@ -15,7 +26,7 @@ export const Step3Address: React.FC = () => {
         </div>
       </div>
       
-      <div className={styles.twoColGrid}>
+      <div className={styles.addressGrid}>
         {/* Left Column: Form */}
         <div className={styles.formColumn}>
           <div>
@@ -88,32 +99,16 @@ export const Step3Address: React.FC = () => {
               <p style={{ margin: 0, color: 'rgba(240, 239, 237, 0.5)', fontSize: '0.8rem' }}>Drag the pin on the map to set the exact location of your school.</p>
             </div>
             
-            {/* Map Placeholder Graphic */}
+            {/* Real Interactive Map */}
             <div style={{ 
               height: '220px', 
               margin: '0 1.5rem', 
               borderRadius: '8px',
-              background: 'linear-gradient(rgba(179, 136, 255, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(179, 136, 255, 0.05) 1px, transparent 1px)',
-              backgroundColor: 'rgba(0, 0, 0, 0.2)',
-              backgroundSize: '20px 20px',
               position: 'relative',
               display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
+              overflow: 'hidden'
             }}>
-              {/* Map Pin */}
-              <div style={{ 
-                width: '40px', height: '40px', background: 'rgba(179, 136, 255, 0.2)', borderRadius: '50%',
-                display: 'flex', alignItems: 'center', justifyContent: 'center', animation: 'pulse 2s infinite'
-              }}>
-                <span style={{ fontSize: '1.8rem', textShadow: '0 4px 8px rgba(0,0,0,0.5)', filter: 'hue-rotate(-40deg)' }}>📍</span>
-              </div>
-              
-              {/* Zoom Controls */}
-              <div style={{ position: 'absolute', right: '10px', bottom: '10px', background: '#fff', borderRadius: '4px', overflow: 'hidden', display: 'flex', flexDirection: 'column', boxShadow: '0 2px 5px rgba(0,0,0,0.3)' }}>
-                <div style={{ width: '28px', height: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#333', fontSize: '1.2rem', fontWeight: 'bold', cursor: 'pointer', borderBottom: '1px solid #eee' }}>+</div>
-                <div style={{ width: '28px', height: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#333', fontSize: '1.2rem', fontWeight: 'bold', cursor: 'pointer' }}>−</div>
-              </div>
+              <MapComponent />
             </div>
 
             {/* Selected Address Overlay Box */}
