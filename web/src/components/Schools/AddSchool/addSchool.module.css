@@ -252,6 +252,116 @@
   font-size: 1.1rem;
 }
 
+/* Review Step */
+.reviewGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+.reviewCard {
+  background: rgba(0,0,0,0.15);
+  border: 1px solid rgba(240, 239, 237, 0.1);
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+.reviewCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 1.5rem;
+  color: #f0efed;
+  font-weight: 600;
+  font-size: 1.05rem;
+  border-bottom: 1px solid rgba(240, 239, 237, 0.05);
+  padding-bottom: 1rem;
+}
+.reviewCardIcon {
+  color: #b388ff;
+  font-size: 1.2rem;
+}
+.dataRow {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  align-items: baseline;
+}
+.dataLabel {
+  color: rgba(240, 239, 237, 0.6);
+  font-size: 0.85rem;
+}
+.dataValue {
+  color: #f0efed;
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.badgeGreen {
+  background: rgba(92, 199, 137, 0.15);
+  color: #5cc789;
+}
+.badgeGray {
+  background: rgba(240, 239, 237, 0.1);
+  color: rgba(240, 239, 237, 0.5);
+}
+.badgePurple {
+  background: rgba(179, 136, 255, 0.15);
+  color: #b388ff;
+}
+
+/* Summary Card */
+.summaryCard {
+  background: rgba(240, 239, 237, 0.03);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+.summaryItem {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+.summaryIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid #b388ff;
+  color: #b388ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.summaryText h5 {
+  margin: 0 0 0.2rem 0;
+  color: #f0efed;
+  font-size: 0.95rem;
+}
+.summaryText p {
+  margin: 0;
+  color: rgba(240, 239, 237, 0.6);
+  font-size: 0.8rem;
+}
+
+/* Next Steps Card */
+.nextStepsCard {
+  background: rgba(92, 199, 137, 0.08);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+}
+
 /* Preview Card */
 .previewCard {
   background: rgba(0,0,0,0.15);

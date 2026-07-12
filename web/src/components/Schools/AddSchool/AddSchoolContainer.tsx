@@ -8,6 +8,7 @@ import { Step1BasicInfo } from './Step1BasicInfo';
 import { Step2ContactDetails } from './Step2ContactDetails';
 import { Step3Address } from './Step3Address';
 import { Step4Preferences } from './Step4Preferences';
+import { Step5Review } from './Step5Review';
 
 interface AddSchoolContainerProps {
   onCancel: () => void;
@@ -33,9 +34,7 @@ export const AddSchoolContainer: React.FC<AddSchoolContainerProps> = ({ onCancel
       {currentStep === 2 && <Step2ContactDetails />}
       {currentStep === 3 && <Step3Address />}
       {currentStep === 4 && <Step4Preferences />}
-      
-      {/* Placeholders for future steps */}
-      {currentStep === 5 && <div className={globalStyles.tableCard} style={{ padding: '2.5rem' }}>Step 5: Review</div>}
+      {currentStep === 5 && <Step5Review />}
 
       {/* Action Bar */}
       <div className={styles.actionBar}>
@@ -50,7 +49,7 @@ export const AddSchoolContainer: React.FC<AddSchoolContainerProps> = ({ onCancel
         )}
         
         <div style={{ display: 'flex', gap: '1rem' }}>
-          {currentStep > 1 && (
+          {currentStep > 1 && currentStep < 5 && (
             <button 
               onClick={onSave}
               className={styles.secondaryBtn}
@@ -59,16 +58,24 @@ export const AddSchoolContainer: React.FC<AddSchoolContainerProps> = ({ onCancel
               Save & Exit
             </button>
           )}
+          {currentStep === 5 && (
+            <button 
+              onClick={onSave}
+              className={styles.secondaryBtn}
+              style={{ background: 'transparent', color: '#f0efed', borderColor: 'rgba(240, 239, 237, 0.2)' }}
+            >
+              <span style={{ fontSize: '1.2rem', marginRight: '0.4rem' }}>📄</span> Save as Draft
+            </button>
+          )}
           <button 
             onClick={currentStep === 5 ? onSave : handleNext}
             className={globalStyles.toolbarAddBtn}
             style={{ 
               height: 'auto', padding: '0.8rem 2.5rem', fontSize: '1.05rem', 
-              background: currentStep === 5 ? '#5cc789' : '#b388ff', 
-              borderColor: '#2e2e2e', color: '#0b1a13'
+              background: '#b388ff', borderColor: '#2e2e2e', color: '#0b1a13'
             }}
           >
-            {currentStep === 5 ? 'Complete →' : 'Next Step →'}
+            {currentStep === 5 ? <><span style={{ fontSize: '1.2rem', marginRight: '0.4rem' }}>✓</span> Submit School</> : 'Next Step →'}
           </button>
         </div>
       </div>
