@@ -7,6 +7,7 @@ import { Stepper } from './Stepper';
 import { Step1BasicInfo } from './Step1BasicInfo';
 import { Step2ContactDetails } from './Step2ContactDetails';
 import { Step3Address } from './Step3Address';
+import { Step4Preferences } from './Step4Preferences';
 
 interface AddSchoolContainerProps {
   onCancel: () => void;
@@ -31,9 +32,9 @@ export const AddSchoolContainer: React.FC<AddSchoolContainerProps> = ({ onCancel
       {currentStep === 1 && <Step1BasicInfo />}
       {currentStep === 2 && <Step2ContactDetails />}
       {currentStep === 3 && <Step3Address />}
+      {currentStep === 4 && <Step4Preferences />}
       
       {/* Placeholders for future steps */}
-      {currentStep === 4 && <div className={globalStyles.tableCard} style={{ padding: '2.5rem' }}>Step 4: Preferences</div>}
       {currentStep === 5 && <div className={globalStyles.tableCard} style={{ padding: '2.5rem' }}>Step 5: Review</div>}
 
       {/* Action Bar */}

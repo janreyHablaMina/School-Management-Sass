@@ -189,6 +189,122 @@
   transition: all 0.2s;
 }
 
+/* Checkbox Cards */
+.checkboxCard {
+  border: 1px solid rgba(240, 239, 237, 0.2);
+  border-radius: 6px;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  background: rgba(0,0,0,0.2);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.checkboxCard:hover {
+  border-color: rgba(179, 136, 255, 0.5);
+  background: rgba(179, 136, 255, 0.05);
+}
+.checkboxCardActive {
+  border: 1px solid #b388ff;
+  background: rgba(179, 136, 255, 0.1);
+}
+.checkboxInput {
+  accent-color: #b388ff;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+.radioGroup {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+.radioLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  color: #f0efed;
+  font-size: 0.9rem;
+}
+.radioInput {
+  accent-color: #b388ff;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+/* Sub-sections */
+.subSection {
+  margin-bottom: 2rem;
+}
+.subSectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  color: #b388ff;
+  font-weight: 600;
+  font-size: 1rem;
+}
+.subSectionIcon {
+  font-size: 1.1rem;
+}
+
+/* Preview Card */
+.previewCard {
+  background: rgba(0,0,0,0.15);
+  border: 1px solid rgba(240, 239, 237, 0.1);
+  border-radius: 12px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-top: 1rem;
+}
+.previewIcon {
+  width: 80px;
+  height: 80px;
+  background: rgba(179, 136, 255, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  color: #b388ff;
+}
+.previewTitle {
+  font-family: 'Caveat', cursive;
+  font-size: 1.8rem;
+  color: #f0efed;
+  margin: 0 0 0.5rem 0;
+}
+.previewTags {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.previewTag {
+  background: rgba(179, 136, 255, 0.15);
+  color: #b388ff;
+  padding: 0.2rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+.previewDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  color: rgba(240, 239, 237, 0.6);
+  font-size: 0.85rem;
+}
+
 /* Info Panels */
 .infoPanelCol {
   display: flex;
