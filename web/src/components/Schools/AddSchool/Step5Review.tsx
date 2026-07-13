@@ -7,245 +7,263 @@ export const Step5Review: React.FC = () => {
     <div className={globalStyles.tableCard} style={{ padding: '2.5rem', borderLeft: '4px solid #b388ff' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div className={styles.sectionHeader} style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: 0 }}>
-          <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: 'rgba(179, 136, 255, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', color: '#b388ff' }}>
-            📋
-          </div>
           <div>
-            <h3 className={styles.sectionTitle} style={{ color: '#b388ff' }}>Review & Confirm</h3>
-            <p className={styles.sectionDesc}>Please review all the information below before adding the school.</p>
+            <h3 className={styles.sectionTitle} style={{ color: '#f0efed', fontSize: '1.5rem', marginBottom: '0.4rem' }}>Review & Confirm</h3>
+            <p className={styles.sectionDesc}>Please review all the information below. You can go back and edit any details if needed.</p>
           </div>
         </div>
         
-        {/* Decorative graphic */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', opacity: 0.8 }}>
-          <div style={{ fontSize: '3.5rem' }}>📑</div>
-          <div style={{ fontSize: '2.5rem', transform: 'rotate(15deg) translateY(10px)', color: '#b388ff' }}>🛡️</div>
+        {/* Decorative graphic (Clipboard & Magnifying Glass) */}
+        <div style={{ display: 'flex', alignItems: 'center', position: 'relative' }}>
+          <div style={{ fontSize: '4rem', opacity: 0.9 }}>📋</div>
+          <div style={{ fontSize: '3rem', position: 'absolute', right: '-15px', bottom: '-10px', transform: 'rotate(-15deg)', filter: 'drop-shadow(0 4px 6px rgba(0,0,0,0.4))' }}>🔍</div>
         </div>
       </div>
       
-      <div className={styles.reviewGrid}>
-        {/* Column 1: School Info & Preferences */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+      <div className={styles.reviewLayout}>
+        {/* Left Column: Stacked Cards */}
+        <div className={styles.reviewMainCol}>
           
-          <div className={styles.reviewCard}>
-            <div className={styles.reviewCardHeader}>
-              <span className={styles.reviewCardIcon}>🏫</span>
-              School Information
+          {/* School Information Card */}
+          <div className={styles.reviewSectionCard}>
+            <div className={styles.reviewSectionHeader}>
+              <div className={styles.reviewSectionTitle}>
+                <span style={{ color: '#5cc789', fontSize: '1.4rem' }}>🏫</span>
+                School Information
+              </div>
+              <button className={styles.editBtn}>✏️ Edit</button>
             </div>
             
-            <div className={styles.dataRow}>
-              <span className={styles.dataLabel}>School Name</span>
-              <span className={styles.dataValue}>ABC Learning Academy</span>
-            </div>
-            <div className={styles.dataRow}>
-              <span className={styles.dataLabel}>School Code</span>
-              <span className={styles.dataValue}>SCH-2025-001</span>
-            </div>
-            <div className={styles.dataRow}>
-              <span className={styles.dataLabel}>Short Name</span>
-              <span className={styles.dataValue}>ABC Academy</span>
-            </div>
-            <div className={styles.dataRow}>
-              <span className={styles.dataLabel}>Established Year</span>
-              <span className={styles.dataValue}>2020</span>
-            </div>
-            <div className={styles.dataRow}>
-              <span className={styles.dataLabel}>School Type</span>
-              <span className={styles.dataValue}>Private</span>
-            </div>
-          </div>
-
-          <div className={styles.reviewCard}>
-            <div className={styles.reviewCardHeader}>
-              <span className={styles.reviewCardIcon}>⚙️</span>
-              Preferences
-            </div>
-            
-            <div className={styles.dataRow}>
-              <span className={styles.dataLabel}>Academic Year Start</span>
-              <span className={styles.dataValue}>June</span>
-            </div>
-            <div className={styles.dataRow}>
-              <span className={styles.dataLabel}>Grading System</span>
-              <span className={styles.dataValue}>Percentage (%)</span>
-            </div>
-            <div className={styles.dataRow}>
-              <span className={styles.dataLabel}>School Level</span>
-              <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-                <span className={`${styles.badge} ${styles.badgePurple}`}>JHS (Grades 7-10)</span>
-                <span className={`${styles.badge} ${styles.badgePurple}`}>SHS (Grades 11-12)</span>
+            <div className={styles.reviewDataGrid}>
+              <div className={styles.dataRow}>
+                <span className={styles.dataLabel}>School Name</span>
+                <span className={styles.dataValue}>ABC Learning Academy</span>
+              </div>
+              <div className={styles.dataRow}>
+                <span className={styles.dataLabel}>Established Year</span>
+                <span className={styles.dataValue}>2020</span>
+              </div>
+              <div className={styles.dataRow}>
+                <span className={styles.dataLabel}>School Code</span>
+                <span className={styles.dataValue}>SCH-2025-001</span>
+              </div>
+              <div className={styles.dataRow}>
+                <span className={styles.dataLabel}>School Type</span>
+                <span className={styles.dataValue}>Private</span>
+              </div>
+              <div className={styles.dataRow}>
+                <span className={styles.dataLabel}>Short Name</span>
+                <span className={styles.dataValue}>ABC Academy</span>
               </div>
             </div>
-            <div className={styles.dataRow}>
-              <span className={styles.dataLabel}>Default Language</span>
-              <span className={styles.dataValue}>English</span>
-            </div>
-            <div className={styles.dataRow}>
-              <span className={styles.dataLabel}>Time Format</span>
-              <span className={styles.dataValue}>12-Hour (1:00 PM)</span>
-            </div>
-            <div className={styles.dataRow}>
-              <span className={styles.dataLabel}>Date Format</span>
-              <span className={styles.dataValue}>MM/DD/YYYY</span>
-            </div>
-            <div className={styles.dataRow}>
-              <span className={styles.dataLabel}>Announcements</span>
-              <span className={`${styles.badge} ${styles.badgeGreen}`}>✅ Enabled</span>
-            </div>
-            <div className={styles.dataRow}>
-              <span className={styles.dataLabel}>Parent Access</span>
-              <span className={`${styles.badge} ${styles.badgeGreen}`}>✅ Enabled</span>
-            </div>
-            <div className={styles.dataRow}>
-              <span className={styles.dataLabel}>Student ID Generation</span>
-              <span className={`${styles.badge} ${styles.badgeGray}`}>❌ Disabled</span>
-            </div>
           </div>
 
-        </div>
-
-        {/* Column 2: Contact & System Preview */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-          
-          <div className={styles.reviewCard}>
-            <div className={styles.reviewCardHeader}>
-              <span className={styles.reviewCardIcon}>📞</span>
-              Contact Details
+          {/* Contact Details Card */}
+          <div className={styles.reviewSectionCard}>
+            <div className={styles.reviewSectionHeader}>
+              <div className={styles.reviewSectionTitle}>
+                <span style={{ color: '#84a9ff', fontSize: '1.4rem' }}>📞</span>
+                Contact Details
+              </div>
+              <button className={styles.editBtn}>✏️ Edit</button>
             </div>
             
-            <div className={styles.dataRow}>
-              <span className={styles.dataLabel}>Primary Contact</span>
-              <span className={styles.dataValue}>John Dela Cruz</span>
-            </div>
-            <div className={styles.dataRow}>
-              <span className={styles.dataLabel}>Designation</span>
-              <span className={styles.dataValue}>School Administrator</span>
-            </div>
-            <div className={styles.dataRow}>
-              <span className={styles.dataLabel}>Email</span>
-              <span className={styles.dataValue}>admin@abclearning.edu.ph</span>
-            </div>
-            <div className={styles.dataRow}>
-              <span className={styles.dataLabel}>Phone Number</span>
-              <span className={styles.dataValue}>+63 912 345 6789</span>
-            </div>
-            <div className={styles.dataRow}>
-              <span className={styles.dataLabel}>School Landline</span>
-              <span className={styles.dataValue}>(045) 123 4567</span>
+            <div className={styles.reviewDataGrid}>
+              <div className={styles.dataRow}>
+                <span className={styles.dataLabel}>Primary Contact</span>
+                <span className={styles.dataValue}>John Dela Cruz</span>
+              </div>
+              <div className={styles.dataRow}>
+                <span className={styles.dataLabel}>Phone Number</span>
+                <span className={styles.dataValue}>+63 912 345 6789</span>
+              </div>
+              <div className={styles.dataRow}>
+                <span className={styles.dataLabel}>Designation</span>
+                <span className={styles.dataValue}>School Administrator</span>
+              </div>
+              <div className={styles.dataRow}>
+                <span className={styles.dataLabel}>Alternate Phone</span>
+                <span className={styles.dataValue}>+63 998 765 4321</span>
+              </div>
+              <div className={styles.dataRow}>
+                <span className={styles.dataLabel}>Email</span>
+                <span className={styles.dataValue}>admin@abclearning.edu.ph</span>
+              </div>
+              <div className={styles.dataRow}>
+                <span className={styles.dataLabel}>Landline</span>
+                <span className={styles.dataValue}>(045) 123 4567</span>
+              </div>
             </div>
           </div>
 
-          <div className={styles.reviewCard}>
-            <div className={styles.reviewCardHeader}>
-              <span className={styles.reviewCardIcon}>💻</span>
+          {/* Address Card */}
+          <div className={styles.reviewSectionCard}>
+            <div className={styles.reviewSectionHeader}>
+              <div className={styles.reviewSectionTitle}>
+                <span style={{ color: '#b388ff', fontSize: '1.4rem' }}>📍</span>
+                Address
+              </div>
+              <button className={styles.editBtn}>✏️ Edit</button>
+            </div>
+            
+            <div className={styles.reviewDataGrid}>
+              <div className={styles.dataRowHorizontal}>
+                <span className={styles.dataLabel}>Address</span>
+                <span className={styles.dataValue}>123 Education Street, Malabanias, Angeles City, Pampanga, 2009</span>
+              </div>
+              <div className={styles.dataRowHorizontal}>
+                <span className={styles.dataLabel}>Province</span>
+                <span className={styles.dataValue}>Pampanga</span>
+              </div>
+              <div className={styles.dataRowHorizontal}>
+                <span className={styles.dataLabel}>Region / State</span>
+                <span className={styles.dataValue}>Central Luzon</span>
+              </div>
+              <div className={styles.dataRowHorizontal}>
+                <span className={styles.dataLabel}>City / Municipality</span>
+                <span className={styles.dataValue}>Angeles City</span>
+              </div>
+              <div className={styles.dataRowHorizontal}>
+                <span className={styles.dataLabel}>Country</span>
+                <span className={styles.dataValue}>Philippines</span>
+              </div>
+              <div className={styles.dataRowHorizontal}>
+                <span className={styles.dataLabel}>Barangay</span>
+                <span className={styles.dataValue}>Malabanias</span>
+              </div>
+              <div className={styles.dataRowHorizontal}>
+                <span className={styles.dataLabel}>Main Campus</span>
+                <span className={`${styles.badge} ${styles.badgeGreen}`}>Yes</span>
+              </div>
+              <div className={styles.dataRowHorizontal}>
+                <span className={styles.dataLabel}>Zip / Postal Code</span>
+                <span className={styles.dataValue}>2009</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Preferences Card */}
+          <div className={styles.reviewSectionCard}>
+            <div className={styles.reviewSectionHeader}>
+              <div className={styles.reviewSectionTitle}>
+                <span style={{ color: '#ffb74d', fontSize: '1.4rem' }}>⚙️</span>
+                Preferences
+              </div>
+              <button className={styles.editBtn}>✏️ Edit</button>
+            </div>
+            
+            <div className={styles.reviewDataGrid}>
+              <div className={styles.dataRowHorizontal}>
+                <span className={styles.dataLabel}>Academic Year Start</span>
+                <span className={styles.dataValue}>June</span>
+              </div>
+              <div className={styles.dataRowHorizontal}>
+                <span className={styles.dataLabel}>Time Format</span>
+                <span className={styles.dataValue}>12-Hour (1:00 PM)</span>
+              </div>
+              <div className={styles.dataRowHorizontal}>
+                <span className={styles.dataLabel}>Grading System</span>
+                <span className={styles.dataValue}>Percentage (%)</span>
+              </div>
+              <div className={styles.dataRowHorizontal}>
+                <span className={styles.dataLabel}>Date Format</span>
+                <span className={styles.dataValue}>MM/DD/YYYY</span>
+              </div>
+              <div className={styles.dataRowHorizontal}>
+                <span className={styles.dataLabel}>School Level</span>
+                <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                  <span className={`${styles.badge} ${styles.badgePurple}`}>JHS (Grades 7-10)</span>
+                  <span className={`${styles.badge} ${styles.badgePurple}`}>SHS (Grades 11-12)</span>
+                </div>
+              </div>
+              <div className={styles.dataRowHorizontal}>
+                <span className={styles.dataLabel}>Announcements</span>
+                <span className={`${styles.badge} ${styles.badgeGreen}`}>✅ Enabled</span>
+              </div>
+              <div className={styles.dataRowHorizontal}>
+                <span className={styles.dataLabel}>Default Language</span>
+                <span className={styles.dataValue}>English</span>
+              </div>
+              <div className={styles.dataRowHorizontal}>
+                <span className={styles.dataLabel}>Parent Access</span>
+                <span className={`${styles.badge} ${styles.badgeGreen}`}>✅ Enabled</span>
+              </div>
+              <div className={styles.dataRowHorizontal}></div>
+              <div className={styles.dataRowHorizontal}>
+                <span className={styles.dataLabel}>Student ID Generation</span>
+                <span className={`${styles.badge} ${styles.badgeGray}`}>❌ Disabled</span>
+              </div>
+            </div>
+          </div>
+
+          {/* System Preview Card */}
+          <div className={styles.reviewSectionCard}>
+            <div className={styles.reviewSectionTitle} style={{ marginBottom: '1.5rem' }}>
+              <span style={{ color: '#b388ff', fontSize: '1.4rem' }}>💻</span>
               System Preview
             </div>
             
-            <div className={styles.previewCard} style={{ marginTop: 0, padding: '1.5rem' }}>
-              <div className={styles.previewIcon}>🏫</div>
-              <h3 className={styles.previewTitle}>ABC Learning Academy</h3>
-              <div className={styles.previewTags}>
-                <span className={styles.previewTag}>JHS (Grades 7-10)</span>
-                <span className={styles.previewTag}>SHS (Grades 11-12)</span>
-              </div>
-              <div className={styles.previewDetails}>
-                <span>SY 2025–2026</span>
-                <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem' }}>
-                  <span>🌐</span> English
-                </span>
+            <div className={styles.previewCard} style={{ marginTop: 0, padding: '2rem', display: 'flex', flexDirection: 'row', gap: '2rem', alignItems: 'center' }}>
+              <div className={styles.previewIcon} style={{ margin: 0 }}>🏫</div>
+              <div style={{ textAlign: 'left' }}>
+                <h3 className={styles.previewTitle} style={{ fontSize: '1.5rem' }}>ABC Learning Academy</h3>
+                <div className={styles.previewTags} style={{ justifyContent: 'flex-start' }}>
+                  <span className={styles.previewTag}>JHS (Grades 7-10)</span>
+                  <span className={styles.previewTag}>SHS (Grades 11-12)</span>
+                </div>
+                <div className={styles.previewDetails} style={{ flexDirection: 'row', gap: '1rem', marginTop: '0.8rem' }}>
+                  <span>SY 2025–2026</span>
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                    <span>🌐</span> English
+                  </span>
+                </div>
               </div>
             </div>
           </div>
 
         </div>
 
-        {/* Column 3: Address, Summary & Next Steps */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+        {/* Right Column: Status & Summary Cards */}
+        <div className={styles.reviewSideCol}>
           
-          <div className={styles.reviewCard}>
-            <div className={styles.reviewCardHeader}>
-              <span className={styles.reviewCardIcon}>📍</span>
-              Address
-            </div>
-            
-            <div className={styles.dataRow}>
-              <span className={styles.dataLabel}>Address</span>
-              <span className={styles.dataValue}>123 Education Street, Malabanias, Angeles City, Pampanga, 2009</span>
-            </div>
-            <div className={styles.dataRow}>
-              <span className={styles.dataLabel}>Region / State</span>
-              <span className={styles.dataValue}>Central Luzon</span>
-            </div>
-            <div className={styles.dataRow}>
-              <span className={styles.dataLabel}>Country</span>
-              <span className={styles.dataValue}>Philippines</span>
-            </div>
-            <div className={styles.dataRow} style={{ alignItems: 'center' }}>
-              <span className={styles.dataLabel}>Main Campus</span>
-              <span className={`${styles.badge} ${styles.badgeGreen}`}>Yes</span>
-            </div>
+          <div className={styles.allSetCard}>
+            <div className={styles.shieldIcon}>🛡️</div>
+            <h3 className={styles.allSetTitle}>All Set!</h3>
+            <p className={styles.allSetDesc}>Your school is ready to be added to the system.</p>
           </div>
 
-          <div className={styles.summaryCard}>
-            <div className={styles.panelHeader} style={{ marginBottom: '1.5rem' }}>
-              <span style={{ fontSize: '1.2rem' }}>✨</span>
-              <h4 className={styles.panelTitle} style={{ color: '#b388ff' }}>Summary</h4>
-            </div>
-            <p style={{ color: 'rgba(240, 239, 237, 0.7)', fontSize: '0.85rem', lineHeight: 1.5, marginBottom: '1.5rem' }}>
-              You're almost done! Once submitted, your school will be added to the system and you can start managing everything in one place.
-            </p>
-            
-            <div className={styles.summaryItem}>
-              <div className={styles.summaryIcon}>✓</div>
-              <div className={styles.summaryText}>
+          <div className={styles.summaryListCard}>
+            <div className={styles.summaryListItem}>
+              <div className={styles.summaryListIcon} style={{ background: 'rgba(179, 136, 255, 0.1)', color: '#b388ff' }}>✓</div>
+              <div className={styles.summaryListText}>
                 <h5>5</h5>
                 <p>Steps Completed</p>
               </div>
             </div>
             
-            <div className={styles.summaryItem}>
-              <div className={styles.summaryIcon}>✓</div>
-              <div className={styles.summaryText}>
+            <div className={styles.summaryListItem}>
+              <div className={styles.summaryListIcon} style={{ background: 'rgba(92, 199, 137, 0.1)', color: '#5cc789' }}>✓</div>
+              <div className={styles.summaryListText}>
                 <h5>All Information</h5>
-                <p>Looks Good</p>
+                <p>Looks complete</p>
               </div>
             </div>
             
-            <div className={styles.summaryItem}>
-              <div className={styles.summaryIcon}>✓</div>
-              <div className={styles.summaryText}>
-                <h5>Ready to Submit</h5>
-                <p>Review and confirm to add your school</p>
+            <div className={styles.summaryListItem}>
+              <div className={styles.summaryListIcon} style={{ background: 'rgba(255, 183, 77, 0.1)', color: '#ffb74d' }}>✓</div>
+              <div className={styles.summaryListText}>
+                <h5>Ready to Go</h5>
+                <p>Click submit to add your school and get started.</p>
               </div>
             </div>
           </div>
 
-          <div className={styles.nextStepsCard}>
-            <div className={styles.panelHeader} style={{ marginBottom: '1rem' }}>
-              <span style={{ fontSize: '1.2rem' }}>✨</span>
-              <h4 className={styles.panelTitle} style={{ color: '#5cc789' }}>What happens next?</h4>
-            </div>
-            
-            <div className={styles.checkItem} style={{ marginBottom: '0.8rem' }}>
-              <div className={styles.checkCircle} style={{ background: '#5cc789' }}>
-                <span className={styles.checkMark}>✓</span>
-              </div>
-              <span className={styles.checkText}>Your school will be added to the system.</span>
-            </div>
-            
-            <div className={styles.checkItem} style={{ marginBottom: '0.8rem' }}>
-              <div className={styles.checkCircle} style={{ background: '#5cc789' }}>
-                <span className={styles.checkMark}>✓</span>
-              </div>
-              <span className={styles.checkText}>You can start setting up users, classes, and more.</span>
-            </div>
-            
-            <div className={styles.checkItem}>
-              <div className={styles.checkCircle} style={{ background: 'transparent', border: '1px solid #5cc789', color: '#5cc789' }}>
-                <span style={{ fontSize: '0.7rem', fontWeight: 700 }}>🕒</span>
-              </div>
-              <span className={styles.checkText}>You can always update these details later in Settings.</span>
-            </div>
+          <div className={styles.needChangesCard}>
+            <h4>Need to make changes?</h4>
+            <p>You can go back to any step and edit the details before submitting.</p>
+            <button className={styles.goBackBtn}>
+              <span>←</span> Go Back to Edit
+            </button>
           </div>
 
         </div>

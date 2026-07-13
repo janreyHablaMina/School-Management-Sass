@@ -253,51 +253,204 @@
 }
 
 /* Review Step */
-.reviewGrid {
+/* Review Step - New Layout */
+.reviewLayout {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 1.5rem;
+  grid-template-columns: 2.2fr 1fr;
+  gap: 2rem;
   margin-top: 2rem;
 }
-.reviewCard {
+.reviewMainCol {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.reviewSideCol {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.reviewSectionCard {
   background: rgba(0,0,0,0.15);
   border: 1px solid rgba(240, 239, 237, 0.1);
   border-radius: 12px;
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
+  padding: 2rem;
 }
-.reviewCardHeader {
+.reviewSectionHeader {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 0.8rem;
   margin-bottom: 1.5rem;
-  color: #f0efed;
-  font-weight: 600;
-  font-size: 1.05rem;
   border-bottom: 1px solid rgba(240, 239, 237, 0.05);
   padding-bottom: 1rem;
 }
-.reviewCardIcon {
+.reviewSectionTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  color: #f0efed;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+.editBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
   color: #b388ff;
-  font-size: 1.2rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+.editBtn:hover {
+  background: rgba(179, 136, 255, 0.1);
+}
+.reviewDataGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem 2rem;
+}
+.reviewDataGridAddress {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1.5rem;
 }
 .dataRow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.dataRowHorizontal {
   display: grid;
-  grid-template-columns: 120px 1fr;
+  grid-template-columns: 140px 1fr;
   gap: 1rem;
-  margin-bottom: 1rem;
   align-items: baseline;
 }
 .dataLabel {
-  color: rgba(240, 239, 237, 0.6);
+  color: rgba(240, 239, 237, 0.5);
   font-size: 0.85rem;
 }
 .dataValue {
   color: #f0efed;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   font-weight: 500;
   line-height: 1.4;
+}
+
+/* Right Side Cards */
+.allSetCard {
+  background: rgba(179, 136, 255, 0.05);
+  border: 1px solid rgba(179, 136, 255, 0.1);
+  border-radius: 12px;
+  padding: 2.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.shieldIcon {
+  width: 80px;
+  height: 80px;
+  background: #b388ff;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0b1a13;
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 10px 25px rgba(179, 136, 255, 0.3);
+}
+.allSetTitle {
+  font-size: 1.5rem;
+  color: #f0efed;
+  margin: 0 0 0.5rem 0;
+  font-weight: 600;
+}
+.allSetDesc {
+  color: rgba(240, 239, 237, 0.6);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.summaryListCard {
+  background: rgba(0,0,0,0.15);
+  border: 1px solid rgba(240, 239, 237, 0.1);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+.summaryListItem {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(240, 239, 237, 0.05);
+}
+.summaryListItem:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.summaryListItem:first-child {
+  padding-top: 0;
+}
+.summaryListIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 1.2rem;
+}
+.summaryListText h5 {
+  margin: 0 0 0.2rem 0;
+  color: #f0efed;
+  font-size: 1rem;
+}
+.summaryListText p {
+  margin: 0;
+  color: rgba(240, 239, 237, 0.5);
+  font-size: 0.85rem;
+}
+
+.needChangesCard {
+  background: rgba(240, 239, 237, 0.03);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+.needChangesCard h4 {
+  color: #84a9ff;
+  margin: 0 0 0.5rem 0;
+  font-size: 1.05rem;
+}
+.needChangesCard p {
+  color: rgba(240, 239, 237, 0.6);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  margin: 0 0 1.5rem 0;
+}
+.goBackBtn {
+  width: 100%;
+  padding: 0.8rem;
+  background: transparent;
+  border: 1px solid rgba(240, 239, 237, 0.2);
+  color: #f0efed;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.2s;
+}
+.goBackBtn:hover {
+  background: rgba(240, 239, 237, 0.05);
 }
 .badge {
   display: inline-flex;
