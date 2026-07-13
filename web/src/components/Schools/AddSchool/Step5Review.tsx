@@ -4,7 +4,7 @@ import styles from './addSchool.module.css';
 
 export const Step5Review: React.FC = () => {
   return (
-    <div className={globalStyles.tableCard} style={{ padding: '2.5rem', borderLeft: '4px solid #b388ff' }}>
+    <div className={globalStyles.tableCard} style={{ padding: '2.5rem', borderLeft: '4px solid #f5c842' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div className={styles.sectionHeader} style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: 0 }}>
           <div>
@@ -100,7 +100,7 @@ export const Step5Review: React.FC = () => {
           <div className={styles.reviewSectionCard}>
             <div className={styles.reviewSectionHeader}>
               <div className={styles.reviewSectionTitle}>
-                <span style={{ color: '#b388ff', fontSize: '1.4rem' }}>📍</span>
+                <span style={{ color: '#f5c842', fontSize: '1.4rem' }}>📍</span>
                 Address
               </div>
               <button className={styles.editBtn}>✏️ Edit</button>
@@ -199,7 +199,7 @@ export const Step5Review: React.FC = () => {
           {/* System Preview Card */}
           <div className={styles.reviewSectionCard}>
             <div className={styles.reviewSectionTitle} style={{ marginBottom: '1.5rem' }}>
-              <span style={{ color: '#b388ff', fontSize: '1.4rem' }}>💻</span>
+              <span style={{ color: '#f5c842', fontSize: '1.4rem' }}>💻</span>
               System Preview
             </div>
             
@@ -234,7 +234,7 @@ export const Step5Review: React.FC = () => {
 
           <div className={styles.summaryListCard}>
             <div className={styles.summaryListItem}>
-              <div className={styles.summaryListIcon} style={{ background: 'rgba(179, 136, 255, 0.1)', color: '#b388ff' }}>✓</div>
+              <div className={styles.summaryListIcon} style={{ background: 'rgba(245, 200, 66, 0.1)', color: '#f5c842' }}>✓</div>
               <div className={styles.summaryListText}>
                 <h5>5</h5>
                 <p>Steps Completed</p>

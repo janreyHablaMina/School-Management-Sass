@@ -15,13 +15,13 @@ const MapComponent = dynamic(() => import('./MapComponent'), {
 
 export const Step3Address: React.FC = () => {
   return (
-    <div className={globalStyles.tableCard} style={{ padding: '2.5rem', borderLeft: '4px solid #b388ff' }}>
+    <div className={globalStyles.tableCard} style={{ padding: '2.5rem', borderLeft: '4px solid #f5c842' }}>
       <div className={styles.sectionHeader} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-        <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: 'rgba(179, 136, 255, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem' }}>
+        <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: 'rgba(245, 200, 66, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem' }}>
           📍
         </div>
         <div>
-          <h3 className={styles.sectionTitle} style={{ color: '#b388ff' }}>School Address</h3>
+          <h3 className={styles.sectionTitle} style={{ color: '#f5c842' }}>School Address</h3>
           <p className={styles.sectionDesc}>Provide the physical address and location details of your school.</p>
         </div>
       </div>
@@ -82,7 +82,7 @@ export const Step3Address: React.FC = () => {
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '0.5rem' }}>
-            <input type="checkbox" defaultChecked id="main-campus" style={{ accentColor: '#b388ff', width: '16px', height: '16px', cursor: 'pointer' }} />
+            <input type="checkbox" defaultChecked id="main-campus" style={{ accentColor: '#f5c842', width: '16px', height: '16px', cursor: 'pointer' }} />
             <label htmlFor="main-campus" style={{ fontSize: '0.9rem', color: '#f0efed', cursor: 'pointer', fontWeight: 500 }}>
               This is the main campus address
             </label>
@@ -112,14 +112,14 @@ export const Step3Address: React.FC = () => {
             </div>
 
             {/* Selected Address Overlay Box */}
-            <div style={{ margin: '1rem 1.5rem 1.5rem', background: 'rgba(179, 136, 255, 0.05)', borderRadius: '8px', padding: '1rem', display: 'flex', gap: '0.8rem' }}>
-              <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: 'rgba(179, 136, 255, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+            <div style={{ margin: '1rem 1.5rem 1.5rem', background: 'rgba(245, 200, 66, 0.05)', borderRadius: '8px', padding: '1rem', display: 'flex', gap: '0.8rem' }}>
+              <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: 'rgba(245, 200, 66, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                 <span style={{ fontSize: '0.9rem' }}>📍</span>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
                 <span style={{ color: '#f0efed', fontSize: '0.85rem', lineHeight: 1.4 }}>123 Education Street, Malabanias<br/>Angeles City, Pampanga, 2009, Philippines</span>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#b388ff', fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer' }}>
-                  Use this location <span style={{ background: '#b388ff', color: '#0b1a13', borderRadius: '50%', width: '14px', height: '14px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.6rem' }}>✓</span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#f5c842', fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer' }}>
+                  Use this location <span style={{ background: '#f5c842', color: '#0b1a13', borderRadius: '50%', width: '14px', height: '14px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.6rem' }}>✓</span>
                 </div>
               </div>
             </div>
@@ -129,25 +129,25 @@ export const Step3Address: React.FC = () => {
           <div className={styles.tipsPanel}>
             <div className={styles.panelHeader}>
               <span style={{ fontSize: '1.2rem' }}>✨</span>
-              <h4 className={styles.panelTitle} style={{ color: '#b388ff' }}>Tips</h4>
+              <h4 className={styles.panelTitle} style={{ color: '#f5c842' }}>Tips</h4>
             </div>
             
             <div className={styles.checkItem}>
-              <div className={styles.checkCircle} style={{ background: '#b388ff' }}>
+              <div className={styles.checkCircle} style={{ background: '#f5c842' }}>
                 <span className={styles.checkMark}>✓</span>
               </div>
               <span className={styles.checkText}>Make sure the address is complete and accurate.</span>
             </div>
             
             <div className={styles.checkItem}>
-              <div className={styles.checkCircle} style={{ background: '#b388ff' }}>
+              <div className={styles.checkCircle} style={{ background: '#f5c842' }}>
                 <span className={styles.checkMark}>✓</span>
               </div>
               <span className={styles.checkText}>You can adjust the pin on the map for precision.</span>
             </div>
             
             <div className={styles.checkItem}>
-              <div className={styles.checkCircle} style={{ background: '#b388ff' }}>
+              <div className={styles.checkCircle} style={{ background: '#f5c842' }}>
                 <span className={styles.checkMark}>✓</span>
               </div>
               <span className={styles.checkText}>This helps parents and visitors find your school easily.</span>
@@ -160,9 +160,9 @@ export const Step3Address: React.FC = () => {
       {/* Add keyframes for the pulse animation if it doesn't exist */}
       <style dangerouslySetInnerHTML={{__html: `
         @keyframes pulse {
-          0% { box-shadow: 0 0 0 0 rgba(179, 136, 255, 0.4); }
-          70% { box-shadow: 0 0 0 15px rgba(179, 136, 255, 0); }
-          100% { box-shadow: 0 0 0 0 rgba(179, 136, 255, 0); }
+          0% { box-shadow: 0 0 0 0 rgba(245, 200, 66, 0.4); }
+          70% { box-shadow: 0 0 0 15px rgba(245, 200, 66, 0); }
+          100% { box-shadow: 0 0 0 0 rgba(245, 200, 66, 0); }
         }
       `}} />
     </div>

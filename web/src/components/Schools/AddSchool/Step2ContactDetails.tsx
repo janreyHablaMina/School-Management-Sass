@@ -4,13 +4,13 @@ import styles from './addSchool.module.css';
 
 export const Step2ContactDetails: React.FC = () => {
   return (
-    <div className={globalStyles.tableCard} style={{ padding: '2.5rem', borderLeft: '4px solid #b388ff' }}>
+    <div className={globalStyles.tableCard} style={{ padding: '2.5rem', borderLeft: '4px solid #f5c842' }}>
       <div className={styles.sectionHeader} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-        <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: 'rgba(179, 136, 255, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem' }}>
+        <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: 'rgba(245, 200, 66, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem' }}>
           📞
         </div>
         <div>
-          <h3 className={styles.sectionTitle} style={{ color: '#b388ff' }}>Contact Details</h3>
+          <h3 className={styles.sectionTitle} style={{ color: '#f5c842' }}>Contact Details</h3>
           <p className={styles.sectionDesc}>Provide the primary contact information for your school.</p>
         </div>
       </div>
@@ -103,7 +103,7 @@ export const Step2ContactDetails: React.FC = () => {
         <div className={styles.infoPanelCol}>
           <div className={styles.infoPanelContact}>
             <div style={{ fontSize: '4rem', marginBottom: '0.5rem' }}>📇</div>
-            <h4 className={styles.panelTitleContact} style={{ color: '#b388ff', margin: 0, fontWeight: 600 }}>Why is this important?</h4>
+            <h4 className={styles.panelTitleContact} style={{ color: '#f5c842', margin: 0, fontWeight: 600 }}>Why is this important?</h4>
             <p style={{ color: 'rgba(240, 239, 237, 0.7)', fontSize: '0.85rem', lineHeight: 1.5, margin: 0 }}>
               These contact details will be used for important communication, notifications, and account recovery.
             </p>
@@ -116,21 +116,21 @@ export const Step2ContactDetails: React.FC = () => {
             </div>
             
             <div className={styles.checkItem}>
-              <div className={styles.checkCircle} style={{ background: '#b388ff' }}>
+              <div className={styles.checkCircle} style={{ background: '#f5c842' }}>
                 <span className={styles.checkMark}>✓</span>
               </div>
               <span className={styles.checkText}>Use an official school email address.</span>
             </div>
             
             <div className={styles.checkItem}>
-              <div className={styles.checkCircle} style={{ background: '#b388ff' }}>
+              <div className={styles.checkCircle} style={{ background: '#f5c842' }}>
                 <span className={styles.checkMark}>✓</span>
               </div>
               <span className={styles.checkText}>Ensure the phone number is active and monitored regularly.</span>
             </div>
             
             <div className={styles.checkItem}>
-              <div className={styles.checkCircle} style={{ background: '#b388ff' }}>
+              <div className={styles.checkCircle} style={{ background: '#f5c842' }}>
                 <span className={styles.checkMark}>✓</span>
               </div>
               <span className={styles.checkText}>You can update these details later in Settings.</span>

@@ -72,7 +72,7 @@ export const AddSchoolContainer: React.FC<AddSchoolContainerProps> = ({ onCancel
             className={globalStyles.toolbarAddBtn}
             style={{ 
               height: 'auto', padding: '0.8rem 2.5rem', fontSize: '1.05rem', 
-              background: '#b388ff', borderColor: '#2e2e2e', color: '#0b1a13'
+              background: '#f5c842', borderColor: '#2e2e2e', color: '#0b1a13'
             }}
           >
             {currentStep === 5 ? <><span style={{ fontSize: '1.2rem', marginRight: '0.4rem' }}>✓</span> Submit School</> : 'Next Step →'}

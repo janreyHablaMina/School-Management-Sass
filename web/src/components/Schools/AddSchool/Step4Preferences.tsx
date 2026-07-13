@@ -4,13 +4,13 @@ import styles from './addSchool.module.css';
 
 export const Step4Preferences: React.FC = () => {
   return (
-    <div className={globalStyles.tableCard} style={{ padding: '2.5rem', borderLeft: '4px solid #b388ff' }}>
+    <div className={globalStyles.tableCard} style={{ padding: '2.5rem', borderLeft: '4px solid #f5c842' }}>
       <div className={styles.sectionHeader} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-        <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: 'rgba(179, 136, 255, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem' }}>
+        <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: 'rgba(245, 200, 66, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem' }}>
           <span style={{ transform: 'rotate(90deg)' }}>⚙️</span>
         </div>
         <div>
-          <h3 className={styles.sectionTitle} style={{ color: '#b388ff' }}>Preferences</h3>
+          <h3 className={styles.sectionTitle} style={{ color: '#f5c842' }}>Preferences</h3>
           <p className={styles.sectionDesc}>Customize the settings that best fits your school's needs.</p>
         </div>
       </div>
@@ -185,32 +185,32 @@ export const Step4Preferences: React.FC = () => {
           <div className={styles.tipsPanel}>
             <div className={styles.panelHeader}>
               <span style={{ fontSize: '1.2rem' }}>💡</span>
-              <h4 className={styles.panelTitle} style={{ color: '#b388ff' }}>Why these preferences matter?</h4>
+              <h4 className={styles.panelTitle} style={{ color: '#f5c842' }}>Why these preferences matter?</h4>
             </div>
             
             <div className={styles.checkItem}>
-              <div className={styles.checkCircle} style={{ background: '#b388ff' }}>
+              <div className={styles.checkCircle} style={{ background: '#f5c842' }}>
                 <span className={styles.checkMark}>✓</span>
               </div>
               <span className={styles.checkText}>Academic year setting helps in organizing classes and reports.</span>
             </div>
             
             <div className={styles.checkItem}>
-              <div className={styles.checkCircle} style={{ background: '#b388ff' }}>
+              <div className={styles.checkCircle} style={{ background: '#f5c842' }}>
                 <span className={styles.checkMark}>✓</span>
               </div>
               <span className={styles.checkText}>Grading system is used for assessments and grade computation.</span>
             </div>
             
             <div className={styles.checkItem}>
-              <div className={styles.checkCircle} style={{ background: '#b388ff' }}>
+              <div className={styles.checkCircle} style={{ background: '#f5c842' }}>
                 <span className={styles.checkMark}>✓</span>
               </div>
               <span className={styles.checkText}>Language and format settings ensure the system matches your school's standards.</span>
             </div>
 
             <div className={styles.checkItem}>
-              <div className={styles.checkCircle} style={{ background: '#b388ff' }}>
+              <div className={styles.checkCircle} style={{ background: '#f5c842' }}>
                 <span className={styles.checkMark}>✓</span>
               </div>
               <span className={styles.checkText}>You can update these anytime in Settings.</span>
