@@ -29,7 +29,7 @@ export const Step3Address: React.FC = () => {
       <div className={styles.addressGrid}>
         {/* Left Column: Form */}
         <div className={styles.formColumn}>
-          <div className={styles.inputRow}>
+          <div className={styles.addressInputRow}>
             <div>
               <label className={styles.label}>Country <span className={styles.requiredStar}>*</span></label>
               <select className={`${styles.inputBox} ${styles.countrySelect}`}>
@@ -45,7 +45,7 @@ export const Step3Address: React.FC = () => {
             </div>
           </div>
 
-          <div className={styles.inputRow}>
+          <div className={styles.addressInputRow}>
             <div>
               <label className={styles.label}>Province <span className={styles.requiredStar}>*</span></label>
               <select className={`${styles.inputBox} ${styles.selectInput}`}>
@@ -60,7 +60,7 @@ export const Step3Address: React.FC = () => {
             </div>
           </div>
 
-          <div className={styles.threeColRow}>
+          <div className={styles.addressThreeColRow}>
             <div>
               <label className={styles.label}>Barangay <span className={styles.requiredStar}>*</span></label>
               <select className={`${styles.inputBox} ${styles.selectInput}`}>

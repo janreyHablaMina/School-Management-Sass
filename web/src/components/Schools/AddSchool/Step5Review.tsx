@@ -142,59 +142,7 @@ export const Step5Review: React.FC = () => {
             </div>
           </div>
 
-          {/* Preferences Card */}
-          <div className={styles.reviewSectionCard}>
-            <div className={styles.reviewSectionHeader}>
-              <div className={styles.reviewSectionTitle}>
-                <span style={{ color: '#ffb74d', fontSize: '1.4rem' }}>⚙️</span>
-                Preferences
-              </div>
-              <button className={styles.editBtn}>✏️ Edit</button>
-            </div>
-            
-            <div className={styles.reviewDataGrid}>
-              <div className={styles.dataRowHorizontal}>
-                <span className={styles.dataLabel}>Academic Year Start</span>
-                <span className={styles.dataValue}>June</span>
-              </div>
-              <div className={styles.dataRowHorizontal}>
-                <span className={styles.dataLabel}>Time Format</span>
-                <span className={styles.dataValue}>12-Hour (1:00 PM)</span>
-              </div>
-              <div className={styles.dataRowHorizontal}>
-                <span className={styles.dataLabel}>Grading System</span>
-                <span className={styles.dataValue}>Percentage (%)</span>
-              </div>
-              <div className={styles.dataRowHorizontal}>
-                <span className={styles.dataLabel}>Date Format</span>
-                <span className={styles.dataValue}>MM/DD/YYYY</span>
-              </div>
-              <div className={styles.dataRowHorizontal}>
-                <span className={styles.dataLabel}>School Level</span>
-                <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-                  <span className={`${styles.badge} ${styles.badgePurple}`}>JHS (Grades 7-10)</span>
-                  <span className={`${styles.badge} ${styles.badgePurple}`}>SHS (Grades 11-12)</span>
-                </div>
-              </div>
-              <div className={styles.dataRowHorizontal}>
-                <span className={styles.dataLabel}>Announcements</span>
-                <span className={`${styles.badge} ${styles.badgeGreen}`}>✅ Enabled</span>
-              </div>
-              <div className={styles.dataRowHorizontal}>
-                <span className={styles.dataLabel}>Default Language</span>
-                <span className={styles.dataValue}>English</span>
-              </div>
-              <div className={styles.dataRowHorizontal}>
-                <span className={styles.dataLabel}>Parent Access</span>
-                <span className={`${styles.badge} ${styles.badgeGreen}`}>✅ Enabled</span>
-              </div>
-              <div className={styles.dataRowHorizontal}></div>
-              <div className={styles.dataRowHorizontal}>
-                <span className={styles.dataLabel}>Student ID Generation</span>
-                <span className={`${styles.badge} ${styles.badgeGray}`}>❌ Disabled</span>
-              </div>
-            </div>
-          </div>
+
 
           {/* System Preview Card */}
           <div className={styles.reviewSectionCard}>
@@ -236,7 +184,7 @@ export const Step5Review: React.FC = () => {
             <div className={styles.summaryListItem}>
               <div className={styles.summaryListIcon} style={{ background: 'rgba(245, 200, 66, 0.1)', color: '#f5c842' }}>✓</div>
               <div className={styles.summaryListText}>
-                <h5>5</h5>
+                <h5>4</h5>
                 <p>Steps Completed</p>
               </div>
             </div>

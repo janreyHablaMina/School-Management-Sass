@@ -10,8 +10,7 @@ const steps = [
   { id: 1, label: 'School Information', icon: '🏫' },
   { id: 2, label: 'Contact Details', icon: '📞' },
   { id: 3, label: 'Address', icon: '📍' },
-  { id: 4, label: 'Preferences', icon: '⚙️' },
-  { id: 5, label: 'Review', icon: '📋' }
+  { id: 4, label: 'Review', icon: '📋' }
 ];
 
 export const Stepper: React.FC<StepperProps> = ({ currentStep }) => {
