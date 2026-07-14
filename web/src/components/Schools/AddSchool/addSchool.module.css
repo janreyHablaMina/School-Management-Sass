@@ -652,3 +652,22 @@
   align-items: center;
   gap: 0.5rem;
 }
+
+
+@media (max-width: 1024px) {
+  .twoColGrid, .addressGrid, .reviewDataGrid, .reviewLayout, .reviewDataGridAddress {
+    grid-template-columns: 1fr;
+  }
+  .inputRow {
+    grid-template-columns: 1fr;
+  }
+  .socialGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .socialGrid {
+    grid-template-columns: 1fr;
+  }
+}
