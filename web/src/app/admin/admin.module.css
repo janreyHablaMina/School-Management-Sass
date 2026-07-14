@@ -275,6 +275,8 @@
   z-index: 5;
   box-sizing: border-box;
   margin-left: 260px;
+  width: calc(100% - 260px);
+  max-width: calc(100% - 260px);
 }
 
 /* ---------- Top Action Bar ---------- */

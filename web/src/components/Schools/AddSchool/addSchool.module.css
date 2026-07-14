@@ -80,6 +80,7 @@
   display: grid;
   grid-template-columns: 1fr 300px;
   gap: 3rem;
+  overflow: hidden;
 }
 .addressGrid {
   display: grid;
@@ -654,7 +655,7 @@
 }
 
 
-@media (max-width: 1024px) {
+@media (max-width: 1280px) {
   .twoColGrid, .addressGrid, .reviewDataGrid, .reviewLayout, .reviewDataGridAddress {
     grid-template-columns: 1fr;
   }
