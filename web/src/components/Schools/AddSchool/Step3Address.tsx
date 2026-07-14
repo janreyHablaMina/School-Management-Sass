@@ -29,18 +29,20 @@ export const Step3Address: React.FC = () => {
       <div className={styles.addressGrid}>
         {/* Left Column: Form */}
         <div className={styles.formColumn}>
-          <div>
-            <label className={styles.label}>Country <span className={styles.requiredStar}>*</span></label>
-            <select className={`${styles.inputBox} ${styles.countrySelect}`}>
-              <option value="ph">Philippines</option>
-            </select>
-          </div>
+          <div className={styles.inputRow}>
+            <div>
+              <label className={styles.label}>Country <span className={styles.requiredStar}>*</span></label>
+              <select className={`${styles.inputBox} ${styles.countrySelect}`}>
+                <option value="ph">Philippines</option>
+              </select>
+            </div>
 
-          <div>
-            <label className={styles.label}>Region / State <span className={styles.requiredStar}>*</span></label>
-            <select className={`${styles.inputBox} ${styles.selectInput}`}>
-              <option value="central-luzon">Central Luzon</option>
-            </select>
+            <div>
+              <label className={styles.label}>Region / State <span className={styles.requiredStar}>*</span></label>
+              <select className={`${styles.inputBox} ${styles.selectInput}`}>
+                <option value="central-luzon">Central Luzon</option>
+              </select>
+            </div>
           </div>
 
           <div className={styles.inputRow}>
@@ -58,24 +60,26 @@ export const Step3Address: React.FC = () => {
             </div>
           </div>
 
-          <div>
-            <label className={styles.label}>Barangay <span className={styles.requiredStar}>*</span></label>
-            <select className={`${styles.inputBox} ${styles.selectInput}`}>
-              <option value="malabanias">Malabanias</option>
-            </select>
-          </div>
+          <div className={styles.threeColRow}>
+            <div>
+              <label className={styles.label}>Barangay <span className={styles.requiredStar}>*</span></label>
+              <select className={`${styles.inputBox} ${styles.selectInput}`}>
+                <option value="malabanias">Malabanias</option>
+              </select>
+            </div>
 
-          <div>
-            <label className={styles.label}>Street Address <span className={styles.requiredStar}>*</span></label>
-            <input type="text" defaultValue="123 Education Street, Malabanias" className={styles.inputBox} />
-            <span style={{ fontSize: '0.75rem', color: 'rgba(240, 239, 237, 0.4)', marginTop: '0.4rem', display: 'block' }}>
-              House/Building No., Street Name
-            </span>
-          </div>
+            <div>
+              <label className={styles.label}>Street Address <span className={styles.requiredStar}>*</span></label>
+              <input type="text" defaultValue="123 Education Street, Malabanias" className={styles.inputBox} />
+              <span style={{ fontSize: '0.75rem', color: 'rgba(240, 239, 237, 0.4)', marginTop: '0.4rem', display: 'block' }}>
+                House/Building No., Street Name
+              </span>
+            </div>
 
-          <div>
-            <label className={styles.label}>Zip / Postal Code</label>
-            <input type="text" defaultValue="2009" className={styles.inputBox} />
+            <div>
+              <label className={styles.label}>Zip / Postal Code</label>
+              <input type="text" defaultValue="2009" className={styles.inputBox} />
+            </div>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '0.5rem' }}>

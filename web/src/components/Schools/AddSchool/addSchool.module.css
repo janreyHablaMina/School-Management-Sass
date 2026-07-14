@@ -97,6 +97,11 @@
   grid-template-columns: 1fr 1fr;
   gap: 1.5rem;
 }
+.threeColRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1.5rem;
+}
 .socialGrid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -692,28 +697,30 @@
 
 
 @media (max-width: 1440px) {
-  .twoColGrid, .addressGrid, .reviewDataGrid, .reviewLayout, .reviewDataGridAddress {
+  .twoColGrid, .addressGrid, .reviewLayout {
     grid-template-columns: 1fr;
+  }
+  .step1Sidebar {
+    order: -1;
   }
   .socialGrid {
     grid-template-columns: 1fr 1fr;
   }
   .infoPanelCol {
-    flex-direction: row;
-  }
-  .infoPanelCol > * {
-    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
   }
 }
 
 @media (max-width: 768px) {
-  .inputRow {
+  .inputRow, .threeColRow, .reviewDataGrid, .reviewDataGridAddress {
     grid-template-columns: 1fr;
   }
   .socialGrid {
     grid-template-columns: 1fr;
   }
   .infoPanelCol {
+    display: flex;
     flex-direction: column;
   }
 }

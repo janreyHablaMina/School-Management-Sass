@@ -11,6 +11,7 @@ export const Step1BasicInfo: React.FC = () => {
       </div>
       
       <div className={styles.twoColGrid}>
+        {/* Left Column: Form Fields & Description */}
         <div className={styles.formColumn}>
           <div className={styles.inputRow}>
             <div>
@@ -43,38 +44,39 @@ export const Step1BasicInfo: React.FC = () => {
               <option value="charter">Charter</option>
             </select>
           </div>
-        </div>
 
-        {/* Logo Upload */}
-        <div className={styles.logoUploadWrapper}>
-          <span className={styles.label} style={{ marginBottom: '1rem', fontWeight: 500 }}>School Logo</span>
-          <div className={styles.logoUploadBox}>
-            <div style={{ color: '#84a9ff', fontSize: '2rem', marginBottom: '0.5rem' }}>🖼️</div>
-            <div style={{ color: '#84a9ff', fontWeight: 600, marginBottom: '0.3rem' }}>Upload Logo</div>
-            <div style={{ color: 'rgba(240, 239, 237, 0.5)', fontSize: '0.8rem' }}>PNG, JPG or SVG (max. 2MB)</div>
+          {/* About the School section directly below form fields */}
+          <div style={{ marginTop: '2rem', paddingTop: '1.5rem', borderTop: '1px dashed rgba(240, 239, 237, 0.1)' }}>
+            <div className={styles.sectionHeader}>
+              <h3 className={styles.sectionTitle} style={{ color: '#5cc789' }}>About the School</h3>
+              <p className={styles.sectionDesc}>Tell us more about your school.</p>
+            </div>
+            <div>
+              <label className={styles.label}>School Description</label>
+              <textarea 
+                placeholder="Enter a brief description about your school..."
+                rows={6}
+                className={`${styles.inputBox} ${styles.textareaInput}`}
+              />
+              <div className={styles.textareaCharCount}>0/500</div>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* About the School (Moved inside Step 1 for simplicity) */}
-      <div style={{ marginTop: '3rem', paddingTop: '2rem', borderTop: '1px dashed rgba(240, 239, 237, 0.1)' }}>
-        <div className={styles.sectionHeader}>
-          <h3 className={styles.sectionTitle} style={{ color: '#5cc789' }}>About the School</h3>
-          <p className={styles.sectionDesc}>Tell us more about your school.</p>
-        </div>
-        
-        <div className={styles.twoColGrid}>
-          <div>
-            <label className={styles.label}>School Description</label>
-            <textarea 
-              placeholder="Enter a brief description about your school..."
-              rows={6}
-              className={`${styles.inputBox} ${styles.textareaInput}`}
-            />
-            <div className={styles.textareaCharCount}>0/500</div>
+        {/* Right Column: Logo & Why it matters panel */}
+        <div className={`${styles.infoPanelCol} ${styles.step1Sidebar}`}>
+          {/* Logo Upload */}
+          <div className={styles.logoUploadWrapper} style={{ height: 'auto', flex: 'none', marginBottom: '0' }}>
+            <span className={styles.label} style={{ marginBottom: '1rem', fontWeight: 500 }}>School Logo</span>
+            <div className={styles.logoUploadBox} style={{ minHeight: '180px' }}>
+              <div style={{ color: '#84a9ff', fontSize: '2rem', marginBottom: '0.5rem' }}>🖼️</div>
+              <div style={{ color: '#84a9ff', fontWeight: 600, marginBottom: '0.3rem' }}>Upload Logo</div>
+              <div style={{ color: 'rgba(240, 239, 237, 0.5)', fontSize: '0.8rem' }}>PNG, JPG or SVG (max. 2MB)</div>
+            </div>
           </div>
-
-          <div className={styles.infoPanel}>
+          
+          {/* Why it matters */}
+          <div className={styles.infoPanel} style={{ flex: 'none' }}>
             <div className={styles.panelHeader}>
               <span style={{ fontSize: '1.2rem' }}>✨</span>
               <h4 className={styles.panelTitle} style={{ color: '#5cc789' }}>Why it matters?</h4>
