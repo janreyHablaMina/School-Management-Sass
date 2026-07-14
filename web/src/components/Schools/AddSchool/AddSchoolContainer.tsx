@@ -71,7 +71,7 @@ export const AddSchoolContainer: React.FC<AddSchoolContainerProps> = ({ onCancel
             onClick={currentStep === 5 ? onSave : handleNext}
             className={globalStyles.toolbarAddBtn}
             style={{ 
-              height: 'auto', padding: '0.8rem 2.5rem', fontSize: '1.05rem', 
+              height: 'auto', padding: '0.6rem 2rem', fontSize: '0.95rem', 
               background: '#f5c842', borderColor: '#2e2e2e', color: '#0b1a13'
             }}
           >

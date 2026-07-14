@@ -117,11 +117,12 @@
 /* Inputs */
 .inputBox {
   width: 100%;
-  padding: 0.8rem 1rem;
+  padding: 0.6rem 0.8rem;
   border-radius: 6px;
   background: rgba(0,0,0,0.2);
   border: 1px solid rgba(240, 239, 237, 0.2);
   color: #f0efed;
+  font-size: 0.9rem;
   outline: none;
 }
 .inputBoxDarkScheme {
@@ -144,10 +145,11 @@
 }
 .groupInput {
   flex: 1;
-  padding: 0.8rem 1rem;
+  padding: 0.6rem 0.8rem;
   background: transparent;
   border: none;
   color: #f0efed;
+  font-size: 0.9rem;
   outline: none;
 }
 .groupInputSocial {
@@ -160,6 +162,35 @@
   background: rgba(0,0,0,0.2) url("data:image/svg+xml;utf8,<svg fill='%23f0efed' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>") no-repeat right 0.5rem center;
 }
 .selectInput option {
+  background-color: #0b1a13;
+  color: #f0efed;
+}
+.countrySelect {
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: rgba(0,0,0,0.2);
+  background-image: url("data:image/svg+xml;utf8,<svg fill='%23f0efed' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>"), url("https://flagcdn.com/w40/ph.png");
+  background-repeat: no-repeat, no-repeat;
+  background-position: right 0.5rem center, left 0.8rem center;
+  background-size: 24px, 20px 15px;
+  padding-left: 2.5rem !important;
+}
+.countrySelect option {
+  background-color: #0b1a13;
+  color: #f0efed;
+}
+.groupSelect {
+  flex: 1;
+  padding: 0.6rem 0.8rem;
+  background: transparent url("data:image/svg+xml;utf8,<svg fill='%23f0efed' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>") no-repeat right 0.5rem center;
+  border: none;
+  color: #f0efed;
+  font-size: 0.9rem;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+}
+.groupSelect option {
   background-color: #0b1a13;
   color: #f0efed;
 }
@@ -645,13 +676,14 @@
   margin-top: 1rem;
 }
 .secondaryBtn {
-  padding: 0.8rem 2rem;
+  padding: 0.6rem 1.5rem;
   background: transparent;
   border: 1px solid rgba(240, 239, 237, 0.2);
   color: #f0efed;
   border-radius: 6px;
   cursor: pointer;
   font-weight: 500;
+  font-size: 0.9rem;
   transition: all 0.2s;
   display: flex;
   align-items: center;
@@ -659,20 +691,29 @@
 }
 
 
-@media (max-width: 1280px) {
+@media (max-width: 1440px) {
   .twoColGrid, .addressGrid, .reviewDataGrid, .reviewLayout, .reviewDataGridAddress {
-    grid-template-columns: 1fr;
-  }
-  .inputRow {
     grid-template-columns: 1fr;
   }
   .socialGrid {
     grid-template-columns: 1fr 1fr;
   }
+  .infoPanelCol {
+    flex-direction: row;
+  }
+  .infoPanelCol > * {
+    flex: 1;
+  }
 }
 
 @media (max-width: 768px) {
+  .inputRow {
+    grid-template-columns: 1fr;
+  }
   .socialGrid {
     grid-template-columns: 1fr;
+  }
+  .infoPanelCol {
+    flex-direction: column;
   }
 }

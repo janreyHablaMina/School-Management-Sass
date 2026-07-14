@@ -31,12 +31,9 @@ export const Step3Address: React.FC = () => {
         <div className={styles.formColumn}>
           <div>
             <label className={styles.label}>Country <span className={styles.requiredStar}>*</span></label>
-            <div className={styles.inputGroup}>
-              <span style={{ fontSize: '1.1rem', marginRight: '0.5rem' }}>🇵🇭</span>
-              <select className={`${styles.groupInput} ${styles.selectInput}`} style={{ paddingLeft: '0.2rem' }}>
-                <option value="ph">Philippines</option>
-              </select>
-            </div>
+            <select className={`${styles.inputBox} ${styles.countrySelect}`}>
+              <option value="ph">Philippines</option>
+            </select>
           </div>
 
           <div>
