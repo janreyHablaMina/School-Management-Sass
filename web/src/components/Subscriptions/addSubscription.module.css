@@ -1,0 +1,148 @@
+.pageContainer {
+  color: #f0efed;
+  padding-bottom: 2rem;
+  margin-top: 1rem;
+}
+.mainGrid {
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: 2rem;
+}
+.leftColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.rightColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Specific Cards */
+.schoolSection {
+  border: 1px dashed rgba(132, 169, 255, 0.3);
+}
+.planSection {
+  border: 1px dashed rgba(92, 199, 137, 0.3);
+  transform: rotate(0.5deg);
+}
+.detailsSection {
+  border: 1px dashed rgba(245, 200, 66, 0.3);
+}
+.paymentSection {
+  border: 1px dashed rgba(255, 138, 138, 0.3);
+}
+
+/* Grids inside cards */
+.detailsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2rem;
+}
+.paymentGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 1.5rem;
+}
+.twoColGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+/* Helper Info Boxes */
+.infoBox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  background: rgba(132, 169, 255, 0.05);
+  border: 1px solid rgba(132, 169, 255, 0.2);
+  border-radius: 8px;
+}
+.infoBoxIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(132, 169, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #84a9ff;
+}
+.planDetailsBox {
+  background: rgba(240, 239, 237, 0.03);
+  border: 1px dashed rgba(240, 239, 237, 0.2);
+  border-radius: 6px;
+  padding: 1.5rem;
+  text-align: center;
+  color: rgba(240, 239, 237, 0.6);
+}
+
+/* Checkboxes & Radios */
+.radioLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  color: rgba(240, 239, 237, 0.8);
+}
+.radioInput {
+  accent-color: #84a9ff;
+}
+
+/* Summary Box */
+.summaryAmountBox {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: rgba(132, 169, 255, 0.1);
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Feature List */
+.featureList {
+  background: rgba(0,0,0,0.1);
+  border: 1px solid rgba(240, 239, 237, 0.1);
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+.featureIcon {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: rgba(92, 199, 137, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Stack sections */
+.flexCol {
+  display: flex;
+  flex-direction: column;
+}
+.gapMd { gap: 1rem; }
+.gapLg { gap: 1.5rem; }
+
+@media (max-width: 1440px) {
+  .mainGrid {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 768px) {
+  .detailsGrid, .paymentGrid, .twoColGrid {
+    grid-template-columns: 1fr;
+  }
+  .infoBox {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}

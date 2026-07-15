@@ -1,0 +1,155 @@
+/* UI Component Base Styles */
+
+/* Buttons */
+.btnBase {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+  outline: none;
+}
+.btnSm { padding: 0.4rem 1rem; font-size: 0.85rem; }
+.btnMd { padding: 0.6rem 1.5rem; font-size: 0.95rem; }
+.btnLg { padding: 0.8rem 2rem; font-size: 1.05rem; }
+
+.btnPrimary {
+  background: #f5c842;
+  border: 1px solid #2e2e2e;
+  color: #0b1a13;
+}
+.btnPrimary:hover {
+  background: #f0bc29;
+}
+.btnSecondary {
+  background: transparent;
+  border: 1px solid rgba(240, 239, 237, 0.2);
+  color: #f0efed;
+}
+.btnSecondary:hover {
+  background: rgba(240, 239, 237, 0.05);
+}
+.btnDanger {
+  background: transparent;
+  border: 1px solid rgba(255, 82, 82, 0.4);
+  color: #ff5252;
+}
+.btnDanger:hover {
+  background: rgba(255, 82, 82, 0.05);
+}
+.btnGhost {
+  background: transparent;
+  border: 1px solid transparent;
+  color: #84a9ff;
+}
+.btnGhost:hover {
+  background: rgba(132, 169, 255, 0.05);
+  border-color: rgba(132, 169, 255, 0.2);
+}
+
+/* Inputs & Selects */
+.inputBase {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border-radius: 6px;
+  background: rgba(0,0,0,0.2);
+  border: 1px solid rgba(240, 239, 237, 0.2);
+  color: #f0efed;
+  outline: none;
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+}
+.inputBase:focus {
+  border-color: #84a9ff;
+  box-shadow: 0 0 0 2px rgba(132, 169, 255, 0.2);
+}
+.selectInput {
+  appearance: none;
+  -webkit-appearance: none;
+  background: rgba(0,0,0,0.2) url("data:image/svg+xml;utf8,<svg fill='%23f0efed' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>") no-repeat right 0.8rem center;
+}
+.selectOption {
+  background: #0b1a13;
+  color: #f0efed;
+}
+
+/* Form Groups */
+.formGroup {
+  display: block;
+  margin-bottom: 1rem;
+}
+.formLabel {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+.formHint {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 0.85rem;
+  color: rgba(240, 239, 237, 0.5);
+}
+
+/* Cards */
+.cardBase {
+  background: rgba(20, 30, 25, 0.5);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(240, 239, 237, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.cardHeader {
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid rgba(240, 239, 237, 0.05);
+}
+.cardTitle {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #f0efed;
+}
+.cardDesc {
+  margin: 0.4rem 0 0 0;
+  font-size: 0.9rem;
+  color: rgba(240, 239, 237, 0.6);
+}
+.cardBody {
+  padding: 2rem;
+}
+
+/* Badges */
+.badgeBase {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.badgeGreen {
+  background: rgba(92, 199, 137, 0.1);
+  color: #5cc789;
+  border: 1px solid rgba(92, 199, 137, 0.2);
+}
+.badgeYellow {
+  background: rgba(245, 200, 66, 0.1);
+  color: #f5c842;
+  border: 1px solid rgba(245, 200, 66, 0.2);
+}
+.badgePurple {
+  background: rgba(132, 169, 255, 0.1);
+  color: #84a9ff;
+  border: 1px solid rgba(132, 169, 255, 0.2);
+}
+.badgeGray {
+  background: rgba(240, 239, 237, 0.1);
+  color: rgba(240, 239, 237, 0.8);
+  border: 1px solid rgba(240, 239, 237, 0.2);
+}
