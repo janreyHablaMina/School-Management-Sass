@@ -133,6 +133,12 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
+
+.badgeRed {
+  background: rgba(224, 94, 94, 0.1);
+  color: #e05e5e;
+  border: 1px solid rgba(224, 94, 94, 0.2);
+}
 .badgeGreen {
   background: rgba(92, 199, 137, 0.1);
   color: #5cc789;
@@ -152,4 +158,11 @@
   background: rgba(240, 239, 237, 0.1);
   color: rgba(240, 239, 237, 0.8);
   border: 1px solid rgba(240, 239, 237, 0.2);
+}
+
+/* Responsiveness */
+@media (max-width: 1440px) {
+  .cardTitle {
+    font-size: 1.15rem;
+  }
 }

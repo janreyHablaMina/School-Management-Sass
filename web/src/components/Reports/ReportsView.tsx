@@ -96,8 +96,8 @@ export const ReportsView: React.FC = () => {
 
       {/* Distribution Row */}
       <div className={styles.threeColRow}>
-        <Card>
-          <CardHeader title="Student Distribution by Grade Level" />
+        <Card style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+          <CardHeader title="Grade Level" />
           <CardBody className={styles.donutBody}>
             <div className={styles.donutWrapper}>
               <ChalkDistributionDonut total="24,560" label="Students" val1={52.4} val2={47.6} color1="#b388ff" color2="#ff6b6b" />
@@ -113,12 +113,12 @@ export const ReportsView: React.FC = () => {
               </div>
             </div>
           </CardBody>
-          <div style={{ textAlign: 'center', padding: '1rem', borderTop: '1px solid rgba(240, 239, 237, 0.05)', color: '#84a9ff', fontSize: '0.9rem', cursor: 'pointer' }}>
+          <div style={{ marginTop: 'auto', textAlign: 'center', padding: '1rem', borderTop: '1px solid rgba(240, 239, 237, 0.05)', color: '#84a9ff', fontSize: '0.9rem', cursor: 'pointer' }}>
             View Full Report →
           </div>
         </Card>
 
-        <Card>
+        <Card style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
           <CardHeader title="Subscription Status" />
           <CardBody className={styles.donutBody}>
             <div className={styles.donutWrapper}>
@@ -143,12 +143,12 @@ export const ReportsView: React.FC = () => {
               </div>
             </div>
           </CardBody>
-          <div style={{ textAlign: 'center', padding: '1rem', borderTop: '1px solid rgba(240, 239, 237, 0.05)', color: '#84a9ff', fontSize: '0.9rem', cursor: 'pointer' }}>
+          <div style={{ marginTop: 'auto', textAlign: 'center', padding: '1rem', borderTop: '1px solid rgba(240, 239, 237, 0.05)', color: '#84a9ff', fontSize: '0.9rem', cursor: 'pointer' }}>
             View Full Report →
           </div>
         </Card>
 
-        <Card>
+        <Card style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
           <CardHeader title="AI Credits Usage" />
           <CardBody className={styles.donutBody}>
             <div className={`${styles.donutWrapper} ${styles.relativeWrapper}`}>
@@ -173,7 +173,7 @@ export const ReportsView: React.FC = () => {
               </div>
             </div>
           </CardBody>
-          <div style={{ textAlign: 'center', padding: '1rem', borderTop: '1px solid rgba(240, 239, 237, 0.05)', color: '#84a9ff', fontSize: '0.9rem', cursor: 'pointer' }}>
+          <div style={{ marginTop: 'auto', textAlign: 'center', padding: '1rem', borderTop: '1px solid rgba(240, 239, 237, 0.05)', color: '#84a9ff', fontSize: '0.9rem', cursor: 'pointer' }}>
             View Full Report →
           </div>
         </Card>
