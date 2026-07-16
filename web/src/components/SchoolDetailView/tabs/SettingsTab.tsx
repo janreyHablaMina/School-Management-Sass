@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import styles from '../SchoolDetailView.module.css';
+import { School, SchoolDetails } from '@/types/school';
 
-export const SettingsTab = ({ school, details }: { school: any; details: any }) => {
+export const SettingsTab = ({ school, details }: { school: School; details: SchoolDetails }) => {
   const [activeSettingsMenu, setActiveSettingsMenu] = useState('School Information');
 
   const settingsMenu = [
@@ -50,7 +51,7 @@ export const SettingsTab = ({ school, details }: { school: any; details: any }) 
             <div className={styles.settingsContentHeader}>
               <div>
                 <h3 className={styles.settingsContentTitle}>School Information</h3>
-                <p className={styles.settingsContentDesc}>View and update the school's basic information.</p>
+                <p className={styles.settingsContentDesc}>View and update the school&apos;s basic information.</p>
               </div>
               <button className={styles.settingsEditBtn}>✏️ Edit Information</button>
             </div>
@@ -124,7 +125,7 @@ export const SettingsTab = ({ school, details }: { school: any; details: any }) 
               {/* Subscription & Plan Card */}
               <div className={styles.settingsActionCard}>
                 <h4 className={styles.settingsActionTitle}>Subscription & Plan</h4>
-                <p className={styles.settingsActionDesc}>Manage the school's subscription plan.</p>
+                <p className={styles.settingsActionDesc}>Manage the school&apos;s subscription plan.</p>
                 <div className={styles.settingsActionContent}>
                   <div className={styles.settingsActionRow}>
                     <span className={styles.settingsActionLabel}>Current Plan</span>

@@ -5,6 +5,9 @@ import styles from '@/app/admin/admin.module.css';
 import { School } from '@/types/school';
 import { schoolsData } from '@/lib/data/schools';
 import { ConfirmModal } from '@/components/ui/ConfirmModal';
+import { Button } from '@/components/ui/Button';
+import { Select } from '@/components/ui/Select';
+import { Input } from '@/components/ui/Input';
 
 interface SchoolsViewProps {
   onSelectSchool: (school: School) => void;
@@ -100,34 +103,41 @@ export const SchoolsView: React.FC<SchoolsViewProps> = ({ onSelectSchool, onAddS
               </div>
             ) : (
               <>
-                <div className={styles.filterSearchWrapper}>
-                  <span className={styles.filterSearchIcon}>🔍</span>
-                  <input
-                    type="text"
-                    placeholder="Search schools..."
-                    className={styles.filterSearchInput}
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                  />
-                </div>
-                <select className={styles.chartSelect} value={selectedStatus} onChange={(e) => setSelectedStatus(e.target.value)}>
-                  <option value="all">All Status</option>
-                  <option value="active">Active</option>
-                  <option value="pending">Pending</option>
-                  <option value="expiring soon">Expiring Soon</option>
-                  <option value="expired">Expired</option>
-                </select>
-                <select className={styles.chartSelect} value={selectedPlan} onChange={(e) => setSelectedPlan(e.target.value)}>
-                  <option value="all">All Plans</option>
-                  <option value="school plan">School Plan</option>
-                  <option value="district plan">District Plan</option>
-                  <option value="enterprise plan">Enterprise Plan</option>
-                </select>
+                <Input
+                  type="text"
+                  placeholder="Search schools..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  style={{ minWidth: '220px' }}
+                />
+                <Select
+                  value={selectedStatus}
+                  onChange={(e) => setSelectedStatus(e.target.value)}
+                  options={[
+                    { label: 'All Status', value: 'all' },
+                    { label: 'Active', value: 'active' },
+                    { label: 'Pending', value: 'pending' },
+                    { label: 'Expiring Soon', value: 'expiring soon' },
+                    { label: 'Expired', value: 'expired' }
+                  ]}
+                  style={{ minWidth: '140px' }}
+                />
+                <Select
+                  value={selectedPlan}
+                  onChange={(e) => setSelectedPlan(e.target.value)}
+                  options={[
+                    { label: 'All Plans', value: 'all' },
+                    { label: 'School Plan', value: 'school plan' },
+                    { label: 'District Plan', value: 'district plan' },
+                    { label: 'Enterprise Plan', value: 'enterprise plan' }
+                  ]}
+                  style={{ minWidth: '140px' }}
+                />
               </>
             )}
-            <button className={styles.toolbarAddBtn} onClick={() => onAddSchool && onAddSchool()}>
+            <Button variant="primary" onClick={() => onAddSchool && onAddSchool()}>
               <span>+</span> Add New School
-            </button>
+            </Button>
           </div>
         </div>
 

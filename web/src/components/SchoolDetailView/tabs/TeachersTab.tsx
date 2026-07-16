@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import styles from '../SchoolDetailView.module.css';
+import { Teacher } from '@/types/school';
 
 export const TeachersTab = ({
   mockTeachers
 }: {
-  mockTeachers: any[];
+  mockTeachers: Teacher[];
 }) => {
   const [activeTeacherDropdownId, setActiveTeacherDropdownId] = useState<number | null>(null);
   const [selectedTeachers, setSelectedTeachers] = useState<string[]>([]);

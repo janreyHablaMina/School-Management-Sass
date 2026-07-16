@@ -4,6 +4,9 @@ import React, { useState } from 'react';
 import styles from '@/app/admin/admin.module.css';
 import { mockSubscriptions } from './data';
 import { ConfirmModal } from '@/components/ui/ConfirmModal';
+import { Button } from '@/components/ui/Button';
+import { Select } from '@/components/ui/Select';
+import { Input } from '@/components/ui/Input';
 
 export const SubscriptionsView = ({ onSelectSchool, onAddSubscription }: { onSelectSchool?: (schoolName: string) => void, onAddSubscription?: () => void }) => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -96,47 +99,54 @@ export const SubscriptionsView = ({ onSelectSchool, onAddSubscription }: { onSel
               </div>
             ) : (
               <>
-                <div className={styles.filterSearchWrapper}>
-                  <span className={styles.filterSearchIcon}>🔍</span>
-                  <input
-                    type="text"
-                    placeholder="Search schools..."
-                    className={styles.filterSearchInput}
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                  />
-                </div>
-                <select className={styles.chartSelect} value={selectedPlan} onChange={(e) => setSelectedPlan(e.target.value)}>
-                  <option value="all">All Plans</option>
-                  <option value="school plan">School Plan</option>
-                  <option value="basic plan">Basic Plan</option>
-                  <option value="pro plan">Pro Plan</option>
-                </select>
-                <select className={styles.chartSelect} value={selectedStatus} onChange={(e) => setSelectedStatus(e.target.value)}>
-                  <option value="all">All Status</option>
-                  <option value="active">Active</option>
-                  <option value="expiring soon">Expiring Soon</option>
-                  <option value="expired">Expired</option>
-                </select>
+                <Input
+                  type="text"
+                  placeholder="Search schools..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  style={{ minWidth: '220px' }}
+                />
+                <Select
+                  value={selectedPlan}
+                  onChange={(e) => setSelectedPlan(e.target.value)}
+                  options={[
+                    { label: 'All Plans', value: 'all' },
+                    { label: 'School Plan', value: 'school plan' },
+                    { label: 'Basic Plan', value: 'basic plan' },
+                    { label: 'Pro Plan', value: 'pro plan' }
+                  ]}
+                  style={{ minWidth: '140px' }}
+                />
+                <Select
+                  value={selectedStatus}
+                  onChange={(e) => setSelectedStatus(e.target.value)}
+                  options={[
+                    { label: 'All Status', value: 'all' },
+                    { label: 'Active', value: 'active' },
+                    { label: 'Expiring Soon', value: 'expiring soon' },
+                    { label: 'Expired', value: 'expired' }
+                  ]}
+                  style={{ minWidth: '140px' }}
+                />
                 
-                <button className={styles.chartSelect} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', background: 'transparent' }}>
+                <Button variant="ghost" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z" />
                   </svg>
                   More Filters
-                </button>
-                <button className={styles.chartSelect} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', background: 'transparent' }}>
+                </Button>
+                <Button variant="ghost" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" />
                   </svg>
                   Export
-                </button>
+                </Button>
               </>
             )}
 
-            <button className={styles.toolbarAddBtn} onClick={() => onAddSubscription && onAddSubscription()}>
+            <Button variant="primary" onClick={() => onAddSubscription && onAddSubscription()}>
               <span>+</span> Add Subscription
-            </button>
+            </Button>
           </div>
         </div>
 

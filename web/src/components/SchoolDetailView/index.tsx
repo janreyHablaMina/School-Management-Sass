@@ -3,6 +3,7 @@ import styles from './SchoolDetailView.module.css';
 
 // Import Data
 import { getSchoolDetails, mockStudents, mockTeachers, mockSections, mockAICreditHistory } from '@/lib/data/mockData';
+import { School } from '@/types/school';
 
 // Import Tabs
 import { OverviewTab } from './tabs/OverviewTab';
@@ -20,7 +21,7 @@ export const SchoolDetailView = ({
   detailTab,
   setDetailTab,
 }: {
-  school: any;
+  school: School;
   onBack: () => void;
   detailTab: string;
   setDetailTab: (tab: string) => void;
@@ -46,6 +47,24 @@ export const SchoolDetailView = ({
       {/* Detail Header Panel */}
       <section className={styles.detailHeader}>
         <div className={styles.detailHeaderLeft}>
+          <button 
+            onClick={onBack}
+            style={{
+              background: 'transparent',
+              border: '1px solid rgba(240,239,237,0.2)',
+              color: '#f0efed',
+              padding: '0.4rem 0.8rem',
+              borderRadius: '6px',
+              cursor: 'pointer',
+              marginRight: '1rem',
+              fontSize: '0.9rem',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.4rem'
+            }}
+          >
+            ← Back
+          </button>
           <div className={styles.emblemWrapper}>
             <svg width="48" height="48" viewBox="0 0 100 100" style={{ filter: 'url(#chalk-wobble)' }}>
               <path
@@ -136,10 +155,7 @@ export const SchoolDetailView = ({
       )}
       
       {detailTab === 'Subscription' && (
-        <SubscriptionTab 
-          school={school} 
-          details={details} 
-        />
+        <SubscriptionTab />
       )}
 
       {detailTab === 'Students' && (

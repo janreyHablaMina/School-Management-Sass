@@ -1,10 +1,11 @@
 import React from 'react';
 import styles from '../SchoolDetailView.module.css';
+import { AICreditEntry } from '@/types/school';
 
 export const AICreditsTab = ({
   mockAICreditHistory
 }: {
-  mockAICreditHistory: any[];
+  mockAICreditHistory: AICreditEntry[];
 }) => {
   return (
     <section className={styles.detailBodyGrid} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
@@ -150,7 +151,7 @@ export const AICreditsTab = ({
           <div>
             <h4 style={{ margin: 0, fontSize: '0.9rem', color: '#f0efed' }}>Credits Reset</h4>
             <p style={{ margin: '0.2rem 0 0', fontSize: '0.85rem', color: 'rgba(240, 239, 237, 0.6)' }}>
-              AI credits are reset every month based on the school's subscription plan.
+              AI credits are reset every month based on the school&apos;s subscription plan.
             </p>
           </div>
         </div>

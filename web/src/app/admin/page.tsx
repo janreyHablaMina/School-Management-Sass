@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { useRouter } from 'next/navigation';
 import styles from './admin.module.css';
 import { SchoolDetailView } from '@/components/SchoolDetailView';
 import { Sidebar } from '@/components/AdminLayout/Sidebar';
@@ -17,7 +16,6 @@ import { School } from '@/types/school';
 import { schoolsData } from '@/lib/data/schools';
 
 export default function AdminDashboard() {
-  const router = useRouter();
   const [activeTab, setActiveTab] = useState('Dashboard');
   const [selectedSchool, setSelectedSchool] = useState<School | null>(null);
   const [detailTab, setDetailTab] = useState('Overview');

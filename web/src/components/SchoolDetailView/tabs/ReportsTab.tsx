@@ -115,12 +115,12 @@ export const ReportsTab = () => {
 
                {/* Labels */}
                <g fill="rgba(240, 239, 237, 0.45)" fontSize="10">
-                 <text x="50" y="195">Dec '24</text>
-                 <text x="110" y="195">Jan '25</text>
-                 <text x="170" y="195">Feb '25</text>
-                 <text x="230" y="195">Mar '25</text>
-                 <text x="290" y="195">Apr '25</text>
-                 <text x="350" y="195">May '25</text>
+                 <text x="50" y="195">Dec &apos;24</text>
+                 <text x="110" y="195">Jan &apos;25</text>
+                 <text x="170" y="195">Feb &apos;25</text>
+                 <text x="230" y="195">Mar &apos;25</text>
+                 <text x="290" y="195">Apr &apos;25</text>
+                 <text x="350" y="195">May &apos;25</text>
                  
                  <text x="10" y="183">0</text>
                  <text x="10" y="143">100</text>

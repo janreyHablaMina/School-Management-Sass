@@ -5,8 +5,6 @@ import { Card, CardHeader, CardBody } from '../ui/Card';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { Select } from '../ui/Select';
-import { Badge } from '../ui/Badge';
-import globalStyles from '@/app/admin/admin.module.css';
 import styles from './addSubscription.module.css';
 
 interface AddSubscriptionViewProps {
@@ -49,7 +47,7 @@ export const AddSubscriptionView: React.FC<AddSubscriptionViewProps> = ({ onCanc
                 <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                   <div className={styles.infoBoxIcon}>ℹ️</div>
                   <div>
-                    <h4 style={{ margin: 0, color: '#84a9ff', fontSize: '0.95rem' }}>Can't find the school?</h4>
+                    <h4 style={{ margin: 0, color: '#84a9ff', fontSize: '0.95rem' }}>Can&apos;t find the school?</h4>
                     <p style={{ margin: 0, color: 'rgba(240, 239, 237, 0.6)', fontSize: '0.85rem' }}>Add a new school first.</p>
                   </div>
                 </div>

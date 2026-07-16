@@ -1,13 +1,7 @@
 import React from 'react';
 import styles from '../SchoolDetailView.module.css';
 
-export const SubscriptionTab = ({
-  school,
-  details,
-}: {
-  school: any;
-  details: any;
-}) => {
+export const SubscriptionTab = () => {
   return (
     <section className={styles.detailBodyGrid}>
       {/* 1. Current Subscription Card (span 7) */}

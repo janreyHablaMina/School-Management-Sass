@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from '../SchoolDetailView.module.css';
+import { School, SchoolDetails } from '@/types/school';
 
 export const OverviewTab = ({
   school,
@@ -8,8 +9,8 @@ export const OverviewTab = ({
   totalTeachers,
   setDetailTab,
 }: {
-  school: any;
-  details: any;
+  school: School;
+  details: SchoolDetails;
   totalStudents: number;
   totalTeachers: number;
   setDetailTab: (tab: string) => void;
@@ -191,7 +192,7 @@ export const OverviewTab = ({
           <span style={{ fontSize: '0.7rem', color: 'rgba(240, 239, 237, 0.4)', marginTop: '0.3rem', display: 'block' }}>Resets on {details.creditsReset}</span>
         </div>
         <div className={styles.creditList}>
-          {details.creditsBreakdown.map((item: any, idx: number) => (
+          {details.creditsBreakdown.map((item: { tool: string; count: number }, idx: number) => (
             <div key={idx} className={styles.creditItem}>
               <span className={styles.creditTool}>{item.tool}</span>
               <span className={styles.creditCount}>{item.count} credits</span>
@@ -207,7 +208,7 @@ export const OverviewTab = ({
           <span className={styles.detailCardLink} onClick={() => alert('Viewing all logs for ' + school.name)}>View All</span>
         </div>
         <div className={styles.activityList}>
-          {details.activities.map((act: any, idx: number) => (
+          {details.activities.map((act: { text: string; time: string }, idx: number) => (
             <div key={idx} className={styles.activityItem}>
               <span className={styles.activityDot} style={{ background: idx === 0 ? '#4df58a' : idx === 1 ? '#84a9ff' : '#f5c842' }} />
               <div className={styles.activityContent}>
