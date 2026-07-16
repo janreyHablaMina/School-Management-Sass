@@ -99,23 +99,17 @@ export const ReportsView: React.FC = () => {
         <Card>
           <CardHeader title="Student Distribution by Grade Level" />
           <CardBody className={styles.donutBody}>
-            <div style={{ width: '160px', height: '160px' }}>
+            <div className={styles.donutWrapper}>
               <ChalkDistributionDonut total="24,560" label="Students" val1={52.4} val2={47.6} color1="#b388ff" color2="#ff6b6b" />
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem', color: 'rgba(240, 239, 237, 0.8)' }}>
-                  <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#b388ff' }} />
-                  Grades 7-10 (JHS)
-                </div>
-                <div style={{ fontWeight: 600, fontSize: '0.9rem', marginTop: '0.2rem', paddingLeft: '1.2rem' }}>12,850 (52.4%)</div>
+            <div className={styles.donutLegend}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem' }}>
+                <span style={{ color: 'rgba(240, 239, 237, 0.8)' }}><span style={{ color: '#b388ff' }}>●</span> Grades 7-10</span>
+                <span style={{ fontWeight: 600 }}>12,850 (52.4%)</span>
               </div>
-              <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem', color: 'rgba(240, 239, 237, 0.8)' }}>
-                  <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#ff6b6b' }} />
-                  Grades 11-12 (SHS)
-                </div>
-                <div style={{ fontWeight: 600, fontSize: '0.9rem', marginTop: '0.2rem', paddingLeft: '1.2rem' }}>11,710 (47.6%)</div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem' }}>
+                <span style={{ color: 'rgba(240, 239, 237, 0.8)' }}><span style={{ color: '#ff6b6b' }}>●</span> Grades 11-12</span>
+                <span style={{ fontWeight: 600 }}>11,710 (47.6%)</span>
               </div>
             </div>
           </CardBody>
@@ -127,10 +121,10 @@ export const ReportsView: React.FC = () => {
         <Card>
           <CardHeader title="Subscription Status" />
           <CardBody className={styles.donutBody}>
-            <div style={{ width: '160px', height: '160px' }}>
+            <div className={styles.donutWrapper}>
               <ChalkDistributionDonut total="128" label="Schools" val1={75} val2={17.2} color1="#5cc789" color2="#f5c842" />
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', flex: 1 }}>
+            <div className={styles.donutLegend}>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem' }}>
                 <span style={{ color: 'rgba(240, 239, 237, 0.8)' }}><span style={{ color: '#5cc789' }}>●</span> Active</span>
                 <span style={{ fontWeight: 600 }}>96 (75%)</span>
@@ -157,14 +151,14 @@ export const ReportsView: React.FC = () => {
         <Card>
           <CardHeader title="AI Credits Usage" />
           <CardBody className={styles.donutBody}>
-            <div style={{ position: 'relative', width: '160px', height: '160px' }}>
+            <div className={`${styles.donutWrapper} ${styles.relativeWrapper}`}>
               <ChalkRadialGauge />
               <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', textAlign: 'center' }}>
                 <h3 style={{ margin: 0, fontSize: '1.4rem', color: '#f5c842' }}>68,250</h3>
                 <p style={{ margin: 0, fontSize: '0.75rem', color: 'rgba(240, 239, 237, 0.6)' }}>Credits Used</p>
               </div>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', flex: 1 }}>
+            <div className={styles.donutLegend}>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem' }}>
                 <span style={{ color: 'rgba(240, 239, 237, 0.6)' }}>Total Credits</span>
                 <span style={{ fontWeight: 600 }}>150,000</span>
