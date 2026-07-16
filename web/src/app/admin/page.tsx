@@ -11,6 +11,7 @@ import { SchoolsView } from '@/components/Schools/SchoolsView';
 import { AddSchoolContainer } from '@/components/Schools/AddSchool/AddSchoolContainer';
 import { SubscriptionsView } from '@/components/Subscriptions/SubscriptionsView';
 import { AddSubscriptionView } from '@/components/Subscriptions/AddSubscriptionView';
+import { ReportsView } from '@/components/Reports/ReportsView';
 import { ChalkFilter } from '@/components/ChalkCharts';
 import { School } from '@/types/school';
 import { schoolsData } from '@/lib/data/schools';
@@ -103,6 +104,10 @@ export default function AdminDashboard() {
           onSave={() => setActiveTab('Subscriptions')}
         />
       );
+    }
+
+    if (activeTab === 'Reports') {
+      return <ReportsView />;
     }
 
     return (

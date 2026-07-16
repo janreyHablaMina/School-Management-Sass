@@ -1,0 +1,246 @@
+.reportsContainer {
+  color: #f0efed;
+  padding-bottom: 2rem;
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.titleArea {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.iconWrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(132, 169, 255, 0.1);
+  color: #84a9ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+.title {
+  margin: 0 0 0.2rem 0;
+  font-family: 'Caveat, cursive';
+  font-size: 2rem;
+  color: #f0efed;
+}
+
+.subtitle {
+  margin: 0;
+  color: rgba(240, 239, 237, 0.6);
+  font-size: 0.95rem;
+}
+
+.datePicker {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  background: rgba(0,0,0,0.2);
+  border: 1px solid rgba(240, 239, 237, 0.15);
+  border-radius: 8px;
+  color: #f0efed;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+/* Metric Cards */
+.metricsRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+.metricCard {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem;
+}
+
+.metricIcon {
+  width: 54px;
+  height: 54px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+}
+
+.metricContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.metricLabel {
+  color: rgba(240, 239, 237, 0.6);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.metricValue {
+  color: #f0efed;
+  font-size: 1.8rem;
+  font-weight: 700;
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+}
+
+.metricGrowth {
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+.growthPositive {
+  color: #5cc789;
+}
+.growthNegative {
+  color: #ff6b6b;
+}
+
+/* Charts Rows */
+.twoColRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.threeColRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+/* Table */
+.schoolsTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.schoolsTable th {
+  text-align: left;
+  padding: 1rem 0;
+  color: rgba(240, 239, 237, 0.5);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(240, 239, 237, 0.1);
+}
+
+.schoolsTable td {
+  padding: 1.2rem 0;
+  font-size: 0.9rem;
+  color: rgba(240, 239, 237, 0.9);
+  border-bottom: 1px solid rgba(240, 239, 237, 0.05);
+}
+
+.rankBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(132, 169, 255, 0.1);
+  color: #84a9ff;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* Quick Reports List */
+.quickReportItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 1px solid rgba(240, 239, 237, 0.05);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.quickReportItem:hover {
+  background: rgba(240, 239, 237, 0.02);
+}
+
+.quickReportLeft {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.quickReportIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.quickReportTitle {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #f0efed;
+}
+
+.quickReportDesc {
+  margin: 0.2rem 0 0 0;
+  font-size: 0.85rem;
+  color: rgba(240, 239, 237, 0.5);
+}
+
+/* Responsiveness */
+@media (max-width: 1440px) {
+  .metricsRow {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 1024px) {
+  .twoColRow {
+    grid-template-columns: 1fr;
+  }
+  .threeColRow {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .metricsRow {
+    grid-template-columns: 1fr;
+  }
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}
+
+.chartBody {
+  height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.donutBody {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
