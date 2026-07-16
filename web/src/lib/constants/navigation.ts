@@ -14,26 +14,23 @@ export const menuGroups: NavGroup[] = [
     items: [
       { label: 'Schools', icon: '🏫' },
       { label: 'Subscriptions', icon: '📝' },
-      { label: 'Billing', icon: '💳' },
-      { label: 'AI Credits', icon: '⚡' },
       { label: 'Users', icon: '👤' },
-      { label: 'Support Tickets', icon: '🎫' },
+      { label: 'Support Center', icon: '🎫' },
     ],
   },
   {
-    title: 'Analytics',
+    title: 'Platform',
     items: [
-      { label: 'Platform Analytics', icon: '📊' },
-      { label: 'AI Usage', icon: '⚙️' },
-      { label: 'Reports', icon: '📁' },
+      { label: 'Reports', icon: '📊' },
+      { label: 'Announcements', icon: '📢' },
+      { label: 'AI Usage', icon: '⚡' },
     ],
   },
   {
     title: 'System',
     items: [
+      { label: 'Audit Logs', icon: '📜' },
       { label: 'Settings', icon: '⚙️' },
-      { label: 'Logs', icon: '📋' },
-      { label: 'Activity Logs', icon: '📜' },
     ],
   },
 ];
