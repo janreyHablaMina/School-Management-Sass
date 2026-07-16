@@ -157,7 +157,7 @@ export const ReportsView: React.FC = () => {
         <Card>
           <CardHeader title="AI Credits Usage" />
           <CardBody className={styles.donutBody}>
-            <div style={{ width: '160px', height: '160px' }}>
+            <div style={{ position: 'relative', width: '160px', height: '160px' }}>
               <ChalkRadialGauge />
               <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', textAlign: 'center' }}>
                 <h3 style={{ margin: 0, fontSize: '1.4rem', color: '#f5c842' }}>68,250</h3>

@@ -18,7 +18,7 @@ export const ChalkFilter = () => (
 
 /** Line chart for the Dashboard "Schools Overview" card */
 export const ChalkLineChart = () => (
-  <svg width="100%" height="100%" viewBox="0 0 500 180" fill="none" style={{ filter: 'url(#chalk-wobble)' }}>
+  <svg width="100%" height="100%" viewBox="0 0 500 180" preserveAspectRatio="none" fill="none" style={{ filter: 'url(#chalk-wobble)' }}>
     <line x1="40" y1="30" x2="480" y2="30" stroke="rgba(240, 239, 237, 0.12)" strokeWidth="1" strokeDasharray="3 3" />
     <line x1="40" y1="70" x2="480" y2="70" stroke="rgba(240, 239, 237, 0.12)" strokeWidth="1" strokeDasharray="3 3" />
     <line x1="40" y1="110" x2="480" y2="110" stroke="rgba(240, 239, 237, 0.12)" strokeWidth="1" strokeDasharray="3 3" />
@@ -81,7 +81,7 @@ export const ChalkRadialGauge = () => (
 
 /** Bar chart for the "New Schools" report */
 export const ChalkBarChart = () => (
-  <svg width="100%" height="100%" viewBox="0 0 500 180" fill="none" style={{ filter: 'url(#chalk-wobble)' }}>
+  <svg width="100%" height="100%" viewBox="0 0 500 180" preserveAspectRatio="none" fill="none" style={{ filter: 'url(#chalk-wobble)' }}>
     <line x1="40" y1="30" x2="480" y2="30" stroke="rgba(240, 239, 237, 0.12)" strokeWidth="1" strokeDasharray="3 3" />
     <line x1="40" y1="70" x2="480" y2="70" stroke="rgba(240, 239, 237, 0.12)" strokeWidth="1" strokeDasharray="3 3" />
     <line x1="40" y1="110" x2="480" y2="110" stroke="rgba(240, 239, 237, 0.12)" strokeWidth="1" strokeDasharray="3 3" />
