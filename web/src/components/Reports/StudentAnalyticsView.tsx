@@ -167,25 +167,21 @@ export const StudentAnalyticsView = ({ onBack }: { onBack: () => void }) => {
                   <th>Rank</th>
                   <th>School</th>
                   <th>Total Students</th>
-                  <th>JHS</th>
-                  <th>SHS</th>
                   <th>% of Total</th>
                 </tr>
               </thead>
               <tbody>
                 {[
-                  { r: 1, name: 'ABC Learning Academy', t: '2,560', j: '1,620', s: '940', p: '10.4%' },
-                  { r: 2, name: 'Bright Future School', t: '2,340', j: '1,420', s: '920', p: '9.5%' },
-                  { r: 3, name: 'Global Excellence School', t: '1,980', j: '1,210', s: '770', p: '8.1%' },
-                  { r: 4, name: 'Knowledge Union Academy', t: '1,750', j: '1,050', s: '700', p: '7.1%' },
-                  { r: 5, name: 'New Horizon School', t: '1,620', j: '980', s: '640', p: '6.6%' },
+                  { r: 1, name: 'ABC Learning Academy', t: '2,560', p: '10.4%' },
+                  { r: 2, name: 'Bright Future School', t: '2,340', p: '9.5%' },
+                  { r: 3, name: 'Global Excellence School', t: '1,980', p: '8.1%' },
+                  { r: 4, name: 'Knowledge Union Academy', t: '1,750', p: '7.1%' },
+                  { r: 5, name: 'New Horizon School', t: '1,620', p: '6.6%' },
                 ].map((row, i) => (
                   <tr key={i}>
                     <td><span className={styles.rankBadge}>{row.r}</span></td>
                     <td style={{ fontWeight: 500 }}>{row.name}</td>
                     <td>{row.t}</td>
-                    <td>{row.j}</td>
-                    <td>{row.s}</td>
                     <td>{row.p}</td>
                   </tr>
                 ))}
