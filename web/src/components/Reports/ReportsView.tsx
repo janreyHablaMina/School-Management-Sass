@@ -1,12 +1,12 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardHeader, CardBody } from '../ui/Card';
 import { Badge } from '../ui/Badge';
 import { ChalkLineChart, ChalkBarChart, ChalkDistributionDonut, ChalkRadialGauge } from '../ChalkCharts';
 import styles from './reports.module.css';
 
-export const ReportsView: React.FC = () => {
+export const ReportsView: React.FC<{ onViewAnalytics?: () => void }> = ({ onViewAnalytics }) => {
   return (
     <div className={styles.reportsContainer}>
       
@@ -113,7 +113,10 @@ export const ReportsView: React.FC = () => {
               </div>
             </div>
           </CardBody>
-          <div style={{ marginTop: 'auto', textAlign: 'center', padding: '1rem', borderTop: '1px solid rgba(240, 239, 237, 0.05)', color: '#84a9ff', fontSize: '0.9rem', cursor: 'pointer' }}>
+          <div 
+            onClick={() => onViewAnalytics && onViewAnalytics()}
+            style={{ marginTop: 'auto', textAlign: 'center', padding: '1rem', borderTop: '1px solid rgba(240, 239, 237, 0.05)', color: '#84a9ff', fontSize: '0.9rem', cursor: 'pointer' }}
+          >
             View Full Report →
           </div>
         </Card>

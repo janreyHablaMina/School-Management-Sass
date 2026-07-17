@@ -11,6 +11,7 @@ import { AddSchoolContainer } from '@/components/Schools/AddSchool/AddSchoolCont
 import { SubscriptionsView } from '@/components/Subscriptions/SubscriptionsView';
 import { AddSubscriptionView } from '@/components/Subscriptions/AddSubscriptionView';
 import { ReportsView } from '@/components/Reports/ReportsView';
+import { StudentAnalyticsView } from '@/components/Reports/StudentAnalyticsView';
 import { ChalkFilter } from '@/components/ChalkCharts';
 import { School } from '@/types/school';
 import { schoolsData } from '@/lib/data/schools';
@@ -105,7 +106,11 @@ export default function AdminDashboard() {
     }
 
     if (activeTab === 'Reports') {
-      return <ReportsView />;
+      return <ReportsView onViewAnalytics={() => setActiveTab('StudentAnalytics')} />;
+    }
+
+    if (activeTab === 'StudentAnalytics') {
+      return <StudentAnalyticsView onBack={() => setActiveTab('Reports')} />;
     }
 
     return (
