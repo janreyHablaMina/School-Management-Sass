@@ -39,17 +39,20 @@ export const StudentAnalyticsView = ({ onBack }: { onBack: () => void }) => {
 
       {/* Filters */}
       <div className={styles.filterRow}>
-        <Select options={[{label: 'All Schools', value: 'all'}]} value="all" style={{ minWidth: '150px' }} />
-        <Select options={[{label: 'All Regions', value: 'all'}]} value="all" style={{ minWidth: '150px' }} />
-        <Select options={[{label: 'All Types', value: 'all'}]} value="all" style={{ minWidth: '150px' }} />
-        <Select options={[{label: 'All Grades', value: 'all'}]} value="all" style={{ minWidth: '150px' }} />
-        <Select options={[{label: '2025 - 2026', value: '25-26'}]} value="25-26" style={{ minWidth: '150px' }} />
-        <Button variant="ghost" style={{ marginLeft: 'auto' }}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginRight: '0.4rem' }}>
-            <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
+        <Select className={styles.noMargin} options={[{label: 'All Schools', value: 'all'}]} value="all" style={{ minWidth: '130px' }} />
+        <Select className={styles.noMargin} options={[{label: 'All Regions', value: 'all'}]} value="all" style={{ minWidth: '130px' }} />
+        <Select className={styles.noMargin} options={[{label: 'All Types', value: 'all'}]} value="all" style={{ minWidth: '130px' }} />
+        <Select className={styles.noMargin} options={[{label: 'All Grades', value: 'all'}]} value="all" style={{ minWidth: '130px' }} />
+        <Select className={styles.noMargin} options={[{label: '2025 - 2026', value: '25-26'}]} value="25-26" style={{ minWidth: '130px' }} />
+        <div style={{ marginLeft: 'auto', display: 'flex', gap: '1rem', alignItems: 'center' }}>
+          <Input className={styles.noMargin} placeholder="Search students, schools..." style={{ minWidth: '240px' }} />
+          <Button variant="ghost">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginRight: '0.4rem' }}>
+              <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
           Clear Filters
         </Button>
+        </div>
       </div>
 
       {/* KPIs */}

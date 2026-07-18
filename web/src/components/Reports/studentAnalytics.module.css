@@ -73,6 +73,10 @@
   flex-wrap: wrap;
 }
 
+.noMargin {
+  margin-bottom: 0 !important;
+}
+
 /* KPIs */
 .kpiRow {
   display: grid;

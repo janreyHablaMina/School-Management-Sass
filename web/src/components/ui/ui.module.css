@@ -53,14 +53,14 @@
 /* Inputs & Selects */
 .inputBase {
   width: 100%;
-  padding: 0.8rem 1rem;
+  padding: 0.5rem 0.8rem;
   border-radius: 6px;
   background: rgba(0,0,0,0.2);
   border: 1px solid rgba(240, 239, 237, 0.2);
   color: #f0efed;
   outline: none;
   font-family: inherit;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   transition: all 0.2s;
 }
 .inputBase:focus {
