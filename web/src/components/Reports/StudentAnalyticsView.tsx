@@ -39,18 +39,18 @@ export const StudentAnalyticsView = ({ onBack }: { onBack: () => void }) => {
 
       {/* Filters */}
       <div className={styles.filterRow}>
-        <Select className={styles.noMargin} options={[{label: 'All Schools', value: 'all'}]} value="all" style={{ minWidth: '130px' }} />
-        <Select className={styles.noMargin} options={[{label: 'All Regions', value: 'all'}]} value="all" style={{ minWidth: '130px' }} />
-        <Select className={styles.noMargin} options={[{label: 'All Types', value: 'all'}]} value="all" style={{ minWidth: '130px' }} />
-        <Select className={styles.noMargin} options={[{label: 'All Grades', value: 'all'}]} value="all" style={{ minWidth: '130px' }} />
-        <Select className={styles.noMargin} options={[{label: '2025 - 2026', value: '25-26'}]} value="25-26" style={{ minWidth: '130px' }} />
-        <div style={{ marginLeft: 'auto', display: 'flex', gap: '1rem', alignItems: 'center' }}>
-          <Input className={styles.noMargin} placeholder="Search students, schools..." style={{ minWidth: '240px' }} />
+        <Select className={styles.noMargin} options={[{label: 'All Schools', value: 'all'}]} value="all" style={{ flex: 1, minWidth: '110px' }} />
+        <Select className={styles.noMargin} options={[{label: 'All Regions', value: 'all'}]} value="all" style={{ flex: 1, minWidth: '110px' }} />
+        <Select className={styles.noMargin} options={[{label: 'All Types', value: 'all'}]} value="all" style={{ flex: 1, minWidth: '110px' }} />
+        <Select className={styles.noMargin} options={[{label: 'All Grades', value: 'all'}]} value="all" style={{ flex: 1, minWidth: '110px' }} />
+        <Select className={styles.noMargin} options={[{label: '2025 - 2026', value: '25-26'}]} value="25-26" style={{ flex: 1, minWidth: '110px' }} />
+        <div style={{ flex: 1.5, display: 'flex', gap: '0.5rem', alignItems: 'center', justifyContent: 'flex-end', minWidth: '220px' }}>
+          <Input className={styles.noMargin} placeholder="Search students, schools..." style={{ width: '100%', maxWidth: '240px' }} />
           <Button variant="ghost">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginRight: '0.4rem' }}>
               <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
-          Clear Filters
+          Clear
         </Button>
         </div>
       </div>
