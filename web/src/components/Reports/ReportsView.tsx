@@ -5,6 +5,7 @@ import { Card, CardHeader, CardBody } from '../ui/Card';
 import { Badge } from '../ui/Badge';
 import { ChalkLineChart, ChalkBarChart, ChalkDistributionDonut, ChalkRadialGauge } from '../ChalkCharts';
 import styles from './reports.module.css';
+import adminStyles from '@/app/admin/admin.module.css';
 
 export const ReportsView: React.FC<{ onViewAnalytics?: () => void }> = ({ onViewAnalytics }) => {
   return (
@@ -23,55 +24,24 @@ export const ReportsView: React.FC<{ onViewAnalytics?: () => void }> = ({ onView
           📅 May 20, 2026 - Jun 20, 2026 <span>▼</span>
         </div>
       </div>
-
       {/* Top Metrics Row */}
-      <div className={styles.metricsRow}>
-        <Card>
-          <div className={styles.metricCard}>
-            <div className={styles.metricIcon} style={{ background: 'rgba(132, 169, 255, 0.1)', color: '#84a9ff' }}>🏫</div>
-            <div className={styles.metricContent}>
-              <span className={styles.metricLabel}>Total Schools</span>
-              <h3 className={styles.metricValue}>128</h3>
-              <span className={`${styles.metricGrowth} ${styles.growthPositive}`}>↑ 12% vs last 30 days</span>
+      <section className={adminStyles.metricsGrid}>
+        {[
+          { label: 'Total Schools', value: '128', growth: '↑ 12% vs last 30 days', growthClass: adminStyles.growthGreen, icon: '🏫' },
+          { label: 'Total Students', value: '24,560', growth: '↑ 8.6% vs last 30 days', growthClass: adminStyles.growthGreen, icon: '👥' },
+          { label: 'Total Teachers', value: '2,450', growth: '↑ 7.3% vs last 30 days', growthClass: adminStyles.growthGreen, icon: '👨‍🏫' },
+          { label: 'Monthly Revenue', value: '₱359,850', growth: '↑ 15.4% vs last 30 days', growthClass: adminStyles.growthGreen, icon: '💳' },
+        ].map((m) => (
+          <div key={m.label} className={adminStyles.metricCard}>
+            <div className={adminStyles.metricHeader}>
+              <div className={adminStyles.metricLabel}>{m.label}</div>
+              <div className={adminStyles.metricIconSm}>{m.icon}</div>
             </div>
+            <div className={adminStyles.metricValue}>{m.value}</div>
+            <div className={`${adminStyles.metricGrowth} ${m.growthClass}`}>{m.growth}</div>
           </div>
-        </Card>
-        
-        <Card>
-          <div className={styles.metricCard}>
-            <div className={styles.metricIcon} style={{ background: 'rgba(92, 199, 137, 0.1)', color: '#5cc789' }}>👥</div>
-            <div className={styles.metricContent}>
-              <span className={styles.metricLabel}>Total Students</span>
-              <h3 className={styles.metricValue}>24,560</h3>
-              <span className={`${styles.metricGrowth} ${styles.growthPositive}`}>↑ 8.6% vs last 30 days</span>
-            </div>
-          </div>
-        </Card>
-
-        <Card>
-          <div className={styles.metricCard}>
-            <div className={styles.metricIcon} style={{ background: 'rgba(245, 200, 66, 0.1)', color: '#f5c842' }}>👨‍🏫</div>
-            <div className={styles.metricContent}>
-              <span className={styles.metricLabel}>Total Teachers</span>
-              <h3 className={styles.metricValue}>2,450</h3>
-              <span className={`${styles.metricGrowth} ${styles.growthPositive}`}>↑ 7.3% vs last 30 days</span>
-            </div>
-          </div>
-        </Card>
-
-        <Card>
-          <div className={styles.metricCard}>
-            <div className={styles.metricIcon} style={{ background: 'rgba(74, 144, 226, 0.1)', color: '#4a90e2' }}>💳</div>
-            <div className={styles.metricContent}>
-              <span className={styles.metricLabel}>Monthly Revenue</span>
-              <h3 className={styles.metricValue}>₱359,850</h3>
-              <span className={`${styles.metricGrowth} ${styles.growthPositive}`}>↑ 15.4% vs last 30 days</span>
-            </div>
-          </div>
-        </Card>
-      </div>
-
-      {/* Growth Charts Row */}
+        ))}
+      </section>      {/* Growth Charts Row */}
       <div className={styles.twoColRow}>
         <Card>
           <CardHeader 

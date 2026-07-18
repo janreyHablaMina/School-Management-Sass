@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/Button';
 import { Select } from '@/components/ui/Select';
 import { Input } from '@/components/ui/Input';
 import { ChalkDistributionDonut, ChalkHorizontalBarChart, ChalkGrowthLineChart } from '@/components/ChalkCharts';
+import adminStyles from '@/app/admin/admin.module.css';
 
 export const StudentAnalyticsView = ({ onBack }: { onBack: () => void }) => {
   return (
@@ -52,52 +53,24 @@ export const StudentAnalyticsView = ({ onBack }: { onBack: () => void }) => {
       </div>
 
       {/* KPIs */}
-      <div className={styles.kpiRow}>
-        <div className={styles.kpiCard}>
-          <div className={styles.kpiTop}>
-            <div className={styles.kpiIconBox} style={{ background: 'rgba(184, 132, 255, 0.1)', color: '#b884ff' }}>👥</div>
-            <span className={styles.kpiLabel}>Total Students</span>
+      <section className={adminStyles.metricsGrid}>
+        {[
+          { label: 'Total Students', value: '24,560', growth: '↑ 8.6% vs last 30 days', growthClass: adminStyles.growthGreen, icon: '👥' },
+          { label: 'Junior High Students', value: '15,240', growth: '↑ 7.8% vs last 30 days', growthClass: adminStyles.growthGreen, icon: '🎓' },
+          { label: 'Senior High Students', value: '9,320', growth: '↑ 10.2% vs last 30 days', growthClass: adminStyles.growthGreen, icon: '🎓' },
+          { label: 'Avg Students / School', value: '192', growth: '↑ 5.4% vs last 30 days', growthClass: adminStyles.growthGreen, icon: '🏫' },
+          { label: 'New Students (Month)', value: '1,250', growth: '↑ 12.3% vs last 30 days', growthClass: adminStyles.growthGreen, icon: '👤+' },
+        ].map((m) => (
+          <div key={m.label} className={adminStyles.metricCard}>
+            <div className={adminStyles.metricHeader}>
+              <div className={adminStyles.metricLabel}>{m.label}</div>
+              <div className={adminStyles.metricIconSm}>{m.icon}</div>
+            </div>
+            <div className={adminStyles.metricValue}>{m.value}</div>
+            <div className={`${adminStyles.metricGrowth} ${m.growthClass}`}>{m.growth}</div>
           </div>
-          <p className={styles.kpiValue}>24,560</p>
-          <span className={styles.kpiTrendUp}>↑ 8.6% vs last 30 days</span>
-        </div>
-
-        <div className={styles.kpiCard}>
-          <div className={styles.kpiTop}>
-            <div className={styles.kpiIconBox} style={{ background: 'rgba(132, 169, 255, 0.1)', color: '#84a9ff' }}>🎓</div>
-            <span className={styles.kpiLabel}>Junior High Students</span>
-          </div>
-          <p className={styles.kpiValue}>15,240</p>
-          <span className={styles.kpiTrendUp}>↑ 7.8% vs last 30 days</span>
-        </div>
-
-        <div className={styles.kpiCard}>
-          <div className={styles.kpiTop}>
-            <div className={styles.kpiIconBox} style={{ background: 'rgba(77, 245, 138, 0.1)', color: '#4df58a' }}>🎓</div>
-            <span className={styles.kpiLabel}>Senior High Students</span>
-          </div>
-          <p className={styles.kpiValue}>9,320</p>
-          <span className={styles.kpiTrendUp}>↑ 10.2% vs last 30 days</span>
-        </div>
-
-        <div className={styles.kpiCard}>
-          <div className={styles.kpiTop}>
-            <div className={styles.kpiIconBox} style={{ background: 'rgba(245, 200, 66, 0.1)', color: '#f5c842' }}>🏫</div>
-            <span className={styles.kpiLabel}>Avg Students per School</span>
-          </div>
-          <p className={styles.kpiValue}>192</p>
-          <span className={styles.kpiTrendUp}>↑ 5.4% vs last 30 days</span>
-        </div>
-
-        <div className={styles.kpiCard}>
-          <div className={styles.kpiTop}>
-            <div className={styles.kpiIconBox} style={{ background: 'rgba(184, 132, 255, 0.1)', color: '#b884ff' }}>👤+</div>
-            <span className={styles.kpiLabel}>New Students (This Month)</span>
-          </div>
-          <p className={styles.kpiValue}>1,250</p>
-          <span className={styles.kpiTrendUp}>↑ 12.3% vs last 30 days</span>
-        </div>
-      </div>
+        ))}
+      </section>
 
       {/* Row 1: Grade Level & School Ranking */}
       <div className={`${styles.rowGrid} ${styles.rowGradeSchool}`}>

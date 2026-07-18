@@ -576,7 +576,7 @@
 /* ---------- 6 Metrics Grid ---------- */
 .metricsGrid {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 1rem;
   width: 100%;
 }
@@ -614,6 +614,17 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
+}
+
+.metricHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.metricIconSm {
+  font-size: 1.1rem;
+  opacity: 0.8;
 }
 
 .metricValue {
