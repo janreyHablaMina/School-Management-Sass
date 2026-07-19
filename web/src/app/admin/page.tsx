@@ -12,6 +12,7 @@ import { SubscriptionsView } from '@/components/Subscriptions/SubscriptionsView'
 import { AddSubscriptionView } from '@/components/Subscriptions/AddSubscriptionView';
 import { ReportsView } from '@/components/Reports/ReportsView';
 import { StudentAnalyticsView } from '@/components/Reports/StudentAnalyticsView';
+import { SubscriptionAnalyticsView } from '@/components/Reports/SubscriptionAnalyticsView';
 import { ChalkFilter } from '@/components/ChalkCharts';
 import { School } from '@/types/school';
 import { schoolsData } from '@/lib/data/schools';
@@ -106,11 +107,18 @@ export default function AdminDashboard() {
     }
 
     if (activeTab === 'Reports') {
-      return <ReportsView onViewAnalytics={() => setActiveTab('StudentAnalytics')} />;
+      return <ReportsView 
+        onViewAnalytics={() => setActiveTab('StudentAnalytics')} 
+        onViewSubscriptionAnalytics={() => setActiveTab('SubscriptionAnalytics')} 
+      />;
     }
 
     if (activeTab === 'StudentAnalytics') {
       return <StudentAnalyticsView onBack={() => setActiveTab('Reports')} />;
+    }
+
+    if (activeTab === 'SubscriptionAnalytics') {
+      return <SubscriptionAnalyticsView onBack={() => setActiveTab('Reports')} />;
     }
 
     return (

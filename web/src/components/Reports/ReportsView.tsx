@@ -7,7 +7,7 @@ import { ChalkLineChart, ChalkBarChart, ChalkDistributionDonut, ChalkRadialGauge
 import styles from './reports.module.css';
 import adminStyles from '@/app/admin/admin.module.css';
 
-export const ReportsView: React.FC<{ onViewAnalytics?: () => void }> = ({ onViewAnalytics }) => {
+export const ReportsView: React.FC<{ onViewAnalytics?: () => void, onViewSubscriptionAnalytics?: () => void }> = ({ onViewAnalytics, onViewSubscriptionAnalytics }) => {
   return (
     <div className={styles.reportsContainer}>
       
@@ -116,7 +116,10 @@ export const ReportsView: React.FC<{ onViewAnalytics?: () => void }> = ({ onView
               </div>
             </div>
           </CardBody>
-          <div style={{ marginTop: 'auto', textAlign: 'center', padding: '1rem', borderTop: '1px solid rgba(240, 239, 237, 0.05)', color: '#84a9ff', fontSize: '0.9rem', cursor: 'pointer' }}>
+          <div 
+            onClick={() => onViewSubscriptionAnalytics && onViewSubscriptionAnalytics()}
+            style={{ marginTop: 'auto', textAlign: 'center', padding: '1rem', borderTop: '1px solid rgba(240, 239, 237, 0.05)', color: '#84a9ff', fontSize: '0.9rem', cursor: 'pointer' }}
+          >
             View Full Report →
           </div>
         </Card>
