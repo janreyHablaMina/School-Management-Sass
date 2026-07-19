@@ -84,18 +84,18 @@ export const StudentAnalyticsView = ({ onBack }: { onBack: () => void }) => {
             description="Distribution of students across all grade levels."
           />
           <CardBody>
-            <div style={{ display: 'flex', gap: '2rem', alignItems: 'center', marginTop: '1rem' }}>
-              <div style={{ width: '180px', height: '180px', flexShrink: 0, position: 'relative' }}>
+            <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', marginTop: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+              <div style={{ width: '150px', height: '150px', flexShrink: 0, position: 'relative' }}>
                  <ChalkDistributionDonut total="24,560" label="Students" val1={50} val2={30} color1="#b884ff" color2="#84a9ff" />
               </div>
               
-              <div style={{ flex: 1 }}>
+              <div style={{ flex: 1, minWidth: '220px' }}>
                 <table className={styles.rankingTable} style={{ marginTop: 0 }}>
                   <thead>
                     <tr>
-                      <th>Grade Level</th>
-                      <th>Students</th>
-                      <th>Percentage</th>
+                      <th style={{ whiteSpace: 'nowrap' }}>Grade Level</th>
+                      <th style={{ whiteSpace: 'nowrap' }}>Students</th>
+                      <th style={{ whiteSpace: 'nowrap' }}>Percentage</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -108,11 +108,11 @@ export const StudentAnalyticsView = ({ onBack }: { onBack: () => void }) => {
                       { g: 'Grade 12', s: '2,520', p: '10.3%', c: '#84a9ff' },
                     ].map((row, i) => (
                       <tr key={i}>
-                        <td style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', borderBottom: 'none' }}>
+                        <td style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', borderBottom: 'none', whiteSpace: 'nowrap' }}>
                           <span style={{ color: row.c }}>●</span> {row.g}
                         </td>
-                        <td style={{ borderBottom: 'none' }}>{row.s}</td>
-                        <td style={{ borderBottom: 'none' }}>{row.p}</td>
+                        <td style={{ borderBottom: 'none', whiteSpace: 'nowrap' }}>{row.s}</td>
+                        <td style={{ borderBottom: 'none', whiteSpace: 'nowrap' }}>{row.p}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -201,39 +201,6 @@ export const StudentAnalyticsView = ({ onBack }: { onBack: () => void }) => {
             </div>
             <div style={{ textAlign: 'center', marginTop: '1rem' }}>
               <Button variant="ghost" style={{ color: '#84a9ff' }}>View Growth Analysis →</Button>
-            </div>
-          </CardBody>
-        </Card>
-
-        {/* Type */}
-        <Card>
-          <CardHeader 
-            title="Students by School Type" 
-            description="Distribution by type of school."
-          />
-          <CardBody>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '2rem' }}>
-              <div style={{ width: '160px', height: '160px', position: 'relative' }}>
-                 <ChalkDistributionDonut total="24,560" label="Students" val1={63.1} val2={33.1} color1="#b884ff" color2="#84a9ff" />
-              </div>
-              
-              <div className={styles.legendList} style={{ width: '100%' }}>
-                <div className={styles.legendRow}>
-                  <span style={{ color: 'rgba(240, 239, 237, 0.8)' }}><span style={{ color: '#b884ff' }}>●</span> Private</span>
-                  <span style={{ fontWeight: 600 }}>15,480 (63.1%)</span>
-                </div>
-                <div className={styles.legendRow}>
-                  <span style={{ color: 'rgba(240, 239, 237, 0.8)' }}><span style={{ color: '#84a9ff' }}>●</span> Public</span>
-                  <span style={{ fontWeight: 600 }}>8,120 (33.1%)</span>
-                </div>
-                <div className={styles.legendRow}>
-                  <span style={{ color: 'rgba(240, 239, 237, 0.8)' }}><span style={{ color: '#4df58a' }}>●</span> Others</span>
-                  <span style={{ fontWeight: 600 }}>960 (3.9%)</span>
-                </div>
-              </div>
-            </div>
-            <div style={{ textAlign: 'center', marginTop: '2.5rem' }}>
-              <Button variant="ghost" style={{ color: '#84a9ff' }}>View School Type Report →</Button>
             </div>
           </CardBody>
         </Card>
