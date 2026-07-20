@@ -581,7 +581,7 @@
   width: 100%;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1440px) {
   .metricsGrid {
     grid-template-columns: repeat(3, 1fr);
   }

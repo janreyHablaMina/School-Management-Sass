@@ -47,6 +47,11 @@
   display: flex;
   align-items: center;
   gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.headerActions button {
+  white-space: nowrap;
 }
 
 .datePicker {
@@ -59,6 +64,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  white-space: nowrap;
 }
 
 /* Filters */
@@ -134,12 +140,16 @@
   gap: 1.5rem;
 }
 
-.rowGradeSchool {
+.rowThreeCols {
+  grid-template-columns: 1fr 1.5fr 1.5fr;
+}
+
+.rowTwoCols {
   grid-template-columns: 1fr 1fr;
 }
 
-.rowRegionGrowthType {
-  grid-template-columns: 1.5fr 2fr;
+.rowThreeColsEqual {
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
 /* Chart Container specifics */
@@ -225,7 +235,7 @@
   .kpiRow {
     grid-template-columns: repeat(3, 1fr);
   }
-  .rowRegionGrowthType {
+  .rowThreeCols, .rowThreeColsEqual {
     grid-template-columns: 1fr 1fr;
   }
 }
@@ -235,10 +245,7 @@
     flex-direction: column;
     gap: 1rem;
   }
-  .rowGradeSchool {
-    grid-template-columns: 1fr;
-  }
-  .rowRegionGrowthType {
+  .rowTwoCols, .rowThreeCols, .rowThreeColsEqual {
     grid-template-columns: 1fr;
   }
   .kpiRow {

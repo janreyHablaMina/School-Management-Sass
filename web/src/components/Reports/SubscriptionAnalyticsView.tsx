@@ -31,7 +31,6 @@ export const SubscriptionAnalyticsView = ({ onBack }: { onBack: () => void }) =>
             May 20, 2026 - Jun 20, 2026
           </div>
           <Button variant="ghost" onClick={() => alert('Export PDF: Coming soon')}>Export PDF</Button>
-          <Button variant="ghost" onClick={() => alert('Export Excel: Coming soon')}>Export Excel</Button>
           <Button variant="ghost" onClick={() => alert('Print: Coming soon')}>Print</Button>
         </div>
       </div>
@@ -54,7 +53,7 @@ export const SubscriptionAnalyticsView = ({ onBack }: { onBack: () => void }) =>
       </div>
 
       {/* KPIs */}
-      <section className={adminStyles.metricsGrid} style={{ gridTemplateColumns: 'repeat(6, 1fr)' }}>
+      <section className={adminStyles.metricsGrid}>
         {[
           { label: 'Total Active Schools', value: '96', growth: '↑ 5% vs last month', growthClass: adminStyles.growthGreen, icon: '🏫' },
           { label: 'Trial Schools', value: '22', growth: '↑ 12% vs last month', growthClass: adminStyles.growthGreen, icon: '⏱️' },
@@ -75,7 +74,7 @@ export const SubscriptionAnalyticsView = ({ onBack }: { onBack: () => void }) =>
       </section>
 
       {/* Analytics Charts Row */}
-      <div className={styles.rowGrid} style={{ gridTemplateColumns: '1fr 1.5fr 1.5fr' }}>
+      <div className={`${styles.rowGrid} ${styles.rowThreeCols}`}>
         {/* Status Distribution */}
         <Card>
           <CardHeader title="Subscription Status Distribution" />
@@ -167,7 +166,7 @@ export const SubscriptionAnalyticsView = ({ onBack }: { onBack: () => void }) =>
       </Card>
 
       {/* Upcoming Renewals & Expired Schools */}
-      <div className={styles.rowGrid} style={{ gridTemplateColumns: '1fr 1fr' }}>
+      <div className={`${styles.rowGrid} ${styles.rowTwoCols}`}>
         <Card>
           <CardHeader title="Upcoming Renewals" description="Schools expiring within the next 30 days." />
           <CardBody>
@@ -234,7 +233,7 @@ export const SubscriptionAnalyticsView = ({ onBack }: { onBack: () => void }) =>
       </div>
 
       {/* Revenue Breakdown, Trends, Top Paying */}
-      <div className={styles.rowGrid} style={{ gridTemplateColumns: '1fr 1fr 1fr' }}>
+      <div className={`${styles.rowGrid} ${styles.rowThreeColsEqual}`}>
         <Card>
           <CardHeader title="Revenue Breakdown" description="Revenue by category." />
           <CardBody>
