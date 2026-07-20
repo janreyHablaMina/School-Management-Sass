@@ -25,7 +25,7 @@ export const ReportsView: React.FC<{ onViewAnalytics?: () => void, onViewSubscri
         </div>
       </div>
       {/* Top Metrics Row */}
-      <section className={adminStyles.metricsGrid}>
+      <section className={styles.metricsGridFourCols}>
         {[
           { label: 'Total Schools', value: '128', growth: '↑ 12% vs last 30 days', growthClass: adminStyles.growthGreen, icon: '🏫' },
           { label: 'Total Students', value: '24,560', growth: '↑ 8.6% vs last 30 days', growthClass: adminStyles.growthGreen, icon: '👥' },

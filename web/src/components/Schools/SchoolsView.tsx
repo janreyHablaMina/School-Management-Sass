@@ -109,6 +109,7 @@ export const SchoolsView: React.FC<SchoolsViewProps> = ({ onSelectSchool, onAddS
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   style={{ minWidth: '220px' }}
+                  className={styles.noMargin}
                 />
                 <Select
                   value={selectedStatus}
@@ -121,6 +122,7 @@ export const SchoolsView: React.FC<SchoolsViewProps> = ({ onSelectSchool, onAddS
                     { label: 'Expired', value: 'expired' }
                   ]}
                   style={{ minWidth: '140px' }}
+                  className={styles.noMargin}
                 />
                 <Select
                   value={selectedPlan}
@@ -132,10 +134,15 @@ export const SchoolsView: React.FC<SchoolsViewProps> = ({ onSelectSchool, onAddS
                     { label: 'Enterprise Plan', value: 'enterprise plan' }
                   ]}
                   style={{ minWidth: '140px' }}
+                  className={styles.noMargin}
                 />
               </>
             )}
-            <Button variant="primary" onClick={() => onAddSchool && onAddSchool()}>
+            <Button 
+              variant="primary" 
+              onClick={() => onAddSchool && onAddSchool()}
+              style={{ padding: '0.5rem 1.2rem', fontSize: '0.85rem' }}
+            >
               <span>+</span> Add New School
             </Button>
           </div>

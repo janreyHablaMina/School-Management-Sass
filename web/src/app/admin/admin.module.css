@@ -587,6 +587,31 @@
   }
 }
 
+.metricsGridSixCols {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1rem;
+  width: 100%;
+}
+
+@media (max-width: 1600px) {
+  .metricsGridSixCols {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+@media (max-width: 1200px) {
+  .metricsGridSixCols {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .metricsGridSixCols {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media (max-width: 768px) {
   .metricsGrid {
     grid-template-columns: repeat(2, 1fr);
@@ -1161,6 +1186,10 @@
   font-size: 0.75rem;
   cursor: pointer;
   transition: all 0.15s ease;
+}
+
+.noMargin {
+  margin-bottom: 0 !important;
 }
 
 .toolbarFilterBtn:hover {

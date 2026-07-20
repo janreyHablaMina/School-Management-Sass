@@ -30,7 +30,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onTabChange, onSel
       </div>
 
       {/* 6 Metrics Grid */}
-      <section className={styles.metricsGrid}>
+      <section className={styles.metricsGridSixCols}>
         {[
           { label: 'Total Schools', value: '24', growth: '+3 this month', growthClass: styles.growthYellow },
           { label: 'Total Students', value: '12,540', growth: '+320 this month', growthClass: styles.growthGreen },

@@ -56,7 +56,7 @@ export const StudentAnalyticsView = ({ onBack }: { onBack: () => void }) => {
       </div>
 
       {/* KPIs */}
-      <section className={adminStyles.metricsGrid}>
+      <section className={styles.metricsGridFiveCols}>
         {[
           { label: 'Total Students', value: '24,560', growth: '↑ 8.6% vs last 30 days', growthClass: adminStyles.growthGreen, icon: '👥' },
           { label: 'Junior High Students', value: '15,240', growth: '↑ 7.8% vs last 30 days', growthClass: adminStyles.growthGreen, icon: '🎓' },

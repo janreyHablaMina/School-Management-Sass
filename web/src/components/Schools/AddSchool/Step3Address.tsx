@@ -60,7 +60,7 @@ export const Step3Address: React.FC = () => {
             </div>
           </div>
 
-          <div className={styles.addressThreeColRow}>
+          <div className={styles.inputRow}>
             <div>
               <label className={styles.label}>Barangay <span className={styles.requiredStar}>*</span></label>
               <select className={`${styles.inputBox} ${styles.selectInput}`}>
@@ -80,13 +80,13 @@ export const Step3Address: React.FC = () => {
               <label className={styles.label}>Zip / Postal Code</label>
               <input type="text" defaultValue="2009" className={styles.inputBox} />
             </div>
-          </div>
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '0.5rem' }}>
-            <input type="checkbox" defaultChecked id="main-campus" style={{ accentColor: '#f5c842', width: '16px', height: '16px', cursor: 'pointer' }} />
-            <label htmlFor="main-campus" style={{ fontSize: '0.9rem', color: '#f0efed', cursor: 'pointer', fontWeight: 500 }}>
-              This is the main campus address
-            </label>
+            
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '1.8rem' }}>
+              <input type="checkbox" defaultChecked id="main-campus" style={{ accentColor: '#f5c842', width: '16px', height: '16px', cursor: 'pointer' }} />
+              <label htmlFor="main-campus" style={{ fontSize: '0.9rem', color: '#f0efed', cursor: 'pointer', fontWeight: 500 }}>
+                This is the main campus address
+              </label>
+            </div>
           </div>
         </div>
 

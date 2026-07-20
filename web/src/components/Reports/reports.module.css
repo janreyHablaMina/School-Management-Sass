@@ -120,6 +120,33 @@
   gap: 1.5rem;
 }
 
+/* Specific override for 4-item metrics grids */
+.metricsGridFourCols {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  width: 100%;
+}
+
+@media (max-width: 1440px) {
+  .metricsGridFourCols {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 1024px) {
+  .metricsGridFourCols {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .metricsGridFourCols {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Three col */
 .threeColRow {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
