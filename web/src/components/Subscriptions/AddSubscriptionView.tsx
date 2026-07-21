@@ -232,9 +232,9 @@ export const AddSubscriptionView: React.FC<AddSubscriptionViewProps> = ({ onCanc
             </CardBody>
           </Card>
 
-          <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
-            <Button variant="secondary" onClick={onCancel} style={{ flex: 1 }}>Cancel</Button>
-            <Button variant="primary" onClick={onSave} style={{ flex: 2 }}>+ Create Subscription</Button>
+          <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem', justifyContent: 'flex-end' }}>
+            <Button variant="secondary" onClick={onCancel}>Cancel</Button>
+            <Button variant="primary" onClick={onSave}>+ Create Subscription</Button>
           </div>
 
         </div>

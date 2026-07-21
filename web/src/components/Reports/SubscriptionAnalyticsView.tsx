@@ -53,7 +53,7 @@ export const SubscriptionAnalyticsView = ({ onBack }: { onBack: () => void }) =>
       </div>
 
       {/* KPIs */}
-      <section className={adminStyles.metricsGrid}>
+      <section className={adminStyles.metricsGridSixCols}>
         {[
           { label: 'Total Active Schools', value: '96', growth: '↑ 5% vs last month', growthClass: adminStyles.growthGreen, icon: '🏫' },
           { label: 'Trial Schools', value: '22', growth: '↑ 12% vs last month', growthClass: adminStyles.growthGreen, icon: '⏱️' },
@@ -62,13 +62,13 @@ export const SubscriptionAnalyticsView = ({ onBack }: { onBack: () => void }) =>
           { label: 'Renewal Rate', value: '94.2%', growth: '↑ 1.1% vs last month', growthClass: adminStyles.growthGreen, icon: '🔄' },
           { label: 'MRR', value: '₱359,850', growth: '↑ 8.4% vs last month', growthClass: adminStyles.growthGreen, icon: '💳' },
         ].map((m, i) => (
-          <div key={i} className={adminStyles.metricCard}>
+          <div key={i} className={adminStyles.metricCardSm}>
             <div className={adminStyles.metricTop}>
-              <div className={adminStyles.metricLabel}>{m.label}</div>
-              <div className={adminStyles.metricIconSm}>{m.icon}</div>
+              <div className={adminStyles.metricLabelSm}>{m.label}</div>
+              <div className={adminStyles.metricIconSm} style={{ fontSize: '0.9rem' }}>{m.icon}</div>
             </div>
-            <div className={adminStyles.metricValue} style={{ fontSize: '1.4rem' }}>{m.value}</div>
-            <div className={`${adminStyles.metricGrowth} ${m.growthClass}`}>{m.growth}</div>
+            <div className={adminStyles.metricValueSm}>{m.value}</div>
+            <div className={`${adminStyles.metricGrowth} ${m.growthClass}`} style={{ fontSize: '0.6rem' }}>{m.growth}</div>
           </div>
         ))}
       </section>
