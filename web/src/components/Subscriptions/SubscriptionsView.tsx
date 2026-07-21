@@ -38,23 +38,16 @@ export const SubscriptionsView = ({ onSelectSchool, onAddSubscription }: { onSel
       {/* Subscriptions Stats Grid */}
       <section className={styles.schoolsStatsGrid}>
         {[
-          { label: 'Total Revenue (All Time)', icon: '💼', value: '₱2,456,780.00', badge: '▲ +12.5% vs last month', badgeClass: styles.trendUp },
-          { label: 'Monthly Recurring Revenue (MRR)', icon: '📈', value: '₱325,450.00', badge: '▲ +8.4% vs last month', badgeClass: styles.trendUp },
-          { label: 'Active Subscriptions', icon: '✅', value: '156', badge: '▲ +6 this month', badgeClass: styles.trendUp },
-          { label: 'Expiring Soon (30 Days)', icon: '⏳', value: '18', badge: 'View expiring', badgeClass: styles.trendFlat, customBadgeStyle: { color: '#f5c842', borderColor: 'rgba(245,200,66,0.3)', background: 'rgba(245,200,66,0.05)', cursor: 'pointer', textDecoration: 'underline' } },
-          { label: 'Cancelled Subscriptions', icon: '❌', value: '7', badge: '▼ -2 this month', badgeClass: styles.trendDown, customBadgeStyle: { color: '#ff8a8a', borderColor: 'rgba(255,138,138,0.3)', background: 'rgba(255,138,138,0.05)' } },
+          { label: 'Total Revenue (All Time)', value: '₱2,456,780.00', growth: '+12.5% vs last month', growthClass: styles.growthGreen },
+          { label: 'Monthly Revenue', value: '₱325,450.00', growth: '+8.4% vs last month', growthClass: styles.growthGreen },
+          { label: 'Active Subscriptions', value: '156', growth: '+6 this month', growthClass: styles.growthGreen },
+          { label: 'Expiring Soon (30 Days)', value: '18', growth: 'View expiring', growthClass: styles.growthYellow },
+          { label: 'Cancelled Subscriptions', value: '7', growth: '-2 this month', growthClass: styles.growthRed },
         ].map((stat) => (
           <div key={stat.label} className={styles.metricCard}>
-            <div className={styles.metricHeader}>
-              <span className={styles.metricLabel}>{stat.label}</span>
-              <span className={styles.metricIcon} style={{ fontSize: '1.4rem' }}>{stat.icon}</span>
-            </div>
-            <div className={styles.metricValContainer}>
-              <span className={styles.metricVal}>{stat.value}</span>
-              <span className={`${styles.trendBadge} ${stat.badgeClass}`} style={stat.customBadgeStyle}>
-                {stat.badge}
-              </span>
-            </div>
+            <div className={styles.metricLabel}>{stat.label}</div>
+            <div className={styles.metricValue}>{stat.value}</div>
+            <div className={`${styles.metricGrowth} ${stat.growthClass}`}>{stat.growth}</div>
           </div>
         ))}
       </section>
@@ -64,7 +57,7 @@ export const SubscriptionsView = ({ onSelectSchool, onAddSubscription }: { onSel
         {/* Toolbar */}
         <div className={styles.schoolsToolbar}>
           <div className={styles.toolbarLeft}>
-            <h3 className={styles.tableTitle} style={{ fontSize: '1.45rem' }}>All Subscriptions ({filteredSubscriptions.length})</h3>
+            <h3 className={styles.tableTitle} style={{ fontSize: '1.45rem', whiteSpace: 'nowrap' }}>All Subscriptions ({filteredSubscriptions.length})</h3>
           </div>
           <div className={styles.toolbarRight}>
             {selectedSubscriptions.length > 0 ? (
@@ -105,6 +98,7 @@ export const SubscriptionsView = ({ onSelectSchool, onAddSubscription }: { onSel
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   style={{ minWidth: '220px' }}
+                  className={styles.noMargin}
                 />
                 <Select
                   value={selectedPlan}
@@ -116,6 +110,7 @@ export const SubscriptionsView = ({ onSelectSchool, onAddSubscription }: { onSel
                     { label: 'Pro Plan', value: 'pro plan' }
                   ]}
                   style={{ minWidth: '140px' }}
+                  className={styles.noMargin}
                 />
                 <Select
                   value={selectedStatus}
@@ -127,14 +122,9 @@ export const SubscriptionsView = ({ onSelectSchool, onAddSubscription }: { onSel
                     { label: 'Expired', value: 'expired' }
                   ]}
                   style={{ minWidth: '140px' }}
+                  className={styles.noMargin}
                 />
                 
-                <Button variant="ghost" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z" />
-                  </svg>
-                  More Filters
-                </Button>
                 <Button variant="ghost" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" />
@@ -144,7 +134,11 @@ export const SubscriptionsView = ({ onSelectSchool, onAddSubscription }: { onSel
               </>
             )}
 
-            <Button variant="primary" onClick={() => onAddSubscription && onAddSubscription()}>
+            <Button 
+              variant="primary" 
+              onClick={() => onAddSubscription && onAddSubscription()}
+              style={{ padding: '0.5rem 1.2rem', fontSize: '0.85rem', whiteSpace: 'nowrap' }}
+            >
               <span>+</span> Add Subscription
             </Button>
           </div>

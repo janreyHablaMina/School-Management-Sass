@@ -625,6 +625,8 @@
   background: rgba(10, 25, 17, 0.2);
   position: relative;
   transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
 }
 
 .metricCard:hover {
@@ -658,12 +660,58 @@
   font-weight: 700;
   margin-top: 0.2rem;
   line-height: 1;
+  color: #f0efed;
+}
+
+/* Small Metric Cards */
+.metricCardSm {
+  border: 2px solid rgba(240, 239, 237, 0.35);
+  border-radius: 8px 10px 7px 9px / 9px 7px 9px 8px;
+  padding: 0.6rem 0.8rem;
+  background: rgba(10, 25, 17, 0.2);
+  position: relative;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.metricCardSm:hover {
+  transform: translateY(-1px);
+  border-color: rgba(240, 239, 237, 0.55);
+  background: rgba(10, 25, 17, 0.3);
+}
+
+.metricLabelSm {
+  font-size: 0.6rem;
+  color: rgba(240, 239, 237, 0.42);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+}
+
+.metricValueSm {
+  font-family: 'Caveat', cursive;
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-top: 0.2rem;
+  line-height: 1;
+  color: #f0efed;
+}
+
+.metricValContainerSm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin-top: auto;
+  padding-top: 0.4rem;
 }
 
 .metricGrowth {
   font-family: 'Caveat', cursive;
   font-size: 0.85rem;
-  margin-top: 0.2rem;
+  margin-top: auto;
+  padding-top: 0.5rem;
 }
 
 .growthGreen {
@@ -672,6 +720,10 @@
 
 .growthYellow {
   color: #f5c842;
+}
+
+.growthRed {
+  color: #ff8a8a;
 }
 
 /* ---------- Row 2: Charts Row ---------- */
