@@ -89,6 +89,43 @@
   color: rgba(240, 239, 237, 0.8);
 }
 .radioInput {
+  accent-color: #f5c842;
+}
+
+/* Option Chips (for modern radio buttons) */
+.optionChipContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+}
+.optionChip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(240, 239, 237, 0.2);
+  border-radius: 8px;
+  background: rgba(240, 239, 237, 0.03);
+  color: rgba(240, 239, 237, 0.8);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  font-size: 0.9rem;
+  text-align: center;
+}
+.optionChip:hover {
+  background: rgba(240, 239, 237, 0.08);
+  border-color: rgba(240, 239, 237, 0.4);
+}
+.optionChipSelected {
+  background: rgba(245, 200, 66, 0.15);
+  border-color: #f5c842;
+  color: #f5c842;
+}
+.optionChip input {
+  display: none;
+}
+.radioInput {
   accent-color: #84a9ff;
 }
 
@@ -131,7 +168,7 @@
 .gapMd { gap: 1rem; }
 .gapLg { gap: 1.5rem; }
 
-@media (max-width: 1440px) {
+@media (max-width: 1200px) {
   .mainGrid {
     grid-template-columns: 1fr;
   }

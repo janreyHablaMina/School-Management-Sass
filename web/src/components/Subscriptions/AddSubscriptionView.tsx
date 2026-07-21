@@ -25,128 +25,111 @@ export const AddSubscriptionView: React.FC<AddSubscriptionViewProps> = ({ onCanc
         {/* Left Column: Form */}
         <div className={styles.leftColumn}>
           
-          {/* 1. Select School */}
+          {/* 1. Select School & Plan */}
           <Card className={styles.schoolSection}>
             <CardHeader 
-              title={<span style={{ fontFamily: 'Caveat, cursive', color: '#84a9ff' }}>1. Select School</span>}
-              description="Choose the school that will be assigned this subscription."
+              title={<span style={{ fontFamily: 'Caveat, cursive', color: '#84a9ff' }}>1. Select School & Plan</span>}
+              description="Choose the school and the subscription plan to assign."
             />
             <CardBody className={`${styles.flexCol} ${styles.gapLg}`}>
-              <Select 
-                label="School *"
-                value={selectedSchool}
-                onChange={(e) => setSelectedSchool(e.target.value)}
-                options={[
-                  { label: "St. Mary's Academy", value: 'school-1' },
-                  { label: 'Greenfield High School', value: 'school-2' }
-                ]}
-                placeholder="Search and select a school..."
-              />
-
-              <div className={styles.infoBox}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                  <div className={styles.infoBoxIcon}>ℹ️</div>
-                  <div>
-                    <h4 style={{ margin: 0, color: '#84a9ff', fontSize: '0.95rem' }}>Can&apos;t find the school?</h4>
-                    <p style={{ margin: 0, color: 'rgba(240, 239, 237, 0.6)', fontSize: '0.85rem' }}>Add a new school first.</p>
-                  </div>
-                </div>
-                <Button variant="ghost" size="sm">Add New School</Button>
-              </div>
-            </CardBody>
-          </Card>
-
-          {/* 2. Select Plan */}
-          <Card className={styles.planSection}>
-            <CardHeader 
-              title={<span style={{ fontFamily: 'Caveat, cursive', color: '#5cc789' }}>2. Select Plan</span>}
-              description="Choose a subscription plan for the school."
-            />
-            <CardBody className={styles.twoColGrid}>
-              <Select 
-                label="Plan *"
-                value={selectedPlan}
-                onChange={(e) => setSelectedPlan(e.target.value)}
-                options={[
-                  { label: 'School Plan', value: 'school-plan' },
-                  { label: 'District Plan', value: 'district-plan' },
-                  { label: 'Enterprise Plan', value: 'enterprise-plan' }
-                ]}
-                placeholder="Select a plan..."
-              />
-
+              {/* School Selection */}
               <div>
-                <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', fontWeight: 500 }}>Plan Details</label>
-                <div className={styles.planDetailsBox}>
-                  <div style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>📄</div>
-                  <div style={{ fontWeight: 500, color: 'rgba(240, 239, 237, 0.9)' }}>Please select a plan to view details</div>
-                  <div style={{ fontSize: '0.85rem' }}>Plan features and limits will appear here.</div>
+                <Select 
+                  label="School *"
+                  value={selectedSchool}
+                  onChange={(e) => setSelectedSchool(e.target.value)}
+                  options={[
+                    { label: "St. Mary's Academy", value: 'school-1' },
+                    { label: 'Greenfield High School', value: 'school-2' }
+                  ]}
+                  placeholder="Search and select a school..."
+                />
+
+                <div className={styles.infoBox} style={{ marginTop: '1.5rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                    <div className={styles.infoBoxIcon}>ℹ️</div>
+                    <div>
+                      <h4 style={{ margin: 0, color: '#84a9ff', fontSize: '0.95rem' }}>Can&apos;t find the school?</h4>
+                      <p style={{ margin: 0, color: 'rgba(240, 239, 237, 0.6)', fontSize: '0.85rem' }}>Add a new school first.</p>
+                    </div>
+                  </div>
+                  <Button variant="ghost" size="sm">Add New School</Button>
                 </div>
+              </div>
+
+              {/* Plan Selection */}
+              <div>
+                <Select 
+                  label="Plan *"
+                  value={selectedPlan}
+                  onChange={(e) => setSelectedPlan(e.target.value)}
+                  options={[
+                    { label: 'School Plan', value: 'school-plan' },
+                    { label: 'District Plan', value: 'district-plan' },
+                    { label: 'Enterprise Plan', value: 'enterprise-plan' }
+                  ]}
+                  placeholder="Select a plan..."
+                />
               </div>
             </CardBody>
           </Card>
 
-          {/* 3. Subscription Details */}
+          {/* 2. Subscription Details */}
           <Card className={styles.detailsSection}>
             <CardHeader 
-              title={<span style={{ fontFamily: 'Caveat, cursive', color: '#f5c842' }}>3. Subscription Details</span>}
+              title={<span style={{ fontFamily: 'Caveat, cursive', color: '#f5c842' }}>2. Subscription Details</span>}
               description="Configure the subscription period and billing information."
             />
-            <CardBody className={styles.detailsGrid}>
-              <div>
-                <label style={{ display: 'block', marginBottom: '1rem', fontSize: '0.9rem', fontWeight: 500 }}>Billing Cycle *</label>
-                <div className={`${styles.flexCol} ${styles.gapMd}`}>
-                  {['Monthly', 'Quarterly (Save 5%)', 'Semi-Annual (Save 10%)', 'Annual (Save 15%)'].map(cycle => (
-                    <label key={cycle} className={styles.radioLabel}>
-                      <input 
-                        type="radio" 
-                        name="billingCycle" 
-                        value={cycle} 
-                        checked={billingCycle === cycle}
-                        onChange={(e) => setBillingCycle(e.target.value)}
-                        className={styles.radioInput}
-                      />
-                      {cycle}
-                    </label>
-                  ))}
-                </div>
+            <CardBody className={`${styles.flexCol} ${styles.gapLg}`}>
+              <div className={styles.twoColGrid}>
+                {/* Billing Cycle */}
+                <Select 
+                  label="Billing Cycle *"
+                  value={billingCycle}
+                  onChange={(e) => setBillingCycle(e.target.value)}
+                  options={[
+                    { label: 'Monthly', value: 'Monthly' },
+                    { label: 'Quarterly (Save 5%)', value: 'Quarterly (Save 5%)' },
+                    { label: 'Semi-Annual (Save 10%)', value: 'Semi-Annual (Save 10%)' },
+                    { label: 'Annual (Save 15%)', value: 'Annual (Save 15%)' }
+                  ]}
+                />
+
+                {/* Trial Period */}
+                <Select 
+                  label="Trial Period (Optional)"
+                  value={trialPeriod}
+                  onChange={(e) => setTrialPeriod(e.target.value)}
+                  options={[
+                    { label: 'No Trial', value: 'No Trial' },
+                    { label: '7 Days Trial', value: '7 Days Trial' },
+                    { label: '14 Days Trial', value: '14 Days Trial' },
+                    { label: '30 Days Trial', value: '30 Days Trial' }
+                  ]}
+                />
               </div>
 
-              <div className={`${styles.flexCol} ${styles.gapLg}`}>
+              {/* Dates */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1.5rem' }}>
                 <Input type="date" label="Start Date *" defaultValue="2025-05-31" style={{ colorScheme: 'dark' }} />
                 <Input type="date" label="End Date *" defaultValue="2025-06-30" style={{ colorScheme: 'dark' }} />
-                <label className={styles.radioLabel} style={{ color: '#84a9ff' }}>
-                  <input type="checkbox" defaultChecked className={styles.radioInput} />
-                  Auto-renewal
-                </label>
-              </div>
-
-              <div>
-                <label style={{ display: 'block', marginBottom: '1rem', fontSize: '0.9rem', fontWeight: 500 }}>Trial Period (Optional)</label>
-                <div className={`${styles.flexCol} ${styles.gapMd}`} style={{ marginBottom: '1.5rem' }}>
-                  {['No Trial', '7 Days Trial', '14 Days Trial', '30 Days Trial'].map(trial => (
-                    <label key={trial} className={styles.radioLabel}>
-                      <input 
-                        type="radio" 
-                        name="trialPeriod" 
-                        value={trial} 
-                        checked={trialPeriod === trial}
-                        onChange={(e) => setTrialPeriod(e.target.value)}
-                        className={styles.radioInput}
-                      />
-                      {trial}
+                <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '1rem' }}>
+                  <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', opacity: 0, userSelect: 'none' }}>Hidden</label>
+                  <div style={{ flex: 1, display: 'flex', alignItems: 'center' }}>
+                    <label className={styles.radioLabel} style={{ color: '#84a9ff', margin: 0 }}>
+                      <input type="checkbox" defaultChecked className={styles.radioInput} />
+                      Auto-renewal
                     </label>
-                  ))}
+                  </div>
                 </div>
-                <Input type="date" label="Trial End Date" disabled style={{ background: 'rgba(0,0,0,0.1)', cursor: 'not-allowed', colorScheme: 'dark' }} />
               </div>
             </CardBody>
           </Card>
 
-          {/* 4. Payment Information */}
+          {/* 3. Payment & Invoicing */}
           <Card className={styles.paymentSection}>
             <CardHeader 
-              title={<span style={{ fontFamily: 'Caveat, cursive', color: '#ff8a8a' }}>4. Payment Information</span>}
+              title={<span style={{ fontFamily: 'Caveat, cursive', color: '#ff8a8a' }}>3. Payment & Invoicing</span>}
               description="Set the pricing and payment details for this subscription."
             />
             <CardBody className={`${styles.flexCol} ${styles.gapLg}`}>
