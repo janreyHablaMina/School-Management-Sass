@@ -7,6 +7,11 @@ import { TopBar } from '@/components/AdminLayout/TopBar';
 import { ChalkFilter } from '@/components/ChalkCharts';
 import { schoolAdminMenuGroups } from '@/lib/constants/navigation';
 
+// Import views
+import { DashboardView } from '@/components/SchoolAdmin/Dashboard/DashboardView';
+import { StudentsView } from '@/components/SchoolAdmin/People/StudentsView';
+import { SchoolAdminPlaceholder } from '@/components/SchoolAdmin/shared/SchoolAdminPlaceholder';
+
 export default function SchoolAdminDashboard() {
   const [activeTab, setActiveTab] = useState('Dashboard');
   const [isScrolled, setIsScrolled] = useState(false);
@@ -31,25 +36,15 @@ export default function SchoolAdminDashboard() {
   };
 
   const renderContent = () => {
-    // For now, render a generic placeholder for all tabs
-    return (
-      <div style={{
-        border: '2.2px solid rgba(240, 239, 237, 0.45)',
-        borderRadius: '12px 14px 10px 13px / 14px 10px 13px 10px',
-        padding: '2.5rem',
-        background: 'rgba(10, 25, 17, 0.2)',
-        transform: 'rotate(-0.5deg)',
-        marginTop: '2rem',
-        textAlign: 'center'
-      }}>
-        <h2 style={{ fontFamily: 'Caveat, cursive', fontSize: '2.4rem', color: '#f5c842', margin: 0 }}>
-          🏫 {activeTab}
-        </h2>
-        <p style={{ fontSize: '1rem', color: 'rgba(240, 239, 237, 0.65)', maxWidth: '500px', margin: '1rem auto 0 auto', lineHeight: '1.6' }}>
-          This section is currently under construction.
-        </p>
-      </div>
-    );
+    switch (activeTab) {
+      case 'Dashboard':
+        return <DashboardView />;
+      case 'Students':
+        return <StudentsView />;
+      default:
+        // Generic fallback for unimplemented tabs
+        return <SchoolAdminPlaceholder title={activeTab} />;
+    }
   };
 
   return (
