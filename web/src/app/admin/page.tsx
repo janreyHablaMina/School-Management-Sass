@@ -931,7 +931,7 @@ export default function AdminDashboard() {
                               {activeSchoolDropdownId === i && (
                                 <>
                                   <div className={styles.dropdownOverlay} onClick={(e) => { e.stopPropagation(); setActiveSchoolDropdownId(null); }} />
-                                  <div className={`${styles.actionDropdownMenu} ${i >= filteredSchools.length - 2 ? styles.actionDropdownMenuUp : ''}`}>
+                                  <div className={`${styles.actionDropdownMenu} ${(filteredSchools.length > 4 && i >= filteredSchools.length - 2) ? styles.actionDropdownMenuUp : ''}`}>
                                     <button onClick={(e) => { e.stopPropagation(); setActiveSchoolDropdownId(null); alert(`Viewing details for ${school.name}...`); }} className={styles.actionDropdownItem}>
                                       👁️ View Details
                                     </button>
