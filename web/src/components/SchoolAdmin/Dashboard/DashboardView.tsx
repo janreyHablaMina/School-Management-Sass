@@ -52,11 +52,11 @@ export const DashboardView: React.FC = () => {
         <div className={styles.chartCard}>
           <div className={styles.chartHeader}>
             <h3 className={styles.chartTitle}>Attendance Overview ⓘ</h3>
-            <select className={styles.dropdownSelect} style={{ padding: '0.3rem 0.6rem' }}>
+            <select className={styles.dropdownSelect} style={{ padding: '0.3rem 1.8rem 0.3rem 0.6rem' }}>
               <option>Last 7 Days</option>
             </select>
           </div>
-          <div className={styles.chartCanvas}><ChalkLineChart /></div>
+          <div className={styles.chartCanvas}><ChalkLineChart tooltipDate="TODAY" tooltipText="Attendance: 96.4%" /></div>
         </div>
         
         <div className={styles.chartCard}>
@@ -69,11 +69,11 @@ export const DashboardView: React.FC = () => {
         <div className={styles.chartCard}>
           <div className={styles.chartHeader}>
             <h3 className={styles.chartTitle}>Enrollment Trend</h3>
-            <select className={styles.dropdownSelect} style={{ padding: '0.3rem 0.6rem' }}>
+            <select className={styles.dropdownSelect} style={{ padding: '0.3rem 1.8rem 0.3rem 0.6rem' }}>
               <option>This School Year</option>
             </select>
           </div>
-          <div className={styles.chartCanvas}><ChalkLineChart /></div>
+          <div className={styles.chartCanvas}><ChalkLineChart tooltipDate="2025-2026" tooltipText="Enrolled: 1,245" /></div>
         </div>
       </div>
 

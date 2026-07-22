@@ -37,16 +37,23 @@
 }
 
 .dropdownSelect {
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(240, 239, 237, 0.2);
+  background: rgba(0, 0, 0, 0.3) url("data:image/svg+xml;utf8,<svg fill='%23f5c842' height='14' viewBox='0 0 24 24' width='14' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>") no-repeat right 0.6rem center;
+  border: 1px dashed rgba(240, 239, 237, 0.35);
   color: #f0efed;
-  padding: 0.6rem 1rem;
-  border-radius: 8px;
+  padding: 0.6rem 2rem 0.6rem 1rem;
+  border-radius: 4px;
   font-family: 'Inter', sans-serif;
   font-size: 0.9rem;
   outline: none;
   cursor: pointer;
   appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.dropdownSelect option {
+  background-color: #08120d;
+  color: rgba(240, 239, 237, 0.9);
 }
 
 /* Quick Actions */
@@ -185,6 +192,74 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.donutContainer {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  height: 220px;
+  flex: 1;
+}
+
+.donutCanvas {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.donutLegend {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  padding-left: 1rem;
+  border-left: 1px dashed rgba(240, 239, 237, 0.15);
+}
+
+.legendItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+}
+
+.legendLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.legendDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+.legendLabel {
+  color: rgba(240, 239, 237, 0.7);
+  font-weight: 500;
+}
+
+.legendRight {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.legendValue {
+  color: #f0efed;
+  font-weight: 600;
+}
+
+.legendPerc {
+  color: rgba(240, 239, 237, 0.5);
+  font-weight: 500;
+  font-size: 0.75rem;
 }
 
 /* Lists */
@@ -374,6 +449,18 @@
   }
   .insightsGrid {
     grid-template-columns: repeat(2, 1fr);
+  }
+  .donutContainer {
+    flex-direction: column;
+    height: auto;
+    padding-bottom: 1rem;
+  }
+  .donutLegend {
+    width: 100%;
+    border-left: none;
+    border-top: 1px dashed rgba(240, 239, 237, 0.15);
+    padding-left: 0;
+    padding-top: 1rem;
   }
 }
 
