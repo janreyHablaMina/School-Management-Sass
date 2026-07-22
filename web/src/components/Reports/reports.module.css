@@ -257,7 +257,7 @@
 }
 
 /* Responsiveness */
-@media (max-width: 1440px) {
+@media (max-width: 1600px) {
   .metricsRow {
     grid-template-columns: repeat(4, 1fr);
     gap: 1rem;
@@ -281,9 +281,7 @@
   .metricGrowth {
     font-size: 0.7rem;
   }
-  .threeColRow {
-    gap: 1rem;
-  }
+
   .donutBody {
     flex-direction: column;
     justify-content: center;
@@ -337,8 +335,3 @@
   padding: 1rem 1.5rem;
 }
 
-.donutBody {
-  display: flex;
-  gap: 2rem;
-  align-items: center;
-}

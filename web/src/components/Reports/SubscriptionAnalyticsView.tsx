@@ -63,7 +63,7 @@ export const SubscriptionAnalyticsView = ({ onBack }: { onBack: () => void }) =>
           { label: 'MRR', value: '₱359,850', growth: '↑ 8.4% vs last month', growthClass: adminStyles.growthGreen, icon: '💳' },
         ].map((m, i) => (
           <div key={i} className={adminStyles.metricCardSm}>
-            <div className={adminStyles.metricTop}>
+            <div className={adminStyles.metricHeader}>
               <div className={adminStyles.metricLabelSm}>{m.label}</div>
               <div className={adminStyles.metricIconSm} style={{ fontSize: '0.9rem' }}>{m.icon}</div>
             </div>

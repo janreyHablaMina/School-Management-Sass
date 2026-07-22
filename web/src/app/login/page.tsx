@@ -324,8 +324,10 @@ export default function LoginPage() {
 
     if (email === 'admin@gmail.com' && password === 'admin@gmail.com') {
       router.push('/admin');
+    } else if (email === 'school@gmail.com' && password === 'school@gmail.com') {
+      router.push('/school-admin');
     } else {
-      setError('Invalid credentials. (Hint: Use admin@gmail.com / admin@gmail.com to login)');
+      setError('Invalid credentials. (Hint: Use admin@gmail.com or school@gmail.com)');
     }
   };
 

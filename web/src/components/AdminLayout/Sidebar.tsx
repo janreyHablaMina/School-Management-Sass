@@ -24,16 +24,25 @@ const NavLinkItem: React.FC<NavItemProps> = ({ label, icon, active, onClick }) =
 interface SidebarProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
+  menuGroups?: any[]; // Allow passing custom menu groups
+  roleTitle?: string;
+  showCredits?: boolean;
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange }) => (
+export const Sidebar: React.FC<SidebarProps> = ({ 
+  activeTab, 
+  onTabChange, 
+  menuGroups: customMenuGroups = menuGroups,
+  roleTitle = "Super Admin",
+  showCredits = true
+}) => (
   <aside className={styles.sidebar}>
     {/* Logo / Brand */}
     <div className={styles.logoSection}>
       <span className={styles.logoIcon}>🎓</span>
       <div className={styles.logoTextContainer}>
         <span className={styles.logoMainText}>School<span>SaaS</span></span>
-        <span className={styles.logoSubText}>Super Admin</span>
+        <span className={styles.logoSubText}>{roleTitle}</span>
       </div>
     </div>
 
@@ -45,10 +54,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange }) => (
         active={activeTab === 'Dashboard'}
         onClick={() => onTabChange('Dashboard')}
       />
-      {menuGroups.map((group) => (
+      {customMenuGroups.map((group) => (
         <div key={group.title} className={styles.navGroup}>
           <div className={styles.groupTitle}>{group.title}</div>
-          {group.items.map((item) => (
+          {group.items.map((item: any) => (
             <NavLinkItem
               key={item.label}
               label={item.label}
@@ -62,18 +71,20 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange }) => (
     </div>
 
     {/* AI Credits Widget */}
-    <div className={styles.sidebarCredits}>
-      <div className={styles.creditsLabel}>
-        <span>AI Credits Usage</span>
-        <span className={styles.creditsPercent}>24.9%</span>
+    {showCredits && (
+      <div className={styles.sidebarCredits}>
+        <div className={styles.creditsLabel}>
+          <span>AI Credits Usage</span>
+          <span className={styles.creditsPercent}>24.9%</span>
+        </div>
+        <div className={styles.progressBarOuter}>
+          <div className={styles.progressBarInner} style={{ width: '24.9%' }} />
+        </div>
+        <p className={styles.creditsNumbers}>12,450 / 50,000 credits</p>
+        <button className={styles.creditsBtn} onClick={() => onTabChange('AI Credits')}>
+          Manage AI Credits
+        </button>
       </div>
-      <div className={styles.progressBarOuter}>
-        <div className={styles.progressBarInner} style={{ width: '24.9%' }} />
-      </div>
-      <p className={styles.creditsNumbers}>12,450 / 50,000 credits</p>
-      <button className={styles.creditsBtn} onClick={() => onTabChange('AI Credits')}>
-        Manage AI Credits
-      </button>
-    </div>
+    )}
   </aside>
 );
