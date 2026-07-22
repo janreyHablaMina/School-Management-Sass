@@ -3,22 +3,6 @@ import styles from './dashboard.module.css';
 import { ChalkLineChart, ChalkDonutChart } from '@/components/ChalkCharts';
 import { schoolAdminMockData } from '@/lib/data/schoolAdminMockData';
 
-// Reusable SVG for the blackboard in the header
-const HeaderBlackboard = () => (
-  <svg width="200" height="80" viewBox="0 0 200 80" fill="none" aria-hidden="true" style={{ marginLeft: 'auto', marginRight: '2rem' }}>
-    <rect x="10" y="10" width="180" height="60" rx="4" fill="rgba(0,0,0,0.4)" stroke="rgba(240, 239, 237, 0.4)" strokeWidth="3" />
-    {/* Chalk drawings on board */}
-    <path d="M40 30 Q60 20 80 40 T120 30" stroke="rgba(240, 239, 237, 0.3)" strokeWidth="1.5" fill="none" />
-    <path d="M140 25 L160 55 L120 55 Z" stroke="rgba(240, 239, 237, 0.2)" strokeWidth="1" fill="none" />
-    {/* Small plants/books decor */}
-    <path d="M170 70 L170 50 Q180 40 185 45 Q175 55 170 70" fill="#5cc789" />
-    <path d="M170 70 L170 55 Q160 45 155 50 Q165 60 170 70" fill="#4aa671" />
-    <rect x="160" y="70" width="20" height="10" fill="#ffab6b" />
-    <rect x="25" y="65" width="25" height="5" fill="#84a9ff" />
-    <rect x="28" y="60" width="20" height="5" fill="#f5c842" />
-  </svg>
-);
-
 export const DashboardView: React.FC = () => {
   return (
     <div className={styles.dashboardContainer}>
@@ -29,8 +13,6 @@ export const DashboardView: React.FC = () => {
           <p>Here&apos;s what&apos;s happening at ABC Learning Academy today.</p>
         </div>
         
-        <HeaderBlackboard />
-
         <div className={styles.headerControls}>
           <select className={styles.dropdownSelect} defaultValue="2025-2026">
             <option value="2025-2026">School Year 2025 - 2026</option>
@@ -43,42 +25,24 @@ export const DashboardView: React.FC = () => {
         </div>
       </div>
 
-      {/* QUICK ACTIONS */}
-      <div className={styles.quickActionsGrid}>
-        {[
-          { label: 'Add Student', icon: '👤+' },
-          { label: 'Add Teacher', icon: '👨‍🏫+' },
-          { label: 'Create Section', icon: '👥' },
-          { label: 'Create Subject', icon: '📚' },
-          { label: 'Post Announcement', icon: '📢' },
-          { label: 'Generate Report', icon: '📄' },
-        ].map(action => (
-          <button key={action.label} className={styles.actionButton}>
-            <span className={styles.actionIcon}>{action.icon}</span>
-            {action.label}
-          </button>
-        ))}
-      </div>
-
       {/* METRICS GRID */}
       <div className={styles.metricsGrid}>
         {[
-          { label: 'Total Students', value: '1,245', growth: '↑ 8.6% vs last month', growthClass: styles.growthGreen, icon: '👨‍🎓', bg: 'rgba(132, 169, 255, 0.1)', color: '#84a9ff' },
-          { label: 'Total Teachers', value: '78', growth: '↑ 5.3% vs last month', growthClass: styles.growthGreen, icon: '👩‍🏫', bg: 'rgba(107, 203, 255, 0.1)', color: '#6bcbff' },
-          { label: 'Total Sections', value: '42', growth: '↑ 3.1% vs last month', growthClass: styles.growthGreen, icon: '🏫', bg: 'rgba(92, 199, 137, 0.1)', color: '#5cc789' },
-          { label: 'Attendance Today', value: '96.4%', growth: '↑ 2.7% vs yesterday', growthClass: styles.growthGreen, icon: '📅', bg: 'rgba(182, 142, 255, 0.1)', color: '#b68eff' },
-          { label: 'Pending Tasks', value: '18', growth: 'View all tasks', growthClass: styles.viewLink, icon: '📋', bg: 'rgba(255, 171, 107, 0.1)', color: '#ffab6b' },
-          { label: 'AI Credits Remaining', value: '1,250', growth: 'of 2,000 credits', growthClass: styles.metricGrowth, icon: '🤖', bg: 'rgba(245, 200, 66, 0.1)', color: '#f5c842' },
+          { label: 'TOTAL STUDENTS', value: '1,245', icon: '👨‍🎓' },
+          { label: 'TOTAL TEACHERS', value: '78', icon: '👩‍🏫' },
+          { label: 'TOTAL SECTIONS', value: '42', icon: '🏫' },
+          { label: 'ATTENDANCE TODAY', value: '96.4%', icon: '📅' },
+          { label: 'PENDING TASKS', value: '18', icon: '📋' },
+          { label: 'AI CREDITS', value: '1,250', icon: '🤖' },
         ].map(m => (
           <div key={m.label} className={styles.metricCard}>
             <div className={styles.metricTop}>
-              <div className={styles.metricIconWrapper} style={{ background: m.bg, color: m.color }}>
-                {m.icon}
-              </div>
+              <span className={styles.metricLabel}>{m.label}</span>
+              <span className={styles.metricIcon}>{m.icon}</span>
             </div>
-            <div className={styles.metricLabel}>{m.label}</div>
-            <div className={styles.metricValue}>{m.value}</div>
-            <div className={`${styles.metricGrowth} ${m.growthClass}`}>{m.growth}</div>
+            <div className={styles.metricBottom}>
+              <span className={styles.metricValue}>{m.value}</span>
+            </div>
           </div>
         ))}
       </div>

@@ -91,57 +91,62 @@
 
 .metricCard {
   background: rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(240, 239, 237, 0.1);
-  border-radius: 14px;
+  border: 1px solid rgba(240, 239, 237, 0.3);
+  border-radius: 8px;
   padding: 1.2rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  position: relative;
+  gap: 0.8rem;
 }
 
 .metricTop {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-}
-
-.metricIconWrapper {
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-  display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 1.2rem;
 }
 
 .metricLabel {
   color: rgba(240, 239, 237, 0.6);
-  font-size: 0.8rem;
-  font-weight: 500;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.metricIcon {
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+.metricBottom {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
 }
 
 .metricValue {
-  font-size: 1.8rem;
-  font-weight: 700;
+  font-size: 2rem;
+  font-weight: 600;
   color: #f0efed;
   margin: 0;
+  line-height: 1;
 }
 
 .metricGrowth {
   font-size: 0.75rem;
   font-weight: 500;
+  white-space: nowrap;
 }
 
-.growthGreen { color: #5cc789; }
+.growthGreen { color: #f0efed; }
+.growthGreen::first-letter { color: #5cc789; }
 .growthYellow { color: #f5c842; }
 .growthRed { color: #ff6b6b; }
 .viewLink {
-  color: #84a9ff;
+  color: #f5c842;
   font-size: 0.75rem;
   text-decoration: none;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 /* Charts */
@@ -345,8 +350,27 @@
 
 /* Responsiveness */
 @media (max-width: 1600px) {
-  .quickActionsGrid, .metricsGrid {
+  .quickActionsGrid {
     grid-template-columns: repeat(3, 1fr);
+  }
+  .metricsGrid {
+    gap: 0.5rem;
+  }
+  .metricCard {
+    padding: 0.7rem;
+    gap: 0.4rem;
+  }
+  .metricValue {
+    font-size: 1.6rem;
+  }
+  .metricLabel {
+    font-size: 0.6rem;
+  }
+  .metricGrowth {
+    font-size: 0.65rem;
+  }
+  .viewLink {
+    font-size: 0.65rem;
   }
   .insightsGrid {
     grid-template-columns: repeat(2, 1fr);
