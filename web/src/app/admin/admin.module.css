@@ -485,14 +485,14 @@
 }
 
 .dropdownItem {
-  font-family: 'Caveat', cursive;
-  font-size: 1.15rem;
-  font-weight: 700;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 500;
   text-align: left;
   background: transparent;
   border: 1px solid transparent;
   color: rgba(240, 239, 237, 0.8);
-  padding: 0.35rem 0.55rem;
+  padding: 0.45rem 0.6rem;
   cursor: pointer;
   border-radius: 4px;
   transition: all 0.15s ease;

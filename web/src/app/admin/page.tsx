@@ -191,6 +191,7 @@ export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('Dashboard');
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const [activeSchoolDropdownId, setActiveSchoolDropdownId] = useState<number | null>(null);
+  const [activeRecentSchoolDropdownId, setActiveRecentSchoolDropdownId] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedStatus, setSelectedStatus] = useState('all');
   const [selectedPlan, setSelectedPlan] = useState('all');
@@ -545,7 +546,27 @@ export default function AdminDashboard() {
                           </td>
                           <td>{school.joined}</td>
                           <td>
-                            <button className={styles.actionDots} onClick={() => alert(`Actions for ${school.name}`)}>⋮</button>
+                            <div className={styles.actionsGroup} style={{ position: 'relative' }}>
+                              <button className={styles.actionIconBtn} onClick={(e) => { e.stopPropagation(); setActiveRecentSchoolDropdownId(activeRecentSchoolDropdownId === i ? null : i); }}>
+                                ⋮
+                              </button>
+                              {activeRecentSchoolDropdownId === i && (
+                                <>
+                                  <div className={styles.dropdownOverlay} onClick={(e) => { e.stopPropagation(); setActiveRecentSchoolDropdownId(null); }} />
+                                  <div className={`${styles.actionDropdownMenu} ${i >= 4 ? styles.actionDropdownMenuUp : ''}`}>
+                                    <button onClick={(e) => { e.stopPropagation(); setActiveRecentSchoolDropdownId(null); alert(`Viewing details for ${school.name}...`); }} className={styles.actionDropdownItem}>
+                                      👁️ View Details
+                                    </button>
+                                    <button onClick={(e) => { e.stopPropagation(); setActiveRecentSchoolDropdownId(null); alert(`Editing school ${school.name}...`); }} className={styles.actionDropdownItem}>
+                                      ✏️ Edit
+                                    </button>
+                                    <button onClick={(e) => { e.stopPropagation(); setActiveRecentSchoolDropdownId(null); alert(`Deleting school ${school.name}...`); }} className={`${styles.actionDropdownItem} ${styles.actionDropdownItemDelete}`}>
+                                      🗑️ Delete
+                                    </button>
+                                  </div>
+                                </>
+                              )}
+                            </div>
                           </td>
                         </tr>
                       ))}
