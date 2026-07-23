@@ -103,5 +103,127 @@ export const schoolAdminMockData = {
       iconBg: 'rgba(255, 171, 107, 0.1)',
       iconColor: '#ffab6b'
     }
+  ],
+  students: [
+    {
+      id: '1',
+      name: 'Juan Dela Cruz',
+      email: 'juan.delacruz@email.com',
+      studentId: 'S2025-0001',
+      gradeSection: 'Grade 7 - Section A',
+      parentGuardian: 'Maria Dela Cruz',
+      contact: '0917 123 4567',
+      status: 'Active',
+      dateEnrolled: 'May 20, 2025',
+      avatarColor: '#84a9ff'
+    },
+    {
+      id: '2',
+      name: 'Maria Santos',
+      email: 'maria.santos@email.com',
+      studentId: 'S2025-0002',
+      gradeSection: 'Grade 7 - Section A',
+      parentGuardian: 'Pedro Santos',
+      contact: '0908 765 4321',
+      status: 'Active',
+      dateEnrolled: 'May 20, 2025',
+      avatarColor: '#ff7e93'
+    },
+    {
+      id: '3',
+      name: 'John Reyes',
+      email: 'john.reyes@email.com',
+      studentId: 'S2025-0003',
+      gradeSection: 'Grade 8 - Section B',
+      parentGuardian: 'Anna Reyes',
+      contact: '0916 234 5678',
+      status: 'Active',
+      dateEnrolled: 'May 19, 2025',
+      avatarColor: '#5cc789'
+    },
+    {
+      id: '4',
+      name: 'Ashley Garcia',
+      email: 'ashley.garcia@email.com',
+      studentId: 'S2025-0004',
+      gradeSection: 'Grade 8 - Section B',
+      parentGuardian: 'Mark Garcia',
+      contact: '0915 876 5432',
+      status: 'Active',
+      dateEnrolled: 'May 19, 2025',
+      avatarColor: '#ffab6b'
+    },
+    {
+      id: '5',
+      name: 'Miguel Salvador',
+      email: 'miguel.salvador@email.com',
+      studentId: 'S2025-0005',
+      gradeSection: 'Grade 9 - Section A',
+      parentGuardian: 'Liza Salvador',
+      contact: '0905 112 3344',
+      status: 'Active',
+      dateEnrolled: 'May 18, 2025',
+      avatarColor: '#b68eff'
+    },
+    {
+      id: '6',
+      name: 'Patricia Lim',
+      email: 'patricia.lim@email.com',
+      studentId: 'S2025-0006',
+      gradeSection: 'Grade 9 - Section A',
+      parentGuardian: 'Kevin Lim',
+      contact: '0919 991 2233',
+      status: 'Inactive',
+      dateEnrolled: 'May 18, 2025',
+      avatarColor: '#ff7e93'
+    },
+    {
+      id: '7',
+      name: 'Daniel Tan',
+      email: 'daniel.tan@email.com',
+      studentId: 'S2025-0007',
+      gradeSection: 'Grade 10 - Section C',
+      parentGuardian: 'Grace Tan',
+      contact: '0927 888 6655',
+      status: 'Active',
+      dateEnrolled: 'May 17, 2025',
+      avatarColor: '#6bcbff'
+    },
+    {
+      id: '8',
+      name: 'Kimberly Cruz',
+      email: 'kimberly.cruz@email.com',
+      studentId: 'S2025-0008',
+      gradeSection: 'Grade 10 - Section C',
+      parentGuardian: 'Robert Cruz',
+      contact: '0918 443 2211',
+      status: 'Active',
+      dateEnrolled: 'May 17, 2025',
+      avatarColor: '#f5c842'
+    },
+    {
+      id: '9',
+      name: 'Ethan Co',
+      email: 'ethan.co@email.com',
+      studentId: 'S2025-0009',
+      gradeSection: 'Grade 11 - Section A',
+      parentGuardian: 'Michelle Co',
+      contact: '0906 778 8899',
+      status: 'Active',
+      dateEnrolled: 'May 16, 2025',
+      avatarColor: '#84a9ff'
+    },
+    {
+      id: '10',
+      name: 'Sophia Mendoza',
+      email: 'sophia.mendoza@email.com',
+      studentId: 'S2025-0010',
+      gradeSection: 'Grade 12 - Section B',
+      parentGuardian: 'James Mendoza',
+      contact: '0910 555 6677',
+      status: 'Active',
+      dateEnrolled: 'May 16, 2025',
+      avatarColor: '#ff7e93'
+    }
   ]
 };
