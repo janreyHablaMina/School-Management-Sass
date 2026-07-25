@@ -190,16 +190,22 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: center;
 }
 
-.avatarProfileBlock h2 {
-  margin: 0.5rem 0 0 0;
+.nameAndBadge {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.nameAndBadge h2 {
+  margin: 0 0 0.5rem 0;
   font-size: 1.8rem;
   font-family: 'Caveat', cursive;
   color: #f0efed;
   line-height: 1;
-  text-align: center;
 }
 
 .avatarBottomHalf {
@@ -222,35 +228,8 @@
 
 .avatarMetaGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 1rem;
-}
-
-.metaItem {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.8rem;
-}
-
-.metaIcon {
-  color: rgba(240, 239, 237, 0.5);
-  margin-top: 0.2rem;
-}
-
-.metaText {
-  display: flex;
-  flex-direction: column;
-}
-
-.metaLabel {
-  font-size: 0.75rem;
-  color: rgba(240, 239, 237, 0.5);
-}
-
-.metaVal {
-  font-size: 0.85rem;
-  color: #f0efed;
-  font-weight: 500;
 }
 
 .detailsGrid {
@@ -264,6 +243,23 @@
   grid-template-columns: 120px 1fr;
   gap: 1rem;
   align-items: start;
+}
+
+.rowLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: rgba(240, 239, 237, 0.6);
+  font-size: 0.85rem;
+}
+
+.rowLabel svg {
+  color: rgba(240, 239, 237, 0.4);
+}
+
+.rowValue {
+  font-size: 0.85rem;
+  color: #f0efed;
 }
 
 .detailRow span:first-child {

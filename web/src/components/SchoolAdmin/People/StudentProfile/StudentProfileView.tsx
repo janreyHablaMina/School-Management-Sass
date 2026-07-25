@@ -67,36 +67,26 @@ export const StudentProfileView: React.FC<StudentProfileViewProps> = ({ student,
                 <span style={{ color: student.avatarColor }}>{getInitials(student.name)}</span>
                 <div className={styles.statusDot}></div>
               </div>
+            </div>
+            <div className={styles.nameAndBadge}>
               <h2>{student.name}</h2>
               <span className={styles.statusBadge}>{student.status} Student</span>
-            </div>
-            <div className={styles.avatarExtraBlock}>
-              {/* Reserved for future 2nd column data */}
             </div>
           </div>
           
           <div className={styles.avatarBottomHalf}>
             <div className={styles.avatarMetaGrid}>
-                <div className={styles.metaItem}>
-                  <svg className={styles.metaIcon} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                  <div className={styles.metaText}>
-                    <span className={styles.metaLabel}>Grade & Section</span>
-                    <span className={styles.metaVal}>{student.gradeSection}</span>
-                  </div>
+                <div className={styles.detailRow}>
+                  <span className={styles.rowLabel}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> Grade & Section</span>
+                  <span className={styles.rowValue}>{student.gradeSection}</span>
                 </div>
-                <div className={styles.metaItem}>
-                  <svg className={styles.metaIcon} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                  <div className={styles.metaText}>
-                    <span className={styles.metaLabel}>Student ID</span>
-                    <span className={styles.metaVal}>{student.studentId}</span>
-                  </div>
+                <div className={styles.detailRow}>
+                  <span className={styles.rowLabel}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg> Student ID</span>
+                  <span className={styles.rowValue}>{student.studentId}</span>
                 </div>
-                <div className={styles.metaItem}>
-                  <svg className={styles.metaIcon} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
-                  <div className={styles.metaText}>
-                    <span className={styles.metaLabel}>LRN</span>
-                    <span className={styles.metaVal}>123456789101</span>
-                  </div>
+                <div className={styles.detailRow}>
+                  <span className={styles.rowLabel}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg> LRN</span>
+                  <span className={styles.rowValue}>123456789101</span>
                 </div>
             </div>
           </div>
@@ -110,24 +100,24 @@ export const StudentProfileView: React.FC<StudentProfileViewProps> = ({ student,
           </div>
           <div className={styles.detailsGrid}>
             <div className={styles.detailRow}>
-              <span>Date of Birth</span>
-              <span>March 15, 2009</span>
+              <span className={styles.rowLabel}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg> Date of Birth</span>
+              <span className={styles.rowValue}>March 15, 2009</span>
             </div>
             <div className={styles.detailRow}>
-              <span>Age</span>
-              <span>16 years old</span>
+              <span className={styles.rowLabel}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> Age</span>
+              <span className={styles.rowValue}>16 years old</span>
             </div>
             <div className={styles.detailRow}>
-              <span>Gender</span>
-              <span>Male</span>
+              <span className={styles.rowLabel}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> Gender</span>
+              <span className={styles.rowValue}>Male</span>
             </div>
             <div className={styles.detailRow}>
-              <span>Nationality</span>
-              <span>Filipino</span>
+              <span className={styles.rowLabel}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg> Nationality</span>
+              <span className={styles.rowValue}>Filipino</span>
             </div>
             <div className={styles.detailRow}>
-              <span>Blood Type</span>
-              <span>O+</span>
+              <span className={styles.rowLabel}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"></path></svg> Blood Type</span>
+              <span className={styles.rowValue}>O+</span>
             </div>
           </div>
         </div>
@@ -140,20 +130,20 @@ export const StudentProfileView: React.FC<StudentProfileViewProps> = ({ student,
           </div>
           <div className={styles.detailsGrid}>
             <div className={styles.detailRow}>
-              <span>Adviser</span>
-              <span>Mrs. Liza Mendoza</span>
+              <span className={styles.rowLabel}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><polyline points="17 11 19 13 23 9"></polyline></svg> Adviser</span>
+              <span className={styles.rowValue}>Mrs. Liza Mendoza</span>
             </div>
             <div className={styles.detailRow}>
-              <span>School Year</span>
-              <span>2025 - 2026</span>
+              <span className={styles.rowLabel}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg> School Year</span>
+              <span className={styles.rowValue}>2025 - 2026</span>
             </div>
             <div className={styles.detailRow}>
-              <span>Date Enrolled</span>
-              <span>{student.dateEnrolled}</span>
+              <span className={styles.rowLabel}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg> Date Enrolled</span>
+              <span className={styles.rowValue}>{student.dateEnrolled}</span>
             </div>
             <div className={styles.detailRow}>
-              <span>Status</span>
-              <span style={{ color: '#5cc789' }}>{student.status}</span>
+              <span className={styles.rowLabel}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg> Status</span>
+              <span className={styles.rowValue} style={{ color: '#5cc789' }}>{student.status}</span>
             </div>
           </div>
         </div>
