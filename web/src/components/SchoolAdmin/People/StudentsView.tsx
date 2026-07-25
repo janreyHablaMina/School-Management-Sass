@@ -5,6 +5,60 @@ import { schoolAdminMockData } from '@/lib/data/schoolAdminMockData';
 export const StudentsView: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedStudents, setSelectedStudents] = useState<string[]>([]);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  
+  type SortKey = 'name' | 'studentId' | 'gradeSection' | 'parentGuardian' | 'status' | 'dateEnrolled';
+  const [sortConfig, setSortConfig] = useState<{ key: SortKey; direction: 'asc' | 'desc' } | null>(null);
+
+  const handleSort = (key: SortKey) => {
+    setSortConfig(current => {
+      if (current && current.key === key) {
+        if (current.direction === 'asc') return { key, direction: 'desc' };
+        return null;
+      }
+      return { key, direction: 'asc' };
+    });
+  };
+
+  const getSortIcon = (key: SortKey) => {
+    if (!sortConfig || sortConfig.key !== key) return '↕';
+    return sortConfig.direction === 'asc' ? '↑' : '↓';
+  };
+
+  const sortedStudents = React.useMemo(() => {
+    let sortableItems = [...schoolAdminMockData.students];
+    if (searchTerm) {
+      const lowerSearch = searchTerm.toLowerCase();
+      sortableItems = sortableItems.filter(s => 
+        s.name.toLowerCase().includes(lowerSearch) || 
+        s.studentId.toLowerCase().includes(lowerSearch) || 
+        s.email.toLowerCase().includes(lowerSearch)
+      );
+    }
+    if (sortConfig !== null) {
+      sortableItems.sort((a, b) => {
+        if (a[sortConfig.key] < b[sortConfig.key]) return sortConfig.direction === 'asc' ? -1 : 1;
+        if (a[sortConfig.key] > b[sortConfig.key]) return sortConfig.direction === 'asc' ? 1 : -1;
+        return 0;
+      });
+    }
+    return sortableItems;
+  }, [searchTerm, sortConfig]);
+
+  const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.checked) {
+      setSelectedStudents(sortedStudents.map(s => s.id));
+    } else {
+      setSelectedStudents([]);
+    }
+  };
+
+  const handleSelectStudent = (id: string) => {
+    setSelectedStudents(prev => 
+      prev.includes(id) ? prev.filter(sId => sId !== id) : [...prev, id]
+    );
+  };
 
   const getInitials = (name: string) => {
     return name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
@@ -90,7 +144,7 @@ export const StudentsView: React.FC = () => {
         <div className={styles.tableHeader}>
           <div className={styles.tableHeaderLeft}>
             <h2>Student List</h2>
-            <p>Showing {schoolAdminMockData.students.length} students</p>
+            <p>Showing {sortedStudents.length} students</p>
           </div>
           <div className={styles.tableActions}>
             <button className={styles.exportBtn}>
@@ -108,21 +162,33 @@ export const StudentsView: React.FC = () => {
           <table className={styles.studentsTable}>
             <thead>
               <tr>
-                <th style={{ width: '40px' }}><input type="checkbox" /></th>
-                <th>Student <span className={styles.sortIcon}>↕</span></th>
-                <th>Student ID <span className={styles.sortIcon}>↕</span></th>
-                <th>Grade & Section <span className={styles.sortIcon}>↕</span></th>
-                <th>Parent / Guardian <span className={styles.sortIcon}>↕</span></th>
+                <th style={{ width: '40px' }}>
+                  <input 
+                    type="checkbox" 
+                    checked={selectedStudents.length === sortedStudents.length && sortedStudents.length > 0}
+                    onChange={handleSelectAll}
+                  />
+                </th>
+                <th onClick={() => handleSort('name')} style={{ cursor: 'pointer' }}>Student <span className={styles.sortIcon}>{getSortIcon('name')}</span></th>
+                <th onClick={() => handleSort('studentId')} style={{ cursor: 'pointer' }}>Student ID <span className={styles.sortIcon}>{getSortIcon('studentId')}</span></th>
+                <th onClick={() => handleSort('gradeSection')} style={{ cursor: 'pointer' }}>Grade & Section <span className={styles.sortIcon}>{getSortIcon('gradeSection')}</span></th>
+                <th onClick={() => handleSort('parentGuardian')} style={{ cursor: 'pointer' }}>Parent / Guardian <span className={styles.sortIcon}>{getSortIcon('parentGuardian')}</span></th>
                 <th>Contact</th>
-                <th>Status <span className={styles.sortIcon}>↕</span></th>
-                <th>Date Enrolled <span className={styles.sortIcon}>↕</span></th>
+                <th onClick={() => handleSort('status')} style={{ cursor: 'pointer' }}>Status <span className={styles.sortIcon}>{getSortIcon('status')}</span></th>
+                <th onClick={() => handleSort('dateEnrolled')} style={{ cursor: 'pointer' }}>Date Enrolled <span className={styles.sortIcon}>{getSortIcon('dateEnrolled')}</span></th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
-              {schoolAdminMockData.students.map((student) => (
+              {sortedStudents.map((student) => (
                 <tr key={student.id}>
-                  <td><input type="checkbox" /></td>
+                  <td>
+                    <input 
+                      type="checkbox" 
+                      checked={selectedStudents.includes(student.id)}
+                      onChange={() => handleSelectStudent(student.id)}
+                    />
+                  </td>
                   <td>
                     <div className={styles.studentCell}>
                       <div className={styles.avatar} style={{ background: student.avatarColor }}>
@@ -144,10 +210,22 @@ export const StudentsView: React.FC = () => {
                     </span>
                   </td>
                   <td>{student.dateEnrolled}</td>
-                  <td>
-                    <button className={styles.actionBtn}>
+                  <td style={{ position: 'relative' }}>
+                    <button className={styles.actionBtn} onClick={() => setActiveDropdown(activeDropdown === student.id ? null : student.id)}>
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
                     </button>
+                    {activeDropdown === student.id && (
+                      <>
+                        <div className={styles.dropdownOverlay} onClick={() => setActiveDropdown(null)} />
+                        <div className={styles.dropdownMenu}>
+                          <button className={styles.dropdownItem}>View Details</button>
+                          <button className={styles.dropdownItem}>Edit Student</button>
+                          <button className={styles.dropdownItem}>Manage Grades</button>
+                          <div className={styles.dropdownSeparator} />
+                          <button className={`${styles.dropdownItem} ${styles.dropdownDanger}`}>Remove</button>
+                        </div>
+                      </>
+                    )}
                   </td>
                 </tr>
               ))}
