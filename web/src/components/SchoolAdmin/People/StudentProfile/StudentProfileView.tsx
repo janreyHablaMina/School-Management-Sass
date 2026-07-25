@@ -61,16 +61,22 @@ export const StudentProfileView: React.FC<StudentProfileViewProps> = ({ student,
       <div className={styles.headerGrid}>
         {/* Avatar Card */}
         <div className={styles.infoCard}>
-          <div className={styles.avatarSection}>
-            <div className={styles.avatarCircle} style={{ borderColor: student.avatarColor }}>
-              <span style={{ color: student.avatarColor }}>{getInitials(student.name)}</span>
-              <div className={styles.statusDot}></div>
-            </div>
-            <div className={styles.avatarInfo}>
+          <div className={styles.avatarTopHalf}>
+            <div className={styles.avatarProfileBlock}>
+              <div className={styles.avatarCircle} style={{ borderColor: student.avatarColor }}>
+                <span style={{ color: student.avatarColor }}>{getInitials(student.name)}</span>
+                <div className={styles.statusDot}></div>
+              </div>
               <h2>{student.name}</h2>
               <span className={styles.statusBadge}>{student.status} Student</span>
-              
-              <div className={styles.avatarMetaGrid}>
+            </div>
+            <div className={styles.avatarExtraBlock}>
+              {/* Reserved for future 2nd column data */}
+            </div>
+          </div>
+          
+          <div className={styles.avatarBottomHalf}>
+            <div className={styles.avatarMetaGrid}>
                 <div className={styles.metaItem}>
                   <svg className={styles.metaIcon} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                   <div className={styles.metaText}>
@@ -92,7 +98,6 @@ export const StudentProfileView: React.FC<StudentProfileViewProps> = ({ student,
                     <span className={styles.metaVal}>123456789101</span>
                   </div>
                 </div>
-              </div>
             </div>
           </div>
         </div>
@@ -106,7 +111,11 @@ export const StudentProfileView: React.FC<StudentProfileViewProps> = ({ student,
           <div className={styles.detailsGrid}>
             <div className={styles.detailRow}>
               <span>Date of Birth</span>
-              <span>March 15, 2009 (16 years old)</span>
+              <span>March 15, 2009</span>
+            </div>
+            <div className={styles.detailRow}>
+              <span>Age</span>
+              <span>16 years old</span>
             </div>
             <div className={styles.detailRow}>
               <span>Gender</span>
