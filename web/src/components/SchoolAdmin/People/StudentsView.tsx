@@ -5,7 +5,7 @@ import { StudentsHeader } from './StudentsHeader';
 import { StudentsMetrics } from './StudentsMetrics';
 import { StudentsFilters } from './StudentsFilters';
 import { StudentsTable } from './StudentsTable';
-import { StudentDetailPanel } from './StudentDetailPanel';
+import { StudentProfileView } from './StudentProfile/StudentProfileView';
 
 export const StudentsView: React.FC = () => {
   const {
@@ -21,6 +21,10 @@ export const StudentsView: React.FC = () => {
   } = useStudents();
 
   const [selectedStudentForDetails, setSelectedStudentForDetails] = useState<any | null>(null);
+
+  if (selectedStudentForDetails) {
+    return <StudentProfileView student={selectedStudentForDetails} onBack={() => setSelectedStudentForDetails(null)} />;
+  }
 
   return (
     <div className={styles.container}>
@@ -38,13 +42,6 @@ export const StudentsView: React.FC = () => {
         getSortIcon={getSortIcon}
         onViewDetails={setSelectedStudentForDetails}
       />
-
-      {selectedStudentForDetails && (
-        <StudentDetailPanel 
-          student={selectedStudentForDetails} 
-          onClose={() => setSelectedStudentForDetails(null)} 
-        />
-      )}
     </div>
   );
 };
