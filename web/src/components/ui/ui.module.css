@@ -168,3 +168,77 @@
     font-size: 1.15rem;
   }
 }
+
+/* Floating Action Dropdown Menu */
+.dropdownOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  cursor: default;
+}
+
+.actionDropdownMenu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 0.35rem;
+  background: #0b1c14; /* Chalkboard dark green matching sidebar/profile dropdown */
+  border: 1.8px solid rgba(240, 239, 237, 0.45); /* Chalk wobbly boundary */
+  border-radius: 6px 8px 5px 7px / 7px 5px 8px 6px;
+  padding: 0.35rem;
+  min-width: 135px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  z-index: 100;
+  box-sizing: border-box;
+}
+
+.actionDropdownItem {
+  font-size: 0.82rem;
+  font-weight: 500;
+  text-align: left;
+  background: transparent;
+  border: 1px solid transparent;
+  color: rgba(240, 239, 237, 0.85);
+  padding: 0.35rem 0.65rem;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.15s ease;
+  width: 100%;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.actionDropdownItem:hover {
+  border: 1px dashed rgba(240, 239, 237, 0.35);
+  border-radius: 5px 3px 6px 4px / 6px 4px 5px 3px;
+  color: #f5c842;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.dropdownSeparator {
+  height: 1px;
+  border-bottom: 1.5px dashed rgba(240, 239, 237, 0.18);
+  margin: 0.2rem 0.4rem;
+}
+
+.actionDropdownItemDelete {
+  color: #ff8a8a;
+}
+
+.actionDropdownItemDelete:hover {
+  border-color: rgba(255, 138, 138, 0.4);
+  color: #ff8a8a;
+  background: rgba(255, 138, 138, 0.02) !important;
+}
+
+.actionDropdownMenuUp {
+  top: auto !important;
+  bottom: 100% !important;
+  margin-top: 0 !important;
+  margin-bottom: 0.35rem !important;
+}

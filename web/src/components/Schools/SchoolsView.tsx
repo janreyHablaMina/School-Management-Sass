@@ -5,6 +5,7 @@ import styles from '@/app/admin/admin.module.css';
 import { School } from '@/types/school';
 import { schoolsData } from '@/lib/data/schools';
 import { ConfirmModal } from '@/components/ui/ConfirmModal';
+import { ActionDropdown, ActionDropdownItem } from '@/components/ui/ActionDropdown';
 import { Button } from '@/components/ui/Button';
 import { Select } from '@/components/ui/Select';
 import { Input } from '@/components/ui/Input';
@@ -241,34 +242,34 @@ export const SchoolsView: React.FC<SchoolsViewProps> = ({ onSelectSchool, onAddS
                         >
                           ⋮
                         </button>
-                        {activeSchoolDropdownId === i && (
-                          <>
-                            <div className={styles.dropdownOverlay} onClick={(e) => { e.stopPropagation(); setActiveSchoolDropdownId(null); }} />
-                            <div className={`${styles.actionDropdownMenu} ${(filteredSchools.length > 4 && i >= filteredSchools.length - 2) ? styles.actionDropdownMenuUp : ''}`}>
-                              <button onClick={(e) => { e.stopPropagation(); setActiveSchoolDropdownId(null); onSelectSchool(school); }} className={styles.actionDropdownItem}>
-                                👁️ View Details
-                              </button>
-                              <button onClick={(e) => { e.stopPropagation(); setActiveSchoolDropdownId(null); alert(`Editing school ${school.name}...`); }} className={styles.actionDropdownItem}>
-                                ✏️ Edit
-                              </button>
-                              <button onClick={(e) => { 
-                                e.stopPropagation(); 
-                                setActiveSchoolDropdownId(null); 
-                                setConfirmModalData({
-                                  isOpen: true,
-                                  title: 'Delete School',
-                                  message: `Are you sure you want to delete the school ${school.name}? This action cannot be undone.`,
-                                  onConfirm: () => {
-                                    // Implement actual delete logic here
-                                    setConfirmModalData(prev => ({ ...prev, isOpen: false }));
-                                  }
-                                });
-                              }} className={`${styles.actionDropdownItem} ${styles.actionDropdownItemDelete}`}>
-                                🗑️ Delete
-                              </button>
-                            </div>
-                          </>
-                        )}
+                    {activeSchoolDropdownId === i && (
+                      <ActionDropdown 
+                        isOpen={activeSchoolDropdownId === i} 
+                        onClose={() => setActiveSchoolDropdownId(null)}
+                        openUpwards={(filteredSchools.length > 4 && i >= filteredSchools.length - 2)}
+                      >
+                        <ActionDropdownItem onClick={(e) => { e.stopPropagation(); setActiveSchoolDropdownId(null); onSelectSchool(school); }}>
+                          👁️ View Details
+                        </ActionDropdownItem>
+                        <ActionDropdownItem onClick={(e) => { e.stopPropagation(); setActiveSchoolDropdownId(null); alert(`Editing school ${school.name}...`); }}>
+                          ✏️ Edit
+                        </ActionDropdownItem>
+                        <ActionDropdownItem isDanger onClick={(e) => { 
+                          e.stopPropagation(); 
+                          setActiveSchoolDropdownId(null); 
+                          setConfirmModalData({
+                            isOpen: true,
+                            title: 'Delete School',
+                            message: `Are you sure you want to delete the school ${school.name}? This action cannot be undone.`,
+                            onConfirm: () => {
+                              setConfirmModalData(prev => ({ ...prev, isOpen: false }));
+                            }
+                          });
+                        }}>
+                          🗑️ Delete
+                        </ActionDropdownItem>
+                      </ActionDropdown>
+                    )}
                       </div>
                     </td>
                   </tr>
