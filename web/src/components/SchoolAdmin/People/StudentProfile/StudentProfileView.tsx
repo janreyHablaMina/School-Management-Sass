@@ -123,28 +123,161 @@ export const StudentProfileView: React.FC<StudentProfileViewProps> = ({ student,
           </div>
         </div>
 
-        {/* School Information */}
+        {/* Identification Info */}
         <div className={styles.infoCard}>
-          <div className={styles.infoCardHeader}>
-            <div className={styles.infoCardIcon} style={{ background: 'rgba(92, 199, 137, 0.1)', color: '#5cc789' }}>🏛️</div>
-            <span className={styles.infoCardTitle}>School Information</span>
+          <div className={styles.infoCardHeader} style={{ justifyContent: 'space-between' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+              <div className={styles.infoCardIcon} style={{ background: 'rgba(182, 142, 255, 0.1)', color: '#b68eff' }}>🪪</div>
+              <span className={styles.infoCardTitle}>Identification Information</span>
+            </div>
+            <div className={styles.idCardToggle}>
+              <button 
+                className={`${styles.idCardToggleBtn} ${idSide === 'front' ? styles.idCardToggleBtnActive : ''}`}
+                onClick={() => setIdSide('front')}
+              >Front</button>
+              <button 
+                className={`${styles.idCardToggleBtn} ${idSide === 'back' ? styles.idCardToggleBtnActive : ''}`}
+                onClick={() => setIdSide('back')}
+              >Back</button>
+            </div>
           </div>
-          <div className={styles.detailsGrid}>
-            <div className={styles.detailRow}>
-              <span className={styles.rowLabel}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><polyline points="17 11 19 13 23 9"></polyline></svg> Adviser</span>
-              <span className={styles.rowValue}>Mrs. Liza Mendoza</span>
-            </div>
-            <div className={styles.detailRow}>
-              <span className={styles.rowLabel}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg> School Year</span>
-              <span className={styles.rowValue}>2025 - 2026</span>
-            </div>
-            <div className={styles.detailRow}>
-              <span className={styles.rowLabel}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg> Modality</span>
-              <span className={styles.rowValue}>Face-to-Face</span>
-            </div>
-            <div className={styles.detailRow}>
-              <span className={styles.rowLabel}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg> Club</span>
-              <span className={styles.rowValue}>Science Club</span>
+          <div style={{ padding: '0.5rem 0' }}>
+            <div className={styles.idCard}>
+              {idSide === 'front' ? (
+                <>
+                  {/* Header Container */}
+                  <div className={styles.idCardHeader}>
+                    <div className={styles.idCardHeaderLeft}>
+                      <div className={styles.idCardLogoIcon}>🎓</div>
+                      <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        <span className={styles.idCardLogoText}>SchoolSaaS</span>
+                        <span className={styles.idCardTagline}>Excellence in Education</span>
+                      </div>
+                    </div>
+                    <div className={styles.idCardHeaderRight}>
+                      <h4 className={styles.idCardSchoolName}>SCHOOLSAAS ACADEMY</h4>
+                      <p className={styles.idCardSlogan}>Slogan Here</p>
+                    </div>
+                  </div>
+
+                  {/* Body Container */}
+                  <div className={styles.idCardBody}>
+                    <div className={styles.idCardPhotoArea}>
+                      <div className={styles.idCardPhoto} style={{ background: '#f8fafc', overflow: 'hidden' }}>
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#cbd5e0" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                          <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                          <polyline points="21 15 16 10 5 21"></polyline>
+                        </svg>
+                      </div>
+                    </div>
+
+                    <div className={styles.idCardDivider}></div>
+
+                    <div className={styles.idCardDetailsArea}>
+                      <div className={styles.idCardGrid}>
+                        <span className={styles.idCardLabel}>Reg No</span>
+                        <span className={styles.idCardSeparator}>:</span>
+                        <span className={styles.idCardValue}>123456</span>
+
+                        <span className={styles.idCardLabel}>Student ID</span>
+                        <span className={styles.idCardSeparator}>:</span>
+                        <span className={styles.idCardValue}>{student.studentId}</span>
+
+                        <span className={styles.idCardLabel}>Student Name</span>
+                        <span className={styles.idCardSeparator}>:</span>
+                        <span className={styles.idCardValue}>{student.name}</span>
+
+                        <span className={styles.idCardLabel}>Father/Guardian</span>
+                        <span className={styles.idCardSeparator}>:</span>
+                        <span className={styles.idCardValue}>Pedro Dela Cruz</span>
+
+                        <span className={styles.idCardLabel}>Class</span>
+                        <span className={styles.idCardSeparator}>:</span>
+                        <span className={styles.idCardValue}>{student.gradeSection}</span>
+
+                        <span className={styles.idCardLabel}>Emergency Call</span>
+                        <span className={styles.idCardSeparator}>:</span>
+                        <span className={styles.idCardValue}>{student.contact}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Footer Container */}
+                  <div className={styles.idCardFooter}>
+                    <div className={styles.idCardFooterLeft}>
+                      <span className={styles.idCardAddress}>School address street state 123</span>
+                      <span className={styles.idCardPhone}>Telephone: 123-456-789</span>
+                    </div>
+                    <div className={styles.idCardFooterRight}>
+                      <div className={styles.idCardSignatureLine}></div>
+                      <span className={styles.idCardSignatureText}>Principal</span>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  {/* Back of Card Header */}
+                  <div className={styles.idCardBackHeader}>
+                    <div className={styles.idCardBackHeaderLeft}>
+                      TERMS AND CONDITION
+                    </div>
+                    <div className={styles.idCardBackHeaderRight}>
+                      <div className={styles.idCardBackDates}>
+                        <span>Join Date : {student.dateEnrolled}</span>
+                        <span>Expire Date : DD/MM/YR</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Back of Card Body */}
+                  <div className={styles.idCardBackBody}>
+                    <ul className={styles.idCardBackTerms}>
+                      <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt.</li>
+                      <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt.</li>
+                    </ul>
+                    <div className={styles.idCardBackQR}>
+                      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#2d3748" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        <rect x="7" y="7" width="3" height="3"></rect>
+                        <rect x="14" y="7" width="3" height="3"></rect>
+                        <rect x="7" y="14" width="3" height="3"></rect>
+                        <rect x="14" y="14" width="3" height="3"></rect>
+                      </svg>
+                    </div>
+                  </div>
+
+                  {/* Back of Card Footer */}
+                  <div className={styles.idCardBackFooter}>
+                    <div className={styles.idCardBackFooterLeft}>
+                      <div className={styles.idCardBackContact}>
+                        <div className={styles.idCardBackContactRow}>
+                          <span className={styles.idCardBackContactLabel}>Phone</span>
+                          <span className={styles.idCardBackContactSep}>:</span>
+                          <span>{student.contact}</span>
+                        </div>
+                        <div className={styles.idCardBackContactRow}>
+                          <span className={styles.idCardBackContactLabel}>Mail</span>
+                          <span className={styles.idCardBackContactSep}>:</span>
+                          <span>{student.email}</span>
+                        </div>
+                        <div className={styles.idCardBackContactRow}>
+                          <span className={styles.idCardBackContactLabel}>Website</span>
+                          <span className={styles.idCardBackContactSep}>:</span>
+                          <span>schoolsaas.edu</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className={styles.idCardBackFooterRight}>
+                      <div className={styles.idCardLogoIcon} style={{ width: 32, height: 32, fontSize: '1.2rem', color: '#fff', background: 'rgba(255,255,255,0.1)' }}>🎓</div>
+                      <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        <span className={styles.idCardSchoolName} style={{ fontSize: '1rem' }}>SchoolSaaS</span>
+                        <span className={styles.idCardSlogan} style={{ fontSize: '0.55rem' }}>Excellence in Ed.</span>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -166,161 +299,28 @@ export const StudentProfileView: React.FC<StudentProfileViewProps> = ({ student,
       {/* Tab Content */}
       {activeTab === 'Overview' && (
         <div className={styles.overviewGrid}>
-          {/* Identification Info */}
+          {/* School Information */}
           <div className={styles.infoCard}>
-            <div className={styles.infoCardHeader} style={{ justifyContent: 'space-between' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
-                <div className={styles.infoCardIcon} style={{ background: 'rgba(182, 142, 255, 0.1)', color: '#b68eff' }}>🪪</div>
-                <span className={styles.infoCardTitle}>Identification Information</span>
-              </div>
-              <div className={styles.idCardToggle}>
-                <button 
-                  className={`${styles.idCardToggleBtn} ${idSide === 'front' ? styles.idCardToggleBtnActive : ''}`}
-                  onClick={() => setIdSide('front')}
-                >Front</button>
-                <button 
-                  className={`${styles.idCardToggleBtn} ${idSide === 'back' ? styles.idCardToggleBtnActive : ''}`}
-                  onClick={() => setIdSide('back')}
-                >Back</button>
-              </div>
+            <div className={styles.infoCardHeader}>
+              <div className={styles.infoCardIcon} style={{ background: 'rgba(92, 199, 137, 0.1)', color: '#5cc789' }}>🏛️</div>
+              <span className={styles.infoCardTitle}>School Information</span>
             </div>
-            <div style={{ padding: '0.5rem 0' }}>
-              <div className={styles.idCard}>
-                {idSide === 'front' ? (
-                  <>
-                    {/* Header Container */}
-                    <div className={styles.idCardHeader}>
-                      <div className={styles.idCardHeaderLeft}>
-                        <div className={styles.idCardLogoIcon}>🎓</div>
-                        <div style={{ display: 'flex', flexDirection: 'column' }}>
-                          <span className={styles.idCardLogoText}>SchoolSaaS</span>
-                          <span className={styles.idCardTagline}>Excellence in Education</span>
-                        </div>
-                      </div>
-                      <div className={styles.idCardHeaderRight}>
-                        <h4 className={styles.idCardSchoolName}>SCHOOLSAAS ACADEMY</h4>
-                        <p className={styles.idCardSlogan}>Slogan Here</p>
-                      </div>
-                    </div>
-
-                    {/* Body Container */}
-                    <div className={styles.idCardBody}>
-                      <div className={styles.idCardPhotoArea}>
-                        <div className={styles.idCardPhoto} style={{ background: '#f8fafc', overflow: 'hidden' }}>
-                          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#cbd5e0" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                            <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                            <polyline points="21 15 16 10 5 21"></polyline>
-                          </svg>
-                        </div>
-                      </div>
-
-                      <div className={styles.idCardDivider}></div>
-
-                      <div className={styles.idCardDetailsArea}>
-                        <div className={styles.idCardGrid}>
-                          <span className={styles.idCardLabel}>Reg No</span>
-                          <span className={styles.idCardSeparator}>:</span>
-                          <span className={styles.idCardValue}>123456</span>
-
-                          <span className={styles.idCardLabel}>Student ID</span>
-                          <span className={styles.idCardSeparator}>:</span>
-                          <span className={styles.idCardValue}>{student.studentId}</span>
-
-                          <span className={styles.idCardLabel}>Student Name</span>
-                          <span className={styles.idCardSeparator}>:</span>
-                          <span className={styles.idCardValue}>{student.name}</span>
-
-                          <span className={styles.idCardLabel}>Father/Guardian</span>
-                          <span className={styles.idCardSeparator}>:</span>
-                          <span className={styles.idCardValue}>Pedro Dela Cruz</span>
-
-                          <span className={styles.idCardLabel}>Class</span>
-                          <span className={styles.idCardSeparator}>:</span>
-                          <span className={styles.idCardValue}>{student.gradeSection}</span>
-
-                          <span className={styles.idCardLabel}>Emergency Call</span>
-                          <span className={styles.idCardSeparator}>:</span>
-                          <span className={styles.idCardValue}>{student.contact}</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Footer Container */}
-                    <div className={styles.idCardFooter}>
-                      <div className={styles.idCardFooterLeft}>
-                        <span className={styles.idCardAddress}>School address street state 123</span>
-                        <span className={styles.idCardPhone}>Telephone: 123-456-789</span>
-                      </div>
-                      <div className={styles.idCardFooterRight}>
-                        <div className={styles.idCardSignatureLine}></div>
-                        <span className={styles.idCardSignatureText}>Principal</span>
-                      </div>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    {/* Back of Card Header */}
-                    <div className={styles.idCardBackHeader}>
-                      <div className={styles.idCardBackHeaderLeft}>
-                        TERMS AND CONDITION
-                      </div>
-                      <div className={styles.idCardBackHeaderRight}>
-                        <div className={styles.idCardBackDates}>
-                          <span>Join Date : {student.dateEnrolled}</span>
-                          <span>Expire Date : DD/MM/YR</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Back of Card Body */}
-                    <div className={styles.idCardBackBody}>
-                      <ul className={styles.idCardBackTerms}>
-                        <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt.</li>
-                        <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt.</li>
-                      </ul>
-                      <div className={styles.idCardBackQR}>
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#2d3748" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                          <rect x="7" y="7" width="3" height="3"></rect>
-                          <rect x="14" y="7" width="3" height="3"></rect>
-                          <rect x="7" y="14" width="3" height="3"></rect>
-                          <rect x="14" y="14" width="3" height="3"></rect>
-                        </svg>
-                      </div>
-                    </div>
-
-                    {/* Back of Card Footer */}
-                    <div className={styles.idCardBackFooter}>
-                      <div className={styles.idCardBackFooterLeft}>
-                        <div className={styles.idCardBackContact}>
-                          <div className={styles.idCardBackContactRow}>
-                            <span className={styles.idCardBackContactLabel}>Phone</span>
-                            <span className={styles.idCardBackContactSep}>:</span>
-                            <span>{student.contact}</span>
-                          </div>
-                          <div className={styles.idCardBackContactRow}>
-                            <span className={styles.idCardBackContactLabel}>Mail</span>
-                            <span className={styles.idCardBackContactSep}>:</span>
-                            <span>{student.email}</span>
-                          </div>
-                          <div className={styles.idCardBackContactRow}>
-                            <span className={styles.idCardBackContactLabel}>Website</span>
-                            <span className={styles.idCardBackContactSep}>:</span>
-                            <span>schoolsaas.edu</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className={styles.idCardBackFooterRight}>
-                        <div className={styles.idCardLogoIcon} style={{ width: 32, height: 32, fontSize: '1.2rem', color: '#fff', background: 'rgba(255,255,255,0.1)' }}>🎓</div>
-                        <div style={{ display: 'flex', flexDirection: 'column' }}>
-                          <span className={styles.idCardSchoolName} style={{ fontSize: '1rem' }}>SchoolSaaS</span>
-                          <span className={styles.idCardSlogan} style={{ fontSize: '0.55rem' }}>Excellence in Ed.</span>
-                        </div>
-                      </div>
-                    </div>
-                  </>
-                )}
+            <div className={styles.detailsGrid}>
+              <div className={styles.detailRow}>
+                <span className={styles.rowLabel}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><polyline points="17 11 19 13 23 9"></polyline></svg> Adviser</span>
+                <span className={styles.rowValue}>Mrs. Liza Mendoza</span>
+              </div>
+              <div className={styles.detailRow}>
+                <span className={styles.rowLabel}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg> School Year</span>
+                <span className={styles.rowValue}>2025 - 2026</span>
+              </div>
+              <div className={styles.detailRow}>
+                <span className={styles.rowLabel}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg> Modality</span>
+                <span className={styles.rowValue}>Face-to-Face</span>
+              </div>
+              <div className={styles.detailRow}>
+                <span className={styles.rowLabel}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg> Club</span>
+                <span className={styles.rowValue}>Science Club</span>
               </div>
             </div>
           </div>

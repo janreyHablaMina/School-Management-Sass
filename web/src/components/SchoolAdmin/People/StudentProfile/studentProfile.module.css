@@ -381,6 +381,8 @@
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   display: flex;
   flex-direction: column;
+  position: relative;
+  aspect-ratio: 1.6 / 1;
 }
 
 /* Header Container */
@@ -389,6 +391,7 @@
   height: 75px;
   background: #ffffff;
   position: relative;
+  z-index: 1;
 }
 
 .idCardHeaderLeft {
@@ -466,10 +469,15 @@
 /* Body Container */
 .idCardBody {
   display: flex;
+  flex: 1;
   padding: 1.5rem 2rem;
   gap: 2rem;
   align-items: center;
-  background: #ffffff;
+  background-color: #ffffff;
+  background-image: radial-gradient(#cbd5e0 1px, transparent 1px);
+  background-size: 20px 20px;
+  position: relative;
+  z-index: 1;
 }
 
 .idCardPhotoArea {
@@ -530,10 +538,11 @@
 /* Footer Container */
 .idCardFooter {
   display: flex;
-  height: 60px;
+  height: 80px;
   background: #ffffff;
   position: relative;
   border-top: 1px solid #edf2f7;
+  z-index: 1;
 }
 
 .idCardFooterLeft {
@@ -612,7 +621,9 @@
 
 .idCardBackHeader {
   display: flex;
-  height: 60px;
+  height: 75px;
+  position: relative;
+  z-index: 1;
 }
 
 .idCardBackHeaderLeft {
@@ -647,9 +658,32 @@
 
 .idCardBackBody {
   display: flex;
+  flex: 1;
   padding: 1.5rem;
   min-height: 140px;
-  background: #ffffff;
+  background-color: #ffffff;
+  background-image: radial-gradient(#cbd5e0 1px, transparent 1px);
+  background-size: 20px 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.idCardVectorWatermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-15deg);
+  width: 180px;
+  height: 180px;
+  color: #1a365d;
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.idCardVectorWatermark svg {
+  width: 100%;
+  height: 100%;
 }
 
 .idCardBackTerms {
@@ -679,7 +713,9 @@
 
 .idCardBackFooter {
   display: flex;
-  height: 70px;
+  height: 80px;
+  position: relative;
+  z-index: 1;
 }
 
 .idCardBackFooterLeft {
