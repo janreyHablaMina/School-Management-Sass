@@ -181,15 +181,14 @@
 }
 
 .avatarTopHalf {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  align-items: center;
   gap: 1.5rem;
 }
 
 .avatarProfileBlock {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
 }
 
@@ -370,6 +369,360 @@
   margin-top: 0.3rem;
 }
 
+/* ========== ID Card — v5 Template Layout ========== */
+.idCard {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  border: 1px solid #e2e8f0;
+  color: #2d3748;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header Container */
+.idCardHeader {
+  display: flex;
+  height: 75px;
+  background: #ffffff;
+  position: relative;
+}
+
+.idCardHeaderLeft {
+  width: 40%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.75rem;
+  padding-left: 1.5rem;
+}
+
+.idCardLogoIcon {
+  font-size: 1.8rem;
+  background: rgba(26, 54, 93, 0.1);
+  color: #1a365d;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.idCardLogoText {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #1a365d;
+  line-height: 1.1;
+  letter-spacing: 0.5px;
+}
+
+.idCardTagline {
+  font-size: 0.65rem;
+  color: #718096;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.idCardHeaderRight {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 65%;
+  background: linear-gradient(135deg, #0d1e33 0%, #1a365d 50%, #28508c 100%);
+  color: #ffffff;
+  clip-path: polygon(12% 0, 100% 0, 100% 100%, 0 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  padding-right: 2rem;
+  z-index: 1;
+}
+
+.idCardSchoolName {
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #ffffff;
+  margin: 0;
+}
+
+.idCardSlogan {
+  font-size: 0.65rem;
+  color: #f5c842;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+/* Body Container */
+.idCardBody {
+  display: flex;
+  padding: 1.5rem 2rem;
+  gap: 2rem;
+  align-items: center;
+  background: #ffffff;
+}
+
+.idCardPhotoArea {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.idCardPhoto {
+  width: 110px;
+  height: 110px;
+  border-radius: 6px;
+  border: 1px solid #cbd5e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3.5rem;
+  font-family: 'Caveat', cursive;
+  font-weight: 700;
+  color: #ffffff;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.idCardDivider {
+  width: 1px;
+  height: 120px;
+  background-color: #e2e8f0;
+}
+
+.idCardDetailsArea {
+  flex: 1;
+}
+
+.idCardGrid {
+  display: grid;
+  grid-template-columns: 140px 10px 1fr;
+  row-gap: 0.5rem;
+  font-size: 0.85rem;
+  color: #4a5568;
+}
+
+.idCardLabel {
+  font-weight: 600;
+  color: #4a5568;
+}
+
+.idCardSeparator {
+  color: #718096;
+  text-align: center;
+}
+
+.idCardValue {
+  font-weight: 700;
+  color: #1a202c;
+}
+
+/* Footer Container */
+.idCardFooter {
+  display: flex;
+  height: 60px;
+  background: #ffffff;
+  position: relative;
+  border-top: 1px solid #edf2f7;
+}
+
+.idCardFooterLeft {
+  width: 60%;
+  background: linear-gradient(135deg, #0d1e33 0%, #1a365d 50%, #28508c 100%);
+  color: #ffffff;
+  clip-path: polygon(0 0, 100% 0, 85% 100%, 0 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 2rem;
+  z-index: 1;
+}
+
+.idCardAddress {
+  font-size: 0.7rem;
+  color: #e2e8f0;
+  font-weight: 500;
+}
+
+.idCardPhone {
+  font-size: 0.7rem;
+  color: #f5c842;
+  font-weight: 700;
+  margin-top: 0.1rem;
+}
+
+.idCardFooterRight {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-right: 1rem;
+  background: #ffffff;
+}
+
+.idCardSignatureLine {
+  width: 100px;
+  border-top: 1.5px solid #cbd5e0;
+  margin-bottom: 0.2rem;
+}
+
+.idCardSignatureText {
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: #718096;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.idCardToggle {
+  display: flex;
+  background: #edf2f7;
+  border-radius: 6px;
+  padding: 2px;
+}
+
+.idCardToggleBtn {
+  background: transparent;
+  border: none;
+  padding: 4px 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #718096;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.idCardToggleBtnActive {
+  background: #ffffff;
+  color: #2b6cb0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.idCardBackHeader {
+  display: flex;
+  height: 60px;
+}
+
+.idCardBackHeaderLeft {
+  width: 60%;
+  background: linear-gradient(135deg, #0d1e33 0%, #1a365d 50%, #28508c 100%);
+  color: #ffffff;
+  clip-path: polygon(0 0, 100% 0, 85% 100%, 0 100%);
+  display: flex;
+  align-items: center;
+  padding-left: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.idCardBackHeaderRight {
+  width: 40%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 1.5rem;
+  background: #ffffff;
+}
+
+.idCardBackDates {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: #4a5568;
+  gap: 0.2rem;
+}
+
+.idCardBackBody {
+  display: flex;
+  padding: 1.5rem;
+  min-height: 140px;
+  background: #ffffff;
+}
+
+.idCardBackTerms {
+  flex: 1;
+  font-size: 0.6rem;
+  color: #4a5568;
+  padding-right: 1rem;
+  margin: 0;
+  padding-left: 1rem;
+  line-height: 1.5;
+}
+
+.idCardBackTerms li {
+  margin-bottom: 0.5rem;
+}
+
+.idCardBackQR {
+  width: 70px;
+  height: 70px;
+  background: #edf2f7;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e2e8f0;
+}
+
+.idCardBackFooter {
+  display: flex;
+  height: 70px;
+}
+
+.idCardBackFooterLeft {
+  width: 55%;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  padding-left: 1.5rem;
+}
+
+.idCardBackContact {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  font-size: 0.6rem;
+  color: #4a5568;
+}
+
+.idCardBackContactRow {
+  display: flex;
+  align-items: center;
+}
+
+.idCardBackContactLabel {
+  width: 40px;
+  font-weight: 600;
+}
+
+.idCardBackContactSep {
+  margin: 0 4px;
+}
+
+.idCardBackFooterRight {
+  width: 45%;
+  background: linear-gradient(135deg, #0d1e33 0%, #1a365d 50%, #28508c 100%);
+  color: #ffffff;
+  clip-path: polygon(15% 0, 100% 0, 100% 100%, 0 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
 @media (max-width: 1200px) {
   .headerGrid {
     grid-template-columns: 1fr 1fr;
@@ -387,3 +740,10 @@
     grid-template-columns: 1fr 1fr;
   }
 }
+
+
+
+
+
+
+

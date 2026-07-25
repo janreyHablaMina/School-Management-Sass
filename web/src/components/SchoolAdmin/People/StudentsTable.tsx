@@ -88,8 +88,13 @@ export const StudentsTable: React.FC<StudentsTableProps> = ({
               const isLastTwo = students.length > 4 && index >= students.length - 2;
               
               return (
-                <tr key={student.id}>
-                  <td>
+                <tr 
+                  key={student.id} 
+                  onClick={() => onViewDetails(student)}
+                  style={{ cursor: 'pointer' }}
+                  className={styles.tableRow}
+                >
+                  <td onClick={(e) => e.stopPropagation()}>
                     <input 
                       type="checkbox" 
                       checked={selectedStudents.includes(student.id)}

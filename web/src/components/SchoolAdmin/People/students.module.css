@@ -325,6 +325,14 @@
   color: rgba(240, 239, 237, 0.9);
 }
 
+.tableRow {
+  transition: background 0.2s ease;
+}
+
+.tableRow:hover {
+  background: rgba(240, 239, 237, 0.04);
+}
+
 .studentCell {
   display: flex;
   align-items: center;
