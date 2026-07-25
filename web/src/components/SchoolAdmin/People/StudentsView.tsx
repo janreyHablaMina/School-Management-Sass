@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import styles from './students.module.css';
 import { schoolAdminMockData } from '@/lib/data/schoolAdminMockData';
+import { StudentDetailPanel } from './StudentDetailPanel';
 
 export const StudentsView: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedStudents, setSelectedStudents] = useState<string[]>([]);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [selectedStudentForDetails, setSelectedStudentForDetails] = useState<any | null>(null);
   
   type SortKey = 'name' | 'studentId' | 'gradeSection' | 'parentGuardian' | 'status' | 'dateEnrolled';
   const [sortConfig, setSortConfig] = useState<{ key: SortKey; direction: 'asc' | 'desc' } | null>(null);
@@ -211,18 +213,32 @@ export const StudentsView: React.FC = () => {
                   </td>
                   <td>{student.dateEnrolled}</td>
                   <td style={{ position: 'relative' }}>
-                    <button className={styles.actionBtn} onClick={() => setActiveDropdown(activeDropdown === student.id ? null : student.id)}>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
+                    <button className={styles.actionIconBtn} onClick={(e) => { e.stopPropagation(); setActiveDropdown(activeDropdown === student.id ? null : student.id); }}>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
                     </button>
                     {activeDropdown === student.id && (
                       <>
-                        <div className={styles.dropdownOverlay} onClick={() => setActiveDropdown(null)} />
-                        <div className={styles.dropdownMenu}>
-                          <button className={styles.dropdownItem}>View Details</button>
-                          <button className={styles.dropdownItem}>Edit Student</button>
-                          <button className={styles.dropdownItem}>Manage Grades</button>
+                        <div className={styles.dropdownOverlay} onClick={(e) => { e.stopPropagation(); setActiveDropdown(null); }} />
+                        <div className={`${styles.actionDropdownMenu} ${(sortedStudents.length > 4 && sortedStudents.findIndex(s => s.id === student.id) >= sortedStudents.length - 2) ? styles.actionDropdownMenuUp : ''}`}>
+                          <button onClick={(e) => { e.stopPropagation(); setActiveDropdown(null); setSelectedStudentForDetails(student); }} className={styles.actionDropdownItem}>
+                            👁️ View Details
+                          </button>
+                          <button onClick={(e) => { e.stopPropagation(); setActiveDropdown(null); }} className={styles.actionDropdownItem}>
+                            ✏️ Edit Student
+                          </button>
+                          <button onClick={(e) => { e.stopPropagation(); setActiveDropdown(null); }} className={styles.actionDropdownItem}>
+                            📝 Manage Grades
+                          </button>
+                          <button onClick={(e) => { e.stopPropagation(); setActiveDropdown(null); }} className={styles.actionDropdownItem}>
+                            📅 View Attendance
+                          </button>
+                          <button onClick={(e) => { e.stopPropagation(); setActiveDropdown(null); }} className={styles.actionDropdownItem}>
+                            📞 Contact Parent
+                          </button>
                           <div className={styles.dropdownSeparator} />
-                          <button className={`${styles.dropdownItem} ${styles.dropdownDanger}`}>Remove</button>
+                          <button onClick={(e) => { e.stopPropagation(); setActiveDropdown(null); }} className={`${styles.actionDropdownItem} ${styles.actionDropdownItemDelete}`}>
+                            🗑️ Delete Student
+                          </button>
                         </div>
                       </>
                     )}
@@ -252,6 +268,13 @@ export const StudentsView: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {selectedStudentForDetails && (
+        <StudentDetailPanel 
+          student={selectedStudentForDetails} 
+          onClose={() => setSelectedStudentForDetails(null)} 
+        />
+      )}
     </div>
   );
 };
