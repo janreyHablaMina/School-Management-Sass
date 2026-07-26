@@ -70,3 +70,65 @@ export const RANKING_DATA: RankingData[] = [
   { id: '1', label: 'Class Ranking', value: '12 of 58', subText: 'Top 20.7%', icon: '🏆', iconBg: 'rgba(182, 142, 255, 0.1)', iconColor: '#b68eff' },
   { id: '2', label: 'Honors', value: 'With Honors', subText: 'Q1 Grading', icon: '🎖️', iconBg: 'rgba(245, 200, 66, 0.1)', iconColor: '#f5c842' },
 ];
+
+export interface AttendanceOverview {
+  id: string;
+  label: string;
+  value: string;
+  subText: string;
+  icon: string;
+  iconBg: string;
+  iconColor: string;
+}
+
+export const ATTENDANCE_OVERVIEW_DATA: AttendanceOverview[] = [
+  { id: '1', label: 'Overall Attendance Rate', value: '96%', subText: 'This School Year', icon: '📝', iconBg: 'rgba(132, 169, 255, 0.1)', iconColor: '#84a9ff' },
+  { id: '2', label: 'Days Present', value: '168', subText: 'of 180 school days', icon: '✅', iconBg: 'rgba(92, 199, 137, 0.1)', iconColor: '#5cc789' },
+  { id: '3', label: 'Days Late', value: '5', subText: 'This School Year', icon: '⏰', iconBg: 'rgba(245, 200, 66, 0.1)', iconColor: '#f5c842' },
+  { id: '4', label: 'Days Absent', value: '7', subText: 'This School Year', icon: '❌', iconBg: 'rgba(255, 126, 147, 0.1)', iconColor: '#ff7e93' },
+];
+
+export interface AttendanceChartData {
+  month: string;
+  rate: number;
+}
+
+export const ATTENDANCE_CHART_DATA: AttendanceChartData[] = [
+  { month: 'Jun', rate: 95 },
+  { month: 'Jul', rate: 92 },
+  { month: 'Aug', rate: 98 },
+  { month: 'Sep', rate: 97 },
+  { month: 'Oct', rate: 85 },
+  { month: 'Nov', rate: 99 },
+  { month: 'Dec', rate: 96 },
+  { month: 'Jan', rate: 91 },
+  { month: 'Feb', rate: 75 },
+  { month: 'Mar', rate: 93 },
+  { month: 'Apr', rate: 97 },
+  { month: 'May', rate: 95 },
+];
+
+export interface AttendanceSubjectRecord {
+  id: string;
+  subject: string;
+  teacher: string;
+  schedule: string;
+  daysPresent: number;
+  daysLate: number;
+  daysAbsent: number;
+  rate: number;
+  icon: string;
+  iconBg: string;
+  iconColor: string;
+}
+
+export const ATTENDANCE_SUBJECT_DATA: AttendanceSubjectRecord[] = [
+  { id: '1', subject: 'General Mathematics', teacher: 'Mr. Richard Gomez', schedule: 'Mon, Wed, Fri\n7:30 AM - 8:30 AM', daysPresent: 58, daysLate: 2, daysAbsent: 1, rate: 97, icon: '📐', iconBg: 'rgba(182, 142, 255, 0.1)', iconColor: '#b68eff' },
+  { id: '2', subject: 'English for Academic Purposes', teacher: 'Ms. Anna Reyes', schedule: 'Mon, Wed, Fri\n8:30 AM - 9:30 AM', daysPresent: 57, daysLate: 1, daysAbsent: 2, rate: 95, icon: '📖', iconBg: 'rgba(132, 169, 255, 0.1)', iconColor: '#84a9ff' },
+  { id: '3', subject: 'Physical Science', teacher: 'Mr. James Cruz', schedule: 'Tue, Thu\n9:30 AM - 10:30 AM', daysPresent: 38, daysLate: 1, daysAbsent: 1, rate: 95, icon: '🔬', iconBg: 'rgba(255, 171, 107, 0.1)', iconColor: '#ffab6b' },
+  { id: '4', subject: 'Filipino sa Piling Larangan', teacher: 'Ms. Carla Santos', schedule: 'Tue, Thu\n10:30 AM - 11:30 AM', daysPresent: 38, daysLate: 0, daysAbsent: 0, rate: 100, icon: '🗣️', iconBg: 'rgba(92, 199, 137, 0.1)', iconColor: '#5cc789' },
+  { id: '5', subject: 'World History', teacher: 'Mr. Daniel Tan', schedule: 'Mon, Wed\n1:00 PM - 2:00 PM', daysPresent: 37, daysLate: 1, daysAbsent: 2, rate: 93, icon: '🌍', iconBg: 'rgba(182, 142, 255, 0.1)', iconColor: '#b68eff' },
+  { id: '6', subject: 'Computer Programming 1', teacher: 'Ms. Liza Mendoza', schedule: 'Tue, Thu\n2:00 PM - 3:00 PM', daysPresent: 37, daysLate: 0, daysAbsent: 1, rate: 97, icon: '💻', iconBg: 'rgba(132, 169, 255, 0.1)', iconColor: '#84a9ff' },
+  { id: '7', subject: 'Physical Education and Health', teacher: 'Mr. Mark Garcia', schedule: 'Fri\n3:00 PM - 4:00 PM', daysPresent: 19, daysLate: 0, daysAbsent: 1, rate: 95, icon: '🏃', iconBg: 'rgba(255, 126, 147, 0.1)', iconColor: '#ff7e93' },
+  { id: '8', subject: 'Christian Living Education', teacher: 'Rev. John Paul', schedule: 'Wed\n3:00 PM - 4:00 PM', daysPresent: 19, daysLate: 0, daysAbsent: 0, rate: 100, icon: '✝️', iconBg: 'rgba(245, 200, 66, 0.1)', iconColor: '#f5c842' },
+];

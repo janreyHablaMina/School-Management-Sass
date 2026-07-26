@@ -958,6 +958,201 @@
   font-weight: 600;
   cursor: pointer;
   display: inline-flex;
+}
+
+@media (max-width: 1200px) {
+  .headerGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .headerGrid {
+    grid-template-columns: 1fr;
+  }
+  .overviewGrid {
+    grid-template-columns: 1fr;
+  }
+  .statsRow {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Academic Tab Layout */
+.academicGrid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.academicSectionTitle {
+  font-size: 1rem;
+  color: #f0efed;
+  font-weight: 600;
+  margin-bottom: 1.2rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px dashed rgba(240, 239, 237, 0.1);
+}
+
+/* Academic Tables */
+.academicTableWrapper {
+  width: 100%;
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+}
+
+.academicTable {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.academicTable th {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  color: rgba(240, 239, 237, 0.5);
+  font-weight: 600;
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid rgba(240, 239, 237, 0.1);
+  white-space: nowrap;
+}
+
+.academicTable td {
+  padding: 1rem;
+  font-size: 0.85rem;
+  color: #f0efed;
+  border-bottom: 1px dashed rgba(240, 239, 237, 0.05);
+}
+
+.academicTable tr:last-child td {
+  border-bottom: none;
+}
+
+.subjectCell {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-weight: 500;
+}
+
+.subjectIcon {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+}
+
+.academicTable .gradeCell {
+  font-weight: 600;
+  color: #5cc789;
+}
+
+.academicTable .unitsTotalRow {
+  background: rgba(182, 142, 255, 0.05);
+  font-weight: 600;
+}
+
+.academicTable .unitsTotalRow td {
+  border-top: 1px solid rgba(182, 142, 255, 0.2);
+  color: #b68eff;
+  border-bottom: none;
+}
+
+/* Summary Grid inside Right Column */
+.summaryGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.summaryCard {
+  background: rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(240, 239, 237, 0.1);
+  border-radius: 10px;
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.summaryCardIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.summaryCardLabel {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  color: rgba(240, 239, 237, 0.5);
+  font-weight: 600;
+}
+
+.summaryCardValue {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #f0efed;
+}
+
+.summaryCardSub {
+  font-size: 0.75rem;
+  color: #5cc789;
+  font-weight: 500;
+}
+
+/* Ranking Cards */
+.rankingCard {
+  background: rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(240, 239, 237, 0.1);
+  border-radius: 10px;
+  padding: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.rankingCard .summaryCardIcon {
+  flex-shrink: 0;
+}
+
+.outlineBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  border: 1px dashed rgba(182, 142, 255, 0.4);
+  color: #b68eff;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.outlineBtn:hover {
+  background: rgba(182, 142, 255, 0.1);
+  border-style: solid;
+}
+
+.linkBtn {
+  background: transparent;
+  border: none;
+  color: #b68eff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
   align-items: center;
   gap: 0.4rem;
   padding: 0;
@@ -965,6 +1160,183 @@
 
 .linkBtn:hover {
   text-decoration: underline;
+}
+
+.customSelect {
+  background: rgba(0, 0, 0, 0.3) url("data:image/svg+xml;utf8,<svg fill='%23f5c842' height='14' viewBox='0 0 24 24' width='14' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>") no-repeat right 0.4rem center;
+  border: 1px dashed rgba(240, 239, 237, 0.35);
+  color: #f0efed;
+  padding: 0.35rem 1.8rem 0.35rem 0.8rem;
+  border-radius: 4px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+}
+
+.customSelect option {
+  background-color: #08120d;
+  color: rgba(240, 239, 237, 0.9);
+}
+
+/* --- Attendance Tab Styles --- */
+
+.attendanceGridTop {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.attendanceGridBottom {
+  display: block;
+  width: 100%;
+}
+
+.attendanceOverviewGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.chartContainer {
+  display: flex;
+  flex-direction: column;
+  height: 200px;
+  margin-top: 1rem;
+  padding-right: 1rem;
+}
+
+.chartArea {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex: 1;
+  position: relative;
+  border-left: 1px solid rgba(240, 239, 237, 0.1);
+  border-bottom: 1px solid rgba(240, 239, 237, 0.1);
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-bottom: 0.5rem;
+  margin-left: 2.5rem;
+}
+
+.yAxis {
+  position: absolute;
+  left: -2.5rem;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: rgba(240, 239, 237, 0.5);
+  padding-bottom: 0.5rem;
+}
+
+.barCol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.bar {
+  width: 14px;
+  border-radius: 4px;
+  min-height: 5px;
+}
+
+.barLabel {
+  font-size: 0.75rem;
+  color: rgba(240, 239, 237, 0.5);
+}
+
+.chartLegend {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+  justify-content: center;
+  font-size: 0.8rem;
+  color: rgba(240, 239, 237, 0.7);
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.legendDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+.attendanceTableWrapper {
+  overflow-x: auto;
+  margin-top: 1rem;
+}
+
+.attendanceTable {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.attendanceTable th {
+  color: rgba(240, 239, 237, 0.5);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  font-weight: 500;
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid rgba(240, 239, 237, 0.1);
+  white-space: nowrap;
+}
+
+.attendanceTable td {
+  padding: 1rem;
+  border-bottom: 1px solid rgba(240, 239, 237, 0.1);
+  font-size: 0.9rem;
+  color: #f0efed;
+  white-space: pre;
+}
+
+.progressBarContainer {
+  width: 60px;
+  height: 6px;
+  background: rgba(240, 239, 237, 0.1);
+  border-radius: 3px;
+  display: inline-block;
+  margin-right: 0.8rem;
+  overflow: hidden;
+  vertical-align: middle;
+}
+
+.progressBarFill {
+  height: 100%;
+  border-radius: 3px;
+}
+
+.detailsEmptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: rgba(240, 239, 237, 0.5);
+  padding: 3rem 2rem;
+  flex: 1;
+}
+
+.detailsIcon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
 }
 
 @media (max-width: 1024px) {
