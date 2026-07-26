@@ -7,4 +7,6 @@ export interface Student {
   parentGuardian: string;
   contact: string;
   dateEnrolled: string;
+  avatarColor?: string;
+  status?: string;
 }

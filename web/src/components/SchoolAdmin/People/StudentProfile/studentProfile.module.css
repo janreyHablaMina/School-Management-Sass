@@ -279,6 +279,12 @@
   border-bottom: 1px solid rgba(240, 239, 237, 0.1);
   margin-bottom: 1.5rem;
   overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.tabsContainer::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
 }
 
 .tabBtn {
@@ -777,9 +783,192 @@
   }
 }
 
+/* Academic Tab Layout */
+.academicGrid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
 
+.academicSectionTitle {
+  font-size: 1rem;
+  color: #f0efed;
+  font-weight: 600;
+  margin-bottom: 1.2rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px dashed rgba(240, 239, 237, 0.1);
+}
 
+/* Academic Tables */
+.academicTableWrapper {
+  width: 100%;
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+}
 
+.academicTable {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
 
+.academicTable th {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  color: rgba(240, 239, 237, 0.5);
+  font-weight: 600;
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid rgba(240, 239, 237, 0.1);
+  white-space: nowrap;
+}
 
+.academicTable td {
+  padding: 1rem;
+  font-size: 0.85rem;
+  color: #f0efed;
+  border-bottom: 1px dashed rgba(240, 239, 237, 0.05);
+}
 
+.academicTable tr:last-child td {
+  border-bottom: none;
+}
+
+.academicTable .subjectCell {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-weight: 500;
+}
+
+.academicTable .subjectIcon {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+}
+
+.academicTable .gradeCell {
+  font-weight: 600;
+  color: #5cc789;
+}
+
+.academicTable .unitsTotalRow {
+  background: rgba(182, 142, 255, 0.05);
+  font-weight: 600;
+}
+
+.academicTable .unitsTotalRow td {
+  border-top: 1px solid rgba(182, 142, 255, 0.2);
+  color: #b68eff;
+  border-bottom: none;
+}
+
+/* Summary Grid inside Right Column */
+.summaryGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.summaryCard {
+  background: rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(240, 239, 237, 0.1);
+  border-radius: 10px;
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.summaryCardIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.summaryCardLabel {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  color: rgba(240, 239, 237, 0.5);
+  font-weight: 600;
+}
+
+.summaryCardValue {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #f0efed;
+}
+
+.summaryCardSub {
+  font-size: 0.75rem;
+  color: #5cc789;
+  font-weight: 500;
+}
+
+/* Ranking Cards */
+.rankingCard {
+  background: rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(240, 239, 237, 0.1);
+  border-radius: 10px;
+  padding: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.rankingCard .summaryCardIcon {
+  flex-shrink: 0;
+}
+
+.outlineBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  border: 1px dashed rgba(182, 142, 255, 0.4);
+  color: #b68eff;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.outlineBtn:hover {
+  background: rgba(182, 142, 255, 0.1);
+  border-style: solid;
+}
+
+.linkBtn {
+  background: transparent;
+  border: none;
+  color: #b68eff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0;
+}
+
+.linkBtn:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 1024px) {
+  .academicGrid {
+    grid-template-columns: 1fr;
+  }
+}

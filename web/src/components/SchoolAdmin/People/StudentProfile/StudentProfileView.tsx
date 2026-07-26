@@ -5,6 +5,7 @@ import { ProfileHeader } from './components/ProfileHeader';
 import { TabNavigation } from './components/TabNavigation';
 import { OverviewTab } from './components/OverviewTab';
 import { IdentificationCard } from './components/IdentificationCard';
+import { AcademicTab } from './components/AcademicTab';
 
 interface StudentProfileViewProps {
   student: Student;
@@ -18,12 +19,13 @@ export const StudentProfileView: React.FC<StudentProfileViewProps> = ({ student,
 
   return (
     <div className={styles.container}>
-      <ProfileHeader onBack={onBack} />
+      <ProfileHeader onBack={onBack} student={student} />
       
       <TabNavigation tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
       
       {activeTab === 'Overview' && <OverviewTab student={student} />}
       {activeTab === 'ID' && <IdentificationCard student={student} />}
+      {activeTab === 'Academic' && <AcademicTab />}
     </div>
   );
 };

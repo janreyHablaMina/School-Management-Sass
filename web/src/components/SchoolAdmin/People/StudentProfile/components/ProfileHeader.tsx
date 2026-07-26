@@ -1,11 +1,17 @@
 import React from 'react';
 import styles from '../studentProfile.module.css';
+import { Student } from './types';
 
 interface ProfileHeaderProps {
   onBack: () => void;
+  student: Student;
 }
 
-export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ onBack }) => {
+export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ onBack, student }) => {
+  const getInitials = (name: string) => {
+    return name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+  };
+
   return (
     <>
 <div className={styles.breadcrumbs}>
