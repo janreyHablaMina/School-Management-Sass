@@ -222,3 +222,55 @@ export const UPCOMING_DEADLINES = [
   { id: '2', title: 'Vocabulary Quiz 2', subject: 'English for Academic Purposes', date: 'Due: Jun 5, 2025 (10 days left)', iconColor: '#f5c842' },
   { id: '3', title: 'Science Fair Report', subject: 'Physical Science', date: 'Due: Jun 12, 2025 (17 days left)', iconColor: '#f5c842' }
 ];
+
+// -----------------------------------------
+// GRADES TAB DATA
+// -----------------------------------------
+
+export const GRADES_GENERAL_AVERAGE = {
+  value: '88.45',
+  descriptiveRating: 'Very Good',
+  equivalent: '2.00',
+  color: '#b68eff'
+};
+
+export const GRADES_CLASS_RANK = {
+  rank: '12 of 58',
+  percentile: 'Top 20.7%',
+  color: '#b68eff'
+};
+
+export interface SubjectGrade {
+  id: string;
+  subject: string;
+  teacher: string;
+  q1: string;
+  q2: string;
+  q3: string;
+  q4: string;
+  final: string;
+  remarks: string;
+  icon: string;
+  iconBg: string;
+  iconColor: string;
+  remarkColor: string;
+}
+
+export const SUBJECT_GRADES: SubjectGrade[] = [
+  { id: '1', subject: 'General Mathematics', teacher: 'Mr. Richard Gomez', q1: '92', q2: '90', q3: '91', q4: '91', final: '91', remarks: 'Outstanding', icon: '➗', iconBg: 'rgba(182, 142, 255, 0.1)', iconColor: '#b68eff', remarkColor: '#5cc789' },
+  { id: '2', subject: 'English for Academic Purposes', teacher: 'Ms. Anna Reyes', q1: '88', q2: '87', q3: '85', q4: '87', final: '87', remarks: 'Very Good', icon: '📖', iconBg: 'rgba(132, 169, 255, 0.1)', iconColor: '#84a9ff', remarkColor: '#84a9ff' },
+  { id: '3', subject: 'Physical Science', teacher: 'Mr. James Cruz', q1: '84', q2: '86', q3: '88', q4: '86', final: '86', remarks: 'Very Good', icon: '🧪', iconBg: 'rgba(92, 199, 137, 0.1)', iconColor: '#5cc789', remarkColor: '#84a9ff' },
+  { id: '4', subject: 'Filipino sa Piling Larangan', teacher: 'Ms. Carla Santos', q1: '90', q2: '92', q3: '91', q4: '91', final: '91', remarks: 'Outstanding', icon: '🏛️', iconBg: 'rgba(255, 171, 107, 0.1)', iconColor: '#ffab6b', remarkColor: '#5cc789' },
+  { id: '5', subject: 'World History', teacher: 'Mr. Daniel Tan', q1: '86', q2: '87', q3: '88', q4: '87', final: '87', remarks: 'Very Good', icon: '🌍', iconBg: 'rgba(182, 142, 255, 0.1)', iconColor: '#b68eff', remarkColor: '#84a9ff' },
+  { id: '6', subject: 'Computer Programming 1', teacher: 'Ms. Liza Mendoza', q1: '93', q2: '94', q3: '95', q4: '94', final: '94', remarks: 'Outstanding', icon: '💻', iconBg: 'rgba(132, 169, 255, 0.1)', iconColor: '#84a9ff', remarkColor: '#5cc789' },
+  { id: '7', subject: 'Physical Education and Health', teacher: 'Mr. Mark Garcia', q1: '95', q2: '95', q3: '94', q4: '95', final: '95', remarks: 'Outstanding', icon: '⚽', iconBg: 'rgba(255, 126, 147, 0.1)', iconColor: '#ff7e93', remarkColor: '#5cc789' },
+  { id: '8', subject: 'Christian Living Education', teacher: 'Rev. John Paul', q1: '90', q2: '91', q3: '90', q4: '90', final: '90', remarks: 'Very Good', icon: '✝️', iconBg: 'rgba(245, 200, 66, 0.1)', iconColor: '#f5c842', remarkColor: '#84a9ff' }
+];
+
+export const GRADING_SCALE = [
+  { range: '90 - 100', rating: 'Outstanding', equivalent: '4.00', color: '#5cc789' },
+  { range: '85 - 89', rating: 'Very Good', equivalent: '3.00', color: '#84a9ff' },
+  { range: '80 - 84', rating: 'Satisfactory', equivalent: '2.00', color: '#f5c842' },
+  { range: '75 - 79', rating: 'Fairly Satisfactory', equivalent: '1.00', color: '#ffab6b' },
+  { range: 'Below 75', rating: 'Did Not Meet Expectation', equivalent: '0.00', color: '#ff7e93' }
+];

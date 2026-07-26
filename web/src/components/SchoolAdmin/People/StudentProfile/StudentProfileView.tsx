@@ -8,6 +8,7 @@ import { IdentificationCard } from './components/IdentificationCard';
 import { AcademicTab } from './components/AcademicTab';
 import { AttendanceTab } from './components/AttendanceTab';
 import { AssessmentsTab } from './components/AssessmentsTab';
+import { GradesTab } from './components/GradesTab';
 
 interface StudentProfileViewProps {
   student: Student;
@@ -30,6 +31,7 @@ export const StudentProfileView: React.FC<StudentProfileViewProps> = ({ student,
       {activeTab === 'Academic' && <AcademicTab />}
       {activeTab === 'Attendance' && <AttendanceTab />}
       {activeTab === 'Assessments' && <AssessmentsTab />}
+      {activeTab === 'Grades' && <GradesTab />}
     </div>
   );
 };
