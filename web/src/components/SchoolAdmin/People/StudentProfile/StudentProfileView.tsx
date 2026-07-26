@@ -16,7 +16,7 @@ interface StudentProfileViewProps {
 export const StudentProfileView: React.FC<StudentProfileViewProps> = ({ student, onBack }) => {
   const [activeTab, setActiveTab] = useState('Overview');
 
-  const tabs = ['Overview', 'ID', 'Academic', 'Attendance', 'Assignments', 'Grades', 'Documents', 'Parent / Guardian', 'History'];
+  const tabs = ['Overview', 'ID', 'Academic', 'Attendance', 'Assessments', 'Grades', 'Documents', 'Parent / Guardian', 'History'];
 
   return (
     <div className={styles.container}>
