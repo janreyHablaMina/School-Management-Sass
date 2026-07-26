@@ -177,3 +177,48 @@ export const QUICK_STATS_DATA = [
   { id: '3', label: 'Subjects', value: '8', subText: 'This School Year', icon: '📖', iconBg: 'rgba(132, 169, 255, 0.1)', iconColor: '#84a9ff' },
   { id: '4', label: 'Assessments', value: '12 / 13', subText: 'Submitted', icon: '📋', iconBg: 'rgba(182, 142, 255, 0.1)', iconColor: '#b68eff' },
 ];
+
+export const ASSESSMENT_STATS = {
+  overall: { value: '88.45%', subText: 'Average Score', label: 'Very Good', color: '#5cc789' },
+  completed: { value: '18', subText: 'of 22', icon: '📅', iconBg: 'rgba(92, 199, 137, 0.1)', iconColor: '#5cc789' },
+  pending: { value: '3', subText: 'to be submitted', icon: '⏱️', iconBg: 'rgba(245, 200, 66, 0.1)', iconColor: '#f5c842' },
+  overdue: { value: '1', subText: 'needs attention', icon: '⏰', iconBg: 'rgba(255, 126, 147, 0.1)', iconColor: '#ff7e93' }
+};
+
+export const ASSESSMENT_CATEGORIES = ['All', 'Assignments', 'Quizzes', 'Exams', 'Projects', 'Performance Tasks', 'Laboratory Activities', 'Worksheets', 'Other'];
+
+export interface AssessmentRecord {
+  id: string;
+  title: string;
+  subtitle: string;
+  type: string;
+  typeColor: string;
+  typeBg: string;
+  subject: string;
+  teacher: string;
+  dueDate: string;
+  dueDay: string;
+  status: string;
+  statusColor: string;
+  statusBg: string;
+  score: string;
+  scorePercent: string;
+  icon: string;
+}
+
+export const ASSESSMENT_LIST: AssessmentRecord[] = [
+  { id: '1', title: 'Algebra Homework 1', subtitle: 'Linear Equations and Inequalities', type: 'Assignment', typeColor: '#84a9ff', typeBg: 'rgba(132, 169, 255, 0.1)', subject: 'General Mathematics', teacher: 'Mr. Richard Gomez', dueDate: 'May 12, 2025', dueDay: 'Mon', status: 'Submitted', statusColor: '#5cc789', statusBg: 'rgba(92, 199, 137, 0.1)', score: '18 / 20', scorePercent: '90%', icon: '📝' },
+  { id: '2', title: 'Chapter 3 Quiz', subtitle: 'The Cell Structure', type: 'Quiz', typeColor: '#b68eff', typeBg: 'rgba(182, 142, 255, 0.1)', subject: 'Physical Science', teacher: 'Mr. James Cruz', dueDate: 'May 15, 2025', dueDay: 'Thu', status: 'Graded', statusColor: '#5cc789', statusBg: 'rgba(92, 199, 137, 0.1)', score: '24 / 25', scorePercent: '96%', icon: '❓' },
+  { id: '3', title: 'Midterm Examination', subtitle: 'Quarter 2 Midterm', type: 'Exam', typeColor: '#ffab6b', typeBg: 'rgba(255, 171, 107, 0.1)', subject: 'English for Academic Purposes', teacher: 'Ms. Anna Reyes', dueDate: 'May 20, 2025', dueDay: 'Tue', status: 'Graded', statusColor: '#5cc789', statusBg: 'rgba(92, 199, 137, 0.1)', score: '88 / 100', scorePercent: '88%', icon: '📋' },
+  { id: '4', title: 'Research Project', subtitle: 'Philippine Cultural Heritage', type: 'Project', typeColor: '#84a9ff', typeBg: 'rgba(132, 169, 255, 0.1)', subject: 'Filipino sa Piling Larangan', teacher: 'Ms. Carla Santos', dueDate: 'May 28, 2025', dueDay: 'Wed', status: 'In Progress', statusColor: '#f5c842', statusBg: 'rgba(245, 200, 66, 0.1)', score: '-', scorePercent: '-', icon: '📁' },
+  { id: '5', title: 'Laboratory Activity #2', subtitle: 'Chemical Reactions', type: 'Laboratory Activity', typeColor: '#5cc789', typeBg: 'rgba(92, 199, 137, 0.1)', subject: 'Physical Science', teacher: 'Mr. James Cruz', dueDate: 'May 30, 2025', dueDay: 'Fri', status: 'Submitted', statusColor: '#5cc789', statusBg: 'rgba(92, 199, 137, 0.1)', score: '22 / 25', scorePercent: '88%', icon: '🧪' },
+  { id: '6', title: 'Reading Comprehension Worksheet', subtitle: 'Identifying Main Ideas', type: 'Worksheet', typeColor: '#ffab6b', typeBg: 'rgba(255, 171, 107, 0.1)', subject: 'English for Academic Purposes', teacher: 'Ms. Anna Reyes', dueDate: 'Jun 2, 2025', dueDay: 'Mon', status: 'Pending', statusColor: '#f5c842', statusBg: 'rgba(245, 200, 66, 0.1)', score: '-', scorePercent: '-', icon: '📄' },
+  { id: '7', title: 'Oral Recitation', subtitle: 'Noli Me Tangere (Ch. 1-5)', type: 'Performance Task', typeColor: '#ff7e93', typeBg: 'rgba(255, 126, 147, 0.1)', subject: 'Filipino sa Piling Larangan', teacher: 'Ms. Carla Santos', dueDate: 'Jun 3, 2025', dueDay: 'Tue', status: 'Graded', statusColor: '#5cc789', statusBg: 'rgba(92, 199, 137, 0.1)', score: '19 / 20', scorePercent: '95%', icon: '🗣️' },
+  { id: '8', title: 'Vocabulary Quiz 2', subtitle: 'Academic Vocabulary', type: 'Quiz', typeColor: '#b68eff', typeBg: 'rgba(182, 142, 255, 0.1)', subject: 'English for Academic Purposes', teacher: 'Ms. Anna Reyes', dueDate: 'Jun 5, 2025', dueDay: 'Thu', status: 'Pending', statusColor: '#f5c842', statusBg: 'rgba(245, 200, 66, 0.1)', score: '-', scorePercent: '-', icon: '❓' }
+];
+
+export const UPCOMING_DEADLINES = [
+  { id: '1', title: 'Research Project', subject: 'Filipino sa Piling Larangan', date: 'Due: May 28, 2025 (2 days left)', iconColor: '#f5c842' },
+  { id: '2', title: 'Vocabulary Quiz 2', subject: 'English for Academic Purposes', date: 'Due: Jun 5, 2025 (10 days left)', iconColor: '#f5c842' },
+  { id: '3', title: 'Science Fair Report', subject: 'Physical Science', date: 'Due: Jun 12, 2025 (17 days left)', iconColor: '#f5c842' }
+];
