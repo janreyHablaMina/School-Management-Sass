@@ -132,3 +132,48 @@ export const ATTENDANCE_SUBJECT_DATA: AttendanceSubjectRecord[] = [
   { id: '7', subject: 'Physical Education and Health', teacher: 'Mr. Mark Garcia', schedule: 'Fri\n3:00 PM - 4:00 PM', daysPresent: 19, daysLate: 0, daysAbsent: 1, rate: 95, icon: '🏃', iconBg: 'rgba(255, 126, 147, 0.1)', iconColor: '#ff7e93' },
   { id: '8', subject: 'Christian Living Education', teacher: 'Rev. John Paul', schedule: 'Wed\n3:00 PM - 4:00 PM', daysPresent: 19, daysLate: 0, daysAbsent: 0, rate: 100, icon: '✝️', iconBg: 'rgba(245, 200, 66, 0.1)', iconColor: '#f5c842' },
 ];
+
+export interface DetailRecord {
+  id: string;
+  label: string;
+  value: string;
+  fullWidth?: boolean;
+}
+
+export const ENROLLMENT_DATA: DetailRecord[] = [
+  { id: '1', label: 'Enrollment Type', value: 'Transferee' },
+  { id: '2', label: 'Admission Date', value: 'August 15, 2024' },
+  { id: '3', label: 'Curriculum', value: 'Basic Education (K-12)' },
+  { id: '4', label: 'Previous School', value: 'Quezon City Science High School' },
+];
+
+export const CONTACT_DATA: DetailRecord[] = [
+  { id: '1', label: 'Address', value: '123 Sampaguita St., Barangay 12, Quezon City', fullWidth: true },
+  { id: '2', label: 'Contact Number', value: '+63 917 123 4567' },
+  { id: '3', label: 'Email', value: 'juan.delacruz@student.edu.ph' },
+];
+
+export interface GuardianRecord {
+  name: string;
+  relationship: string;
+  initials: string;
+  status: string;
+  contact: string;
+  avatarGradient: string;
+}
+
+export const GUARDIAN_DATA: GuardianRecord = {
+  name: 'Pedro Dela Cruz',
+  relationship: 'Primary Guardian • Father',
+  initials: 'PD',
+  status: 'Active',
+  contact: '0917 876 5432',
+  avatarGradient: 'linear-gradient(135deg, rgba(255,126,147,0.8), rgba(182,142,255,0.8))'
+};
+
+export const QUICK_STATS_DATA = [
+  { id: '1', label: 'General Average', value: '89.15', subText: 'Very Good', icon: '🏅', iconBg: 'rgba(245, 200, 66, 0.1)', iconColor: '#f5c842' },
+  { id: '2', label: 'Attendance', value: '96%', subText: 'This School Year', icon: '📅', iconBg: 'rgba(92, 199, 137, 0.1)', iconColor: '#5cc789' },
+  { id: '3', label: 'Subjects', value: '8', subText: 'This School Year', icon: '📖', iconBg: 'rgba(132, 169, 255, 0.1)', iconColor: '#84a9ff' },
+  { id: '4', label: 'Assessments', value: '12 / 13', subText: 'Submitted', icon: '📋', iconBg: 'rgba(182, 142, 255, 0.1)', iconColor: '#b68eff' },
+];
