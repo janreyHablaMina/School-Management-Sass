@@ -1,10 +1,41 @@
 import React, { useState } from 'react';
 import styles from '../studentProfile.module.css';
-import { ASSESSMENT_STATS, ASSESSMENT_CATEGORIES, ASSESSMENT_LIST, UPCOMING_DEADLINES } from './mockData';
+import { ASSESSMENT_STATS, ASSESSMENT_LIST, UPCOMING_DEADLINES } from './mockData';
 import { InfoCard } from './SharedComponents';
+
+const ASSESSMENT_CATEGORIES = ['All', 'Assignments', 'Quizzes', 'Exams', 'Projects', 'Labs', 'Worksheets', 'Performance'];
 
 export const AssessmentsTab: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState('All');
+  const [searchTerm, setSearchTerm] = useState('');
+
+  // Filter assessments based on active category and search term
+  const filteredAssessments = ASSESSMENT_LIST.filter(assessment => {
+    // 1. Category Filter
+    let matchesCategory = true;
+    if (activeCategory !== 'All') {
+      if (activeCategory === 'Assignments') matchesCategory = assessment.type === 'Assignment';
+      else if (activeCategory === 'Quizzes') matchesCategory = assessment.type === 'Quiz';
+      else if (activeCategory === 'Exams') matchesCategory = assessment.type === 'Exam';
+      else if (activeCategory === 'Projects') matchesCategory = assessment.type === 'Project';
+      else if (activeCategory === 'Labs') matchesCategory = assessment.type === 'Laboratory Activity';
+      else if (activeCategory === 'Worksheets') matchesCategory = assessment.type === 'Worksheet';
+      else if (activeCategory === 'Performance') matchesCategory = assessment.type === 'Performance Task';
+    }
+
+    // 2. Search Filter
+    let matchesSearch = true;
+    if (searchTerm.trim() !== '') {
+      const lowerSearch = searchTerm.toLowerCase();
+      matchesSearch = 
+        assessment.title.toLowerCase().includes(lowerSearch) ||
+        assessment.subject.toLowerCase().includes(lowerSearch) ||
+        assessment.type.toLowerCase().includes(lowerSearch) ||
+        assessment.teacher.toLowerCase().includes(lowerSearch);
+    }
+
+    return matchesCategory && matchesSearch;
+  });
 
   return (
     <>
@@ -46,17 +77,6 @@ export const AssessmentsTab: React.FC = () => {
             <span className={styles.donutSub}>{ASSESSMENT_STATS.overdue.subText}</span>
           </div>
         </InfoCard>
-
-        {/* Filter Dropdown */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-          <span style={{ fontSize: '0.85rem', color: 'rgba(240, 239, 237, 0.7)', fontWeight: 500 }}>Filter by Subject</span>
-          <select className={styles.customSelect} style={{ width: '100%' }}>
-            <option>All Subjects</option>
-            <option>General Mathematics</option>
-            <option>Physical Science</option>
-            <option>English for Academic Purposes</option>
-          </select>
-        </div>
       </div>
 
       {/* Tabs and Search */}
@@ -65,7 +85,7 @@ export const AssessmentsTab: React.FC = () => {
           {ASSESSMENT_CATEGORIES.map(category => (
             <button 
               key={category}
-              className={`${styles.tabBtn} ${activeCategory === category ? styles.tabBtnActive : ''}`}
+              className={`${styles.categoryBtn} ${activeCategory === category ? styles.categoryBtnActive : ''}`}
               onClick={() => setActiveCategory(category)}
               style={{ whiteSpace: 'nowrap' }}
             >
@@ -75,11 +95,17 @@ export const AssessmentsTab: React.FC = () => {
         </div>
         
         <div style={{ display: 'flex', gap: '1rem', marginLeft: '2rem' }}>
-          <div className={styles.searchBarContainer} style={{ width: '250px' }}>
+          <div className={styles.searchWrapper} style={{ width: '320px' }}>
             <span className={styles.searchIcon}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
             </span>
-            <input type="text" placeholder="Search assessments..." className={styles.searchInput} />
+            <input 
+              type="text" 
+              placeholder="Search assessments..." 
+              className={styles.searchInput} 
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
           </div>
           <button className={styles.outlineBtn}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
@@ -108,7 +134,7 @@ export const AssessmentsTab: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-                {ASSESSMENT_LIST.map((item) => (
+                {filteredAssessments.map((item) => (
                   <tr key={item.id}>
                     <td>
                       <div className={styles.subjectCell}>
@@ -154,59 +180,61 @@ export const AssessmentsTab: React.FC = () => {
             </table>
           </div>
           <div style={{ fontSize: '0.85rem', color: 'rgba(240, 239, 237, 0.5)', marginTop: '1rem' }}>
-            Showing 1 to {ASSESSMENT_LIST.length} of {ASSESSMENT_LIST.length} assessments
+            Showing {filteredAssessments.length > 0 ? 1 : 0} to {filteredAssessments.length} of {ASSESSMENT_LIST.length} assessments
           </div>
         </div>
+      </div>
 
-        {/* Right Info Panels */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-          
-          <InfoCard title="Upcoming Deadlines" icon="⏰" iconBg="rgba(245, 200, 66, 0.1)" iconColor="#f5c842" headerRight={<span style={{ fontSize: '0.75rem', color: '#b68eff', fontWeight: 600, cursor: 'pointer' }}>View All</span>}>
+      {/* Footer Info Panels */}
+      <div className={styles.assessmentsFooterGrid}>
+        
+        <InfoCard title="Grade Impact" icon="📈" iconBg="rgba(132, 169, 255, 0.1)" iconColor="#84a9ff">
+          <span style={{ fontSize: '0.75rem', color: 'rgba(240, 239, 237, 0.5)' }}>Based on current assessments</span>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: '1rem' }}>
             <div style={{ display: 'flex', flexDirection: 'column' }}>
-              {UPCOMING_DEADLINES.map(deadline => (
-                <div key={deadline.id} className={styles.deadlineItem}>
-                  <div className={styles.deadlineIcon}>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={deadline.iconColor} strokeWidth="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                  </div>
-                  <div className={styles.deadlineContent}>
-                    <span className={styles.deadlineTitle}>{deadline.title}</span>
-                    <span className={styles.deadlineSubject}>{deadline.subject}</span>
-                    <span className={styles.deadlineDate}>{deadline.date}</span>
-                  </div>
+              <span style={{ fontSize: '1.5rem', fontWeight: 700, color: '#f0efed' }}>88.45%</span>
+              <span style={{ fontSize: '0.85rem', color: 'rgba(240, 239, 237, 0.5)' }}>Current Average</span>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+              <span style={{ fontSize: '0.8rem', fontWeight: 600, color: '#5cc789', background: 'rgba(92, 199, 137, 0.1)', padding: '0.2rem 0.5rem', borderRadius: '4px' }}>↑ 2.35%</span>
+              <span style={{ fontSize: '0.75rem', color: 'rgba(240, 239, 237, 0.5)', marginTop: '0.2rem' }}>vs last 30 days</span>
+            </div>
+          </div>
+          
+          {/* Chalk-style line chart mimicking Monthly Revenue */}
+          <div className={styles.gradeImpactGraph} style={{ position: 'relative' }}>
+            <svg width="100%" height="100%" viewBox="0 35 200 55" fill="none" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="lineGrad" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0%" stopColor="rgba(182, 142, 255, 0.4)" />
+                  <stop offset="100%" stopColor="rgba(182, 142, 255, 0)" />
+                </linearGradient>
+              </defs>
+              <path d="M 0 75 C 40 75, 60 70, 100 70 C 140 70, 160 35, 200 35 L 200 90 L 0 90 Z" fill="url(#lineGrad)" />
+              <path d="M 0 75 C 40 75, 60 70, 100 70 C 140 70, 160 35, 200 35" fill="none" stroke="#b68eff" strokeWidth="2.5" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
+            </svg>
+            {/* HTML/CSS dot tracking the exact end point of the graph (Y=35, which is top: 0 in this viewBox) */}
+            <div style={{ position: 'absolute', right: '0', top: '0', width: '10px', height: '10px', background: '#b68eff', borderRadius: '50%', transform: 'translate(50%, -50%)', border: '2px solid #08120d' }}></div>
+          </div>
+        </InfoCard>
+
+        <InfoCard title="Upcoming Deadlines" icon="⏰" iconBg="rgba(245, 200, 66, 0.1)" iconColor="#f5c842" headerRight={<span style={{ fontSize: '0.75rem', color: '#b68eff', fontWeight: 600, cursor: 'pointer' }}>View All</span>}>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            {UPCOMING_DEADLINES.map(deadline => (
+              <div key={deadline.id} className={styles.deadlineItem}>
+                <div className={styles.deadlineIcon}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={deadline.iconColor} strokeWidth="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                 </div>
-              ))}
-            </div>
-          </InfoCard>
-
-          <InfoCard title="Grade Impact" icon="📈" iconBg="rgba(132, 169, 255, 0.1)" iconColor="#84a9ff">
-            <span style={{ fontSize: '0.75rem', color: 'rgba(240, 239, 237, 0.5)' }}>Based on current assessments</span>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: '1rem' }}>
-              <div style={{ display: 'flex', flexDirection: 'column' }}>
-                <span style={{ fontSize: '1.5rem', fontWeight: 700, color: '#f0efed' }}>88.45%</span>
-                <span style={{ fontSize: '0.85rem', color: 'rgba(240, 239, 237, 0.5)' }}>Current Average</span>
+                <div className={styles.deadlineContent}>
+                  <span className={styles.deadlineTitle}>{deadline.title}</span>
+                  <span className={styles.deadlineSubject}>{deadline.subject}</span>
+                  <span className={styles.deadlineDate}>{deadline.date}</span>
+                </div>
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
-                <span style={{ fontSize: '0.8rem', fontWeight: 600, color: '#5cc789', background: 'rgba(92, 199, 137, 0.1)', padding: '0.2rem 0.5rem', borderRadius: '4px' }}>↑ 2.35%</span>
-                <span style={{ fontSize: '0.75rem', color: 'rgba(240, 239, 237, 0.5)', marginTop: '0.2rem' }}>vs last 30 days</span>
-              </div>
-            </div>
-            
-            {/* Simple CSS-only/SVG line chart representation */}
-            <div className={styles.gradeImpactGraph}>
-              <svg viewBox="0 0 100 30" width="100%" height="100%" preserveAspectRatio="none">
-                <defs>
-                  <linearGradient id="lineGrad" x1="0" x2="0" y1="0" y2="1">
-                    <stop offset="0%" stopColor="rgba(182, 142, 255, 0.3)" />
-                    <stop offset="100%" stopColor="rgba(182, 142, 255, 0)" />
-                  </linearGradient>
-                </defs>
-                <path d="M0,25 Q10,20 20,25 T40,15 T60,20 T80,5 T100,10 L100,30 L0,30 Z" fill="url(#lineGrad)" />
-                <path d="M0,25 Q10,20 20,25 T40,15 T60,20 T80,5 T100,10" fill="none" stroke="#b68eff" strokeWidth="2" strokeLinecap="round" />
-              </svg>
-            </div>
-          </InfoCard>
+            ))}
+          </div>
+        </InfoCard>
 
-        </div>
       </div>
     </>
   );
