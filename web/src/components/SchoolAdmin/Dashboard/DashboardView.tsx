@@ -52,7 +52,7 @@ export const DashboardView: React.FC = () => {
         <div className={styles.chartCard}>
           <div className={styles.chartHeader}>
             <h3 className={styles.chartTitle}>Attendance Overview ⓘ</h3>
-            <select className={styles.dropdownSelect} style={{ padding: '0.3rem 1.8rem 0.3rem 0.6rem' }}>
+            <select className={styles.dropdownSelectSmall}>
               <option>Last 7 Days</option>
             </select>
           </div>
@@ -69,7 +69,7 @@ export const DashboardView: React.FC = () => {
         <div className={styles.chartCard}>
           <div className={styles.chartHeader}>
             <h3 className={styles.chartTitle}>Enrollment Trend</h3>
-            <select className={styles.dropdownSelect} style={{ padding: '0.3rem 1.8rem 0.3rem 0.6rem' }}>
+            <select className={styles.dropdownSelectSmall}>
               <option>This School Year</option>
             </select>
           </div>
@@ -138,7 +138,7 @@ export const DashboardView: React.FC = () => {
                 <div className={styles.itemContent}>
                   <p className={styles.itemTitle}>{ann.title}</p>
                   <p className={styles.itemDesc}>{ann.desc}</p>
-                  <p className={styles.itemDesc} style={{ opacity: 0.6 }}>{ann.date}</p>
+                  <p className={styles.itemDateMuted}>{ann.date}</p>
                 </div>
               </div>
             ))}

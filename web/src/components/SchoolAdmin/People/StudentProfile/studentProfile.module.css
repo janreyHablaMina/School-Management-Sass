@@ -1632,3 +1632,72 @@
   border-color: #84a9ff;
 }
 
+
+/* Refactored Utility Classes for GradesTab */
+.statCardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin-top: 0.5rem;
+}
+
+.statCardValue {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #f0efed;
+}
+
+.statCardDesc {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.statCardSubtext {
+  font-size: 0.8rem;
+  color: rgba(240, 239, 237, 0.5);
+  margin-top: 0.2rem;
+}
+
+.gradingPeriodDate {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  color: rgba(240, 239, 237, 0.5);
+  font-size: 0.8rem;
+}
+
+.sidebarGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 1.5rem;
+}
+
+.notesCardContainer {
+  display: flex;
+  gap: 0.8rem;
+  margin-top: 0.5rem;
+  align-items: flex-start;
+  background: rgba(182, 142, 255, 0.05);
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid rgba(182, 142, 255, 0.1);
+}
+
+.notesIcon {
+  color: #b68eff;
+  margin-top: 2px;
+}
+
+.notesText {
+  font-size: 0.85rem;
+  color: rgba(240, 239, 237, 0.8);
+  line-height: 1.5;
+}
+
+.tableFooterNote {
+  font-size: 0.75rem;
+  color: rgba(240, 239, 237, 0.5);
+  margin-top: 1.5rem;
+  font-style: italic;
+}

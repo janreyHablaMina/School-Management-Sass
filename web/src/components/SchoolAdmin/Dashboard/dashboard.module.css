@@ -472,3 +472,13 @@
 
 
 
+
+.dropdownSelectSmall {
+  composes: dropdownSelect;
+  padding: 0.3rem 1.8rem 0.3rem 0.6rem;
+}
+
+.itemDateMuted {
+  composes: itemDesc;
+  opacity: 0.6;
+}
