@@ -1713,13 +1713,19 @@
 }
 
 .documentsMainLayout {
-  display: flex;
+  display: grid;
+  grid-template-columns: 2.5fr 1fr;
   gap: 1.5rem;
   align-items: flex-start;
 }
 
+@media (max-width: 1600px) {
+  .documentsMainLayout {
+    grid-template-columns: 1fr;
+  }
+}
+
 .documentsContent {
-  flex: 1;
   background: rgba(0, 0, 0, 0.15);
   border: 1px solid rgba(240, 239, 237, 0.1);
   border-radius: 12px;
@@ -1730,6 +1736,7 @@
   display: flex;
   gap: 1rem;
   margin-bottom: 1.5rem;
+  flex-wrap: wrap;
 }
 
 .filterSelect {
@@ -1751,6 +1758,7 @@
   border-radius: 8px;
   padding: 0 1rem;
   flex: 1;
+  min-width: 200px;
 }
 
 .searchIcon {
@@ -1904,10 +1912,16 @@
 }
 
 .documentsSidebar {
-  width: 300px;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+}
+
+@media (max-width: 1600px) {
+  .documentsSidebar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  }
 }
 
 .sidebarCard {
