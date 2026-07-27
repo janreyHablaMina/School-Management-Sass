@@ -274,3 +274,40 @@ export const GRADING_SCALE = [
   { range: '75 - 79', rating: 'Fairly Satisfactory', equivalent: '1.00', color: '#ffab6b' },
   { range: 'Below 75', rating: 'Did Not Meet Expectation', equivalent: '0.00', color: '#ff7e93' }
 ];
+
+// -----------------------------------------
+// DOCUMENTS TAB DATA
+// -----------------------------------------
+
+export const DOCUMENT_STATS = {
+  total: { value: 10, label: 'Total Documents', subText: 'All required documents', icon: '📄', iconColor: '#b68eff', iconBg: 'rgba(182, 142, 255, 0.1)' },
+  verified: { value: 8, label: 'Verified Documents', subText: 'Up to date', icon: '🛡️', iconColor: '#5cc789', iconBg: 'rgba(92, 199, 137, 0.1)' },
+  pending: { value: 1, label: 'Pending Documents', subText: 'For verification', icon: '⏱️', iconColor: '#f5c842', iconBg: 'rgba(245, 200, 66, 0.1)' },
+  missing: { value: 1, label: 'Missing Documents', subText: 'Required to submit', icon: '📄', iconColor: '#ff7e93', iconBg: 'rgba(255, 126, 147, 0.1)' }
+};
+
+export interface DocumentRecord {
+  id: string;
+  name: string;
+  category: string;
+  categoryColor: string;
+  categoryBg: string;
+  uploadedDate: string;
+  status: 'Verified' | 'Pending' | 'Missing';
+  uploadedBy: string;
+  uploadedByRole: string;
+  icon: string;
+}
+
+export const DOCUMENT_LIST: DocumentRecord[] = [
+  { id: '1', name: 'PSA Birth Certificate', category: 'Identification', categoryColor: '#b68eff', categoryBg: 'rgba(182, 142, 255, 0.1)', uploadedDate: 'May 5, 2025\n10:15 AM', status: 'Verified', uploadedBy: 'Sophia Loren', uploadedByRole: 'School Admin', icon: '📄' },
+  { id: '2', name: 'Form 137 (Report Card)', category: 'Academic Record', categoryColor: '#5cc789', categoryBg: 'rgba(92, 199, 137, 0.1)', uploadedDate: 'May 5, 2025\n10:18 AM', status: 'Verified', uploadedBy: 'Sophia Loren', uploadedByRole: 'School Admin', icon: '📄' },
+  { id: '3', name: 'Form 138 (Report Card)', category: 'Academic Record', categoryColor: '#5cc789', categoryBg: 'rgba(92, 199, 137, 0.1)', uploadedDate: 'May 10, 2025\n2:30 PM', status: 'Pending', uploadedBy: 'Juan Dela Cruz (Parent)', uploadedByRole: '', icon: '📄' },
+  { id: '4', name: 'Good Moral Certificate', category: 'Certificate', categoryColor: '#84a9ff', categoryBg: 'rgba(132, 169, 255, 0.1)', uploadedDate: 'Apr 28, 2025\n9:05 AM', status: 'Verified', uploadedBy: 'Sophia Loren', uploadedByRole: 'School Admin', icon: '📄' },
+  { id: '5', name: 'Medical Certificate', category: 'Health', categoryColor: '#b68eff', categoryBg: 'rgba(182, 142, 255, 0.1)', uploadedDate: 'Apr 28, 2025\n9:10 AM', status: 'Verified', uploadedBy: 'Sophia Loren', uploadedByRole: 'School Admin', icon: '📄' },
+  { id: '6', name: 'ID Photo', category: 'Identification', categoryColor: '#b68eff', categoryBg: 'rgba(182, 142, 255, 0.1)', uploadedDate: 'Apr 28, 2025\n9:12 AM', status: 'Verified', uploadedBy: 'Juan Dela Cruz (Parent)', uploadedByRole: '', icon: '🖼️' },
+  { id: '7', name: 'Vaccination Record', category: 'Health', categoryColor: '#b68eff', categoryBg: 'rgba(182, 142, 255, 0.1)', uploadedDate: 'May 6, 2025\n11:00 AM', status: 'Verified', uploadedBy: 'Juan Dela Cruz (Parent)', uploadedByRole: '', icon: '📄' },
+  { id: '8', name: 'Parent Consent Form', category: 'Forms', categoryColor: '#ffab6b', categoryBg: 'rgba(255, 171, 107, 0.1)', uploadedDate: 'May 12, 2025\n4:45 PM', status: 'Verified', uploadedBy: 'Juan Dela Cruz (Parent)', uploadedByRole: '', icon: '📄' },
+  { id: '9', name: 'Certificate of Completion (JHS)', category: 'Certificate', categoryColor: '#84a9ff', categoryBg: 'rgba(132, 169, 255, 0.1)', uploadedDate: '-', status: 'Missing', uploadedBy: '-', uploadedByRole: '', icon: '📄' },
+  { id: '10', name: 'Other Attachments', category: 'Others', categoryColor: '#f5c842', categoryBg: 'rgba(245, 200, 66, 0.1)', uploadedDate: 'May 15, 2025\n1:20 PM', status: 'Verified', uploadedBy: 'Sophia Loren', uploadedByRole: 'School Admin', icon: '📄' }
+];

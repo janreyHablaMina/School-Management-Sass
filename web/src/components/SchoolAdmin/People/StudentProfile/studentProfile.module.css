@@ -1701,3 +1701,430 @@
   margin-top: 1.5rem;
   font-style: italic;
 }
+
+/* =========================================
+   DOCUMENTS TAB STYLES
+   ========================================= */
+
+.documentsGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.documentsMainLayout {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.documentsContent {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(240, 239, 237, 0.1);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.documentsFilters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.filterSelect {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(240, 239, 237, 0.15);
+  color: #f0efed;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  outline: none;
+  cursor: pointer;
+}
+
+.searchWrapper {
+  display: flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(240, 239, 237, 0.15);
+  border-radius: 8px;
+  padding: 0 1rem;
+  flex: 1;
+}
+
+.searchIcon {
+  color: rgba(240, 239, 237, 0.5);
+  margin-right: 0.5rem;
+}
+
+.searchInput {
+  background: transparent;
+  border: none;
+  color: #f0efed;
+  padding: 0.6rem 0;
+  width: 100%;
+  font-size: 0.85rem;
+  outline: none;
+}
+
+.searchInput::placeholder {
+  color: rgba(240, 239, 237, 0.4);
+}
+
+.dataTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.dataTable th {
+  text-align: left;
+  font-size: 0.75rem;
+  color: rgba(240, 239, 237, 0.5);
+  text-transform: uppercase;
+  padding-bottom: 1rem;
+  border-bottom: 1px dashed rgba(240, 239, 237, 0.1);
+  font-weight: 600;
+}
+
+.dataTable td {
+  padding: 1rem 0;
+  border-bottom: 1px dashed rgba(240, 239, 237, 0.1);
+  vertical-align: middle;
+}
+
+.docNameCell {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.docIconBox {
+  width: 32px;
+  height: 32px;
+  background: rgba(132, 169, 255, 0.1);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+.docNameText {
+  font-weight: 500;
+  color: #f0efed;
+  font-size: 0.9rem;
+}
+
+.categoryBadge {
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.dateCell {
+  display: flex;
+  flex-direction: column;
+}
+
+.dateMain {
+  font-size: 0.85rem;
+  color: #f0efed;
+}
+
+.dateSub {
+  font-size: 0.75rem;
+  color: rgba(240, 239, 237, 0.5);
+}
+
+.statusBadgeDoc {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.statusVerified {
+  background: rgba(92, 199, 137, 0.1);
+  color: #5cc789;
+}
+
+.statusPending {
+  background: rgba(245, 200, 66, 0.1);
+  color: #f5c842;
+}
+
+.statusMissing {
+  background: rgba(255, 126, 147, 0.1);
+  color: #ff7e93;
+}
+
+.uploadedByCell {
+  display: flex;
+  flex-direction: column;
+}
+
+.uploaderName {
+  font-size: 0.85rem;
+  color: #f0efed;
+}
+
+.uploaderRole {
+  font-size: 0.75rem;
+  color: rgba(240, 239, 237, 0.5);
+}
+
+.actionBtn {
+  background: transparent;
+  border: none;
+  color: rgba(240, 239, 237, 0.5);
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.actionBtn:hover {
+  background: rgba(240, 239, 237, 0.1);
+  color: #f0efed;
+}
+
+.tableFooter {
+  margin-top: 1.5rem;
+  font-size: 0.8rem;
+  color: rgba(240, 239, 237, 0.5);
+}
+
+.documentsSidebar {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.sidebarCard {
+  background: rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(240, 239, 237, 0.1);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.sidebarCardTitle {
+  font-size: 1rem;
+  color: #f0efed;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.progressCircleContainer {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  margin: 0 auto 1.5rem;
+}
+
+.progressCircle {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.progressBackground {
+  fill: none;
+  stroke: rgba(240, 239, 237, 0.1);
+  stroke-width: 8;
+}
+
+.progressForeground {
+  fill: none;
+  stroke: #b68eff;
+  stroke-width: 8;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s ease-in-out;
+}
+
+.progressContent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.progressLabel {
+  font-size: 0.7rem;
+  color: rgba(240, 239, 237, 0.5);
+  text-transform: uppercase;
+}
+
+.progressValue {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #f0efed;
+  margin: 0.2rem 0;
+}
+
+.progressSub {
+  font-size: 0.65rem;
+  color: rgba(240, 239, 237, 0.5);
+  line-height: 1.2;
+}
+
+.progressBarWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.progressTextContainer {
+  font-size: 0.85rem;
+  color: #f0efed;
+}
+
+.progressTextBold {
+  font-weight: 600;
+}
+
+.progressBar {
+  height: 6px;
+  background: rgba(240, 239, 237, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: #b68eff;
+  border-radius: 3px;
+}
+
+.progressSubtext {
+  font-size: 0.75rem;
+  color: rgba(240, 239, 237, 0.5);
+}
+
+.missingWarningBox {
+  display: flex;
+  gap: 1rem;
+  background: rgba(255, 126, 147, 0.05);
+  border: 1px solid rgba(255, 126, 147, 0.2);
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.missingWarningIcon {
+  background: rgba(255, 126, 147, 0.1);
+  color: #ff7e93;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.missingWarningText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-size: 0.8rem;
+  color: rgba(240, 239, 237, 0.7);
+}
+
+.missingWarningText strong {
+  color: #f0efed;
+  font-size: 0.85rem;
+}
+
+.missingList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.missingItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: #f0efed;
+}
+
+.missingDot {
+  width: 6px;
+  height: 6px;
+  background: #ff7e93;
+  border-radius: 50%;
+}
+
+.viewRequirementsBtn {
+  width: 100%;
+  padding: 0.8rem;
+  background: transparent;
+  border: 1px solid rgba(182, 142, 255, 0.5);
+  color: #b68eff;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.viewRequirementsBtn:hover {
+  background: rgba(182, 142, 255, 0.1);
+  border-color: #b68eff;
+}
+
+.statHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.8rem;
+}
+
+.statIconSmall {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+}
+
+.statTitle {
+  font-size: 0.85rem;
+  color: #f0efed;
+  font-weight: 500;
+}
+
+.statValLarge {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #f0efed;
+  font-family: 'Inter', sans-serif;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+  align-self: flex-start;
+}
+
