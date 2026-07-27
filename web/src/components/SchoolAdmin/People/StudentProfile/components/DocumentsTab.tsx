@@ -24,18 +24,17 @@ export const DocumentsTab: React.FC = () => {
       {/* Top Stats */}
       <div className={styles.statsRow}>
         {Object.entries(DOCUMENT_STATS).map(([key, stat]) => (
-          <div key={key} className={styles.statBox}>
-            <div className={styles.statHeader}>
-              <div 
-                className={styles.statIconSmall}
-                style={{ backgroundColor: stat.iconBg, color: stat.iconColor }}
-              >
+          <div key={key} className={styles.docStatCard}>
+            <div className={styles.docStatTop}>
+              <span className={styles.docStatTitle}>{stat.label}</span>
+              <span className={styles.docStatIcon} style={{ color: stat.iconColor }}>
                 {stat.icon}
-              </div>
-              <div className={styles.statTitle}>{stat.label}</div>
+              </span>
             </div>
-            <div className={styles.statValLarge}>{stat.value}</div>
-            <div className={styles.statSub}>{stat.subText}</div>
+            <div className={styles.docStatBottom}>
+              <span className={styles.docStatVal}>{stat.value}</span>
+              <span className={styles.docStatSub}>{stat.subText}</span>
+            </div>
           </div>
         ))}
       </div>

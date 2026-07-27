@@ -2095,36 +2095,54 @@
   border-color: #b68eff;
 }
 
-.statHeader {
+.docStatCard {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(240, 239, 237, 0.15);
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.8rem;
+  flex-direction: column;
+  gap: 0.8rem;
 }
 
-.statIconSmall {
-  width: 28px;
-  height: 28px;
-  border-radius: 6px;
+.docStatTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.docStatTitle {
+  font-size: 0.7rem;
+  color: rgba(240, 239, 237, 0.5);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.docStatIcon {
+  font-size: 0.9rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.9rem;
 }
 
-.statTitle {
-  font-size: 0.85rem;
-  color: #f0efed;
-  font-weight: 500;
+.docStatBottom {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
 }
 
-.statValLarge {
-  font-size: 2rem;
+.docStatVal {
+  font-size: 1.8rem;
   font-weight: 700;
   color: #f0efed;
   font-family: 'Inter', sans-serif;
   line-height: 1;
-  margin-bottom: 0.5rem;
-  align-self: flex-start;
+}
+
+.docStatSub {
+  font-size: 0.75rem;
+  color: rgba(240, 239, 237, 0.8);
+  font-weight: 500;
 }
 
