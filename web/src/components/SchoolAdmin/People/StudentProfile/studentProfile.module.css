@@ -375,7 +375,7 @@
   margin-top: 0.3rem;
 }
 
-/* ========== ID Card — v5 Template Layout ========== */
+/* ========== ID Card â€” v5 Template Layout ========== */
 .idCard {
   width: 100%;
   background: #ffffff;
@@ -1500,7 +1500,7 @@
   gap: 1.5rem;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1600px) {
   .gradesGrid {
     grid-template-columns: 1fr;
   }
@@ -1554,18 +1554,21 @@
 }
 
 .gradeSelect {
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(240, 239, 237, 0.1);
-  color: #f0efed;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  outline: none;
-  cursor: pointer;
-  appearance: none;
-  width: 100%;
-  margin-top: 0.5rem;
-}
+    background: rgba(0, 0, 0, 0.3) url("data:image/svg+xml;utf8,<svg fill='%23f5c842' height='14' viewBox='0 0 24 24' width='14' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>") no-repeat right 0.6rem center;
+    border: 1px dashed rgba(240, 239, 237, 0.35);
+    color: #f0efed;
+    padding: 0.6rem 2rem 0.6rem 1rem;
+    border-radius: 4px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 100%;
+    margin-top: 0.5rem;
+  }
 
 .gradeSelect option {
   background: #08120d;
@@ -1628,3 +1631,4 @@
 .searchInput:focus {
   border-color: #84a9ff;
 }
+
