@@ -2160,3 +2160,183 @@
   font-weight: 500;
 }
 
+/* Parent / Guardian Tab Styles */
+.parentGuardianGrid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+}
+
+.pgLeftCol {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.pgRightCol {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.pgList {
+  display: flex;
+  flex-direction: column;
+}
+
+.pgCardItem {
+  display: flex;
+  padding: 1.5rem 0;
+  border-bottom: 1px dashed rgba(240, 239, 237, 0.1);
+  gap: 1.5rem;
+}
+
+.pgCardItem:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.pgCardItem:first-child {
+  padding-top: 1rem;
+}
+
+.pgAvatarCol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100px;
+}
+
+.pgAvatarIconBox {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid;
+}
+
+.pgAvatarLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #f0efed;
+  text-align: center;
+  white-space: pre-line;
+}
+
+.pgDetailsGrid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  row-gap: 1rem;
+  column-gap: 1.5rem;
+}
+
+.pgActionCol {
+  display: flex;
+  align-items: flex-start;
+}
+
+.pgEditBtn {
+  background: transparent;
+  border: 1px dashed rgba(240, 239, 237, 0.4);
+  color: #f0efed;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.pgEditBtn:hover {
+  background: rgba(240, 239, 237, 0.1);
+}
+
+.pgSideList {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+}
+
+.sideCardItem {
+  display: flex;
+  padding: 1rem 0;
+  border-bottom: 1px dashed rgba(240, 239, 237, 0.1);
+  gap: 1rem;
+}
+
+.sideCardItem:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.sideIconBox {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.sideContentFlex {
+  flex: 1;
+  display: flex;
+  gap: 1rem;
+}
+
+.sideLabelCol {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  width: 120px;
+}
+
+.sideValueCol {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  flex: 1;
+}
+
+.sideActionCol {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.sideMainLabel {
+  font-size: 0.8rem;
+  color: rgba(240, 239, 237, 0.6);
+}
+
+.sideSubLabel {
+  font-size: 0.75rem;
+  color: rgba(240, 239, 237, 0.5);
+}
+
+.sideMainValue {
+  font-size: 0.85rem;
+  color: #f0efed;
+  font-weight: 500;
+}
+
+.sideSubValue {
+  font-size: 0.8rem;
+  color: #f0efed;
+}
+
+@media (max-width: 1024px) {
+  .parentGuardianGrid {
+    grid-template-columns: 1fr;
+  }
+  .pgDetailsGrid {
+    grid-template-columns: 1fr;
+  }
+}

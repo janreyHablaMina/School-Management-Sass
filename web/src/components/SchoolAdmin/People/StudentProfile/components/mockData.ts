@@ -311,3 +311,79 @@ export const DOCUMENT_LIST: DocumentRecord[] = [
   { id: '9', name: 'Certificate of Completion (JHS)', category: 'Certificate', categoryColor: '#84a9ff', categoryBg: 'rgba(132, 169, 255, 0.1)', uploadedDate: '-', status: 'Missing', uploadedBy: '-', uploadedByRole: '', icon: '📄' },
   { id: '10', name: 'Other Attachments', category: 'Others', categoryColor: '#f5c842', categoryBg: 'rgba(245, 200, 66, 0.1)', uploadedDate: 'May 15, 2025\n1:20 PM', status: 'Verified', uploadedBy: 'Sophia Loren', uploadedByRole: 'School Admin', icon: '📄' }
 ];
+
+export interface ParentGuardianRecord {
+  id: string;
+  name: string;
+  relationship: string;
+  occupation: string;
+  mobile: string;
+  email: string;
+  address: string;
+  isLegalGuardian?: boolean;
+}
+
+export const PARENTS_GUARDIANS: ParentGuardianRecord[] = [
+  { id: '1', name: 'Ramon Dela Cruz', relationship: 'Father', occupation: 'Engineer', mobile: '0917 123 4567', email: 'ramon.delacruz@email.com', address: '123 Sampaguita St., San Pablo City, Laguna' },
+  { id: '2', name: 'Maria Dela Cruz', relationship: 'Mother', occupation: 'Teacher', mobile: '0928 765 4321', email: 'maria.delacruz@email.com', address: '123 Sampaguita St., San Pablo City, Laguna' },
+  { id: '3', name: 'Lola Teresa Dela Cruz', relationship: 'Grandmother', occupation: 'Retired', mobile: '0906 555 7788', email: 'teresadelacruz@email.com', address: '123 Sampaguita St., San Pablo City, Laguna', isLegalGuardian: true },
+];
+
+export interface LinkedAccountRecord {
+  id: string;
+  name: string;
+  relationship: string;
+  mobile: string;
+  status: string;
+  lastLogin: string;
+}
+
+export const LINKED_ACCOUNTS: LinkedAccountRecord[] = [
+  { id: '1', name: 'Ramon Dela Cruz', relationship: 'Father', mobile: '0917 123 4567', status: 'Active', lastLogin: 'May 6, 2025\n10:30 AM' },
+  { id: '2', name: 'Maria Dela Cruz', relationship: 'Mother', mobile: '0928 765 4321', status: 'Active', lastLogin: 'May 5, 2025\n4:15 PM' },
+  { id: '3', name: 'Lola Teresa Dela Cruz', relationship: 'Grandmother', mobile: '0906 555 7788', status: 'Active', lastLogin: 'May 4, 2025\n2:40 PM' },
+];
+
+export interface EmergencyContactRecord {
+  id: string;
+  name: string;
+  relationship: string;
+  mobile: string;
+  priority: string;
+  label: string;
+}
+
+export const EMERGENCY_CONTACTS: EmergencyContactRecord[] = [
+  { id: '1', name: 'Ramon Dela Cruz', relationship: 'Father', mobile: '0917 123 4567', priority: 'Priority 1', label: 'Primary Contact' },
+  { id: '2', name: 'Maria Dela Cruz', relationship: 'Mother', mobile: '0928 765 4321', priority: 'Priority 2', label: 'Secondary Contact' },
+];
+
+export interface AuthorizedPickupRecord {
+  id: string;
+  name: string;
+  relationship: string;
+  mobile: string;
+}
+
+export const AUTHORIZED_PICKUP: AuthorizedPickupRecord[] = [
+  { id: '1', name: 'Ramon Dela Cruz', relationship: 'Father', mobile: '0917 123 4567' },
+  { id: '2', name: 'Maria Dela Cruz', relationship: 'Mother', mobile: '0928 765 4321' },
+];
+
+export const MEDICAL_NOTES = {
+  text: 'No medical notes on file.\nClick edit to add medical information.',
+};
+
+export interface CommunicationPrefRecord {
+  id: string;
+  type: string;
+  description: string;
+  enabled: boolean;
+  icon: string;
+}
+
+export const COMMUNICATION_PREFS: CommunicationPrefRecord[] = [
+  { id: '1', type: 'SMS Notifications', description: 'Receive important updates via SMS', enabled: true, icon: 'message-square' },
+  { id: '2', type: 'Email Notifications', description: 'Receive important updates via Email', enabled: true, icon: 'mail' },
+  { id: '3', type: 'Mobile App Notifications', description: 'Receive push notifications in the app', enabled: true, icon: 'bell' },
+];
