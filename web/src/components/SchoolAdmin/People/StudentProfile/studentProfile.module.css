@@ -2263,6 +2263,24 @@
   margin-top: 1rem;
 }
 
+.pgSideListGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.pgSideListGrid .sideCardItem {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.pgTwoCardGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
 .sideCardItem {
   display: flex;
   padding: 1rem 0;
@@ -2336,10 +2354,23 @@
   .parentGuardianGrid {
     grid-template-columns: 1fr;
   }
+  .pgTwoCardGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 @media (max-width: 1024px) {
   .pgDetailsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .pgSideListGrid {
+    grid-template-columns: 1fr;
+  }
+  .pgTwoCardGrid {
     grid-template-columns: 1fr;
   }
 }

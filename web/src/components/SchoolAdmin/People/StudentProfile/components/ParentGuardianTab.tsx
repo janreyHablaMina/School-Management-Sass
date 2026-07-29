@@ -80,7 +80,7 @@ export const ParentGuardianTab: React.FC = () => {
             <span className={styles.infoCardTitle}>Linked Parent Accounts</span>
           </div>
           <div className={styles.tableContainer} style={{ marginTop: '1rem', border: 'none', background: 'transparent' }}>
-            <table className={styles.table}>
+            <table className={styles.dataTable}>
               <thead>
                 <tr>
                   <th>PARENT/GUARDIAN NAME</th>
@@ -110,8 +110,8 @@ export const ParentGuardianTab: React.FC = () => {
             </table>
           </div>
           <div style={{ marginTop: '1.5rem' }}>
-            <button className={styles.secondaryBtn} style={{ color: '#b68eff', borderColor: 'rgba(182, 142, 255, 0.3)' }}>
-              <Plus size={16} style={{ marginRight: '0.5rem' }} /> Invite Parent / Guardian
+            <button className={styles.pgEditBtn} style={{ color: '#b68eff', borderColor: 'rgba(182, 142, 255, 0.3)' }}>
+              <Plus size={16} /> Invite Parent / Guardian
             </button>
           </div>
         </div>
@@ -121,52 +121,54 @@ export const ParentGuardianTab: React.FC = () => {
       {/* Right Column */}
       <div className={styles.pgRightCol}>
         
-        {/* Emergency Contact */}
-        <div className={styles.infoCard}>
-          <div className={styles.infoCardHeader}>
-            <span className={styles.infoCardTitle}>Emergency Contact</span>
-          </div>
-          <div className={styles.pgSideList}>
-            {EMERGENCY_CONTACTS.map(contact => (
-              <div key={contact.id} className={styles.sideCardItem}>
-                <div className={styles.sideIconBox} style={{ background: 'rgba(182, 142, 255, 0.1)', color: '#b68eff' }}>
-                  <Phone size={16} />
-                </div>
-                <div className={styles.sideContentFlex}>
-                  <div className={styles.sideLabelCol}>
-                    <span className={styles.sideMainLabel}>{contact.label}</span>
-                    <span className={styles.sideSubLabel}>{contact.priority}</span>
+        <div className={styles.pgTwoCardGrid}>
+          {/* Emergency Contact */}
+          <div className={styles.infoCard}>
+            <div className={styles.infoCardHeader}>
+              <span className={styles.infoCardTitle}>Emergency Contact</span>
+            </div>
+            <div className={styles.pgSideList}>
+              {EMERGENCY_CONTACTS.map(contact => (
+                <div key={contact.id} className={styles.sideCardItem}>
+                  <div className={styles.sideIconBox} style={{ background: 'rgba(182, 142, 255, 0.1)', color: '#b68eff' }}>
+                    <Phone size={16} />
                   </div>
-                  <div className={styles.sideValueCol}>
-                    <span className={styles.sideMainValue}>{contact.name} ({contact.relationship})</span>
-                    <span className={styles.sideSubValue}>{contact.mobile}</span>
+                  <div className={styles.sideContentFlex}>
+                    <div className={styles.sideLabelCol}>
+                      <span className={styles.sideMainLabel}>{contact.label}</span>
+                      <span className={styles.sideSubLabel}>{contact.priority}</span>
+                    </div>
+                    <div className={styles.sideValueCol}>
+                      <span className={styles.sideMainValue}>{contact.name} ({contact.relationship})</span>
+                      <span className={styles.sideSubValue}>{contact.mobile}</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
 
-        {/* Authorized Pick-up Persons */}
-        <div className={styles.infoCard}>
-          <div className={styles.infoCardHeader}>
-            <span className={styles.infoCardTitle}>Authorized Pick-up Persons</span>
-            <span className={styles.countBadge}>{AUTHORIZED_PICKUP.length}</span>
-          </div>
-          <div className={styles.pgSideList}>
-            {AUTHORIZED_PICKUP.map(person => (
-              <div key={person.id} className={styles.sideCardItem}>
-                <div className={styles.sideIconBox} style={{ background: 'rgba(92, 199, 137, 0.1)', color: '#5cc789' }}>
-                  <User size={16} />
-                </div>
-                <div className={styles.sideContentFlex}>
-                  <div className={styles.sideValueCol}>
-                    <span className={styles.sideMainValue}>{person.name} ({person.relationship})</span>
-                    <span className={styles.sideSubValue}>{person.mobile}</span>
+          {/* Authorized Pick-up Persons */}
+          <div className={styles.infoCard}>
+            <div className={styles.infoCardHeader}>
+              <span className={styles.infoCardTitle}>Authorized Pick-up Persons</span>
+              <span className={styles.countBadge}>{AUTHORIZED_PICKUP.length}</span>
+            </div>
+            <div className={styles.pgSideList}>
+              {AUTHORIZED_PICKUP.map(person => (
+                <div key={person.id} className={styles.sideCardItem}>
+                  <div className={styles.sideIconBox} style={{ background: 'rgba(92, 199, 137, 0.1)', color: '#5cc789' }}>
+                    <User size={16} />
+                  </div>
+                  <div className={styles.sideContentFlex}>
+                    <div className={styles.sideValueCol}>
+                      <span className={styles.sideMainValue}>{person.name} ({person.relationship})</span>
+                      <span className={styles.sideSubValue}>{person.mobile}</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
 
