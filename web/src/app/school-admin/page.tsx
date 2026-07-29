@@ -10,6 +10,7 @@ import { schoolAdminMenuGroups } from '@/lib/constants/navigation';
 // Import views
 import { DashboardView } from '@/components/SchoolAdmin/Dashboard/DashboardView';
 import { StudentsView } from '@/components/SchoolAdmin/People/StudentsView';
+import { TeachersView } from '@/components/SchoolAdmin/People/Teachers/TeachersView';
 import { SchoolAdminPlaceholder } from '@/components/SchoolAdmin/shared/SchoolAdminPlaceholder';
 
 export default function SchoolAdminDashboard() {
@@ -41,6 +42,8 @@ export default function SchoolAdminDashboard() {
         return <DashboardView />;
       case 'Students':
         return <StudentsView />;
+      case 'Teachers':
+        return <TeachersView />;
       default:
         // Generic fallback for unimplemented tabs
         return <SchoolAdminPlaceholder title={activeTab} />;
