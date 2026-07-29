@@ -387,3 +387,149 @@ export const COMMUNICATION_PREFS: CommunicationPrefRecord[] = [
   { id: '2', type: 'Email Notifications', description: 'Receive important updates via Email', enabled: true, icon: 'mail' },
   { id: '3', type: 'Mobile App Notifications', description: 'Receive push notifications in the app', enabled: true, icon: 'bell' },
 ];
+// --- History Tab Mock Data ---
+
+export interface HistoryActivity {
+  id: string;
+  dateStr: string;
+  timeStr: string;
+  activityTitle: string;
+  activityIcon: string;
+  activityIconColor: string;
+  activityIconBg: string;
+  description: string;
+  badgeText?: string;
+  badgeColor?: string;
+  badgeBg?: string;
+  performedBy: string;
+  role: string;
+}
+
+export const ACTIVITY_HISTORY: HistoryActivity[] = [
+  {
+    id: '1',
+    dateStr: 'May 20, 2025',
+    timeStr: '10:15 AM',
+    activityTitle: 'Grade Updated',
+    activityIcon: 'activity',
+    activityIconColor: '#b68eff',
+    activityIconBg: 'rgba(182, 142, 255, 0.1)',
+    description: 'Grade updated for General Mathematics',
+    badgeText: '91 -> 93',
+    badgeColor: '#84a9ff',
+    badgeBg: 'rgba(132, 169, 255, 0.1)',
+    performedBy: 'Mr. Richard Gomez',
+    role: 'Teacher'
+  },
+  {
+    id: '2',
+    dateStr: 'May 18, 2025',
+    timeStr: '09:30 AM',
+    activityTitle: 'Document Uploaded',
+    activityIcon: 'file-text',
+    activityIconColor: '#5cc789',
+    activityIconBg: 'rgba(92, 199, 137, 0.1)',
+    description: 'Medical Certificate',
+    badgeText: 'Verified',
+    badgeColor: '#5cc789',
+    badgeBg: 'rgba(92, 199, 137, 0.1)',
+    performedBy: 'Sophia Loren',
+    role: 'School Admin'
+  },
+  {
+    id: '3',
+    dateStr: 'May 15, 2025',
+    timeStr: '02:45 PM',
+    activityTitle: 'Assessment Submitted',
+    activityIcon: 'calendar',
+    activityIconColor: '#ffab6b',
+    activityIconBg: 'rgba(255, 171, 107, 0.1)',
+    description: 'Chapter 3 Quiz - Physical Science',
+    performedBy: 'Juan Dela Cruz',
+    role: 'Student'
+  },
+  {
+    id: '4',
+    dateStr: 'May 12, 2025',
+    timeStr: '11:20 AM',
+    activityTitle: 'Attendance Marked',
+    activityIcon: 'user',
+    activityIconColor: '#84a9ff',
+    activityIconBg: 'rgba(132, 169, 255, 0.1)',
+    description: 'Marked Present for all subjects',
+    performedBy: 'Ms. Anna Reyes',
+    role: 'Teacher'
+  },
+  {
+    id: '5',
+    dateStr: 'May 10, 2025',
+    timeStr: '03:10 PM',
+    activityTitle: 'Subject Enrolled',
+    activityIcon: 'book-open',
+    activityIconColor: '#b68eff',
+    activityIconBg: 'rgba(182, 142, 255, 0.1)',
+    description: 'Enrolled in Computer Programming 1',
+    performedBy: 'Sophia Loren',
+    role: 'School Admin'
+  },
+  {
+    id: '6',
+    dateStr: 'May 8, 2025',
+    timeStr: '09:05 AM',
+    activityTitle: 'Parent Account Linked',
+    activityIcon: 'users',
+    activityIconColor: '#5cc789',
+    activityIconBg: 'rgba(92, 199, 137, 0.1)',
+    description: 'Maria Dela Cruz linked as guardian',
+    performedBy: 'Sophia Loren',
+    role: 'School Admin'
+  },
+  {
+    id: '7',
+    dateStr: 'May 5, 2025',
+    timeStr: '04:00 PM',
+    activityTitle: 'Comment Added',
+    activityIcon: 'message-square',
+    activityIconColor: '#ffab6b',
+    activityIconBg: 'rgba(255, 171, 107, 0.1)',
+    description: "Advisor's comment on performance",
+    performedBy: 'Mrs. Liza Mendoza',
+    role: 'Adviser'
+  },
+  {
+    id: '8',
+    dateStr: 'May 1, 2025',
+    timeStr: '08:30 AM',
+    activityTitle: 'Student Created',
+    activityIcon: 'user-plus',
+    activityIconColor: '#b68eff',
+    activityIconBg: 'rgba(182, 142, 255, 0.1)',
+    description: 'Student profile created',
+    performedBy: 'Sophia Loren',
+    role: 'School Admin'
+  }
+];
+
+export const HISTORY_STATS = [
+  { id: '1', label: 'Total Activities', value: '23', subText: '', icon: 'activity', iconBg: 'rgba(182, 142, 255, 0.1)', iconColor: '#b68eff' },
+  { id: '2', label: 'This Month', value: '8', subText: '', icon: 'calendar', iconBg: 'rgba(92, 199, 137, 0.1)', iconColor: '#5cc789' },
+  { id: '3', label: 'By Teachers', value: '6', subText: '', icon: 'user', iconBg: 'rgba(255, 171, 107, 0.1)', iconColor: '#ffab6b' },
+  { id: '4', label: 'By Administrators', value: '4', subText: '', icon: 'shield', iconBg: 'rgba(132, 169, 255, 0.1)', iconColor: '#84a9ff' }
+];
+
+export const ACTIVITY_BREAKDOWN = [
+  { label: 'Academic Updates', count: 9, percentage: 39, color: '#b68eff' },
+  { label: 'Documents', count: 4, percentage: 17, color: '#5cc789' },
+  { label: 'Assessments', count: 3, percentage: 13, color: '#ffab6b' },
+  { label: 'Attendance', count: 4, percentage: 17, color: '#84a9ff' },
+  { label: 'Other', count: 3, percentage: 14, color: '#d1d5db' }
+];
+
+export const ADVISOR_NOTES = {
+  dateStr: 'May 5, 2025',
+  timeStr: '04:00 PM',
+  content: 'Juan shows great improvement in class participation. Keep up the good work!',
+  advisorName: 'Mrs. Liza Mendoza',
+  advisorRole: 'Adviser',
+  avatarUrl: 'https://i.pravatar.cc/150?u=liza'
+};

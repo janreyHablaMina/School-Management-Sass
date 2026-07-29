@@ -1,0 +1,394 @@
+.historyGrid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+@media (max-width: 1200px) {
+  .historyGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Left Column */
+.leftCol {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.historyHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #f0efed;
+}
+
+.subtitle {
+  font-size: 0.85rem;
+  color: rgba(240, 239, 237, 0.6);
+}
+
+.controlsRow {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.controlItem {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 0.5rem 0.8rem;
+  color: #f0efed;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  outline: none;
+}
+
+.controlItem:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.searchInput {
+  background: transparent;
+  border: none;
+  color: #f0efed;
+  font-size: 0.85rem;
+  outline: none;
+  width: 200px;
+}
+
+.searchInput::placeholder {
+  color: rgba(240, 239, 237, 0.4);
+}
+
+.exportBtn {
+  margin-left: auto;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  color: #f0efed;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.exportBtn:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Table */
+.historyTableWrapper {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.historyTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.historyTable th {
+  text-align: left;
+  padding: 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: rgba(240, 239, 237, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.historyTable td {
+  padding: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  vertical-align: middle;
+}
+
+.historyTable tr:last-child td {
+  border-bottom: none;
+}
+
+.historyTable tr:hover {
+  background: rgba(255, 255, 255, 0.01);
+}
+
+/* Table Cell specific content */
+.dateTimeCol {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.dateText {
+  color: #f0efed;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.timeText {
+  color: rgba(240, 239, 237, 0.5);
+  font-size: 0.75rem;
+}
+
+.activityFlex {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.activityIconBox {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.activityTitle {
+  color: #f0efed;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.descFlex {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.descText {
+  color: #f0efed;
+  font-size: 0.85rem;
+}
+
+.badge {
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.personCol {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.personName {
+  color: #f0efed;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.personRole {
+  color: rgba(240, 239, 237, 0.5);
+  font-size: 0.75rem;
+}
+
+.actionBtn {
+  background: none;
+  border: none;
+  color: rgba(240, 239, 237, 0.5);
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.actionBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #f0efed;
+}
+
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.pageInfo {
+  font-size: 0.85rem;
+  color: rgba(240, 239, 237, 0.6);
+}
+
+.pageControls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.pageBtn {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  color: #f0efed;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.pageBtn.active {
+  background: rgba(182, 142, 255, 0.2);
+  border-color: rgba(182, 142, 255, 0.4);
+  color: #b68eff;
+}
+
+/* Right Column */
+.rightCol {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.donutWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 1rem 0;
+}
+
+.donutChart {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  /* Using conic-gradient for the segments. Values will be set via inline styles in React */
+  position: relative;
+}
+
+/* Create the inner hole for the donut */
+.donutChart::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100px;
+  height: 100px;
+  background-color: #1a1a1a; /* Assuming dark theme background color matches this roughly */
+  border-radius: 50%;
+}
+
+.donutLegend {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  width: 100%;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.85rem;
+}
+
+.legendFlex {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.legendDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.legendLabel {
+  color: #f0efed;
+}
+
+.legendValue {
+  color: rgba(240, 239, 237, 0.6);
+  font-family: monospace;
+}
+
+/* Notes Card */
+.notesContent {
+  padding: 1rem 0 0 0;
+}
+
+.notesDateTime {
+  font-size: 0.75rem;
+  color: rgba(240, 239, 237, 0.5);
+  margin-bottom: 0.8rem;
+}
+
+.notesText {
+  font-size: 0.9rem;
+  color: #f0efed;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+
+.notesAuthor {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.authorAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.authorName {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #f0efed;
+}
+
+.authorRole {
+  font-size: 0.75rem;
+  color: rgba(240, 239, 237, 0.5);
+}
+
+.viewAllBtn {
+  background: none;
+  border: none;
+  color: #b68eff;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+}
+
+.viewAllBtn:hover {
+  text-decoration: underline;
+}

@@ -11,6 +11,7 @@ import { AssessmentsTab } from './tabs/Assessments/AssessmentsTab';
 import { GradesTab } from './tabs/Grades/GradesTab';
 import { DocumentsTab } from './tabs/Documents/DocumentsTab';
 import { ParentGuardianTab } from './tabs/ParentGuardian/ParentGuardianTab';
+import { HistoryTab } from './tabs/History/HistoryTab';
 
 interface StudentProfileViewProps {
   student: Student;
@@ -36,6 +37,7 @@ export const StudentProfileView: React.FC<StudentProfileViewProps> = ({ student,
       {activeTab === 'Grades' && <GradesTab />}
       {activeTab === 'Documents' && <DocumentsTab />}
       {activeTab === 'Parent / Guardian' && <ParentGuardianTab />}
+      {activeTab === 'History' && <HistoryTab />}
     </div>
   );
 };
