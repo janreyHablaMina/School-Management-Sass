@@ -172,59 +172,61 @@ export const ParentGuardianTab: React.FC = () => {
           </div>
         </div>
 
-        {/* Medical Notes */}
-        <div className={styles.infoCard}>
-          <div className={styles.infoCardHeader} style={{ justifyContent: 'space-between' }}>
-            <span className={styles.infoCardTitle}>Medical Notes</span>
-            <button className={styles.pgEditBtn}><Edit2 size={14} /> Edit</button>
-          </div>
-          <div className={styles.sideCardItem} style={{ borderBottom: 'none', paddingBottom: 0 }}>
-            <div className={styles.sideIconBox} style={{ background: 'rgba(182, 142, 255, 0.1)', color: '#b68eff' }}>
-              <Heart size={16} />
+        <div className={styles.pgTwoCardGrid}>
+          {/* Medical Notes */}
+          <div className={styles.infoCard}>
+            <div className={styles.infoCardHeader} style={{ justifyContent: 'space-between' }}>
+              <span className={styles.infoCardTitle}>Medical Notes</span>
+              <button className={styles.pgEditBtn}><Edit2 size={14} /> Edit</button>
             </div>
-            <div className={styles.sideContentFlex}>
-              <div className={styles.sideValueCol}>
-                <span className={styles.sideMainLabel} style={{ color: '#f0efed' }}>Medical Notes</span>
-                <span className={styles.sideSubLabel} style={{ whiteSpace: 'pre-line', marginTop: '0.2rem' }}>
-                  {MEDICAL_NOTES.text}
-                </span>
+            <div className={styles.sideCardItem} style={{ borderBottom: 'none', paddingBottom: 0 }}>
+              <div className={styles.sideIconBox} style={{ background: 'rgba(182, 142, 255, 0.1)', color: '#b68eff' }}>
+                <Heart size={16} />
+              </div>
+              <div className={styles.sideContentFlex}>
+                <div className={styles.sideValueCol}>
+                  <span className={styles.sideMainLabel} style={{ color: '#f0efed' }}>Medical Notes</span>
+                  <span className={styles.sideSubLabel} style={{ whiteSpace: 'pre-line', marginTop: '0.2rem' }}>
+                    {MEDICAL_NOTES.text}
+                  </span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Communication Preferences */}
-        <div className={styles.infoCard}>
-          <div className={styles.infoCardHeader}>
-            <span className={styles.infoCardTitle}>Communication Preferences</span>
-          </div>
-          <div className={styles.pgSideList}>
-            {COMMUNICATION_PREFS.map(pref => {
-              const Icon = pref.icon === 'message-square' ? MessageSquare : pref.icon === 'mail' ? Mail : Bell;
-              const iconColor = pref.icon === 'message-square' ? '#5cc789' : pref.icon === 'mail' ? '#84a9ff' : '#b68eff';
-              
-              return (
-                <div key={pref.id} className={styles.sideCardItem}>
-                  <div className={styles.sideIconBox} style={{ background: `rgba(${iconColor === '#5cc789' ? '92, 199, 137' : iconColor === '#84a9ff' ? '132, 169, 255' : '182, 142, 255'}, 0.1)`, color: iconColor }}>
-                    <Icon size={16} />
-                  </div>
-                  <div className={styles.sideContentFlex}>
-                    <div className={styles.sideLabelCol} style={{ flex: 1 }}>
-                      <span className={styles.sideMainValue}>{pref.type}</span>
-                      <span className={styles.sideSubLabel}>{pref.description}</span>
+          {/* Communication Preferences */}
+          <div className={styles.infoCard}>
+            <div className={styles.infoCardHeader}>
+              <span className={styles.infoCardTitle}>Communication Preferences</span>
+            </div>
+            <div className={styles.pgSideList}>
+              {COMMUNICATION_PREFS.map(pref => {
+                const Icon = pref.icon === 'message-square' ? MessageSquare : pref.icon === 'mail' ? Mail : Bell;
+                const iconColor = pref.icon === 'message-square' ? '#5cc789' : pref.icon === 'mail' ? '#84a9ff' : '#b68eff';
+                
+                return (
+                  <div key={pref.id} className={styles.sideCardItem}>
+                    <div className={styles.sideIconBox} style={{ background: `rgba(${iconColor === '#5cc789' ? '92, 199, 137' : iconColor === '#84a9ff' ? '132, 169, 255' : '182, 142, 255'}, 0.1)`, color: iconColor }}>
+                      <Icon size={16} />
                     </div>
-                    <div className={styles.sideActionCol}>
-                      <span className={styles.statusBadge} style={{ fontSize: '0.7rem' }}>Enabled</span>
+                    <div className={styles.sideContentFlex}>
+                      <div className={styles.sideLabelCol} style={{ flex: 1 }}>
+                        <span className={styles.sideMainValue}>{pref.type}</span>
+                        <span className={styles.sideSubLabel}>{pref.description}</span>
+                      </div>
+                      <div className={styles.sideActionCol}>
+                        <span className={styles.statusBadge} style={{ fontSize: '0.7rem' }}>Enabled</span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
-          <div style={{ marginTop: '1.5rem', display: 'flex', justifyContent: 'flex-end' }}>
-            <button className={styles.pgEditBtn}>
-              <Edit2 size={14} /> Edit Preferences
-            </button>
+                );
+              })}
+            </div>
+            <div style={{ marginTop: '1.5rem', display: 'flex', justifyContent: 'flex-end' }}>
+              <button className={styles.pgEditBtn}>
+                <Edit2 size={14} /> Edit Preferences
+              </button>
+            </div>
           </div>
         </div>
 
