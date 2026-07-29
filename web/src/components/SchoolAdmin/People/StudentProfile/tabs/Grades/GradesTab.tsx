@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import styles from '../studentProfile.module.css';
-import { GRADES_GENERAL_AVERAGE, GRADES_CLASS_RANK } from './mockData';
-import { InfoCard } from './SharedComponents';
-import { SubjectGradesTable } from './SubjectGradesTable';
-import { GradingScale } from './GradingScale';
+import styles from '../../studentProfile.module.css';
+import { GRADES_GENERAL_AVERAGE, GRADES_CLASS_RANK } from '../../data/mockData';
+import { InfoCard } from '../../shared/SharedComponents';
+import { SubjectGradesTable } from '../../tabs/Academic/SubjectGradesTable';
+import { GradingScale } from '../../tabs/Academic/GradingScale';
 import { CalendarIcon, InfoIcon } from '@/components/ui/Icons';
 
 export const GradesTab: React.FC = () => {

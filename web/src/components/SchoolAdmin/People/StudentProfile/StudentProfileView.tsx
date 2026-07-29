@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import styles from './studentProfile.module.css';
-import { Student } from './components/types';
-import { ProfileHeader } from './components/ProfileHeader';
-import { TabNavigation } from './components/TabNavigation';
-import { OverviewTab } from './components/OverviewTab';
-import { IdentificationCard } from './components/IdentificationCard';
-import { AcademicTab } from './components/AcademicTab';
-import { AttendanceTab } from './components/AttendanceTab';
-import { AssessmentsTab } from './components/AssessmentsTab';
-import { GradesTab } from './components/GradesTab';
-import { DocumentsTab } from './components/DocumentsTab';
-import { ParentGuardianTab } from './components/ParentGuardianTab';
+import { Student } from './shared/types';
+import { ProfileHeader } from './layout/ProfileHeader';
+import { TabNavigation } from './layout/TabNavigation';
+import { OverviewTab } from './tabs/Overview/OverviewTab';
+import { IdentificationCard } from './tabs/ID/IdentificationCard';
+import { AcademicTab } from './tabs/Academic/AcademicTab';
+import { AttendanceTab } from './tabs/Attendance/AttendanceTab';
+import { AssessmentsTab } from './tabs/Assessments/AssessmentsTab';
+import { GradesTab } from './tabs/Grades/GradesTab';
+import { DocumentsTab } from './tabs/Documents/DocumentsTab';
+import { ParentGuardianTab } from './tabs/ParentGuardian/ParentGuardianTab';
 
 interface StudentProfileViewProps {
   student: Student;

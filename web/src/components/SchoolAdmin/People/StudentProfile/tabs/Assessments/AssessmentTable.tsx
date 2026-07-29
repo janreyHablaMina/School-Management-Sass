@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import styles from '../studentProfile.module.css';
-import { ASSESSMENT_LIST } from './mockData';
+import styles from '../../studentProfile.module.css';
+import { ASSESSMENT_LIST } from '../../data/mockData';
 
 const ASSESSMENT_CATEGORIES = ['All', 'Assignments', 'Quizzes', 'Exams', 'Projects', 'Labs', 'Worksheets', 'Performance'];
 

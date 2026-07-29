@@ -1,7 +1,7 @@
 import React from 'react';
-import styles from '../studentProfile.module.css';
-import { GRADING_SCALE } from './mockData';
-import { InfoCard } from './SharedComponents';
+import styles from '../../studentProfile.module.css';
+import { GRADING_SCALE } from '../../data/mockData';
+import { InfoCard } from '../../shared/SharedComponents';
 
 export const GradingScale: React.FC = () => {
   return (

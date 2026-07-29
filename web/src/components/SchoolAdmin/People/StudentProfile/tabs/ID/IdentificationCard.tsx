@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import styles from '../studentProfile.module.css';
-import { Student } from './types';
+import styles from '../../studentProfile.module.css';
+import { Student } from '../../shared/types';
 
 interface IdentificationCardProps {
   student: Student;

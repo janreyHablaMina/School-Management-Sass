@@ -1,6 +1,6 @@
 import React from 'react';
-import styles from '../studentProfile.module.css';
-import { ATTENDANCE_OVERVIEW_DATA, ATTENDANCE_CHART_DATA, ATTENDANCE_SUBJECT_DATA } from './mockData';
+import styles from '../../studentProfile.module.css';
+import { ATTENDANCE_OVERVIEW_DATA, ATTENDANCE_CHART_DATA, ATTENDANCE_SUBJECT_DATA } from '../../data/mockData';
 
 export const AttendanceTab: React.FC = () => {
   // Helper to determine bar color based on rate

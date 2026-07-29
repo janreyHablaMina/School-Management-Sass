@@ -3,9 +3,9 @@ import styles from '../studentProfile.module.css';
 
 interface InfoCardProps {
   title: string;
-  icon: string;
-  iconBg: string;
-  iconColor: string;
+  icon?: React.ReactNode;
+  iconBg?: string;
+  iconColor?: string;
   children: React.ReactNode;
   headerRight?: React.ReactNode;
 }
@@ -15,9 +15,11 @@ export const InfoCard: React.FC<InfoCardProps> = ({ title, icon, iconBg, iconCol
     <div className={styles.infoCard}>
       <div className={styles.infoCardHeader} style={headerRight ? { justifyContent: 'space-between' } : {}}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
-          <div className={styles.infoCardIcon} style={{ background: iconBg, color: iconColor }}>
-            {icon}
-          </div>
+          {icon && (
+            <div className={styles.infoCardIcon} style={{ background: iconBg, color: iconColor }}>
+              {icon}
+            </div>
+          )}
           <span className={styles.infoCardTitle}>{title}</span>
         </div>
         {headerRight && <div>{headerRight}</div>}

@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../studentProfile.module.css';
+import styles from '../../studentProfile.module.css';
 import { User, Shield, Phone, Heart, MessageSquare, Mail, Bell, Edit2, MoreVertical, Plus } from 'lucide-react';
 import { 
   PARENTS_GUARDIANS, 
@@ -8,7 +8,7 @@ import {
   AUTHORIZED_PICKUP, 
   MEDICAL_NOTES, 
   COMMUNICATION_PREFS 
-} from './mockData';
+} from '../../data/mockData';
 
 export const ParentGuardianTab: React.FC = () => {
   return (

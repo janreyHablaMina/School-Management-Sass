@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from '../studentProfile.module.css';
-import { Student } from './types';
-import { DetailRow } from './SharedComponents';
+import { Student } from '../shared/types';
+import { DetailRow } from '../shared/SharedComponents';
 
 interface ProfileHeaderProps {
   onBack: () => void;

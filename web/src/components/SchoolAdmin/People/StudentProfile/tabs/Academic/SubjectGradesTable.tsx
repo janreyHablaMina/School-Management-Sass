@@ -1,7 +1,7 @@
 import React from 'react';
-import styles from '../studentProfile.module.css';
-import { SUBJECT_GRADES } from './mockData';
-import { InfoCard } from './SharedComponents';
+import styles from '../../studentProfile.module.css';
+import { SUBJECT_GRADES } from '../../data/mockData';
+import { InfoCard } from '../../shared/SharedComponents';
 
 export const SubjectGradesTable: React.FC = () => {
   return (

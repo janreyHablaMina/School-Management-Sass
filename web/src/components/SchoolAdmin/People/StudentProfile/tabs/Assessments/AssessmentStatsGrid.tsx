@@ -1,7 +1,7 @@
 import React from 'react';
-import styles from '../studentProfile.module.css';
-import { ASSESSMENT_STATS } from './mockData';
-import { InfoCard } from './SharedComponents';
+import styles from '../../studentProfile.module.css';
+import { ASSESSMENT_STATS } from '../../data/mockData';
+import { InfoCard } from '../../shared/SharedComponents';
 
 export const AssessmentStatsGrid: React.FC = () => {
   return (
