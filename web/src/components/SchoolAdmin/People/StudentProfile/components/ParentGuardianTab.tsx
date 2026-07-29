@@ -173,27 +173,6 @@ export const ParentGuardianTab: React.FC = () => {
         </div>
 
         <div className={styles.pgTwoCardGrid}>
-          {/* Medical Notes */}
-          <div className={styles.infoCard}>
-            <div className={styles.infoCardHeader} style={{ justifyContent: 'space-between' }}>
-              <span className={styles.infoCardTitle}>Medical Notes</span>
-              <button className={styles.pgEditBtn}><Edit2 size={14} /> Edit</button>
-            </div>
-            <div className={styles.sideCardItem} style={{ borderBottom: 'none', paddingBottom: 0 }}>
-              <div className={styles.sideIconBox} style={{ background: 'rgba(182, 142, 255, 0.1)', color: '#b68eff' }}>
-                <Heart size={16} />
-              </div>
-              <div className={styles.sideContentFlex}>
-                <div className={styles.sideValueCol}>
-                  <span className={styles.sideMainLabel} style={{ color: '#f0efed' }}>Medical Notes</span>
-                  <span className={styles.sideSubLabel} style={{ whiteSpace: 'pre-line', marginTop: '0.2rem' }}>
-                    {MEDICAL_NOTES.text}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-
           {/* Communication Preferences */}
           <div className={styles.infoCard}>
             <div className={styles.infoCardHeader}>
@@ -226,6 +205,27 @@ export const ParentGuardianTab: React.FC = () => {
               <button className={styles.pgEditBtn}>
                 <Edit2 size={14} /> Edit Preferences
               </button>
+            </div>
+          </div>
+
+          {/* Medical Notes */}
+          <div className={styles.infoCard}>
+            <div className={styles.infoCardHeader} style={{ justifyContent: 'space-between' }}>
+              <span className={styles.infoCardTitle}>Medical Notes</span>
+              <button className={styles.pgEditBtn}><Edit2 size={14} /> Edit</button>
+            </div>
+            <div className={styles.sideCardItem} style={{ borderBottom: 'none', paddingBottom: 0 }}>
+              <div className={styles.sideIconBox} style={{ background: 'rgba(182, 142, 255, 0.1)', color: '#b68eff' }}>
+                <Heart size={16} />
+              </div>
+              <div className={styles.sideContentFlex}>
+                <div className={styles.sideValueCol}>
+                  <span className={styles.sideMainLabel} style={{ color: '#f0efed' }}>Medical Notes</span>
+                  <span className={styles.sideSubLabel} style={{ whiteSpace: 'pre-line', marginTop: '0.2rem' }}>
+                    {MEDICAL_NOTES.text}
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
