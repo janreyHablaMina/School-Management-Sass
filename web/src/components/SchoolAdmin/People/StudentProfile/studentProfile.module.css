@@ -2332,10 +2332,13 @@
   color: #f0efed;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1600px) {
   .parentGuardianGrid {
     grid-template-columns: 1fr;
   }
+}
+
+@media (max-width: 1024px) {
   .pgDetailsGrid {
     grid-template-columns: 1fr;
   }
