@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { schoolAdminMockData } from '@/lib/data/schoolAdminMockData';
+import { schoolAdminMockData } from '@/lib/mock/schoolAdmin.mock';
 
 export type SortKey = 'name' | 'studentId' | 'gradeSection' | 'parentGuardian' | 'status' | 'dateEnrolled';
 

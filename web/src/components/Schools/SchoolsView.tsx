@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import styles from '@/app/admin/admin.module.css';
 import { School } from '@/types/school';
-import { schoolsData } from '@/lib/data/schools';
+import { schoolsData } from '@/lib/mock/schools.mock';
 import { ConfirmModal } from '@/components/ui/ConfirmModal';
 import { ActionDropdown, ActionDropdownItem } from '@/components/ui/ActionDropdown';
 import { Button } from '@/components/ui/Button';

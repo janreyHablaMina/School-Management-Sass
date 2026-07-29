@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from '../../studentProfile.module.css';
 import { Student } from '../../shared/types';
-import { ENROLLMENT_DATA, CONTACT_DATA, GUARDIAN_DATA, QUICK_STATS_DATA } from '../../data/mockData';
+import { ENROLLMENT_DATA, CONTACT_DATA, GUARDIAN_DATA, QUICK_STATS_DATA } from '../../../../../../lib/mock/studentProfile.mock';
 import { InfoCard, DetailRow, StatBox } from '../../shared/SharedComponents';
 
 interface OverviewTabProps {

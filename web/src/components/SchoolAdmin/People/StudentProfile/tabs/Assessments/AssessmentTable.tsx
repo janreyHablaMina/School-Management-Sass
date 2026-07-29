@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from '../../studentProfile.module.css';
-import { ASSESSMENT_LIST } from '../../data/mockData';
+import { ASSESSMENT_LIST } from '../../../../../../lib/mock/studentProfile.mock';
 
 const ASSESSMENT_CATEGORIES = ['All', 'Assignments', 'Quizzes', 'Exams', 'Projects', 'Labs', 'Worksheets', 'Performance'];
 
@@ -40,7 +40,7 @@ export const AssessmentTable: React.FC = () => {
     <>
       {/* Tabs and Search */}
       <div className={styles.tabsHeader} style={{ marginTop: '2rem', borderBottom: '1px solid rgba(240, 239, 237, 0.1)', paddingBottom: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div style={{ display: 'flex', gap: '1.5rem', overflowX: 'auto', flex: 1, paddingBottom: '0.5rem' }}>
+        <div className={styles.hideScrollbar} style={{ display: 'flex', gap: '1.5rem', overflowX: 'auto', flex: 1, paddingBottom: '0.5rem' }}>
           {ASSESSMENT_CATEGORIES.map(category => (
             <button 
               key={category}
@@ -76,7 +76,7 @@ export const AssessmentTable: React.FC = () => {
       {/* Main Table */}
       <div className={styles.assessmentsBottomGrid}>
         <div>
-          <div className={styles.attendanceTableWrapper}>
+          <div className={`${styles.attendanceTableWrapper} ${styles.hideScrollbar}`}>
             <table className={styles.attendanceTable}>
               <thead>
                 <tr>
@@ -87,7 +87,6 @@ export const AssessmentTable: React.FC = () => {
                   <th>DUE DATE</th>
                   <th>STATUS</th>
                   <th>SCORE</th>
-                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -125,11 +124,6 @@ export const AssessmentTable: React.FC = () => {
                         <span style={{ fontWeight: 600 }}>{item.score}</span>
                         <span className={styles.titleSubtitle}>{item.scorePercent}</span>
                       </div>
-                    </td>
-                    <td>
-                      <button style={{ background: 'transparent', border: 'none', color: 'rgba(240, 239, 237, 0.5)', cursor: 'pointer' }}>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                      </button>
                     </td>
                   </tr>
                 ))}

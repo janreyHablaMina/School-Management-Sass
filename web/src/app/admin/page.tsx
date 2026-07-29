@@ -15,7 +15,7 @@ import { StudentAnalyticsView } from '@/components/Reports/StudentAnalyticsView'
 import { SubscriptionAnalyticsView } from '@/components/Reports/SubscriptionAnalyticsView';
 import { ChalkFilter } from '@/components/ChalkCharts';
 import { School } from '@/types/school';
-import { schoolsData } from '@/lib/data/schools';
+import { schoolsData } from '@/lib/mock/schools.mock';
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('Dashboard');

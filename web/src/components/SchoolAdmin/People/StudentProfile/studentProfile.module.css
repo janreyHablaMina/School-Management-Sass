@@ -283,8 +283,14 @@
   -ms-overflow-style: none; /* IE and Edge */
 }
 
-.tabsContainer::-webkit-scrollbar {
+.tabsContainer::-webkit-scrollbar,
+.hideScrollbar::-webkit-scrollbar {
   display: none; /* Chrome, Safari and Opera */
+}
+
+.hideScrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
 }
 
 .tabBtn {
@@ -1602,37 +1608,6 @@
   color: #ffffff;
 }
 
-/* Search Bar (Assessments Tab) */
-.searchWrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.searchIcon {
-  position: absolute;
-  left: 1rem;
-  top: 50%;
-  transform: translateY(-50%);
-  color: rgba(240, 239, 237, 0.4);
-}
-
-.searchInput {
-  width: 100%;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px dashed rgba(240, 239, 237, 0.35);
-  border-radius: 4px;
-  padding: 0.6rem 1rem 0.6rem 2.6rem;
-  color: #f0efed;
-  font-family: 'Inter', sans-serif;
-  font-size: 0.9rem;
-  outline: none;
-}
-
-.searchInput:focus {
-  border-color: #84a9ff;
-}
-
 
 /* Refactored Utility Classes for GradesTab */
 .statCardContent {
@@ -1763,6 +1738,9 @@
 }
 
 .searchIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: rgba(240, 239, 237, 0.5);
   margin-right: 0.5rem;
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from '../../studentProfile.module.css';
-import { SUBJECTS_DATA, SCHEDULE_DATA, SUMMARY_DATA, RANKING_DATA } from '../../data/mockData';
+import { SUBJECTS_DATA, SCHEDULE_DATA, SUMMARY_DATA, RANKING_DATA } from '../../../../../../lib/mock/studentProfile.mock';
 
 export const AcademicTab: React.FC = () => {
   return (

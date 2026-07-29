@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from '../../studentProfile.module.css';
-import { GRADES_GENERAL_AVERAGE, GRADES_CLASS_RANK } from '../../data/mockData';
+import { GRADES_GENERAL_AVERAGE, GRADES_CLASS_RANK } from '../../../../../../lib/mock/studentProfile.mock';
 import { InfoCard } from '../../shared/SharedComponents';
 import { SubjectGradesTable } from '../../tabs/Academic/SubjectGradesTable';
 import { GradingScale } from '../../tabs/Academic/GradingScale';

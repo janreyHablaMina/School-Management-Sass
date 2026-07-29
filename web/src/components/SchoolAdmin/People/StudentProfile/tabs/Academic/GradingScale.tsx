@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from '../../studentProfile.module.css';
-import { GRADING_SCALE } from '../../data/mockData';
+import { GRADING_SCALE } from '../../../../../../lib/mock/studentProfile.mock';
 import { InfoCard } from '../../shared/SharedComponents';
 
 export const GradingScale: React.FC = () => {

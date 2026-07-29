@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from '../../studentProfile.module.css';
-import { UPCOMING_DEADLINES } from '../../data/mockData';
+import { UPCOMING_DEADLINES } from '../../../../../../lib/mock/studentProfile.mock';
 import { InfoCard } from '../../shared/SharedComponents';
 
 export const AssessmentFooter: React.FC = () => {

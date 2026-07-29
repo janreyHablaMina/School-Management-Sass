@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from '../../studentProfile.module.css';
-import { DOCUMENT_STATS, DOCUMENT_LIST } from '../../data/mockData';
+import { DOCUMENT_STATS, DOCUMENT_LIST } from '../../../../../../lib/mock/studentProfile.mock';
 import { MoreHorizontal, Search, Download, Trash2, Eye } from 'lucide-react';
 
 export const DocumentsTab: React.FC = () => {

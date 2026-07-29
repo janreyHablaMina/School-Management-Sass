@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './dashboard.module.css';
 import { ChalkLineChart, ChalkDonutChart } from '@/components/ChalkCharts';
-import { schoolAdminMockData } from '@/lib/data/schoolAdminMockData';
+import { schoolAdminMockData } from '@/lib/mock/schoolAdmin.mock';
 
 export const DashboardView: React.FC = () => {
   return (

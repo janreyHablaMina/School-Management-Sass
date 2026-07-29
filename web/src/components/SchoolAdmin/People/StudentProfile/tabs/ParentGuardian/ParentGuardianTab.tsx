@@ -8,7 +8,7 @@ import {
   AUTHORIZED_PICKUP, 
   MEDICAL_NOTES, 
   COMMUNICATION_PREFS 
-} from '../../data/mockData';
+} from '../../../../../../lib/mock/studentProfile.mock';
 
 export const ParentGuardianTab: React.FC = () => {
   return (

@@ -9,7 +9,7 @@ import {
   ChalkRadialGauge,
 } from '@/components/ChalkCharts';
 import { School } from '@/types/school';
-import { recentSchools } from '@/lib/data/schools';
+import { recentSchools } from '@/lib/mock/schools.mock';
 
 interface DashboardViewProps {
   onTabChange: (tab: string) => void;

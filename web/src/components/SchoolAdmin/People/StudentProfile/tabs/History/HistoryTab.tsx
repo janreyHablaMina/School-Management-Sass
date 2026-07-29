@@ -6,7 +6,7 @@ import {
   ChevronLeft, ChevronRight, MoreHorizontal, UserPlus 
 } from 'lucide-react';
 import { InfoCard, StatBox } from '../../shared/SharedComponents';
-import { ACTIVITY_HISTORY, HISTORY_STATS, ACTIVITY_BREAKDOWN, ADVISOR_NOTES } from '../../data/mockData';
+import { ACTIVITY_HISTORY, HISTORY_STATS, ACTIVITY_BREAKDOWN, ADVISOR_NOTES } from '../../../../../../lib/mock/studentProfile.mock';
 
 export const HistoryTab: React.FC = () => {
 
