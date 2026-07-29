@@ -1,26 +1,21 @@
-.historyContainer {
+.historyGrid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+@media (max-width: 1600px) {
+  .historyGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Left Column */
+.leftCol {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-}
-
-/* Top Stats Row */
-.topStats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
-}
-
-@media (max-width: 1200px) {
-  .topStats {
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  }
-}
-
-@media (max-width: 768px) {
-  .topStats {
-    grid-template-columns: 1fr;
-  }
 }
 
 .historyHeader {
@@ -265,7 +260,26 @@
   color: #b68eff;
 }
 
-/* Stats specific */
+/* Right Column */
+.rightCol {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+@media (max-width: 1600px) {
+  .rightCol {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .rightCol {
+    grid-template-columns: 1fr;
+  }
+}
+
 .statsGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -276,13 +290,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
-  padding: 0.5rem 0;
+  gap: 2rem;
+  padding: 1rem 0;
 }
 
 .donutChart {
-  width: 120px;
-  height: 120px;
+  width: 160px;
+  height: 160px;
   border-radius: 50%;
   position: relative;
 }
@@ -293,8 +307,8 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 75px;
-  height: 75px;
+  width: 100px;
+  height: 100px;
   background-color: #1a1a1a;
   border-radius: 50%;
 }
@@ -302,7 +316,7 @@
 .donutLegend {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.8rem;
   width: 100%;
 }
 
@@ -327,18 +341,16 @@
 
 .legendLabel {
   color: #f0efed;
-  font-size: 0.75rem;
 }
 
 .legendValue {
   color: rgba(240, 239, 237, 0.6);
   font-family: monospace;
-  font-size: 0.75rem;
 }
 
 /* Notes Card */
 .notesContent {
-  padding: 0;
+  padding: 1rem 0 0 0;
 }
 
 .notesDateTime {
