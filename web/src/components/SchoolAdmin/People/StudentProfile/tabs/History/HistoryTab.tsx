@@ -36,99 +36,10 @@ export const HistoryTab: React.FC = () => {
   const donutBackground = `conic-gradient(${gradientStops})`;
 
   return (
-    <div className={styles.historyGrid}>
-      {/* Left Column: Activity History */}
-      <div className={styles.leftCol}>
-        <div className={styles.historyHeader}>
-          <span className={styles.title}>Activity History</span>
-          <span className={styles.subtitle}>A record of important activities and changes related to the student's academic journey.</span>
-        </div>
-
-        <div className={styles.controlsRow}>
-          <button className={styles.controlItem}>
-            All Activities <ChevronRight size={14} style={{ transform: 'rotate(90deg)' }} />
-          </button>
-          
-          <button className={styles.controlItem}>
-            May 1, 2025 - May 30, 2026 <Calendar size={14} />
-          </button>
-
-          <div className={styles.controlItem} style={{ padding: '0.5rem 0.8rem' }}>
-            <Activity size={14} style={{ color: 'rgba(240, 239, 237, 0.4)' }} />
-            <input type="text" placeholder="Search in history..." className={styles.searchInput} />
-          </div>
-
-          <button className={styles.exportBtn}>
-            <Download size={14} /> Export
-          </button>
-        </div>
-
-        <div className={styles.historyTableWrapper}>
-          <table className={styles.historyTable}>
-            <thead>
-              <tr>
-                <th>Date & Time</th>
-                <th>Activity</th>
-                <th>Description</th>
-                <th>Performed By</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {ACTIVITY_HISTORY.map((item) => (
-                <tr key={item.id}>
-                  <td>
-                    <div className={styles.dateTimeCol}>
-                      <span className={styles.dateText}>{item.dateStr}</span>
-                      <span className={styles.timeText}>{item.timeStr}</span>
-                    </div>
-                  </td>
-                  <td>
-                    <div className={styles.activityFlex}>
-                      <div className={styles.activityIconBox} style={{ background: item.activityIconBg, color: item.activityIconColor }}>
-                        {getIcon(item.activityIcon)}
-                      </div>
-                      <span className={styles.activityTitle}>{item.activityTitle}</span>
-                    </div>
-                  </td>
-                  <td>
-                    <div className={styles.descFlex}>
-                      <span className={styles.descText}>{item.description}</span>
-                      {item.badgeText && (
-                        <span className={styles.badge} style={{ color: item.badgeColor, background: item.badgeBg }}>
-                          {item.badgeText}
-                        </span>
-                      )}
-                    </div>
-                  </td>
-                  <td>
-                    <div className={styles.personCol}>
-                      <span className={styles.personName}>{item.performedBy}</span>
-                      <span className={styles.personRole}>{item.role}</span>
-                    </div>
-                  </td>
-                  <td>
-                    <button className={styles.actionBtn}>
-                      <MoreHorizontal size={16} />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <div className={styles.pagination}>
-            <span className={styles.pageInfo}>Showing 1 to 8 of 8 activities</span>
-            <div className={styles.pageControls}>
-              <button className={styles.pageBtn}><ChevronLeft size={14} /></button>
-              <button className={`${styles.pageBtn} ${styles.active}`}>1</button>
-              <button className={styles.pageBtn}><ChevronRight size={14} /></button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Right Column */}
-      <div className={styles.rightCol}>
+    <div className={styles.historyContainer}>
+      
+      {/* Top Stats Row (Like Grades Tab) */}
+      <div className={styles.topStats}>
         {/* History Overview */}
         <InfoCard title="History Overview">
           <div className={styles.statsGrid}>
@@ -181,6 +92,94 @@ export const HistoryTab: React.FC = () => {
             </div>
           </div>
         </InfoCard>
+      </div>
+
+      {/* Activity History Table */}
+      <div className={styles.historyHeader}>
+        <span className={styles.title}>Activity History</span>
+        <span className={styles.subtitle}>A record of important activities and changes related to the student's academic journey.</span>
+      </div>
+
+      <div className={styles.controlsRow}>
+        <button className={styles.controlItem}>
+          All Activities <ChevronRight size={14} style={{ transform: 'rotate(90deg)' }} />
+        </button>
+        
+        <button className={styles.controlItem}>
+          May 1, 2025 - May 30, 2026 <Calendar size={14} />
+        </button>
+
+        <div className={styles.controlItem} style={{ padding: '0.5rem 0.8rem' }}>
+          <Activity size={14} style={{ color: 'rgba(240, 239, 237, 0.4)' }} />
+          <input type="text" placeholder="Search in history..." className={styles.searchInput} />
+        </div>
+
+        <button className={styles.exportBtn}>
+          <Download size={14} /> Export
+        </button>
+      </div>
+
+      <div className={styles.historyTableWrapper}>
+        <table className={styles.historyTable}>
+          <thead>
+            <tr>
+              <th>Date & Time</th>
+              <th>Activity</th>
+              <th>Description</th>
+              <th>Performed By</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {ACTIVITY_HISTORY.map((item) => (
+              <tr key={item.id}>
+                <td>
+                  <div className={styles.dateTimeCol}>
+                    <span className={styles.dateText}>{item.dateStr}</span>
+                    <span className={styles.timeText}>{item.timeStr}</span>
+                  </div>
+                </td>
+                <td>
+                  <div className={styles.activityFlex}>
+                    <div className={styles.activityIconBox} style={{ background: item.activityIconBg, color: item.activityIconColor }}>
+                      {getIcon(item.activityIcon)}
+                    </div>
+                    <span className={styles.activityTitle}>{item.activityTitle}</span>
+                  </div>
+                </td>
+                <td>
+                  <div className={styles.descFlex}>
+                    <span className={styles.descText}>{item.description}</span>
+                    {item.badgeText && (
+                      <span className={styles.badge} style={{ color: item.badgeColor, background: item.badgeBg }}>
+                        {item.badgeText}
+                      </span>
+                    )}
+                  </div>
+                </td>
+                <td>
+                  <div className={styles.personCol}>
+                    <span className={styles.personName}>{item.performedBy}</span>
+                    <span className={styles.personRole}>{item.role}</span>
+                  </div>
+                </td>
+                <td>
+                  <button className={styles.actionBtn}>
+                    <MoreHorizontal size={16} />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <div className={styles.pagination}>
+          <span className={styles.pageInfo}>Showing 1 to 8 of 8 activities</span>
+          <div className={styles.pageControls}>
+            <button className={styles.pageBtn}><ChevronLeft size={14} /></button>
+            <button className={`${styles.pageBtn} ${styles.active}`}>1</button>
+            <button className={styles.pageBtn}><ChevronRight size={14} /></button>
+          </div>
+        </div>
       </div>
 
     </div>
