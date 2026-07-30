@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from './students.module.css';
+import layoutStyles from '../shared/layout.module.css';
 import { ActionDropdown, ActionDropdownItem, ActionDropdownSeparator } from '@/components/ui/ActionDropdown';
 import { SortKey } from './useStudents';
 
@@ -163,18 +164,18 @@ export const StudentsTable: React.FC<StudentsTableProps> = ({
       </div>
 
       {/* Pagination */}
-      <div className={styles.pagination}>
-        <div className={styles.pageInfo}>
+      <div className={layoutStyles.tableFooter}>
+        <div className={layoutStyles.paginationInfo}>
           Showing 1 to {students.length} of {totalCount} students
         </div>
-        <div className={styles.pageControls}>
-          <button className={styles.pageBtn}>&lt;</button>
-          <button className={`${styles.pageBtn} ${styles.active}`}>1</button>
-          <button className={styles.pageBtn}>2</button>
-          <button className={styles.pageBtn}>3</button>
-          <span className={styles.pageDots}>...</span>
-          <button className={styles.pageBtn}>125</button>
-          <button className={styles.pageBtn}>&gt;</button>
+        <div className={layoutStyles.paginationControls}>
+          <button className={layoutStyles.pageBtn}>&lt;</button>
+          <button className={`${layoutStyles.pageBtn} ${layoutStyles.pageBtnActive}`}>1</button>
+          <button className={layoutStyles.pageBtn}>2</button>
+          <button className={layoutStyles.pageBtn}>3</button>
+          <span className={layoutStyles.pageEllipsis}>...</span>
+          <button className={layoutStyles.pageBtn}>125</button>
+          <button className={layoutStyles.pageBtn}>&gt;</button>
           <select className={styles.pageSizeSelect}>
             <option>10 / page</option>
           </select>

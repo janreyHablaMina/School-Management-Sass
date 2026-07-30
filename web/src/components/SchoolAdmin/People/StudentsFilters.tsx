@@ -1,4 +1,6 @@
 import React from 'react';
+import { Search } from 'lucide-react';
+import layoutStyles from '../shared/layout.module.css';
 import styles from './students.module.css';
 
 interface StudentsFiltersProps {
@@ -8,13 +10,13 @@ interface StudentsFiltersProps {
 
 export const StudentsFilters: React.FC<StudentsFiltersProps> = ({ searchTerm, setSearchTerm }) => {
   return (
-    <div className={styles.filtersRow}>
-      <div className={styles.searchWrapper}>
-        <svg className={styles.searchIcon} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+    <div className={layoutStyles.filtersRow}>
+      <div className={layoutStyles.searchWrapper}>
+        <Search className={layoutStyles.searchIcon} size={18} />
         <input 
           type="text" 
-          placeholder="Search student name, ID, or email..." 
-          className={styles.searchInput}
+          placeholder="Search students..." 
+          className={layoutStyles.searchInput}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />

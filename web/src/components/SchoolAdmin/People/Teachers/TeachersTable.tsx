@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from '../students.module.css';
+import layoutStyles from '../../shared/layout.module.css';
 import { ActionDropdown, ActionDropdownItem, ActionDropdownSeparator } from '@/components/ui/ActionDropdown';
 import { SortKey } from './useTeachers';
 import { Teacher } from '@/lib/mock/teachers.mock';
@@ -135,7 +136,7 @@ export const TeachersTable: React.FC<TeachersTableProps> = ({
                       <ActionDropdown 
                         isOpen={activeDropdown === teacher.id}
                         onClose={() => setActiveDropdown(null)}
-                        direction={isLastTwo ? 'up' : 'down'}
+                        openUpwards={isLastTwo}
                       >
                         <ActionDropdownItem 
                           onClick={(e) => {
@@ -174,20 +175,20 @@ export const TeachersTable: React.FC<TeachersTableProps> = ({
           </tbody>
         </table>
       </div>
-      <div className={styles.tableFooter}>
-        <div className={styles.paginationInfo}>
+      <div className={layoutStyles.tableFooter}>
+        <div className={layoutStyles.paginationInfo}>
           Showing 1 to {teachers.length} of {totalCount} teachers
         </div>
-        <div className={styles.paginationControls}>
-          <button className={styles.pageBtn} disabled>
+        <div className={layoutStyles.paginationControls}>
+          <button className={layoutStyles.pageBtn} disabled>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
           </button>
-          <button className={`${styles.pageBtn} ${styles.pageBtnActive}`}>1</button>
-          <button className={styles.pageBtn}>2</button>
-          <button className={styles.pageBtn}>3</button>
-          <button className={styles.pageBtn}>4</button>
-          <button className={styles.pageBtn}>5</button>
-          <button className={styles.pageBtn}>
+          <button className={`${layoutStyles.pageBtn} ${layoutStyles.pageBtnActive}`}>1</button>
+          <button className={layoutStyles.pageBtn}>2</button>
+          <button className={layoutStyles.pageBtn}>3</button>
+          <button className={layoutStyles.pageBtn}>4</button>
+          <button className={layoutStyles.pageBtn}>5</button>
+          <button className={layoutStyles.pageBtn}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
           </button>
         </div>

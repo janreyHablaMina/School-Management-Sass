@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import styles from '../students.module.css';
 import { useTeachers } from './useTeachers';
-import { TeachersHeader } from './TeachersHeader';
-import { TeachersMetrics } from './TeachersMetrics';
+import { PageHeader } from '../../shared/PageHeader';
+import { MetricsGrid } from '../../shared/MetricsGrid';
+import { TEACHERS_METRICS } from '@/lib/mock/teachers.mock';
+import layoutStyles from '../../shared/layout.module.css';
 import { TeachersFilters } from './TeachersFilters';
 import { TeachersTable } from './TeachersTable';
 import { TeacherProfileView } from './TeacherProfileView';
@@ -31,9 +33,13 @@ export const TeachersView: React.FC = () => {
   }
 
   return (
-    <div className={styles.studentsContainer}>
-      <TeachersHeader />
-      <TeachersMetrics />
+    <div className={layoutStyles.studentsContainer}>
+      <PageHeader 
+        title="Teachers" 
+        subtitle="Management panel for Teachers" 
+        actionButton={{ label: "Add Teacher", onClick: () => console.log('add teacher') }} 
+      />
+      <MetricsGrid metrics={TEACHERS_METRICS} columns={4} />
       <TeachersFilters 
         searchTerm={searchTerm} 
         setSearchTerm={setSearchTerm} 
