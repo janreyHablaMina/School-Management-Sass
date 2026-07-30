@@ -160,39 +160,53 @@ export const TeacherOverviewTab: React.FC<TeacherOverviewTabProps> = ({ teacher 
             <div className={styles.timeline}>
               <div className={styles.timelineItem}>
                 <div className={styles.timelineDot}></div>
-                <div className={styles.timelineContent}>
+                <div className={styles.timelineContent} style={{ width: '100%' }}>
                   <div className={styles.timelineTime}>07:30 AM - 08:30 AM</div>
-                  <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
-                    <div className={styles.timelineTitle} style={{ width: '60px' }}>Period 1</div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '65px 1.5fr 1fr auto', gap: '1rem', alignItems: 'flex-start', width: '100%' }}>
+                    <div className={styles.timelineTitle} style={{ color: 'rgba(240,239,237,0.7)' }}>Period 1</div>
                     <div>
                       <div className={styles.timelineTitle}>General Biology 1</div>
                       <div className={styles.timelineSub}>STEM 11 - A</div>
                     </div>
+                    <div>
+                      <div className={styles.timelineTitle} style={{ color: 'rgba(240,239,237,0.7)', fontWeight: 'normal' }}>Sci-Lab 1</div>
+                      <div className={styles.timelineSub}>32 Students</div>
+                    </div>
+                    <div></div>
                   </div>
                 </div>
               </div>
               <div className={styles.timelineItem}>
                 <div className={styles.timelineDot}></div>
-                <div className={styles.timelineContent}>
+                <div className={styles.timelineContent} style={{ width: '100%' }}>
                   <div className={styles.timelineTime}>08:30 AM - 09:30 AM</div>
-                  <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
-                    <div className={styles.timelineTitle} style={{ width: '60px' }}>Period 2</div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '65px 1.5fr 1fr auto', gap: '1rem', alignItems: 'flex-start', width: '100%' }}>
+                    <div className={styles.timelineTitle} style={{ color: 'rgba(240,239,237,0.7)' }}>Period 2</div>
                     <div>
                       <div className={styles.timelineTitle}>General Biology 1</div>
                       <div className={styles.timelineSub}>STEM 11 - B</div>
                     </div>
+                    <div>
+                      <div className={styles.timelineTitle} style={{ color: 'rgba(240,239,237,0.7)', fontWeight: 'normal' }}>Sci-Lab 1</div>
+                      <div className={styles.timelineSub}>32 Students</div>
+                    </div>
+                    <div></div>
                   </div>
                 </div>
               </div>
               <div className={styles.timelineItem}>
                 <div className={`${styles.timelineDot} ${styles.timelineDotActive}`}></div>
-                <div className={styles.timelineContent}>
+                <div className={styles.timelineContent} style={{ width: '100%' }}>
                   <div className={styles.timelineTime} style={{ color: '#8b5cf6', fontWeight: 600 }}>09:45 AM - 10:45 AM</div>
-                  <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
-                    <div className={styles.timelineTitle} style={{ width: '60px', color: '#8b5cf6' }}>Period 3</div>
-                    <div style={{ flex: 1 }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '65px 1.5fr 1fr auto', gap: '1rem', alignItems: 'flex-start', width: '100%' }}>
+                    <div className={styles.timelineTitle} style={{ color: '#8b5cf6' }}>Period 3</div>
+                    <div>
                       <div className={styles.timelineTitle} style={{ color: '#f0efed' }}>Research in Science</div>
                       <div className={styles.timelineSub}>STEM 11 - A</div>
+                    </div>
+                    <div>
+                      <div className={styles.timelineTitle} style={{ color: '#8b5cf6', fontWeight: 'normal' }}>Room 302</div>
+                      <div className={styles.timelineSub}>28 Students</div>
                     </div>
                     <span className={styles.statusOngoing}>Ongoing</span>
                   </div>
@@ -200,27 +214,37 @@ export const TeacherOverviewTab: React.FC<TeacherOverviewTabProps> = ({ teacher 
               </div>
               <div className={styles.timelineItem}>
                 <div className={styles.timelineDot}></div>
-                <div className={styles.timelineContent}>
+                <div className={styles.timelineContent} style={{ width: '100%' }}>
                   <div className={styles.timelineTime}>10:45 AM - 11:45 AM</div>
-                  <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
-                    <div className={styles.timelineTitle} style={{ width: '60px', color: 'rgba(240,239,237,0.4)' }}>Period 4</div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '65px 1.5fr 1fr auto', gap: '1rem', alignItems: 'flex-start', width: '100%' }}>
+                    <div className={styles.timelineTitle} style={{ color: 'rgba(240,239,237,0.5)' }}>Period 4</div>
                     <div>
-                      <div className={styles.timelineTitle} style={{ color: 'rgba(240,239,237,0.6)' }}>Research in Science</div>
+                      <div className={styles.timelineTitle} style={{ color: 'rgba(240,239,237,0.8)' }}>Research in Science</div>
                       <div className={styles.timelineSub}>STEM 11 - B</div>
                     </div>
+                    <div>
+                      <div className={styles.timelineTitle} style={{ color: 'rgba(240,239,237,0.5)', fontWeight: 'normal' }}>Room 302</div>
+                      <div className={styles.timelineSub}>25 Students</div>
+                    </div>
+                    <div></div>
                   </div>
                 </div>
               </div>
               <div className={styles.timelineItem}>
                 <div className={styles.timelineDot}></div>
-                <div className={styles.timelineContent}>
+                <div className={styles.timelineContent} style={{ width: '100%' }}>
                   <div className={styles.timelineTime}>01:00 PM - 02:00 PM</div>
-                  <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
-                    <div className={styles.timelineTitle} style={{ width: '60px', color: 'rgba(240,239,237,0.4)' }}>Period 5</div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '65px 1.5fr 1fr auto', gap: '1rem', alignItems: 'flex-start', width: '100%' }}>
+                    <div className={styles.timelineTitle} style={{ color: 'rgba(240,239,237,0.5)' }}>Period 5</div>
                     <div>
-                      <div className={styles.timelineTitle} style={{ color: 'rgba(240,239,237,0.6)' }}>General Biology 2</div>
+                      <div className={styles.timelineTitle} style={{ color: 'rgba(240,239,237,0.8)' }}>General Biology 2</div>
                       <div className={styles.timelineSub}>STEM 12 - A</div>
                     </div>
+                    <div>
+                      <div className={styles.timelineTitle} style={{ color: 'rgba(240,239,237,0.5)', fontWeight: 'normal' }}>Room 405</div>
+                      <div className={styles.timelineSub}>30 Students</div>
+                    </div>
+                    <div></div>
                   </div>
                 </div>
               </div>
