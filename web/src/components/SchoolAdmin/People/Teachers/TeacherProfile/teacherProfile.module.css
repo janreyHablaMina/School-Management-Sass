@@ -236,6 +236,19 @@
   gap: 1.5rem;
 }
 
+.classesAndSubjectsRow {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+@media (min-width: 1600px) {
+  .classesAndSubjectsRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
 .card {
   background: rgba(0, 0, 0, 0.2);
   border: 1px dashed rgba(240, 239, 237, 0.25);
