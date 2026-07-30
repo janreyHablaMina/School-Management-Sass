@@ -12,8 +12,7 @@ export const TeacherOverviewTab: React.FC<TeacherOverviewTabProps> = ({ teacher 
       <div className={styles.overviewLayout}>
         {/* Left Column (Removed) */}
 
-        {/* Middle Column */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+        <div className={styles.twoColumnRow}>
           <div className={styles.card}>
             <div className={styles.cardHeader}>
               <h3>Classes Handled (SY 2025-2026)</h3>
@@ -151,8 +150,7 @@ export const TeacherOverviewTab: React.FC<TeacherOverviewTabProps> = ({ teacher 
           </div>
         </div>
 
-        {/* Right Column */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+        <div className={styles.threeColumnRow}>
           <div className={styles.card}>
             <div className={styles.cardHeader}>
               <h3>Today's Schedule</h3>
