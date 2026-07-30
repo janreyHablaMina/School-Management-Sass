@@ -27,7 +27,7 @@ export const StudentsView: React.FC = () => {
   }
 
   return (
-    <div className={styles.container}>
+    <div className={styles.studentsContainer}>
       <StudentsHeader />
       <StudentsMetrics />
       <StudentsFilters searchTerm={searchTerm} setSearchTerm={setSearchTerm} />

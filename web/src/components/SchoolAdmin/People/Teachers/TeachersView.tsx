@@ -31,7 +31,7 @@ export const TeachersView: React.FC = () => {
   }
 
   return (
-    <div className={styles.container}>
+    <div className={styles.studentsContainer}>
       <TeachersHeader />
       <TeachersMetrics />
       <TeachersFilters 

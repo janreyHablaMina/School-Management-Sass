@@ -61,14 +61,14 @@ export const TeachersTable: React.FC<TeachersTableProps> = ({
                   onChange={(e) => onSelectAll(e.target.checked)}
                 />
               </th>
-              <th onClick={() => onSort('name')} style={{ cursor: 'pointer' }}>TEACHER <span className={styles.sortIcon}>{getSortIcon('name')}</span></th>
-              <th onClick={() => onSort('employeeId')} style={{ cursor: 'pointer' }}>EMPLOYEE ID <span className={styles.sortIcon}>{getSortIcon('employeeId')}</span></th>
-              <th onClick={() => onSort('department')} style={{ cursor: 'pointer' }}>DEPARTMENT <span className={styles.sortIcon}>{getSortIcon('department')}</span></th>
-              <th onClick={() => onSort('subjects')} style={{ cursor: 'pointer' }}>SUBJECTS <span className={styles.sortIcon}>{getSortIcon('subjects')}</span></th>
-              <th onClick={() => onSort('classes')} style={{ cursor: 'pointer' }}>CLASSES <span className={styles.sortIcon}>{getSortIcon('classes')}</span></th>
-              <th onClick={() => onSort('status')} style={{ cursor: 'pointer' }}>STATUS <span className={styles.sortIcon}>{getSortIcon('status')}</span></th>
-              <th onClick={() => onSort('lastActiveDate')} style={{ cursor: 'pointer' }}>LAST ACTIVE <span className={styles.sortIcon}>{getSortIcon('lastActiveDate')}</span></th>
-              <th>ACTIONS</th>
+              <th onClick={() => onSort('name')} style={{ cursor: 'pointer', whiteSpace: 'nowrap' }}>TEACHER <span className={styles.sortIcon}>{getSortIcon('name')}</span></th>
+              <th onClick={() => onSort('employeeId')} style={{ cursor: 'pointer', whiteSpace: 'nowrap' }}>EMPLOYEE ID <span className={styles.sortIcon}>{getSortIcon('employeeId')}</span></th>
+              <th onClick={() => onSort('department')} style={{ cursor: 'pointer', whiteSpace: 'nowrap' }}>DEPARTMENT <span className={styles.sortIcon}>{getSortIcon('department')}</span></th>
+              <th onClick={() => onSort('subjects')} style={{ cursor: 'pointer', whiteSpace: 'nowrap' }}>SUBJECTS <span className={styles.sortIcon}>{getSortIcon('subjects')}</span></th>
+              <th onClick={() => onSort('classes')} style={{ cursor: 'pointer', whiteSpace: 'nowrap' }}>CLASSES <span className={styles.sortIcon}>{getSortIcon('classes')}</span></th>
+              <th onClick={() => onSort('status')} style={{ cursor: 'pointer', whiteSpace: 'nowrap' }}>STATUS <span className={styles.sortIcon}>{getSortIcon('status')}</span></th>
+              <th onClick={() => onSort('lastActiveDate')} style={{ cursor: 'pointer', whiteSpace: 'nowrap' }}>LAST ACTIVE <span className={styles.sortIcon}>{getSortIcon('lastActiveDate')}</span></th>
+              <th style={{ whiteSpace: 'nowrap' }}>ACTIONS</th>
             </tr>
           </thead>
           <tbody>
@@ -90,7 +90,7 @@ export const TeachersTable: React.FC<TeachersTableProps> = ({
                     />
                   </td>
                   <td>
-                    <div className={styles.studentInfoCell}>
+                    <div className={styles.studentCell}>
                       <div className={styles.avatar} style={{ background: teacher.departmentColor, color: '#fff' }}>
                         {teacher.avatar ? (
                           <img src={teacher.avatar} alt={teacher.name} style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} />
@@ -98,7 +98,7 @@ export const TeachersTable: React.FC<TeachersTableProps> = ({
                           getInitials(teacher.name)
                         )}
                       </div>
-                      <div className={styles.studentDetails}>
+                      <div className={styles.studentInfo}>
                         <span className={styles.studentName}>{teacher.name}</span>
                         <span className={styles.studentEmail}>{teacher.email}</span>
                       </div>
