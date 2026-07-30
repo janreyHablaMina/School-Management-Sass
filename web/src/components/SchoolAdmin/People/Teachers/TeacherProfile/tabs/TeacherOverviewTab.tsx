@@ -12,7 +12,7 @@ export const TeacherOverviewTab: React.FC<TeacherOverviewTabProps> = ({ teacher 
       <div className={styles.overviewLayout}>
         {/* Left Column (Removed) */}
 
-        <div className={styles.twoColumnRow}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
           <div className={styles.card}>
             <div className={styles.cardHeader}>
               <h3>Classes Handled (SY 2025-2026)</h3>
@@ -161,90 +161,140 @@ export const TeacherOverviewTab: React.FC<TeacherOverviewTabProps> = ({ teacher 
               <div className={styles.timelineItem}>
                 <div className={styles.timelineDot}></div>
                 <div className={styles.timelineContent} style={{ width: '100%' }}>
-                  <div className={styles.timelineTime}>07:30 AM - 08:30 AM</div>
-                  <div style={{ display: 'grid', gridTemplateColumns: '65px 1.5fr 1fr auto', gap: '1rem', alignItems: 'flex-start', width: '100%' }}>
-                    <div className={styles.timelineTitle} style={{ color: 'rgba(240,239,237,0.7)' }}>Period 1</div>
-                    <div>
-                      <div className={styles.timelineTitle}>General Biology 1</div>
-                      <div className={styles.timelineSub}>STEM 11 - A</div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div className={styles.timelineTime}>07:30 AM - 08:30 AM</div>
+                  </div>
+                  <div style={{ background: 'rgba(240, 239, 237, 0.02)', padding: '0.85rem 1rem', borderRadius: '8px', marginTop: '0.25rem', border: '1px solid rgba(240, 239, 237, 0.05)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.35rem' }}>
+                      <div className={styles.timelineTitle} style={{ fontSize: '0.9rem', color: 'rgba(240, 239, 237, 0.9)' }}>General Biology 1</div>
+                      <div className={styles.timelineTitle} style={{ color: 'rgba(240, 239, 237, 0.4)', fontSize: '0.75rem' }}>Period 1</div>
                     </div>
-                    <div>
-                      <div className={styles.timelineTitle} style={{ color: 'rgba(240,239,237,0.7)', fontWeight: 'normal' }}>Sci-Lab 1</div>
-                      <div className={styles.timelineSub}>32 Students</div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <div className={styles.timelineSub} style={{ color: 'rgba(240, 239, 237, 0.5)' }}>STEM 11 - A</div>
+                      <div style={{ display: 'flex', gap: '1rem', fontSize: '0.75rem', color: 'rgba(240, 239, 237, 0.4)' }}>
+                        <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                          Sci-Lab 1
+                        </span>
+                        <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                          32
+                        </span>
+                      </div>
                     </div>
-                    <div></div>
                   </div>
                 </div>
               </div>
+
               <div className={styles.timelineItem}>
                 <div className={styles.timelineDot}></div>
                 <div className={styles.timelineContent} style={{ width: '100%' }}>
-                  <div className={styles.timelineTime}>08:30 AM - 09:30 AM</div>
-                  <div style={{ display: 'grid', gridTemplateColumns: '65px 1.5fr 1fr auto', gap: '1rem', alignItems: 'flex-start', width: '100%' }}>
-                    <div className={styles.timelineTitle} style={{ color: 'rgba(240,239,237,0.7)' }}>Period 2</div>
-                    <div>
-                      <div className={styles.timelineTitle}>General Biology 1</div>
-                      <div className={styles.timelineSub}>STEM 11 - B</div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div className={styles.timelineTime}>08:30 AM - 09:30 AM</div>
+                  </div>
+                  <div style={{ background: 'rgba(240, 239, 237, 0.02)', padding: '0.85rem 1rem', borderRadius: '8px', marginTop: '0.25rem', border: '1px solid rgba(240, 239, 237, 0.05)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.35rem' }}>
+                      <div className={styles.timelineTitle} style={{ fontSize: '0.9rem', color: 'rgba(240, 239, 237, 0.9)' }}>General Biology 1</div>
+                      <div className={styles.timelineTitle} style={{ color: 'rgba(240, 239, 237, 0.4)', fontSize: '0.75rem' }}>Period 2</div>
                     </div>
-                    <div>
-                      <div className={styles.timelineTitle} style={{ color: 'rgba(240,239,237,0.7)', fontWeight: 'normal' }}>Sci-Lab 1</div>
-                      <div className={styles.timelineSub}>32 Students</div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <div className={styles.timelineSub} style={{ color: 'rgba(240, 239, 237, 0.5)' }}>STEM 11 - B</div>
+                      <div style={{ display: 'flex', gap: '1rem', fontSize: '0.75rem', color: 'rgba(240, 239, 237, 0.4)' }}>
+                        <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                          Sci-Lab 1
+                        </span>
+                        <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                          32
+                        </span>
+                      </div>
                     </div>
-                    <div></div>
                   </div>
                 </div>
               </div>
+
               <div className={styles.timelineItem}>
                 <div className={`${styles.timelineDot} ${styles.timelineDotActive}`}></div>
                 <div className={styles.timelineContent} style={{ width: '100%' }}>
-                  <div className={styles.timelineTime} style={{ color: '#8b5cf6', fontWeight: 600 }}>09:45 AM - 10:45 AM</div>
-                  <div style={{ display: 'grid', gridTemplateColumns: '65px 1.5fr 1fr auto', gap: '1rem', alignItems: 'flex-start', width: '100%' }}>
-                    <div className={styles.timelineTitle} style={{ color: '#8b5cf6' }}>Period 3</div>
-                    <div>
-                      <div className={styles.timelineTitle} style={{ color: '#f0efed' }}>Research in Science</div>
-                      <div className={styles.timelineSub}>STEM 11 - A</div>
-                    </div>
-                    <div>
-                      <div className={styles.timelineTitle} style={{ color: '#8b5cf6', fontWeight: 'normal' }}>Room 302</div>
-                      <div className={styles.timelineSub}>28 Students</div>
-                    </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div className={styles.timelineTime} style={{ color: '#8b5cf6', fontWeight: 600 }}>09:45 AM - 10:45 AM</div>
                     <span className={styles.statusOngoing}>Ongoing</span>
                   </div>
-                </div>
-              </div>
-              <div className={styles.timelineItem}>
-                <div className={styles.timelineDot}></div>
-                <div className={styles.timelineContent} style={{ width: '100%' }}>
-                  <div className={styles.timelineTime}>10:45 AM - 11:45 AM</div>
-                  <div style={{ display: 'grid', gridTemplateColumns: '65px 1.5fr 1fr auto', gap: '1rem', alignItems: 'flex-start', width: '100%' }}>
-                    <div className={styles.timelineTitle} style={{ color: 'rgba(240,239,237,0.5)' }}>Period 4</div>
-                    <div>
-                      <div className={styles.timelineTitle} style={{ color: 'rgba(240,239,237,0.8)' }}>Research in Science</div>
-                      <div className={styles.timelineSub}>STEM 11 - B</div>
+                  <div style={{ background: 'rgba(139, 92, 246, 0.08)', padding: '0.85rem 1rem', borderRadius: '8px', marginTop: '0.25rem', border: '1px solid rgba(139, 92, 246, 0.2)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.35rem' }}>
+                      <div className={styles.timelineTitle} style={{ fontSize: '0.95rem', color: '#fff' }}>Research in Science</div>
+                      <div className={styles.timelineTitle} style={{ color: '#8b5cf6', fontSize: '0.75rem' }}>Period 3</div>
                     </div>
-                    <div>
-                      <div className={styles.timelineTitle} style={{ color: 'rgba(240,239,237,0.5)', fontWeight: 'normal' }}>Room 302</div>
-                      <div className={styles.timelineSub}>25 Students</div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <div className={styles.timelineSub} style={{ color: 'rgba(240, 239, 237, 0.7)' }}>STEM 11 - A</div>
+                      <div style={{ display: 'flex', gap: '1rem', fontSize: '0.75rem', color: 'rgba(240, 239, 237, 0.6)' }}>
+                        <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                          Room 302
+                        </span>
+                        <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                          28
+                        </span>
+                      </div>
                     </div>
-                    <div></div>
                   </div>
                 </div>
               </div>
+
               <div className={styles.timelineItem}>
                 <div className={styles.timelineDot}></div>
                 <div className={styles.timelineContent} style={{ width: '100%' }}>
-                  <div className={styles.timelineTime}>01:00 PM - 02:00 PM</div>
-                  <div style={{ display: 'grid', gridTemplateColumns: '65px 1.5fr 1fr auto', gap: '1rem', alignItems: 'flex-start', width: '100%' }}>
-                    <div className={styles.timelineTitle} style={{ color: 'rgba(240,239,237,0.5)' }}>Period 5</div>
-                    <div>
-                      <div className={styles.timelineTitle} style={{ color: 'rgba(240,239,237,0.8)' }}>General Biology 2</div>
-                      <div className={styles.timelineSub}>STEM 12 - A</div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div className={styles.timelineTime}>10:45 AM - 11:45 AM</div>
+                  </div>
+                  <div style={{ background: 'rgba(240, 239, 237, 0.015)', padding: '0.85rem 1rem', borderRadius: '8px', marginTop: '0.25rem', border: '1px solid rgba(240, 239, 237, 0.03)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.35rem' }}>
+                      <div className={styles.timelineTitle} style={{ fontSize: '0.9rem', color: 'rgba(240, 239, 237, 0.6)' }}>Research in Science</div>
+                      <div className={styles.timelineTitle} style={{ color: 'rgba(240, 239, 237, 0.3)', fontSize: '0.75rem' }}>Period 4</div>
                     </div>
-                    <div>
-                      <div className={styles.timelineTitle} style={{ color: 'rgba(240,239,237,0.5)', fontWeight: 'normal' }}>Room 405</div>
-                      <div className={styles.timelineSub}>30 Students</div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <div className={styles.timelineSub} style={{ color: 'rgba(240, 239, 237, 0.4)' }}>STEM 11 - B</div>
+                      <div style={{ display: 'flex', gap: '1rem', fontSize: '0.75rem', color: 'rgba(240, 239, 237, 0.3)' }}>
+                        <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                          Room 302
+                        </span>
+                        <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                          25
+                        </span>
+                      </div>
                     </div>
-                    <div></div>
+                  </div>
+                </div>
+              </div>
+
+              <div className={styles.timelineItem}>
+                <div className={styles.timelineDot}></div>
+                <div className={styles.timelineContent} style={{ width: '100%' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div className={styles.timelineTime}>01:00 PM - 02:00 PM</div>
+                  </div>
+                  <div style={{ background: 'rgba(240, 239, 237, 0.015)', padding: '0.85rem 1rem', borderRadius: '8px', marginTop: '0.25rem', border: '1px solid rgba(240, 239, 237, 0.03)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.35rem' }}>
+                      <div className={styles.timelineTitle} style={{ fontSize: '0.9rem', color: 'rgba(240, 239, 237, 0.6)' }}>General Biology 2</div>
+                      <div className={styles.timelineTitle} style={{ color: 'rgba(240, 239, 237, 0.3)', fontSize: '0.75rem' }}>Period 5</div>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <div className={styles.timelineSub} style={{ color: 'rgba(240, 239, 237, 0.4)' }}>STEM 12 - A</div>
+                      <div style={{ display: 'flex', gap: '1rem', fontSize: '0.75rem', color: 'rgba(240, 239, 237, 0.3)' }}>
+                        <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                          Room 405
+                        </span>
+                        <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                          30
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
