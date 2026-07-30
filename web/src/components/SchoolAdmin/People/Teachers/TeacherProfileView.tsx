@@ -4,6 +4,7 @@ import { Teacher } from '@/lib/mock/teachers.mock';
 import { TeacherProfileHeader } from './TeacherProfile/layout/TeacherProfileHeader';
 import { GenericTabNavigation } from '../shared/GenericTabNavigation';
 import { TeacherOverviewTab } from './TeacherProfile/tabs/TeacherOverviewTab';
+import { TeacherClassesTab } from './TeacherProfile/tabs/TeacherClassesTab';
 
 interface TeacherProfileViewProps {
   teacher: Teacher;
@@ -45,8 +46,9 @@ export const TeacherProfileView: React.FC<TeacherProfileViewProps> = ({ teacher,
       <GenericTabNavigation tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
       
       {activeTab === 'Overview' && <TeacherOverviewTab teacher={teacher} />}
+      {activeTab === 'Classes' && <TeacherClassesTab teacher={teacher} />}
       
-      {activeTab !== 'Overview' && (
+      {activeTab !== 'Overview' && activeTab !== 'Classes' && (
         <div style={{ padding: '2rem', textAlign: 'center', color: 'rgba(240, 239, 237, 0.5)', background: 'rgba(0,0,0,0.2)', borderRadius: '12px', border: '1px dashed rgba(240,239,237,0.1)' }}>
           {activeTab} tab content will be implemented here.
         </div>

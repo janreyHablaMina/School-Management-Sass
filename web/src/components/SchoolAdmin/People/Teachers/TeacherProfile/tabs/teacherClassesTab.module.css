@@ -1,0 +1,464 @@
+﻿.classesLayout {
+  display: grid;
+  grid-template-columns: 2.2fr 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 1200px) {
+  .classesLayout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px dashed rgba(240, 239, 237, 0.25);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #f0efed;
+  margin-bottom: 0.5rem;
+}
+
+.cardSubtitle {
+  margin: 0;
+  font-size: 0.85rem;
+  color: rgba(240, 239, 237, 0.5);
+}
+
+.headerActions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.searchWrapper {
+  position: relative;
+}
+
+.searchInput {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(240, 239, 237, 0.1);
+  border-radius: 6px;
+  padding: 0.5rem 2.5rem 0.5rem 1rem;
+  color: #f0efed;
+  font-size: 0.85rem;
+  outline: none;
+  width: 250px;
+  transition: all 0.2s;
+}
+
+.searchInput:focus {
+  border-color: #8b5cf6;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.searchIcon {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(240, 239, 237, 0.4);
+  width: 14px;
+}
+
+.exportBtn {
+  background: rgba(182, 142, 255, 0.1);
+  color: #b68eff;
+  border: 1px solid rgba(182, 142, 255, 0.2);
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s;
+}
+
+.exportBtn:hover {
+  background: rgba(182, 142, 255, 0.2);
+  border-color: rgba(182, 142, 255, 0.4);
+}
+
+/* Table Styles */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th {
+  text-align: left;
+  padding: 1rem 0.5rem;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  color: rgba(240, 239, 237, 0.5);
+  font-weight: 600;
+  border-bottom: 1px dashed rgba(240, 239, 237, 0.1);
+  letter-spacing: 0.5px;
+}
+
+.table td {
+  padding: 1rem 0.5rem;
+  border-bottom: 1px solid rgba(240, 239, 237, 0.05);
+  font-size: 0.85rem;
+  vertical-align: middle;
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.avatarCell {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: rgba(182, 142, 255, 0.15);
+  color: #b68eff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.avatarGE {
+  background: rgba(245, 200, 66, 0.15);
+  color: #f5c842;
+}
+
+.className {
+  font-weight: 500;
+  color: #f0efed;
+  margin-bottom: 0.25rem;
+}
+
+.classSection {
+  font-size: 0.75rem;
+  color: rgba(240, 239, 237, 0.5);
+}
+
+.scheduleDays {
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+  color: #f0efed;
+}
+
+.scheduleTime {
+  font-size: 0.75rem;
+  color: rgba(240, 239, 237, 0.5);
+}
+
+.statusActive {
+  background: rgba(92, 199, 137, 0.15);
+  color: #5cc789;
+  padding: 0.2rem 0.6rem;
+  border-radius: 100px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.adviserCheck {
+  color: #5cc789;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.actionBtn {
+  background: transparent;
+  border: none;
+  color: rgba(240, 239, 237, 0.4);
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 4px;
+}
+
+.actionBtn:hover {
+  color: #f0efed;
+  background: rgba(255,255,255,0.05);
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px dashed rgba(240, 239, 237, 0.1);
+  font-size: 0.85rem;
+  color: rgba(240, 239, 237, 0.5);
+}
+
+.pageControls {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.pageBtn {
+  background: transparent;
+  border: 1px solid rgba(240, 239, 237, 0.1);
+  color: #f0efed;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.pageBtn:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.pageBtn.active {
+  background: #8b5cf6;
+  border-color: #8b5cf6;
+}
+
+/* Activities Table */
+.activityIcon {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.activityPurple { background: rgba(182, 142, 255, 0.15); color: #b68eff; }
+.activityBlue { background: rgba(132, 169, 255, 0.15); color: #84a9ff; }
+.activityYellow { background: rgba(245, 200, 66, 0.15); color: #f5c842; }
+.activityGreen { background: rgba(92, 199, 137, 0.15); color: #5cc789; }
+
+.activityTitle {
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+  color: #f0efed;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.activityDesc {
+  font-size: 0.85rem;
+  color: rgba(240, 239, 237, 0.7);
+}
+
+.viewAllLink {
+  color: #8b5cf6;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-top: 1rem;
+}
+
+.viewAllLink:hover {
+  text-decoration: underline;
+}
+
+/* Right Column Summary */
+.summaryGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.summaryCard {
+  background: rgba(0,0,0,0.15);
+  border: 1px solid rgba(240, 239, 237, 0.05);
+  border-radius: 8px;
+  padding: 1.25rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.summaryIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.summaryIconPurple { background: rgba(182, 142, 255, 0.1); color: #b68eff; }
+.summaryIconGreen { background: rgba(92, 199, 137, 0.1); color: #5cc789; }
+.summaryIconYellow { background: rgba(245, 200, 66, 0.1); color: #f5c842; }
+.summaryIconBlue { background: rgba(132, 169, 255, 0.1); color: #84a9ff; }
+
+.summaryInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.summaryInfo h4 {
+  margin: 0 0 0.25rem 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #f0efed;
+}
+
+.summaryInfo p {
+  margin: 0 0 0.25rem 0;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #f0efed;
+}
+
+.summaryInfo span {
+  font-size: 0.65rem;
+  color: rgba(240, 239, 237, 0.5);
+}
+
+/* Advisory Class */
+.advisoryCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0,0,0,0.15);
+  border: 1px solid rgba(240, 239, 237, 0.05);
+  border-radius: 8px;
+  padding: 1.25rem;
+  margin-top: 1rem;
+}
+
+.advisoryLeft {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.advisoryAvatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(182, 142, 255, 0.15);
+  color: #b68eff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.advisoryInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.advisoryTitle {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  color: #f0efed;
+}
+
+.advisorySection {
+  font-size: 0.75rem;
+  color: rgba(240, 239, 237, 0.5);
+  margin-bottom: 0.5rem;
+}
+
+.advisoryDate {
+  font-size: 0.7rem;
+  color: rgba(240, 239, 237, 0.4);
+}
+
+.advisoryRight {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+}
+
+.advisoryCount {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #f0efed;
+}
+
+.advisoryLabel {
+  font-size: 0.75rem;
+  color: rgba(240, 239, 237, 0.5);
+}
+
+/* Notes */
+.notesHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.addNoteBtn {
+  background: transparent;
+  border: 1px dashed rgba(182, 142, 255, 0.5);
+  color: #b68eff;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  transition: all 0.2s;
+}
+
+.addNoteBtn:hover {
+  background: rgba(182, 142, 255, 0.1);
+  border-color: rgba(182, 142, 255, 0.8);
+}
+
+.emptyNotes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  text-align: center;
+  color: rgba(240, 239, 237, 0.4);
+}
+
+.emptyNotes svg {
+  margin-bottom: 1rem;
+  opacity: 0.5;
+  color: rgba(240, 239, 237, 0.4);
+}
+
+.emptyNotes p {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.85rem;
+  color: rgba(240, 239, 237, 0.6);
+}
+
+.emptyNotes span {
+  font-size: 0.75rem;
+}
