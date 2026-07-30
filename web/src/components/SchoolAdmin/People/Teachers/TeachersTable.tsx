@@ -182,7 +182,7 @@ export const TeachersTable: React.FC<TeachersTableProps> = ({
           <button className={`${styles.pageBtn} ${styles.pageBtnActive}`}>1</button>
           <button className={styles.pageBtn}>2</button>
           <button className={styles.pageBtn}>3</button>
-          <span className={styles.pageEllipsis}>...</span>
+          <button className={styles.pageBtn}>4</button>
           <button className={styles.pageBtn}>5</button>
           <button className={styles.pageBtn}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
