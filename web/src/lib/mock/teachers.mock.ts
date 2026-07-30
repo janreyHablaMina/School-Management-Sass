@@ -13,6 +13,20 @@ export interface Teacher {
   lastActiveDate: string;
   lastActiveTime: string;
   avatar: string;
+  // Profile specific
+  phone?: string;
+  address?: string;
+  dateHired?: string;
+  employmentType?: string;
+  highestEducation?: string;
+  position?: string;
+  gender?: string;
+  dateOfBirth?: string;
+  civilStatus?: string;
+  citizenship?: string;
+  languages?: string;
+  specialization?: string;
+  aboutBio?: string;
 }
 
 export const TEACHERS_LIST: Teacher[] = [
@@ -30,7 +44,20 @@ export const TEACHERS_LIST: Teacher[] = [
     statusColor: '#34d399',
     lastActiveDate: 'May 20, 2025',
     lastActiveTime: '10:30 AM',
-    avatar: 'https://i.pravatar.cc/150?u=anna'
+    avatar: 'https://i.pravatar.cc/150?u=anna',
+    phone: '0917 123 4567',
+    address: '123 Sampaguita St., San Pablo City, Laguna',
+    dateHired: 'June 15, 2021',
+    employmentType: 'Full-time',
+    highestEducation: 'Master of Science in Biology',
+    position: 'Senior High School Teacher',
+    gender: 'Female',
+    dateOfBirth: 'May 12, 1992',
+    civilStatus: 'Single',
+    citizenship: 'Filipino',
+    languages: 'English, Filipino',
+    specialization: 'Biology Education',
+    aboutBio: 'Dedicated Biology teacher with a passion for fostering critical thinking and scientific curiosity in students. Committed to creating an engaging and inclusive learning environment.'
   },
   {
     id: 't2',
