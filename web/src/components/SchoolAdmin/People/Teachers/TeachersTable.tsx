@@ -138,30 +138,33 @@ export const TeachersTable: React.FC<TeachersTableProps> = ({
                         direction={isLastTwo ? 'up' : 'down'}
                       >
                         <ActionDropdownItem 
-                          icon={<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>} 
-                          label="View Profile" 
-                          onClick={() => {
+                          onClick={(e) => {
+                            e.stopPropagation();
                             setActiveDropdown(null);
                             onViewDetails(teacher);
                           }} 
-                        />
+                        >
+                          👁️ View Profile
+                        </ActionDropdownItem>
                         <ActionDropdownItem 
-                          icon={<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>} 
-                          label="Edit Teacher" 
-                          onClick={() => setActiveDropdown(null)} 
-                        />
+                          onClick={(e) => { e.stopPropagation(); setActiveDropdown(null); }} 
+                        >
+                          ✏️ Edit Teacher
+                        </ActionDropdownItem>
                         <ActionDropdownItem 
-                          icon={<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>} 
-                          label="Send Message" 
-                          onClick={() => setActiveDropdown(null)} 
-                        />
+                          onClick={(e) => { e.stopPropagation(); setActiveDropdown(null); }} 
+                        >
+                          ✉️ Send Message
+                        </ActionDropdownItem>
+                        
                         <ActionDropdownSeparator />
+                        
                         <ActionDropdownItem 
-                          icon={<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"></path><line x1="18" y1="9" x2="12" y2="15"></line><line x1="12" y1="9" x2="18" y2="15"></line></svg>} 
-                          label="Deactivate Account" 
-                          variant="danger"
-                          onClick={() => setActiveDropdown(null)} 
-                        />
+                          isDanger={true}
+                          onClick={(e) => { e.stopPropagation(); setActiveDropdown(null); }} 
+                        >
+                          🗑️ Deactivate Account
+                        </ActionDropdownItem>
                       </ActionDropdown>
                     </div>
                   </td>
