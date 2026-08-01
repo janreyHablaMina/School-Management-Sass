@@ -1,12 +1,39 @@
-﻿.classesLayout {
+.classesContainer {
   display: grid;
   grid-template-columns: 2.2fr 1fr;
   gap: 1.5rem;
+  align-items: start;
 }
 
-@media (max-width: 1200px) {
-  .classesLayout {
-    grid-template-columns: 1fr;
+.leftCol, .rightCol {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.summaryAdvisoryGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.cardHandled { order: 1; }
+.cardSummaryAdvisory { order: 2; }
+.cardActivities { order: 3; }
+.cardNotes { order: 4; }
+
+@media (max-width: 1600px) {
+  .classesContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .leftCol, .rightCol {
+    display: contents;
+  }
+  .summaryAdvisoryGroup {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
   }
 }
 
