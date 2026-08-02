@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styles from './studentProfile.module.css';
 import { Student } from './shared/types';
 import { ProfileHeader } from './layout/ProfileHeader';
-import { TabNavigation } from './layout/TabNavigation';
+import { GenericTabNavigation } from '../shared/GenericTabNavigation';
 import { OverviewTab } from './tabs/Overview/OverviewTab';
 import { IdentificationCard } from './tabs/ID/IdentificationCard';
 import { AcademicTab } from './tabs/Academic/AcademicTab';
@@ -27,7 +27,7 @@ export const StudentProfileView: React.FC<StudentProfileViewProps> = ({ student,
     <div className={styles.container}>
       <ProfileHeader onBack={onBack} student={student} />
       
-      <TabNavigation tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
+      <GenericTabNavigation tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
       
       {activeTab === 'Overview' && <OverviewTab student={student} />}
       {activeTab === 'ID' && <IdentificationCard student={student} />}

@@ -1,0 +1,206 @@
+/* Shared Profile Components CSS */
+
+/* Header Grid Layout */
+.headerGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.infoCard {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1.5px dashed rgba(240, 239, 237, 0.15);
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.infoCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px dashed rgba(240, 239, 237, 0.1);
+}
+
+.infoCardIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
+.infoCardTitle {
+  font-weight: 600;
+  color: #f0efed;
+}
+
+/* Avatar Block */
+.avatarTopHalf {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.avatarProfileBlock {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.avatarCircle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 2px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Caveat', cursive;
+  font-size: 3rem;
+  font-weight: 700;
+  position: relative;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.statusDot {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  width: 18px;
+  height: 18px;
+  border: 3px solid #0b1c14;
+  border-radius: 50%;
+}
+
+.nameAndBadge {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.nameAndBadge h2 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.8rem;
+  font-family: 'Caveat', cursive;
+  color: #f0efed;
+  line-height: 1;
+}
+
+.statusBadge {
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-block;
+  border: 1px solid transparent;
+}
+
+/* Avatar Bottom Details */
+.avatarBottomHalf {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px dashed rgba(240, 239, 237, 0.1);
+}
+
+.avatarMetaGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+/* Detail Rows */
+.detailsGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.detailRow {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+
+.rowLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: rgba(240, 239, 237, 0.6);
+  font-size: 0.85rem;
+}
+
+.rowLabel svg {
+  color: rgba(240, 239, 237, 0.4);
+}
+
+.rowValue {
+  font-size: 0.85rem;
+  color: #f0efed;
+}
+
+.detailRow span:first-child {
+  font-size: 0.75rem;
+  color: rgba(240, 239, 237, 0.5);
+}
+
+.detailRow span:last-child {
+  font-size: 0.9rem;
+  color: #f0efed;
+  font-weight: 500;
+}
+
+/* Tab Navigation Container */
+.tabsContainer {
+  display: flex;
+  gap: 2rem;
+  border-bottom: 1px solid rgba(240, 239, 237, 0.1);
+  margin-bottom: 1.5rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.tabsContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.tabBtn {
+  background: transparent;
+  border: none;
+  color: rgba(240, 239, 237, 0.5);
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0.5rem 0 1rem 0;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.tabBtn:hover {
+  color: rgba(240, 239, 237, 0.8);
+}
+
+.tabActive {
+  color: #8b5cf6;
+}
+
+.tabActive::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #8b5cf6;
+  border-radius: 2px 2px 0 0;
+}

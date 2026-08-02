@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from '../studentProfile.module.css';
 import { Student } from '../shared/types';
-import { DetailRow } from '../shared/SharedComponents';
+import { GenericProfileHeader } from '../../shared/GenericProfileHeader';
 
 interface ProfileHeaderProps {
   onBack: () => void;
@@ -15,7 +15,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ onBack, student })
 
   return (
     <>
-<div className={styles.breadcrumbs}>
+      <div className={styles.breadcrumbs}>
         <span className={styles.breadcrumbLink} onClick={onBack}>Students</span>
         <span>&gt;</span>
         <span className={styles.breadcrumbActive}>Student Profile</span>
@@ -41,61 +41,43 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ onBack, student })
         </div>
       </div>
 
-      {/* Header Grid */}
-      <div className={styles.headerGrid}>
-        {/* Avatar Card */}
-        <div className={styles.infoCard}>
-          <div className={styles.avatarTopHalf}>
-            <div className={styles.avatarProfileBlock}>
-              <div className={styles.avatarCircle} style={{ borderColor: student.avatarColor }}>
-                <span style={{ color: student.avatarColor }}>{getInitials(student.name)}</span>
-                <div className={styles.statusDot}></div>
-              </div>
-            </div>
-            <div className={styles.nameAndBadge}>
-              <h2>{student.name}</h2>
-              <span className={styles.statusBadge}>{student.status} Student</span>
-            </div>
-          </div>
-          
-          <div className={styles.avatarBottomHalf}>
-            <div className={styles.avatarMetaGrid}>
-                <DetailRow label="Grade & Section" value={student.gradeSection} />
-                <DetailRow label="Student ID" value={student.studentId} />
-                <DetailRow label="LRN" value="123456789101" />
-            </div>
-          </div>
-        </div>
-
-        {/* Personal Information */}
-        <div className={styles.infoCard}>
-          <div className={styles.infoCardHeader}>
-            <div className={styles.infoCardIcon}>👤</div>
-            <span className={styles.infoCardTitle}>Personal Information</span>
-          </div>
-          <div className={styles.detailsGrid}>
-            <DetailRow label="Date of Birth" value="March 15, 2009" />
-            <DetailRow label="Age" value="16 years old" />
-            <DetailRow label="Gender" value="Male" />
-            <DetailRow label="Nationality" value="Filipino" />
-            <DetailRow label="Blood Type" value="O+" />
-          </div>
-        </div>
-
-        {/* School Information */}
-        <div className={styles.infoCard}>
-          <div className={styles.infoCardHeader}>
-            <div className={styles.infoCardIcon} style={{ background: 'rgba(92, 199, 137, 0.1)', color: '#5cc789' }}>🏛️</div>
-            <span className={styles.infoCardTitle}>School Information</span>
-          </div>
-          <div className={styles.detailsGrid}>
-            <DetailRow label="Adviser" value="Mrs. Liza Mendoza" />
-            <DetailRow label="School Year" value="2025 - 2026" />
-            <DetailRow label="Modality" value="Face-to-Face" />
-            <DetailRow label="Club" value="Science Club" />
-          </div>
-        </div>
-      </div>
+      <GenericProfileHeader
+        name={student.name}
+        initials={getInitials(student.name)}
+        avatarColor={student.avatarColor}
+        status={student.status}
+        statusBg="rgba(92, 199, 137, 0.1)"
+        statusColor="#5cc789"
+        badgeLabel={`${student.status} Student`}
+        primaryDetails={[
+          { label: 'Grade & Section', value: student.gradeSection },
+          { label: 'Student ID', value: student.studentId },
+          { label: 'LRN', value: '123456789101' }
+        ]}
+        personalInfo={{
+          title: 'Personal Information',
+          icon: '👤',
+          details: [
+            { label: 'Date of Birth', value: 'March 15, 2009' },
+            { label: 'Age', value: '16 years old' },
+            { label: 'Gender', value: 'Male' },
+            { label: 'Nationality', value: 'Filipino' },
+            { label: 'Blood Type', value: 'O+' }
+          ]
+        }}
+        employmentInfo={{
+          title: 'School Information',
+          icon: '🏛️',
+          iconBg: 'rgba(92, 199, 137, 0.1)',
+          iconColor: '#5cc789',
+          details: [
+            { label: 'Adviser', value: 'Mrs. Liza Mendoza' },
+            { label: 'School Year', value: '2025 - 2026' },
+            { label: 'Modality', value: 'Face-to-Face' },
+            { label: 'Club', value: 'Science Club' }
+          ]
+        }}
+      />
     </>
   );
 };

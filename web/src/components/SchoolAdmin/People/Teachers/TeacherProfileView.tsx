@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styles from './TeacherProfile/teacherProfile.module.css';
 import { Teacher } from '@/lib/mock/teachers.mock';
 import { TeacherProfileHeader } from './TeacherProfile/layout/TeacherProfileHeader';
-import { TeacherTabNavigation } from './TeacherProfile/layout/TeacherTabNavigation';
+import { GenericTabNavigation } from '../shared/GenericTabNavigation';
 import { TeacherOverviewTab } from './TeacherProfile/tabs/TeacherOverviewTab';
 
 interface TeacherProfileViewProps {
@@ -42,7 +42,7 @@ export const TeacherProfileView: React.FC<TeacherProfileViewProps> = ({ teacher,
       
       <TeacherProfileHeader teacher={teacher} />
       
-      <TeacherTabNavigation tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
+      <GenericTabNavigation tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
       
       {activeTab === 'Overview' && <TeacherOverviewTab teacher={teacher} />}
       
