@@ -108,9 +108,9 @@ export const TeacherClassesTab: React.FC<TeacherClassesTabProps> = ({ teacher })
   ];
 
   return (
-    <div className={styles.classesContainer}>
+    <div className={uiStyles.tabLayoutContainer}>
       
-      <div className={styles.leftCol}>
+      <div className={uiStyles.tabLeftCol}>
         {/* Row 1 / Left Col: Classes Handled */}
         <div className={`${styles.card} ${styles.cardHandled}`} style={{ marginBottom: 0 }}>
           <div className={styles.cardHeader}>
@@ -159,7 +159,7 @@ export const TeacherClassesTab: React.FC<TeacherClassesTabProps> = ({ teacher })
         </div>
       </div>
 
-      <div className={styles.rightCol}>
+      <div className={uiStyles.tabRightCol}>
         {/* Row 2 / Right Col: Summary and Advisory */}
         <div className={`${styles.summaryAdvisoryGroup} ${styles.cardSummaryAdvisory}`}>
           

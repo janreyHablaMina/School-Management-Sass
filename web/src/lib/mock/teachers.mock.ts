@@ -396,3 +396,63 @@ export const mockTeacherActivities: TeacherActivity[] = [
   { id: '3', date: 'May 18, 2025', time: '09:05 AM', type: 'Assignment', title: 'Created Assignment', details: 'Created new assignment: Cell Structure Diagram.', targetClass: 'STEM 12 - A' },
   { id: '4', date: 'May 16, 2025', time: '04:20 PM', type: 'Document', title: 'Uploaded Document', details: 'Uploaded lecture notes: Photosynthesis.', targetClass: 'STEM 12 - B' }
 ];
+export interface ScheduleEvent {
+  id: string;
+  day: 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday';
+  startTime: string; // e.g. "07:30"
+  endTime: string;   // e.g. "08:30"
+  title: string;
+  subtitle: string;
+  type: 'class' | 'advisory' | 'prep' | 'grading' | 'office' | 'meeting' | 'break';
+}
+
+export const mockTeacherSchedule: ScheduleEvent[] = [
+  // Monday
+  { id: '1', day: 'Monday', startTime: '07:30', endTime: '08:30', title: 'General Biology 1', subtitle: 'STEM 11 - A', type: 'class' },
+  { id: '2', day: 'Monday', startTime: '09:45', endTime: '10:45', title: 'Research in Science', subtitle: 'STEM 12 - A', type: 'class' },
+  { id: '3', day: 'Monday', startTime: '10:45', endTime: '11:45', title: 'Break', subtitle: '', type: 'break' },
+  { id: '4', day: 'Monday', startTime: '13:00', endTime: '13:30', title: 'Advisory Class', subtitle: 'STEM 11 - A', type: 'advisory' },
+  { id: '5', day: 'Monday', startTime: '14:00', endTime: '15:00', title: 'Grading & Reports', subtitle: '', type: 'grading' },
+  { id: '6', day: 'Monday', startTime: '15:00', endTime: '16:00', title: 'Office Hours', subtitle: '', type: 'office' },
+  { id: '7', day: 'Monday', startTime: '16:00', endTime: '17:00', title: 'Planning & Prep', subtitle: '', type: 'prep' },
+
+  // Tuesday
+  { id: '8', day: 'Tuesday', startTime: '08:30', endTime: '09:30', title: 'General Biology 1', subtitle: 'STEM 11 - B', type: 'class' },
+  { id: '9', day: 'Tuesday', startTime: '09:45', endTime: '10:45', title: 'Research in Science', subtitle: 'STEM 12 - B', type: 'class' },
+  { id: '10', day: 'Tuesday', startTime: '10:45', endTime: '11:45', title: 'Break', subtitle: '', type: 'break' },
+  { id: '11', day: 'Tuesday', startTime: '11:00', endTime: '12:00', title: 'General Biology 1', subtitle: 'STEM 11 - B', type: 'class' },
+  { id: '12', day: 'Tuesday', startTime: '13:00', endTime: '14:00', title: 'Subject Preparation', subtitle: '', type: 'prep' },
+  { id: '13', day: 'Tuesday', startTime: '14:00', endTime: '15:00', title: 'Subject Preparation', subtitle: '', type: 'prep' },
+  { id: '14', day: 'Tuesday', startTime: '15:00', endTime: '16:00', title: 'Office Hours', subtitle: '', type: 'office' },
+  { id: '15', day: 'Tuesday', startTime: '16:00', endTime: '17:00', title: 'Planning & Prep', subtitle: '', type: 'prep' },
+  
+  // Wednesday
+  { id: '16', day: 'Wednesday', startTime: '07:30', endTime: '08:30', title: 'General Biology 1', subtitle: 'STEM 11 - A', type: 'class' },
+  { id: '17', day: 'Wednesday', startTime: '09:45', endTime: '10:45', title: 'General Biology 1', subtitle: 'STEM 11 - A', type: 'class' },
+  { id: '18', day: 'Wednesday', startTime: '10:45', endTime: '11:45', title: 'Break', subtitle: '', type: 'break' },
+  { id: '19', day: 'Wednesday', startTime: '11:00', endTime: '12:00', title: 'Research in Science', subtitle: 'STEM 12 - A', type: 'class' },
+  { id: '20', day: 'Wednesday', startTime: '13:00', endTime: '13:30', title: 'Advisory Class', subtitle: 'STEM 11 - B', type: 'advisory' },
+  { id: '21', day: 'Wednesday', startTime: '14:00', endTime: '15:00', title: 'Grading & Reports', subtitle: '', type: 'grading' },
+  { id: '22', day: 'Wednesday', startTime: '15:00', endTime: '16:00', title: 'Office Hours', subtitle: '', type: 'office' },
+  { id: '23', day: 'Wednesday', startTime: '16:00', endTime: '17:00', title: 'Planning & Prep', subtitle: '', type: 'prep' },
+
+  // Thursday
+  { id: '24', day: 'Thursday', startTime: '07:30', endTime: '08:45', title: 'Research in Science', subtitle: 'STEM 12 - A', type: 'class' },
+  { id: '25', day: 'Thursday', startTime: '09:00', endTime: '10:00', title: 'General Biology 2', subtitle: 'STEM 12 - A', type: 'class' },
+  { id: '26', day: 'Thursday', startTime: '10:45', endTime: '11:45', title: 'Break', subtitle: '', type: 'break' },
+  { id: '27', day: 'Thursday', startTime: '11:00', endTime: '12:00', title: 'Research in Science', subtitle: 'STEM 12 - B', type: 'class' },
+  { id: '28', day: 'Thursday', startTime: '13:00', endTime: '14:00', title: 'Subject Preparation', subtitle: '', type: 'prep' },
+  { id: '29', day: 'Thursday', startTime: '14:00', endTime: '15:00', title: 'Subject Preparation', subtitle: '', type: 'prep' },
+  { id: '30', day: 'Thursday', startTime: '15:00', endTime: '16:00', title: 'Office Hours', subtitle: '', type: 'office' },
+  { id: '31', day: 'Thursday', startTime: '16:00', endTime: '17:00', title: 'Planning & Prep', subtitle: '', type: 'prep' },
+
+  // Friday
+  { id: '32', day: 'Friday', startTime: '08:30', endTime: '09:30', title: 'General Biology 1', subtitle: 'STEM 11 - B', type: 'class' },
+  { id: '33', day: 'Friday', startTime: '09:45', endTime: '10:45', title: 'Research in Science', subtitle: 'STEM 12 - B', type: 'class' },
+  { id: '34', day: 'Friday', startTime: '10:45', endTime: '11:45', title: 'Break', subtitle: '', type: 'break' },
+  { id: '35', day: 'Friday', startTime: '11:00', endTime: '12:00', title: 'General Biology 2', subtitle: 'STEM 12 - A', type: 'class' },
+  { id: '36', day: 'Friday', startTime: '13:00', endTime: '14:00', title: 'Department Meeting', subtitle: '', type: 'meeting' },
+  { id: '37', day: 'Friday', startTime: '14:00', endTime: '15:00', title: 'Subject Preparation', subtitle: '', type: 'prep' },
+  { id: '38', day: 'Friday', startTime: '15:00', endTime: '16:00', title: 'Office Hours', subtitle: '', type: 'office' },
+  { id: '39', day: 'Friday', startTime: '16:00', endTime: '17:00', title: 'Planning & Prep', subtitle: '', type: 'prep' }
+];

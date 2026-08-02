@@ -1,0 +1,362 @@
+﻿.card {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px dashed rgba(240, 239, 237, 0.25);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #f0efed;
+  margin-bottom: 0.5rem;
+}
+
+.cardSubtitle {
+  margin: 0;
+  font-size: 0.85rem;
+  color: rgba(240, 239, 237, 0.5);
+}
+
+.headerActions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.datePicker {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(240, 239, 237, 0.1);
+  border-radius: 6px;
+  color: #f0efed;
+  font-size: 0.85rem;
+  padding: 0 0.5rem;
+  height: 32px;
+}
+
+.datePicker button {
+  background: transparent;
+  border: none;
+  color: rgba(240, 239, 237, 0.6);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.25rem;
+}
+
+.datePicker button:hover {
+  color: #f0efed;
+}
+
+.datePicker span {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0 0.5rem;
+  font-weight: 500;
+}
+
+/* Calendar Grid */
+.calendarGrid {
+  display: grid;
+  grid-template-columns: 80px repeat(6, 1fr);
+  border: 1px solid rgba(240, 239, 237, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.calendarHeader {
+  display: contents;
+}
+
+.calendarHeaderCell {
+  padding: 1rem 0.5rem;
+  text-align: center;
+  border-bottom: 1px solid rgba(240, 239, 237, 0.1);
+  border-right: 1px dashed rgba(240, 239, 237, 0.05);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.calendarHeaderCell:last-child {
+  border-right: none;
+}
+
+.dayName {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #f0efed;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.25rem;
+}
+
+.dayDate {
+  font-size: 0.75rem;
+  color: rgba(240, 239, 237, 0.5);
+}
+
+.calendarBody {
+  display: contents;
+}
+
+.timeRow {
+  display: contents;
+}
+
+.timeCell {
+  padding: 1rem 0.5rem;
+  text-align: right;
+  border-bottom: 1px dashed rgba(240, 239, 237, 0.05);
+  border-right: 1px dashed rgba(240, 239, 237, 0.05);
+  color: rgba(240, 239, 237, 0.6);
+  font-size: 0.75rem;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.timeMain {
+  font-weight: 500;
+  color: rgba(240, 239, 237, 0.8);
+  margin-bottom: 0.25rem;
+}
+
+.dayCell {
+  padding: 0.25rem;
+  border-bottom: 1px dashed rgba(240, 239, 237, 0.05);
+  border-right: 1px dashed rgba(240, 239, 237, 0.05);
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.dayCell:last-child {
+  border-right: none;
+}
+
+/* Event Blocks */
+.eventBlock {
+  padding: 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.eventTitle {
+  font-weight: 600;
+}
+
+.eventSubtitle {
+  font-size: 0.7rem;
+  opacity: 0.8;
+}
+
+.eventTime {
+  font-size: 0.65rem;
+  opacity: 0.7;
+  margin-top: 0.25rem;
+}
+
+/* Event Types Colors */
+.eventClassBlue { background: rgba(132, 169, 255, 0.15); color: #84a9ff; border-left: 2px solid #84a9ff; }
+.eventClassGreen { background: rgba(92, 199, 137, 0.15); color: #5cc789; border-left: 2px solid #5cc789; }
+.eventAdvisory { background: rgba(245, 200, 66, 0.15); color: #f5c842; border-left: 2px solid #f5c842; }
+.eventPrep { background: rgba(240, 239, 237, 0.1); color: rgba(240, 239, 237, 0.8); border-left: 2px solid rgba(240, 239, 237, 0.4); }
+.eventGrading { background: rgba(182, 142, 255, 0.15); color: #b68eff; border-left: 2px solid #b68eff; }
+.eventOffice { background: rgba(182, 142, 255, 0.15); color: #b68eff; border-left: 2px solid #b68eff; }
+.eventMeeting { background: rgba(224, 94, 94, 0.15); color: #e05e5e; border-left: 2px solid #e05e5e; }
+.eventBreak { display: flex; align-items: center; justify-content: center; font-weight: 500; color: rgba(240, 239, 237, 0.4); height: 100%; }
+
+/* Legend */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px dashed rgba(240, 239, 237, 0.1);
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: rgba(240, 239, 237, 0.7);
+}
+
+.legendDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.dotBlue { background: #84a9ff; }
+.dotGreen { background: #5cc789; }
+.dotYellow { background: #f5c842; }
+.dotPurple { background: #b68eff; }
+.dotRed { background: #e05e5e; }
+.dotGray { background: rgba(240, 239, 237, 0.5); }
+
+/* Right Column */
+.summaryGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.summaryCard {
+  background: rgba(0,0,0,0.15);
+  border: 1px solid rgba(240, 239, 237, 0.05);
+  border-radius: 8px;
+  padding: 1.25rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.summaryIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.summaryIconPurple { background: rgba(182, 142, 255, 0.1); color: #b68eff; }
+.summaryIconGreen { background: rgba(92, 199, 137, 0.1); color: #5cc789; }
+.summaryIconYellow { background: rgba(245, 200, 66, 0.1); color: #f5c842; }
+.summaryIconBlue { background: rgba(132, 169, 255, 0.1); color: #84a9ff; }
+
+.summaryInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.summaryInfo h4 {
+  margin: 0 0 0.25rem 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #f0efed;
+}
+
+.summaryInfo p {
+  margin: 0 0 0.25rem 0;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #f0efed;
+}
+
+/* Teaching Load */
+.teachingLoadContainer {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding: 1rem 0;
+}
+
+.chartPlaceholder {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 16px solid #84a9ff;
+  border-top-color: #b68eff;
+  border-right-color: #5cc789;
+  border-bottom-color: rgba(240, 239, 237, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transform: rotate(-45deg);
+}
+
+.chartInner {
+  transform: rotate(45deg);
+  font-size: 0.75rem;
+  color: rgba(240, 239, 237, 0.5);
+  text-align: center;
+}
+
+.loadLegend {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.loadItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+}
+
+.loadLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #f0efed;
+}
+
+.loadValue {
+  color: rgba(240, 239, 237, 0.6);
+}
+
+.loadTotal {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px dashed rgba(240, 239, 237, 0.1);
+  text-align: right;
+  font-size: 0.8rem;
+  color: rgba(240, 239, 237, 0.5);
+}
+
+/* Notes */
+.notesHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.emptyNotes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  text-align: center;
+  color: rgba(240, 239, 237, 0.4);
+}
+
+.emptyNotes svg {
+  margin-bottom: 1rem;
+  opacity: 0.5;
+  color: rgba(240, 239, 237, 0.4);
+}
+
+.emptyNotes p {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.85rem;
+  color: rgba(240, 239, 237, 0.6);
+}
+
+.emptyNotes span {
+  font-size: 0.75rem;
+}

@@ -1,15 +1,10 @@
-﻿/* Layout */
-.classesContainer {
-  display: grid;
-  grid-template-columns: 2.2fr 1fr;
-  gap: 1.5rem;
-  align-items: start;
-}
-
-.leftCol, .rightCol {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+﻿/* Cards */
+.card {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px dashed rgba(240, 239, 237, 0.25);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .summaryAdvisoryGroup {
@@ -24,27 +19,10 @@
 .cardNotes { order: 4; }
 
 @media (max-width: 1600px) {
-  .classesContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-  }
-  .leftCol, .rightCol {
-    display: contents;
-  }
   .summaryAdvisoryGroup {
     display: grid;
     grid-template-columns: 1fr 1fr;
   }
-}
-
-/* Cards */
-.card {
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px dashed rgba(240, 239, 237, 0.25);
-  border-radius: 12px;
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
 }
 
 .cardHeader {
