@@ -242,3 +242,84 @@
   margin-top: 0 !important;
   margin-bottom: 0.35rem !important;
 }
+/* Table Styles */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th {
+  text-align: left;
+  padding: 1rem 0.5rem;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  color: rgba(240, 239, 237, 0.5);
+  font-weight: 600;
+  border-bottom: 1px dashed rgba(240, 239, 237, 0.1);
+  letter-spacing: 0.5px;
+}
+
+.table td {
+  padding: 1rem 0.5rem;
+  border-bottom: 1px solid rgba(240, 239, 237, 0.05);
+  font-size: 0.85rem;
+  vertical-align: middle;
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.emptyTable {
+  text-align: center;
+  padding: 2rem !important;
+  color: rgba(240, 239, 237, 0.4);
+  font-style: italic;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px dashed rgba(240, 239, 237, 0.1);
+  font-size: 0.85rem;
+  color: rgba(240, 239, 237, 0.5);
+}
+
+.pageControls {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.pageBtn {
+  background: transparent;
+  border: 1px solid rgba(240, 239, 237, 0.1);
+  color: #f0efed;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.pageBtn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.pageBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pageBtn.active {
+  background: #f5c842;
+  border-color: #f5c842;
+  color: #0b1a13;
+  font-weight: 600;
+}

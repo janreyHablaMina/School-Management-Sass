@@ -356,3 +356,43 @@ export const TEACHERS_METRICS = [
     iconColor: '#ef4444'
   }
 ];
+export interface TeacherClass {
+  id: string;
+  name: string;
+  section: string;
+  gradeLevel: string;
+  subject: string;
+  students: number;
+  schedule: {
+    days: string;
+    time: string;
+  };
+  room: string;
+  isAdviser: boolean;
+  status: 'Active' | 'Inactive';
+}
+
+export const mockTeacherClasses: TeacherClass[] = [
+  { id: '1', name: 'STEM 11 - A', section: 'Section A', gradeLevel: 'Grade 11', subject: 'General Biology 1', students: 32, schedule: { days: 'Mon, Wed, Fri', time: '7:30 AM - 8:30 AM' }, room: 'Science Lab 1', isAdviser: true, status: 'Active' },
+  { id: '2', name: 'STEM 11 - B', section: 'Section B', gradeLevel: 'Grade 11', subject: 'General Biology 1', students: 30, schedule: { days: 'Tue, Thu', time: '8:30 AM - 9:30 AM' }, room: 'Science Lab 1', isAdviser: true, status: 'Active' },
+  { id: '3', name: 'STEM 12 - A', section: 'Section A', gradeLevel: 'Grade 12', subject: 'Research in Science', students: 34, schedule: { days: 'Mon, Wed', time: '9:45 AM - 10:45 AM' }, room: 'Science Lab 2', isAdviser: true, status: 'Active' },
+  { id: '4', name: 'STEM 12 - B', section: 'Section B', gradeLevel: 'Grade 12', subject: 'Research in Science', students: 32, schedule: { days: 'Tue, Thu', time: '1:00 PM - 2:00 PM' }, room: 'Science Lab 2', isAdviser: true, status: 'Active' },
+  { id: '5', name: 'STEM 12 - A', section: 'Section A', gradeLevel: 'Grade 12', subject: 'General Biology 2', students: 28, schedule: { days: 'Fri', time: '10:45 AM - 11:45 AM' }, room: 'Science Lab 1', isAdviser: false, status: 'Active' }
+];
+
+export interface TeacherActivity {
+  id: string;
+  date: string;
+  time: string;
+  type: 'Announcement' | 'Grades' | 'Assignment' | 'Document';
+  title: string;
+  details: string;
+  targetClass: string;
+}
+
+export const mockTeacherActivities: TeacherActivity[] = [
+  { id: '1', date: 'May 20, 2025', time: '02:15 PM', type: 'Announcement', title: 'Posted Announcement', details: 'Posted reminder about the lab activity on Friday.', targetClass: 'STEM 11 - A' },
+  { id: '2', date: 'May 19, 2025', time: '10:30 AM', type: 'Grades', title: 'Submitted Grades', details: 'Submitted Quarterly Grades for General Biology 1.', targetClass: 'STEM 11 - B' },
+  { id: '3', date: 'May 18, 2025', time: '09:05 AM', type: 'Assignment', title: 'Created Assignment', details: 'Created new assignment: Cell Structure Diagram.', targetClass: 'STEM 12 - A' },
+  { id: '4', date: 'May 16, 2025', time: '04:20 PM', type: 'Document', title: 'Uploaded Document', details: 'Uploaded lecture notes: Photosynthesis.', targetClass: 'STEM 12 - B' }
+];

@@ -1,3 +1,4 @@
+﻿/* Layout */
 .classesContainer {
   display: grid;
   grid-template-columns: 2.2fr 1fr;
@@ -37,6 +38,7 @@
   }
 }
 
+/* Cards */
 .card {
   background: rgba(0, 0, 0, 0.2);
   border: 1px dashed rgba(240, 239, 237, 0.25);
@@ -99,57 +101,9 @@
   top: 50%;
   transform: translateY(-50%);
   color: rgba(240, 239, 237, 0.4);
-  width: 14px;
 }
 
-.exportBtn {
-  background: rgba(182, 142, 255, 0.1);
-  color: #b68eff;
-  border: 1px solid rgba(182, 142, 255, 0.2);
-  border-radius: 6px;
-  padding: 0.5rem 1rem;
-  font-size: 0.85rem;
-  font-weight: 500;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  transition: all 0.2s;
-}
-
-.exportBtn:hover {
-  background: rgba(182, 142, 255, 0.2);
-  border-color: rgba(182, 142, 255, 0.4);
-}
-
-/* Table Styles */
-.table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.table th {
-  text-align: left;
-  padding: 1rem 0.5rem;
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  color: rgba(240, 239, 237, 0.5);
-  font-weight: 600;
-  border-bottom: 1px dashed rgba(240, 239, 237, 0.1);
-  letter-spacing: 0.5px;
-}
-
-.table td {
-  padding: 1rem 0.5rem;
-  border-bottom: 1px solid rgba(240, 239, 237, 0.05);
-  font-size: 0.85rem;
-  vertical-align: middle;
-}
-
-.table tr:last-child td {
-  border-bottom: none;
-}
-
+/* Table cells */
 .avatarCell {
   display: flex;
   align-items: center;
@@ -197,15 +151,6 @@
   color: rgba(240, 239, 237, 0.5);
 }
 
-.statusActive {
-  background: rgba(92, 199, 137, 0.15);
-  color: #5cc789;
-  padding: 0.2rem 0.6rem;
-  border-radius: 100px;
-  font-size: 0.75rem;
-  font-weight: 600;
-}
-
 .adviserCheck {
   color: #5cc789;
   display: flex;
@@ -225,46 +170,6 @@
 .actionBtn:hover {
   color: #f0efed;
   background: rgba(255,255,255,0.05);
-}
-
-/* Pagination */
-.pagination {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 1.5rem;
-  padding-top: 1rem;
-  border-top: 1px dashed rgba(240, 239, 237, 0.1);
-  font-size: 0.85rem;
-  color: rgba(240, 239, 237, 0.5);
-}
-
-.pageControls {
-  display: flex;
-  gap: 0.25rem;
-}
-
-.pageBtn {
-  background: transparent;
-  border: 1px solid rgba(240, 239, 237, 0.1);
-  color: #f0efed;
-  width: 28px;
-  height: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.pageBtn:hover {
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.pageBtn.active {
-  background: #8b5cf6;
-  border-color: #8b5cf6;
 }
 
 /* Activities Table */
@@ -443,25 +348,6 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
-}
-
-.addNoteBtn {
-  background: transparent;
-  border: 1px dashed rgba(182, 142, 255, 0.5);
-  color: #b68eff;
-  padding: 0.4rem 0.8rem;
-  border-radius: 6px;
-  font-size: 0.8rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  transition: all 0.2s;
-}
-
-.addNoteBtn:hover {
-  background: rgba(182, 142, 255, 0.1);
-  border-color: rgba(182, 142, 255, 0.8);
 }
 
 .emptyNotes {
