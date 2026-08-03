@@ -456,3 +456,39 @@ export const mockTeacherSchedule: ScheduleEvent[] = [
   { id: '38', day: 'Friday', startTime: '15:00', endTime: '16:00', title: 'Office Hours', subtitle: '', type: 'office' },
   { id: '39', day: 'Friday', startTime: '16:00', endTime: '17:00', title: 'Planning & Prep', subtitle: '', type: 'prep' }
 ];
+export interface SubjectHandled {
+  id: string;
+  name: string;
+  type: string; // Laboratory, etc.
+  code: string;
+  gradeLevel: string;
+  totalClasses: number;
+  totalStudents: number;
+  weeklyPeriods: number;
+  status: 'Active' | 'Inactive';
+}
+
+export const mockTeacherSubjects: SubjectHandled[] = [
+  { id: '1', name: 'General Biology 1', type: 'Laboratory', code: 'BIO11-01', gradeLevel: 'Grade 11', totalClasses: 2, totalStudents: 62, weeklyPeriods: 5, status: 'Active' },
+  { id: '2', name: 'General Biology 2', type: 'Laboratory', code: 'BIO12-01', gradeLevel: 'Grade 12', totalClasses: 2, totalStudents: 64, weeklyPeriods: 5, status: 'Active' },
+  { id: '3', name: 'Research in Science', type: '', code: 'RES11-01', gradeLevel: 'Grade 11', totalClasses: 2, totalStudents: 62, weeklyPeriods: 3, status: 'Active' },
+  { id: '4', name: 'Practical Research 1', type: '', code: 'PR12-01', gradeLevel: 'Grade 12', totalClasses: 1, totalStudents: 28, weeklyPeriods: 3, status: 'Active' },
+  { id: '5', name: 'Environmental Science', type: '', code: 'ENV11-01', gradeLevel: 'Grade 11', totalClasses: 1, totalStudents: 30, weeklyPeriods: 2, status: 'Active' },
+  { id: '6', name: 'Earth & Life Science', type: '', code: 'ELS11-01', gradeLevel: 'Grade 11', totalClasses: 1, totalStudents: 29, weeklyPeriods: 2, status: 'Active' },
+];
+
+export interface SubjectActivity {
+  id: string;
+  date: string;
+  time: string;
+  activityType: 'Created Assignment' | 'Updated Lesson' | 'Added Learning Material' | 'Submitted Grades';
+  details: string;
+  subject: string;
+}
+
+export const mockSubjectActivities: SubjectActivity[] = [
+  { id: '1', date: 'May 20, 2025', time: '02:15 PM', activityType: 'Created Assignment', details: 'Created assignment: Cell Structure Diagram', subject: 'General Biology 1' },
+  { id: '2', date: 'May 19, 2025', time: '10:30 AM', activityType: 'Updated Lesson', details: 'Updated lesson plan for Photosynthesis', subject: 'General Biology 1' },
+  { id: '3', date: 'May 18, 2025', time: '09:05 AM', activityType: 'Added Learning Material', details: 'Uploaded presentation: Ecology Basics', subject: 'Environmental Science' },
+  { id: '4', date: 'May 16, 2025', time: '04:20 PM', activityType: 'Submitted Grades', details: 'Submitted Quarterly Grades', subject: 'Research in Science' },
+];

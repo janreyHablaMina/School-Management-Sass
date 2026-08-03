@@ -8,6 +8,7 @@ import dynamic from 'next/dynamic';
 const TeacherOverviewTab = dynamic(() => import('./TeacherProfile/tabs/TeacherOverviewTab').then(mod => mod.TeacherOverviewTab), { ssr: false });
 const TeacherClassesTab = dynamic(() => import('./TeacherProfile/tabs/TeacherClassesTab').then(mod => mod.TeacherClassesTab), { ssr: false });
 const TeacherScheduleTab = dynamic(() => import('./TeacherProfile/tabs/TeacherScheduleTab').then(mod => mod.TeacherScheduleTab), { ssr: false });
+const TeacherSubjectsTab = dynamic(() => import('./TeacherProfile/tabs/TeacherSubjectsTab').then(mod => mod.TeacherSubjectsTab), { ssr: false });
 
 interface TeacherProfileViewProps {
   teacher: Teacher;
@@ -51,8 +52,9 @@ export const TeacherProfileView: React.FC<TeacherProfileViewProps> = ({ teacher,
       {activeTab === 'Overview' && <TeacherOverviewTab teacher={teacher} />}
       {activeTab === 'Classes' && <TeacherClassesTab teacher={teacher} />}
       {activeTab === 'Schedule' && <TeacherScheduleTab teacher={teacher} />}
+      {activeTab === 'Subjects' && <TeacherSubjectsTab teacher={teacher} />}
       
-      {activeTab !== 'Overview' && activeTab !== 'Classes' && activeTab !== 'Schedule' && (
+      {activeTab !== 'Overview' && activeTab !== 'Classes' && activeTab !== 'Schedule' && activeTab !== 'Subjects' && (
         <div style={{ padding: '2rem', textAlign: 'center', color: 'rgba(240, 239, 237, 0.5)', background: 'rgba(0,0,0,0.2)', borderRadius: '12px', border: '1px dashed rgba(240,239,237,0.1)' }}>
           {activeTab} tab content will be implemented here.
         </div>
