@@ -1,9 +1,14 @@
-﻿.card {
+.card {
   background: rgba(0, 0, 0, 0.2);
   border: 1px dashed rgba(240, 239, 237, 0.25);
   border-radius: 12px;
   padding: 1.5rem;
   margin-bottom: 1.5rem;
+}
+
+.cardFlex {
+  display: flex;
+  flex-direction: column;
 }
 
 .cardHeader {
@@ -71,7 +76,7 @@
 /* Calendar Grid */
 .calendarGrid {
   display: grid;
-  grid-template-columns: 80px repeat(6, 1fr);
+  grid-template-columns: 80px repeat(7, 1fr);
   border: 1px solid rgba(240, 239, 237, 0.1);
   border-radius: 8px;
   overflow: hidden;
@@ -269,6 +274,7 @@
   align-items: center;
   gap: 2rem;
   padding: 1rem 0;
+  flex: 1;
 }
 
 .chartPlaceholder {
@@ -359,4 +365,16 @@
 
 .emptyNotes span {
   font-size: 0.75rem;
+}
+.summaryLoadGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+@media (max-width: 1600px) {
+  .summaryLoadGroup {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
 }

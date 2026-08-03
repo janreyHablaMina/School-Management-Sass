@@ -398,7 +398,7 @@ export const mockTeacherActivities: TeacherActivity[] = [
 ];
 export interface ScheduleEvent {
   id: string;
-  day: 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday';
+  day: 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
   startTime: string; // e.g. "07:30"
   endTime: string;   // e.g. "08:30"
   title: string;

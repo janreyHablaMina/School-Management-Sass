@@ -9,7 +9,7 @@ interface TeacherScheduleTabProps {
 }
 
 export const TeacherScheduleTab: React.FC<TeacherScheduleTabProps> = ({ teacher }) => {
-  const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
   const times = [
     { label: '7:00 AM', period: '8:00 AM' },
     { label: '8:00 AM', period: '9:00 AM' },
@@ -117,7 +117,7 @@ export const TeacherScheduleTab: React.FC<TeacherScheduleTabProps> = ({ teacher 
                     // We will just place it in the cell if it starts in this hour
                     return (
                       <div key={`${day}-${time.label}`} className={styles.dayCell}>
-                        {event ? renderEvent(event) : (day === 'Saturday' ? <div style={{textAlign: 'center', color: 'rgba(240,239,237,0.2)', paddingTop: '1rem'}}>-</div> : null)}
+                        {event ? renderEvent(event) : ((day === 'Saturday' || day === 'Sunday') ? <div style={{textAlign: 'center', color: 'rgba(240,239,237,0.2)', paddingTop: '1rem'}}>-</div> : null)}
                       </div>
                     );
                   })}
@@ -139,8 +139,9 @@ export const TeacherScheduleTab: React.FC<TeacherScheduleTabProps> = ({ teacher 
 
       <div className={uiStyles.tabRightCol}>
         
-        {/* Schedule Summary */}
-        <div className={styles.card} style={{ marginBottom: 0 }}>
+        <div className={styles.summaryLoadGroup}>
+          {/* Schedule Summary */}
+          <div className={styles.card} style={{ marginBottom: 0 }}>
           <h3 className={styles.cardTitle}>Schedule Summary</h3>
           <div className={styles.summaryGrid} style={{ marginTop: '1rem' }}>
             <div className={styles.summaryCard}>
@@ -183,7 +184,7 @@ export const TeacherScheduleTab: React.FC<TeacherScheduleTabProps> = ({ teacher 
         </div>
 
         {/* Teaching Load */}
-        <div className={styles.card} style={{ marginBottom: 0 }}>
+        <div className={`${styles.card} ${styles.cardFlex}`} style={{ marginBottom: 0, height: '100%' }}>
           <h3 className={styles.cardTitle}>Teaching Load</h3>
           <div className={styles.teachingLoadContainer}>
             <div className={styles.chartPlaceholder}>
@@ -223,6 +224,7 @@ export const TeacherScheduleTab: React.FC<TeacherScheduleTabProps> = ({ teacher 
               </div>
             </div>
           </div>
+        </div>
         </div>
 
         {/* Notes */}
