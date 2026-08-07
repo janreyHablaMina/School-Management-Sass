@@ -18,12 +18,17 @@ const MiniSparkline = ({ path, stroke }: { path: string; stroke: string }) => (
 export const DashboardView: React.FC = () => {
   const {
     teacher,
+    aiCredits,
     metrics,
     schedule,
     studentOverview,
+    classPerformance,
+    attentionItems,
     announcements,
     aiTools,
+    aiUsage,
     myClasses,
+    classActivity,
     deadlines,
   } = teacherPortalMock;
 
@@ -40,57 +45,77 @@ export const DashboardView: React.FC = () => {
         </button>
       </div>
 
-      {/* METRICS — 6 cards */}
-      <div className={styles.metricsGrid}>
+      {/* METRICS — Super Admin style cards */}
+      <section className={styles.metricsGrid}>
         {metrics.map((m) => (
           <div key={m.label} className={styles.metricCard}>
-            <div className={styles.metricTop}>
-              <div
-                className={styles.metricIcon}
-                style={{ background: `${m.accent}22`, color: m.accent }}
-              >
-                {m.icon}
-              </div>
-              <button type="button" className={styles.metricLink}>
-                {m.link}
-              </button>
+            <div className={styles.metricLabel}>{m.label}</div>
+            <div className={styles.metricValue}>{m.value}</div>
+            <div
+              className={`${styles.metricGrowth} ${
+                m.growthClass === 'green' ? styles.growthGreen : styles.growthYellow
+              }`}
+            >
+              {m.growth}
             </div>
-            <span className={styles.metricLabel}>{m.label}</span>
-            <span className={styles.metricValue}>{m.value}</span>
           </div>
         ))}
-      </div>
+      </section>
 
-      {/* MIDDLE ROW */}
-      <div className={styles.middleGrid}>
-        {/* Today's Schedule */}
-        <div className={styles.panel}>
-          <div className={styles.panelHeader}>
-            <h3 className={styles.panelTitle}>Today&apos;s Schedule</h3>
-          </div>
-          <div className={styles.scheduleList}>
-            {schedule.map((row) => (
-              <div key={row.id} className={styles.scheduleRow}>
-                <span className={styles.scheduleDot} style={{ background: row.accent }} />
-                <div className={styles.scheduleTime}>{row.time}</div>
-                <div className={styles.scheduleInfo}>
-                  <p className={styles.scheduleTitle}>{row.title}</p>
-                  <p className={styles.scheduleSubject}>{row.subject}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-          <button type="button" className={styles.panelFooterLink}>
-            View full schedule ›
-          </button>
-        </div>
-
-        {/* Center column: Student Overview + Announcements */}
-        <div className={styles.centerCol}>
-          <div className={styles.panel}>
+      {/* MIDDLE SECTION */}
+      <div className={styles.middleSection}>
+        {/* Row 1: Schedule + Student Overview */}
+        <div className={styles.middleRow}>
+          <div className={`${styles.panel} ${styles.schedulePanel}`}>
             <div className={styles.panelHeader}>
-              <h3 className={styles.panelTitle}>Student Overview</h3>
+              <h3 className={styles.panelTitleChalk}>Today&apos;s Schedule</h3>
+              <span className={styles.scheduleCount}>{schedule.length} classes</span>
             </div>
+            <div className={styles.scheduleList}>
+              {schedule.map((row, index) => (
+                <div
+                  key={row.id}
+                  className={`${styles.scheduleRow} ${row.status === 'ongoing' ? styles.scheduleRowActive : ''}`}
+                >
+                  <div className={styles.scheduleTimeline}>
+                    <span
+                      className={`${styles.scheduleDot} ${row.status === 'ongoing' ? styles.scheduleDotPulse : ''}`}
+                      style={{ background: row.accent, boxShadow: `0 0 0 3px ${row.accent}33` }}
+                    />
+                    {index < schedule.length - 1 && <span className={styles.scheduleLine} />}
+                  </div>
+                  <div className={styles.scheduleTimeBlock}>
+                    <span className={styles.scheduleTime}>{row.time}</span>
+                    <span className={styles.scheduleEndTime}>{row.endTime}</span>
+                  </div>
+                  <div className={styles.scheduleInfo}>
+                    <p className={styles.scheduleTitle}>{row.title}</p>
+                    <p className={styles.scheduleSubject}>{row.subject}</p>
+                    <p className={styles.scheduleRoom}>📍 {row.room}</p>
+                  </div>
+                  {row.status === 'ongoing' ? (
+                    <span className={styles.badgeOngoing}>Ongoing</span>
+                  ) : (
+                    <button type="button" className={styles.btnStartClass}>
+                      Start
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
+            <button type="button" className={styles.panelFooterLink}>
+              View full schedule ›
+            </button>
+          </div>
+
+          <div className={`${styles.panel} ${styles.overviewPanel}`}>
+            <div className={styles.panelHeader}>
+              <h3 className={styles.panelTitleChalk}>Student Overview</h3>
+              <button type="button" className={styles.panelLink}>
+                View report
+              </button>
+            </div>
+
             <div className={styles.overviewGrid}>
               {studentOverview.map((item) => (
                 <div key={item.id} className={styles.overviewCard}>
@@ -105,11 +130,115 @@ export const DashboardView: React.FC = () => {
                 </div>
               ))}
             </div>
+
+            <div className={styles.overviewSplit}>
+              <div className={styles.performanceBlock}>
+                <div className={styles.overviewSubHeader}>
+                  <span>Class Performance</span>
+                </div>
+                <div className={styles.performanceList}>
+                  {classPerformance.map((cls) => (
+                    <div key={cls.id} className={styles.performanceRow}>
+                      <div className={styles.performanceMeta}>
+                        <span className={styles.performanceName}>{cls.name}</span>
+                        <span className={styles.performanceSubject}>{cls.subject}</span>
+                      </div>
+                      <div className={styles.performanceBarTrack}>
+                        <div
+                          className={styles.performanceBarFill}
+                          style={{ width: `${cls.score}%`, background: cls.color }}
+                        />
+                      </div>
+                      <span className={styles.performanceScore} style={{ color: cls.color }}>
+                        {cls.score}%
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className={styles.attentionBlock}>
+                <div className={styles.overviewSubHeader}>
+                  <span>Needs Attention</span>
+                  <span className={styles.attentionBadge}>{attentionItems.length}</span>
+                </div>
+                <div className={styles.attentionList}>
+                  {attentionItems.map((item) => (
+                    <div key={item.id} className={styles.attentionRow}>
+                      <div className={styles.attentionAvatar}>
+                        {item.name
+                          .split(' ')
+                          .map((n) => n[0])
+                          .slice(0, 2)
+                          .join('')}
+                      </div>
+                      <div className={styles.attentionContent}>
+                        <p className={styles.attentionName}>{item.name}</p>
+                        <p className={styles.attentionDetail}>{item.detail}</p>
+                      </div>
+                      <span
+                        className={styles.attentionTag}
+                        style={{ color: item.tagColor, borderColor: `${item.tagColor}66` }}
+                      >
+                        {item.tag}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Row 2: AI Assistant + Recent Announcements */}
+        <div className={styles.middleRow}>
+          <div className={`${styles.panel} ${styles.aiPanel}`}>
+            <div className={styles.panelHeader}>
+              <h3 className={styles.panelTitleChalk}>AI Teaching Assistant</h3>
+              <span className={styles.aiCreditsHint}>✨ {aiCredits.toLocaleString()} left</span>
+            </div>
+
+            <div className={styles.aiUsageBox}>
+              <div className={styles.aiUsageTop}>
+                <span>Credits used this month</span>
+                <span>
+                  {aiUsage.used} / {aiUsage.total}
+                </span>
+              </div>
+              <div className={styles.aiUsageTrack}>
+                <div
+                  className={styles.aiUsageFill}
+                  style={{ width: `${aiUsage.percent}%` }}
+                />
+              </div>
+            </div>
+
+            <div className={styles.aiToolList}>
+              {aiTools.map((tool) => (
+                <button type="button" key={tool.id} className={styles.aiToolRow}>
+                  <div
+                    className={styles.itemIcon}
+                    style={{ background: tool.iconBg, color: tool.iconColor }}
+                  >
+                    {tool.icon}
+                  </div>
+                  <div className={styles.aiToolContent}>
+                    <span className={styles.aiToolTitle}>{tool.title}</span>
+                    <span className={styles.aiToolDesc}>{tool.desc}</span>
+                  </div>
+                  <span className={styles.aiToolCredits}>{tool.credits}</span>
+                  <span className={styles.aiToolArrow}>›</span>
+                </button>
+              ))}
+            </div>
+            <button type="button" className={styles.panelFooterLink}>
+              View all AI tools ›
+            </button>
           </div>
 
-          <div className={styles.panel}>
+          <div className={`${styles.panel} ${styles.announcementPanel}`}>
             <div className={styles.panelHeader}>
-              <h3 className={styles.panelTitle}>Recent Announcements</h3>
+              <h3 className={styles.panelTitleChalk}>Recent Announcements</h3>
               <button type="button" className={styles.panelLink}>
                 View all
               </button>
@@ -124,76 +253,108 @@ export const DashboardView: React.FC = () => {
                     {ann.icon}
                   </div>
                   <div className={styles.announcementContent}>
-                    <p className={styles.announcementTitle}>{ann.title}</p>
+                    <div className={styles.announcementTitleRow}>
+                      <p className={styles.announcementTitle}>{ann.title}</p>
+                      {ann.pinned && <span className={styles.pinnedBadge}>Pinned</span>}
+                    </div>
                     <p className={styles.announcementDesc}>{ann.desc}</p>
+                    <span className={styles.announcementAudience}>{ann.audience}</span>
                   </div>
                   <span className={styles.announcementDate}>{ann.date}</span>
                 </div>
               ))}
             </div>
+            <button type="button" className={styles.composeBtn}>
+              + New Announcement
+            </button>
           </div>
-        </div>
-
-        {/* AI Teaching Assistant */}
-        <div className={styles.panel}>
-          <div className={styles.panelHeader}>
-            <h3 className={styles.panelTitle}>AI Teaching Assistant</h3>
-          </div>
-          <div className={styles.aiToolList}>
-            {aiTools.map((tool) => (
-              <button type="button" key={tool.id} className={styles.aiToolRow}>
-                <div
-                  className={styles.itemIcon}
-                  style={{ background: tool.iconBg, color: tool.iconColor }}
-                >
-                  {tool.icon}
-                </div>
-                <div className={styles.aiToolContent}>
-                  <span className={styles.aiToolTitle}>{tool.title}</span>
-                  <span className={styles.aiToolDesc}>{tool.desc}</span>
-                </div>
-                <span className={styles.aiToolArrow}>›</span>
-              </button>
-            ))}
-          </div>
-          <button type="button" className={styles.panelFooterLink}>
-            View all AI tools ›
-          </button>
         </div>
       </div>
 
       {/* BOTTOM ROW */}
       <div className={styles.bottomGrid}>
         {/* My Classes */}
-        <div className={styles.panel}>
+        <div className={`${styles.panel} ${styles.classesPanel}`}>
           <div className={styles.panelHeader}>
-            <h3 className={styles.panelTitle}>My Classes</h3>
-            <button type="button" className={styles.panelLink}>
-              View all
-            </button>
+            <h3 className={styles.panelTitleChalk}>My Classes</h3>
+            <div className={styles.classesHeaderRight}>
+              <span className={styles.classesCount}>{myClasses.length} active</span>
+              <button type="button" className={styles.panelLink}>
+                View all
+              </button>
+            </div>
           </div>
           <div className={styles.classesGrid}>
             {myClasses.map((cls) => (
               <div key={cls.id} className={styles.classCard}>
                 <div className={styles.classAccent} style={{ background: cls.accent }} />
                 <div className={styles.classBody}>
-                  <p className={styles.classTitle}>{cls.title}</p>
-                  <p className={styles.classSubject}>{cls.subject}</p>
-                  <div className={styles.classStats}>
-                    <span>👥 {cls.students} Students</span>
-                    <span>📅 {cls.attendance} Attendance</span>
+                  <div className={styles.classTop}>
+                    <div>
+                      <p className={styles.classTitle}>{cls.title}</p>
+                      <p className={styles.classSubject}>{cls.subject}</p>
+                    </div>
+                    <span
+                      className={styles.classGradePill}
+                      style={{ color: cls.accent, borderColor: `${cls.accent}66` }}
+                    >
+                      {cls.avgGrade}
+                    </span>
                   </div>
-                  <p className={styles.classNext}>{cls.next}</p>
+
+                  <div className={styles.classStats}>
+                    <span className={styles.classStat}>
+                      <span className={styles.classStatIcon}>👥</span>
+                      {cls.students} Students
+                    </span>
+                    <span className={styles.classStat}>
+                      <span className={styles.classStatIcon}>📅</span>
+                      {cls.attendance}% Attendance
+                    </span>
+                  </div>
+
+                  <div className={styles.classAttendanceTrack}>
+                    <div
+                      className={styles.classAttendanceFill}
+                      style={{ width: `${cls.attendance}%`, background: cls.accent }}
+                    />
+                  </div>
+
+                  <p className={styles.classNext}>
+                    <span>Next</span> {cls.next}
+                  </p>
+
+                  <button type="button" className={styles.classOpenBtn}>
+                    Open Class ›
+                  </button>
                 </div>
               </div>
             ))}
           </div>
+
+          <div className={styles.classActivityBlock}>
+            <div className={styles.overviewSubHeader}>
+              <span>Recent Class Activity</span>
+            </div>
+            <div className={styles.classActivityList}>
+              {classActivity.map((act) => (
+                <div key={act.id} className={styles.classActivityRow}>
+                  <span
+                    className={styles.classActivityDot}
+                    style={{ background: act.accent }}
+                  />
+                  <p className={styles.classActivityText}>{act.text}</p>
+                  <span className={styles.classActivityTime}>{act.time}</span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
         {/* Upcoming Deadlines */}
-        <div className={styles.panel}>
+        <div className={`${styles.panel} ${styles.deadlinesPanel}`}>
           <div className={styles.panelHeader}>
-            <h3 className={styles.panelTitle}>Upcoming Deadlines</h3>
+            <h3 className={styles.panelTitleChalk}>Upcoming Deadlines</h3>
             <button type="button" className={styles.panelLink}>
               View all
             </button>
@@ -201,19 +362,34 @@ export const DashboardView: React.FC = () => {
           <div className={styles.deadlineList}>
             {deadlines.map((d) => (
               <div key={d.id} className={styles.deadlineRow}>
-                <div className={styles.deadlineDateBox} style={{ borderColor: `${d.color}66` }}>
+                <div
+                  className={styles.deadlineDateBox}
+                  style={{ borderColor: `${d.color}88`, boxShadow: `0 0 0 3px ${d.color}18` }}
+                >
                   <span className={styles.deadlineMonth} style={{ color: d.color }}>
                     {d.month}
                   </span>
                   <span className={styles.deadlineDay}>{d.day}</span>
                 </div>
                 <div className={styles.deadlineContent}>
-                  <p className={styles.deadlineTitle}>{d.title}</p>
+                  <div className={styles.deadlineTitleRow}>
+                    <p className={styles.deadlineTitle}>{d.title}</p>
+                    <span
+                      className={styles.deadlineType}
+                      style={{ color: d.color, borderColor: `${d.color}55` }}
+                    >
+                      {d.type}
+                    </span>
+                  </div>
                   <p className={styles.deadlineClass}>{d.className}</p>
+                  <span className={styles.deadlineDays}>{d.daysLeft}</span>
                 </div>
               </div>
             ))}
           </div>
+          <button type="button" className={styles.panelFooterLink}>
+            View calendar ›
+          </button>
         </div>
       </div>
     </div>
