@@ -1,13 +1,16 @@
 'use client';
 
 import React from 'react';
-import styles from './myClasses.module.css';
+import {
+  EmptyState,
+  listStyles,
+  PageHeader,
+  PaginationBar,
+  SummaryMetrics,
+} from '../shared';
 import { useMyClasses } from './useMyClasses';
 import { MyClassesFilters } from './MyClassesFilters';
 import { ClassesTable } from './ClassesTable';
-import { MyClassesHeader } from './components/MyClassesHeader';
-import { MyClassesMetrics } from './components/MyClassesMetrics';
-import { PaginationBar } from './components/PaginationBar';
 
 export function MyClassesView() {
   const {
@@ -26,9 +29,17 @@ export function MyClassesView() {
   } = useMyClasses();
 
   return (
-    <div className={styles.page}>
-      <MyClassesHeader />
-      <MyClassesMetrics metrics={metrics} />
+    <div className={listStyles.page}>
+      <PageHeader
+        title="My Classes"
+        subtitle="View and manage all your classes in one place."
+      >
+        <button type="button" className={listStyles.primaryBtn}>
+          + Create New Class
+        </button>
+      </PageHeader>
+
+      <SummaryMetrics metrics={metrics} columns={4} />
 
       <MyClassesFilters
         filters={filters}
@@ -41,10 +52,10 @@ export function MyClassesView() {
       />
 
       {paginatedClasses.length === 0 ? (
-        <div className={styles.emptyState}>
-          <h3>No classes found</h3>
-          <p>Try adjusting your search or filters.</p>
-        </div>
+        <EmptyState
+          title="No classes found"
+          description="Try adjusting your search or filters."
+        />
       ) : (
         <ClassesTable classes={paginatedClasses} />
       )}
@@ -55,6 +66,7 @@ export function MyClassesView() {
         total={filteredCount}
         page={page}
         totalPages={totalPages}
+        itemLabel="classes"
         onPageChange={setPage}
       />
     </div>

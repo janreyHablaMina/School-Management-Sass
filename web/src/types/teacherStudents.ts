@@ -1,14 +1,12 @@
+import type { TeacherSummaryMetric } from './teacherList';
+
+export type { TeacherSummaryMetric };
+
 export type StudentStatus = 'Active' | 'At Risk';
 
 export type LetterGrade = 'A' | 'A-' | 'B+' | 'B' | 'C+' | 'C' | 'D' | 'F';
 
-export interface StudentSummaryMetric {
-  label: string;
-  value: string;
-  subtitle: string;
-  icon: string;
-  accent: string;
-}
+export type StudentSummaryMetric = TeacherSummaryMetric;
 
 export interface TeacherStudentRow {
   id: string;

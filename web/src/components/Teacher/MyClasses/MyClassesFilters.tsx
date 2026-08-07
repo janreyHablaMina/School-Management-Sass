@@ -1,8 +1,7 @@
 'use client';
 
 import React from 'react';
-import styles from './myClasses.module.css';
-import { FilterSelect } from './components/FilterSelect';
+import { FilterSelect, listStyles, SearchField } from '../shared';
 import type { MyClassesFiltersState } from './useMyClasses';
 
 interface MyClassesFiltersProps {
@@ -41,30 +40,13 @@ export function MyClassesFilters({
   const optionsMap = { academicYears, gradeLevels, subjects, statuses };
 
   return (
-    <div className={styles.filtersPanel}>
-      <div className={styles.searchWrapper}>
-        <svg
-          className={styles.searchIcon}
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          aria-hidden="true"
-        >
-          <circle cx="11" cy="11" r="8" />
-          <line x1="21" y1="21" x2="16.65" y2="16.65" />
-        </svg>
-        <input
-          type="text"
-          placeholder="Search classes by subject, grade or section..."
-          className={styles.searchInput}
-          value={filters.searchTerm}
-          onChange={(e) => onFilterChange('searchTerm', e.target.value)}
-          aria-label="Search classes"
-        />
-      </div>
+    <div className={listStyles.filtersPanel}>
+      <SearchField
+        value={filters.searchTerm}
+        onChange={(value) => onFilterChange('searchTerm', value)}
+        placeholder="Search classes by subject, grade or section..."
+        aria-label="Search classes"
+      />
 
       {SELECT_FILTERS.map((filter) => (
         <FilterSelect
@@ -72,11 +54,13 @@ export function MyClassesFilters({
           label={filter.label}
           value={filters[filter.key]}
           options={optionsMap[filter.optionsKey]}
-          onChange={(value) => onFilterChange(filter.key, value as MyClassesFiltersState[typeof filter.key])}
+          onChange={(value) =>
+            onFilterChange(filter.key, value as MyClassesFiltersState[typeof filter.key])
+          }
         />
       ))}
 
-      <button type="button" className={styles.clearBtn} onClick={onClear}>
+      <button type="button" className={listStyles.toolBtn} onClick={onClear}>
         ↺ Clear Filters
       </button>
     </div>

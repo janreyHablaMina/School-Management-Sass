@@ -1,13 +1,14 @@
 'use client';
 
 import React, { useState } from 'react';
-import styles from '../myClasses.module.css';
 import {
   ActionDropdown,
   ActionDropdownItem,
   ActionDropdownSeparator,
 } from '@/components/ui/ActionDropdown';
+import { listStyles } from '../../shared';
 import { AttendanceRing } from './AttendanceRing';
+import styles from '../myClasses.module.css';
 import type { MyClassRow } from '@/types/myClasses';
 
 const ROW_ACTIONS = [
@@ -70,20 +71,20 @@ export function ClassRow({ cls }: ClassRowProps) {
               Lesson {cls.lessonsCompleted} of {cls.lessonsTotal}
             </span>
           </div>
-          <div className={styles.progressTrack}>
+          <div className={listStyles.progressTrack}>
             <div
-              className={styles.progressFill}
+              className={listStyles.progressFill}
               style={{ width: `${cls.courseProgress}%`, background: cls.accent }}
             />
           </div>
         </div>
       </td>
       <td>
-        <div className={styles.actionsCell}>
-          <div className={styles.menuWrap}>
+        <div className={listStyles.actionsCell}>
+          <div className={listStyles.menuWrap}>
             <button
               type="button"
-              className={styles.moreBtn}
+              className={listStyles.moreBtn}
               aria-label={`More actions for ${cls.subject}`}
               onClick={() => setMenuOpen((open) => !open)}
             >

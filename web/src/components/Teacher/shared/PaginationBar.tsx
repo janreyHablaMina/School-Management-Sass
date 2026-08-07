@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../students.module.css';
+import styles from './listPage.module.css';
 
 interface PaginationBarProps {
   rangeStart: number;
@@ -7,6 +7,7 @@ interface PaginationBarProps {
   total: number;
   page: number;
   totalPages: number;
+  itemLabel: string;
   onPageChange: (page: number) => void;
 }
 
@@ -16,12 +17,13 @@ export function PaginationBar({
   total,
   page,
   totalPages,
+  itemLabel,
   onPageChange,
 }: PaginationBarProps) {
   return (
     <div className={styles.pagination}>
       <span className={styles.pageInfo}>
-        Showing {rangeStart} to {rangeEnd} of {total} students
+        Showing {rangeStart} to {rangeEnd} of {total} {itemLabel}
       </span>
       <div className={styles.pageControls}>
         <button

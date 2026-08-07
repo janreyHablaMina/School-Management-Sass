@@ -1,12 +1,10 @@
+import type { TeacherSummaryMetric } from './teacherList';
+
+export type { TeacherSummaryMetric };
+
 export type ClassStatus = 'Active' | 'Archived';
 
-export interface MyClassSummaryMetric {
-  label: string;
-  value: string;
-  subtitle: string;
-  icon: string;
-  accent: string;
-}
+export type MyClassSummaryMetric = TeacherSummaryMetric;
 
 export interface MyClassRow {
   id: number;

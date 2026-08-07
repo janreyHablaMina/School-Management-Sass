@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './students.module.css';
+import { DataTable } from '../shared';
 import { StudentRow } from './components/StudentRow';
 import type { TeacherStudentRow } from '@/types/teacherStudents';
 
@@ -20,23 +20,10 @@ const COLUMNS = [
 
 export function StudentsTable({ students }: StudentsTableProps) {
   return (
-    <div className={styles.tablePanel}>
-      <div className={styles.tableWrap}>
-        <table className={styles.table}>
-          <thead>
-            <tr>
-              {COLUMNS.map((column) => (
-                <th key={column}>{column}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {students.map((student) => (
-              <StudentRow key={student.id} student={student} />
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
+    <DataTable columns={COLUMNS} minWidth={1100}>
+      {students.map((student) => (
+        <StudentRow key={student.id} student={student} />
+      ))}
+    </DataTable>
   );
 }

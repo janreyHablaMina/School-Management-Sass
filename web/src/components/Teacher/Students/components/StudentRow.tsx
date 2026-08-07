@@ -1,13 +1,14 @@
 'use client';
 
 import React, { useState } from 'react';
-import styles from '../students.module.css';
 import {
   ActionDropdown,
   ActionDropdownItem,
   ActionDropdownSeparator,
 } from '@/components/ui/ActionDropdown';
+import { listStyles } from '../../shared';
 import { attendanceBarColor, letterGradeAccent, statusAccent } from '../utils';
+import styles from '../students.module.css';
 import type { TeacherStudentRow } from '@/types/teacherStudents';
 
 const ROW_ACTIONS = [
@@ -66,9 +67,9 @@ export function StudentRow({ student }: StudentRowProps) {
       <td>
         <div className={styles.attendanceCell}>
           <span className={styles.attendancePct}>{student.attendanceRate}%</span>
-          <div className={styles.progressTrack}>
+          <div className={listStyles.progressTrack}>
             <div
-              className={styles.progressFill}
+              className={listStyles.progressFill}
               style={{ width: `${student.attendanceRate}%`, background: attendanceColor }}
             />
           </div>
@@ -102,11 +103,11 @@ export function StudentRow({ student }: StudentRowProps) {
         </span>
       </td>
       <td>
-        <div className={styles.actionsCell}>
-          <div className={styles.menuWrap}>
+        <div className={listStyles.actionsCell}>
+          <div className={listStyles.menuWrap}>
             <button
               type="button"
-              className={styles.moreBtn}
+              className={listStyles.moreBtn}
               aria-label={`More actions for ${student.fullName}`}
               onClick={() => setMenuOpen((open) => !open)}
             >

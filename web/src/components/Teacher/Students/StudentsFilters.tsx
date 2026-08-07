@@ -1,8 +1,7 @@
 'use client';
 
 import React from 'react';
-import styles from './students.module.css';
-import { FilterSelect } from './components/FilterSelect';
+import { FilterSelect, listStyles, SearchField } from '../shared';
 import type { StudentsFiltersState } from './useStudents';
 
 interface StudentsFiltersProps {
@@ -38,30 +37,13 @@ export function StudentsFilters({
   const optionsMap = { classes, gradeLevels, statuses };
 
   return (
-    <div className={styles.filtersPanel}>
-      <div className={styles.searchWrapper}>
-        <svg
-          className={styles.searchIcon}
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          aria-hidden="true"
-        >
-          <circle cx="11" cy="11" r="8" />
-          <line x1="21" y1="21" x2="16.65" y2="16.65" />
-        </svg>
-        <input
-          type="text"
-          placeholder="Search students by name or ID..."
-          className={styles.searchInput}
-          value={filters.searchTerm}
-          onChange={(e) => onFilterChange('searchTerm', e.target.value)}
-          aria-label="Search students"
-        />
-      </div>
+    <div className={listStyles.filtersPanel}>
+      <SearchField
+        value={filters.searchTerm}
+        onChange={(value) => onFilterChange('searchTerm', value)}
+        placeholder="Search students by name or ID..."
+        aria-label="Search students"
+      />
 
       {SELECT_FILTERS.map((filter) => (
         <FilterSelect
@@ -75,11 +57,11 @@ export function StudentsFilters({
         />
       ))}
 
-      <div className={styles.filterActions}>
-        <button type="button" className={styles.toolBtn}>
+      <div className={listStyles.filterActions}>
+        <button type="button" className={listStyles.toolBtn}>
           ⚙ Filters
         </button>
-        <button type="button" className={styles.toolBtn} onClick={onExport}>
+        <button type="button" className={listStyles.toolBtn} onClick={onExport}>
           ⬇ Export
         </button>
       </div>

@@ -1,14 +1,17 @@
 import React from 'react';
-import styles from '../myClasses.module.css';
-import type { MyClassSummaryMetric } from '@/types/myClasses';
+import styles from './listPage.module.css';
+import type { TeacherSummaryMetric } from '@/types/teacherList';
 
-interface MyClassesMetricsProps {
-  metrics: MyClassSummaryMetric[];
+interface SummaryMetricsProps {
+  metrics: TeacherSummaryMetric[];
+  columns?: 4 | 5;
 }
 
-export function MyClassesMetrics({ metrics }: MyClassesMetricsProps) {
+export function SummaryMetrics({ metrics, columns = 4 }: SummaryMetricsProps) {
+  const colsClass = columns === 5 ? styles.metricsCols5 : styles.metricsCols4;
+
   return (
-    <section className={styles.metricsGrid}>
+    <section className={`${styles.metricsGrid} ${colsClass}`}>
       {metrics.map((m) => (
         <div key={m.label} className={styles.metricCard}>
           <div

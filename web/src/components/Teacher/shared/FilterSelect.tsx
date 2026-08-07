@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../students.module.css';
+import styles from './listPage.module.css';
 
 interface FilterSelectProps {
   label: string;
