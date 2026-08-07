@@ -5,7 +5,7 @@ import styles from '@/app/admin/admin.module.css';
 import { Sidebar } from '@/components/AdminLayout/Sidebar';
 import { TopBar } from '@/components/AdminLayout/TopBar';
 import { ChalkFilter } from '@/components/ChalkCharts';
-import { DashboardView } from '@/components/Teacher';
+import { DashboardView, MyClassesView } from '@/components/Teacher';
 import { ModulePlaceholder } from '@/components/shared/ModulePlaceholder';
 import { teacherMenuGroups } from '@/lib/constants/navigation';
 import { teacherPortalMock } from '@/lib/mock/teacherPortal.mock';
@@ -16,6 +16,17 @@ export default function TeacherDashboard() {
   const workspaceRef = useRef<HTMLDivElement>(null);
   const isScrolled = useWorkspaceScroll(workspaceRef);
   const { teacher, aiCredits } = teacherPortalMock;
+
+  const renderContent = () => {
+    switch (activeTab) {
+      case 'Dashboard':
+        return <DashboardView />;
+      case 'My Classes':
+        return <MyClassesView />;
+      default:
+        return <ModulePlaceholder title={activeTab} />;
+    }
+  };
 
   return (
     <div className={styles.adminLayout}>
@@ -48,11 +59,7 @@ export default function TeacherDashboard() {
           showMessages
           aiCredits={aiCredits}
         />
-        {activeTab === 'Dashboard' ? (
-          <DashboardView />
-        ) : (
-          <ModulePlaceholder title={activeTab} />
-        )}
+        {renderContent()}
       </section>
     </div>
   );

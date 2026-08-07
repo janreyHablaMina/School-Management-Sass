@@ -1,0 +1,518 @@
+/* My Classes — blackboard theme, table layout */
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding-bottom: 2rem;
+  color: #f0efed;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  border-bottom: 1px dashed rgba(240, 239, 237, 0.2);
+  padding-bottom: 1.25rem;
+}
+
+.headerText h1 {
+  font-family: 'Caveat', cursive;
+  font-size: 2.5rem;
+  color: #f5c842;
+  margin: 0 0 0.2rem;
+  line-height: 1.1;
+}
+
+.headerText p {
+  margin: 0;
+  color: rgba(240, 239, 237, 0.7);
+  font-size: 0.95rem;
+}
+
+.addBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.65rem 1.1rem;
+  border-radius: 8px 10px 7px 9px / 9px 7px 9px 8px;
+  border: 1.5px solid rgba(182, 142, 255, 0.5);
+  background: rgba(182, 142, 255, 0.18);
+  color: #d4b8ff;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.addBtn:hover {
+  background: rgba(182, 142, 255, 0.28);
+  border-color: rgba(182, 142, 255, 0.75);
+}
+
+/* Metrics */
+.metricsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.metricCard {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 1rem 1.1rem;
+  border: 2px solid rgba(240, 239, 237, 0.28);
+  border-radius: 10px 12px 9px 11px / 12px 9px 11px 10px;
+  background: rgba(10, 25, 17, 0.2);
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.metricCard:hover {
+  border-color: rgba(240, 239, 237, 0.45);
+  background: rgba(10, 25, 17, 0.3);
+}
+
+.metricIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.metricBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.metricLabel {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: rgba(240, 239, 237, 0.45);
+}
+
+.metricValue {
+  font-family: 'Caveat', cursive;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #f0efed;
+}
+
+.metricSub {
+  font-size: 0.72rem;
+  color: rgba(240, 239, 237, 0.5);
+}
+
+/* Filters */
+.filtersPanel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.75rem;
+  padding: 1rem 1.1rem;
+  border: 2px solid rgba(240, 239, 237, 0.28);
+  border-radius: 10px 12px 9px 11px / 12px 9px 11px 10px;
+  background: rgba(10, 25, 17, 0.15);
+}
+
+.searchWrapper {
+  position: relative;
+  flex: 1 1 220px;
+  min-width: 200px;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(240, 239, 237, 0.4);
+  pointer-events: none;
+}
+
+.searchInput {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.55rem 0.8rem 0.55rem 2.2rem;
+  border: 1.5px dashed rgba(240, 239, 237, 0.3);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.25);
+  color: #f0efed;
+  font-size: 0.85rem;
+  font-family: inherit;
+  outline: none;
+}
+
+.searchInput:focus {
+  border-style: solid;
+  border-color: #f5c842;
+}
+
+.filterField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  min-width: 130px;
+}
+
+.filterLabel {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: rgba(240, 239, 237, 0.45);
+}
+
+.filterSelect {
+  appearance: none;
+  background: rgba(0, 0, 0, 0.25)
+    url("data:image/svg+xml;utf8,<svg fill='%23f5c842' height='14' viewBox='0 0 24 24' width='14' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>")
+    no-repeat right 0.55rem center;
+  border: 1.5px dashed rgba(240, 239, 237, 0.3);
+  border-radius: 8px;
+  color: #f0efed;
+  padding: 0.55rem 2rem 0.55rem 0.75rem;
+  font-size: 0.82rem;
+  font-family: inherit;
+  cursor: pointer;
+  outline: none;
+  min-width: 130px;
+}
+
+.filterSelect option {
+  background: #08120d;
+  color: #f0efed;
+}
+
+.clearBtn {
+  padding: 0.55rem 0.9rem;
+  border-radius: 8px;
+  border: 1.5px dashed rgba(240, 239, 237, 0.3);
+  background: transparent;
+  color: rgba(240, 239, 237, 0.75);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  white-space: nowrap;
+  height: fit-content;
+}
+
+.clearBtn:hover {
+  border-color: #f5c842;
+  color: #f5c842;
+}
+
+/* Table */
+.tablePanel {
+  border: 2px solid rgba(240, 239, 237, 0.28);
+  border-radius: 12px 14px 11px 13px / 14px 11px 13px 12px;
+  background: rgba(10, 25, 17, 0.15);
+  overflow: hidden;
+}
+
+.tableWrap {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 980px;
+}
+
+.table th {
+  text-align: left;
+  padding: 0.85rem 1rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: rgba(240, 239, 237, 0.45);
+  border-bottom: 1.5px dashed rgba(240, 239, 237, 0.15);
+  white-space: nowrap;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.table td {
+  padding: 0.95rem 1rem;
+  border-bottom: 1px solid rgba(240, 239, 237, 0.06);
+  vertical-align: middle;
+  font-size: 0.82rem;
+  color: rgba(240, 239, 237, 0.85);
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.table tbody tr:hover td {
+  background: rgba(245, 200, 66, 0.03);
+}
+
+.classCell {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 200px;
+}
+
+.classIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.classMeta {
+  min-width: 0;
+}
+
+.classSubject {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #f0efed;
+}
+
+.classSub {
+  margin: 0.2rem 0 0;
+  font-size: 0.72rem;
+  color: rgba(240, 239, 237, 0.5);
+}
+
+.scheduleCell,
+.studentsCell {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  white-space: nowrap;
+}
+
+.cellIcon {
+  font-size: 0.75rem;
+  opacity: 0.7;
+}
+
+.attendanceCell {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-weight: 600;
+  color: #f0efed;
+}
+
+.progressCell {
+  min-width: 140px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.progressTop {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  align-items: baseline;
+}
+
+.progressPct {
+  font-weight: 700;
+  color: #f0efed;
+  font-size: 0.85rem;
+}
+
+.progressLabel {
+  font-size: 0.68rem;
+  color: rgba(240, 239, 237, 0.45);
+  white-space: nowrap;
+}
+
+.progressTrack {
+  height: 6px;
+  border-radius: 4px;
+  background: rgba(240, 239, 237, 0.1);
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  border-radius: 4px;
+}
+
+.nextCell {
+  min-width: 140px;
+}
+
+.nextType {
+  display: inline-block;
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #f5c842;
+  margin-bottom: 0.15rem;
+}
+
+.nextTitle {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #f0efed;
+}
+
+.nextWhen {
+  margin: 0.15rem 0 0;
+  font-size: 0.72rem;
+  color: rgba(240, 239, 237, 0.5);
+}
+
+.actionsCell {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  white-space: nowrap;
+}
+
+.openBtn {
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  border: 1.5px solid rgba(182, 142, 255, 0.45);
+  background: rgba(182, 142, 255, 0.15);
+  color: #d4b8ff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.openBtn:hover {
+  background: rgba(182, 142, 255, 0.28);
+  border-color: rgba(182, 142, 255, 0.7);
+}
+
+.menuWrap {
+  position: relative;
+}
+
+.moreBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1.5px dashed rgba(240, 239, 237, 0.3);
+  background: transparent;
+  color: rgba(240, 239, 237, 0.7);
+  font-size: 1.1rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.moreBtn:hover {
+  border-color: #f5c842;
+  color: #f5c842;
+}
+
+/* Empty + pagination */
+.emptyState {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  border: 2px dashed rgba(240, 239, 237, 0.25);
+  border-radius: 12px;
+  background: rgba(10, 25, 17, 0.15);
+}
+
+.emptyState h3 {
+  margin: 0;
+  font-family: 'Caveat', cursive;
+  font-size: 1.8rem;
+  color: #f5c842;
+}
+
+.emptyState p {
+  margin: 0.5rem 0 0;
+  color: rgba(240, 239, 237, 0.55);
+}
+
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.pageInfo {
+  font-size: 0.8rem;
+  color: rgba(240, 239, 237, 0.5);
+}
+
+.pageControls {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.pageBtn {
+  min-width: 34px;
+  height: 34px;
+  padding: 0 0.55rem;
+  border-radius: 8px;
+  border: 1.5px dashed rgba(240, 239, 237, 0.3);
+  background: transparent;
+  color: rgba(240, 239, 237, 0.8);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.pageBtn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.pageBtn:not(:disabled):hover {
+  border-color: #f5c842;
+  color: #f5c842;
+}
+
+.pageBtnActive {
+  border-style: solid;
+  border-color: rgba(182, 142, 255, 0.55);
+  background: rgba(182, 142, 255, 0.2);
+  color: #d4b8ff;
+}
+
+@media (max-width: 1200px) {
+  .metricsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .metricsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .headerText h1 {
+    font-size: 2rem;
+  }
+}
