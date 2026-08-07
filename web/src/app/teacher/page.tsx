@@ -5,7 +5,7 @@ import styles from '@/app/admin/admin.module.css';
 import { Sidebar } from '@/components/AdminLayout/Sidebar';
 import { TopBar } from '@/components/AdminLayout/TopBar';
 import { ChalkFilter } from '@/components/ChalkCharts';
-import { DashboardView, MyClassesView } from '@/components/Teacher';
+import { DashboardView, MyClassesView, StudentsView } from '@/components/Teacher';
 import { ModulePlaceholder } from '@/components/shared/ModulePlaceholder';
 import { teacherMenuGroups } from '@/lib/constants/navigation';
 import { teacherPortalMock } from '@/lib/mock/teacherPortal.mock';
@@ -23,6 +23,8 @@ export default function TeacherDashboard() {
         return <DashboardView />;
       case 'My Classes':
         return <MyClassesView />;
+      case 'Students':
+        return <StudentsView />;
       default:
         return <ModulePlaceholder title={activeTab} />;
     }

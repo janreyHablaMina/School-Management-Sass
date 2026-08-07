@@ -1,44 +1,41 @@
 'use client';
 
 import React from 'react';
-import styles from './myClasses.module.css';
+import styles from './students.module.css';
 import { FilterSelect } from './components/FilterSelect';
-import type { MyClassesFiltersState } from './useMyClasses';
+import type { StudentsFiltersState } from './useStudents';
 
-interface MyClassesFiltersProps {
-  filters: MyClassesFiltersState;
-  onFilterChange: <K extends keyof MyClassesFiltersState>(
+interface StudentsFiltersProps {
+  filters: StudentsFiltersState;
+  onFilterChange: <K extends keyof StudentsFiltersState>(
     key: K,
-    value: MyClassesFiltersState[K]
+    value: StudentsFiltersState[K]
   ) => void;
-  academicYears: string[];
+  classes: string[];
   gradeLevels: string[];
-  subjects: string[];
   statuses: string[];
-  onClear: () => void;
+  onExport?: () => void;
 }
 
 const SELECT_FILTERS: Array<{
-  key: Exclude<keyof MyClassesFiltersState, 'searchTerm'>;
+  key: Exclude<keyof StudentsFiltersState, 'searchTerm'>;
   label: string;
-  optionsKey: 'academicYears' | 'gradeLevels' | 'subjects' | 'statuses';
+  optionsKey: 'classes' | 'gradeLevels' | 'statuses';
 }> = [
-  { key: 'academicYear', label: 'Academic Year', optionsKey: 'academicYears' },
+  { key: 'classFilter', label: 'Class', optionsKey: 'classes' },
   { key: 'gradeLevel', label: 'Grade Level', optionsKey: 'gradeLevels' },
-  { key: 'subject', label: 'Subject', optionsKey: 'subjects' },
   { key: 'status', label: 'Status', optionsKey: 'statuses' },
 ];
 
-export function MyClassesFilters({
+export function StudentsFilters({
   filters,
   onFilterChange,
-  academicYears,
+  classes,
   gradeLevels,
-  subjects,
   statuses,
-  onClear,
-}: MyClassesFiltersProps) {
-  const optionsMap = { academicYears, gradeLevels, subjects, statuses };
+  onExport,
+}: StudentsFiltersProps) {
+  const optionsMap = { classes, gradeLevels, statuses };
 
   return (
     <div className={styles.filtersPanel}>
@@ -58,11 +55,11 @@ export function MyClassesFilters({
         </svg>
         <input
           type="text"
-          placeholder="Search classes by subject, grade or section..."
+          placeholder="Search students by name or ID..."
           className={styles.searchInput}
           value={filters.searchTerm}
           onChange={(e) => onFilterChange('searchTerm', e.target.value)}
-          aria-label="Search classes"
+          aria-label="Search students"
         />
       </div>
 
@@ -72,13 +69,20 @@ export function MyClassesFilters({
           label={filter.label}
           value={filters[filter.key]}
           options={optionsMap[filter.optionsKey]}
-          onChange={(value) => onFilterChange(filter.key, value as MyClassesFiltersState[typeof filter.key])}
+          onChange={(value) =>
+            onFilterChange(filter.key, value as StudentsFiltersState[typeof filter.key])
+          }
         />
       ))}
 
-      <button type="button" className={styles.clearBtn} onClick={onClear}>
-        ↺ Clear Filters
-      </button>
+      <div className={styles.filterActions}>
+        <button type="button" className={styles.toolBtn}>
+          ⚙ Filters
+        </button>
+        <button type="button" className={styles.toolBtn} onClick={onExport}>
+          ⬇ Export
+        </button>
+      </div>
     </div>
   );
 }

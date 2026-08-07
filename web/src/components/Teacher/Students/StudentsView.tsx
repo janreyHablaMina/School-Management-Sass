@@ -1,52 +1,49 @@
 'use client';
 
 import React from 'react';
-import styles from './myClasses.module.css';
-import { useMyClasses } from './useMyClasses';
-import { MyClassesFilters } from './MyClassesFilters';
-import { ClassesTable } from './ClassesTable';
-import { MyClassesHeader } from './components/MyClassesHeader';
-import { MyClassesMetrics } from './components/MyClassesMetrics';
+import styles from './students.module.css';
+import { useStudents } from './useStudents';
+import { StudentsFilters } from './StudentsFilters';
+import { StudentsTable } from './StudentsTable';
+import { StudentsHeader } from './components/StudentsHeader';
+import { StudentsMetrics } from './components/StudentsMetrics';
 import { PaginationBar } from './components/PaginationBar';
 
-export function MyClassesView() {
+export function StudentsView() {
   const {
     metrics,
     filterOptions,
     filters,
     setFilter,
-    clearFilters,
     filteredCount,
-    paginatedClasses,
+    paginatedStudents,
     page,
     totalPages,
     setPage,
     rangeStart,
     rangeEnd,
-  } = useMyClasses();
+  } = useStudents();
 
   return (
     <div className={styles.page}>
-      <MyClassesHeader />
-      <MyClassesMetrics metrics={metrics} />
+      <StudentsHeader />
+      <StudentsMetrics metrics={metrics} />
 
-      <MyClassesFilters
+      <StudentsFilters
         filters={filters}
         onFilterChange={setFilter}
-        academicYears={filterOptions.academicYears}
+        classes={filterOptions.classes}
         gradeLevels={filterOptions.gradeLevels}
-        subjects={filterOptions.subjects}
         statuses={filterOptions.statuses}
-        onClear={clearFilters}
       />
 
-      {paginatedClasses.length === 0 ? (
+      {paginatedStudents.length === 0 ? (
         <div className={styles.emptyState}>
-          <h3>No classes found</h3>
+          <h3>No students found</h3>
           <p>Try adjusting your search or filters.</p>
         </div>
       ) : (
-        <ClassesTable classes={paginatedClasses} />
+        <StudentsTable students={paginatedStudents} />
       )}
 
       <PaginationBar

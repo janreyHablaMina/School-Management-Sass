@@ -1,0 +1,537 @@
+/* Students — blackboard theme, table layout */
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding-bottom: 2rem;
+  color: #f0efed;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  border-bottom: 1px dashed rgba(240, 239, 237, 0.2);
+  padding-bottom: 1.25rem;
+}
+
+.headerText h1 {
+  font-family: 'Caveat', cursive;
+  font-size: 2.5rem;
+  color: #f5c842;
+  margin: 0 0 0.2rem;
+  line-height: 1.1;
+}
+
+.headerText p {
+  margin: 0;
+  color: rgba(240, 239, 237, 0.7);
+  font-size: 0.95rem;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.secondaryBtn,
+.primaryBtn,
+.toolBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.65rem 1.1rem;
+  border-radius: 8px 10px 7px 9px / 9px 7px 9px 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.secondaryBtn {
+  border: 1.5px dashed rgba(240, 239, 237, 0.35);
+  background: transparent;
+  color: rgba(240, 239, 237, 0.85);
+}
+
+.secondaryBtn:hover {
+  border-color: #f5c842;
+  color: #f5c842;
+}
+
+.primaryBtn {
+  border: 1.5px solid rgba(245, 200, 66, 0.55);
+  background: rgba(245, 200, 66, 0.18);
+  color: #f5c842;
+}
+
+.primaryBtn:hover {
+  background: rgba(245, 200, 66, 0.28);
+  border-color: rgba(245, 200, 66, 0.8);
+}
+
+.toolBtn {
+  padding: 0.55rem 0.9rem;
+  border: 1.5px dashed rgba(240, 239, 237, 0.3);
+  background: transparent;
+  color: rgba(240, 239, 237, 0.75);
+  font-size: 0.8rem;
+  height: fit-content;
+  white-space: nowrap;
+}
+
+.toolBtn:hover {
+  border-color: #f5c842;
+  color: #f5c842;
+}
+
+/* Metrics — 5 cards */
+.metricsGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+}
+
+.metricCard {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 1rem 1.1rem;
+  border: 2px dashed rgba(240, 239, 237, 0.28);
+  border-radius: 10px 12px 9px 11px / 12px 9px 11px 10px;
+  background: rgba(10, 25, 17, 0.2);
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.metricCard:hover {
+  border-color: rgba(240, 239, 237, 0.45);
+  background: rgba(10, 25, 17, 0.3);
+}
+
+.metricIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.metricBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.metricLabel {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: rgba(240, 239, 237, 0.45);
+}
+
+.metricValue {
+  font-family: 'Caveat', cursive;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #f0efed;
+}
+
+.metricSub {
+  font-size: 0.72rem;
+  color: rgba(240, 239, 237, 0.5);
+}
+
+/* Filters */
+.filtersPanel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.75rem;
+}
+
+.searchWrapper {
+  position: relative;
+  flex: 1 1 220px;
+  min-width: 200px;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(240, 239, 237, 0.4);
+  pointer-events: none;
+}
+
+.searchInput {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.55rem 0.8rem 0.55rem 2.2rem;
+  border: 1.5px dashed rgba(240, 239, 237, 0.3);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.25);
+  color: #f0efed;
+  font-size: 0.85rem;
+  font-family: inherit;
+  outline: none;
+}
+
+.searchInput:focus {
+  border-style: solid;
+  border-color: #f5c842;
+}
+
+.filterField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  min-width: 130px;
+}
+
+.filterLabel {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: rgba(240, 239, 237, 0.45);
+}
+
+.filterSelect {
+  appearance: none;
+  background: rgba(0, 0, 0, 0.25)
+    url("data:image/svg+xml;utf8,<svg fill='%23f5c842' height='14' viewBox='0 0 24 24' width='14' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>")
+    no-repeat right 0.55rem center;
+  border: 1.5px dashed rgba(240, 239, 237, 0.3);
+  border-radius: 8px;
+  color: #f0efed;
+  padding: 0.55rem 2rem 0.55rem 0.75rem;
+  font-size: 0.82rem;
+  font-family: inherit;
+  cursor: pointer;
+  outline: none;
+  min-width: 130px;
+}
+
+.filterSelect option {
+  background: #08120d;
+  color: #f0efed;
+}
+
+.filterActions {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+/* Table */
+.tablePanel {
+  border: 2px dashed rgba(240, 239, 237, 0.28);
+  border-radius: 12px 14px 11px 13px / 14px 11px 13px 12px;
+  background: rgba(10, 25, 17, 0.15);
+  overflow: hidden;
+}
+
+.tableWrap {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1100px;
+}
+
+.table th {
+  text-align: left;
+  padding: 0.85rem 1rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: rgba(240, 239, 237, 0.45);
+  border-bottom: 1.5px dashed rgba(240, 239, 237, 0.15);
+  white-space: nowrap;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.table td {
+  padding: 0.95rem 1rem;
+  border-bottom: 1px solid rgba(240, 239, 237, 0.06);
+  vertical-align: middle;
+  font-size: 0.82rem;
+  color: rgba(240, 239, 237, 0.85);
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.table tbody tr:hover td {
+  background: rgba(245, 200, 66, 0.03);
+}
+
+.studentCell {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 180px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1.5px dashed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.studentMeta {
+  min-width: 0;
+}
+
+.studentName {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #f0efed;
+}
+
+.studentCode {
+  margin: 0.2rem 0 0;
+  font-size: 0.72rem;
+  color: rgba(240, 239, 237, 0.5);
+}
+
+.idNumber {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.8rem;
+  color: rgba(240, 239, 237, 0.75);
+}
+
+.classCell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 150px;
+}
+
+.classLabel {
+  margin: 0;
+  font-weight: 600;
+  color: #f0efed;
+}
+
+.classSubject {
+  margin: 0;
+  font-size: 0.72rem;
+  color: rgba(240, 239, 237, 0.5);
+}
+
+.contactCell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 160px;
+}
+
+.contactPrimary {
+  margin: 0;
+  color: #f0efed;
+}
+
+.contactSecondary {
+  margin: 0;
+  font-size: 0.72rem;
+  color: rgba(240, 239, 237, 0.5);
+}
+
+.attendanceCell {
+  min-width: 110px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.attendancePct {
+  font-weight: 700;
+  color: #f0efed;
+  font-size: 0.85rem;
+}
+
+.progressTrack {
+  height: 6px;
+  border-radius: 4px;
+  background: rgba(240, 239, 237, 0.1);
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  border-radius: 4px;
+}
+
+.gradeCell {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+}
+
+.gradeValue {
+  font-weight: 700;
+  color: #f0efed;
+}
+
+.letterBadge,
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.15rem 0.5rem;
+  border-radius: 6px 7px 5px 8px / 7px 5px 8px 6px;
+  border: 1.5px dashed;
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.statusBadge {
+  white-space: nowrap;
+}
+
+.actionsCell {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.menuWrap {
+  position: relative;
+}
+
+.moreBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: rgba(240, 239, 237, 0.7);
+  font-size: 1.1rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.moreBtn:hover {
+  color: #f5c842;
+  background: rgba(245, 200, 66, 0.08);
+}
+
+.emptyState {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  border: 2px dashed rgba(240, 239, 237, 0.25);
+  border-radius: 12px;
+  background: rgba(10, 25, 17, 0.15);
+}
+
+.emptyState h3 {
+  margin: 0;
+  font-family: 'Caveat', cursive;
+  font-size: 1.8rem;
+  color: #f5c842;
+}
+
+.emptyState p {
+  margin: 0.5rem 0 0;
+  color: rgba(240, 239, 237, 0.55);
+}
+
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.pageInfo {
+  font-size: 0.8rem;
+  color: rgba(240, 239, 237, 0.5);
+}
+
+.pageControls {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.pageBtn {
+  min-width: 34px;
+  height: 34px;
+  padding: 0 0.55rem;
+  border-radius: 8px;
+  border: 1.5px dashed rgba(240, 239, 237, 0.3);
+  background: transparent;
+  color: rgba(240, 239, 237, 0.8);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.pageBtn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.pageBtn:not(:disabled):hover {
+  border-color: #f5c842;
+  color: #f5c842;
+}
+
+.pageBtnActive {
+  border-style: solid;
+  border-color: rgba(245, 200, 66, 0.55);
+  background: rgba(245, 200, 66, 0.2);
+  color: #f5c842;
+}
+
+@media (max-width: 1400px) {
+  .metricsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .metricsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .metricsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .headerText h1 {
+    font-size: 2rem;
+  }
+}
