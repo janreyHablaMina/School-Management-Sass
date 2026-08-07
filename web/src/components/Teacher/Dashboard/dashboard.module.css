@@ -186,18 +186,42 @@
   padding-right: 0;
 }
 
-/* Middle section — 2 rows × 2 cols */
+/* Middle section — responsive grid areas */
 .middleSection {
-  display: flex;
-  flex-direction: column;
-  gap: 1.15rem;
-}
-
-.middleRow {
   display: grid;
-  grid-template-columns: 1fr 1fr;
   gap: 1.15rem;
   align-items: stretch;
+  /* ≤1600 default: Schedule | Overview, then AI | Announcements */
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "schedule overview"
+    "ai announcements";
+}
+
+.areaSchedule {
+  grid-area: schedule;
+}
+
+.areaAi {
+  grid-area: ai;
+}
+
+.areaAnnouncements {
+  grid-area: announcements;
+}
+
+.areaOverview {
+  grid-area: overview;
+}
+
+/* ≥1601: Schedule | AI | Announcements, then full-width Overview */
+@media (min-width: 1601px) {
+  .middleSection {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas:
+      "schedule ai announcements"
+      "overview overview overview";
+  }
 }
 
 /* Schedule timeline */
@@ -1100,7 +1124,15 @@
 }
 
 @media (max-width: 1100px) {
-  .middleRow,
+  .middleSection {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "schedule"
+      "overview"
+      "ai"
+      "announcements";
+  }
+
   .bottomGrid {
     grid-template-columns: 1fr;
   }

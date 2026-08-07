@@ -64,209 +64,203 @@ export const DashboardView: React.FC = () => {
 
       {/* MIDDLE SECTION */}
       <div className={styles.middleSection}>
-        {/* Row 1: Schedule + Student Overview */}
-        <div className={styles.middleRow}>
-          <div className={`${styles.panel} ${styles.schedulePanel}`}>
-            <div className={styles.panelHeader}>
-              <h3 className={styles.panelTitleChalk}>Today&apos;s Schedule</h3>
-              <span className={styles.scheduleCount}>{schedule.length} classes</span>
-            </div>
-            <div className={styles.scheduleList}>
-              {schedule.map((row, index) => (
-                <div
-                  key={row.id}
-                  className={`${styles.scheduleRow} ${row.status === 'ongoing' ? styles.scheduleRowActive : ''}`}
-                >
-                  <div className={styles.scheduleTimeline}>
-                    <span
-                      className={`${styles.scheduleDot} ${row.status === 'ongoing' ? styles.scheduleDotPulse : ''}`}
-                      style={{ background: row.accent, boxShadow: `0 0 0 3px ${row.accent}33` }}
-                    />
-                    {index < schedule.length - 1 && <span className={styles.scheduleLine} />}
-                  </div>
-                  <div className={styles.scheduleTimeBlock}>
-                    <span className={styles.scheduleTime}>{row.time}</span>
-                    <span className={styles.scheduleEndTime}>{row.endTime}</span>
-                  </div>
-                  <div className={styles.scheduleInfo}>
-                    <p className={styles.scheduleTitle}>{row.title}</p>
-                    <p className={styles.scheduleSubject}>{row.subject}</p>
-                    <p className={styles.scheduleRoom}>📍 {row.room}</p>
-                  </div>
-                  {row.status === 'ongoing' ? (
-                    <span className={styles.badgeOngoing}>Ongoing</span>
-                  ) : (
-                    <button type="button" className={styles.btnStartClass}>
-                      Start
-                    </button>
-                  )}
-                </div>
-              ))}
-            </div>
-            <button type="button" className={styles.panelFooterLink}>
-              View full schedule ›
-            </button>
+        <div className={`${styles.panel} ${styles.schedulePanel} ${styles.areaSchedule}`}>
+          <div className={styles.panelHeader}>
+            <h3 className={styles.panelTitleChalk}>Today&apos;s Schedule</h3>
+            <span className={styles.scheduleCount}>{schedule.length} classes</span>
           </div>
-
-          <div className={`${styles.panel} ${styles.overviewPanel}`}>
-            <div className={styles.panelHeader}>
-              <h3 className={styles.panelTitleChalk}>Student Overview</h3>
-              <button type="button" className={styles.panelLink}>
-                View report
-              </button>
-            </div>
-
-            <div className={styles.overviewGrid}>
-              {studentOverview.map((item) => (
-                <div key={item.id} className={styles.overviewCard}>
-                  <span className={styles.overviewLabel}>{item.label}</span>
-                  <div className={styles.overviewValueRow}>
-                    <span className={styles.overviewValue}>{item.value}</span>
-                    <span className={`${styles.overviewChange} ${item.up ? styles.up : styles.down}`}>
-                      {item.up ? '↑' : '↓'} {item.change}
-                    </span>
-                  </div>
-                  <MiniSparkline path={item.path} stroke={item.stroke} />
+          <div className={styles.scheduleList}>
+            {schedule.map((row, index) => (
+              <div
+                key={row.id}
+                className={`${styles.scheduleRow} ${row.status === 'ongoing' ? styles.scheduleRowActive : ''}`}
+              >
+                <div className={styles.scheduleTimeline}>
+                  <span
+                    className={`${styles.scheduleDot} ${row.status === 'ongoing' ? styles.scheduleDotPulse : ''}`}
+                    style={{ background: row.accent, boxShadow: `0 0 0 3px ${row.accent}33` }}
+                  />
+                  {index < schedule.length - 1 && <span className={styles.scheduleLine} />}
                 </div>
-              ))}
-            </div>
-
-            <div className={styles.overviewSplit}>
-              <div className={styles.performanceBlock}>
-                <div className={styles.overviewSubHeader}>
-                  <span>Class Performance</span>
+                <div className={styles.scheduleTimeBlock}>
+                  <span className={styles.scheduleTime}>{row.time}</span>
+                  <span className={styles.scheduleEndTime}>{row.endTime}</span>
                 </div>
-                <div className={styles.performanceList}>
-                  {classPerformance.map((cls) => (
-                    <div key={cls.id} className={styles.performanceRow}>
-                      <div className={styles.performanceMeta}>
-                        <span className={styles.performanceName}>{cls.name}</span>
-                        <span className={styles.performanceSubject}>{cls.subject}</span>
-                      </div>
-                      <div className={styles.performanceBarTrack}>
-                        <div
-                          className={styles.performanceBarFill}
-                          style={{ width: `${cls.score}%`, background: cls.color }}
-                        />
-                      </div>
-                      <span className={styles.performanceScore} style={{ color: cls.color }}>
-                        {cls.score}%
-                      </span>
-                    </div>
-                  ))}
+                <div className={styles.scheduleInfo}>
+                  <p className={styles.scheduleTitle}>{row.title}</p>
+                  <p className={styles.scheduleSubject}>{row.subject}</p>
+                  <p className={styles.scheduleRoom}>📍 {row.room}</p>
                 </div>
+                {row.status === 'ongoing' ? (
+                  <span className={styles.badgeOngoing}>Ongoing</span>
+                ) : (
+                  <button type="button" className={styles.btnStartClass}>
+                    Start
+                  </button>
+                )}
               </div>
-
-              <div className={styles.attentionBlock}>
-                <div className={styles.overviewSubHeader}>
-                  <span>Needs Attention</span>
-                  <span className={styles.attentionBadge}>{attentionItems.length}</span>
-                </div>
-                <div className={styles.attentionList}>
-                  {attentionItems.map((item) => (
-                    <div key={item.id} className={styles.attentionRow}>
-                      <div className={styles.attentionAvatar}>
-                        {item.name
-                          .split(' ')
-                          .map((n) => n[0])
-                          .slice(0, 2)
-                          .join('')}
-                      </div>
-                      <div className={styles.attentionContent}>
-                        <p className={styles.attentionName}>{item.name}</p>
-                        <p className={styles.attentionDetail}>{item.detail}</p>
-                      </div>
-                      <span
-                        className={styles.attentionTag}
-                        style={{ color: item.tagColor, borderColor: `${item.tagColor}66` }}
-                      >
-                        {item.tag}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
+          <button type="button" className={styles.panelFooterLink}>
+            View full schedule ›
+          </button>
         </div>
 
-        {/* Row 2: AI Assistant + Recent Announcements */}
-        <div className={styles.middleRow}>
-          <div className={`${styles.panel} ${styles.aiPanel}`}>
-            <div className={styles.panelHeader}>
-              <h3 className={styles.panelTitleChalk}>AI Teaching Assistant</h3>
-              <span className={styles.aiCreditsHint}>✨ {aiCredits.toLocaleString()} left</span>
-            </div>
+        <div className={`${styles.panel} ${styles.aiPanel} ${styles.areaAi}`}>
+          <div className={styles.panelHeader}>
+            <h3 className={styles.panelTitleChalk}>AI Teaching Assistant</h3>
+            <span className={styles.aiCreditsHint}>✨ {aiCredits.toLocaleString()} left</span>
+          </div>
 
-            <div className={styles.aiUsageBox}>
-              <div className={styles.aiUsageTop}>
-                <span>Credits used this month</span>
-                <span>
-                  {aiUsage.used} / {aiUsage.total}
-                </span>
-              </div>
-              <div className={styles.aiUsageTrack}>
+          <div className={styles.aiUsageBox}>
+            <div className={styles.aiUsageTop}>
+              <span>Credits used this month</span>
+              <span>
+                {aiUsage.used} / {aiUsage.total}
+              </span>
+            </div>
+            <div className={styles.aiUsageTrack}>
+              <div
+                className={styles.aiUsageFill}
+                style={{ width: `${aiUsage.percent}%` }}
+              />
+            </div>
+          </div>
+
+          <div className={styles.aiToolList}>
+            {aiTools.map((tool) => (
+              <button type="button" key={tool.id} className={styles.aiToolRow}>
                 <div
-                  className={styles.aiUsageFill}
-                  style={{ width: `${aiUsage.percent}%` }}
-                />
-              </div>
-            </div>
+                  className={styles.itemIcon}
+                  style={{ background: tool.iconBg, color: tool.iconColor }}
+                >
+                  {tool.icon}
+                </div>
+                <div className={styles.aiToolContent}>
+                  <span className={styles.aiToolTitle}>{tool.title}</span>
+                  <span className={styles.aiToolDesc}>{tool.desc}</span>
+                </div>
+                <span className={styles.aiToolCredits}>{tool.credits}</span>
+                <span className={styles.aiToolArrow}>›</span>
+              </button>
+            ))}
+          </div>
+          <button type="button" className={styles.panelFooterLink}>
+            View all AI tools ›
+          </button>
+        </div>
 
-            <div className={styles.aiToolList}>
-              {aiTools.map((tool) => (
-                <button type="button" key={tool.id} className={styles.aiToolRow}>
-                  <div
-                    className={styles.itemIcon}
-                    style={{ background: tool.iconBg, color: tool.iconColor }}
-                  >
-                    {tool.icon}
+        <div className={`${styles.panel} ${styles.announcementPanel} ${styles.areaAnnouncements}`}>
+          <div className={styles.panelHeader}>
+            <h3 className={styles.panelTitleChalk}>Recent Announcements</h3>
+            <button type="button" className={styles.panelLink}>
+              View all
+            </button>
+          </div>
+          <div className={styles.announcementList}>
+            {announcements.map((ann) => (
+              <div key={ann.id} className={styles.announcementRow}>
+                <div
+                  className={styles.itemIcon}
+                  style={{ background: ann.iconBg, color: ann.iconColor }}
+                >
+                  {ann.icon}
+                </div>
+                <div className={styles.announcementContent}>
+                  <div className={styles.announcementTitleRow}>
+                    <p className={styles.announcementTitle}>{ann.title}</p>
+                    {ann.pinned && <span className={styles.pinnedBadge}>Pinned</span>}
                   </div>
-                  <div className={styles.aiToolContent}>
-                    <span className={styles.aiToolTitle}>{tool.title}</span>
-                    <span className={styles.aiToolDesc}>{tool.desc}</span>
-                  </div>
-                  <span className={styles.aiToolCredits}>{tool.credits}</span>
-                  <span className={styles.aiToolArrow}>›</span>
-                </button>
-              ))}
-            </div>
-            <button type="button" className={styles.panelFooterLink}>
-              View all AI tools ›
+                  <p className={styles.announcementDesc}>{ann.desc}</p>
+                  <span className={styles.announcementAudience}>{ann.audience}</span>
+                </div>
+                <span className={styles.announcementDate}>{ann.date}</span>
+              </div>
+            ))}
+          </div>
+          <button type="button" className={styles.composeBtn}>
+            + New Announcement
+          </button>
+        </div>
+
+        <div className={`${styles.panel} ${styles.overviewPanel} ${styles.areaOverview}`}>
+          <div className={styles.panelHeader}>
+            <h3 className={styles.panelTitleChalk}>Student Overview</h3>
+            <button type="button" className={styles.panelLink}>
+              View report
             </button>
           </div>
 
-          <div className={`${styles.panel} ${styles.announcementPanel}`}>
-            <div className={styles.panelHeader}>
-              <h3 className={styles.panelTitleChalk}>Recent Announcements</h3>
-              <button type="button" className={styles.panelLink}>
-                View all
-              </button>
-            </div>
-            <div className={styles.announcementList}>
-              {announcements.map((ann) => (
-                <div key={ann.id} className={styles.announcementRow}>
-                  <div
-                    className={styles.itemIcon}
-                    style={{ background: ann.iconBg, color: ann.iconColor }}
-                  >
-                    {ann.icon}
-                  </div>
-                  <div className={styles.announcementContent}>
-                    <div className={styles.announcementTitleRow}>
-                      <p className={styles.announcementTitle}>{ann.title}</p>
-                      {ann.pinned && <span className={styles.pinnedBadge}>Pinned</span>}
-                    </div>
-                    <p className={styles.announcementDesc}>{ann.desc}</p>
-                    <span className={styles.announcementAudience}>{ann.audience}</span>
-                  </div>
-                  <span className={styles.announcementDate}>{ann.date}</span>
+          <div className={styles.overviewGrid}>
+            {studentOverview.map((item) => (
+              <div key={item.id} className={styles.overviewCard}>
+                <span className={styles.overviewLabel}>{item.label}</span>
+                <div className={styles.overviewValueRow}>
+                  <span className={styles.overviewValue}>{item.value}</span>
+                  <span className={`${styles.overviewChange} ${item.up ? styles.up : styles.down}`}>
+                    {item.up ? '↑' : '↓'} {item.change}
+                  </span>
                 </div>
-              ))}
+                <MiniSparkline path={item.path} stroke={item.stroke} />
+              </div>
+            ))}
+          </div>
+
+          <div className={styles.overviewSplit}>
+            <div className={styles.performanceBlock}>
+              <div className={styles.overviewSubHeader}>
+                <span>Class Performance</span>
+              </div>
+              <div className={styles.performanceList}>
+                {classPerformance.map((cls) => (
+                  <div key={cls.id} className={styles.performanceRow}>
+                    <div className={styles.performanceMeta}>
+                      <span className={styles.performanceName}>{cls.name}</span>
+                      <span className={styles.performanceSubject}>{cls.subject}</span>
+                    </div>
+                    <div className={styles.performanceBarTrack}>
+                      <div
+                        className={styles.performanceBarFill}
+                        style={{ width: `${cls.score}%`, background: cls.color }}
+                      />
+                    </div>
+                    <span className={styles.performanceScore} style={{ color: cls.color }}>
+                      {cls.score}%
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
-            <button type="button" className={styles.composeBtn}>
-              + New Announcement
-            </button>
+
+            <div className={styles.attentionBlock}>
+              <div className={styles.overviewSubHeader}>
+                <span>Needs Attention</span>
+                <span className={styles.attentionBadge}>{attentionItems.length}</span>
+              </div>
+              <div className={styles.attentionList}>
+                {attentionItems.map((item) => (
+                  <div key={item.id} className={styles.attentionRow}>
+                    <div className={styles.attentionAvatar}>
+                      {item.name
+                        .split(' ')
+                        .map((n) => n[0])
+                        .slice(0, 2)
+                        .join('')}
+                    </div>
+                    <div className={styles.attentionContent}>
+                      <p className={styles.attentionName}>{item.name}</p>
+                      <p className={styles.attentionDetail}>{item.detail}</p>
+                    </div>
+                    <span
+                      className={styles.attentionTag}
+                      style={{ color: item.tagColor, borderColor: `${item.tagColor}66` }}
+                    >
+                      {item.tag}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>
