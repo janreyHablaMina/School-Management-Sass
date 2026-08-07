@@ -121,10 +121,10 @@
   flex-wrap: wrap;
   align-items: flex-end;
   gap: 0.75rem;
-  padding: 1rem 1.1rem;
-  border: 2px solid rgba(240, 239, 237, 0.28);
-  border-radius: 10px 12px 9px 11px / 12px 9px 11px 10px;
-  background: rgba(10, 25, 17, 0.15);
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
 }
 
 .searchWrapper {
@@ -358,55 +358,11 @@
   border-radius: 4px;
 }
 
-.nextCell {
-  min-width: 140px;
-}
-
-.nextType {
-  display: inline-block;
-  font-size: 0.62rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  color: #f5c842;
-  margin-bottom: 0.15rem;
-}
-
-.nextTitle {
-  margin: 0;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #f0efed;
-}
-
-.nextWhen {
-  margin: 0.15rem 0 0;
-  font-size: 0.72rem;
-  color: rgba(240, 239, 237, 0.5);
-}
-
 .actionsCell {
   display: flex;
   align-items: center;
-  gap: 0.45rem;
+  justify-content: flex-end;
   white-space: nowrap;
-}
-
-.openBtn {
-  padding: 0.4rem 0.8rem;
-  border-radius: 8px;
-  border: 1.5px solid rgba(182, 142, 255, 0.45);
-  background: rgba(182, 142, 255, 0.15);
-  color: #d4b8ff;
-  font-size: 0.75rem;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: inherit;
-}
-
-.openBtn:hover {
-  background: rgba(182, 142, 255, 0.28);
-  border-color: rgba(182, 142, 255, 0.7);
 }
 
 .menuWrap {
@@ -417,7 +373,7 @@
   width: 32px;
   height: 32px;
   border-radius: 8px;
-  border: 1.5px dashed rgba(240, 239, 237, 0.3);
+  border: none;
   background: transparent;
   color: rgba(240, 239, 237, 0.7);
   font-size: 1.1rem;
@@ -426,8 +382,8 @@
 }
 
 .moreBtn:hover {
-  border-color: #f5c842;
   color: #f5c842;
+  background: rgba(245, 200, 66, 0.08);
 }
 
 /* Empty + pagination */

@@ -1,5 +1,4 @@
 export type ClassStatus = 'Active' | 'Archived';
-export type NextActivityType = 'Lesson' | 'Assignment' | 'Quiz' | 'Project';
 
 export interface MyClassSummaryMetric {
   label: string;
@@ -7,12 +6,6 @@ export interface MyClassSummaryMetric {
   subtitle: string;
   icon: string;
   accent: string;
-}
-
-export interface NextActivity {
-  type: NextActivityType;
-  title: string;
-  when: string;
 }
 
 export interface MyClassRow {
@@ -28,7 +21,6 @@ export interface MyClassRow {
   courseProgress: number;
   lessonsCompleted: number;
   lessonsTotal: number;
-  nextActivity: NextActivity;
   status: ClassStatus;
   accent: string;
   icon: string;

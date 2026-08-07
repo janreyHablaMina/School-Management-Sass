@@ -100,17 +100,7 @@ function ClassRow({ cls }: { cls: MyClassRow }) {
         </div>
       </td>
       <td>
-        <div className={styles.nextCell}>
-          <span className={styles.nextType}>{cls.nextActivity.type}</span>
-          <p className={styles.nextTitle}>{cls.nextActivity.title}</p>
-          <p className={styles.nextWhen}>{cls.nextActivity.when}</p>
-        </div>
-      </td>
-      <td>
         <div className={styles.actionsCell}>
-          <button type="button" className={styles.openBtn}>
-            Open Class
-          </button>
           <div className={styles.menuWrap}>
             <button
               type="button"
@@ -121,6 +111,7 @@ function ClassRow({ cls }: { cls: MyClassRow }) {
               ⋮
             </button>
             <ActionDropdown isOpen={menuOpen} onClose={() => setMenuOpen(false)}>
+              <ActionDropdownItem onClick={() => setMenuOpen(false)}>🚪 Open Class</ActionDropdownItem>
               <ActionDropdownItem onClick={() => setMenuOpen(false)}>✏️ Edit Class</ActionDropdownItem>
               <ActionDropdownItem onClick={() => setMenuOpen(false)}>📄 Duplicate Class</ActionDropdownItem>
               <ActionDropdownItem onClick={() => setMenuOpen(false)}>📅 View Schedule</ActionDropdownItem>
@@ -148,7 +139,6 @@ export function ClassesTable({ classes }: ClassesTableProps) {
               <th>Students</th>
               <th>Attendance</th>
               <th>Progress</th>
-              <th>Next Activity</th>
               <th>Actions</th>
             </tr>
           </thead>
