@@ -1,0 +1,8 @@
+export { DashboardHeader } from './DashboardHeader';
+export { MetricsRow } from './MetricsRow';
+export { SchedulePanel } from './SchedulePanel';
+export { AiAssistantPanel } from './AiAssistantPanel';
+export { AnnouncementsPanel } from './AnnouncementsPanel';
+export { StudentOverviewPanel } from './StudentOverviewPanel';
+export { MyClassesPanel } from './MyClassesPanel';
+export { DeadlinesPanel } from './DeadlinesPanel';

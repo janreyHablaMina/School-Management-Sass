@@ -1,54 +1,28 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import styles from '@/app/admin/admin.module.css';
 import { Sidebar } from '@/components/AdminLayout/Sidebar';
 import { TopBar } from '@/components/AdminLayout/TopBar';
 import { ChalkFilter } from '@/components/ChalkCharts';
+import { DashboardView } from '@/components/Teacher';
+import { ModulePlaceholder } from '@/components/shared/ModulePlaceholder';
 import { teacherMenuGroups } from '@/lib/constants/navigation';
 import { teacherPortalMock } from '@/lib/mock/teacherPortal.mock';
-import { DashboardView } from '@/components/Teacher/Dashboard/DashboardView';
-import { SchoolAdminPlaceholder } from '@/components/SchoolAdmin/shared/SchoolAdminPlaceholder';
+import { useWorkspaceScroll } from '@/hooks/useWorkspaceScroll';
 
 export default function TeacherDashboard() {
   const [activeTab, setActiveTab] = useState('Dashboard');
-  const [isScrolled, setIsScrolled] = useState(false);
   const workspaceRef = useRef<HTMLDivElement>(null);
+  const isScrolled = useWorkspaceScroll(workspaceRef);
   const { teacher, aiCredits } = teacherPortalMock;
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const workspace = workspaceRef.current;
-      const scrollTop = workspace ? workspace.scrollTop : 0;
-      const scrollY = window.scrollY;
-      setIsScrolled(scrollTop > 10 || scrollY > 10);
-    };
-
-    window.addEventListener('scroll', handleScroll, true);
-    return () => {
-      window.removeEventListener('scroll', handleScroll, true);
-    };
-  }, []);
-
-  const handleSetActiveTab = (tab: string) => {
-    setActiveTab(tab);
-  };
-
-  const renderContent = () => {
-    switch (activeTab) {
-      case 'Dashboard':
-        return <DashboardView />;
-      default:
-        return <SchoolAdminPlaceholder title={activeTab} />;
-    }
-  };
 
   return (
     <div className={styles.adminLayout}>
       <ChalkFilter />
       <Sidebar
         activeTab={activeTab}
-        onTabChange={handleSetActiveTab}
+        onTabChange={setActiveTab}
         menuGroups={teacherMenuGroups}
         roleTitle="School Portal + LMS"
         brandName="Teachify"
@@ -74,7 +48,11 @@ export default function TeacherDashboard() {
           showMessages
           aiCredits={aiCredits}
         />
-        {renderContent()}
+        {activeTab === 'Dashboard' ? (
+          <DashboardView />
+        ) : (
+          <ModulePlaceholder title={activeTab} />
+        )}
       </section>
     </div>
   );

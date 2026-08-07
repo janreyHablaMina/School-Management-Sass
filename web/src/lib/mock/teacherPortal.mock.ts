@@ -1,4 +1,6 @@
-export const teacherPortalMock = {
+import type { TeacherPortalData } from '@/types/teacherPortal';
+
+export const teacherPortalMock: TeacherPortalData = {
   teacher: {
     fullName: 'Ms. Sarah Johnson',
     shortName: 'Ms. Sarah',
@@ -22,7 +24,7 @@ export const teacherPortalMock = {
       title: 'Grade 7 - Section A',
       subject: 'Mathematics',
       room: 'Room 201',
-      status: 'ongoing' as const,
+      status: 'ongoing',
       accent: '#b68eff',
     },
     {
@@ -32,7 +34,7 @@ export const teacherPortalMock = {
       title: 'Grade 8 - Section B',
       subject: 'Science',
       room: 'Lab 3',
-      status: 'upcoming' as const,
+      status: 'upcoming',
       accent: '#84a9ff',
     },
     {
@@ -42,7 +44,7 @@ export const teacherPortalMock = {
       title: 'Grade 10 - ICT',
       subject: 'Information Technology',
       room: 'Computer Lab',
-      status: 'upcoming' as const,
+      status: 'upcoming',
       accent: '#5cc789',
     },
     {
@@ -52,7 +54,7 @@ export const teacherPortalMock = {
       title: 'Grade 9 - Section A',
       subject: 'English',
       room: 'Room 105',
-      status: 'upcoming' as const,
+      status: 'upcoming',
       accent: '#f5a623',
     },
   ],
