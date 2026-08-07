@@ -24,24 +24,45 @@ const NavLinkItem: React.FC<NavItemProps> = ({ label, icon, active, onClick }) =
 interface SidebarProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
-  menuGroups?: any[]; // Allow passing custom menu groups
+  menuGroups?: any[];
   roleTitle?: string;
+  brandName?: string;
+  brandAccent?: string;
   showCredits?: boolean;
+  profileName?: string;
+  profileRole?: string;
+  profileInitials?: string;
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({ 
-  activeTab, 
-  onTabChange, 
+export const Sidebar: React.FC<SidebarProps> = ({
+  activeTab,
+  onTabChange,
   menuGroups: customMenuGroups = menuGroups,
-  roleTitle = "Super Admin",
-  showCredits = true
+  roleTitle = 'Super Admin',
+  brandName,
+  brandAccent = 'SaaS',
+  showCredits = true,
+  profileName,
+  profileRole,
+  profileInitials,
 }) => (
   <aside className={styles.sidebar}>
     {/* Logo / Brand */}
     <div className={styles.logoSection}>
       <span className={styles.logoIcon}>🎓</span>
       <div className={styles.logoTextContainer}>
-        <span className={styles.logoMainText}>School<span>SaaS</span></span>
+        <span className={styles.logoMainText}>
+          {brandName ? (
+            <>
+              {brandName}
+              {brandAccent ? <span> {brandAccent}</span> : null}
+            </>
+          ) : (
+            <>
+              School<span>SaaS</span>
+            </>
+          )}
+        </span>
         <span className={styles.logoSubText}>{roleTitle}</span>
       </div>
     </div>
@@ -84,6 +105,18 @@ export const Sidebar: React.FC<SidebarProps> = ({
         <button className={styles.creditsBtn} onClick={() => onTabChange('AI Credits')}>
           Manage AI Credits
         </button>
+      </div>
+    )}
+
+    {/* Profile footer (Teacher Portal) */}
+    {profileName && (
+      <div className={styles.sidebarProfile}>
+        <div className={styles.sidebarProfileAvatar}>{profileInitials || 'T'}</div>
+        <div className={styles.sidebarProfileText}>
+          <span className={styles.sidebarProfileName}>{profileName}</span>
+          {profileRole && <span className={styles.sidebarProfileRole}>{profileRole}</span>}
+        </div>
+        <span className={styles.sidebarProfileChevron}>▾</span>
       </div>
     )}
   </aside>

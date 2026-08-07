@@ -78,3 +78,33 @@ export const schoolAdminMenuGroups: NavGroup[] = [
     ],
   },
 ];
+
+export const teacherMenuGroups: NavGroup[] = [
+  {
+    title: 'Classroom',
+    items: [
+      { label: 'My Classes', icon: '🏫' },
+      { label: 'Students', icon: '👨‍🎓' },
+      { label: 'Lessons', icon: '📖' },
+      { label: 'Assignments', icon: '📝' },
+      { label: 'Quizzes', icon: '📋' },
+      { label: 'Exams', icon: '📄' },
+    ],
+  },
+  {
+    title: 'Tracking',
+    items: [
+      { label: 'Attendance', icon: '✅' },
+      { label: 'Grades', icon: '🎓' },
+    ],
+  },
+  {
+    title: 'Tools',
+    items: [
+      { label: 'Announcements', icon: '📢' },
+      { label: 'Calendar', icon: '📅' },
+      { label: 'AI Assistant', icon: '✨' },
+      { label: 'Settings', icon: '⚙️' },
+    ],
+  },
+];
