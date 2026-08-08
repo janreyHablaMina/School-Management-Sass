@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { listStyles } from '../shared';
-import type { AttendanceStatus, AttendanceStudentRow } from '@/types/teacherAttendance';
+import type { AttendanceStudentRow } from '@/types/teacherAttendance';
 import { AttendanceStudentRow as StudentRow } from './components/AttendanceStudentRow';
 import styles from './attendance.module.css';
 
@@ -13,7 +13,6 @@ interface AttendanceTableProps {
   allVisibleSelected: boolean;
   onToggleStudent: (id: string) => void;
   onToggleAllVisible: () => void;
-  onMarkAll: (status: AttendanceStatus) => void;
 }
 
 export function AttendanceTable({
@@ -23,39 +22,16 @@ export function AttendanceTable({
   allVisibleSelected,
   onToggleStudent,
   onToggleAllVisible,
-  onMarkAll,
 }: AttendanceTableProps) {
   return (
-    <div className={styles.tablePanel}>
-      <div className={styles.tableHeader}>
-        <h3 className={styles.tableTitle}>Students ({totalStudents})</h3>
-        <div className={styles.bulkActions}>
-          <button
-            type="button"
-            className={`${styles.bulkBtn} ${styles.bulkPresent}`}
-            onClick={() => onMarkAll('Present')}
-          >
-            Mark All Present
-          </button>
-          <button
-            type="button"
-            className={`${styles.bulkBtn} ${styles.bulkAbsent}`}
-            onClick={() => onMarkAll('Absent')}
-          >
-            Mark All Absent
-          </button>
-          <button
-            type="button"
-            className={`${styles.bulkBtn} ${styles.bulkLate}`}
-            onClick={() => onMarkAll('Late')}
-          >
-            Mark All Late
-          </button>
-        </div>
+    <section className={styles.rosterPanel}>
+      <div className={styles.rosterHead}>
+        <h3 className={styles.rosterTitle}>Class roster</h3>
+        <p className={styles.rosterSub}>{totalStudents} students</p>
       </div>
 
       <div className={listStyles.tableWrap}>
-        <table className={listStyles.table} style={{ minWidth: 720 }}>
+        <table className={`${listStyles.table} ${styles.rosterTable}`} style={{ minWidth: 680 }}>
           <thead>
             <tr>
               <th className={styles.checkCell}>
@@ -69,7 +45,7 @@ export function AttendanceTable({
               </th>
               <th>Student</th>
               <th>Status</th>
-              <th>Time</th>
+              <th>Time in</th>
               <th>Notes</th>
               <th />
             </tr>
@@ -86,6 +62,6 @@ export function AttendanceTable({
           </tbody>
         </table>
       </div>
-    </div>
+    </section>
   );
 }

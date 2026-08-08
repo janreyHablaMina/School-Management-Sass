@@ -12,6 +12,7 @@ import { AttendanceControls } from './AttendanceControls';
 import { AttendanceTable } from './AttendanceTable';
 import { AttendanceCalendar } from './components/AttendanceCalendar';
 import { AttendanceClassGrid } from './components/AttendanceClassGrid';
+import { AttendanceDetailHeader } from './components/AttendanceDetailHeader';
 import { DaySummary } from './components/DaySummary';
 import styles from './attendance.module.css';
 
@@ -67,30 +68,10 @@ export function AttendanceView() {
 
   return (
     <div className={listStyles.page}>
-      <PageHeader
-        title={selectedClass.subject}
-        subtitle={`${selectedClass.gradeSection} · ${selectedClass.room}`}
-      >
-        <button type="button" className={listStyles.secondaryBtn} onClick={backToClasses}>
-          ← Back to Classes
-        </button>
-        <button type="button" className={listStyles.secondaryBtn}>
-          ⬇ Export Report
-        </button>
-        <button type="button" className={listStyles.primaryBtn}>
-          ✓ Take Attendance
-        </button>
-      </PageHeader>
+      <AttendanceDetailHeader cls={selectedClass} onBack={backToClasses} />
 
-      <AttendanceControls
-        selectedDateLabel={selectedDateLabel}
-        viewModes={viewModes}
-        viewMode={viewMode}
-        onViewModeChange={setViewMode}
-      />
-
-      <div className={styles.layout}>
-        <aside className={styles.sidePanel}>
+      <section className={styles.contextPanel}>
+        <div className={styles.contextCalendar}>
           <AttendanceCalendar
             monthLabel={calendarMonthLabel}
             year={calendarYear}
@@ -99,30 +80,40 @@ export function AttendanceView() {
             selectedDay={selectedDay}
             onSelectDay={setSelectedDay}
           />
-          <DaySummary dateLabel={selectedDateLabel} summary={selectedClass.daySummary} />
-        </aside>
-
-        <div>
-          <AttendanceTable
-            students={paginatedStudents}
-            totalStudents={totalStudents}
-            selectedIds={selectedIds}
-            allVisibleSelected={allVisibleSelected}
-            onToggleStudent={toggleStudent}
-            onToggleAllVisible={toggleAllVisible}
-            onMarkAll={markAll}
-          />
-          <PaginationBar
-            rangeStart={rangeStart}
-            rangeEnd={rangeEnd}
-            total={totalStudents}
-            page={page}
-            totalPages={totalPages}
-            itemLabel="students"
-            onPageChange={setPage}
-          />
         </div>
-      </div>
+        <DaySummary
+          dateLabel={selectedDateLabel}
+          summary={selectedClass.daySummary}
+          attendanceRate={selectedClass.attendanceRate}
+        />
+      </section>
+
+      <AttendanceControls
+        selectedDateLabel={selectedDateLabel}
+        viewModes={viewModes}
+        viewMode={viewMode}
+        onViewModeChange={setViewMode}
+        onMarkAll={markAll}
+      />
+
+      <AttendanceTable
+        students={paginatedStudents}
+        totalStudents={totalStudents}
+        selectedIds={selectedIds}
+        allVisibleSelected={allVisibleSelected}
+        onToggleStudent={toggleStudent}
+        onToggleAllVisible={toggleAllVisible}
+      />
+
+      <PaginationBar
+        rangeStart={rangeStart}
+        rangeEnd={rangeEnd}
+        total={totalStudents}
+        page={page}
+        totalPages={totalPages}
+        itemLabel="students"
+        onPageChange={setPage}
+      />
     </div>
   );
 }
