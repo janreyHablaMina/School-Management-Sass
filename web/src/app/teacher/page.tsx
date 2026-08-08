@@ -7,7 +7,9 @@ import { TopBar } from '@/components/AdminLayout/TopBar';
 import { ChalkFilter } from '@/components/ChalkCharts';
 import {
   AssignmentsView,
+  AttendanceView,
   DashboardView,
+  ExamsView,
   LessonsView,
   MyClassesView,
   QuizzesView,
@@ -38,6 +40,10 @@ export default function TeacherDashboard() {
         return <AssignmentsView />;
       case 'Quizzes':
         return <QuizzesView />;
+      case 'Exams':
+        return <ExamsView />;
+      case 'Attendance':
+        return <AttendanceView />;
       default:
         return <ModulePlaceholder title={activeTab} />;
     }
@@ -69,7 +75,7 @@ export default function TeacherDashboard() {
           userInitials={teacher.initials}
           welcomeText={`Welcome back, ${teacher.shortName}!`}
           notificationCount={3}
-          searchPlaceholder="Search students, classes, lessons..."
+          searchPlaceholder="Search students, classes, exams..."
           hideTitle
           showMessages
           aiCredits={aiCredits}

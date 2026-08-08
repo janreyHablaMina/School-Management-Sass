@@ -4,3 +4,5 @@ export { StudentsView } from './Students';
 export { LessonsView } from './Lessons';
 export { AssignmentsView } from './Assignments';
 export { QuizzesView } from './Quizzes';
+export { ExamsView } from './Exams';
+export { AttendanceView } from './Attendance';
