@@ -1,29 +1,27 @@
 import type { QuizStatus, QuizType } from '@/types/teacherQuizzes';
+import { accentFromMap, rateBarColor } from '../shared';
+
+const TYPE_ACCENTS: Record<QuizType, string> = {
+  Graded: '#b68eff',
+  Practice: '#84a9ff',
+};
+
+const STATUS_ACCENTS: Record<QuizStatus, string> = {
+  Active: '#5cc789',
+  Upcoming: '#84a9ff',
+  Completed: '#8a9a90',
+  Draft: '#f5a623',
+  Archived: '#8a9a90',
+};
 
 export function quizTypeAccent(type: QuizType): string {
-  return type === 'Graded' ? '#b68eff' : '#84a9ff';
+  return accentFromMap(TYPE_ACCENTS, type, '#f5c842');
 }
 
 export function quizStatusAccent(status: QuizStatus): string {
-  switch (status) {
-    case 'Active':
-      return '#5cc789';
-    case 'Upcoming':
-      return '#84a9ff';
-    case 'Completed':
-      return '#8a9a90';
-    case 'Draft':
-      return '#f5a623';
-    case 'Archived':
-      return '#8a9a90';
-    default:
-      return '#f0efed';
-  }
+  return accentFromMap(STATUS_ACCENTS, status);
 }
 
 export function attemptBarColor(rate: number): string {
-  if (rate >= 90) return '#5cc789';
-  if (rate >= 70) return '#b68eff';
-  if (rate >= 50) return '#f5a623';
-  return '#ff7e93';
+  return rateBarColor(rate, '#b68eff');
 }

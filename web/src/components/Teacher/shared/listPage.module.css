@@ -395,6 +395,31 @@
   border-radius: 4px;
 }
 
+.progressStatCell {
+  min-width: 110px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.progressStatTop {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  align-items: baseline;
+}
+
+.progressStatCount {
+  font-weight: 700;
+  color: #f0efed;
+  font-size: 0.85rem;
+}
+
+.progressStatPct {
+  font-size: 0.7rem;
+  color: rgba(240, 239, 237, 0.5);
+}
+
 .tabs {
   display: flex;
   gap: 0.25rem;
@@ -515,6 +540,15 @@
   margin: 0;
   font-size: 0.72rem;
   color: rgba(240, 239, 237, 0.5);
+}
+
+.scoreValue {
+  font-weight: 700;
+  color: #f0efed;
+}
+
+.scoreEmpty {
+  color: rgba(240, 239, 237, 0.4);
 }
 
 @media (max-width: 1400px) {

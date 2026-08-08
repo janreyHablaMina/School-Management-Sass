@@ -8,7 +8,12 @@ import type {
   AssignmentType,
   TeacherAssignmentRow,
 } from '@/types/teacherAssignments';
-import { usePagedList } from '../shared';
+import {
+  matchesAllOrExact,
+  matchesSearch,
+  sortByCreatedOrTitle,
+  usePagedList,
+} from '../shared';
 
 const PAGE_SIZE = 7;
 
@@ -45,47 +50,18 @@ function matchesAssignment(
   assignment: TeacherAssignmentRow,
   filters: AssignmentsFiltersState
 ) {
-  const q = filters.searchTerm.trim().toLowerCase();
-  const matchesSearch =
-    !q ||
-    assignment.title.toLowerCase().includes(q) ||
-    assignment.description.toLowerCase().includes(q) ||
-    assignment.subject.toLowerCase().includes(q);
-
   return (
-    matchesSearch &&
+    matchesSearch(filters.searchTerm, [
+      assignment.title,
+      assignment.description,
+      assignment.subject,
+    ]) &&
     matchesTab(assignment, filters.tab) &&
-    (filters.classFilter === 'All Classes' || assignment.classLabel === filters.classFilter) &&
-    (filters.subject === 'All Subjects' || assignment.subject === filters.subject) &&
-    (filters.status === 'All Status' || assignment.status === filters.status) &&
-    (filters.type === 'All Types' || assignment.type === filters.type)
+    matchesAllOrExact(filters.classFilter, assignment.classLabel, 'All Classes') &&
+    matchesAllOrExact(filters.subject, assignment.subject, 'All Subjects') &&
+    matchesAllOrExact(filters.status, assignment.status, 'All Status') &&
+    matchesAllOrExact(filters.type, assignment.type, 'All Types')
   );
-}
-
-function sortAssignments(
-  assignments: TeacherAssignmentRow[],
-  filters: AssignmentsFiltersState
-) {
-  const sorted = [...assignments];
-  const { sort } = filters;
-
-  if (sort === 'Oldest First') {
-    sorted.sort((a, b) => a.createdSortKey.localeCompare(b.createdSortKey));
-    return sorted;
-  }
-
-  if (sort === 'Due Date') {
-    sorted.sort((a, b) => a.dueSortKey.localeCompare(b.dueSortKey));
-    return sorted;
-  }
-
-  if (sort === 'Title A-Z') {
-    sorted.sort((a, b) => a.title.localeCompare(b.title));
-    return sorted;
-  }
-
-  sorted.sort((a, b) => b.createdSortKey.localeCompare(a.createdSortKey));
-  return sorted;
 }
 
 export function useAssignments() {
@@ -96,7 +72,7 @@ export function useAssignments() {
     initialFilters: DEFAULT_FILTERS,
     pageSize: PAGE_SIZE,
     filterFn: matchesAssignment,
-    sortFn: sortAssignments,
+    sortFn: (items, filters) => sortByCreatedOrTitle(items, filters.sort),
   });
 
   return {

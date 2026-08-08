@@ -3,11 +3,11 @@ import {
   ChalkBadge,
   ClassMeta,
   listStyles,
+  ProgressStatCell,
   ResourceTitle,
   RowActionsMenu,
 } from '../../shared';
 import { attemptBarColor, quizStatusAccent } from '../utils';
-import styles from '../quizzes.module.css';
 import type { TeacherQuizRow } from '@/types/teacherQuizzes';
 
 const ROW_ACTIONS = [
@@ -27,8 +27,9 @@ interface QuizRowProps {
 }
 
 export function QuizRow({ quiz }: QuizRowProps) {
-  const attemptRate = Math.round((quiz.attemptCount / quiz.totalStudents) * 100);
-  const barColor = attemptBarColor(attemptRate);
+  const attemptRate = Math.round(
+    (quiz.attemptCount / Math.max(quiz.totalStudents, 1)) * 100
+  );
 
   return (
     <tr>
@@ -44,9 +45,9 @@ export function QuizRow({ quiz }: QuizRowProps) {
         <ClassMeta classLabel={quiz.classLabel} subject={quiz.subject} />
       </td>
       <td>
-        <div className={styles.questionsCell}>
-          <p className={styles.questionsCount}>{quiz.questionCount} Questions</p>
-          <p className={styles.questionsFormat}>{quiz.questionFormat}</p>
+        <div className={listStyles.stackMeta}>
+          <p className={listStyles.stackMetaPrimary}>{quiz.questionCount} Questions</p>
+          <p className={listStyles.stackMetaSecondary}>{quiz.questionFormat}</p>
         </div>
       </td>
       <td>
@@ -56,20 +57,11 @@ export function QuizRow({ quiz }: QuizRowProps) {
         </div>
       </td>
       <td>
-        <div className={styles.attemptsCell}>
-          <div className={styles.attemptsTop}>
-            <span className={styles.attemptsCount}>
-              {quiz.attemptCount} / {quiz.totalStudents}
-            </span>
-            <span className={styles.attemptsPct}>{attemptRate}%</span>
-          </div>
-          <div className={listStyles.progressTrack}>
-            <div
-              className={listStyles.progressFill}
-              style={{ width: `${attemptRate}%`, background: barColor }}
-            />
-          </div>
-        </div>
+        <ProgressStatCell
+          current={quiz.attemptCount}
+          total={quiz.totalStudents}
+          barColor={attemptBarColor(attemptRate)}
+        />
       </td>
       <td>
         <ChalkBadge label={quiz.status} accent={quizStatusAccent(quiz.status)} />

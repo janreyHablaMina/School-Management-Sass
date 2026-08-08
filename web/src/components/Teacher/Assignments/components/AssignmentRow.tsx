@@ -3,6 +3,7 @@ import {
   ChalkBadge,
   ClassMeta,
   listStyles,
+  ProgressStatCell,
   ResourceTitle,
   RowActionsMenu,
 } from '../../shared';
@@ -11,7 +12,6 @@ import {
   assignmentTypeAccent,
   submissionBarColor,
 } from '../utils';
-import styles from '../assignments.module.css';
 import type { TeacherAssignmentRow } from '@/types/teacherAssignments';
 
 const ROW_ACTIONS = [
@@ -26,16 +26,14 @@ const DANGER_ACTIONS = [
   { icon: '🗑', label: 'Delete Assignment' },
 ] as const;
 
-
 interface AssignmentRowProps {
   assignment: TeacherAssignmentRow;
 }
 
 export function AssignmentRow({ assignment }: AssignmentRowProps) {
   const submissionRate = Math.round(
-    (assignment.submittedCount / assignment.totalStudents) * 100
+    (assignment.submittedCount / Math.max(assignment.totalStudents, 1)) * 100
   );
-  const barColor = submissionBarColor(submissionRate);
 
   return (
     <tr>
@@ -60,26 +58,17 @@ export function AssignmentRow({ assignment }: AssignmentRowProps) {
         </div>
       </td>
       <td>
-        <div className={styles.submissionsCell}>
-          <div className={styles.submissionsTop}>
-            <span className={styles.submissionsCount}>
-              {assignment.submittedCount} / {assignment.totalStudents}
-            </span>
-            <span className={styles.submissionsPct}>{submissionRate}%</span>
-          </div>
-          <div className={listStyles.progressTrack}>
-            <div
-              className={listStyles.progressFill}
-              style={{ width: `${submissionRate}%`, background: barColor }}
-            />
-          </div>
-        </div>
+        <ProgressStatCell
+          current={assignment.submittedCount}
+          total={assignment.totalStudents}
+          barColor={submissionBarColor(submissionRate)}
+        />
       </td>
       <td>
         {assignment.averageScore == null ? (
-          <span className={styles.scoreEmpty}>—</span>
+          <span className={listStyles.scoreEmpty}>—</span>
         ) : (
-          <span className={styles.scoreValue}>{assignment.averageScore.toFixed(1)}%</span>
+          <span className={listStyles.scoreValue}>{assignment.averageScore.toFixed(1)}%</span>
         )}
       </td>
       <td>

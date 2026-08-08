@@ -1,31 +1,24 @@
 import type { LessonStatus, LessonType } from '@/types/teacherLessons';
+import { accentFromMap } from '../shared';
+
+const TYPE_ACCENTS: Record<LessonType, string> = {
+  'Video Lesson': '#b68eff',
+  Document: '#5cc789',
+  Presentation: '#f5a623',
+  Link: '#84a9ff',
+  'Text Lesson': '#c9a8ff',
+};
+
+const STATUS_ACCENTS: Record<LessonStatus, string> = {
+  Published: '#5cc789',
+  Draft: '#f5a623',
+  Archived: '#84a9ff',
+};
 
 export function lessonTypeAccent(type: LessonType): string {
-  switch (type) {
-    case 'Video Lesson':
-      return '#b68eff';
-    case 'Document':
-      return '#5cc789';
-    case 'Presentation':
-      return '#f5a623';
-    case 'Link':
-      return '#84a9ff';
-    case 'Text Lesson':
-      return '#c9a8ff';
-    default:
-      return '#f5c842';
-  }
+  return accentFromMap(TYPE_ACCENTS, type, '#f5c842');
 }
 
 export function lessonStatusAccent(status: LessonStatus): string {
-  switch (status) {
-    case 'Published':
-      return '#5cc789';
-    case 'Draft':
-      return '#f5a623';
-    case 'Archived':
-      return '#84a9ff';
-    default:
-      return '#f0efed';
-  }
+  return accentFromMap(STATUS_ACCENTS, status);
 }

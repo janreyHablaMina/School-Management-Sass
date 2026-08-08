@@ -8,7 +8,12 @@ import type {
   QuizType,
   TeacherQuizRow,
 } from '@/types/teacherQuizzes';
-import { usePagedList } from '../shared';
+import {
+  matchesAllOrExact,
+  matchesSearch,
+  sortByCreatedOrTitle,
+  usePagedList,
+} from '../shared';
 
 const PAGE_SIZE = 7;
 
@@ -42,44 +47,14 @@ function matchesTab(quiz: TeacherQuizRow, tab: QuizTab) {
 }
 
 function matchesQuiz(quiz: TeacherQuizRow, filters: QuizzesFiltersState) {
-  const q = filters.searchTerm.trim().toLowerCase();
-  const matchesSearch =
-    !q ||
-    quiz.title.toLowerCase().includes(q) ||
-    quiz.description.toLowerCase().includes(q) ||
-    quiz.subject.toLowerCase().includes(q);
-
   return (
-    matchesSearch &&
+    matchesSearch(filters.searchTerm, [quiz.title, quiz.description, quiz.subject]) &&
     matchesTab(quiz, filters.tab) &&
-    (filters.classFilter === 'All Classes' || quiz.classLabel === filters.classFilter) &&
-    (filters.subject === 'All Subjects' || quiz.subject === filters.subject) &&
-    (filters.status === 'All Status' || quiz.status === filters.status) &&
-    (filters.type === 'All Types' || quiz.type === filters.type)
+    matchesAllOrExact(filters.classFilter, quiz.classLabel, 'All Classes') &&
+    matchesAllOrExact(filters.subject, quiz.subject, 'All Subjects') &&
+    matchesAllOrExact(filters.status, quiz.status, 'All Status') &&
+    matchesAllOrExact(filters.type, quiz.type, 'All Types')
   );
-}
-
-function sortQuizzes(quizzes: TeacherQuizRow[], filters: QuizzesFiltersState) {
-  const sorted = [...quizzes];
-  const { sort } = filters;
-
-  if (sort === 'Oldest First') {
-    sorted.sort((a, b) => a.createdSortKey.localeCompare(b.createdSortKey));
-    return sorted;
-  }
-
-  if (sort === 'Due Date') {
-    sorted.sort((a, b) => a.dueSortKey.localeCompare(b.dueSortKey));
-    return sorted;
-  }
-
-  if (sort === 'Title A-Z') {
-    sorted.sort((a, b) => a.title.localeCompare(b.title));
-    return sorted;
-  }
-
-  sorted.sort((a, b) => b.createdSortKey.localeCompare(a.createdSortKey));
-  return sorted;
 }
 
 export function useQuizzes() {
@@ -90,7 +65,7 @@ export function useQuizzes() {
     initialFilters: DEFAULT_FILTERS,
     pageSize: PAGE_SIZE,
     filterFn: matchesQuiz,
-    sortFn: sortQuizzes,
+    sortFn: (items, filters) => sortByCreatedOrTitle(items, filters.sort),
   });
 
   return {

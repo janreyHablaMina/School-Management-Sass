@@ -2,14 +2,11 @@
 
 import React from 'react';
 import {
-  EmptyState,
+  ClassroomResourceFilters,
   listStyles,
-  PageHeader,
-  PaginationBar,
-  SummaryMetrics,
+  ResourceListPage,
 } from '../shared';
 import { useLessons } from './useLessons';
-import { LessonsFilters } from './LessonsFilters';
 import { LessonsTable } from './LessonsTable';
 
 export function LessonsView() {
@@ -29,47 +26,43 @@ export function LessonsView() {
   } = useLessons();
 
   return (
-    <div className={listStyles.page}>
-      <PageHeader
-        title="Lessons"
-        subtitle="Create, organize and manage your lessons."
-      >
+    <ResourceListPage
+      title="Lessons"
+      subtitle="Create, organize and manage your lessons."
+      headerActions={
         <button type="button" className={listStyles.primaryBtn}>
           + Create New Lesson
         </button>
-      </PageHeader>
-
-      <SummaryMetrics metrics={metrics} columns={4} />
-
-      <LessonsFilters
-        filters={filters}
-        onFilterChange={setFilter}
-        tabs={tabs}
-        classes={filterOptions.classes}
-        subjects={filterOptions.subjects}
-        statuses={filterOptions.statuses}
-        types={filterOptions.types}
-        sorts={filterOptions.sorts}
-      />
-
-      {paginatedLessons.length === 0 ? (
-        <EmptyState
-          title="No lessons found"
-          description="Try adjusting your search or filters."
+      }
+      metrics={metrics}
+      metricsColumns={4}
+      filters={
+        <ClassroomResourceFilters
+          filters={filters}
+          onFilterChange={setFilter}
+          tabs={tabs}
+          classes={filterOptions.classes}
+          subjects={filterOptions.subjects}
+          statuses={filterOptions.statuses}
+          types={filterOptions.types}
+          sorts={filterOptions.sorts}
+          searchPlaceholder="Search lessons by title or keyword..."
+          searchAriaLabel="Search lessons"
+          tabsAriaLabel="Lesson views"
+          tabsPlacement="before"
         />
-      ) : (
-        <LessonsTable lessons={paginatedLessons} />
-      )}
-
-      <PaginationBar
-        rangeStart={rangeStart}
-        rangeEnd={rangeEnd}
-        total={filteredCount}
-        page={page}
-        totalPages={totalPages}
-        itemLabel="lessons"
-        onPageChange={setPage}
-      />
-    </div>
+      }
+      itemsCount={paginatedLessons.length}
+      emptyTitle="No lessons found"
+      emptyDescription="Try adjusting your search or filters."
+      table={<LessonsTable lessons={paginatedLessons} />}
+      rangeStart={rangeStart}
+      rangeEnd={rangeEnd}
+      total={filteredCount}
+      page={page}
+      totalPages={totalPages}
+      itemLabel="lessons"
+      onPageChange={setPage}
+    />
   );
 }

@@ -8,7 +8,7 @@ import type {
   LessonType,
   TeacherLessonRow,
 } from '@/types/teacherLessons';
-import { usePagedList } from '../shared';
+import { matchesAllOrExact, matchesSearch, usePagedList } from '../shared';
 
 const PAGE_SIZE = 6;
 
@@ -25,19 +25,12 @@ const DEFAULT_FILTERS = {
 export type LessonsFiltersState = typeof DEFAULT_FILTERS;
 
 function matchesLesson(lesson: TeacherLessonRow, filters: LessonsFiltersState) {
-  const q = filters.searchTerm.trim().toLowerCase();
-  const matchesSearch =
-    !q ||
-    lesson.title.toLowerCase().includes(q) ||
-    lesson.description.toLowerCase().includes(q) ||
-    lesson.subject.toLowerCase().includes(q);
-
   return (
-    matchesSearch &&
-    (filters.classFilter === 'All Classes' || lesson.classLabel === filters.classFilter) &&
-    (filters.subject === 'All Subjects' || lesson.subject === filters.subject) &&
-    (filters.status === 'All Status' || lesson.status === filters.status) &&
-    (filters.type === 'All Types' || lesson.type === filters.type)
+    matchesSearch(filters.searchTerm, [lesson.title, lesson.description, lesson.subject]) &&
+    matchesAllOrExact(filters.classFilter, lesson.classLabel, 'All Classes') &&
+    matchesAllOrExact(filters.subject, lesson.subject, 'All Subjects') &&
+    matchesAllOrExact(filters.status, lesson.status, 'All Status') &&
+    matchesAllOrExact(filters.type, lesson.type, 'All Types')
   );
 }
 

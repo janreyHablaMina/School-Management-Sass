@@ -2,14 +2,11 @@
 
 import React from 'react';
 import {
-  EmptyState,
+  ClassroomResourceFilters,
   listStyles,
-  PageHeader,
-  PaginationBar,
-  SummaryMetrics,
+  ResourceListPage,
 } from '../shared';
 import { useQuizzes } from './useQuizzes';
-import { QuizzesFilters } from './QuizzesFilters';
 import { QuizzesTable } from './QuizzesTable';
 
 export function QuizzesView() {
@@ -29,50 +26,48 @@ export function QuizzesView() {
   } = useQuizzes();
 
   return (
-    <div className={listStyles.page}>
-      <PageHeader
-        title="Quizzes"
-        subtitle="Create, manage and analyze your quizzes."
-      >
-        <button type="button" className={listStyles.secondaryBtn}>
-          + New Folder
-        </button>
-        <button type="button" className={listStyles.primaryBtn}>
-          + Create New Quiz
-        </button>
-      </PageHeader>
-
-      <SummaryMetrics metrics={metrics} columns={5} />
-
-      <QuizzesFilters
-        filters={filters}
-        onFilterChange={setFilter}
-        tabs={tabs}
-        classes={filterOptions.classes}
-        subjects={filterOptions.subjects}
-        statuses={filterOptions.statuses}
-        types={filterOptions.types}
-        sorts={filterOptions.sorts}
-      />
-
-      {paginatedQuizzes.length === 0 ? (
-        <EmptyState
-          title="No quizzes found"
-          description="Try adjusting your search or filters."
+    <ResourceListPage
+      title="Quizzes"
+      subtitle="Create, manage and analyze your quizzes."
+      headerActions={
+        <>
+          <button type="button" className={listStyles.secondaryBtn}>
+            + New Folder
+          </button>
+          <button type="button" className={listStyles.primaryBtn}>
+            + Create New Quiz
+          </button>
+        </>
+      }
+      metrics={metrics}
+      metricsColumns={5}
+      filters={
+        <ClassroomResourceFilters
+          filters={filters}
+          onFilterChange={setFilter}
+          tabs={tabs}
+          classes={filterOptions.classes}
+          subjects={filterOptions.subjects}
+          statuses={filterOptions.statuses}
+          types={filterOptions.types}
+          sorts={filterOptions.sorts}
+          searchPlaceholder="Search quizzes by title or keyword..."
+          searchAriaLabel="Search quizzes"
+          tabsAriaLabel="Quiz views"
+          tabsPlacement="after"
         />
-      ) : (
-        <QuizzesTable quizzes={paginatedQuizzes} />
-      )}
-
-      <PaginationBar
-        rangeStart={rangeStart}
-        rangeEnd={rangeEnd}
-        total={filteredCount}
-        page={page}
-        totalPages={totalPages}
-        itemLabel="quizzes"
-        onPageChange={setPage}
-      />
-    </div>
+      }
+      itemsCount={paginatedQuizzes.length}
+      emptyTitle="No quizzes found"
+      emptyDescription="Try adjusting your search or filters."
+      table={<QuizzesTable quizzes={paginatedQuizzes} />}
+      rangeStart={rangeStart}
+      rangeEnd={rangeEnd}
+      total={filteredCount}
+      page={page}
+      totalPages={totalPages}
+      itemLabel="quizzes"
+      onPageChange={setPage}
+    />
   );
 }
