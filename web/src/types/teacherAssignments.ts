@@ -34,6 +34,7 @@ export interface TeacherAssignmentRow {
   subject: string;
   type: AssignmentType;
   dueDate: string;
+  dueTime: string;
   dueSortKey: string;
   submittedCount: number;
   totalStudents: number;

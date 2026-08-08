@@ -3,3 +3,4 @@ export { MyClassesView } from './MyClasses';
 export { StudentsView } from './Students';
 export { LessonsView } from './Lessons';
 export { AssignmentsView } from './Assignments';
+export { QuizzesView } from './Quizzes';

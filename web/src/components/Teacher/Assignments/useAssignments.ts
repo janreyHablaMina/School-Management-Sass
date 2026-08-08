@@ -1,6 +1,5 @@
 'use client';
 
-import { useMemo, useState } from 'react';
 import { teacherAssignmentsPageMock } from '@/lib/mock/teacherAssignments.mock';
 import type {
   AssignmentSort,
@@ -9,6 +8,7 @@ import type {
   AssignmentType,
   TeacherAssignmentRow,
 } from '@/types/teacherAssignments';
+import { usePagedList } from '../shared';
 
 const PAGE_SIZE = 7;
 
@@ -23,7 +23,6 @@ const DEFAULT_FILTERS = {
 };
 
 export type AssignmentsFiltersState = typeof DEFAULT_FILTERS;
-export type AssignmentsFilterKey = keyof AssignmentsFiltersState;
 
 function matchesTab(assignment: TeacherAssignmentRow, tab: AssignmentTab) {
   switch (tab) {
@@ -65,9 +64,10 @@ function matchesAssignment(
 
 function sortAssignments(
   assignments: TeacherAssignmentRow[],
-  sort: AssignmentSort
+  filters: AssignmentsFiltersState
 ) {
   const sorted = [...assignments];
+  const { sort } = filters;
 
   if (sort === 'Oldest First') {
     sorted.sort((a, b) => a.createdSortKey.localeCompare(b.createdSortKey));
@@ -90,46 +90,20 @@ function sortAssignments(
 
 export function useAssignments() {
   const { metrics, assignments, filterOptions, tabs } = teacherAssignmentsPageMock;
-  const [filters, setFilters] = useState(DEFAULT_FILTERS);
-  const [page, setPage] = useState(1);
 
-  const sortedFiltered = useMemo(() => {
-    const filtered = assignments.filter((item) => matchesAssignment(item, filters));
-    return sortAssignments(filtered, filters.sort);
-  }, [assignments, filters]);
-
-  const filteredCount = sortedFiltered.length;
-  const totalPages = Math.max(1, Math.ceil(filteredCount / PAGE_SIZE));
-  const currentPage = Math.min(page, totalPages);
-
-  const paginatedAssignments = useMemo(() => {
-    const start = (currentPage - 1) * PAGE_SIZE;
-    return sortedFiltered.slice(start, start + PAGE_SIZE);
-  }, [sortedFiltered, currentPage]);
-
-  const setFilter = <K extends AssignmentsFilterKey>(
-    key: K,
-    value: AssignmentsFiltersState[K]
-  ) => {
-    setFilters((prev) => ({ ...prev, [key]: value }));
-    setPage(1);
-  };
-
-  const rangeStart = filteredCount === 0 ? 0 : (currentPage - 1) * PAGE_SIZE + 1;
-  const rangeEnd = Math.min(currentPage * PAGE_SIZE, filteredCount);
+  const list = usePagedList({
+    items: assignments,
+    initialFilters: DEFAULT_FILTERS,
+    pageSize: PAGE_SIZE,
+    filterFn: matchesAssignment,
+    sortFn: sortAssignments,
+  });
 
   return {
     metrics,
     tabs,
     filterOptions,
-    filters,
-    setFilter,
-    filteredCount,
-    paginatedAssignments,
-    page: currentPage,
-    totalPages,
-    setPage,
-    rangeStart,
-    rangeEnd,
+    ...list,
+    paginatedAssignments: list.paginatedItems,
   };
 }

@@ -7,6 +7,7 @@ interface UsePagedListOptions<TItem, TFilters extends Record<string, unknown>> {
   initialFilters: TFilters;
   pageSize: number;
   filterFn: (item: TItem, filters: TFilters) => boolean;
+  sortFn?: (items: TItem[], filters: TFilters) => TItem[];
 }
 
 export function usePagedList<TItem, TFilters extends Record<string, unknown>>({
@@ -14,16 +15,19 @@ export function usePagedList<TItem, TFilters extends Record<string, unknown>>({
   initialFilters,
   pageSize,
   filterFn,
+  sortFn,
 }: UsePagedListOptions<TItem, TFilters>) {
   const [filters, setFilters] = useState(initialFilters);
   const [page, setPage] = useState(1);
   const filterFnRef = useRef(filterFn);
+  const sortFnRef = useRef(sortFn);
   filterFnRef.current = filterFn;
+  sortFnRef.current = sortFn;
 
-  const filteredItems = useMemo(
-    () => items.filter((item) => filterFnRef.current(item, filters)),
-    [items, filters]
-  );
+  const filteredItems = useMemo(() => {
+    const filtered = items.filter((item) => filterFnRef.current(item, filters));
+    return sortFnRef.current ? sortFnRef.current(filtered, filters) : filtered;
+  }, [items, filters]);
 
   const totalPages = Math.max(1, Math.ceil(filteredItems.length / pageSize));
   const currentPage = Math.min(page, totalPages);

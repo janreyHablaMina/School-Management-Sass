@@ -1,30 +1,25 @@
 'use client';
 
-import React, { useState } from 'react';
-import {
-  ActionDropdown,
-  ActionDropdownItem,
-  ActionDropdownSeparator,
-} from '@/components/ui/ActionDropdown';
-import { listStyles } from '../../shared';
+import React from 'react';
+import { listStyles, RowActionsMenu } from '../../shared';
 import { attendanceBarColor, letterGradeAccent, statusAccent } from '../utils';
 import styles from '../students.module.css';
 import type { TeacherStudentRow } from '@/types/teacherStudents';
 
 const ROW_ACTIONS = [
-  '👤 View Profile',
-  '✏️ Edit Student',
-  '📧 Message Parent',
-  '📊 View Grades',
+  { icon: '👤', label: 'View Profile' },
+  { icon: '✏️', label: 'Edit Student' },
+  { icon: '📧', label: 'Message Parent' },
+  { icon: '📊', label: 'View Grades' },
 ] as const;
+
+const DANGER_ACTIONS = [{ icon: '🚫', label: 'Mark Inactive' }] as const;
 
 interface StudentRowProps {
   student: TeacherStudentRow;
 }
 
 export function StudentRow({ student }: StudentRowProps) {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const closeMenu = () => setMenuOpen(false);
   const letterColor = letterGradeAccent(student.letterGrade);
   const statusColor = statusAccent(student.status);
   const attendanceColor = attendanceBarColor(student.attendanceRate);
@@ -103,29 +98,11 @@ export function StudentRow({ student }: StudentRowProps) {
         </span>
       </td>
       <td>
-        <div className={listStyles.actionsCell}>
-          <div className={listStyles.menuWrap}>
-            <button
-              type="button"
-              className={listStyles.moreBtn}
-              aria-label={`More actions for ${student.fullName}`}
-              onClick={() => setMenuOpen((open) => !open)}
-            >
-              ⋮
-            </button>
-            <ActionDropdown isOpen={menuOpen} onClose={closeMenu}>
-              {ROW_ACTIONS.map((label) => (
-                <ActionDropdownItem key={label} onClick={closeMenu}>
-                  {label}
-                </ActionDropdownItem>
-              ))}
-              <ActionDropdownSeparator />
-              <ActionDropdownItem isDanger onClick={closeMenu}>
-                🚫 Mark Inactive
-              </ActionDropdownItem>
-            </ActionDropdown>
-          </div>
-        </div>
+        <RowActionsMenu
+          label={`More actions for ${student.fullName}`}
+          actions={ROW_ACTIONS}
+          dangerActions={DANGER_ACTIONS}
+        />
       </td>
     </tr>
   );

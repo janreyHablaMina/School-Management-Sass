@@ -2,13 +2,13 @@
 
 import React from 'react';
 import { ResourceFilters } from '../shared';
-import type { LessonsFiltersState } from './useLessons';
+import type { QuizzesFiltersState } from './useQuizzes';
 
-interface LessonsFiltersProps {
-  filters: LessonsFiltersState;
-  onFilterChange: <K extends keyof LessonsFiltersState>(
+interface QuizzesFiltersProps {
+  filters: QuizzesFiltersState;
+  onFilterChange: <K extends keyof QuizzesFiltersState>(
     key: K,
-    value: LessonsFiltersState[K]
+    value: QuizzesFiltersState[K]
   ) => void;
   tabs: string[];
   classes: string[];
@@ -18,7 +18,7 @@ interface LessonsFiltersProps {
   sorts: string[];
 }
 
-export function LessonsFilters({
+export function QuizzesFilters({
   filters,
   onFilterChange,
   tabs,
@@ -27,31 +27,31 @@ export function LessonsFilters({
   statuses,
   types,
   sorts,
-}: LessonsFiltersProps) {
+}: QuizzesFiltersProps) {
   return (
     <ResourceFilters
       searchTerm={filters.searchTerm}
       onSearchChange={(value) => onFilterChange('searchTerm', value)}
-      searchPlaceholder="Search lessons by title or keyword..."
-      searchAriaLabel="Search lessons"
+      searchPlaceholder="Search quizzes by title or keyword..."
+      searchAriaLabel="Search quizzes"
       selects={[
         { key: 'classFilter', label: 'Class', options: classes },
         { key: 'subject', label: 'Subject', options: subjects },
         { key: 'status', label: 'Status', options: statuses },
         { key: 'type', label: 'Type', options: types },
       ]}
-      getSelectValue={(key) => filters[key as keyof LessonsFiltersState] as string}
+      getSelectValue={(key) => filters[key as keyof QuizzesFiltersState] as string}
       onSelectChange={(key, value) =>
-        onFilterChange(key as keyof LessonsFiltersState, value as never)
+        onFilterChange(key as keyof QuizzesFiltersState, value as never)
       }
       sorts={sorts}
       sortValue={filters.sort}
-      onSortChange={(value) => onFilterChange('sort', value as LessonsFiltersState['sort'])}
+      onSortChange={(value) => onFilterChange('sort', value as QuizzesFiltersState['sort'])}
       tabs={tabs}
       tabValue={filters.tab}
-      onTabChange={(tab) => onFilterChange('tab', tab as LessonsFiltersState['tab'])}
-      tabsAriaLabel="Lesson views"
-      tabsPlacement="before"
+      onTabChange={(tab) => onFilterChange('tab', tab as QuizzesFiltersState['tab'])}
+      tabsAriaLabel="Quiz views"
+      tabsPlacement="after"
     />
   );
 }

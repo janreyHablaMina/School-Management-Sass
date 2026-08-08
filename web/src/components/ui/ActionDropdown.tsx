@@ -35,20 +35,23 @@ export const ActionDropdown: React.FC<ActionDropdownProps> = ({
   );
 };
 
-export const ActionDropdownItem: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement> & { isDanger?: boolean }> = ({ 
-  isDanger, 
-  className, 
-  onClick,
-  ...props 
-}) => {
+export const ActionDropdownItem: React.FC<
+  React.ButtonHTMLAttributes<HTMLButtonElement> & {
+    isDanger?: boolean;
+    icon?: string;
+  }
+> = ({ isDanger, icon, className, onClick, children, ...props }) => {
   return (
-    <button 
+    <button
       onClick={(e) => {
         if (onClick) onClick(e);
       }}
       className={`${styles.actionDropdownItem} ${isDanger ? styles.actionDropdownItemDelete : ''} ${className || ''}`}
       {...props}
-    />
+    >
+      {icon ? <span className={styles.actionDropdownIcon}>{icon}</span> : null}
+      <span className={styles.actionDropdownLabel}>{children}</span>
+    </button>
   );
 };
 

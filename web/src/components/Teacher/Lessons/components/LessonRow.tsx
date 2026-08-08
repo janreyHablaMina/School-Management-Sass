@@ -1,21 +1,24 @@
-'use client';
-
-import React, { useState } from 'react';
+import React from 'react';
 import {
-  ActionDropdown,
-  ActionDropdownItem,
-  ActionDropdownSeparator,
-} from '@/components/ui/ActionDropdown';
-import { listStyles } from '../../shared';
+  ChalkBadge,
+  ClassMeta,
+  listStyles,
+  ResourceTitle,
+  RowActionsMenu,
+} from '../../shared';
 import { lessonStatusAccent, lessonTypeAccent } from '../utils';
-import styles from '../lessons.module.css';
 import type { TeacherLessonRow } from '@/types/teacherLessons';
 
 const ROW_ACTIONS = [
-  '👁 View Lesson',
-  '✎ Edit Lesson',
-  '📋 Duplicate Lesson',
-  '📤 Share Lesson',
+  { icon: '👁', label: 'View Lesson' },
+  { icon: '✎', label: 'Edit Lesson' },
+  { icon: '📋', label: 'Duplicate Lesson' },
+  { icon: '📤', label: 'Share Lesson' },
+] as const;
+
+const DANGER_ACTIONS = [
+  { icon: '📦', label: 'Archive Lesson' },
+  { icon: '🗑', label: 'Delete Lesson' },
 ] as const;
 
 
@@ -24,94 +27,46 @@ interface LessonRowProps {
 }
 
 export function LessonRow({ lesson }: LessonRowProps) {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const closeMenu = () => setMenuOpen(false);
-  const typeColor = lessonTypeAccent(lesson.type);
-  const statusColor = lessonStatusAccent(lesson.status);
-
   return (
     <tr>
       <td>
-        <div className={styles.lessonCell}>
-          <div
-            className={styles.lessonIcon}
-            style={{
-              background: `${lesson.accent}22`,
-              color: lesson.accent,
-              borderColor: `${lesson.accent}55`,
-            }}
+        <ResourceTitle
+          icon={lesson.icon}
+          accent={lesson.accent}
+          title={lesson.title}
+          description={lesson.description}
+          footer={`⏱ ${lesson.durationMins} mins`}
+        />
+      </td>
+      <td>
+        <ClassMeta classLabel={lesson.classLabel} subject={lesson.subject} />
+      </td>
+      <td>
+        <ChalkBadge label={lesson.type} accent={lessonTypeAccent(lesson.type)} />
+      </td>
+      <td>
+        <div className={listStyles.stackMeta}>
+          <p
+            className={listStyles.stackMetaPrimary}
+            style={{ color: lessonStatusAccent(lesson.status) }}
           >
-            {lesson.icon}
-          </div>
-          <div className={styles.lessonMeta}>
-            <p className={styles.lessonTitle}>{lesson.title}</p>
-            <p className={styles.lessonDesc}>{lesson.description}</p>
-            <p className={styles.lessonDuration}>⏱ {lesson.durationMins} mins</p>
-          </div>
-        </div>
-      </td>
-      <td>
-        <div className={styles.classCell}>
-          <p className={styles.classLabel}>{lesson.classLabel}</p>
-          <p className={styles.classSubject}>{lesson.subject}</p>
-        </div>
-      </td>
-      <td>
-        <span
-          className={styles.typeBadge}
-          style={{
-            color: typeColor,
-            borderColor: `${typeColor}88`,
-            background: `${typeColor}18`,
-          }}
-        >
-          {lesson.type}
-        </span>
-      </td>
-      <td>
-        <div className={styles.statusCell}>
-          <span className={styles.statusLabel} style={{ color: statusColor }}>
             {lesson.status}
-          </span>
-          <span className={styles.statusDate}>{lesson.statusDate}</span>
+          </p>
+          <p className={listStyles.stackMetaSecondary}>{lesson.statusDate}</p>
         </div>
       </td>
       <td>
-        <div className={styles.updatedCell}>
-          <div className={styles.updatedAvatar}>SJ</div>
-          <div className={styles.updatedMeta}>
-            <p className={styles.updatedDate}>{lesson.updatedAt}</p>
-            <p className={styles.updatedBy}>by {lesson.updatedBy}</p>
-          </div>
+        <div className={listStyles.stackMeta}>
+          <p className={listStyles.stackMetaPrimary}>{lesson.updatedAt}</p>
+          <p className={listStyles.stackMetaSecondary}>by {lesson.updatedBy}</p>
         </div>
       </td>
       <td>
-        <div className={listStyles.actionsCell}>
-          <div className={listStyles.menuWrap}>
-            <button
-              type="button"
-              className={listStyles.moreBtn}
-              aria-label={`More actions for ${lesson.title}`}
-              onClick={() => setMenuOpen((open) => !open)}
-            >
-              ⋮
-            </button>
-            <ActionDropdown isOpen={menuOpen} onClose={closeMenu}>
-              {ROW_ACTIONS.map((label) => (
-                <ActionDropdownItem key={label} onClick={closeMenu}>
-                  {label}
-                </ActionDropdownItem>
-              ))}
-              <ActionDropdownSeparator />
-              <ActionDropdownItem isDanger onClick={closeMenu}>
-                📦 Archive Lesson
-              </ActionDropdownItem>
-              <ActionDropdownItem isDanger onClick={closeMenu}>
-                🗑 Delete Lesson
-              </ActionDropdownItem>
-            </ActionDropdown>
-          </div>
-        </div>
+        <RowActionsMenu
+          label={`More actions for ${lesson.title}`}
+          actions={ROW_ACTIONS}
+          dangerActions={DANGER_ACTIONS}
+        />
       </td>
     </tr>
   );

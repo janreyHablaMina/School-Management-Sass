@@ -10,6 +10,7 @@ import {
   DashboardView,
   LessonsView,
   MyClassesView,
+  QuizzesView,
   StudentsView,
 } from '@/components/Teacher';
 import { ModulePlaceholder } from '@/components/shared/ModulePlaceholder';
@@ -35,6 +36,8 @@ export default function TeacherDashboard() {
         return <LessonsView />;
       case 'Assignments':
         return <AssignmentsView />;
+      case 'Quizzes':
+        return <QuizzesView />;
       default:
         return <ModulePlaceholder title={activeTab} />;
     }

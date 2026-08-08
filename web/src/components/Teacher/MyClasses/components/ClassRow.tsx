@@ -1,31 +1,25 @@
 'use client';
 
-import React, { useState } from 'react';
-import {
-  ActionDropdown,
-  ActionDropdownItem,
-  ActionDropdownSeparator,
-} from '@/components/ui/ActionDropdown';
-import { listStyles } from '../../shared';
+import React from 'react';
+import { listStyles, RowActionsMenu } from '../../shared';
 import { AttendanceRing } from './AttendanceRing';
 import styles from '../myClasses.module.css';
 import type { MyClassRow } from '@/types/myClasses';
 
 const ROW_ACTIONS = [
-  '🚪 Open Class',
-  '✏️ Edit Class',
-  '📄 Duplicate Class',
-  '📅 View Schedule',
+  { icon: '🚪', label: 'Open Class' },
+  { icon: '✏️', label: 'Edit Class' },
+  { icon: '📄', label: 'Duplicate Class' },
+  { icon: '📅', label: 'View Schedule' },
 ] as const;
+
+const DANGER_ACTIONS = [{ icon: '📦', label: 'Archive Class' }] as const;
 
 interface ClassRowProps {
   cls: MyClassRow;
 }
 
 export function ClassRow({ cls }: ClassRowProps) {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const closeMenu = () => setMenuOpen(false);
-
   return (
     <tr>
       <td>
@@ -80,29 +74,11 @@ export function ClassRow({ cls }: ClassRowProps) {
         </div>
       </td>
       <td>
-        <div className={listStyles.actionsCell}>
-          <div className={listStyles.menuWrap}>
-            <button
-              type="button"
-              className={listStyles.moreBtn}
-              aria-label={`More actions for ${cls.subject}`}
-              onClick={() => setMenuOpen((open) => !open)}
-            >
-              ⋮
-            </button>
-            <ActionDropdown isOpen={menuOpen} onClose={closeMenu}>
-              {ROW_ACTIONS.map((label) => (
-                <ActionDropdownItem key={label} onClick={closeMenu}>
-                  {label}
-                </ActionDropdownItem>
-              ))}
-              <ActionDropdownSeparator />
-              <ActionDropdownItem isDanger onClick={closeMenu}>
-                📦 Archive Class
-              </ActionDropdownItem>
-            </ActionDropdown>
-          </div>
-        </div>
+        <RowActionsMenu
+          label={`More actions for ${cls.subject}`}
+          actions={ROW_ACTIONS}
+          dangerActions={DANGER_ACTIONS}
+        />
       </td>
     </tr>
   );

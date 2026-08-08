@@ -1,6 +1,5 @@
 'use client';
 
-import { useMemo, useState } from 'react';
 import { teacherLessonsPageMock } from '@/lib/mock/teacherLessons.mock';
 import type {
   LessonSort,
@@ -9,6 +8,7 @@ import type {
   LessonType,
   TeacherLessonRow,
 } from '@/types/teacherLessons';
+import { usePagedList } from '../shared';
 
 const PAGE_SIZE = 6;
 
@@ -23,7 +23,6 @@ const DEFAULT_FILTERS = {
 };
 
 export type LessonsFiltersState = typeof DEFAULT_FILTERS;
-export type LessonsFilterKey = keyof LessonsFiltersState;
 
 function matchesLesson(lesson: TeacherLessonRow, filters: LessonsFiltersState) {
   const q = filters.searchTerm.trim().toLowerCase();
@@ -42,8 +41,9 @@ function matchesLesson(lesson: TeacherLessonRow, filters: LessonsFiltersState) {
   );
 }
 
-function sortLessons(lessons: TeacherLessonRow[], sort: LessonSort, tab: LessonTab) {
+function sortLessons(lessons: TeacherLessonRow[], filters: LessonsFiltersState) {
   const sorted = [...lessons];
+  const { tab, sort } = filters;
 
   if (tab === 'By Class') {
     sorted.sort((a, b) => a.classLabel.localeCompare(b.classLabel) || a.title.localeCompare(b.title));
@@ -71,43 +71,20 @@ function sortLessons(lessons: TeacherLessonRow[], sort: LessonSort, tab: LessonT
 
 export function useLessons() {
   const { metrics, lessons, filterOptions, tabs } = teacherLessonsPageMock;
-  const [filters, setFilters] = useState(DEFAULT_FILTERS);
-  const [page, setPage] = useState(1);
 
-  const sortedFiltered = useMemo(() => {
-    const filtered = lessons.filter((lesson) => matchesLesson(lesson, filters));
-    return sortLessons(filtered, filters.sort, filters.tab);
-  }, [lessons, filters]);
-
-  const filteredCount = sortedFiltered.length;
-  const totalPages = Math.max(1, Math.ceil(filteredCount / PAGE_SIZE));
-  const currentPage = Math.min(page, totalPages);
-
-  const paginatedLessons = useMemo(() => {
-    const start = (currentPage - 1) * PAGE_SIZE;
-    return sortedFiltered.slice(start, start + PAGE_SIZE);
-  }, [sortedFiltered, currentPage]);
-
-  const setFilter = <K extends LessonsFilterKey>(key: K, value: LessonsFiltersState[K]) => {
-    setFilters((prev) => ({ ...prev, [key]: value }));
-    setPage(1);
-  };
-
-  const rangeStart = filteredCount === 0 ? 0 : (currentPage - 1) * PAGE_SIZE + 1;
-  const rangeEnd = Math.min(currentPage * PAGE_SIZE, filteredCount);
+  const list = usePagedList({
+    items: lessons,
+    initialFilters: DEFAULT_FILTERS,
+    pageSize: PAGE_SIZE,
+    filterFn: matchesLesson,
+    sortFn: sortLessons,
+  });
 
   return {
     metrics,
     tabs,
     filterOptions,
-    filters,
-    setFilter,
-    filteredCount,
-    paginatedLessons,
-    page: currentPage,
-    totalPages,
-    setPage,
-    rangeStart,
-    rangeEnd,
+    ...list,
+    paginatedLessons: list.paginatedItems,
   };
 }

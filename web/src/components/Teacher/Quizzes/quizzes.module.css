@@ -1,0 +1,45 @@
+/* Quizzes — attempts/score row styles only */
+
+.attemptsCell {
+  min-width: 110px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.attemptsTop {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  align-items: baseline;
+}
+
+.attemptsCount {
+  font-weight: 700;
+  color: #f0efed;
+  font-size: 0.85rem;
+}
+
+.attemptsPct {
+  font-size: 0.7rem;
+  color: rgba(240, 239, 237, 0.5);
+}
+
+.questionsCell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 110px;
+}
+
+.questionsCount {
+  margin: 0;
+  font-weight: 600;
+  color: #f0efed;
+}
+
+.questionsFormat {
+  margin: 0;
+  font-size: 0.72rem;
+  color: rgba(240, 239, 237, 0.5);
+}
