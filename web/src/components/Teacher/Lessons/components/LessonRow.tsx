@@ -11,7 +11,13 @@ import { lessonStatusAccent, lessonTypeAccent } from '../utils';
 import styles from '../lessons.module.css';
 import type { TeacherLessonRow } from '@/types/teacherLessons';
 
-const ROW_ACTIONS = ['📋 Duplicate Lesson', '📤 Share Lesson', '📦 Archive Lesson'] as const;
+const ROW_ACTIONS = [
+  '👁 View Lesson',
+  '✎ Edit Lesson',
+  '📋 Duplicate Lesson',
+  '📤 Share Lesson',
+] as const;
+
 
 interface LessonRowProps {
   lesson: TeacherLessonRow;
@@ -80,13 +86,7 @@ export function LessonRow({ lesson }: LessonRowProps) {
         </div>
       </td>
       <td>
-        <div className={`${listStyles.actionsCell} ${styles.rowActions}`}>
-          <button type="button" className={styles.iconBtn} aria-label={`View ${lesson.title}`}>
-            👁
-          </button>
-          <button type="button" className={styles.iconBtn} aria-label={`Edit ${lesson.title}`}>
-            ✎
-          </button>
+        <div className={listStyles.actionsCell}>
           <div className={listStyles.menuWrap}>
             <button
               type="button"
@@ -98,15 +98,14 @@ export function LessonRow({ lesson }: LessonRowProps) {
             </button>
             <ActionDropdown isOpen={menuOpen} onClose={closeMenu}>
               {ROW_ACTIONS.map((label) => (
-                <ActionDropdownItem
-                  key={label}
-                  isDanger={label.includes('Archive')}
-                  onClick={closeMenu}
-                >
+                <ActionDropdownItem key={label} onClick={closeMenu}>
                   {label}
                 </ActionDropdownItem>
               ))}
               <ActionDropdownSeparator />
+              <ActionDropdownItem isDanger onClick={closeMenu}>
+                📦 Archive Lesson
+              </ActionDropdownItem>
               <ActionDropdownItem isDanger onClick={closeMenu}>
                 🗑 Delete Lesson
               </ActionDropdownItem>

@@ -159,26 +159,3 @@
   font-size: 0.7rem;
   color: rgba(240, 239, 237, 0.45);
 }
-
-.rowActions {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-.iconBtn {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  border: none;
-  background: transparent;
-  color: rgba(240, 239, 237, 0.65);
-  font-size: 0.95rem;
-  cursor: pointer;
-  line-height: 1;
-}
-
-.iconBtn:hover {
-  color: #f5c842;
-  background: rgba(245, 200, 66, 0.08);
-}
