@@ -13,7 +13,11 @@ interface AttendanceCalendarProps {
   month: number;
   days: AttendanceDayMark[];
   selectedDay: number;
+  selectedYear: number;
+  selectedMonth: number;
   onSelectDay: (day: number) => void;
+  onPrevMonth: () => void;
+  onNextMonth: () => void;
 }
 
 export function AttendanceCalendar({
@@ -22,7 +26,11 @@ export function AttendanceCalendar({
   month,
   days,
   selectedDay,
+  selectedYear,
+  selectedMonth,
   onSelectDay,
+  onPrevMonth,
+  onNextMonth,
 }: AttendanceCalendarProps) {
   const marksByDay = useMemo(() => {
     const map = new Map<number, AttendanceDayMark['marks']>();
@@ -45,10 +53,20 @@ export function AttendanceCalendar({
       <div className={styles.calendarHeader}>
         <h3 className={styles.calendarTitle}>{monthLabel}</h3>
         <div className={styles.calendarNav}>
-          <button type="button" className={styles.iconBtn} aria-label="Previous month">
+          <button
+            type="button"
+            className={styles.iconBtn}
+            aria-label="Previous month"
+            onClick={onPrevMonth}
+          >
             ‹
           </button>
-          <button type="button" className={styles.iconBtn} aria-label="Next month">
+          <button
+            type="button"
+            className={styles.iconBtn}
+            aria-label="Next month"
+            onClick={onNextMonth}
+          >
             ›
           </button>
         </div>
@@ -69,7 +87,8 @@ export function AttendanceCalendar({
           }
 
           const marks = marksByDay.get(day) ?? [];
-          const isSelected = day === selectedDay;
+          const isSelected =
+            day === selectedDay && year === selectedYear && month === selectedMonth;
 
           return (
             <button

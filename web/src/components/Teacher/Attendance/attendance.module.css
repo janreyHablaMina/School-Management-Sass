@@ -578,9 +578,71 @@
 .rosterHead {
   display: flex;
   align-items: baseline;
+  justify-content: space-between;
   gap: 0.65rem;
   padding: 0.95rem 1.1rem 0.7rem;
   border-bottom: 1px dashed rgba(240, 239, 237, 0.14);
+}
+
+.rosterHeadText {
+  display: flex;
+  align-items: baseline;
+  gap: 0.65rem;
+}
+
+.bulkBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+  padding: 0.7rem 1.1rem;
+  border-bottom: 1px dashed rgba(245, 200, 66, 0.28);
+  background: rgba(245, 200, 66, 0.08);
+}
+
+.bulkBarInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.84rem;
+  color: rgba(240, 239, 237, 0.75);
+}
+
+.bulkBarCount {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.5rem;
+  height: 1.5rem;
+  padding: 0 0.4rem;
+  border-radius: 999px;
+  background: rgba(245, 200, 66, 0.22);
+  color: #f5c842;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.bulkBarActions {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.clearSelectionBtn {
+  border: none;
+  background: transparent;
+  color: rgba(240, 239, 237, 0.55);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 0.4rem 0.5rem;
+}
+
+.clearSelectionBtn:hover {
+  color: #f5c842;
 }
 
 .rosterTitle {
@@ -658,6 +720,231 @@
   color: rgba(240, 239, 237, 0.35);
 }
 
+.rowSelected td {
+  background: rgba(245, 200, 66, 0.06);
+}
+
+/* Live location session */
+
+.liveSession {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+  padding: 1.05rem 1.2rem;
+  border: 2px solid rgba(92, 199, 137, 0.4);
+  border-radius: 14px 16px 12px 14px / 16px 12px 14px 13px;
+  background:
+    radial-gradient(ellipse at 0% 0%, rgba(92, 199, 137, 0.12), transparent 50%),
+    rgba(10, 25, 17, 0.28);
+}
+
+.liveSessionExpired {
+  border-color: rgba(240, 239, 237, 0.25);
+  background: rgba(10, 25, 17, 0.22);
+}
+
+.liveSessionMain {
+  flex: 1 1 280px;
+  min-width: 0;
+}
+
+.liveSessionBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #5cc789;
+  margin-bottom: 0.4rem;
+}
+
+.liveSessionExpired .liveSessionBadge {
+  color: rgba(240, 239, 237, 0.5);
+}
+
+.liveSessionTitle {
+  margin: 0;
+  font-family: 'Caveat', cursive;
+  font-size: 1.7rem;
+  color: #f5c842;
+  line-height: 1.1;
+}
+
+.liveSessionCopy {
+  margin: 0.4rem 0 0;
+  font-size: 0.84rem;
+  color: rgba(240, 239, 237, 0.65);
+  max-width: 46rem;
+}
+
+.liveSessionStats {
+  display: flex;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+  margin-top: 0.95rem;
+}
+
+.liveStat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 70px;
+}
+
+.liveStatValue {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #f0efed;
+}
+
+.liveStatLabel {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: rgba(240, 239, 237, 0.45);
+}
+
+.liveSessionSide {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.75rem;
+  text-align: right;
+}
+
+.liveCoords,
+.liveStudentLink {
+  margin: 0;
+  font-size: 0.74rem;
+  color: rgba(240, 239, 237, 0.45);
+}
+
+.liveStudentLink code {
+  color: #f5c842;
+  font-size: 0.74rem;
+}
+
+/* Start attendance modal */
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  background: rgba(4, 10, 7, 0.72);
+  backdrop-filter: blur(4px);
+}
+
+.modalCard {
+  width: min(480px, 100%);
+  border: 2px solid rgba(240, 239, 237, 0.28);
+  border-radius: 14px 16px 12px 14px / 16px 12px 14px 13px;
+  background: #0b1610;
+  padding: 1.35rem 1.4rem 1.3rem;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+}
+
+.modalEyebrow {
+  margin: 0;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(240, 239, 237, 0.42);
+}
+
+.modalTitle {
+  margin: 0.35rem 0 0;
+  font-family: 'Caveat', cursive;
+  font-size: 2rem;
+  color: #f5c842;
+  line-height: 1.05;
+}
+
+.modalCopy {
+  margin: 0.65rem 0 0;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: rgba(240, 239, 237, 0.7);
+}
+
+.modalMeta {
+  margin-top: 0.85rem;
+  font-size: 0.84rem;
+  color: rgba(240, 239, 237, 0.55);
+}
+
+.modalField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  margin-top: 1.1rem;
+}
+
+.modalLabel {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(240, 239, 237, 0.45);
+}
+
+.chipRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.choiceChip {
+  border: 1.5px dashed rgba(240, 239, 237, 0.3);
+  background: transparent;
+  color: rgba(240, 239, 237, 0.8);
+  border-radius: 999px;
+  padding: 0.45rem 0.85rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.choiceChip:hover:not(:disabled) {
+  border-color: rgba(245, 200, 66, 0.55);
+  color: #f5c842;
+}
+
+.choiceChipActive {
+  border-style: solid;
+  border-color: rgba(245, 200, 66, 0.65);
+  background: rgba(245, 200, 66, 0.16);
+  color: #f5c842;
+}
+
+.choiceChip:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.modalHint {
+  margin: 0.9rem 0 0;
+  font-size: 0.8rem;
+  color: #f5a623;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-top: 1.25rem;
+}
+
 @media (max-width: 980px) {
   .contextPanel {
     grid-template-columns: 1fr;
@@ -666,5 +953,11 @@
   .contextCalendar {
     border-right: none;
     border-bottom: 1px dashed rgba(240, 239, 237, 0.16);
+  }
+
+  .liveSessionSide {
+    align-items: flex-start;
+    text-align: left;
+    width: 100%;
   }
 }

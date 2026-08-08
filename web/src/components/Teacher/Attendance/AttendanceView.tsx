@@ -14,6 +14,8 @@ import { AttendanceCalendar } from './components/AttendanceCalendar';
 import { AttendanceClassGrid } from './components/AttendanceClassGrid';
 import { AttendanceDetailHeader } from './components/AttendanceDetailHeader';
 import { DaySummary } from './components/DaySummary';
+import { LiveSessionPanel } from './components/LiveSessionPanel';
+import { StartAttendanceModal } from './components/StartAttendanceModal';
 import styles from './attendance.module.css';
 
 export function AttendanceView() {
@@ -21,6 +23,7 @@ export function AttendanceView() {
     metrics,
     classes,
     viewModes,
+    schoolConfig,
     selectedDateLabel,
     calendarMonthLabel,
     calendarYear,
@@ -32,7 +35,11 @@ export function AttendanceView() {
     viewMode,
     setViewMode,
     selectedDay,
-    setSelectedDay,
+    selectedYear,
+    selectedMonth,
+    selectDay,
+    goToPrevMonth,
+    goToNextMonth,
     paginatedStudents,
     totalStudents,
     selectedIds,
@@ -40,11 +47,23 @@ export function AttendanceView() {
     toggleAllVisible,
     allVisibleSelected,
     markAll,
+    markSelected,
+    clearSelection,
     page,
     totalPages,
     setPage,
     rangeStart,
     rangeEnd,
+    showStartModal,
+    openStartModal,
+    closeStartModal,
+    isStartingSession,
+    locationHint,
+    startAttendanceSession,
+    activeSession,
+    remainingSeconds,
+    usedFallbackLocation,
+    endAttendanceSession,
   } = useAttendance();
 
   if (!selectedClass) {
@@ -66,9 +85,27 @@ export function AttendanceView() {
     );
   }
 
+  const sessionActive = Boolean(activeSession && activeSession.status === 'active' && remainingSeconds > 0);
+
   return (
     <div className={listStyles.page}>
-      <AttendanceDetailHeader cls={selectedClass} onBack={backToClasses} />
+      <AttendanceDetailHeader
+        cls={selectedClass}
+        onBack={backToClasses}
+        sessionActive={sessionActive}
+        onStartAttendance={openStartModal}
+      />
+
+      {activeSession ? (
+        <LiveSessionPanel
+          session={activeSession}
+          remainingSeconds={remainingSeconds}
+          presentCount={activeSession.checkedInStudentIds.length}
+          totalStudents={totalStudents}
+          usedFallbackLocation={usedFallbackLocation}
+          onEndSession={endAttendanceSession}
+        />
+      ) : null}
 
       <section className={styles.contextPanel}>
         <div className={styles.contextCalendar}>
@@ -78,7 +115,11 @@ export function AttendanceView() {
             month={calendarMonth}
             days={calendarDays}
             selectedDay={selectedDay}
-            onSelectDay={setSelectedDay}
+            selectedYear={selectedYear}
+            selectedMonth={selectedMonth}
+            onSelectDay={selectDay}
+            onPrevMonth={goToPrevMonth}
+            onNextMonth={goToNextMonth}
           />
         </div>
         <DaySummary
@@ -103,6 +144,8 @@ export function AttendanceView() {
         allVisibleSelected={allVisibleSelected}
         onToggleStudent={toggleStudent}
         onToggleAllVisible={toggleAllVisible}
+        onMarkSelected={markSelected}
+        onClearSelection={clearSelection}
       />
 
       <PaginationBar
@@ -114,6 +157,18 @@ export function AttendanceView() {
         itemLabel="students"
         onPageChange={setPage}
       />
+
+      {showStartModal ? (
+        <StartAttendanceModal
+          classLabel={selectedClass.gradeSection}
+          subject={selectedClass.subject}
+          config={schoolConfig}
+          isStarting={isStartingSession}
+          locationHint={locationHint}
+          onCancel={closeStartModal}
+          onStart={startAttendanceSession}
+        />
+      ) : null}
     </div>
   );
 }

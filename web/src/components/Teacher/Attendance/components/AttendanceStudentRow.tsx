@@ -27,7 +27,7 @@ export function AttendanceStudentRow({
   const statusAccent = attendanceStatusAccent(student.status);
 
   return (
-    <tr>
+    <tr className={selected ? styles.rowSelected : undefined}>
       <td className={styles.checkCell}>
         <input
           type="checkbox"

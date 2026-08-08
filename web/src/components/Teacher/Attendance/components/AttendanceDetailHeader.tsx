@@ -8,9 +8,16 @@ import styles from '../attendance.module.css';
 interface AttendanceDetailHeaderProps {
   cls: AttendanceClassSection;
   onBack: () => void;
+  sessionActive: boolean;
+  onStartAttendance: () => void;
 }
 
-export function AttendanceDetailHeader({ cls, onBack }: AttendanceDetailHeaderProps) {
+export function AttendanceDetailHeader({
+  cls,
+  onBack,
+  sessionActive,
+  onStartAttendance,
+}: AttendanceDetailHeaderProps) {
   return (
     <header className={styles.detailHeader}>
       <button type="button" className={styles.backLink} onClick={onBack}>
@@ -45,8 +52,14 @@ export function AttendanceDetailHeader({ cls, onBack }: AttendanceDetailHeaderPr
           <button type="button" className={listStyles.secondaryBtn}>
             ⬇ Export
           </button>
-          <button type="button" className={listStyles.primaryBtn}>
-            ✓ Take Attendance
+          <button
+            type="button"
+            className={listStyles.primaryBtn}
+            onClick={onStartAttendance}
+            disabled={sessionActive}
+            title={sessionActive ? 'A live session is already running' : 'Start location attendance'}
+          >
+            {sessionActive ? '● Session active' : '📍 Start Attendance'}
           </button>
         </div>
       </div>
