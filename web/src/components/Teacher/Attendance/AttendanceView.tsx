@@ -11,22 +11,23 @@ import { useAttendance } from './useAttendance';
 import { AttendanceControls } from './AttendanceControls';
 import { AttendanceTable } from './AttendanceTable';
 import { AttendanceCalendar } from './components/AttendanceCalendar';
+import { AttendanceClassGrid } from './components/AttendanceClassGrid';
 import { DaySummary } from './components/DaySummary';
 import styles from './attendance.module.css';
 
 export function AttendanceView() {
   const {
     metrics,
-    classOptions,
+    classes,
     viewModes,
     selectedDateLabel,
     calendarMonthLabel,
     calendarYear,
     calendarMonth,
     calendarDays,
-    daySummary,
-    classId,
-    setClassId,
+    selectedClass,
+    openClass,
+    backToClasses,
     viewMode,
     setViewMode,
     selectedDay,
@@ -45,12 +46,34 @@ export function AttendanceView() {
     rangeEnd,
   } = useAttendance();
 
+  if (!selectedClass) {
+    return (
+      <div className={listStyles.page}>
+        <PageHeader
+          title="Attendance"
+          subtitle="Choose a class or section to track and manage attendance."
+        >
+          <button type="button" className={listStyles.secondaryBtn}>
+            ⬇ Export Report
+          </button>
+        </PageHeader>
+
+        <SummaryMetrics metrics={metrics} columns={5} />
+
+        <AttendanceClassGrid classes={classes} onOpen={openClass} />
+      </div>
+    );
+  }
+
   return (
     <div className={listStyles.page}>
       <PageHeader
-        title="Attendance"
-        subtitle="Track and manage student attendance."
+        title={selectedClass.subject}
+        subtitle={`${selectedClass.gradeSection} · ${selectedClass.room}`}
       >
+        <button type="button" className={listStyles.secondaryBtn} onClick={backToClasses}>
+          ← Back to Classes
+        </button>
         <button type="button" className={listStyles.secondaryBtn}>
           ⬇ Export Report
         </button>
@@ -59,12 +82,7 @@ export function AttendanceView() {
         </button>
       </PageHeader>
 
-      <SummaryMetrics metrics={metrics} columns={5} />
-
       <AttendanceControls
-        classOptions={classOptions}
-        classId={classId}
-        onClassChange={setClassId}
         selectedDateLabel={selectedDateLabel}
         viewModes={viewModes}
         viewMode={viewMode}
@@ -81,7 +99,7 @@ export function AttendanceView() {
             selectedDay={selectedDay}
             onSelectDay={setSelectedDay}
           />
-          <DaySummary dateLabel={selectedDateLabel} summary={daySummary} />
+          <DaySummary dateLabel={selectedDateLabel} summary={selectedClass.daySummary} />
         </aside>
 
         <div>

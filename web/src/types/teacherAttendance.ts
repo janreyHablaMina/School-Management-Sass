@@ -8,11 +8,6 @@ export type AttendanceViewMode = 'Daily View' | 'Weekly View' | 'Monthly View';
 
 export type AttendanceSummaryMetric = TeacherSummaryMetric;
 
-export interface AttendanceClassOption {
-  id: string;
-  label: string;
-}
-
 export interface AttendanceDayMark {
   day: number;
   marks: AttendanceStatus[];
@@ -36,15 +31,29 @@ export interface AttendanceStudentRow {
   notes: string | null;
 }
 
+export interface AttendanceClassSection {
+  id: string;
+  gradeSection: string;
+  subject: string;
+  room: string;
+  schedule: string;
+  studentCount: number;
+  attendanceRate: number;
+  presentToday: number;
+  absentToday: number;
+  lateToday: number;
+  accent: string;
+  icon: string;
+  daySummary: AttendanceDaySummary;
+  students: AttendanceStudentRow[];
+}
+
 export interface TeacherAttendancePageData {
   metrics: AttendanceSummaryMetric[];
-  classOptions: AttendanceClassOption[];
+  classes: AttendanceClassSection[];
   viewModes: AttendanceViewMode[];
-  selectedDateLabel: string;
   calendarMonthLabel: string;
   calendarYear: number;
   calendarMonth: number;
   calendarDays: AttendanceDayMark[];
-  daySummary: AttendanceDaySummary;
-  students: AttendanceStudentRow[];
 }

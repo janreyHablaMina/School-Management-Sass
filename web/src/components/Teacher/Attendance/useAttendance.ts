@@ -13,22 +13,25 @@ const PAGE_SIZE = 8;
 export function useAttendance() {
   const {
     metrics,
-    classOptions,
+    classes,
     viewModes,
     calendarMonthLabel,
     calendarYear,
     calendarMonth,
     calendarDays,
-    daySummary,
-    students: initialStudents,
   } = teacherAttendancePageMock;
 
-  const [classId, setClassId] = useState(classOptions[0].id);
+  const [selectedClassId, setSelectedClassId] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<AttendanceViewMode>(viewModes[0]);
   const [selectedDay, setSelectedDay] = useState(20);
-  const [students, setStudents] = useState<AttendanceStudentRow[]>(initialStudents);
+  const [students, setStudents] = useState<AttendanceStudentRow[]>([]);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [page, setPage] = useState(1);
+
+  const selectedClass = useMemo(
+    () => classes.find((item) => item.id === selectedClassId) ?? null,
+    [classes, selectedClassId]
+  );
 
   const activeDateLabel = `May ${selectedDay}, ${calendarYear}`;
 
@@ -44,12 +47,25 @@ export function useAttendance() {
   const rangeStart = totalStudents === 0 ? 0 : (currentPage - 1) * PAGE_SIZE + 1;
   const rangeEnd = Math.min(currentPage * PAGE_SIZE, totalStudents);
 
-  const selectedClassLabel =
-    classOptions.find((option) => option.id === classId)?.label ?? classOptions[0].label;
-
   const allVisibleSelected =
     paginatedStudents.length > 0 &&
     paginatedStudents.every((student) => selectedIds.includes(student.id));
+
+  const openClass = (id: string) => {
+    const match = classes.find((item) => item.id === id);
+    if (!match) return;
+    setSelectedClassId(id);
+    setStudents(match.students);
+    setSelectedIds([]);
+    setPage(1);
+  };
+
+  const backToClasses = () => {
+    setSelectedClassId(null);
+    setStudents([]);
+    setSelectedIds([]);
+    setPage(1);
+  };
 
   const toggleStudent = (id: string) => {
     setSelectedIds((prev) =>
@@ -81,38 +97,22 @@ export function useAttendance() {
     );
   };
 
-  const markStudent = (id: string, status: AttendanceStatus) => {
-    setStudents((prev) =>
-      prev.map((student) =>
-        student.id === id
-          ? {
-              ...student,
-              status,
-              time: status === 'Absent' ? null : student.time ?? '8:00 AM',
-            }
-          : student
-      )
-    );
-  };
-
   return {
     metrics,
-    classOptions,
+    classes,
     viewModes,
     selectedDateLabel: activeDateLabel,
     calendarMonthLabel,
     calendarYear,
     calendarMonth,
     calendarDays,
-    daySummary,
-    classId,
-    setClassId,
-    selectedClassLabel,
+    selectedClass,
+    openClass,
+    backToClasses,
     viewMode,
     setViewMode,
     selectedDay,
     setSelectedDay,
-    students,
     paginatedStudents,
     totalStudents,
     selectedIds,
@@ -120,7 +120,6 @@ export function useAttendance() {
     toggleAllVisible,
     allVisibleSelected,
     markAll,
-    markStudent,
     page: currentPage,
     totalPages,
     setPage,

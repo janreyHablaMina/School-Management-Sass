@@ -64,13 +64,6 @@ export function ExamRow({ exam }: ExamRowProps) {
         />
       </td>
       <td>
-        {exam.averageScore == null ? (
-          <span className={listStyles.scoreEmpty}>—</span>
-        ) : (
-          <span className={listStyles.scoreValue}>{exam.averageScore.toFixed(1)}%</span>
-        )}
-      </td>
-      <td>
         <ChalkBadge label={exam.status} accent={examStatusAccent(exam.status)} />
       </td>
       <td>

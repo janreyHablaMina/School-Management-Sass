@@ -14,14 +14,13 @@ const COLUMNS = [
   'Date / Schedule',
   'Duration',
   'Students',
-  'Average Score',
   'Status',
   'Actions',
 ] as const;
 
 export function ExamsTable({ exams }: ExamsTableProps) {
   return (
-    <DataTable columns={COLUMNS} minWidth={1180}>
+    <DataTable columns={COLUMNS} minWidth={1080}>
       {exams.map((exam) => (
         <ExamRow key={exam.id} exam={exam} />
       ))}
