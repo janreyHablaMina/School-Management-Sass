@@ -2,8 +2,9 @@
 
 import React from 'react';
 import { listStyles } from '../../shared';
-import type { AttendanceSessionRecord } from '@/types/attendanceSession';
+import { formatCountdown } from '@/lib/attendance';
 import { formatDistance } from '@/lib/geo/attendanceGeo';
+import type { AttendanceSessionRecord } from '@/types/attendanceSession';
 import styles from '../attendance.module.css';
 
 interface LiveSessionPanelProps {
@@ -13,13 +14,6 @@ interface LiveSessionPanelProps {
   totalStudents: number;
   usedFallbackLocation: boolean;
   onEndSession: () => void;
-}
-
-function formatCountdown(totalSeconds: number) {
-  const safe = Math.max(0, totalSeconds);
-  const mins = Math.floor(safe / 60);
-  const secs = safe % 60;
-  return `${mins}:${secs.toString().padStart(2, '0')}`;
 }
 
 export function LiveSessionPanel({

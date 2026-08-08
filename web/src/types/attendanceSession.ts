@@ -1,9 +1,5 @@
 import type { AttendanceStatus } from './teacherAttendance';
 
-export type AttendanceSessionStatus = 'idle' | 'starting' | 'active' | 'ended';
-
-export type AttendanceMarkSource = 'manual' | 'location' | 'bulk';
-
 export interface AttendanceGeoPoint {
   lat: number;
   lng: number;
@@ -47,10 +43,4 @@ export interface AttendanceCheckInPayload {
   withinRadius: boolean;
   status: Extract<AttendanceStatus, 'Present'>;
   source: 'location';
-}
-
-export interface AttendanceStudentCheckInResult {
-  ok: boolean;
-  message: string;
-  distanceMeters?: number;
 }

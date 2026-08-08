@@ -64,6 +64,7 @@ export function AttendanceView() {
     remainingSeconds,
     usedFallbackLocation,
     endAttendanceSession,
+    sessionActive,
   } = useAttendance();
 
   if (!selectedClass) {
@@ -84,8 +85,6 @@ export function AttendanceView() {
       </div>
     );
   }
-
-  const sessionActive = Boolean(activeSession && activeSession.status === 'active' && remainingSeconds > 0);
 
   return (
     <div className={listStyles.page}>

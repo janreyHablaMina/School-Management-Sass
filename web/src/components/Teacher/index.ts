@@ -6,3 +6,4 @@ export { AssignmentsView } from './Assignments';
 export { QuizzesView } from './Quizzes';
 export { ExamsView } from './Exams';
 export { AttendanceView } from './Attendance';
+export { GradesView } from './Grades';

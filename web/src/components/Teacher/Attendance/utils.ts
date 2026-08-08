@@ -26,10 +26,6 @@ export function attendanceStatusAccent(status: AttendanceStatus): string {
   return accentFromMap(STATUS_ACCENTS, status);
 }
 
-export function attendanceMarkDot(status: AttendanceStatus): string {
-  return attendanceStatusAccent(status);
-}
-
 export function formatMonthYear(year: number, month: number): string {
   return `${MONTH_NAMES[month - 1]} ${year}`;
 }
@@ -50,4 +46,9 @@ export function shiftMonth(
 export function clampDay(year: number, month: number, day: number): number {
   const maxDay = new Date(year, month, 0).getDate();
   return Math.min(day, maxDay);
+}
+
+export function formatTimeLabel(isoOrDate?: string | Date): string {
+  const date = isoOrDate ? new Date(isoOrDate) : new Date();
+  return date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
 }

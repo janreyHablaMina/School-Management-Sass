@@ -2,7 +2,7 @@
 
 import React, { useMemo } from 'react';
 import type { AttendanceDayMark } from '@/types/teacherAttendance';
-import { attendanceMarkDot } from '../utils';
+import { attendanceStatusAccent } from '../utils';
 import styles from '../attendance.module.css';
 
 const WEEKDAYS = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'] as const;
@@ -103,7 +103,7 @@ export function AttendanceCalendar({
                   <span
                     key={`${day}-${mark}`}
                     className={styles.dayDot}
-                    style={{ background: attendanceMarkDot(mark) }}
+                    style={{ background: attendanceStatusAccent(mark) }}
                   />
                 ))}
               </span>

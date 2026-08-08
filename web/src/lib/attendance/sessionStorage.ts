@@ -6,53 +6,58 @@ import {
   ATTENDANCE_CHECKINS_STORAGE_KEY,
   ATTENDANCE_SESSION_STORAGE_KEY,
 } from '@/lib/mock/attendanceSession.mock';
+import {
+  ATTENDANCE_CHECKINS_EVENT,
+  ATTENDANCE_SESSION_EVENT,
+} from './sessionHelpers';
 
 function canUseStorage() {
   return typeof window !== 'undefined' && typeof localStorage !== 'undefined';
 }
 
-export function readAttendanceSession(): AttendanceSessionRecord | null {
-  if (!canUseStorage()) return null;
+function readJson<T>(key: string, fallback: T): T {
+  if (!canUseStorage()) return fallback;
   try {
-    const raw = localStorage.getItem(ATTENDANCE_SESSION_STORAGE_KEY);
-    if (!raw) return null;
-    return JSON.parse(raw) as AttendanceSessionRecord;
+    const raw = localStorage.getItem(key);
+    if (!raw) return fallback;
+    return JSON.parse(raw) as T;
   } catch {
-    return null;
+    return fallback;
   }
+}
+
+function emit(eventName: string) {
+  if (typeof window === 'undefined') return;
+  window.dispatchEvent(new Event(eventName));
+}
+
+export function readAttendanceSession(): AttendanceSessionRecord | null {
+  return readJson<AttendanceSessionRecord | null>(ATTENDANCE_SESSION_STORAGE_KEY, null);
 }
 
 export function writeAttendanceSession(session: AttendanceSessionRecord | null) {
   if (!canUseStorage()) return;
   if (!session) {
     localStorage.removeItem(ATTENDANCE_SESSION_STORAGE_KEY);
-    return;
+  } else {
+    localStorage.setItem(ATTENDANCE_SESSION_STORAGE_KEY, JSON.stringify(session));
   }
-  localStorage.setItem(ATTENDANCE_SESSION_STORAGE_KEY, JSON.stringify(session));
-  window.dispatchEvent(new Event('teachify-attendance-session'));
+  emit(ATTENDANCE_SESSION_EVENT);
 }
 
 export function readAttendanceCheckIns(): AttendanceCheckInPayload[] {
-  if (!canUseStorage()) return [];
-  try {
-    const raw = localStorage.getItem(ATTENDANCE_CHECKINS_STORAGE_KEY);
-    if (!raw) return [];
-    return JSON.parse(raw) as AttendanceCheckInPayload[];
-  } catch {
-    return [];
-  }
+  return readJson<AttendanceCheckInPayload[]>(ATTENDANCE_CHECKINS_STORAGE_KEY, []);
 }
 
 export function writeAttendanceCheckIns(checkIns: AttendanceCheckInPayload[]) {
   if (!canUseStorage()) return;
   localStorage.setItem(ATTENDANCE_CHECKINS_STORAGE_KEY, JSON.stringify(checkIns));
-  window.dispatchEvent(new Event('teachify-attendance-checkins'));
+  emit(ATTENDANCE_CHECKINS_EVENT);
 }
 
 export function appendAttendanceCheckIn(payload: AttendanceCheckInPayload) {
-  const existing = readAttendanceCheckIns();
   const next = [
-    ...existing.filter(
+    ...readAttendanceCheckIns().filter(
       (item) => !(item.sessionId === payload.sessionId && item.studentId === payload.studentId)
     ),
     payload,
@@ -61,11 +66,11 @@ export function appendAttendanceCheckIn(payload: AttendanceCheckInPayload) {
 
   const session = readAttendanceSession();
   if (session && session.id === payload.sessionId && session.status === 'active') {
-    const ids = new Set(session.checkedInStudentIds);
-    ids.add(payload.studentId);
     writeAttendanceSession({
       ...session,
-      checkedInStudentIds: Array.from(ids),
+      checkedInStudentIds: Array.from(
+        new Set([...session.checkedInStudentIds, payload.studentId])
+      ),
     });
   }
 
@@ -76,6 +81,6 @@ export function clearAttendanceSessionStorage() {
   if (!canUseStorage()) return;
   localStorage.removeItem(ATTENDANCE_SESSION_STORAGE_KEY);
   localStorage.removeItem(ATTENDANCE_CHECKINS_STORAGE_KEY);
-  window.dispatchEvent(new Event('teachify-attendance-session'));
-  window.dispatchEvent(new Event('teachify-attendance-checkins'));
+  emit(ATTENDANCE_SESSION_EVENT);
+  emit(ATTENDANCE_CHECKINS_EVENT);
 }

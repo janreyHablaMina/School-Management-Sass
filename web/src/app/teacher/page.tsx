@@ -10,6 +10,7 @@ import {
   AttendanceView,
   DashboardView,
   ExamsView,
+  GradesView,
   LessonsView,
   MyClassesView,
   QuizzesView,
@@ -44,6 +45,8 @@ export default function TeacherDashboard() {
         return <ExamsView />;
       case 'Attendance':
         return <AttendanceView />;
+      case 'Grades':
+        return <GradesView />;
       default:
         return <ModulePlaceholder title={activeTab} />;
     }

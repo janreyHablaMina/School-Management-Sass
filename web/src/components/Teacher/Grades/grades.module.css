@@ -1,0 +1,302 @@
+/* Class picker */
+
+.classGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.classCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  text-align: left;
+  border: 2px solid rgba(240, 239, 237, 0.28);
+  border-radius: 12px 14px 11px 13px / 14px 11px 13px 12px;
+  background: rgba(10, 25, 17, 0.15);
+  padding: 1rem 1.05rem;
+  cursor: pointer;
+  color: inherit;
+  font-family: inherit;
+  transition: border-color 0.15s ease, background 0.15s ease, transform 0.15s ease;
+}
+
+.classCard:hover {
+  border-color: rgba(245, 200, 66, 0.55);
+  background: rgba(245, 200, 66, 0.05);
+  transform: translateY(-2px);
+}
+
+.classCardTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.classIcon {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  border: 1px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  flex-shrink: 0;
+}
+
+.classCardRate {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.1rem;
+}
+
+.classCardRateValue {
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.classCardRateLabel {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: rgba(240, 239, 237, 0.45);
+}
+
+.classCardBody {
+  min-width: 0;
+}
+
+.classCardTitle {
+  margin: 0;
+  font-family: 'Caveat', cursive;
+  font-size: 1.55rem;
+  color: #f5c842;
+  line-height: 1.1;
+}
+
+.classCardSection {
+  margin: 0.2rem 0 0;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #f0efed;
+}
+
+.classCardMeta {
+  margin: 0.35rem 0 0;
+  font-size: 0.75rem;
+  color: rgba(240, 239, 237, 0.5);
+}
+
+.classCardStats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.classCardStats span {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid;
+}
+
+.statPass {
+  color: #5cc789;
+  border-color: rgba(92, 199, 137, 0.45);
+  background: rgba(92, 199, 137, 0.12);
+}
+
+.statAttention {
+  color: #f5a623;
+  border-color: rgba(245, 166, 35, 0.45);
+  background: rgba(245, 166, 35, 0.12);
+}
+
+.statIncomplete {
+  color: #84a9ff;
+  border-color: rgba(132, 169, 255, 0.45);
+  background: rgba(132, 169, 255, 0.12);
+}
+
+.classCardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  padding-top: 0.65rem;
+  border-top: 1px dashed rgba(240, 239, 237, 0.18);
+  font-size: 0.78rem;
+  color: rgba(240, 239, 237, 0.55);
+}
+
+.classCardCta {
+  color: #f5c842;
+  font-weight: 600;
+}
+
+/* Detail header */
+
+.detailHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  border-bottom: 1px dashed rgba(240, 239, 237, 0.2);
+  padding-bottom: 1.1rem;
+}
+
+.backLink {
+  align-self: flex-start;
+  border: none;
+  background: transparent;
+  color: rgba(240, 239, 237, 0.55);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 0;
+}
+
+.backLink:hover {
+  color: #f5c842;
+}
+
+.detailHeaderRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.detailIdentity {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  min-width: 0;
+}
+
+.detailIcon {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  border: 1px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  flex-shrink: 0;
+}
+
+.detailTitle {
+  margin: 0;
+  font-family: 'Caveat', cursive;
+  font-size: 2.35rem;
+  color: #f5c842;
+  line-height: 1;
+}
+
+.detailMeta {
+  margin: 0.35rem 0 0;
+  font-size: 0.88rem;
+  color: rgba(240, 239, 237, 0.6);
+}
+
+.metaDot {
+  margin: 0 0.4rem;
+  opacity: 0.5;
+}
+
+.detailActions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+/* Gradebook row */
+
+.studentCell {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  min-width: 170px;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.studentMeta {
+  min-width: 0;
+}
+
+.studentName {
+  margin: 0;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #f0efed;
+}
+
+.studentCode {
+  margin: 0.15rem 0 0;
+  font-size: 0.7rem;
+  color: rgba(240, 239, 237, 0.5);
+}
+
+.termText {
+  color: rgba(240, 239, 237, 0.75);
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
+.scoreCell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 90px;
+}
+
+.scoreValue {
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.letterBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.2rem;
+  padding: 0.28rem 0.55rem;
+  border-radius: 8px;
+  border: 1px solid;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  font-size: 0.72rem;
+  color: rgba(240, 239, 237, 0.6);
+  white-space: nowrap;
+}
+
+.trendText {
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
