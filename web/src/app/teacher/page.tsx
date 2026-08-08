@@ -6,6 +6,7 @@ import { Sidebar } from '@/components/AdminLayout/Sidebar';
 import { TopBar } from '@/components/AdminLayout/TopBar';
 import { ChalkFilter } from '@/components/ChalkCharts';
 import {
+  AssignmentsView,
   DashboardView,
   LessonsView,
   MyClassesView,
@@ -32,6 +33,8 @@ export default function TeacherDashboard() {
         return <StudentsView />;
       case 'Lessons':
         return <LessonsView />;
+      case 'Assignments':
+        return <AssignmentsView />;
       default:
         return <ModulePlaceholder title={activeTab} />;
     }

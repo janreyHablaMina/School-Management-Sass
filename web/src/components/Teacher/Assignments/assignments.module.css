@@ -1,0 +1,145 @@
+/* Assignments — row/tabs styles (chrome in shared/listPage) */
+
+.tabs {
+  display: flex;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+  border-bottom: 1px dashed rgba(240, 239, 237, 0.2);
+}
+
+.tab {
+  padding: 0.65rem 1rem;
+  border: none;
+  background: transparent;
+  color: rgba(240, 239, 237, 0.55);
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+
+.tab:hover {
+  color: #f0efed;
+}
+
+.tabActive {
+  color: #f5c842;
+  border-bottom-color: #f5c842;
+}
+
+.assignmentCell {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  min-width: 230px;
+}
+
+.assignmentIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+}
+
+.assignmentMeta {
+  min-width: 0;
+}
+
+.assignmentTitle {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #f0efed;
+}
+
+.assignmentDesc {
+  margin: 0.2rem 0 0;
+  font-size: 0.72rem;
+  color: rgba(240, 239, 237, 0.5);
+  line-height: 1.35;
+}
+
+.classCell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 140px;
+}
+
+.classLabel {
+  margin: 0;
+  font-weight: 600;
+  color: #f0efed;
+}
+
+.classSubject {
+  margin: 0;
+  font-size: 0.72rem;
+  color: rgba(240, 239, 237, 0.5);
+}
+
+.typeBadge,
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.55rem;
+  border-radius: 6px 7px 5px 8px / 7px 5px 8px 6px;
+  border: 1.5px solid;
+  font-size: 0.72rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.dueCell {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  white-space: nowrap;
+  color: rgba(240, 239, 237, 0.85);
+}
+
+.dueIcon {
+  font-size: 0.75rem;
+  opacity: 0.7;
+}
+
+.submissionsCell {
+  min-width: 110px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.submissionsTop {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  align-items: baseline;
+}
+
+.submissionsCount {
+  font-weight: 700;
+  color: #f0efed;
+  font-size: 0.85rem;
+}
+
+.submissionsPct {
+  font-size: 0.7rem;
+  color: rgba(240, 239, 237, 0.5);
+}
+
+.scoreValue {
+  font-weight: 700;
+  color: #f0efed;
+}
+
+.scoreEmpty {
+  color: rgba(240, 239, 237, 0.4);
+}
