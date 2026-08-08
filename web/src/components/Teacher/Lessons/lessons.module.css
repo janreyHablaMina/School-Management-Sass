@@ -1,0 +1,184 @@
+/* Lessons — row/tabs styles (chrome in shared/listPage) */
+
+.tabs {
+  display: flex;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+  border-bottom: 1px dashed rgba(240, 239, 237, 0.2);
+}
+
+.tab {
+  padding: 0.65rem 1rem;
+  border: none;
+  background: transparent;
+  color: rgba(240, 239, 237, 0.55);
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+
+.tab:hover {
+  color: #f0efed;
+}
+
+.tabActive {
+  color: #f5c842;
+  border-bottom-color: #f5c842;
+}
+
+.lessonCell {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  min-width: 240px;
+}
+
+.lessonIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.lessonMeta {
+  min-width: 0;
+}
+
+.lessonTitle {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #f0efed;
+}
+
+.lessonDesc {
+  margin: 0.2rem 0 0;
+  font-size: 0.72rem;
+  color: rgba(240, 239, 237, 0.5);
+  line-height: 1.35;
+}
+
+.lessonDuration {
+  margin: 0.3rem 0 0;
+  font-size: 0.7rem;
+  color: rgba(240, 239, 237, 0.45);
+}
+
+.classCell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 140px;
+}
+
+.classLabel {
+  margin: 0;
+  font-weight: 600;
+  color: #f0efed;
+}
+
+.classSubject {
+  margin: 0;
+  font-size: 0.72rem;
+  color: rgba(240, 239, 237, 0.5);
+}
+
+.typeBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.55rem;
+  border-radius: 6px 7px 5px 8px / 7px 5px 8px 6px;
+  border: 1.5px solid;
+  font-size: 0.72rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.statusCell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 100px;
+}
+
+.statusLabel {
+  font-weight: 700;
+  font-size: 0.82rem;
+}
+
+.statusDate {
+  font-size: 0.72rem;
+  color: rgba(240, 239, 237, 0.45);
+}
+
+.updatedCell {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-width: 150px;
+}
+
+.updatedAvatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid rgba(245, 200, 66, 0.45);
+  background: rgba(245, 200, 66, 0.15);
+  color: #f5c842;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.updatedMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.updatedDate {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #f0efed;
+}
+
+.updatedBy {
+  margin: 0;
+  font-size: 0.7rem;
+  color: rgba(240, 239, 237, 0.45);
+}
+
+.rowActions {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.iconBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: rgba(240, 239, 237, 0.65);
+  font-size: 0.95rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.iconBtn:hover {
+  color: #f5c842;
+  background: rgba(245, 200, 66, 0.08);
+}

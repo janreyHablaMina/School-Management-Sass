@@ -5,7 +5,12 @@ import styles from '@/app/admin/admin.module.css';
 import { Sidebar } from '@/components/AdminLayout/Sidebar';
 import { TopBar } from '@/components/AdminLayout/TopBar';
 import { ChalkFilter } from '@/components/ChalkCharts';
-import { DashboardView, MyClassesView, StudentsView } from '@/components/Teacher';
+import {
+  DashboardView,
+  LessonsView,
+  MyClassesView,
+  StudentsView,
+} from '@/components/Teacher';
 import { ModulePlaceholder } from '@/components/shared/ModulePlaceholder';
 import { teacherMenuGroups } from '@/lib/constants/navigation';
 import { teacherPortalMock } from '@/lib/mock/teacherPortal.mock';
@@ -25,6 +30,8 @@ export default function TeacherDashboard() {
         return <MyClassesView />;
       case 'Students':
         return <StudentsView />;
+      case 'Lessons':
+        return <LessonsView />;
       default:
         return <ModulePlaceholder title={activeTab} />;
     }
@@ -56,7 +63,7 @@ export default function TeacherDashboard() {
           userInitials={teacher.initials}
           welcomeText={`Welcome back, ${teacher.shortName}!`}
           notificationCount={3}
-          searchPlaceholder="Search students, classes, materials..."
+          searchPlaceholder="Search students, classes, lessons..."
           hideTitle
           showMessages
           aiCredits={aiCredits}
