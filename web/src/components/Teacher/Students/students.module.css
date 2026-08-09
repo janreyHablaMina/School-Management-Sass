@@ -1,5 +1,17 @@
 ﻿/* Students — row/list + dossier styles (page chrome lives in shared/listPage) */
 
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 0.85rem;
+}
+
+@media (max-width: 560px) {
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .studentCell {
   display: flex;
   align-items: center;
@@ -18,6 +30,162 @@
   font-size: 0.75rem;
   font-weight: 700;
   flex-shrink: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.avatarImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.editPhotoRow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.05rem;
+  padding: 0.9rem 1rem;
+  border-radius: 12px;
+  background: rgba(240, 239, 237, 0.04);
+  box-shadow: inset 0 0 0 1px rgba(240, 239, 237, 0.12);
+}
+
+.editPhotoPreview {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 1.5px solid;
+  display: grid;
+  place-items: center;
+  font-size: 1rem;
+  font-weight: 800;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.editPhotoCopy {
+  min-width: 0;
+  flex: 1;
+}
+
+.editPhotoTitle {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #f0efed;
+}
+
+.editPhotoHint {
+  margin: 0.25rem 0 0.65rem;
+  font-size: 0.74rem;
+  color: rgba(240, 239, 237, 0.48);
+}
+
+.editPhotoActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.fileInput {
+  display: none;
+}
+
+.editSectionTitle {
+  margin: 1.35rem 0 0;
+  padding-top: 0.85rem;
+  border-top: 1px dashed rgba(240, 239, 237, 0.16);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: rgba(245, 200, 66, 0.8);
+}
+
+.editGuardianBlock {
+  margin-top: 0.35rem;
+  padding: 0.15rem 0 0.35rem;
+}
+
+.editGuardianLabel {
+  margin: 0.85rem 0 0;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: rgba(240, 239, 237, 0.72);
+}
+
+.editAddGuardian {
+  margin-top: 0.85rem;
+  border: none;
+  background: transparent;
+  color: rgba(245, 200, 66, 0.9);
+  font-family: inherit;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+}
+
+.editAddGuardian:hover {
+  color: #f5c842;
+}
+
+.editSteps {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.45rem;
+}
+
+.editStep {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 40px;
+  padding: 0.45rem 0.55rem;
+  border-radius: 10px;
+  background: rgba(240, 239, 237, 0.03);
+  box-shadow: inset 0 0 0 1px rgba(240, 239, 237, 0.1);
+  color: rgba(240, 239, 237, 0.45);
+}
+
+.editStepActive {
+  background: rgba(245, 200, 66, 0.1);
+  box-shadow: inset 0 0 0 1.5px rgba(245, 200, 66, 0.45);
+  color: #f5c842;
+}
+
+.editStepDone {
+  color: rgba(240, 239, 237, 0.72);
+  box-shadow: inset 0 0 0 1px rgba(92, 199, 137, 0.35);
+}
+
+.editStepIndex {
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 0.72rem;
+  font-weight: 800;
+  flex-shrink: 0;
+  border: 1px solid currentColor;
+}
+
+.editStepLabel {
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+@media (max-width: 560px) {
+  .editSteps {
+    grid-template-columns: 1fr;
+  }
 }
 
 .studentMeta {
@@ -299,6 +467,7 @@
   font-size: 1.1rem;
   font-weight: 800;
   flex-shrink: 0;
+  overflow: hidden;
 }
 
 .dossierIdentityBody {

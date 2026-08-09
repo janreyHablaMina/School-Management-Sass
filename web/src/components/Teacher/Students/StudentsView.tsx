@@ -3,6 +3,7 @@
 import type { TeacherClassFocus, TeacherNavRequest } from '@/lib/teacher/classFocus';
 import { listStyles, ResourceListPage, TeacherToast } from '../shared';
 import { ContactGuardianModal } from './components/ContactGuardianModal';
+import { EditStudentModal } from './components/EditStudentModal';
 import { StudentDetailView } from './components/StudentDetailView';
 import { StudentsFilters } from './StudentsFilters';
 import { StudentsTable } from './StudentsTable';
@@ -34,6 +35,12 @@ export function StudentsView({
     selectedStudent,
     openStudent,
     backToStudents,
+    editingStudent,
+    openEdit,
+    closeEdit,
+    updateStudent,
+    toast,
+    dismissToast,
   } = useStudents({ classFocus });
 
   const {
@@ -41,17 +48,29 @@ export function StudentsView({
     openContact,
     closeContact,
     showToast,
-    toast,
-    dismissToast,
+    toast: contactToast,
+    dismissToast: dismissContactToast,
   } = useGuardianContact();
+
+  const activeToast = contactToast ?? toast;
+  const dismissActiveToast = contactToast ? dismissContactToast : dismissToast;
 
   if (selectedStudent) {
     return (
-      <StudentDetailView
-        student={selectedStudent}
-        onBack={backToStudents}
-        onNavigate={onNavigate}
-      />
+      <>
+        <StudentDetailView
+          student={selectedStudent}
+          onBack={backToStudents}
+          onNavigate={onNavigate}
+        />
+        {activeToast ? (
+          <TeacherToast
+            title={activeToast.title}
+            message={activeToast.message}
+            onClose={dismissActiveToast}
+          />
+        ) : null}
+      </>
     );
   }
 
@@ -88,6 +107,7 @@ export function StudentsView({
           <StudentsTable
             students={paginatedStudents}
             onOpen={openStudent}
+            onEdit={openEdit}
             onViewGrades={(id) => {
               const student = paginatedStudents.find((item) => item.id === id);
               if (!student) return;
@@ -108,6 +128,14 @@ export function StudentsView({
         onPageChange={setPage}
       />
 
+      {editingStudent ? (
+        <EditStudentModal
+          student={editingStudent}
+          onCancel={closeEdit}
+          onSubmit={updateStudent}
+        />
+      ) : null}
+
       {target ? (
         <ContactGuardianModal
           student={target.student}
@@ -117,11 +145,11 @@ export function StudentsView({
         />
       ) : null}
 
-      {toast ? (
+      {activeToast ? (
         <TeacherToast
-          title={toast.title}
-          message={toast.message}
-          onClose={dismissToast}
+          title={activeToast.title}
+          message={activeToast.message}
+          onClose={dismissActiveToast}
         />
       ) : null}
     </>

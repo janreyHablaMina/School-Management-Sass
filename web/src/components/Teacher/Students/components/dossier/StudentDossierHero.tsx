@@ -8,6 +8,7 @@ import {
   statusAccent,
 } from '../../utils';
 import styles from '../../students.module.css';
+import { StudentAvatar } from '../StudentAvatar';
 
 interface StudentDossierHeroProps {
   student: TeacherStudentRow;
@@ -47,16 +48,7 @@ export function StudentDossierHero({
       </div>
 
       <div className={styles.dossierIdentity}>
-        <div
-          className={styles.dossierAvatar}
-          style={{
-            background: `${student.avatarAccent}22`,
-            color: student.avatarAccent,
-            borderColor: `${student.avatarAccent}77`,
-          }}
-        >
-          {student.initials}
-        </div>
+        <StudentAvatar student={student} size="dossier" />
 
         <div className={styles.dossierIdentityBody}>
           <div className={styles.dossierTitleRow}>

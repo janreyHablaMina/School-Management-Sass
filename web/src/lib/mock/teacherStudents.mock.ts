@@ -84,7 +84,11 @@ function buildDetails(
 
 function withDetails(seed: StudentSeed): TeacherStudentRow {
   const { details: extras, ...row } = seed;
-  return { ...row, details: buildDetails(seed, extras) };
+  return {
+    ...row,
+    photoUrl: row.photoUrl ?? `https://i.pravatar.cc/150?u=teachify-stu-${row.id}`,
+    details: buildDetails(seed, extras),
+  };
 }
 
 const studentSeeds: StudentSeed[] = [

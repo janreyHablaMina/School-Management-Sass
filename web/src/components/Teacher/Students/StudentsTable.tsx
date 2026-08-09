@@ -6,6 +6,7 @@ import type { TeacherStudentRow } from '@/types/teacherStudents';
 interface StudentsTableProps {
   students: TeacherStudentRow[];
   onOpen: (id: string) => void;
+  onEdit?: (id: string) => void;
   onViewGrades?: (id: string) => void;
   onMessage?: (id: string) => void;
 }
@@ -24,6 +25,7 @@ const COLUMNS = [
 export function StudentsTable({
   students,
   onOpen,
+  onEdit,
   onViewGrades,
   onMessage,
 }: StudentsTableProps) {
@@ -34,6 +36,7 @@ export function StudentsTable({
           key={student.id}
           student={student}
           onOpen={onOpen}
+          onEdit={onEdit}
           onViewGrades={onViewGrades}
           onMessage={onMessage}
         />

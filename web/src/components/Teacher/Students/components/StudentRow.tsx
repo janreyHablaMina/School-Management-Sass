@@ -1,10 +1,10 @@
 'use client';
 
-import React from 'react';
+import type { TeacherStudentRow } from '@/types/teacherStudents';
 import { listStyles, RowActionsMenu } from '../../shared';
 import { attendanceBarColor, letterGradeAccent, statusAccent } from '../utils';
 import styles from '../students.module.css';
-import type { TeacherStudentRow } from '@/types/teacherStudents';
+import { StudentAvatar } from './StudentAvatar';
 
 const ROW_ACTIONS = [
   { icon: '👤', label: 'View Profile' },
@@ -18,6 +18,7 @@ const DANGER_ACTIONS = [{ icon: '🚫', label: 'Mark Inactive' }] as const;
 interface StudentRowProps {
   student: TeacherStudentRow;
   onOpen: (id: string) => void;
+  onEdit?: (id: string) => void;
   onViewGrades?: (id: string) => void;
   onMessage?: (id: string) => void;
 }
@@ -25,6 +26,7 @@ interface StudentRowProps {
 export function StudentRow({
   student,
   onOpen,
+  onEdit,
   onViewGrades,
   onMessage,
 }: StudentRowProps) {
@@ -48,16 +50,7 @@ export function StudentRow({
     >
       <td>
         <div className={styles.studentCell}>
-          <div
-            className={styles.avatar}
-            style={{
-              background: `${student.avatarAccent}22`,
-              color: student.avatarAccent,
-              borderColor: `${student.avatarAccent}66`,
-            }}
-          >
-            {student.initials}
-          </div>
+          <StudentAvatar student={student} size="row" />
           <div className={styles.studentMeta}>
             <p className={styles.studentName}>{student.fullName}</p>
             <p className={styles.studentCode}>{student.studentCode}</p>
@@ -127,6 +120,7 @@ export function StudentRow({
           dangerActions={DANGER_ACTIONS}
           onAction={(label) => {
             if (label === 'View Profile') onOpen(student.id);
+            if (label === 'Edit Student') onEdit?.(student.id);
             if (label === 'View Grades') onViewGrades?.(student.id);
             if (label === 'Message Parent') onMessage?.(student.id);
           }}

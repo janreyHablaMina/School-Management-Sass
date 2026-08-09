@@ -2,9 +2,209 @@ import type { TeacherClassFocus } from '@/lib/teacher/classFocus';
 import type {
   LetterGrade,
   StudentGuardian,
+  StudentGuardianFormInput,
+  StudentProfileFormInput,
   StudentStatus,
   TeacherStudentRow,
 } from '@/types/teacherStudents';
+
+export type StudentProfileFormValues = StudentProfileFormInput;
+
+export function initialsFromName(fullName: string): string {
+  return fullName
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase() ?? '')
+    .join('');
+}
+
+function guardianToFormInput(guardian: StudentGuardian): StudentGuardianFormInput {
+  return {
+    name: guardian.name,
+    relationship: guardian.relationship,
+    phone: guardian.phone,
+    email: guardian.email,
+    occupation: guardian.occupation ?? '',
+  };
+}
+
+export function studentToFormValues(student: TeacherStudentRow): StudentProfileFormValues {
+  const guardians = student.details.guardians.map(guardianToFormInput);
+  if (guardians.length === 0) {
+    guardians.push({
+      name: '',
+      relationship: 'Parent',
+      phone: '',
+      email: '',
+      occupation: '',
+    });
+  }
+
+  return {
+    fullName: student.fullName,
+    phone: student.phone,
+    email: student.email,
+    status: student.status,
+    address: student.details.address,
+    allergies: student.details.allergies,
+    medicalNotes: student.details.medicalNotes,
+    teacherNotes: student.details.teacherNotes,
+    photoUrl: student.photoUrl ?? null,
+    guardians,
+    emergencyContact: {
+      name: student.details.emergencyContact.name,
+      relationship: student.details.emergencyContact.relationship,
+      phone: student.details.emergencyContact.phone,
+    },
+  };
+}
+
+export type StudentEditStep = 0 | 1 | 2;
+
+export const STUDENT_EDIT_STEPS = [
+  { id: 0 as const, label: 'Student' },
+  { id: 1 as const, label: 'Family' },
+  { id: 2 as const, label: 'Health' },
+] as const;
+
+export function getStudentFormStepError(
+  step: StudentEditStep,
+  values: StudentProfileFormValues,
+): string | null {
+  if (step === 0) {
+    if (!values.fullName.trim()) return 'Student name is required.';
+    if (!values.phone.trim()) return 'Student phone number is required.';
+    if (!values.email.trim()) return 'Student email is required.';
+    if (!values.email.includes('@')) return 'Enter a valid student email address.';
+    if (!values.address.trim()) return 'Home address is required.';
+    return null;
+  }
+
+  if (step === 1) {
+    const primary = values.guardians[0];
+    if (!primary?.name.trim()) return 'Primary guardian name is required.';
+    if (!primary.phone.trim()) return 'Primary guardian phone is required.';
+    if (primary.email.trim() && !primary.email.includes('@')) {
+      return 'Enter a valid primary guardian email.';
+    }
+
+    for (let i = 1; i < values.guardians.length; i += 1) {
+      const guardian = values.guardians[i];
+      const hasAny =
+        guardian.name.trim() ||
+        guardian.phone.trim() ||
+        guardian.email.trim() ||
+        guardian.occupation.trim();
+      if (!hasAny) continue;
+      if (!guardian.name.trim()) return `Guardian ${i + 1} name is required.`;
+      if (!guardian.phone.trim()) return `Guardian ${i + 1} phone is required.`;
+      if (guardian.email.trim() && !guardian.email.includes('@')) {
+        return `Enter a valid email for guardian ${i + 1}.`;
+      }
+    }
+
+    if (!values.emergencyContact.name.trim()) {
+      return 'Emergency contact name is required.';
+    }
+    if (!values.emergencyContact.phone.trim()) {
+      return 'Emergency contact phone is required.';
+    }
+    return null;
+  }
+
+  return null;
+}
+
+export function getStudentFormError(values: StudentProfileFormValues): string | null {
+  return (
+    getStudentFormStepError(0, values) ??
+    getStudentFormStepError(1, values) ??
+    getStudentFormStepError(2, values)
+  );
+}
+
+export const STUDENT_PHOTO_ACCEPT = 'image/jpeg,image/png,image/webp,image/gif';
+export const STUDENT_PHOTO_MAX_BYTES = 2 * 1024 * 1024;
+
+export function readStudentPhotoFile(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    if (!file.type.startsWith('image/')) {
+      reject(new Error('Choose a JPG, PNG, WEBP, or GIF image.'));
+      return;
+    }
+    if (file.size > STUDENT_PHOTO_MAX_BYTES) {
+      reject(new Error('Photo must be 2 MB or smaller.'));
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (typeof reader.result === 'string') resolve(reader.result);
+      else reject(new Error('Could not read that image.'));
+    };
+    reader.onerror = () => reject(new Error('Could not read that image.'));
+    reader.readAsDataURL(file);
+  });
+}
+
+function mergeGuardians(
+  existing: StudentGuardian[],
+  input: StudentGuardianFormInput[],
+): StudentGuardian[] {
+  return input
+    .filter((item, index) => {
+      if (index === 0) return true;
+      return Boolean(
+        item.name.trim() ||
+          item.phone.trim() ||
+          item.email.trim() ||
+          item.occupation.trim(),
+      );
+    })
+    .map((item, index) => {
+      const prior = existing[index];
+      return {
+        name: item.name.trim(),
+        relationship: item.relationship.trim() || 'Guardian',
+        phone: item.phone.trim(),
+        email: item.email.trim(),
+        occupation: item.occupation.trim() || undefined,
+        isPrimary: prior?.isPrimary ?? index === 0,
+        isLegalGuardian: prior?.isLegalGuardian,
+        appLinked: prior?.appLinked,
+      };
+    });
+}
+
+export function applyStudentFormInput(
+  student: TeacherStudentRow,
+  input: StudentProfileFormInput,
+): TeacherStudentRow {
+  const fullName = input.fullName.trim();
+  return {
+    ...student,
+    fullName,
+    initials: initialsFromName(fullName) || student.initials,
+    phone: input.phone.trim(),
+    email: input.email.trim(),
+    status: input.status,
+    photoUrl: input.photoUrl,
+    details: {
+      ...student.details,
+      address: input.address.trim(),
+      allergies: input.allergies.trim() || 'None on file',
+      medicalNotes: input.medicalNotes.trim() || 'No medical notes on file.',
+      teacherNotes: input.teacherNotes.trim() || 'No special notes.',
+      guardians: mergeGuardians(student.details.guardians, input.guardians),
+      emergencyContact: {
+        name: input.emergencyContact.name.trim(),
+        relationship: input.emergencyContact.relationship.trim() || 'Emergency',
+        phone: input.emergencyContact.phone.trim(),
+      },
+    },
+  };
+}
 
 export function letterGradeAccent(grade: LetterGrade): string {
   if (grade.startsWith('A')) return '#5cc789';

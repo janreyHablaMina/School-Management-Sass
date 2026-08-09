@@ -55,6 +55,8 @@ export interface TeacherStudentRow {
   idNumber: string;
   initials: string;
   avatarAccent: string;
+  /** Profile photo URL or data URL; falls back to initials when empty. */
+  photoUrl?: string | null;
   classLabel: string;
   subject: string;
   classFilter: string;
@@ -76,4 +78,33 @@ export interface TeacherStudentsPageData {
     gradeLevels: string[];
     statuses: Array<'All Status' | StudentStatus>;
   };
+}
+
+/** Editable profile fields for the teacher Students edit modal. */
+export interface StudentGuardianFormInput {
+  name: string;
+  relationship: string;
+  phone: string;
+  email: string;
+  occupation: string;
+}
+
+export interface StudentEmergencyFormInput {
+  name: string;
+  relationship: string;
+  phone: string;
+}
+
+export interface StudentProfileFormInput {
+  fullName: string;
+  phone: string;
+  email: string;
+  status: StudentStatus;
+  address: string;
+  allergies: string;
+  medicalNotes: string;
+  teacherNotes: string;
+  photoUrl: string | null;
+  guardians: StudentGuardianFormInput[];
+  emergencyContact: StudentEmergencyFormInput;
 }
