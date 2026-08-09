@@ -6,6 +6,7 @@ import { Sidebar } from '@/components/AdminLayout/Sidebar';
 import { TopBar } from '@/components/AdminLayout/TopBar';
 import { ChalkFilter } from '@/components/ChalkCharts';
 import {
+  AnnouncementsView,
   AssignmentsView,
   AttendanceView,
   DashboardView,
@@ -47,6 +48,8 @@ export default function TeacherDashboard() {
         return <AttendanceView />;
       case 'Grades':
         return <GradesView />;
+      case 'Announcements':
+        return <AnnouncementsView />;
       default:
         return <ModulePlaceholder title={activeTab} />;
     }
