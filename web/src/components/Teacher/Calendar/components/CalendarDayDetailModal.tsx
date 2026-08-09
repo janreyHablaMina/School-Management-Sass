@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useEffect, useMemo, useRef } from 'react';
-import { listStyles, modalStyles, useLockWorkspaceScroll } from '../../shared';
-import type { CalendarEventType, TeacherCalendarEvent } from '@/types/teacherCalendar';
-import { calendarTypeAccent } from '../utils';
+import React, { useEffect, useRef } from 'react';
+import { listStyles, modalStyles, useEscapeKey, useLockWorkspaceScroll } from '../../shared';
+import type { TeacherCalendarEvent } from '@/types/teacherCalendar';
+import { calendarTypeAccent, countEventsByType } from '../utils';
+import { CalendarDayEventCard } from './CalendarDayEventCard';
 import styles from '../calendar.module.css';
 
 interface CalendarDayDetailModalProps {
@@ -20,27 +21,15 @@ export function CalendarDayDetailModal({
   onClose,
 }: CalendarDayDetailModalProps) {
   const focusRef = useRef<HTMLElement | null>(null);
-  useLockWorkspaceScroll();
 
-  useEffect(() => {
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') onClose();
-    };
-    document.addEventListener('keydown', onKeyDown);
-    return () => document.removeEventListener('keydown', onKeyDown);
-  }, [onClose]);
+  useLockWorkspaceScroll();
+  useEscapeKey(onClose);
 
   useEffect(() => {
     focusRef.current?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
   }, [focusEventId]);
 
-  const summary = useMemo(() => {
-    const counts = events.reduce<Partial<Record<CalendarEventType, number>>>((acc, item) => {
-      acc[item.type] = (acc[item.type] ?? 0) + 1;
-      return acc;
-    }, {});
-    return Object.entries(counts) as Array<[CalendarEventType, number]>;
-  }, [events]);
+  const summary = countEventsByType(events);
 
   return (
     <div
@@ -99,49 +88,14 @@ export function CalendarDayDetailModal({
               Pick another day on the calendar, or add an event for this date.
             </div>
           ) : (
-            events.map((event) => {
-              const accent = event.accent || calendarTypeAccent(event.type);
-              const isFocused = focusEventId === event.id;
-              return (
-                <article
-                  key={event.id}
-                  ref={isFocused ? focusRef : undefined}
-                  className={`${styles.dayDetailItem} ${
-                    isFocused ? styles.dayDetailItemFocused : ''
-                  }`}
-                  style={{ borderColor: `${accent}55` }}
-                >
-                  <div className={styles.dayDetailItemTop}>
-                    <span
-                      className={styles.agendaType}
-                      style={{ color: accent, borderColor: `${accent}66` }}
-                    >
-                      {event.type}
-                    </span>
-                    <span
-                      className={styles.dayDetailStatus}
-                      style={{ color: accent, background: `${accent}18` }}
-                    >
-                      {event.status}
-                    </span>
-                  </div>
-
-                  <h3 className={styles.dayDetailItemTitle}>{event.title}</h3>
-                  <p className={styles.dayDetailItemTime}>
-                    {event.startTime}
-                    {event.endTime ? ` – ${event.endTime}` : ''}
-                    {event.location ? ` · ${event.location}` : ''}
-                  </p>
-                  <p className={styles.dayDetailItemClass}>{event.classLabel}</p>
-                  <p className={styles.dayDetailItemDesc}>{event.description}</p>
-                  {event.notes ? (
-                    <p className={styles.dayDetailNotes}>
-                      <span>Note:</span> {event.notes}
-                    </p>
-                  ) : null}
-                </article>
-              );
-            })
+            events.map((event) => (
+              <CalendarDayEventCard
+                key={event.id}
+                event={event}
+                focused={focusEventId === event.id}
+                cardRef={focusEventId === event.id ? focusRef : undefined}
+              />
+            ))
           )}
         </div>
 

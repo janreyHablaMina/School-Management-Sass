@@ -1,38 +1,13 @@
-import type {
-  CalendarEventType,
-  TeacherCalendarEvent,
-  TeacherCalendarPageData,
-} from '@/types/teacherCalendar';
-
-function toDateKey(date: Date) {
-  const y = date.getFullYear();
-  const m = String(date.getMonth() + 1).padStart(2, '0');
-  const d = String(date.getDate()).padStart(2, '0');
-  return `${y}-${m}-${d}`;
-}
-
-function shiftDays(base: Date, days: number) {
-  const next = new Date(base);
-  next.setHours(12, 0, 0, 0);
-  next.setDate(next.getDate() + days);
-  return next;
-}
-
-const TYPE_ACCENT: Record<CalendarEventType, string> = {
-  Class: '#b68eff',
-  Assignment: '#84a9ff',
-  Quiz: '#5cc789',
-  Exam: '#ff7e93',
-  Event: '#f5c842',
-  Reminder: '#f5a623',
-};
+import { CALENDAR_FILTERS, CALENDAR_TYPE_ACCENTS } from '@/lib/calendar/constants';
+import { formatDateKey, shiftDays } from '@/lib/calendar/dates';
+import type { TeacherCalendarEvent, TeacherCalendarPageData } from '@/types/teacherCalendar';
 
 function event(
   partial: Omit<TeacherCalendarEvent, 'accent'> & { accent?: string },
 ): TeacherCalendarEvent {
   return {
     ...partial,
-    accent: partial.accent ?? TYPE_ACCENT[partial.type],
+    accent: partial.accent ?? CALENDAR_TYPE_ACCENTS[partial.type],
   };
 }
 
@@ -46,7 +21,7 @@ export function buildTeacherCalendarMock(referenceDate = new Date()): TeacherCal
       title: 'Mathematics',
       type: 'Class',
       classLabel: 'Grade 7 - Section A',
-      dateKey: toDateKey(today),
+      dateKey: formatDateKey(today),
       startTime: '8:00 AM',
       endTime: '9:00 AM',
       location: 'Room 201',
@@ -59,7 +34,7 @@ export function buildTeacherCalendarMock(referenceDate = new Date()): TeacherCal
       title: 'Science Lab',
       type: 'Class',
       classLabel: 'Grade 8 - Section B',
-      dateKey: toDateKey(today),
+      dateKey: formatDateKey(today),
       startTime: '9:30 AM',
       endTime: '10:30 AM',
       location: 'Lab 3',
@@ -72,7 +47,7 @@ export function buildTeacherCalendarMock(referenceDate = new Date()): TeacherCal
       title: 'ICT Period',
       type: 'Class',
       classLabel: 'Grade 10 - ICT',
-      dateKey: toDateKey(today),
+      dateKey: formatDateKey(today),
       startTime: '11:00 AM',
       endTime: '12:00 PM',
       location: 'Computer Lab',
@@ -84,7 +59,7 @@ export function buildTeacherCalendarMock(referenceDate = new Date()): TeacherCal
       title: 'Essay Draft Due',
       type: 'Assignment',
       classLabel: 'Grade 9 - Section A',
-      dateKey: toDateKey(shiftDays(today, 1)),
+      dateKey: formatDateKey(shiftDays(today, 1)),
       startTime: '11:59 PM',
       status: 'Due soon',
       description: 'Students submit the first draft of their persuasive essay via the portal.',
@@ -95,7 +70,7 @@ export function buildTeacherCalendarMock(referenceDate = new Date()): TeacherCal
       title: 'Fractions Quiz',
       type: 'Quiz',
       classLabel: 'Grade 7 - Section A',
-      dateKey: toDateKey(shiftDays(today, 2)),
+      dateKey: formatDateKey(shiftDays(today, 2)),
       startTime: '8:15 AM',
       endTime: '8:45 AM',
       location: 'Room 201',
@@ -108,7 +83,7 @@ export function buildTeacherCalendarMock(referenceDate = new Date()): TeacherCal
       title: 'Midterm Exam',
       type: 'Exam',
       classLabel: 'Grade 8 - Section B',
-      dateKey: toDateKey(shiftDays(today, 5)),
+      dateKey: formatDateKey(shiftDays(today, 5)),
       startTime: '9:00 AM',
       endTime: '10:30 AM',
       location: 'Hall B',
@@ -121,7 +96,7 @@ export function buildTeacherCalendarMock(referenceDate = new Date()): TeacherCal
       title: 'Parent-Teacher Meeting',
       type: 'Event',
       classLabel: 'All Classes',
-      dateKey: toDateKey(shiftDays(today, 6)),
+      dateKey: formatDateKey(shiftDays(today, 6)),
       startTime: '2:00 PM',
       endTime: '4:00 PM',
       location: 'Auditorium',
@@ -133,7 +108,7 @@ export function buildTeacherCalendarMock(referenceDate = new Date()): TeacherCal
       title: 'Submit grades draft',
       type: 'Reminder',
       classLabel: 'Homeroom',
-      dateKey: toDateKey(shiftDays(today, -1)),
+      dateKey: formatDateKey(shiftDays(today, -1)),
       startTime: '4:00 PM',
       status: 'Completed',
       description: 'Upload draft grades for advisory review before the weekly sync.',
@@ -143,7 +118,7 @@ export function buildTeacherCalendarMock(referenceDate = new Date()): TeacherCal
       title: 'English',
       type: 'Class',
       classLabel: 'Grade 9 - Section A',
-      dateKey: toDateKey(shiftDays(today, -2)),
+      dateKey: formatDateKey(shiftDays(today, -2)),
       startTime: '1:00 PM',
       endTime: '2:00 PM',
       location: 'Room 105',
@@ -155,7 +130,7 @@ export function buildTeacherCalendarMock(referenceDate = new Date()): TeacherCal
       title: 'Lab Report Due',
       type: 'Assignment',
       classLabel: 'Grade 8 - Section B',
-      dateKey: toDateKey(shiftDays(today, 8)),
+      dateKey: formatDateKey(shiftDays(today, 8)),
       startTime: '5:00 PM',
       status: 'Upcoming',
       description: 'Final lab report for the density experiment, including data table and conclusion.',
@@ -165,7 +140,7 @@ export function buildTeacherCalendarMock(referenceDate = new Date()): TeacherCal
       title: 'Vocabulary Check',
       type: 'Quiz',
       classLabel: 'Grade 9 - Section A',
-      dateKey: toDateKey(shiftDays(today, 9)),
+      dateKey: formatDateKey(shiftDays(today, 9)),
       startTime: '1:15 PM',
       endTime: '1:40 PM',
       location: 'Room 105',
@@ -177,7 +152,7 @@ export function buildTeacherCalendarMock(referenceDate = new Date()): TeacherCal
       title: 'Sports Fest Briefing',
       type: 'Event',
       classLabel: 'All Classes',
-      dateKey: toDateKey(shiftDays(today, 12)),
+      dateKey: formatDateKey(shiftDays(today, 12)),
       startTime: '3:00 PM',
       endTime: '3:45 PM',
       location: 'Gymnasium',
@@ -189,7 +164,7 @@ export function buildTeacherCalendarMock(referenceDate = new Date()): TeacherCal
       title: 'Mathematics',
       type: 'Class',
       classLabel: 'Grade 7 - Section A',
-      dateKey: toDateKey(shiftDays(today, 3)),
+      dateKey: formatDateKey(shiftDays(today, 3)),
       startTime: '8:00 AM',
       endTime: '9:00 AM',
       location: 'Room 201',
@@ -201,7 +176,7 @@ export function buildTeacherCalendarMock(referenceDate = new Date()): TeacherCal
       title: 'Print quiz sheets',
       type: 'Reminder',
       classLabel: 'Grade 7 - Section A',
-      dateKey: toDateKey(shiftDays(today, 2)),
+      dateKey: formatDateKey(shiftDays(today, 2)),
       startTime: '7:30 AM',
       status: 'Due soon',
       description: 'Print and staple quiz packets before the first period starts.',
@@ -209,13 +184,8 @@ export function buildTeacherCalendarMock(referenceDate = new Date()): TeacherCal
     }),
   ];
 
-  const monthKey = toDateKey(today).slice(0, 7);
+  const monthKey = formatDateKey(today).slice(0, 7);
   const monthEvents = events.filter((item) => item.dateKey.startsWith(monthKey));
-  const classes = monthEvents.filter((item) => item.type === 'Class').length;
-  const deadlines = monthEvents.filter(
-    (item) => item.type === 'Assignment' || item.type === 'Quiz' || item.type === 'Exam',
-  ).length;
-  const meetings = monthEvents.filter((item) => item.type === 'Event').length;
 
   return {
     metrics: [
@@ -224,31 +194,35 @@ export function buildTeacherCalendarMock(referenceDate = new Date()): TeacherCal
         value: String(monthEvents.length),
         subtitle: 'Scheduled items',
         icon: '📅',
-        accent: '#f5c842',
+        accent: CALENDAR_TYPE_ACCENTS.Event,
       },
       {
         label: 'Classes',
-        value: String(classes),
+        value: String(monthEvents.filter((item) => item.type === 'Class').length),
         subtitle: 'Teaching blocks',
         icon: '📚',
-        accent: '#b68eff',
+        accent: CALENDAR_TYPE_ACCENTS.Class,
       },
       {
         label: 'Deadlines',
-        value: String(deadlines),
+        value: String(
+          monthEvents.filter((item) =>
+            item.type === 'Assignment' || item.type === 'Quiz' || item.type === 'Exam',
+          ).length,
+        ),
         subtitle: 'Assignments & tests',
         icon: '⏰',
-        accent: '#ff7e93',
+        accent: CALENDAR_TYPE_ACCENTS.Exam,
       },
       {
         label: 'Events',
-        value: String(meetings),
+        value: String(monthEvents.filter((item) => item.type === 'Event').length),
         subtitle: 'Meetings & school events',
         icon: '🗓️',
-        accent: '#5cc789',
+        accent: CALENDAR_TYPE_ACCENTS.Quiz,
       },
     ],
-    filters: ['All', 'Class', 'Assignment', 'Quiz', 'Exam', 'Event', 'Reminder'],
+    filters: CALENDAR_FILTERS,
     events,
   };
 }

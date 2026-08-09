@@ -4,12 +4,11 @@ import React from 'react';
 import { listStyles, PageHeader, SummaryMetrics } from '../shared';
 import { CalendarAgenda } from './components/CalendarAgenda';
 import { CalendarDayDetailModal } from './components/CalendarDayDetailModal';
+import { CalendarLegend } from './components/CalendarLegend';
 import { CalendarMonthGrid } from './components/CalendarMonthGrid';
-import { calendarTypeAccent } from './utils';
+import { CalendarTypeFilters } from './components/CalendarTypeFilters';
 import { useCalendar } from './useCalendar';
 import styles from './calendar.module.css';
-
-const LEGEND_TYPES = ['Class', 'Assignment', 'Quiz', 'Exam', 'Event', 'Reminder'] as const;
 
 export function CalendarView() {
   const {
@@ -54,20 +53,11 @@ export function CalendarView() {
 
       <SummaryMetrics metrics={metrics} columns={4} />
 
-      <div className={styles.filterRow} role="group" aria-label="Filter calendar by type">
-        {filters.map((filter) => (
-          <button
-            key={filter}
-            type="button"
-            className={`${styles.filterChip} ${
-              typeFilter === filter ? styles.filterChipActive : ''
-            }`}
-            onClick={() => setTypeFilter(filter)}
-          >
-            {filter}
-          </button>
-        ))}
-      </div>
+      <CalendarTypeFilters
+        filters={filters}
+        value={typeFilter}
+        onChange={setTypeFilter}
+      />
 
       <div className={styles.layout}>
         <CalendarMonthGrid
@@ -79,29 +69,19 @@ export function CalendarView() {
           selectedYear={selectedYear}
           selectedMonth={selectedMonth}
           today={today}
-          onSelectDay={(day) => selectDay(day)}
+          onSelectDay={selectDay}
           onPrevMonth={goToPrevMonth}
           onNextMonth={goToNextMonth}
         />
         <CalendarAgenda
           dayLabel={selectedDayLabel}
           events={selectedDayEvents}
-          onViewDayDetails={() => openSelectedDayDetail()}
+          onViewDayDetails={openSelectedDayDetail}
           onOpenEvent={openEventDetail}
         />
       </div>
 
-      <div className={styles.legend}>
-        {LEGEND_TYPES.map((type) => (
-          <span key={type} className={styles.legendItem}>
-            <span
-              className={styles.legendDot}
-              style={{ background: calendarTypeAccent(type) }}
-            />
-            {type}
-          </span>
-        ))}
-      </div>
+      <CalendarLegend />
 
       {isDayDetailOpen ? (
         <CalendarDayDetailModal

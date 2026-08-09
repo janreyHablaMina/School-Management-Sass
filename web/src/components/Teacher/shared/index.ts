@@ -19,6 +19,7 @@ export { RowActionsMenu } from './RowActionsMenu';
 export type { RowActionItem } from './RowActionsMenu';
 export { usePagedList } from './usePagedList';
 export { useLockWorkspaceScroll } from './useLockWorkspaceScroll';
+export { useEscapeKey } from './useEscapeKey';
 export {
   accentFromMap,
   matchesAllOrExact,

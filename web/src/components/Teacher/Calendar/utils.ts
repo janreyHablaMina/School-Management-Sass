@@ -1,53 +1,59 @@
-import type { CalendarEventType } from '@/types/teacherCalendar';
+import { CALENDAR_TYPE_ACCENTS } from '@/lib/calendar/constants';
+import type { CalendarEventType, TeacherCalendarEvent } from '@/types/teacherCalendar';
 import { accentFromMap } from '../shared';
 
-const TYPE_ACCENTS: Record<CalendarEventType, string> = {
-  Class: '#b68eff',
-  Assignment: '#84a9ff',
-  Quiz: '#5cc789',
-  Exam: '#ff7e93',
-  Event: '#f5c842',
-  Reminder: '#f5a623',
-};
+export {
+  buildMonthCells,
+  formatDayLabel,
+  formatMonthLabel,
+  monthPrefix,
+  parseDateKey,
+  toDateKey,
+  todayParts,
+} from '@/lib/calendar/dates';
+
+export { CALENDAR_EVENT_TYPES, CALENDAR_FILTERS } from '@/lib/calendar/constants';
 
 export function calendarTypeAccent(type: CalendarEventType): string {
-  return accentFromMap(TYPE_ACCENTS, type, '#f5c842');
+  return accentFromMap(CALENDAR_TYPE_ACCENTS, type, '#f5c842');
 }
 
-export function toDateKey(year: number, month: number, day: number) {
-  const m = String(month).padStart(2, '0');
-  const d = String(day).padStart(2, '0');
-  return `${year}-${m}-${d}`;
+export function eventAccent(event: TeacherCalendarEvent): string {
+  return event.accent || calendarTypeAccent(event.type);
 }
 
-export function parseDateKey(dateKey: string) {
-  const [year, month, day] = dateKey.split('-').map(Number);
-  return { year, month, day };
+export function formatEventTime(event: Pick<TeacherCalendarEvent, 'startTime' | 'endTime'>): string {
+  return event.endTime ? `${event.startTime} – ${event.endTime}` : event.startTime;
 }
 
-export function formatMonthLabel(year: number, month: number) {
-  return new Date(year, month - 1, 1).toLocaleDateString('en-US', {
-    month: 'long',
-    year: 'numeric',
+export function sortEventsByTime(events: TeacherCalendarEvent[]): TeacherCalendarEvent[] {
+  return [...events].sort((a, b) => a.startTime.localeCompare(b.startTime));
+}
+
+export function groupEventsByDay(events: TeacherCalendarEvent[]): Map<number, TeacherCalendarEvent[]> {
+  const map = new Map<number, TeacherCalendarEvent[]>();
+
+  events.forEach((event) => {
+    const day = Number(event.dateKey.slice(-2));
+    const list = map.get(day) ?? [];
+    list.push(event);
+    map.set(day, list);
   });
-}
 
-export function formatDayLabel(dateKey: string) {
-  const { year, month, day } = parseDateKey(dateKey);
-  return new Date(year, month - 1, day).toLocaleDateString('en-US', {
-    weekday: 'long',
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric',
+  map.forEach((list, day) => {
+    map.set(day, sortEventsByTime(list));
   });
+
+  return map;
 }
 
-export function buildMonthCells(year: number, month: number) {
-  const firstWeekday = new Date(year, month - 1, 1).getDay();
-  const daysInMonth = new Date(year, month, 0).getDate();
-  const cells: Array<number | null> = [];
+export function countEventsByType(
+  events: TeacherCalendarEvent[],
+): Array<[CalendarEventType, number]> {
+  const counts = events.reduce<Partial<Record<CalendarEventType, number>>>((acc, item) => {
+    acc[item.type] = (acc[item.type] ?? 0) + 1;
+    return acc;
+  }, {});
 
-  for (let i = 0; i < firstWeekday; i += 1) cells.push(null);
-  for (let day = 1; day <= daysInMonth; day += 1) cells.push(day);
-  return cells;
+  return Object.entries(counts) as Array<[CalendarEventType, number]>;
 }

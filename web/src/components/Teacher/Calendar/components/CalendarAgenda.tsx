@@ -3,7 +3,7 @@
 import React from 'react';
 import { listStyles } from '../../shared';
 import type { TeacherCalendarEvent } from '@/types/teacherCalendar';
-import { calendarTypeAccent } from '../utils';
+import { eventAccent, formatEventTime } from '../utils';
 import styles from '../calendar.module.css';
 
 interface CalendarAgendaProps {
@@ -36,7 +36,7 @@ export function CalendarAgenda({
           </div>
         ) : (
           events.map((event, index) => {
-            const accent = event.accent || calendarTypeAccent(event.type);
+            const accent = eventAccent(event);
             return (
               <button
                 key={event.id}
@@ -53,10 +53,7 @@ export function CalendarAgenda({
                 </span>
                 <span className={styles.agendaBody}>
                   <span className={styles.agendaMeta}>
-                    <span className={styles.agendaTime}>
-                      {event.startTime}
-                      {event.endTime ? ` – ${event.endTime}` : ''}
-                    </span>
+                    <span className={styles.agendaTime}>{formatEventTime(event)}</span>
                     <span
                       className={styles.agendaType}
                       style={{ color: accent, borderColor: `${accent}66` }}
