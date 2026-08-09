@@ -17,15 +17,22 @@ interface RowActionsMenuProps {
   label: string;
   actions: readonly RowActionItem[];
   dangerActions?: readonly RowActionItem[];
+  onAction?: (label: string) => void;
 }
 
 export function RowActionsMenu({
   label,
   actions,
   dangerActions = [],
+  onAction,
 }: RowActionsMenuProps) {
   const [open, setOpen] = useState(false);
   const close = () => setOpen(false);
+
+  const handleAction = (actionLabel: string) => {
+    onAction?.(actionLabel);
+    close();
+  };
 
   return (
     <div className={styles.actionsCell}>
@@ -40,7 +47,11 @@ export function RowActionsMenu({
         </button>
         <ActionDropdown isOpen={open} onClose={close}>
           {actions.map((action) => (
-            <ActionDropdownItem key={action.label} icon={action.icon} onClick={close}>
+            <ActionDropdownItem
+              key={action.label}
+              icon={action.icon}
+              onClick={() => handleAction(action.label)}
+            >
               {action.label}
             </ActionDropdownItem>
           ))}
@@ -52,7 +63,7 @@ export function RowActionsMenu({
                   key={action.label}
                   icon={action.icon}
                   isDanger
-                  onClick={close}
+                  onClick={() => handleAction(action.label)}
                 >
                   {action.label}
                 </ActionDropdownItem>

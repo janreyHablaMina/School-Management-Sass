@@ -6,10 +6,15 @@ import {
   listStyles,
   ResourceListPage,
 } from '../shared';
+import type { TeacherClassFocus } from '@/lib/teacher/classFocus';
 import { useQuizzes } from './useQuizzes';
 import { QuizzesTable } from './QuizzesTable';
 
-export function QuizzesView() {
+interface QuizzesViewProps {
+  classFocus?: TeacherClassFocus | null;
+}
+
+export function QuizzesView({ classFocus = null }: QuizzesViewProps) {
   const {
     metrics,
     tabs,
@@ -23,7 +28,7 @@ export function QuizzesView() {
     setPage,
     rangeStart,
     rangeEnd,
-  } = useQuizzes();
+  } = useQuizzes({ classFocus });
 
   return (
     <ResourceListPage

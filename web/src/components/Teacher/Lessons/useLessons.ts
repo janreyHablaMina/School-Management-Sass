@@ -1,6 +1,10 @@
 'use client';
 
 import { teacherLessonsPageMock } from '@/lib/mock/teacherLessons.mock';
+import {
+  resolveClassFilterOption,
+  type TeacherClassFocus,
+} from '@/lib/teacher/classFocus';
 import type {
   LessonSort,
   LessonStatus,
@@ -62,12 +66,19 @@ function sortLessons(lessons: TeacherLessonRow[], filters: LessonsFiltersState) 
   return sorted;
 }
 
-export function useLessons() {
+export function useLessons(options?: { classFocus?: TeacherClassFocus | null }) {
   const { metrics, lessons, filterOptions, tabs } = teacherLessonsPageMock;
+  const classFilter =
+    resolveClassFilterOption(filterOptions.classes, options?.classFocus) ??
+    DEFAULT_FILTERS.classFilter;
+  const subject =
+    options?.classFocus && filterOptions.subjects.includes(options.classFocus.subject)
+      ? options.classFocus.subject
+      : DEFAULT_FILTERS.subject;
 
   const list = usePagedList({
     items: lessons,
-    initialFilters: DEFAULT_FILTERS,
+    initialFilters: { ...DEFAULT_FILTERS, classFilter, subject },
     pageSize: PAGE_SIZE,
     filterFn: matchesLesson,
     sortFn: sortLessons,

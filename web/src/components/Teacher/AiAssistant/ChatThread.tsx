@@ -1,7 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+'use client';
+
+import { useEffect, useRef } from 'react';
 import type { AiAssistantTool, AiChatMessage } from '@/types/teacherAiAssistant';
-import { attachmentIcon } from '../utils';
-import styles from '../aiAssistant.module.css';
+import { attachmentIcon } from './utils';
+import styles from './aiAssistant.module.css';
 
 interface ChatThreadProps {
   messages: AiChatMessage[];

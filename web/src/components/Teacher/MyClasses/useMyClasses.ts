@@ -1,5 +1,6 @@
 'use client';
 
+import { useMemo, useState } from 'react';
 import { myClassesPageMock } from '@/lib/mock/myClasses.mock';
 import type { ClassStatus, MyClassRow } from '@/types/myClasses';
 import { usePagedList } from '../shared';
@@ -36,6 +37,7 @@ function matchesClass(cls: MyClassRow, filters: MyClassesFiltersState) {
 
 export function useMyClasses() {
   const { metrics, classes, filterOptions } = myClassesPageMock;
+  const [selectedClassId, setSelectedClassId] = useState<number | null>(null);
 
   const list = usePagedList({
     items: classes,
@@ -44,10 +46,18 @@ export function useMyClasses() {
     filterFn: matchesClass,
   });
 
+  const selectedClass = useMemo(
+    () => classes.find((cls) => cls.id === selectedClassId) ?? null,
+    [classes, selectedClassId],
+  );
+
   return {
     metrics,
     filterOptions,
     ...list,
     paginatedClasses: list.paginatedItems,
+    selectedClass,
+    openClass: (id: number) => setSelectedClassId(id),
+    backToClasses: () => setSelectedClassId(null),
   };
 }

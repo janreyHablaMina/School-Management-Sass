@@ -1,7 +1,4 @@
 import type { AiTool, AiUsage } from './teacherPortal';
-import type { TeacherSummaryMetric } from './teacherList';
-
-export type { TeacherSummaryMetric };
 
 export type AiMessageRole = 'user' | 'assistant';
 

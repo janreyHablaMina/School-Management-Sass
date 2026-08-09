@@ -9,7 +9,13 @@ import {
 import { useLessons } from './useLessons';
 import { LessonsTable } from './LessonsTable';
 
-export function LessonsView() {
+import type { TeacherClassFocus } from '@/lib/teacher/classFocus';
+
+interface LessonsViewProps {
+  classFocus?: TeacherClassFocus | null;
+}
+
+export function LessonsView({ classFocus = null }: LessonsViewProps) {
   const {
     metrics,
     tabs,
@@ -23,7 +29,7 @@ export function LessonsView() {
     setPage,
     rangeStart,
     rangeEnd,
-  } = useLessons();
+  } = useLessons({ classFocus });
 
   return (
     <ResourceListPage

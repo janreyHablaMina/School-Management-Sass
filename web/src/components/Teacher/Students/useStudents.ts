@@ -1,6 +1,10 @@
 'use client';
 
 import { teacherStudentsPageMock } from '@/lib/mock/teacherStudents.mock';
+import {
+  resolveClassFilterOption,
+  type TeacherClassFocus,
+} from '@/lib/teacher/classFocus';
 import type { StudentStatus, TeacherStudentRow } from '@/types/teacherStudents';
 import { usePagedList } from '../shared';
 
@@ -32,12 +36,15 @@ function matchesStudent(student: TeacherStudentRow, filters: StudentsFiltersStat
   );
 }
 
-export function useStudents() {
+export function useStudents(options?: { classFocus?: TeacherClassFocus | null }) {
   const { metrics, students, filterOptions } = teacherStudentsPageMock;
+  const classFilter =
+    resolveClassFilterOption(filterOptions.classes, options?.classFocus) ??
+    DEFAULT_FILTERS.classFilter;
 
   const list = usePagedList({
     items: students,
-    initialFilters: DEFAULT_FILTERS,
+    initialFilters: { ...DEFAULT_FILTERS, classFilter },
     pageSize: PAGE_SIZE,
     filterFn: matchesStudent,
   });

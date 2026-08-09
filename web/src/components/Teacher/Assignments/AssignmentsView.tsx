@@ -6,10 +6,15 @@ import {
   listStyles,
   ResourceListPage,
 } from '../shared';
+import type { TeacherClassFocus } from '@/lib/teacher/classFocus';
 import { useAssignments } from './useAssignments';
 import { AssignmentsTable } from './AssignmentsTable';
 
-export function AssignmentsView() {
+interface AssignmentsViewProps {
+  classFocus?: TeacherClassFocus | null;
+}
+
+export function AssignmentsView({ classFocus = null }: AssignmentsViewProps) {
   const {
     metrics,
     tabs,
@@ -23,7 +28,7 @@ export function AssignmentsView() {
     setPage,
     rangeStart,
     rangeEnd,
-  } = useAssignments();
+  } = useAssignments({ classFocus });
 
   return (
     <ResourceListPage

@@ -14,8 +14,10 @@ import {
   DeadlinesPanel,
 } from './sections';
 
+import type { TeacherNavRequest } from '@/lib/teacher/classFocus';
+
 interface DashboardViewProps {
-  onNavigate?: (tab: string) => void;
+  onNavigate?: (request: TeacherNavRequest | string) => void;
 }
 
 export function DashboardView({ onNavigate }: DashboardViewProps) {
@@ -35,7 +37,7 @@ export function DashboardView({ onNavigate }: DashboardViewProps) {
     deadlines,
   } = teacherPortalMock;
 
-  const goToAi = () => onNavigate?.('AI Assistant');
+  const goToAi = () => onNavigate?.({ tab: 'AI Assistant' });
 
   return (
     <div className={styles.dashboardContainer}>

@@ -1,6 +1,10 @@
 'use client';
 
 import { teacherAssignmentsPageMock } from '@/lib/mock/teacherAssignments.mock';
+import {
+  resolveClassFilterOption,
+  type TeacherClassFocus,
+} from '@/lib/teacher/classFocus';
 import type {
   AssignmentSort,
   AssignmentStatus,
@@ -64,12 +68,19 @@ function matchesAssignment(
   );
 }
 
-export function useAssignments() {
+export function useAssignments(options?: { classFocus?: TeacherClassFocus | null }) {
   const { metrics, assignments, filterOptions, tabs } = teacherAssignmentsPageMock;
+  const classFilter =
+    resolveClassFilterOption(filterOptions.classes, options?.classFocus) ??
+    DEFAULT_FILTERS.classFilter;
+  const subject =
+    options?.classFocus && filterOptions.subjects.includes(options.classFocus.subject)
+      ? options.classFocus.subject
+      : DEFAULT_FILTERS.subject;
 
   const list = usePagedList({
     items: assignments,
-    initialFilters: DEFAULT_FILTERS,
+    initialFilters: { ...DEFAULT_FILTERS, classFilter, subject },
     pageSize: PAGE_SIZE,
     filterFn: matchesAssignment,
     sortFn: (items, filters) => sortByCreatedOrTitle(items, filters.sort),

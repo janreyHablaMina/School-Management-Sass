@@ -6,10 +6,15 @@ import {
   listStyles,
   ResourceListPage,
 } from '../shared';
+import type { TeacherClassFocus } from '@/lib/teacher/classFocus';
 import { useExams } from './useExams';
 import { ExamsTable } from './ExamsTable';
 
-export function ExamsView() {
+interface ExamsViewProps {
+  classFocus?: TeacherClassFocus | null;
+}
+
+export function ExamsView({ classFocus = null }: ExamsViewProps) {
   const {
     metrics,
     tabs,
@@ -23,7 +28,7 @@ export function ExamsView() {
     setPage,
     rangeStart,
     rangeEnd,
-  } = useExams();
+  } = useExams({ classFocus });
 
   return (
     <ResourceListPage

@@ -10,7 +10,6 @@ import type {
   SettingsSection,
   TeacherSettingsProfile,
 } from '@/types/teacherSettings';
-import { SECTION_META } from './settingsMeta';
 import { getProfileError, toTeacherProfile } from './utils';
 
 interface UseSettingsOptions {
@@ -100,7 +99,6 @@ export function useSettings({ onProfileSave }: UseSettingsOptions = {}) {
   };
 
   return {
-    sections: SECTION_META.map((item) => item.id),
     section,
     setSection,
     profile,

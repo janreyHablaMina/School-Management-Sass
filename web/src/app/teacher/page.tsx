@@ -23,42 +23,66 @@ import {
 import { ModulePlaceholder } from '@/components/shared/ModulePlaceholder';
 import { teacherMenuGroups } from '@/lib/constants/navigation';
 import { teacherPortalMock } from '@/lib/mock/teacherPortal.mock';
+import type { TeacherNavRequest } from '@/lib/teacher/classFocus';
 import type { TeacherProfile } from '@/types/teacherPortal';
 import { useWorkspaceScroll } from '@/hooks/useWorkspaceScroll';
 
 export default function TeacherDashboard() {
   const [activeTab, setActiveTab] = useState('Dashboard');
+  const [navRequest, setNavRequest] = useState<TeacherNavRequest | null>(null);
   const [teacher, setTeacher] = useState<TeacherProfile>(teacherPortalMock.teacher);
   const workspaceRef = useRef<HTMLDivElement>(null);
   const isScrolled = useWorkspaceScroll(workspaceRef);
   const { aiCredits } = teacherPortalMock;
 
+  const navigateTo = (request: TeacherNavRequest | string) => {
+    if (typeof request === 'string') {
+      setActiveTab(request);
+      setNavRequest(null);
+      return;
+    }
+    setActiveTab(request.tab);
+    setNavRequest(request);
+  };
+
+  const handleTabChange = (tab: string) => {
+    setActiveTab(tab);
+    setNavRequest(null);
+  };
+
+  const classFocus = navRequest?.classFocus ?? null;
+
   const renderContent = () => {
     switch (activeTab) {
       case 'Dashboard':
-        return <DashboardView onNavigate={setActiveTab} />;
+        return <DashboardView onNavigate={navigateTo} />;
       case 'My Classes':
-        return <MyClassesView />;
+        return <MyClassesView onNavigate={navigateTo} />;
       case 'Students':
-        return <StudentsView />;
+        return <StudentsView classFocus={classFocus} />;
       case 'Lessons':
-        return <LessonsView />;
+        return <LessonsView classFocus={classFocus} />;
       case 'Assignments':
-        return <AssignmentsView />;
+        return <AssignmentsView classFocus={classFocus} />;
       case 'Quizzes':
-        return <QuizzesView />;
+        return <QuizzesView classFocus={classFocus} />;
       case 'Exams':
-        return <ExamsView />;
+        return <ExamsView classFocus={classFocus} />;
       case 'Attendance':
-        return <AttendanceView />;
+        return <AttendanceView classFocus={classFocus} />;
       case 'Grades':
-        return <GradesView />;
+        return <GradesView classFocus={classFocus} />;
       case 'Announcements':
         return <AnnouncementsView />;
       case 'Calendar':
         return <CalendarView />;
       case 'AI Assistant':
-        return <AiAssistantView />;
+        return (
+          <AiAssistantView
+            classFocus={classFocus}
+            initialToolId={navRequest?.aiToolId}
+          />
+        );
       case 'Settings':
         return <SettingsView onProfileSave={setTeacher} />;
       default:
@@ -71,7 +95,7 @@ export default function TeacherDashboard() {
       <ChalkFilter />
       <Sidebar
         activeTab={activeTab}
-        onTabChange={setActiveTab}
+        onTabChange={handleTabChange}
         menuGroups={teacherMenuGroups}
         roleTitle="School Portal + LMS"
         brandName="Teachify"

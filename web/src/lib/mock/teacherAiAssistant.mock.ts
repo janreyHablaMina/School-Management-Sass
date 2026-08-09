@@ -11,13 +11,11 @@ const promptHints: Record<number, string> = {
   5: 'Attach notes or paste material to summarize for students.',
 };
 
-const creditCosts: Record<number, number> = {
-  1: 0,
-  2: 15,
-  3: 10,
-  4: 20,
-  5: 8,
-};
+function creditCostFromLabel(credits: string): number {
+  if (credits.toLowerCase().includes('free')) return 0;
+  const match = credits.match(/(\d+)/);
+  return match ? Number(match[1]) : 10;
+}
 
 export const teacherAiAssistantMock: TeacherAiAssistantData = {
   creditsLeft: aiCredits,
@@ -25,7 +23,7 @@ export const teacherAiAssistantMock: TeacherAiAssistantData = {
   tools: aiTools.map((tool) => ({
     ...tool,
     promptHint: promptHints[tool.id] ?? 'Describe what you need help with.',
-    creditCost: creditCosts[tool.id] ?? 10,
+    creditCost: creditCostFromLabel(tool.credits),
   })),
   classroomOptions: myClasses.map((c) => c.title),
   starterPrompts: [

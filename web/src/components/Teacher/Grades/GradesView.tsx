@@ -8,13 +8,18 @@ import {
   PaginationBar,
   SummaryMetrics,
 } from '../shared';
+import type { TeacherClassFocus } from '@/lib/teacher/classFocus';
 import { GradesFilters } from './GradesFilters';
 import { GradesTable } from './GradesTable';
 import { GradeClassGrid } from './components/GradeClassGrid';
 import { GradesDetailHeader } from './components/GradesDetailHeader';
 import { useGrades } from './useGrades';
 
-export function GradesView() {
+interface GradesViewProps {
+  classFocus?: TeacherClassFocus | null;
+}
+
+export function GradesView({ classFocus = null }: GradesViewProps) {
   const {
     metrics,
     classes,
@@ -32,7 +37,7 @@ export function GradesView() {
     setPage,
     rangeStart,
     rangeEnd,
-  } = useGrades();
+  } = useGrades({ classFocus });
 
   if (!selectedClass) {
     return (

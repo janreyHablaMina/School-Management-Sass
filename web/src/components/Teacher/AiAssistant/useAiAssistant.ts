@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import { teacherAiAssistantMock } from '@/lib/mock/teacherAiAssistant.mock';
+import type { TeacherClassFocus } from '@/lib/teacher/classFocus';
 import type {
   AiAssistantTool,
   AiAttachment,
@@ -17,13 +18,32 @@ import {
   previewFromRun,
 } from './utils';
 
-export function useAiAssistant() {
+function resolveClassroom(
+  options: string[],
+  classFocus?: TeacherClassFocus | null,
+): string {
+  if (!classFocus) return options[0] ?? '';
+  if (options.includes(classFocus.gradeSection)) return classFocus.gradeSection;
+  const byLevel = options.find(
+    (option) => classFocus.gradeLevel && option.includes(classFocus.gradeLevel),
+  );
+  return byLevel ?? options[0] ?? classFocus.gradeSection;
+}
+
+export function useAiAssistant(options?: {
+  classFocus?: TeacherClassFocus | null;
+  initialToolId?: number | null;
+}) {
   const seed = teacherAiAssistantMock;
 
   const [creditsLeft, setCreditsLeft] = useState(seed.creditsLeft);
   const [usage, setUsage] = useState(seed.usage);
-  const [selectedToolId, setSelectedToolId] = useState<number | null>(seed.tools[1]?.id ?? null);
-  const [classroom, setClassroom] = useState(seed.classroomOptions[0] ?? '');
+  const [selectedToolId, setSelectedToolId] = useState<number | null>(
+    options?.initialToolId ?? seed.tools[1]?.id ?? null,
+  );
+  const [classroom, setClassroom] = useState(() =>
+    resolveClassroom(seed.classroomOptions, options?.classFocus),
+  );
   const [prompt, setPrompt] = useState('');
   const [attachments, setAttachments] = useState<AiAttachment[]>([]);
   const [messages, setMessages] = useState<AiChatMessage[]>([]);

@@ -1,10 +1,9 @@
 'use client';
 
-import React from 'react';
 import { listStyles, RowActionsMenu } from '../../shared';
+import type { MyClassRow } from '@/types/myClasses';
 import { AttendanceRing } from './AttendanceRing';
 import styles from '../myClasses.module.css';
-import type { MyClassRow } from '@/types/myClasses';
 
 const ROW_ACTIONS = [
   { icon: '🚪', label: 'Open Class' },
@@ -17,11 +16,24 @@ const DANGER_ACTIONS = [{ icon: '📦', label: 'Archive Class' }] as const;
 
 interface ClassRowProps {
   cls: MyClassRow;
+  onOpen: (id: number) => void;
 }
 
-export function ClassRow({ cls }: ClassRowProps) {
+export function ClassRow({ cls, onOpen }: ClassRowProps) {
   return (
-    <tr>
+    <tr
+      className={styles.clickableRow}
+      onClick={() => onOpen(cls.id)}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onOpen(cls.id);
+        }
+      }}
+      tabIndex={0}
+      role="button"
+      aria-label={`Open ${cls.subject}, ${cls.gradeSection}`}
+    >
       <td>
         <div className={styles.classCell}>
           <div
@@ -73,11 +85,17 @@ export function ClassRow({ cls }: ClassRowProps) {
           </div>
         </div>
       </td>
-      <td>
+      <td
+        onClick={(e) => e.stopPropagation()}
+        onKeyDown={(e) => e.stopPropagation()}
+      >
         <RowActionsMenu
           label={`More actions for ${cls.subject}`}
           actions={ROW_ACTIONS}
           dangerActions={DANGER_ACTIONS}
+          onAction={(label) => {
+            if (label === 'Open Class') onOpen(cls.id);
+          }}
         />
       </td>
     </tr>

@@ -8,11 +8,16 @@ import {
   PaginationBar,
   SummaryMetrics,
 } from '../shared';
+import type { TeacherClassFocus } from '@/lib/teacher/classFocus';
 import { useStudents } from './useStudents';
 import { StudentsFilters } from './StudentsFilters';
 import { StudentsTable } from './StudentsTable';
 
-export function StudentsView() {
+interface StudentsViewProps {
+  classFocus?: TeacherClassFocus | null;
+}
+
+export function StudentsView({ classFocus = null }: StudentsViewProps) {
   const {
     metrics,
     filterOptions,
@@ -25,7 +30,7 @@ export function StudentsView() {
     setPage,
     rangeStart,
     rangeEnd,
-  } = useStudents();
+  } = useStudents({ classFocus });
 
   return (
     <div className={listStyles.page}>

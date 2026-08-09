@@ -18,7 +18,13 @@ import { LiveSessionPanel } from './components/LiveSessionPanel';
 import { StartAttendanceModal } from './components/StartAttendanceModal';
 import styles from './attendance.module.css';
 
-export function AttendanceView() {
+import type { TeacherClassFocus } from '@/lib/teacher/classFocus';
+
+interface AttendanceViewProps {
+  classFocus?: TeacherClassFocus | null;
+}
+
+export function AttendanceView({ classFocus = null }: AttendanceViewProps) {
   const {
     metrics,
     classes,
@@ -65,7 +71,7 @@ export function AttendanceView() {
     usedFallbackLocation,
     endAttendanceSession,
     sessionActive,
-  } = useAttendance();
+  } = useAttendance({ classFocus });
 
   if (!selectedClass) {
     return (

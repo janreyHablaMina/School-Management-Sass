@@ -413,37 +413,6 @@
   color: rgba(240, 239, 237, 0.55);
 }
 
-.statusBanner {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  width: fit-content;
-  margin: 0;
-  padding: 0.55rem 0.85rem;
-  border-radius: 999px;
-  font-size: 0.84rem;
-  font-weight: 600;
-  animation: settingsFade 0.25s ease;
-}
-
-.statusOk {
-  color: #5cc789;
-  border: 1px solid rgba(92, 199, 137, 0.35);
-  background: rgba(92, 199, 137, 0.1);
-}
-
-.statusError {
-  color: #ff7e93;
-  border: 1px solid rgba(255, 126, 147, 0.35);
-  background: rgba(255, 126, 147, 0.1);
-}
-
-.statusDirty {
-  color: #f5c842;
-  border: 1px solid rgba(245, 200, 66, 0.35);
-  background: rgba(245, 200, 66, 0.1);
-}
-
 .headerHint {
   font-size: 0.8rem;
   color: rgba(240, 239, 237, 0.5);

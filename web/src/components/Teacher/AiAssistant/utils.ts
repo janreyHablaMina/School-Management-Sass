@@ -3,11 +3,11 @@ import type {
   AiAttachment,
   AiAttachmentKind,
   AiChatMessage,
-  TeacherSummaryMetric,
 } from '@/types/teacherAiAssistant';
+import type { TeacherSummaryMetric } from '@/types/teacherList';
 import type { AiUsage } from '@/types/teacherPortal';
 
-export const ACCEPTED_UPLOAD_EXTENSIONS = [
+const UPLOAD_EXTENSIONS = [
   '.pdf',
   '.ppt',
   '.pptx',
@@ -19,10 +19,10 @@ export const ACCEPTED_UPLOAD_EXTENSIONS = [
   '.odp',
 ] as const;
 
-export const ACCEPTED_UPLOAD_ACCEPT = ACCEPTED_UPLOAD_EXTENSIONS.join(',');
-
+export const ACCEPTED_UPLOAD_ACCEPT = UPLOAD_EXTENSIONS.join(',');
 export const MAX_ATTACHMENTS = 5;
-export const MAX_ATTACHMENT_BYTES = 15 * 1024 * 1024;
+
+const MAX_ATTACHMENT_BYTES = 15 * 1024 * 1024;
 
 export function buildMetrics(
   creditsLeft: number,
@@ -61,13 +61,13 @@ export function buildMetrics(
   ];
 }
 
-export function formatFileSize(bytes: number): string {
+function formatFileSize(bytes: number): string {
   if (bytes < 1024) return `${bytes} B`;
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
-export function attachmentKindFromName(name: string): AiAttachmentKind {
+function attachmentKindFromName(name: string): AiAttachmentKind {
   const ext = name.includes('.') ? name.slice(name.lastIndexOf('.')).toLowerCase() : '';
   if (ext === '.pdf') return 'pdf';
   if (ext === '.ppt' || ext === '.pptx' || ext === '.odp') return 'ppt';
@@ -91,29 +91,12 @@ export function attachmentIcon(kind: AiAttachmentKind): string {
   }
 }
 
-function isAcceptedFile(file: File): boolean {
-  const name = file.name.toLowerCase();
-  return ACCEPTED_UPLOAD_EXTENSIONS.some((ext) => name.endsWith(ext));
-}
-
-export function createAttachmentFromFile(file: File): AiAttachment {
-  return {
-    id: `file-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
-    name: file.name,
-    sizeLabel: formatFileSize(file.size),
-    kind: attachmentKindFromName(file.name),
-    mimeType: file.type || 'application/octet-stream',
-  };
-}
-
 export function collectAttachmentsFromFiles(
   files: FileList | File[],
   currentCount: number,
 ): { attachments: AiAttachment[]; error: string | null } {
   const list = Array.from(files);
-  if (list.length === 0) {
-    return { attachments: [], error: null };
-  }
+  if (list.length === 0) return { attachments: [], error: null };
 
   const room = MAX_ATTACHMENTS - currentCount;
   if (room <= 0) {
@@ -125,7 +108,8 @@ export function collectAttachmentsFromFiles(
 
   const accepted: AiAttachment[] = [];
   for (const file of list.slice(0, room)) {
-    if (!isAcceptedFile(file)) {
+    const name = file.name.toLowerCase();
+    if (!UPLOAD_EXTENSIONS.some((ext) => name.endsWith(ext))) {
       return {
         attachments: [],
         error: 'Use PDF, PowerPoint, Word, text, or OpenDocument files.',
@@ -137,7 +121,13 @@ export function collectAttachmentsFromFiles(
         error: `"${file.name}" is over 15 MB. Choose a smaller file.`,
       };
     }
-    accepted.push(createAttachmentFromFile(file));
+    accepted.push({
+      id: `file-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+      name: file.name,
+      sizeLabel: formatFileSize(file.size),
+      kind: attachmentKindFromName(file.name),
+      mimeType: file.type || 'application/octet-stream',
+    });
   }
 
   if (list.length > room) {
@@ -166,9 +156,8 @@ export function createMessage(
   };
 }
 
-function fileListLine(attachments: AiAttachment[]): string {
-  if (attachments.length === 0) return '';
-  return attachments.map((file) => `• ${file.name} (${file.sizeLabel})`).join('\n');
+function joinBlocks(...parts: Array<string | false | undefined>): string {
+  return parts.filter(Boolean).join('\n');
 }
 
 export function buildAssistantReply(
@@ -181,19 +170,21 @@ export function buildAssistantReply(
   const classLine = classroom ? ` for ${classroom}` : '';
   const filesBlock =
     attachments.length > 0
-      ? ['', 'Source files', fileListLine(attachments)].join('\n')
+      ? joinBlocks(
+          '',
+          'Source files',
+          attachments.map((file) => `• ${file.name} (${file.sizeLabel})`).join('\n'),
+        )
       : '';
 
   switch (tool?.id) {
     case 1:
-      return [
+      return joinBlocks(
         attachments.length
           ? `I reviewed your upload${classLine}.`
           : `Ready to analyze materials${classLine}.`,
         '',
-        attachments.length
-          ? 'Suggested outputs from these files'
-          : 'Suggested next steps',
+        attachments.length ? 'Suggested outputs from these files' : 'Suggested next steps',
         attachments.length
           ? '1. Lesson outline pulled from the slides/document sections'
           : '1. Attach a PDF, PowerPoint, or Word file',
@@ -204,11 +195,9 @@ export function buildAssistantReply(
         filesBlock,
         '',
         'Demo mode — files stay in this session only.',
-      ]
-        .filter(Boolean)
-        .join('\n');
+      );
     case 2:
-      return [
+      return joinBlocks(
         `Here is a draft lesson plan${classLine}.`,
         '',
         'Lesson outline',
@@ -225,11 +214,9 @@ export function buildAssistantReply(
         filesBlock,
         '',
         'Demo mode — copy and edit before assigning to students.',
-      ]
-        .filter(Boolean)
-        .join('\n');
+      );
     case 3:
-      return [
+      return joinBlocks(
         `Quiz draft ready${classLine}.`,
         '',
         'Item set (sample)',
@@ -245,11 +232,9 @@ export function buildAssistantReply(
         '',
         `Based on: ${topic}`,
         filesBlock,
-      ]
-        .filter(Boolean)
-        .join('\n');
+      );
     case 4:
-      return [
+      return joinBlocks(
         `Exam draft ready${classLine}.`,
         '',
         'Structure',
@@ -262,11 +247,9 @@ export function buildAssistantReply(
         '',
         `Based on: ${topic}`,
         filesBlock,
-      ]
-        .filter(Boolean)
-        .join('\n');
+      );
     case 5:
-      return [
+      return joinBlocks(
         `Student-friendly summary${classLine}.`,
         '',
         'In one sentence',
@@ -281,31 +264,22 @@ export function buildAssistantReply(
         '',
         `Source: ${topic}`,
         filesBlock,
-      ]
-        .filter(Boolean)
-        .join('\n');
+      );
     default:
-      return [
+      return joinBlocks(
         `I can help with lessons, quizzes, exams, and summaries${classLine}.`,
         '',
         'Attach a file or pick a tool, then describe the classroom goal.',
         '',
         `You asked: ${topic}`,
         filesBlock,
-      ]
-        .filter(Boolean)
-        .join('\n');
+      );
   }
 }
 
-export function previewFromPrompt(prompt: string, max = 64): string {
-  const clean = prompt.replace(/\s+/g, ' ').trim();
-  if (clean.length <= max) return clean;
-  return `${clean.slice(0, max - 1)}…`;
-}
-
 export function previewFromRun(prompt: string, attachments: AiAttachment[]): string {
-  if (prompt.trim()) return previewFromPrompt(prompt);
+  const clean = prompt.replace(/\s+/g, ' ').trim();
+  if (clean) return clean.length <= 64 ? clean : `${clean.slice(0, 63)}…`;
   if (attachments.length === 1) return attachments[0].name;
   if (attachments.length > 1) return `${attachments.length} files attached`;
   return 'AI run';

@@ -58,13 +58,13 @@ export function SettingsView({ onProfileSave }: SettingsViewProps) {
       </PageHeader>
 
       {error ? (
-        <p className={`${styles.statusBanner} ${styles.statusError}`}>{error}</p>
+        <p className={`${listStyles.statusBanner} ${listStyles.statusError}`}>{error}</p>
       ) : null}
       {saveMessage ? (
-        <p className={`${styles.statusBanner} ${styles.statusOk}`}>{saveMessage}</p>
+        <p className={`${listStyles.statusBanner} ${listStyles.statusOk}`}>{saveMessage}</p>
       ) : null}
       {!error && !saveMessage && isDirty ? (
-        <p className={`${styles.statusBanner} ${styles.statusDirty}`}>
+        <p className={`${listStyles.statusBanner} ${listStyles.statusInfo}`}>
           You have unsaved changes in this session.
         </p>
       ) : null}

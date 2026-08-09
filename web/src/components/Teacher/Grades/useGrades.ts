@@ -2,6 +2,10 @@
 
 import { useMemo, useState } from 'react';
 import { teacherGradesPageMock } from '@/lib/mock/teacherGrades.mock';
+import {
+  findClassIdByFocus,
+  type TeacherClassFocus,
+} from '@/lib/teacher/classFocus';
 import type {
   GradeSort,
   GradeStatus,
@@ -56,9 +60,11 @@ function sortGrades(items: TeacherGradeRow[], filters: GradesFiltersState) {
   }
 }
 
-export function useGrades() {
+export function useGrades(options?: { classFocus?: TeacherClassFocus | null }) {
   const { metrics, classes, filterOptions, tabs } = teacherGradesPageMock;
-  const [selectedClassId, setSelectedClassId] = useState<string | null>(null);
+  const [selectedClassId, setSelectedClassId] = useState<string | null>(() =>
+    findClassIdByFocus(classes, options?.classFocus),
+  );
 
   const selectedClass = useMemo(
     () => classes.find((item) => item.id === selectedClassId) ?? null,

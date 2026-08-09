@@ -1,14 +1,10 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
-import { FilterSelect, listStyles, modalStyles } from '../../shared';
+import { useRef, useState } from 'react';
+import { FilterSelect, listStyles, modalStyles } from '../shared';
 import type { AiAssistantTool, AiAttachment } from '@/types/teacherAiAssistant';
-import {
-  ACCEPTED_UPLOAD_ACCEPT,
-  MAX_ATTACHMENTS,
-  attachmentIcon,
-} from '../utils';
-import styles from '../aiAssistant.module.css';
+import { ACCEPTED_UPLOAD_ACCEPT, MAX_ATTACHMENTS, attachmentIcon } from './utils';
+import styles from './aiAssistant.module.css';
 
 interface PromptComposerProps {
   prompt: string;
@@ -39,8 +35,6 @@ export function PromptComposer({
 }: PromptComposerProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = useState(false);
-
-  const openPicker = () => inputRef.current?.click();
 
   return (
     <div className={styles.composer}>
@@ -92,7 +86,7 @@ export function PromptComposer({
         <button
           type="button"
           className={listStyles.secondaryBtn}
-          onClick={openPicker}
+          onClick={() => inputRef.current?.click()}
           disabled={isGenerating || attachments.length >= MAX_ATTACHMENTS}
         >
           + Upload file

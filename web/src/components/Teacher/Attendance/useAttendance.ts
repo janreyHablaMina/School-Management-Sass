@@ -1,7 +1,11 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { teacherAttendancePageMock } from '@/lib/mock/teacherAttendance.mock';
+import {
+  findClassIdByFocus,
+  type TeacherClassFocus,
+} from '@/lib/teacher/classFocus';
 import type {
   AttendanceStatus,
   AttendanceStudentRow,
@@ -18,7 +22,7 @@ import { useAttendanceSession } from './useAttendanceSession';
 
 const PAGE_SIZE = 8;
 
-export function useAttendance() {
+export function useAttendance(options?: { classFocus?: TeacherClassFocus | null }) {
   const {
     metrics,
     classes,
@@ -28,16 +32,24 @@ export function useAttendance() {
     calendarDays,
   } = teacherAttendancePageMock;
 
-  const [selectedClassId, setSelectedClassId] = useState<string | null>(null);
+  const focusedClassId = findClassIdByFocus(classes, options?.classFocus);
+  const focusedClass = focusedClassId
+    ? (classes.find((item) => item.id === focusedClassId) ?? null)
+    : null;
+
+  const [selectedClassId, setSelectedClassId] = useState<string | null>(focusedClassId);
   const [viewMode, setViewMode] = useState<AttendanceViewMode>(viewModes[0]);
   const [viewYear, setViewYear] = useState(initialYear);
   const [viewMonth, setViewMonth] = useState(initialMonth);
   const [selectedYear, setSelectedYear] = useState(initialYear);
   const [selectedMonth, setSelectedMonth] = useState(initialMonth);
   const [selectedDay, setSelectedDay] = useState(20);
-  const [students, setStudents] = useState<AttendanceStudentRow[]>([]);
+  const [students, setStudents] = useState<AttendanceStudentRow[]>(() =>
+    focusedClass ? focusedClass.students.map((student) => ({ ...student })) : [],
+  );
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [page, setPage] = useState(1);
+  const didHydrateFocus = useRef(false);
 
   const selectedClass = useMemo(
     () => classes.find((item) => item.id === selectedClassId) ?? null,
@@ -79,6 +91,17 @@ export function useAttendance() {
       match.students.map((student) => ({ ...student }))
     );
   };
+
+  useLayoutEffect(() => {
+    if (!focusedClassId || !focusedClass || didHydrateFocus.current) return;
+    didHydrateFocus.current = true;
+    session.loadSessionForClass(
+      focusedClassId,
+      focusedClass.students.map((student) => ({ ...student })),
+    );
+    // Sync live-session state once after landing from My Classes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [focusedClassId]);
 
   const backToClasses = () => {
     setSelectedClassId(null);

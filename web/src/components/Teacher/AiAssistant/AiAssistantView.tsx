@@ -1,17 +1,21 @@
 'use client';
 
-import React from 'react';
+import type { TeacherClassFocus } from '@/lib/teacher/classFocus';
 import { listStyles, PageHeader, SummaryMetrics } from '../shared';
-import { ChatThread } from './components/ChatThread';
-import { CreditUsageCard } from './components/CreditUsageCard';
-import { PromptComposer } from './components/PromptComposer';
-import { RecentRuns } from './components/RecentRuns';
-import { StarterPrompts } from './components/StarterPrompts';
-import { ToolGrid } from './components/ToolGrid';
+import { ChatThread } from './ChatThread';
+import { PromptComposer } from './PromptComposer';
 import { useAiAssistant } from './useAiAssistant';
 import styles from './aiAssistant.module.css';
 
-export function AiAssistantView() {
+interface AiAssistantViewProps {
+  classFocus?: TeacherClassFocus | null;
+  initialToolId?: number | null;
+}
+
+export function AiAssistantView({
+  classFocus = null,
+  initialToolId = null,
+}: AiAssistantViewProps) {
   const {
     metrics,
     tools,
@@ -38,7 +42,7 @@ export function AiAssistantView() {
     clearChat,
     loadRecentRun,
     sendPrompt,
-  } = useAiAssistant();
+  } = useAiAssistant({ classFocus, initialToolId });
 
   return (
     <div className={listStyles.page}>
@@ -60,44 +64,120 @@ export function AiAssistantView() {
       </PageHeader>
 
       {error ? (
-        <p className={`${styles.statusBanner} ${styles.statusError}`}>{error}</p>
+        <p className={`${listStyles.statusBanner} ${listStyles.statusError}`}>{error}</p>
       ) : null}
       {!error && statusMessage ? (
-        <p className={`${styles.statusBanner} ${styles.statusInfo}`}>{statusMessage}</p>
+        <p className={`${listStyles.statusBanner} ${listStyles.statusInfo}`}>{statusMessage}</p>
       ) : null}
 
       <SummaryMetrics metrics={metrics} columns={4} />
 
       <div className={styles.layout}>
         <aside className={styles.sideColumn}>
-          <CreditUsageCard creditsLeft={creditsLeft} usage={usage} />
-          <RecentRuns runs={recentRuns} onSelect={loadRecentRun} />
+          <section className={styles.panel}>
+            <div className={styles.usageTop}>
+              <div>
+                <p className={styles.panelEyebrow}>Monthly allowance</p>
+                <h2 className={styles.panelTitle}>Credits this month</h2>
+              </div>
+              <span className={styles.usagePill}>✨ {creditsLeft.toLocaleString()} left</span>
+            </div>
+            <div className={styles.usageMeta}>
+              <span>
+                {usage.used} / {usage.total.toLocaleString()} used
+              </span>
+              <span>{usage.percent}%</span>
+            </div>
+            <div className={styles.usageTrack} aria-hidden>
+              <div className={styles.usageFill} style={{ width: `${usage.percent}%` }} />
+            </div>
+          </section>
+
+          <section className={styles.panel}>
+            <p className={styles.panelEyebrow}>History</p>
+            <h2 className={styles.panelTitle}>Recent runs</h2>
+            {recentRuns.length === 0 ? (
+              <p className={styles.recentEmpty}>Generated work will show up here.</p>
+            ) : (
+              <ul className={styles.recentList}>
+                {recentRuns.map((run) => (
+                  <li key={run.id}>
+                    <button
+                      type="button"
+                      className={styles.recentItem}
+                      onClick={() => loadRecentRun(run)}
+                    >
+                      <span className={styles.recentIcon}>{run.toolIcon}</span>
+                      <span className={styles.recentBody}>
+                        <span className={styles.recentItemTitle}>{run.toolTitle}</span>
+                        <span className={styles.recentPreview}>{run.preview}</span>
+                        <span className={styles.recentMeta}>
+                          {run.classroom} · {run.createdAt}
+                          {run.creditsSpent > 0 ? ` · ${run.creditsSpent} cr` : ' · Free'}
+                        </span>
+                      </span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </section>
+
           <section className={styles.panel}>
             <p className={styles.panelEyebrow}>Toolkit</p>
             <h2 className={styles.panelTitle}>AI tools</h2>
-            <ToolGrid
-              tools={tools}
-              selectedToolId={selectedToolId}
-              onSelect={selectTool}
-            />
+            <div className={styles.toolGrid}>
+              {tools.map((tool) => {
+                const active = tool.id === selectedToolId;
+                return (
+                  <button
+                    key={tool.id}
+                    type="button"
+                    className={`${styles.toolCard} ${active ? styles.toolCardActive : ''}`}
+                    onClick={() => selectTool(tool)}
+                  >
+                    <span
+                      className={styles.toolIcon}
+                      style={{ background: tool.iconBg, color: tool.iconColor }}
+                    >
+                      {tool.icon}
+                    </span>
+                    <span className={styles.toolBody}>
+                      <span className={styles.toolTitle}>{tool.title}</span>
+                      <span className={styles.toolDesc}>{tool.desc}</span>
+                    </span>
+                    <span className={styles.toolCredits}>{tool.credits}</span>
+                  </button>
+                );
+              })}
+            </div>
           </section>
         </aside>
 
-        <section className={`${styles.panel} ${styles.workspace} ${styles.mainColumn}`}>
-          <div className={styles.workspaceHeader}>
-            <div>
-              <p className={styles.panelEyebrow}>Workspace</p>
-              <h2 className={styles.panelTitle}>
-                {selectedTool ? selectedTool.title : 'Ask Teachify AI'}
-              </h2>
-              <p className={styles.workspaceCopy}>
-                Attach class materials, pick a starter or write a prompt, then generate a
-                draft you can edit before sharing with students.
-              </p>
-            </div>
+        <section className={`${styles.panel} ${styles.workspace}`}>
+          <div>
+            <p className={styles.panelEyebrow}>Workspace</p>
+            <h2 className={styles.panelTitle}>
+              {selectedTool ? selectedTool.title : 'Ask Teachify AI'}
+            </h2>
+            <p className={styles.workspaceCopy}>
+              Attach class materials, pick a starter or write a prompt, then generate a draft
+              you can edit before sharing with students.
+            </p>
           </div>
 
-          <StarterPrompts prompts={starterPrompts} onSelect={applyStarter} />
+          <div className={styles.starterRow}>
+            {starterPrompts.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                className={styles.starterChip}
+                onClick={() => applyStarter(item)}
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
 
           <div className={styles.threadWrap}>
             <ChatThread

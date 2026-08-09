@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import type { TeacherNavRequest } from '@/lib/teacher/classFocus';
 import {
   EmptyState,
   listStyles,
@@ -8,11 +8,16 @@ import {
   PaginationBar,
   SummaryMetrics,
 } from '../shared';
-import { useMyClasses } from './useMyClasses';
-import { MyClassesFilters } from './MyClassesFilters';
+import { ClassDetailView } from './components/ClassDetailView';
 import { ClassesTable } from './ClassesTable';
+import { MyClassesFilters } from './MyClassesFilters';
+import { useMyClasses } from './useMyClasses';
 
-export function MyClassesView() {
+interface MyClassesViewProps {
+  onNavigate?: (request: TeacherNavRequest | string) => void;
+}
+
+export function MyClassesView({ onNavigate }: MyClassesViewProps) {
   const {
     metrics,
     filterOptions,
@@ -26,7 +31,20 @@ export function MyClassesView() {
     setPage,
     rangeStart,
     rangeEnd,
+    selectedClass,
+    openClass,
+    backToClasses,
   } = useMyClasses();
+
+  if (selectedClass) {
+    return (
+      <ClassDetailView
+        cls={selectedClass}
+        onBack={backToClasses}
+        onNavigate={onNavigate}
+      />
+    );
+  }
 
   return (
     <div className={listStyles.page}>
@@ -57,7 +75,7 @@ export function MyClassesView() {
           description="Try adjusting your search or filters."
         />
       ) : (
-        <ClassesTable classes={paginatedClasses} />
+        <ClassesTable classes={paginatedClasses} onOpen={openClass} />
       )}
 
       <PaginationBar

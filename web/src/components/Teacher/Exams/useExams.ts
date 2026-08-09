@@ -1,6 +1,10 @@
 'use client';
 
 import { teacherExamsPageMock } from '@/lib/mock/teacherExams.mock';
+import {
+  resolveClassFilterOption,
+  type TeacherClassFocus,
+} from '@/lib/teacher/classFocus';
 import type {
   ExamSort,
   ExamStatus,
@@ -57,12 +61,19 @@ function matchesExam(exam: TeacherExamRow, filters: ExamsFiltersState) {
   );
 }
 
-export function useExams() {
+export function useExams(options?: { classFocus?: TeacherClassFocus | null }) {
   const { metrics, exams, filterOptions, tabs } = teacherExamsPageMock;
+  const classFilter =
+    resolveClassFilterOption(filterOptions.classes, options?.classFocus) ??
+    DEFAULT_FILTERS.classFilter;
+  const subject =
+    options?.classFocus && filterOptions.subjects.includes(options.classFocus.subject)
+      ? options.classFocus.subject
+      : DEFAULT_FILTERS.subject;
 
   const list = usePagedList({
     items: exams,
-    initialFilters: DEFAULT_FILTERS,
+    initialFilters: { ...DEFAULT_FILTERS, classFilter, subject },
     pageSize: PAGE_SIZE,
     filterFn: matchesExam,
     sortFn: (items, filters) => sortByCreatedOrTitle(items, filters.sort),
