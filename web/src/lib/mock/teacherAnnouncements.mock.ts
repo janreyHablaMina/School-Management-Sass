@@ -39,6 +39,12 @@ export const teacherAnnouncementsPageMock: TeacherAnnouncementsPageData = {
     },
   ],
   tabs: ['All Announcements', 'Published', 'Drafts', 'Pinned', 'Scheduled'],
+  classroomOptions: [
+    'Grade 7 - Section A',
+    'Grade 8 - Section B',
+    'Grade 9 - Section A',
+    'Grade 10 - ICT',
+  ],
   filterOptions: {
     audiences: [
       'All Audiences',

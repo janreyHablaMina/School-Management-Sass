@@ -1,11 +1,14 @@
 'use client';
 
+import { useMemo, useState } from 'react';
 import { teacherAnnouncementsPageMock } from '@/lib/mock/teacherAnnouncements.mock';
 import type {
   AnnouncementSort,
   AnnouncementStatus,
+  AnnouncementSummaryMetric,
   AnnouncementTab,
   AnnouncementType,
+  CreateAnnouncementInput,
   TeacherAnnouncementRow,
 } from '@/types/teacherAnnouncements';
 import {
@@ -14,6 +17,7 @@ import {
   sortByCreatedOrTitle,
   usePagedList,
 } from '../shared';
+import { buildAnnouncementFromInput } from './utils';
 
 const PAGE_SIZE = 8;
 
@@ -28,6 +32,14 @@ const DEFAULT_FILTERS = {
 };
 
 export type AnnouncementsFiltersState = typeof DEFAULT_FILTERS;
+
+function matchesAudience(row: TeacherAnnouncementRow, classFilter: string) {
+  if (classFilter === 'All Audiences') return true;
+  if (row.audience === classFilter) return true;
+  if (classFilter === 'All Classes' && row.audience.includes('All Classes')) return true;
+  if (classFilter === 'Parents' && row.audience.includes('Parents')) return true;
+  return row.audience.split(', ').includes(classFilter);
+}
 
 function matchesTab(row: TeacherAnnouncementRow, tab: AnnouncementTab) {
   switch (tab) {
@@ -48,14 +60,66 @@ function matchesAnnouncement(row: TeacherAnnouncementRow, filters: Announcements
   return (
     matchesSearch(filters.searchTerm, [row.title, row.description, row.audience]) &&
     matchesTab(row, filters.tab) &&
-    matchesAllOrExact(filters.classFilter, row.audience, 'All Audiences') &&
+    matchesAudience(row, filters.classFilter) &&
     matchesAllOrExact(filters.status, row.status, 'All Status') &&
     matchesAllOrExact(filters.type, row.type, 'All Types')
   );
 }
 
+function buildMetrics(announcements: TeacherAnnouncementRow[]): AnnouncementSummaryMetric[] {
+  const published = announcements.filter((a) => a.status === 'Published').length;
+  const drafts = announcements.filter((a) => a.status === 'Draft').length;
+  const pinned = announcements.filter((a) => a.pinned).length;
+  const weekAgo = new Date();
+  weekAgo.setDate(weekAgo.getDate() - 7);
+  const weekKey = weekAgo.toISOString().slice(0, 10);
+  const thisWeek = announcements.filter((a) => a.createdSortKey >= weekKey).length;
+
+  return [
+    {
+      label: 'Total Announcements',
+      value: String(announcements.length),
+      subtitle: 'This school year',
+      icon: '📢',
+      accent: '#b68eff',
+    },
+    {
+      label: 'Published',
+      value: String(published),
+      subtitle: 'Visible to students',
+      icon: '✅',
+      accent: '#5cc789',
+    },
+    {
+      label: 'Drafts',
+      value: String(drafts),
+      subtitle: 'Not sent yet',
+      icon: '📝',
+      accent: '#f5a623',
+    },
+    {
+      label: 'Pinned',
+      value: String(pinned),
+      subtitle: 'Stay on top',
+      icon: '📌',
+      accent: '#84a9ff',
+    },
+    {
+      label: 'This Week',
+      value: String(thisWeek),
+      subtitle: 'Posted or scheduled',
+      icon: '📅',
+      accent: '#f5c842',
+    },
+  ];
+}
+
 export function useAnnouncements() {
-  const { metrics, announcements, filterOptions, tabs } = teacherAnnouncementsPageMock;
+  const { filterOptions, tabs, classroomOptions } = teacherAnnouncementsPageMock;
+  const [announcements, setAnnouncements] = useState(teacherAnnouncementsPageMock.announcements);
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
+
+  const metrics = useMemo(() => buildMetrics(announcements), [announcements]);
 
   const list = usePagedList({
     items: announcements,
@@ -65,10 +129,22 @@ export function useAnnouncements() {
     sortFn: (items, filters) => sortByCreatedOrTitle(items, filters.sort),
   });
 
+  const createAnnouncement = (input: CreateAnnouncementInput) => {
+    const next = buildAnnouncementFromInput(input, `ann-${Date.now()}`);
+    setAnnouncements((prev) => [next, ...prev]);
+    setIsCreateOpen(false);
+    list.setPage(1);
+  };
+
   return {
     metrics,
     tabs,
     filterOptions,
+    classroomOptions,
+    isCreateOpen,
+    openCreate: () => setIsCreateOpen(true),
+    closeCreate: () => setIsCreateOpen(false),
+    createAnnouncement,
     ...list,
     paginatedAnnouncements: list.paginatedItems,
   };

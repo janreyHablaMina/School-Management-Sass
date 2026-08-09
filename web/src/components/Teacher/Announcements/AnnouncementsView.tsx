@@ -4,6 +4,7 @@ import React from 'react';
 import { listStyles, ResourceListPage } from '../shared';
 import { AnnouncementsFilters } from './AnnouncementsFilters';
 import { AnnouncementsTable } from './AnnouncementsTable';
+import { CreateAnnouncementModal } from './components/CreateAnnouncementModal';
 import { useAnnouncements } from './useAnnouncements';
 
 export function AnnouncementsView() {
@@ -11,6 +12,7 @@ export function AnnouncementsView() {
     metrics,
     tabs,
     filterOptions,
+    classroomOptions,
     filters,
     setFilter,
     filteredCount,
@@ -20,46 +22,60 @@ export function AnnouncementsView() {
     setPage,
     rangeStart,
     rangeEnd,
+    isCreateOpen,
+    openCreate,
+    closeCreate,
+    createAnnouncement,
   } = useAnnouncements();
 
   return (
-    <ResourceListPage
-      title="Announcements"
-      subtitle="Create and manage updates for your classes and parents."
-      headerActions={
-        <>
-          <button type="button" className={listStyles.secondaryBtn}>
-            ⬇ Export
-          </button>
-          <button type="button" className={listStyles.primaryBtn}>
-            + New Announcement
-          </button>
-        </>
-      }
-      metrics={metrics}
-      metricsColumns={5}
-      filters={
-        <AnnouncementsFilters
-          filters={filters}
-          onFilterChange={setFilter}
-          tabs={tabs}
-          audiences={filterOptions.audiences}
-          statuses={filterOptions.statuses}
-          types={filterOptions.types}
-          sorts={filterOptions.sorts}
+    <>
+      <ResourceListPage
+        title="Announcements"
+        subtitle="Create and manage updates for your classes and parents."
+        headerActions={
+          <>
+            <button type="button" className={listStyles.secondaryBtn}>
+              ⬇ Export
+            </button>
+            <button type="button" className={listStyles.primaryBtn} onClick={openCreate}>
+              + New Announcement
+            </button>
+          </>
+        }
+        metrics={metrics}
+        metricsColumns={5}
+        filters={
+          <AnnouncementsFilters
+            filters={filters}
+            onFilterChange={setFilter}
+            tabs={tabs}
+            audiences={filterOptions.audiences}
+            statuses={filterOptions.statuses}
+            types={filterOptions.types}
+            sorts={filterOptions.sorts}
+          />
+        }
+        itemsCount={paginatedAnnouncements.length}
+        emptyTitle="No announcements found"
+        emptyDescription="Try adjusting your search or filters."
+        table={<AnnouncementsTable announcements={paginatedAnnouncements} />}
+        rangeStart={rangeStart}
+        rangeEnd={rangeEnd}
+        total={filteredCount}
+        page={page}
+        totalPages={totalPages}
+        itemLabel="announcements"
+        onPageChange={setPage}
+      />
+
+      {isCreateOpen ? (
+        <CreateAnnouncementModal
+          classrooms={classroomOptions}
+          onCancel={closeCreate}
+          onCreate={createAnnouncement}
         />
-      }
-      itemsCount={paginatedAnnouncements.length}
-      emptyTitle="No announcements found"
-      emptyDescription="Try adjusting your search or filters."
-      table={<AnnouncementsTable announcements={paginatedAnnouncements} />}
-      rangeStart={rangeStart}
-      rangeEnd={rangeEnd}
-      total={filteredCount}
-      page={page}
-      totalPages={totalPages}
-      itemLabel="announcements"
-      onPageChange={setPage}
-    />
+      ) : null}
+    </>
   );
 }

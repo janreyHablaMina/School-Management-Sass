@@ -32,10 +32,25 @@ export interface TeacherAnnouncementRow {
   accent: string;
 }
 
+export type AnnouncementPublishMode = 'publish' | 'draft' | 'schedule';
+
+export interface CreateAnnouncementInput {
+  title: string;
+  description: string;
+  type: AnnouncementType;
+  classrooms: string[];
+  includeParents: boolean;
+  allClasses: boolean;
+  pinned: boolean;
+  publishMode: AnnouncementPublishMode;
+  scheduledAt?: string;
+}
+
 export interface TeacherAnnouncementsPageData {
   metrics: AnnouncementSummaryMetric[];
   announcements: TeacherAnnouncementRow[];
   tabs: AnnouncementTab[];
+  classroomOptions: string[];
   filterOptions: {
     audiences: string[];
     statuses: Array<'All Status' | AnnouncementStatus>;
