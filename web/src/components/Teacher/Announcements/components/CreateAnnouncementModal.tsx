@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useId, useRef, useState } from 'react';
 import { listStyles } from '../../shared';
 import type {
   AnnouncementPublishMode,
@@ -15,6 +15,8 @@ interface CreateAnnouncementModalProps {
   onCreate: (input: CreateAnnouncementInput) => void;
 }
 
+type AudienceMode = 'all' | 'selected';
+
 const TYPES: AnnouncementType[] = ['General', 'Reminder', 'Event', 'Urgent'];
 
 const PUBLISH_MODES: Array<{ value: AnnouncementPublishMode; label: string }> = [
@@ -28,34 +30,67 @@ export function CreateAnnouncementModal({
   onCancel,
   onCreate,
 }: CreateAnnouncementModalProps) {
+  const dropdownId = useId();
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [type, setType] = useState<AnnouncementType>('General');
+  const [audienceMode, setAudienceMode] = useState<AudienceMode>('selected');
   const [selectedClasses, setSelectedClasses] = useState<string[]>([]);
-  const [allClasses, setAllClasses] = useState(false);
   const [includeParents, setIncludeParents] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const [pinned, setPinned] = useState(false);
   const [publishMode, setPublishMode] = useState<AnnouncementPublishMode>('publish');
   const [scheduledAt, setScheduledAt] = useState('');
   const [error, setError] = useState<string | null>(null);
 
+  useEffect(() => {
+    const workspace = document.querySelector<HTMLElement>('section[class*="mainWorkspace"]');
+    const previousWorkspaceOverflow = workspace?.style.overflow ?? '';
+    const previousBodyOverflow = document.body.style.overflow;
+
+    if (workspace) workspace.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      if (workspace) workspace.style.overflow = previousWorkspaceOverflow;
+      document.body.style.overflow = previousBodyOverflow;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!dropdownOpen) return;
+
+    const onPointerDown = (event: MouseEvent) => {
+      if (!dropdownRef.current?.contains(event.target as Node)) {
+        setDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', onPointerDown);
+    return () => document.removeEventListener('mousedown', onPointerDown);
+  }, [dropdownOpen]);
+
   const toggleClass = (classroom: string) => {
-    setAllClasses(false);
     setSelectedClasses((prev) =>
       prev.includes(classroom) ? prev.filter((c) => c !== classroom) : [...prev, classroom],
     );
   };
 
-  const handleAllClasses = () => {
-    setAllClasses((prev) => !prev);
-    setSelectedClasses([]);
-  };
+  const dropdownLabel = (() => {
+    if (selectedClasses.length === 0) return 'Select classrooms';
+    if (selectedClasses.length === 1) return selectedClasses[0];
+    if (selectedClasses.length === classrooms.length) return 'All listed classrooms';
+    return `${selectedClasses.length} classrooms selected`;
+  })();
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     const trimmedTitle = title.trim();
     const trimmedDescription = description.trim();
+    const allClasses = audienceMode === 'all';
     const hasAudience = allClasses || selectedClasses.length > 0 || includeParents;
 
     if (!trimmedTitle) {
@@ -67,7 +102,11 @@ export function CreateAnnouncementModal({
       return;
     }
     if (!hasAudience) {
-      setError('Assign at least one classroom, All Classes, or Parents.');
+      setError('Choose All Classes, pick classrooms from the dropdown, or include Parents.');
+      return;
+    }
+    if (audienceMode === 'selected' && selectedClasses.length === 0 && !includeParents) {
+      setError('Select at least one classroom from the dropdown.');
       return;
     }
     if (publishMode === 'schedule' && !scheduledAt) {
@@ -146,34 +185,82 @@ export function CreateAnnouncementModal({
 
         <div className={styles.modalField}>
           <span className={styles.modalLabel}>Assign to classrooms</span>
-          <div className={styles.chipRow}>
-            <button
-              type="button"
-              className={`${styles.choiceChip} ${allClasses ? styles.choiceChipActive : ''}`}
-              onClick={handleAllClasses}
-            >
-              All Classes
-            </button>
-            {classrooms.map((classroom) => (
-              <button
-                key={classroom}
-                type="button"
-                className={`${styles.choiceChip} ${
-                  !allClasses && selectedClasses.includes(classroom) ? styles.choiceChipActive : ''
-                }`}
-                onClick={() => toggleClass(classroom)}
-              >
-                {classroom}
-              </button>
-            ))}
-            <button
-              type="button"
-              className={`${styles.choiceChip} ${includeParents ? styles.choiceChipActive : ''}`}
-              onClick={() => setIncludeParents((prev) => !prev)}
-            >
-              Parents
-            </button>
+          <div className={styles.radioGroup} role="radiogroup" aria-label="Audience mode">
+            <label className={styles.radioOption}>
+              <input
+                type="radio"
+                name="audience-mode"
+                checked={audienceMode === 'all'}
+                onChange={() => {
+                  setAudienceMode('all');
+                  setSelectedClasses([]);
+                  setDropdownOpen(false);
+                }}
+              />
+              <span>All Classes</span>
+            </label>
+            <label className={styles.radioOption}>
+              <input
+                type="radio"
+                name="audience-mode"
+                checked={audienceMode === 'selected'}
+                onChange={() => setAudienceMode('selected')}
+              />
+              <span>Select classrooms</span>
+            </label>
           </div>
+
+          {audienceMode === 'selected' ? (
+            <div className={styles.dropdown} ref={dropdownRef}>
+              <button
+                type="button"
+                id={dropdownId}
+                className={styles.dropdownTrigger}
+                aria-haspopup="listbox"
+                aria-expanded={dropdownOpen}
+                onClick={() => setDropdownOpen((open) => !open)}
+              >
+                <span>{dropdownLabel}</span>
+                <span className={styles.dropdownCaret} aria-hidden>
+                  ▾
+                </span>
+              </button>
+
+              {dropdownOpen ? (
+                <div className={styles.dropdownMenu} role="listbox" aria-multiselectable="true">
+                  {classrooms.map((classroom) => {
+                    const checked = selectedClasses.includes(classroom);
+                    return (
+                      <label
+                        key={classroom}
+                        className={`${styles.dropdownOption} ${
+                          checked ? styles.dropdownOptionActive : ''
+                        }`}
+                        role="option"
+                        aria-selected={checked}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={checked}
+                          onChange={() => toggleClass(classroom)}
+                        />
+                        <span>{classroom}</span>
+                      </label>
+                    );
+                  })}
+                </div>
+              ) : null}
+            </div>
+          ) : null}
+
+          <label className={styles.parentsCheck}>
+            <input
+              type="checkbox"
+              checked={includeParents}
+              onChange={(e) => setIncludeParents(e.target.checked)}
+            />
+            <span>Also send to Parents</span>
+          </label>
         </div>
 
         <div className={styles.modalField}>
