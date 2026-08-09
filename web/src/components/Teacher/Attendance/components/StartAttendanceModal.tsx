@@ -1,9 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { listStyles } from '../../shared';
+import { listStyles, modalStyles, useLockWorkspaceScroll } from '../../shared';
 import type { AttendanceSchoolConfig } from '@/types/attendanceSession';
-import styles from '../attendance.module.css';
 
 interface StartAttendanceModalProps {
   classLabel: string;
@@ -27,32 +26,42 @@ export function StartAttendanceModal({
   const [radiusMeters, setRadiusMeters] = useState(config.defaultRadiusMeters);
   const [durationMinutes, setDurationMinutes] = useState(config.defaultDurationMinutes);
 
+  useLockWorkspaceScroll();
+
   return (
-    <div className={styles.modalOverlay} role="dialog" aria-modal="true" aria-labelledby="start-attendance-title">
-      <div className={styles.modalCard}>
-        <p className={styles.modalEyebrow}>Location attendance</p>
-        <h2 id="start-attendance-title" className={styles.modalTitle}>
+    <div
+      className={modalStyles.modalOverlay}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="start-attendance-title"
+    >
+      <div className={`${modalStyles.modalCard} ${modalStyles.modalCardNarrow}`}>
+        <p className={modalStyles.modalEyebrow}>Location attendance</p>
+        <h2 id="start-attendance-title" className={modalStyles.modalTitle}>
           Start attendance session
         </h2>
-        <p className={styles.modalCopy}>
-          We’ll capture your current location as the classroom center. Students inside the radius can mark
-          themselves present until the session expires. You can still mark Present, Absent, or Late manually.
+        <p className={modalStyles.modalCopy}>
+          We’ll capture your current location as the classroom center. Students inside the radius can
+          mark themselves present until the session expires. You can still mark Present, Absent, or
+          Late manually.
         </p>
 
-        <div className={styles.modalMeta}>
+        <div className={modalStyles.modalMeta}>
           <span>{subject}</span>
-          <span className={styles.metaDot}>·</span>
+          <span> · </span>
           <span>{classLabel}</span>
         </div>
 
-        <label className={styles.modalField}>
-          <span className={styles.modalLabel}>Attendance radius</span>
-          <div className={styles.chipRow}>
+        <label className={modalStyles.modalField}>
+          <span className={modalStyles.modalLabel}>Attendance radius</span>
+          <div className={modalStyles.chipRow}>
             {config.radiusOptionsMeters.map((option) => (
               <button
                 key={option}
                 type="button"
-                className={`${styles.choiceChip} ${radiusMeters === option ? styles.choiceChipActive : ''}`}
+                className={`${modalStyles.choiceChip} ${
+                  radiusMeters === option ? modalStyles.choiceChipActive : ''
+                }`}
                 onClick={() => setRadiusMeters(option)}
                 disabled={isStarting}
               >
@@ -62,14 +71,16 @@ export function StartAttendanceModal({
           </div>
         </label>
 
-        <label className={styles.modalField}>
-          <span className={styles.modalLabel}>Session duration</span>
-          <div className={styles.chipRow}>
+        <label className={modalStyles.modalField}>
+          <span className={modalStyles.modalLabel}>Session duration</span>
+          <div className={modalStyles.chipRow}>
             {config.durationOptionsMinutes.map((option) => (
               <button
                 key={option}
                 type="button"
-                className={`${styles.choiceChip} ${durationMinutes === option ? styles.choiceChipActive : ''}`}
+                className={`${modalStyles.choiceChip} ${
+                  durationMinutes === option ? modalStyles.choiceChipActive : ''
+                }`}
                 onClick={() => setDurationMinutes(option)}
                 disabled={isStarting}
               >
@@ -79,10 +90,15 @@ export function StartAttendanceModal({
           </div>
         </label>
 
-        {locationHint ? <p className={styles.modalHint}>{locationHint}</p> : null}
+        {locationHint ? <p className={modalStyles.modalHint}>{locationHint}</p> : null}
 
-        <div className={styles.modalActions}>
-          <button type="button" className={listStyles.secondaryBtn} onClick={onCancel} disabled={isStarting}>
+        <div className={modalStyles.modalActions}>
+          <button
+            type="button"
+            className={listStyles.secondaryBtn}
+            onClick={onCancel}
+            disabled={isStarting}
+          >
             Cancel
           </button>
           <button

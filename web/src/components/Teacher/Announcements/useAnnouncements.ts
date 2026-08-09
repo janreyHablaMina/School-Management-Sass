@@ -2,10 +2,10 @@
 
 import { useMemo, useState } from 'react';
 import { teacherAnnouncementsPageMock } from '@/lib/mock/teacherAnnouncements.mock';
+import type { TeacherSummaryMetric } from '@/types/teacherList';
 import type {
   AnnouncementSort,
   AnnouncementStatus,
-  AnnouncementSummaryMetric,
   AnnouncementTab,
   AnnouncementType,
   CreateAnnouncementInput,
@@ -25,7 +25,6 @@ const DEFAULT_FILTERS = {
   searchTerm: '',
   tab: 'All Announcements' as AnnouncementTab,
   classFilter: 'All Audiences',
-  subject: 'All Subjects',
   status: 'All Status' as 'All Status' | AnnouncementStatus,
   type: 'All Types' as 'All Types' | AnnouncementType,
   sort: 'Newest First' as AnnouncementSort,
@@ -66,7 +65,7 @@ function matchesAnnouncement(row: TeacherAnnouncementRow, filters: Announcements
   );
 }
 
-function buildMetrics(announcements: TeacherAnnouncementRow[]): AnnouncementSummaryMetric[] {
+function buildMetrics(announcements: TeacherAnnouncementRow[]): TeacherSummaryMetric[] {
   const published = announcements.filter((a) => a.status === 'Published').length;
   const drafts = announcements.filter((a) => a.status === 'Draft').length;
   const pinned = announcements.filter((a) => a.pinned).length;
@@ -115,8 +114,8 @@ function buildMetrics(announcements: TeacherAnnouncementRow[]): AnnouncementSumm
 }
 
 export function useAnnouncements() {
-  const { filterOptions, tabs, classroomOptions } = teacherAnnouncementsPageMock;
-  const [announcements, setAnnouncements] = useState(teacherAnnouncementsPageMock.announcements);
+  const { filterOptions, tabs, classroomOptions, announcements: seed } = teacherAnnouncementsPageMock;
+  const [announcements, setAnnouncements] = useState(seed);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
 
   const metrics = useMemo(() => buildMetrics(announcements), [announcements]);

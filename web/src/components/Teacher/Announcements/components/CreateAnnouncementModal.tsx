@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useId, useRef, useState } from 'react';
-import { listStyles } from '../../shared';
+import { listStyles, modalStyles, useLockWorkspaceScroll } from '../../shared';
 import type {
   AnnouncementPublishMode,
   AnnouncementType,
@@ -45,19 +45,7 @@ export function CreateAnnouncementModal({
   const [scheduledAt, setScheduledAt] = useState('');
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const workspace = document.querySelector<HTMLElement>('section[class*="mainWorkspace"]');
-    const previousWorkspaceOverflow = workspace?.style.overflow ?? '';
-    const previousBodyOverflow = document.body.style.overflow;
-
-    if (workspace) workspace.style.overflow = 'hidden';
-    document.body.style.overflow = 'hidden';
-
-    return () => {
-      if (workspace) workspace.style.overflow = previousWorkspaceOverflow;
-      document.body.style.overflow = previousBodyOverflow;
-    };
-  }, []);
+  useLockWorkspaceScroll();
 
   useEffect(() => {
     if (!dropdownOpen) return;
@@ -78,12 +66,14 @@ export function CreateAnnouncementModal({
     );
   };
 
-  const dropdownLabel = (() => {
-    if (selectedClasses.length === 0) return 'Select classrooms';
-    if (selectedClasses.length === 1) return selectedClasses[0];
-    if (selectedClasses.length === classrooms.length) return 'All listed classrooms';
-    return `${selectedClasses.length} classrooms selected`;
-  })();
+  const dropdownLabel =
+    selectedClasses.length === 0
+      ? 'Select classrooms'
+      : selectedClasses.length === 1
+        ? selectedClasses[0]
+        : selectedClasses.length === classrooms.length
+          ? 'All listed classrooms'
+          : `${selectedClasses.length} classrooms selected`;
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -91,7 +81,6 @@ export function CreateAnnouncementModal({
     const trimmedTitle = title.trim();
     const trimmedDescription = description.trim();
     const allClasses = audienceMode === 'all';
-    const hasAudience = allClasses || selectedClasses.length > 0 || includeParents;
 
     if (!trimmedTitle) {
       setError('Add a title for this announcement.');
@@ -101,12 +90,8 @@ export function CreateAnnouncementModal({
       setError('Write a short message for your audience.');
       return;
     }
-    if (!hasAudience) {
-      setError('Choose All Classes, pick classrooms from the dropdown, or include Parents.');
-      return;
-    }
-    if (audienceMode === 'selected' && selectedClasses.length === 0 && !includeParents) {
-      setError('Select at least one classroom from the dropdown.');
+    if (!allClasses && selectedClasses.length === 0 && !includeParents) {
+      setError('Select at least one classroom, or include Parents.');
       return;
     }
     if (publishMode === 'schedule' && !scheduledAt) {
@@ -127,26 +112,33 @@ export function CreateAnnouncementModal({
     });
   };
 
+  const submitLabel =
+    publishMode === 'publish'
+      ? 'Publish announcement'
+      : publishMode === 'schedule'
+        ? 'Schedule announcement'
+        : 'Save draft';
+
   return (
     <div
-      className={styles.modalOverlay}
+      className={modalStyles.modalOverlay}
       role="dialog"
       aria-modal="true"
       aria-labelledby="create-announcement-title"
     >
-      <form className={styles.modalCard} onSubmit={handleSubmit}>
-        <p className={styles.modalEyebrow}>New announcement</p>
-        <h2 id="create-announcement-title" className={styles.modalTitle}>
+      <form className={modalStyles.modalCard} onSubmit={handleSubmit}>
+        <p className={modalStyles.modalEyebrow}>New announcement</p>
+        <h2 id="create-announcement-title" className={modalStyles.modalTitle}>
           Create announcement
         </h2>
-        <p className={styles.modalCopy}>
+        <p className={modalStyles.modalCopy}>
           Write your update, choose who should see it, then publish, save a draft, or schedule it.
         </p>
 
-        <label className={styles.modalField}>
-          <span className={styles.modalLabel}>Title</span>
+        <label className={modalStyles.modalField}>
+          <span className={modalStyles.modalLabel}>Title</span>
           <input
-            className={styles.modalInput}
+            className={modalStyles.modalInput}
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
@@ -155,10 +147,10 @@ export function CreateAnnouncementModal({
           />
         </label>
 
-        <label className={styles.modalField}>
-          <span className={styles.modalLabel}>Message</span>
+        <label className={modalStyles.modalField}>
+          <span className={modalStyles.modalLabel}>Message</span>
           <textarea
-            className={styles.modalTextarea}
+            className={modalStyles.modalTextarea}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="What should students or parents know?"
@@ -167,14 +159,16 @@ export function CreateAnnouncementModal({
           />
         </label>
 
-        <div className={styles.modalField}>
-          <span className={styles.modalLabel}>Type</span>
-          <div className={styles.chipRow}>
+        <div className={modalStyles.modalField}>
+          <span className={modalStyles.modalLabel}>Type</span>
+          <div className={modalStyles.chipRow}>
             {TYPES.map((option) => (
               <button
                 key={option}
                 type="button"
-                className={`${styles.choiceChip} ${type === option ? styles.choiceChipActive : ''}`}
+                className={`${modalStyles.choiceChip} ${
+                  type === option ? modalStyles.choiceChipActive : ''
+                }`}
                 onClick={() => setType(option)}
               >
                 {option}
@@ -183,8 +177,8 @@ export function CreateAnnouncementModal({
           </div>
         </div>
 
-        <div className={styles.modalField}>
-          <span className={styles.modalLabel}>Assign to classrooms</span>
+        <div className={modalStyles.modalField}>
+          <span className={modalStyles.modalLabel}>Assign to classrooms</span>
           <div className={styles.radioGroup} role="radiogroup" aria-label="Audience mode">
             <label className={styles.radioOption}>
               <input
@@ -263,15 +257,15 @@ export function CreateAnnouncementModal({
           </label>
         </div>
 
-        <div className={styles.modalField}>
-          <span className={styles.modalLabel}>When to send</span>
-          <div className={styles.chipRow}>
+        <div className={modalStyles.modalField}>
+          <span className={modalStyles.modalLabel}>When to send</span>
+          <div className={modalStyles.chipRow}>
             {PUBLISH_MODES.map((mode) => (
               <button
                 key={mode.value}
                 type="button"
-                className={`${styles.choiceChip} ${
-                  publishMode === mode.value ? styles.choiceChipActive : ''
+                className={`${modalStyles.choiceChip} ${
+                  publishMode === mode.value ? modalStyles.choiceChipActive : ''
                 }`}
                 onClick={() => setPublishMode(mode.value)}
               >
@@ -282,10 +276,10 @@ export function CreateAnnouncementModal({
         </div>
 
         {publishMode === 'schedule' ? (
-          <label className={styles.modalField}>
-            <span className={styles.modalLabel}>Schedule date</span>
+          <label className={modalStyles.modalField}>
+            <span className={modalStyles.modalLabel}>Schedule date</span>
             <input
-              className={styles.modalInput}
+              className={modalStyles.modalInput}
               type="date"
               value={scheduledAt}
               onChange={(e) => setScheduledAt(e.target.value)}
@@ -302,18 +296,14 @@ export function CreateAnnouncementModal({
           <span>Pin this announcement to the top</span>
         </label>
 
-        {error ? <p className={styles.modalError}>{error}</p> : null}
+        {error ? <p className={modalStyles.modalError}>{error}</p> : null}
 
-        <div className={styles.modalActions}>
+        <div className={modalStyles.modalActions}>
           <button type="button" className={listStyles.secondaryBtn} onClick={onCancel}>
             Cancel
           </button>
           <button type="submit" className={listStyles.primaryBtn}>
-            {publishMode === 'publish'
-              ? 'Publish announcement'
-              : publishMode === 'schedule'
-                ? 'Schedule announcement'
-                : 'Save draft'}
+            {submitLabel}
           </button>
         </div>
       </form>

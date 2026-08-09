@@ -1,0 +1,339 @@
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(280px, 0.9fr);
+  gap: 1.1rem;
+  align-items: start;
+}
+
+.filterRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.filterChip {
+  border: 1.5px dashed rgba(240, 239, 237, 0.3);
+  background: transparent;
+  color: rgba(240, 239, 237, 0.8);
+  border-radius: 999px;
+  padding: 0.42rem 0.85rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.filterChip:hover {
+  border-color: rgba(245, 200, 66, 0.55);
+  color: #f5c842;
+}
+
+.filterChipActive {
+  border-style: solid;
+  border-color: rgba(245, 200, 66, 0.65);
+  background: rgba(245, 200, 66, 0.16);
+  color: #f5c842;
+}
+
+.monthPanel,
+.agendaPanel {
+  border: 1.5px dashed rgba(240, 239, 237, 0.22);
+  border-radius: 14px 16px 12px 14px / 16px 12px 14px 13px;
+  background: rgba(240, 239, 237, 0.03);
+}
+
+.monthPanel {
+  padding: 1.1rem 1.15rem 1.2rem;
+}
+
+.calendarHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.85rem;
+}
+
+.calendarTitle {
+  margin: 0;
+  font-family: 'Caveat', cursive;
+  font-size: 1.85rem;
+  color: #f5c842;
+  line-height: 1;
+}
+
+.calendarNav {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.iconBtn {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: 1.5px dashed rgba(240, 239, 237, 0.3);
+  background: transparent;
+  color: rgba(240, 239, 237, 0.75);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 1.15rem;
+}
+
+.iconBtn:hover {
+  border-color: #f5c842;
+  color: #f5c842;
+}
+
+.weekdays,
+.daysGrid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.35rem;
+}
+
+.weekday {
+  text-align: center;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(240, 239, 237, 0.4);
+  padding: 0.25rem 0 0.45rem;
+}
+
+.dayCell {
+  min-height: 92px;
+  border: 1px solid rgba(240, 239, 237, 0.1);
+  border-radius: 10px;
+  background: rgba(240, 239, 237, 0.02);
+  color: rgba(240, 239, 237, 0.82);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.3rem;
+  padding: 0.4rem 0.35rem 0.4rem;
+  font-family: inherit;
+  text-align: left;
+}
+
+.dayCell:hover {
+  border-color: rgba(245, 200, 66, 0.4);
+}
+
+.daySelected {
+  border-color: rgba(245, 200, 66, 0.75);
+  background: rgba(245, 200, 66, 0.12);
+}
+
+.dayToday .dayNumber {
+  color: #0b1610;
+  background: #f5c842;
+}
+
+.dayEmpty {
+  visibility: hidden;
+}
+
+.dayNumber {
+  width: 1.55rem;
+  height: 1.55rem;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.78rem;
+  font-weight: 700;
+  align-self: flex-start;
+}
+
+.dayEvents {
+  display: flex;
+  flex-direction: column;
+  gap: 0.18rem;
+  min-width: 0;
+}
+
+.dayEventPill {
+  display: block;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  padding: 0.12rem 0.28rem;
+  font-size: 0.62rem;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dayMore {
+  font-size: 0.6rem;
+  color: rgba(240, 239, 237, 0.45);
+  padding-left: 0.15rem;
+}
+
+.agendaPanel {
+  padding: 1.15rem 1.2rem 1.25rem;
+  position: sticky;
+  top: 1rem;
+}
+
+.agendaEyebrow {
+  margin: 0;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(240, 239, 237, 0.42);
+}
+
+.agendaTitle {
+  margin: 0.35rem 0 0;
+  font-family: 'Caveat', cursive;
+  font-size: 1.7rem;
+  color: #f5c842;
+  line-height: 1.1;
+}
+
+.agendaCount {
+  margin: 0.35rem 0 0;
+  font-size: 0.84rem;
+  color: rgba(240, 239, 237, 0.55);
+}
+
+.agendaList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  margin-top: 1.1rem;
+}
+
+.agendaEmpty {
+  border: 1.5px dashed rgba(240, 239, 237, 0.2);
+  border-radius: 10px;
+  padding: 1rem;
+  font-size: 0.86rem;
+  line-height: 1.45;
+  color: rgba(240, 239, 237, 0.55);
+}
+
+.agendaItem {
+  display: grid;
+  grid-template-columns: 16px minmax(0, 1fr);
+  gap: 0.7rem;
+}
+
+.agendaTimeline {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 0.35rem;
+}
+
+.agendaDot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.agendaLine {
+  width: 1.5px;
+  flex: 1;
+  min-height: 1.4rem;
+  margin-top: 0.25rem;
+  background: rgba(240, 239, 237, 0.16);
+}
+
+.agendaBody {
+  min-width: 0;
+  padding-bottom: 1rem;
+}
+
+.agendaMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.agendaTime {
+  font-size: 0.78rem;
+  color: rgba(240, 239, 237, 0.55);
+}
+
+.agendaType {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 0.14rem 0.45rem;
+}
+
+.agendaItemTitle {
+  margin: 0.3rem 0 0;
+  font-size: 0.95rem;
+  color: #f0efed;
+}
+
+.agendaClass,
+.agendaLocation {
+  margin: 0.2rem 0 0;
+  font-size: 0.8rem;
+  color: rgba(240, 239, 237, 0.55);
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem 1.1rem;
+  margin-top: 0.25rem;
+  padding-top: 0.2rem;
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+  color: rgba(240, 239, 237, 0.65);
+}
+
+.legendDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+@media (max-width: 1100px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .agendaPanel {
+    position: static;
+  }
+
+  .dayCell {
+    min-height: 78px;
+  }
+}
+
+@media (max-width: 720px) {
+  .dayEventPill,
+  .dayMore {
+    display: none;
+  }
+
+  .dayCell {
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25rem;
+  }
+
+  .dayNumber {
+    align-self: center;
+  }
+}

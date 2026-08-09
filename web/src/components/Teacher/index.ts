@@ -8,3 +8,4 @@ export { ExamsView } from './Exams';
 export { AttendanceView } from './Attendance';
 export { GradesView } from './Grades';
 export { AnnouncementsView } from './Announcements';
+export { CalendarView } from './Calendar';

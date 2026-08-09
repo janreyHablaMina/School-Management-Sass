@@ -1,43 +1,6 @@
 import type { TeacherAnnouncementsPageData } from '@/types/teacherAnnouncements';
 
 export const teacherAnnouncementsPageMock: TeacherAnnouncementsPageData = {
-  metrics: [
-    {
-      label: 'Total Announcements',
-      value: '24',
-      subtitle: 'This school year',
-      icon: '📢',
-      accent: '#b68eff',
-    },
-    {
-      label: 'Published',
-      value: '16',
-      subtitle: 'Visible to students',
-      icon: '✅',
-      accent: '#5cc789',
-    },
-    {
-      label: 'Drafts',
-      value: '4',
-      subtitle: 'Not sent yet',
-      icon: '📝',
-      accent: '#f5a623',
-    },
-    {
-      label: 'Pinned',
-      value: '3',
-      subtitle: 'Stay on top',
-      icon: '📌',
-      accent: '#84a9ff',
-    },
-    {
-      label: 'This Week',
-      value: '5',
-      subtitle: 'Posted or scheduled',
-      icon: '📅',
-      accent: '#f5c842',
-    },
-  ],
   tabs: ['All Announcements', 'Published', 'Drafts', 'Pinned', 'Scheduled'],
   classroomOptions: [
     'Grade 7 - Section A',

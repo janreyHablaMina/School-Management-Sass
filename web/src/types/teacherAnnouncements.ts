@@ -1,7 +1,3 @@
-import type { TeacherSummaryMetric } from './teacherList';
-
-export type { TeacherSummaryMetric };
-
 export type AnnouncementStatus = 'Published' | 'Draft' | 'Scheduled' | 'Archived';
 
 export type AnnouncementType = 'General' | 'Reminder' | 'Event' | 'Urgent';
@@ -14,8 +10,6 @@ export type AnnouncementTab =
   | 'Scheduled';
 
 export type AnnouncementSort = 'Newest First' | 'Oldest First' | 'Title A-Z';
-
-export type AnnouncementSummaryMetric = TeacherSummaryMetric;
 
 export interface TeacherAnnouncementRow {
   id: string;
@@ -47,7 +41,6 @@ export interface CreateAnnouncementInput {
 }
 
 export interface TeacherAnnouncementsPageData {
-  metrics: AnnouncementSummaryMetric[];
   announcements: TeacherAnnouncementRow[];
   tabs: AnnouncementTab[];
   classroomOptions: string[];

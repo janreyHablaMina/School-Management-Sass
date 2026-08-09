@@ -18,6 +18,7 @@ export { ProgressStatCell } from './ProgressStatCell';
 export { RowActionsMenu } from './RowActionsMenu';
 export type { RowActionItem } from './RowActionsMenu';
 export { usePagedList } from './usePagedList';
+export { useLockWorkspaceScroll } from './useLockWorkspaceScroll';
 export {
   accentFromMap,
   matchesAllOrExact,
@@ -26,3 +27,4 @@ export {
   sortByCreatedOrTitle,
 } from './resourceHelpers';
 export { default as listStyles } from './listPage.module.css';
+export { default as modalStyles } from './teacherModal.module.css';

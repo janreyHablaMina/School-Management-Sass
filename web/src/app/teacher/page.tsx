@@ -9,6 +9,7 @@ import {
   AnnouncementsView,
   AssignmentsView,
   AttendanceView,
+  CalendarView,
   DashboardView,
   ExamsView,
   GradesView,
@@ -50,6 +51,8 @@ export default function TeacherDashboard() {
         return <GradesView />;
       case 'Announcements':
         return <AnnouncementsView />;
+      case 'Calendar':
+        return <CalendarView />;
       default:
         return <ModulePlaceholder title={activeTab} />;
     }

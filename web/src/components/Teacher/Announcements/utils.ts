@@ -35,11 +35,7 @@ export function announcementStatusAccent(status: AnnouncementStatus): string {
   return accentFromMap(STATUS_ACCENTS, status);
 }
 
-export function formatAnnouncementAudience(input: {
-  classrooms: string[];
-  includeParents: boolean;
-  allClasses: boolean;
-}): string {
+function formatAudience(input: CreateAnnouncementInput): string {
   const parts: string[] = [];
 
   if (input.allClasses) {
@@ -97,7 +93,7 @@ export function buildAnnouncementFromInput(
     id,
     title: input.title.trim(),
     description: input.description.trim(),
-    audience: formatAnnouncementAudience(input),
+    audience: formatAudience(input),
     type: input.type,
     status,
     pinned: input.pinned,
@@ -105,6 +101,6 @@ export function buildAnnouncementFromInput(
     createdSortKey: toSortKey(now),
     views: 0,
     icon: TYPE_ICONS[input.type],
-    accent: TYPE_ACCENTS[input.type],
+    accent: announcementTypeAccent(input.type),
   };
 }
