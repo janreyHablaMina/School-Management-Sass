@@ -216,10 +216,33 @@
   color: rgba(240, 239, 237, 0.55);
 }
 
-.agendaItem {
+.agendaItemButton {
   display: grid;
   grid-template-columns: 16px minmax(0, 1fr);
   gap: 0.7rem;
+  width: 100%;
+  border: none;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+  color: inherit;
+  border-radius: 10px;
+}
+
+.agendaItemButton:hover .agendaItemTitle {
+  color: #f5c842;
+}
+
+.agendaActions {
+  margin-top: 0.5rem;
+}
+
+.agendaActions button {
+  width: 100%;
+  justify-content: center;
 }
 
 .agendaTimeline {
@@ -245,6 +268,8 @@
 }
 
 .agendaBody {
+  display: flex;
+  flex-direction: column;
   min-width: 0;
   padding-bottom: 1rem;
 }
@@ -272,16 +297,131 @@
 }
 
 .agendaItemTitle {
+  display: block;
   margin: 0.3rem 0 0;
   font-size: 0.95rem;
+  font-weight: 600;
   color: #f0efed;
 }
 
 .agendaClass,
 .agendaLocation {
+  display: block;
   margin: 0.2rem 0 0;
   font-size: 0.8rem;
   color: rgba(240, 239, 237, 0.55);
+}
+
+.dayDetailCard {
+  width: min(640px, 100%);
+}
+
+.dayDetailHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.dayDetailClose {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: 1.5px dashed rgba(240, 239, 237, 0.3);
+  background: transparent;
+  color: rgba(240, 239, 237, 0.7);
+  cursor: pointer;
+  font-family: inherit;
+  flex-shrink: 0;
+}
+
+.dayDetailClose:hover {
+  border-color: #f5c842;
+  color: #f5c842;
+}
+
+.dayDetailSummary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 1rem;
+}
+
+.dayDetailChip {
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 0.28rem 0.65rem;
+  font-size: 0.74rem;
+  font-weight: 700;
+  background: rgba(240, 239, 237, 0.04);
+}
+
+.dayDetailList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1.1rem;
+}
+
+.dayDetailItem {
+  border: 1.5px solid rgba(240, 239, 237, 0.18);
+  border-radius: 12px;
+  background: rgba(240, 239, 237, 0.03);
+  padding: 0.9rem 1rem;
+}
+
+.dayDetailItemFocused {
+  background: rgba(245, 200, 66, 0.08);
+  box-shadow: inset 0 0 0 1px rgba(245, 200, 66, 0.35);
+}
+
+.dayDetailItemTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.dayDetailStatus {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  padding: 0.18rem 0.5rem;
+}
+
+.dayDetailItemTitle {
+  margin: 0.55rem 0 0;
+  font-size: 1.05rem;
+  color: #f0efed;
+}
+
+.dayDetailItemTime,
+.dayDetailItemClass {
+  margin: 0.25rem 0 0;
+  font-size: 0.84rem;
+  color: rgba(240, 239, 237, 0.58);
+}
+
+.dayDetailItemDesc {
+  margin: 0.55rem 0 0;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: rgba(240, 239, 237, 0.78);
+}
+
+.dayDetailNotes {
+  margin: 0.65rem 0 0;
+  font-size: 0.84rem;
+  line-height: 1.4;
+  color: #f5a623;
+  border-top: 1px dashed rgba(240, 239, 237, 0.14);
+  padding-top: 0.55rem;
+}
+
+.dayDetailNotes span {
+  font-weight: 700;
 }
 
 .legend {

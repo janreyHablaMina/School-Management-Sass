@@ -23,6 +23,8 @@ export function useCalendar() {
   const [selectedYear, setSelectedYear] = useState(today.year);
   const [selectedMonth, setSelectedMonth] = useState(today.month);
   const [typeFilter, setTypeFilter] = useState<CalendarFilter>('All');
+  const [isDayDetailOpen, setIsDayDetailOpen] = useState(false);
+  const [focusEventId, setFocusEventId] = useState<string | null>(null);
 
   const filteredEvents = useMemo(() => {
     if (typeFilter === 'All') return events;
@@ -63,10 +65,35 @@ export function useCalendar() {
     [filteredEvents, selectedDateKey],
   );
 
-  const selectDay = (day: number) => {
+  const selectDay = (day: number, options?: { openDetail?: boolean; eventId?: string }) => {
     setSelectedDay(day);
     setSelectedYear(year);
     setSelectedMonth(month);
+    if (options?.openDetail !== false) {
+      setFocusEventId(options?.eventId ?? null);
+      setIsDayDetailOpen(true);
+    }
+  };
+
+  const openSelectedDayDetail = (eventId?: string) => {
+    setFocusEventId(eventId ?? null);
+    setIsDayDetailOpen(true);
+  };
+
+  const openEventDetail = (event: TeacherCalendarEvent) => {
+    const [y, m, d] = event.dateKey.split('-').map(Number);
+    setYear(y);
+    setMonth(m);
+    setSelectedYear(y);
+    setSelectedMonth(m);
+    setSelectedDay(d);
+    setFocusEventId(event.id);
+    setIsDayDetailOpen(true);
+  };
+
+  const closeDayDetail = () => {
+    setIsDayDetailOpen(false);
+    setFocusEventId(null);
   };
 
   const goToPrevMonth = () => {
@@ -112,6 +139,11 @@ export function useCalendar() {
     selectedDayLabel: formatDayLabel(selectedDateKey),
     selectedDayEvents,
     selectDay,
+    openSelectedDayDetail,
+    openEventDetail,
+    closeDayDetail,
+    isDayDetailOpen,
+    focusEventId,
     goToPrevMonth,
     goToNextMonth,
     goToToday,

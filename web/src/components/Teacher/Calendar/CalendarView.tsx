@@ -3,6 +3,7 @@
 import React from 'react';
 import { listStyles, PageHeader, SummaryMetrics } from '../shared';
 import { CalendarAgenda } from './components/CalendarAgenda';
+import { CalendarDayDetailModal } from './components/CalendarDayDetailModal';
 import { CalendarMonthGrid } from './components/CalendarMonthGrid';
 import { calendarTypeAccent } from './utils';
 import { useCalendar } from './useCalendar';
@@ -26,6 +27,11 @@ export function CalendarView() {
     selectedDayLabel,
     selectedDayEvents,
     selectDay,
+    openSelectedDayDetail,
+    openEventDetail,
+    closeDayDetail,
+    isDayDetailOpen,
+    focusEventId,
     goToPrevMonth,
     goToNextMonth,
     goToToday,
@@ -73,11 +79,16 @@ export function CalendarView() {
           selectedYear={selectedYear}
           selectedMonth={selectedMonth}
           today={today}
-          onSelectDay={selectDay}
+          onSelectDay={(day) => selectDay(day)}
           onPrevMonth={goToPrevMonth}
           onNextMonth={goToNextMonth}
         />
-        <CalendarAgenda dayLabel={selectedDayLabel} events={selectedDayEvents} />
+        <CalendarAgenda
+          dayLabel={selectedDayLabel}
+          events={selectedDayEvents}
+          onViewDayDetails={() => openSelectedDayDetail()}
+          onOpenEvent={openEventDetail}
+        />
       </div>
 
       <div className={styles.legend}>
@@ -91,6 +102,15 @@ export function CalendarView() {
           </span>
         ))}
       </div>
+
+      {isDayDetailOpen ? (
+        <CalendarDayDetailModal
+          dayLabel={selectedDayLabel}
+          events={selectedDayEvents}
+          focusEventId={focusEventId}
+          onClose={closeDayDetail}
+        />
+      ) : null}
     </div>
   );
 }

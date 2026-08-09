@@ -8,6 +8,8 @@ export type CalendarEventType =
   | 'Event'
   | 'Reminder';
 
+export type CalendarEventStatus = 'Upcoming' | 'Ongoing' | 'Completed' | 'Due soon';
+
 export type CalendarFilter = 'All' | CalendarEventType;
 
 export interface TeacherCalendarEvent {
@@ -19,6 +21,9 @@ export interface TeacherCalendarEvent {
   startTime: string;
   endTime?: string;
   location?: string;
+  description: string;
+  status: CalendarEventStatus;
+  notes?: string;
   accent: string;
 }
 
