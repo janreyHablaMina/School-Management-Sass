@@ -16,18 +16,21 @@ import {
   LessonsView,
   MyClassesView,
   QuizzesView,
+  SettingsView,
   StudentsView,
 } from '@/components/Teacher';
 import { ModulePlaceholder } from '@/components/shared/ModulePlaceholder';
 import { teacherMenuGroups } from '@/lib/constants/navigation';
 import { teacherPortalMock } from '@/lib/mock/teacherPortal.mock';
+import type { TeacherProfile } from '@/types/teacherPortal';
 import { useWorkspaceScroll } from '@/hooks/useWorkspaceScroll';
 
 export default function TeacherDashboard() {
   const [activeTab, setActiveTab] = useState('Dashboard');
+  const [teacher, setTeacher] = useState<TeacherProfile>(teacherPortalMock.teacher);
   const workspaceRef = useRef<HTMLDivElement>(null);
   const isScrolled = useWorkspaceScroll(workspaceRef);
-  const { teacher, aiCredits } = teacherPortalMock;
+  const { aiCredits } = teacherPortalMock;
 
   const renderContent = () => {
     switch (activeTab) {
@@ -53,6 +56,8 @@ export default function TeacherDashboard() {
         return <AnnouncementsView />;
       case 'Calendar':
         return <CalendarView />;
+      case 'Settings':
+        return <SettingsView onProfileSave={setTeacher} />;
       default:
         return <ModulePlaceholder title={activeTab} />;
     }

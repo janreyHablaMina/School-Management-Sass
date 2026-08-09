@@ -1,0 +1,247 @@
+.layout {
+  display: grid;
+  grid-template-columns: minmax(180px, 220px) minmax(0, 1fr);
+  gap: 1.1rem;
+  align-items: start;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  position: sticky;
+  top: 1rem;
+}
+
+.navBtn {
+  border: 1.5px dashed rgba(240, 239, 237, 0.28);
+  background: transparent;
+  color: rgba(240, 239, 237, 0.78);
+  border-radius: 10px;
+  padding: 0.7rem 0.85rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.navBtn:hover {
+  border-color: rgba(245, 200, 66, 0.5);
+  color: #f5c842;
+}
+
+.navBtnActive {
+  border-style: solid;
+  border-color: rgba(245, 200, 66, 0.65);
+  background: rgba(245, 200, 66, 0.14);
+  color: #f5c842;
+}
+
+.section {
+  border: 1.5px dashed rgba(240, 239, 237, 0.22);
+  border-radius: 14px 16px 12px 14px / 16px 12px 14px 13px;
+  background: rgba(240, 239, 237, 0.03);
+  padding: 1.2rem 1.25rem 1.3rem;
+}
+
+.sectionHeader {
+  border-bottom: 1px dashed rgba(240, 239, 237, 0.16);
+  padding-bottom: 0.9rem;
+  margin-bottom: 0.35rem;
+}
+
+.sectionTitle {
+  margin: 0;
+  font-family: 'Caveat', cursive;
+  font-size: 1.75rem;
+  color: #f5c842;
+  line-height: 1.05;
+}
+
+.sectionCopy {
+  margin: 0.35rem 0 0;
+  font-size: 0.88rem;
+  color: rgba(240, 239, 237, 0.6);
+}
+
+.sectionBody {
+  display: flex;
+  flex-direction: column;
+}
+
+.fieldGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 0.85rem;
+}
+
+.avatarRow {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin-top: 1.05rem;
+}
+
+.avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #0b1610;
+  background: #f5c842;
+  border: 2px solid rgba(245, 200, 66, 0.55);
+}
+
+.avatarMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.avatarName {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #f0efed;
+}
+
+.avatarRole {
+  font-size: 0.82rem;
+  color: rgba(240, 239, 237, 0.55);
+}
+
+.toggleList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  margin-top: 1.05rem;
+}
+
+.toggleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 0.85rem;
+  border: 1.5px dashed rgba(240, 239, 237, 0.2);
+  border-radius: 10px;
+  background: rgba(240, 239, 237, 0.02);
+}
+
+.toggleCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.toggleLabel {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #f0efed;
+}
+
+.toggleHint {
+  font-size: 0.8rem;
+  color: rgba(240, 239, 237, 0.5);
+}
+
+.toggleRow input {
+  accent-color: #f5c842;
+  width: 1.05rem;
+  height: 1.05rem;
+  flex-shrink: 0;
+}
+
+.chipRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 0.45rem;
+}
+
+.choiceChip {
+  border: 1.5px dashed rgba(240, 239, 237, 0.3);
+  background: transparent;
+  color: rgba(240, 239, 237, 0.8);
+  border-radius: 999px;
+  padding: 0.45rem 0.85rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.choiceChip:hover {
+  border-color: rgba(245, 200, 66, 0.55);
+  color: #f5c842;
+}
+
+.choiceChipActive {
+  border-style: solid;
+  border-color: rgba(245, 200, 66, 0.65);
+  background: rgba(245, 200, 66, 0.16);
+  color: #f5c842;
+}
+
+.securityCard {
+  margin-top: 1.05rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.95rem 1rem;
+  border: 1.5px dashed rgba(240, 239, 237, 0.22);
+  border-radius: 12px;
+  background: rgba(240, 239, 237, 0.02);
+}
+
+.securityTitle {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #f0efed;
+}
+
+.securityCopy {
+  margin: 0.25rem 0 0;
+  font-size: 0.82rem;
+  color: rgba(240, 239, 237, 0.55);
+}
+
+.statusBanner {
+  margin-top: 0.25rem;
+  font-size: 0.86rem;
+}
+
+.statusOk {
+  color: #5cc789;
+}
+
+.statusError {
+  color: #ff7e93;
+}
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .nav {
+    position: static;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .fieldGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .securityCard {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
