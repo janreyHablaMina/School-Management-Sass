@@ -2,8 +2,9 @@
 
 import { useMemo, useState } from 'react';
 import { myClassesPageMock } from '@/lib/mock/myClasses.mock';
-import type { ClassStatus, MyClassRow } from '@/types/myClasses';
+import type { ClassStatus, CreateClassInput, MyClassRow } from '@/types/myClasses';
 import { usePagedList } from '../shared';
+import { buildClassFromInput, buildMyClassesMetrics } from './utils';
 
 const PAGE_SIZE = 6;
 
@@ -36,8 +37,12 @@ function matchesClass(cls: MyClassRow, filters: MyClassesFiltersState) {
 }
 
 export function useMyClasses() {
-  const { metrics, classes, filterOptions } = myClassesPageMock;
+  const { filterOptions } = myClassesPageMock;
+  const [classes, setClasses] = useState(myClassesPageMock.classes);
   const [selectedClassId, setSelectedClassId] = useState<number | null>(null);
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
+
+  const metrics = useMemo(() => buildMyClassesMetrics(classes), [classes]);
 
   const list = usePagedList({
     items: classes,
@@ -51,6 +56,17 @@ export function useMyClasses() {
     [classes, selectedClassId],
   );
 
+  const createClass = (input: CreateClassInput) => {
+    const next = buildClassFromInput(input, classes);
+    // Close the modal first, then open detail on the next frame so React
+    // finishes unmounting the modal before mounting the detail view.
+    setIsCreateOpen(false);
+    setClasses((prev) => [next, ...prev]);
+    queueMicrotask(() => {
+      setSelectedClassId(next.id);
+    });
+  };
+
   return {
     metrics,
     filterOptions,
@@ -59,5 +75,9 @@ export function useMyClasses() {
     selectedClass,
     openClass: (id: number) => setSelectedClassId(id),
     backToClasses: () => setSelectedClassId(null),
+    isCreateOpen,
+    openCreate: () => setIsCreateOpen(true),
+    closeCreate: () => setIsCreateOpen(false),
+    createClass,
   };
 }

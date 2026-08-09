@@ -2,7 +2,7 @@
 
 import { teacherQuizzesPageMock } from '@/lib/mock/teacherQuizzes.mock';
 import {
-  resolveClassFilterOption,
+  resolveListFiltersFromFocus,
   type TeacherClassFocus,
 } from '@/lib/teacher/classFocus';
 import type {
@@ -63,13 +63,11 @@ function matchesQuiz(quiz: TeacherQuizRow, filters: QuizzesFiltersState) {
 
 export function useQuizzes(options?: { classFocus?: TeacherClassFocus | null }) {
   const { metrics, quizzes, filterOptions, tabs } = teacherQuizzesPageMock;
-  const classFilter =
-    resolveClassFilterOption(filterOptions.classes, options?.classFocus) ??
-    DEFAULT_FILTERS.classFilter;
-  const subject =
-    options?.classFocus && filterOptions.subjects.includes(options.classFocus.subject)
-      ? options.classFocus.subject
-      : DEFAULT_FILTERS.subject;
+  const { classFilter, subject } = resolveListFiltersFromFocus(
+    filterOptions,
+    options?.classFocus,
+    DEFAULT_FILTERS,
+  );
 
   const list = usePagedList({
     items: quizzes,

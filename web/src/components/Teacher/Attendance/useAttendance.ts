@@ -1,6 +1,6 @@
 'use client';
 
-import { useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { teacherAttendancePageMock } from '@/lib/mock/teacherAttendance.mock';
 import {
   findClassIdByFocus,
@@ -92,7 +92,7 @@ export function useAttendance(options?: { classFocus?: TeacherClassFocus | null 
     );
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!focusedClassId || !focusedClass || didHydrateFocus.current) return;
     didHydrateFocus.current = true;
     session.loadSessionForClass(

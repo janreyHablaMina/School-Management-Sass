@@ -1,5 +1,5 @@
 import type { ExamStatus, ExamType } from '@/types/teacherExams';
-import { accentFromMap, rateBarColor } from '../shared';
+import { accentFromMap } from '../shared';
 
 const TYPE_ACCENTS: Record<ExamType, string> = {
   Written: '#b68eff',
@@ -20,8 +20,4 @@ export function examTypeAccent(type: ExamType): string {
 
 export function examStatusAccent(status: ExamStatus): string {
   return accentFromMap(STATUS_ACCENTS, status);
-}
-
-export function examStudentsBarColor(rate: number): string {
-  return rateBarColor(rate);
 }

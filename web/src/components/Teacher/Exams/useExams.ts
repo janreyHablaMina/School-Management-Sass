@@ -2,7 +2,7 @@
 
 import { teacherExamsPageMock } from '@/lib/mock/teacherExams.mock';
 import {
-  resolveClassFilterOption,
+  resolveListFiltersFromFocus,
   type TeacherClassFocus,
 } from '@/lib/teacher/classFocus';
 import type {
@@ -63,13 +63,11 @@ function matchesExam(exam: TeacherExamRow, filters: ExamsFiltersState) {
 
 export function useExams(options?: { classFocus?: TeacherClassFocus | null }) {
   const { metrics, exams, filterOptions, tabs } = teacherExamsPageMock;
-  const classFilter =
-    resolveClassFilterOption(filterOptions.classes, options?.classFocus) ??
-    DEFAULT_FILTERS.classFilter;
-  const subject =
-    options?.classFocus && filterOptions.subjects.includes(options.classFocus.subject)
-      ? options.classFocus.subject
-      : DEFAULT_FILTERS.subject;
+  const { classFilter, subject } = resolveListFiltersFromFocus(
+    filterOptions,
+    options?.classFocus,
+    DEFAULT_FILTERS,
+  );
 
   const list = usePagedList({
     items: exams,

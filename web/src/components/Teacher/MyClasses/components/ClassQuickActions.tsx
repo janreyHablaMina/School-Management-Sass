@@ -1,6 +1,6 @@
 'use client';
 
-import type { TeacherNavRequest } from '@/lib/teacher/classFocus';
+import { toClassFocus, type TeacherNavRequest } from '@/lib/teacher/classFocus';
 import type { MyClassRow } from '@/types/myClasses';
 import { CLASS_QUICK_ACTIONS } from '../classQuickActions';
 import styles from '../myClasses.module.css';
@@ -13,17 +13,10 @@ interface ClassQuickActionsProps {
 export function ClassQuickActions({ cls, onNavigate }: ClassQuickActionsProps) {
   const featured = CLASS_QUICK_ACTIONS.filter((action) => action.featured);
   const more = CLASS_QUICK_ACTIONS.filter((action) => !action.featured);
+  const classFocus = toClassFocus(cls);
 
   const openAction = (tab: string, aiToolId?: number) => {
-    onNavigate?.({
-      tab,
-      aiToolId,
-      classFocus: {
-        gradeSection: cls.gradeSection,
-        subject: cls.subject,
-        gradeLevel: cls.gradeLevel,
-      },
-    });
+    onNavigate?.({ tab, aiToolId, classFocus });
   };
 
   return (

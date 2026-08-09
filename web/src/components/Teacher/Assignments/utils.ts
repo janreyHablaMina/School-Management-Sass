@@ -1,5 +1,5 @@
 import type { AssignmentStatus, AssignmentType } from '@/types/teacherAssignments';
-import { accentFromMap, rateBarColor } from '../shared';
+import { accentFromMap } from '../shared';
 
 const TYPE_ACCENTS: Record<AssignmentType, string> = {
   Worksheet: '#b68eff',
@@ -24,8 +24,4 @@ export function assignmentTypeAccent(type: AssignmentType): string {
 
 export function assignmentStatusAccent(status: AssignmentStatus): string {
   return accentFromMap(STATUS_ACCENTS, status);
-}
-
-export function submissionBarColor(rate: number): string {
-  return rateBarColor(rate);
 }

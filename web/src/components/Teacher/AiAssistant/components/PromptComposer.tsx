@@ -1,10 +1,10 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import { FilterSelect, listStyles, modalStyles } from '../shared';
+import { FilterSelect, listStyles, modalStyles } from '../../shared';
 import type { AiAssistantTool, AiAttachment } from '@/types/teacherAiAssistant';
-import { ACCEPTED_UPLOAD_ACCEPT, MAX_ATTACHMENTS, attachmentIcon } from './utils';
-import styles from './aiAssistant.module.css';
+import { ACCEPTED_UPLOAD_ACCEPT, MAX_ATTACHMENTS, attachmentIcon } from '../utils';
+import styles from '../aiAssistant.module.css';
 
 interface PromptComposerProps {
   prompt: string;

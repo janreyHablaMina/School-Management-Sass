@@ -2,8 +2,8 @@
 
 import type { TeacherClassFocus } from '@/lib/teacher/classFocus';
 import { listStyles, PageHeader, SummaryMetrics } from '../shared';
-import { ChatThread } from './ChatThread';
-import { PromptComposer } from './PromptComposer';
+import { ChatThread } from './components/ChatThread';
+import { PromptComposer } from './components/PromptComposer';
 import { useAiAssistant } from './useAiAssistant';
 import styles from './aiAssistant.module.css';
 

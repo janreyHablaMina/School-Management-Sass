@@ -2,7 +2,10 @@
 
 import { useMemo, useState } from 'react';
 import { teacherAiAssistantMock } from '@/lib/mock/teacherAiAssistant.mock';
-import type { TeacherClassFocus } from '@/lib/teacher/classFocus';
+import {
+  resolveClassroomOption,
+  type TeacherClassFocus,
+} from '@/lib/teacher/classFocus';
 import type {
   AiAssistantTool,
   AiAttachment,
@@ -18,18 +21,6 @@ import {
   previewFromRun,
 } from './utils';
 
-function resolveClassroom(
-  options: string[],
-  classFocus?: TeacherClassFocus | null,
-): string {
-  if (!classFocus) return options[0] ?? '';
-  if (options.includes(classFocus.gradeSection)) return classFocus.gradeSection;
-  const byLevel = options.find(
-    (option) => classFocus.gradeLevel && option.includes(classFocus.gradeLevel),
-  );
-  return byLevel ?? options[0] ?? classFocus.gradeSection;
-}
-
 export function useAiAssistant(options?: {
   classFocus?: TeacherClassFocus | null;
   initialToolId?: number | null;
@@ -42,7 +33,7 @@ export function useAiAssistant(options?: {
     options?.initialToolId ?? seed.tools[1]?.id ?? null,
   );
   const [classroom, setClassroom] = useState(() =>
-    resolveClassroom(seed.classroomOptions, options?.classFocus),
+    resolveClassroomOption(seed.classroomOptions, options?.classFocus),
   );
   const [prompt, setPrompt] = useState('');
   const [attachments, setAttachments] = useState<AiAttachment[]>([]);

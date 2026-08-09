@@ -6,7 +6,7 @@ import {
   type TeacherClassFocus,
 } from '@/lib/teacher/classFocus';
 import type { StudentStatus, TeacherStudentRow } from '@/types/teacherStudents';
-import { usePagedList } from '../shared';
+import { matchesAllOrExact, matchesSearch, usePagedList } from '../shared';
 
 const PAGE_SIZE = 8;
 
@@ -21,18 +21,15 @@ export type StudentsFiltersState = typeof DEFAULT_FILTERS;
 export type StudentsFilterKey = keyof StudentsFiltersState;
 
 function matchesStudent(student: TeacherStudentRow, filters: StudentsFiltersState) {
-  const q = filters.searchTerm.trim().toLowerCase();
-  const matchesSearch =
-    !q ||
-    student.fullName.toLowerCase().includes(q) ||
-    student.studentCode.toLowerCase().includes(q) ||
-    student.idNumber.toLowerCase().includes(q);
-
   return (
-    matchesSearch &&
-    (filters.classFilter === 'All Classes' || student.classFilter === filters.classFilter) &&
-    (filters.gradeLevel === 'All Grades' || student.gradeLevel === filters.gradeLevel) &&
-    (filters.status === 'All Status' || student.status === filters.status)
+    matchesSearch(filters.searchTerm, [
+      student.fullName,
+      student.studentCode,
+      student.idNumber,
+    ]) &&
+    matchesAllOrExact(filters.classFilter, student.classFilter, 'All Classes') &&
+    matchesAllOrExact(filters.gradeLevel, student.gradeLevel, 'All Grades') &&
+    matchesAllOrExact(filters.status, student.status, 'All Status')
   );
 }
 

@@ -4,14 +4,11 @@ import {
   ClassMeta,
   listStyles,
   ProgressStatCell,
+  rateBarColor,
   ResourceTitle,
   RowActionsMenu,
 } from '../../shared';
-import {
-  assignmentStatusAccent,
-  assignmentTypeAccent,
-  submissionBarColor,
-} from '../utils';
+import { assignmentStatusAccent, assignmentTypeAccent } from '../utils';
 import type { TeacherAssignmentRow } from '@/types/teacherAssignments';
 
 const ROW_ACTIONS = [
@@ -61,7 +58,7 @@ export function AssignmentRow({ assignment }: AssignmentRowProps) {
         <ProgressStatCell
           current={assignment.submittedCount}
           total={assignment.totalStudents}
-          barColor={submissionBarColor(submissionRate)}
+          barColor={rateBarColor(submissionRate)}
         />
       </td>
       <td>

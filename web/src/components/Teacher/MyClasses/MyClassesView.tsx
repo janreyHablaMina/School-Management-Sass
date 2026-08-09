@@ -1,14 +1,9 @@
 'use client';
 
 import type { TeacherNavRequest } from '@/lib/teacher/classFocus';
-import {
-  EmptyState,
-  listStyles,
-  PageHeader,
-  PaginationBar,
-  SummaryMetrics,
-} from '../shared';
+import { listStyles, ResourceListPage } from '../shared';
 import { ClassDetailView } from './components/ClassDetailView';
+import { CreateClassModal } from './components/CreateClassModal';
 import { ClassesTable } from './ClassesTable';
 import { MyClassesFilters } from './MyClassesFilters';
 import { useMyClasses } from './useMyClasses';
@@ -34,59 +29,65 @@ export function MyClassesView({ onNavigate }: MyClassesViewProps) {
     selectedClass,
     openClass,
     backToClasses,
+    isCreateOpen,
+    openCreate,
+    closeCreate,
+    createClass,
   } = useMyClasses();
 
-  if (selectedClass) {
-    return (
-      <ClassDetailView
-        cls={selectedClass}
-        onBack={backToClasses}
-        onNavigate={onNavigate}
-      />
-    );
-  }
-
   return (
-    <div className={listStyles.page}>
-      <PageHeader
-        title="My Classes"
-        subtitle="View and manage all your classes in one place."
-      >
-        <button type="button" className={listStyles.primaryBtn}>
-          + Create New Class
-        </button>
-      </PageHeader>
-
-      <SummaryMetrics metrics={metrics} columns={4} />
-
-      <MyClassesFilters
-        filters={filters}
-        onFilterChange={setFilter}
-        academicYears={filterOptions.academicYears}
-        gradeLevels={filterOptions.gradeLevels}
-        subjects={filterOptions.subjects}
-        statuses={filterOptions.statuses}
-        onClear={clearFilters}
-      />
-
-      {paginatedClasses.length === 0 ? (
-        <EmptyState
-          title="No classes found"
-          description="Try adjusting your search or filters."
+    <>
+      {selectedClass ? (
+        <ClassDetailView
+          cls={selectedClass}
+          onBack={backToClasses}
+          onNavigate={onNavigate}
         />
       ) : (
-        <ClassesTable classes={paginatedClasses} onOpen={openClass} />
+        <ResourceListPage
+          title="My Classes"
+          subtitle="View and manage all your classes in one place."
+          headerActions={
+            <button type="button" className={listStyles.primaryBtn} onClick={openCreate}>
+              + Create New Class
+            </button>
+          }
+          metrics={metrics}
+          metricsColumns={4}
+          filters={
+            <MyClassesFilters
+              filters={filters}
+              onFilterChange={setFilter}
+              academicYears={filterOptions.academicYears}
+              gradeLevels={filterOptions.gradeLevels}
+              subjects={filterOptions.subjects}
+              statuses={filterOptions.statuses}
+              onClear={clearFilters}
+            />
+          }
+          itemsCount={paginatedClasses.length}
+          emptyTitle="No classes found"
+          emptyDescription="Try adjusting your search or filters."
+          table={<ClassesTable classes={paginatedClasses} onOpen={openClass} />}
+          rangeStart={rangeStart}
+          rangeEnd={rangeEnd}
+          total={filteredCount}
+          page={page}
+          totalPages={totalPages}
+          itemLabel="classes"
+          onPageChange={setPage}
+        />
       )}
 
-      <PaginationBar
-        rangeStart={rangeStart}
-        rangeEnd={rangeEnd}
-        total={filteredCount}
-        page={page}
-        totalPages={totalPages}
-        itemLabel="classes"
-        onPageChange={setPage}
-      />
-    </div>
+      {isCreateOpen ? (
+        <CreateClassModal
+          subjects={filterOptions.subjects}
+          gradeLevels={filterOptions.gradeLevels}
+          academicYears={filterOptions.academicYears}
+          onCancel={closeCreate}
+          onCreate={createClass}
+        />
+      ) : null}
+    </>
   );
 }

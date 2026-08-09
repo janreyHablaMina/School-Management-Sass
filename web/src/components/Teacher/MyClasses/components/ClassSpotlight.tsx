@@ -1,6 +1,7 @@
 'use client';
 
 import type { MyClassRow } from '@/types/myClasses';
+import { classHubStyles } from '../../shared';
 import styles from '../myClasses.module.css';
 
 interface ClassSpotlightProps {
@@ -23,11 +24,11 @@ export function ClassSpotlight({ cls }: ClassSpotlightProps) {
         <h2 className={styles.spotlightSchedule}>{cls.schedule}</h2>
         <p className={styles.spotlightMeta}>
           {cls.room}
-          <span className={styles.metaDot}>·</span>
+          <span className={classHubStyles.metaDot}>·</span>
           {cls.gradeLevel}
-          <span className={styles.metaDot}>·</span>
+          <span className={classHubStyles.metaDot}>·</span>
           {cls.academicYear}
-          <span className={styles.metaDot}>·</span>
+          <span className={classHubStyles.metaDot}>·</span>
           {cls.studentCount} students
         </p>
         <p className={styles.spotlightHint}>

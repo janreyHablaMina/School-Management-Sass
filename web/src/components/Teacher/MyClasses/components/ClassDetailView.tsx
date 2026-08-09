@@ -1,6 +1,6 @@
 'use client';
 
-import type { TeacherNavRequest } from '@/lib/teacher/classFocus';
+import { toClassFocus, type TeacherNavRequest } from '@/lib/teacher/classFocus';
 import type { MyClassRow } from '@/types/myClasses';
 import { listStyles } from '../../shared';
 import { ClassDetailHeader } from './ClassDetailHeader';
@@ -15,11 +15,7 @@ interface ClassDetailViewProps {
 }
 
 export function ClassDetailView({ cls, onBack, onNavigate }: ClassDetailViewProps) {
-  const classFocus = {
-    gradeSection: cls.gradeSection,
-    subject: cls.subject,
-    gradeLevel: cls.gradeLevel,
-  };
+  const classFocus = toClassFocus(cls);
 
   return (
     <div className={listStyles.page}>

@@ -24,6 +24,18 @@ export interface MyClassRow {
   icon: string;
 }
 
+export interface CreateClassInput {
+  subject: string;
+  gradeLevel: string;
+  section: string;
+  academicYear: string;
+  room: string;
+  days: string[];
+  startTime: string;
+  endTime: string;
+  lessonsTotal?: number;
+}
+
 export interface MyClassesPageData {
   metrics: MyClassSummaryMetric[];
   classes: MyClassRow[];

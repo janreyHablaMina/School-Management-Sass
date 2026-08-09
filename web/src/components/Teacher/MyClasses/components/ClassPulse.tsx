@@ -1,6 +1,6 @@
 'use client';
 
-import type { TeacherNavRequest } from '@/lib/teacher/classFocus';
+import { toClassFocus, type TeacherNavRequest } from '@/lib/teacher/classFocus';
 import type { MyClassRow } from '@/types/myClasses';
 import { lessonsForClass, rosterForClass } from '../utils';
 import styles from '../myClasses.module.css';
@@ -14,12 +14,7 @@ export function ClassPulse({ cls, onNavigate }: ClassPulseProps) {
   const roster = rosterForClass(cls, 4);
   const lessons = lessonsForClass(cls, 3);
   const remaining = Math.max(0, cls.studentCount - roster.length);
-
-  const classFocus = {
-    gradeSection: cls.gradeSection,
-    subject: cls.subject,
-    gradeLevel: cls.gradeLevel,
-  };
+  const classFocus = toClassFocus(cls);
 
   return (
     <section className={styles.pulse} aria-label="Class pulse">

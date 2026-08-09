@@ -4,10 +4,11 @@ import {
   ClassMeta,
   listStyles,
   ProgressStatCell,
+  rateBarColor,
   ResourceTitle,
   RowActionsMenu,
 } from '../../shared';
-import { examStatusAccent, examStudentsBarColor, examTypeAccent } from '../utils';
+import { examStatusAccent, examTypeAccent } from '../utils';
 import type { TeacherExamRow } from '@/types/teacherExams';
 
 const ROW_ACTIONS = [
@@ -60,7 +61,7 @@ export function ExamRow({ exam }: ExamRowProps) {
         <ProgressStatCell
           current={exam.completedCount}
           total={exam.totalStudents}
-          barColor={examStudentsBarColor(completionRate)}
+          barColor={rateBarColor(completionRate)}
         />
       </td>
       <td>
