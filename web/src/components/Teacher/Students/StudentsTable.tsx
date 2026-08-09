@@ -5,6 +5,9 @@ import type { TeacherStudentRow } from '@/types/teacherStudents';
 
 interface StudentsTableProps {
   students: TeacherStudentRow[];
+  onOpen: (id: string) => void;
+  onViewGrades?: (id: string) => void;
+  onMessage?: (id: string) => void;
 }
 
 const COLUMNS = [
@@ -18,11 +21,22 @@ const COLUMNS = [
   'Actions',
 ] as const;
 
-export function StudentsTable({ students }: StudentsTableProps) {
+export function StudentsTable({
+  students,
+  onOpen,
+  onViewGrades,
+  onMessage,
+}: StudentsTableProps) {
   return (
     <DataTable columns={COLUMNS} minWidth={1100}>
       {students.map((student) => (
-        <StudentRow key={student.id} student={student} />
+        <StudentRow
+          key={student.id}
+          student={student}
+          onOpen={onOpen}
+          onViewGrades={onViewGrades}
+          onMessage={onMessage}
+        />
       ))}
     </DataTable>
   );

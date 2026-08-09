@@ -1,23 +1,36 @@
 'use client';
 
-import React from 'react';
+import { useEffect, useState } from 'react';
+import type { TeacherClassFocus, TeacherNavRequest } from '@/lib/teacher/classFocus';
+import type { StudentGuardian, TeacherStudentRow } from '@/types/teacherStudents';
 import {
   EmptyState,
   listStyles,
   PageHeader,
   PaginationBar,
   SummaryMetrics,
+  TeacherToast,
 } from '../shared';
-import type { TeacherClassFocus } from '@/lib/teacher/classFocus';
+import { ContactGuardianModal } from './components/ContactGuardianModal';
+import { StudentDetailView } from './components/StudentDetailView';
 import { useStudents } from './useStudents';
 import { StudentsFilters } from './StudentsFilters';
 import { StudentsTable } from './StudentsTable';
+import {
+  openGuardianChannel,
+  primaryGuardian,
+  toStudentClassFocus,
+} from './utils';
 
 interface StudentsViewProps {
   classFocus?: TeacherClassFocus | null;
+  onNavigate?: (request: TeacherNavRequest | string) => void;
 }
 
-export function StudentsView({ classFocus = null }: StudentsViewProps) {
+export function StudentsView({
+  classFocus = null,
+  onNavigate,
+}: StudentsViewProps) {
   const {
     metrics,
     filterOptions,
@@ -30,7 +43,34 @@ export function StudentsView({ classFocus = null }: StudentsViewProps) {
     setPage,
     rangeStart,
     rangeEnd,
+    selectedStudent,
+    openStudent,
+    backToStudents,
   } = useStudents({ classFocus });
+
+  const [contactTarget, setContactTarget] = useState<{
+    student: TeacherStudentRow;
+    guardian: StudentGuardian;
+  } | null>(null);
+  const [toast, setToast] = useState<{ title: string; message?: string } | null>(
+    null,
+  );
+
+  useEffect(() => {
+    if (!toast) return;
+    const timer = window.setTimeout(() => setToast(null), 3500);
+    return () => window.clearTimeout(timer);
+  }, [toast]);
+
+  if (selectedStudent) {
+    return (
+      <StudentDetailView
+        student={selectedStudent}
+        onBack={backToStudents}
+        onNavigate={onNavigate}
+      />
+    );
+  }
 
   return (
     <div className={listStyles.page}>
@@ -62,7 +102,22 @@ export function StudentsView({ classFocus = null }: StudentsViewProps) {
           description="Try adjusting your search or filters."
         />
       ) : (
-        <StudentsTable students={paginatedStudents} />
+        <StudentsTable
+          students={paginatedStudents}
+          onOpen={openStudent}
+          onViewGrades={(id) => {
+            const student = paginatedStudents.find((item) => item.id === id);
+            if (!student) return;
+            onNavigate?.({ tab: 'Grades', classFocus: toStudentClassFocus(student) });
+          }}
+          onMessage={(id) => {
+            const student = paginatedStudents.find((item) => item.id === id);
+            if (!student) return;
+            const guardian = primaryGuardian(student);
+            if (!guardian) return;
+            setContactTarget({ student, guardian });
+          }}
+        />
       )}
 
       <PaginationBar
@@ -74,6 +129,30 @@ export function StudentsView({ classFocus = null }: StudentsViewProps) {
         itemLabel="students"
         onPageChange={setPage}
       />
+
+      {contactTarget ? (
+        <ContactGuardianModal
+          student={contactTarget.student}
+          guardian={contactTarget.guardian}
+          onClose={() => setContactTarget(null)}
+          onAppMessage={(guardian) => {
+            const notice = openGuardianChannel(
+              'app',
+              contactTarget.student,
+              guardian,
+            );
+            if (notice) setToast(notice);
+          }}
+        />
+      ) : null}
+
+      {toast ? (
+        <TeacherToast
+          title={toast.title}
+          message={toast.message}
+          onClose={() => setToast(null)}
+        />
+      ) : null}
     </div>
   );
 }

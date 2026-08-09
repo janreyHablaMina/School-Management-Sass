@@ -17,15 +17,35 @@ const DANGER_ACTIONS = [{ icon: '🚫', label: 'Mark Inactive' }] as const;
 
 interface StudentRowProps {
   student: TeacherStudentRow;
+  onOpen: (id: string) => void;
+  onViewGrades?: (id: string) => void;
+  onMessage?: (id: string) => void;
 }
 
-export function StudentRow({ student }: StudentRowProps) {
+export function StudentRow({
+  student,
+  onOpen,
+  onViewGrades,
+  onMessage,
+}: StudentRowProps) {
   const letterColor = letterGradeAccent(student.letterGrade);
   const statusColor = statusAccent(student.status);
   const attendanceColor = attendanceBarColor(student.attendanceRate);
 
   return (
-    <tr>
+    <tr
+      className={styles.clickableRow}
+      onClick={() => onOpen(student.id)}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onOpen(student.id);
+        }
+      }}
+      tabIndex={0}
+      role="button"
+      aria-label={`Open profile for ${student.fullName}`}
+    >
       <td>
         <div className={styles.studentCell}>
           <div
@@ -97,11 +117,19 @@ export function StudentRow({ student }: StudentRowProps) {
           {student.status}
         </span>
       </td>
-      <td>
+      <td
+        onClick={(e) => e.stopPropagation()}
+        onKeyDown={(e) => e.stopPropagation()}
+      >
         <RowActionsMenu
           label={`More actions for ${student.fullName}`}
           actions={ROW_ACTIONS}
           dangerActions={DANGER_ACTIONS}
+          onAction={(label) => {
+            if (label === 'View Profile') onOpen(student.id);
+            if (label === 'View Grades') onViewGrades?.(student.id);
+            if (label === 'Message Parent') onMessage?.(student.id);
+          }}
         />
       </td>
     </tr>

@@ -1,5 +1,6 @@
 'use client';
 
+import { useMemo, useState } from 'react';
 import { teacherStudentsPageMock } from '@/lib/mock/teacherStudents.mock';
 import {
   resolveClassFilterOption,
@@ -39,6 +40,8 @@ export function useStudents(options?: { classFocus?: TeacherClassFocus | null })
     resolveClassFilterOption(filterOptions.classes, options?.classFocus) ??
     DEFAULT_FILTERS.classFilter;
 
+  const [selectedStudentId, setSelectedStudentId] = useState<string | null>(null);
+
   const list = usePagedList({
     items: students,
     initialFilters: { ...DEFAULT_FILTERS, classFilter },
@@ -46,10 +49,18 @@ export function useStudents(options?: { classFocus?: TeacherClassFocus | null })
     filterFn: matchesStudent,
   });
 
+  const selectedStudent = useMemo(
+    () => students.find((student) => student.id === selectedStudentId) ?? null,
+    [students, selectedStudentId],
+  );
+
   return {
     metrics,
     filterOptions,
     ...list,
     paginatedStudents: list.paginatedItems,
+    selectedStudent,
+    openStudent: (id: string) => setSelectedStudentId(id),
+    backToStudents: () => setSelectedStudentId(null),
   };
 }

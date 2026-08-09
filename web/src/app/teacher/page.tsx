@@ -59,7 +59,7 @@ export default function TeacherDashboard() {
       case 'My Classes':
         return <MyClassesView onNavigate={navigateTo} />;
       case 'Students':
-        return <StudentsView classFocus={classFocus} />;
+        return <StudentsView classFocus={classFocus} onNavigate={navigateTo} />;
       case 'Lessons':
         return <LessonsView classFocus={classFocus} />;
       case 'Assignments':
