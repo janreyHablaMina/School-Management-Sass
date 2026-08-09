@@ -4,7 +4,10 @@ import React from 'react';
 import type { TeacherProfile } from '@/types/teacherPortal';
 import { listStyles, modalStyles, PageHeader } from '../shared';
 import { ChangePasswordModal } from './components/ChangePasswordModal';
+import { SettingsNav } from './components/SettingsNav';
 import { SettingsSection } from './components/SettingsSection';
+import { SettingsToggle } from './components/SettingsToggle';
+import { ACCENT_OPTIONS, NOTIFICATION_ITEMS } from './settingsMeta';
 import { initialsFromName } from './utils';
 import { useSettings } from './useSettings';
 import styles from './settings.module.css';
@@ -15,7 +18,6 @@ interface SettingsViewProps {
 
 export function SettingsView({ onProfileSave }: SettingsViewProps) {
   const {
-    sections,
     section,
     setSection,
     profile,
@@ -31,6 +33,7 @@ export function SettingsView({ onProfileSave }: SettingsViewProps) {
     saveChanges,
     saveMessage,
     error,
+    isDirty,
     isPasswordOpen,
     openPassword,
     closePassword,
@@ -43,41 +46,44 @@ export function SettingsView({ onProfileSave }: SettingsViewProps) {
         title="Settings"
         subtitle="Manage your profile, notifications, and classroom preferences."
       >
-        <button type="button" className={listStyles.primaryBtn} onClick={saveChanges}>
+        {isDirty ? <span className={styles.headerHint}>Unsaved changes</span> : null}
+        <button
+          type="button"
+          className={listStyles.primaryBtn}
+          onClick={saveChanges}
+          disabled={!isDirty && !error}
+        >
           Save changes
         </button>
       </PageHeader>
 
-      {error ? <p className={`${styles.statusBanner} ${styles.statusError}`}>{error}</p> : null}
+      {error ? (
+        <p className={`${styles.statusBanner} ${styles.statusError}`}>{error}</p>
+      ) : null}
       {saveMessage ? (
         <p className={`${styles.statusBanner} ${styles.statusOk}`}>{saveMessage}</p>
       ) : null}
+      {!error && !saveMessage && isDirty ? (
+        <p className={`${styles.statusBanner} ${styles.statusDirty}`}>
+          You have unsaved changes in this session.
+        </p>
+      ) : null}
 
       <div className={styles.layout}>
-        <nav className={styles.nav} aria-label="Settings sections">
-          {sections.map((item) => (
-            <button
-              key={item}
-              type="button"
-              className={`${styles.navBtn} ${section === item ? styles.navBtnActive : ''}`}
-              onClick={() => setSection(item)}
-            >
-              {item}
-            </button>
-          ))}
-        </nav>
+        <SettingsNav active={section} onChange={setSection} />
 
-        <div>
+        <div className={styles.content} key={section}>
           {section === 'Profile' ? (
             <SettingsSection
               title="Profile"
               description="Update how your name and contact details appear across Teachify."
             >
-              <div className={styles.avatarRow}>
+              <div className={styles.avatarCard}>
                 <div className={styles.avatar}>{initialsFromName(profile.fullName)}</div>
                 <div className={styles.avatarMeta}>
                   <span className={styles.avatarName}>{profile.fullName || 'Your name'}</span>
                   <span className={styles.avatarRole}>{profile.role || 'Teacher'}</span>
+                  <span className={styles.avatarEmail}>{profile.email || 'Add your email'}</span>
                 </div>
               </div>
 
@@ -141,26 +147,14 @@ export function SettingsView({ onProfileSave }: SettingsViewProps) {
               description="Choose which classroom updates should reach you."
             >
               <div className={styles.toggleList}>
-                {(
-                  [
-                    ['announcementReplies', 'Announcement replies', 'When students or parents respond'],
-                    ['assignmentDeadlines', 'Assignment deadlines', 'Reminders before work is due'],
-                    ['attendanceReminders', 'Attendance reminders', 'Before class sessions start'],
-                    ['gradePosts', 'Grade posts', 'When grades are ready to publish'],
-                    ['calendarEvents', 'Calendar events', 'Upcoming classes and school events'],
-                  ] as const
-                ).map(([key, label, hint]) => (
-                  <label key={key} className={styles.toggleRow}>
-                    <span className={styles.toggleCopy}>
-                      <span className={styles.toggleLabel}>{label}</span>
-                      <span className={styles.toggleHint}>{hint}</span>
-                    </span>
-                    <input
-                      type="checkbox"
-                      checked={notifications[key]}
-                      onChange={(e) => updateNotification(key, e.target.checked)}
-                    />
-                  </label>
+                {NOTIFICATION_ITEMS.map((item) => (
+                  <SettingsToggle
+                    key={item.key}
+                    label={item.label}
+                    hint={item.hint}
+                    checked={notifications[item.key]}
+                    onChange={(checked) => updateNotification(item.key, checked)}
+                  />
                 ))}
               </div>
             </SettingsSection>
@@ -290,17 +284,21 @@ export function SettingsView({ onProfileSave }: SettingsViewProps) {
 
               <div className={modalStyles.modalField}>
                 <span className={modalStyles.modalLabel}>Accent</span>
-                <div className={styles.chipRow}>
-                  {(['Chalk yellow', 'Soft green', 'Sky blue'] as const).map((option) => (
+                <div className={styles.accentRow}>
+                  {ACCENT_OPTIONS.map((option) => (
                     <button
-                      key={option}
+                      key={option.value}
                       type="button"
-                      className={`${styles.choiceChip} ${
-                        appearance.accent === option ? styles.choiceChipActive : ''
+                      className={`${styles.accentOption} ${
+                        appearance.accent === option.value ? styles.accentOptionActive : ''
                       }`}
-                      onClick={() => updateAppearance('accent', option)}
+                      onClick={() => updateAppearance('accent', option.value)}
                     >
-                      {option}
+                      <span
+                        className={styles.accentDot}
+                        style={{ background: option.color }}
+                      />
+                      {option.value}
                     </button>
                   ))}
                 </div>

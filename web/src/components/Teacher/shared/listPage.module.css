@@ -65,6 +65,11 @@
   border-color: rgba(245, 200, 66, 0.8);
 }
 
+.primaryBtn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
 .secondaryBtn {
   border: 1.5px dashed rgba(240, 239, 237, 0.35);
   background: transparent;

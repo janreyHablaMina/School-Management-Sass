@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { teacherSettingsMock } from '@/lib/mock/teacherSettings.mock';
 import type { TeacherProfile } from '@/types/teacherPortal';
 import type {
@@ -10,18 +10,20 @@ import type {
   SettingsSection,
   TeacherSettingsProfile,
 } from '@/types/teacherSettings';
+import { SECTION_META } from './settingsMeta';
 import { getProfileError, toTeacherProfile } from './utils';
-
-const SECTIONS: SettingsSection[] = [
-  'Profile',
-  'Notifications',
-  'Preferences',
-  'Security',
-  'Appearance',
-];
 
 interface UseSettingsOptions {
   onProfileSave?: (profile: TeacherProfile) => void;
+}
+
+function snapshotOf(
+  profile: TeacherSettingsProfile,
+  notifications: NotificationSettings,
+  preferences: PreferenceSettings,
+  appearance: AppearanceSettings,
+) {
+  return JSON.stringify({ profile, notifications, preferences, appearance });
 }
 
 export function useSettings({ onProfileSave }: UseSettingsOptions = {}) {
@@ -32,17 +34,30 @@ export function useSettings({ onProfileSave }: UseSettingsOptions = {}) {
   const [notifications, setNotifications] = useState<NotificationSettings>(seed.notifications);
   const [preferences, setPreferences] = useState<PreferenceSettings>(seed.preferences);
   const [appearance, setAppearance] = useState<AppearanceSettings>(seed.appearance);
+  const [savedSnapshot, setSavedSnapshot] = useState(() =>
+    snapshotOf(seed.profile, seed.notifications, seed.preferences, seed.appearance),
+  );
   const [saveMessage, setSaveMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isPasswordOpen, setIsPasswordOpen] = useState(false);
+
+  const isDirty = useMemo(
+    () =>
+      snapshotOf(profile, notifications, preferences, appearance) !== savedSnapshot,
+    [appearance, notifications, preferences, profile, savedSnapshot],
+  );
+
+  const markDirty = () => {
+    setSaveMessage(null);
+    setError(null);
+  };
 
   const updateProfile = <K extends keyof TeacherSettingsProfile>(
     key: K,
     value: TeacherSettingsProfile[K],
   ) => {
     setProfile((prev) => ({ ...prev, [key]: value }));
-    setSaveMessage(null);
-    setError(null);
+    markDirty();
   };
 
   const updateNotification = <K extends keyof NotificationSettings>(
@@ -50,7 +65,7 @@ export function useSettings({ onProfileSave }: UseSettingsOptions = {}) {
     value: NotificationSettings[K],
   ) => {
     setNotifications((prev) => ({ ...prev, [key]: value }));
-    setSaveMessage(null);
+    markDirty();
   };
 
   const updatePreference = <K extends keyof PreferenceSettings>(
@@ -58,7 +73,7 @@ export function useSettings({ onProfileSave }: UseSettingsOptions = {}) {
     value: PreferenceSettings[K],
   ) => {
     setPreferences((prev) => ({ ...prev, [key]: value }));
-    setSaveMessage(null);
+    markDirty();
   };
 
   const updateAppearance = <K extends keyof AppearanceSettings>(
@@ -66,7 +81,7 @@ export function useSettings({ onProfileSave }: UseSettingsOptions = {}) {
     value: AppearanceSettings[K],
   ) => {
     setAppearance((prev) => ({ ...prev, [key]: value }));
-    setSaveMessage(null);
+    markDirty();
   };
 
   const saveChanges = () => {
@@ -79,12 +94,13 @@ export function useSettings({ onProfileSave }: UseSettingsOptions = {}) {
     }
 
     onProfileSave?.(toTeacherProfile(profile));
+    setSavedSnapshot(snapshotOf(profile, notifications, preferences, appearance));
     setError(null);
     setSaveMessage('Settings saved for this session.');
   };
 
   return {
-    sections: SECTIONS,
+    sections: SECTION_META.map((item) => item.id),
     section,
     setSection,
     profile,
@@ -100,6 +116,7 @@ export function useSettings({ onProfileSave }: UseSettingsOptions = {}) {
     saveChanges,
     saveMessage,
     error,
+    isDirty,
     isPasswordOpen,
     openPassword: () => setIsPasswordOpen(true),
     closePassword: () => setIsPasswordOpen(false),

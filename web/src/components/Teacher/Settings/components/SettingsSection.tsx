@@ -11,7 +11,7 @@ interface SettingsSectionProps {
 
 export function SettingsSection({ title, description, children }: SettingsSectionProps) {
   return (
-    <section className={styles.section}>
+    <section className={styles.section} key={title}>
       <div className={styles.sectionHeader}>
         <h2 className={styles.sectionTitle}>{title}</h2>
         <p className={styles.sectionCopy}>{description}</p>
