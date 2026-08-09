@@ -259,6 +259,15 @@
   margin-top: 0 !important;
   margin-bottom: 0.35rem !important;
 }
+
+.actionDropdownMenuFixed {
+  position: fixed !important;
+  top: auto;
+  bottom: auto;
+  left: auto;
+  right: auto;
+  margin: 0 !important;
+}
 /* Table Styles */
 .table {
   width: 100%;

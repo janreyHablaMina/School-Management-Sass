@@ -6,9 +6,13 @@ import type { ClassFormInput, ClassStatus, MyClassRow } from '@/types/myClasses'
 import { usePagedList } from '../shared';
 import {
   applyClassFormInput,
+  archiveClassRow,
   buildClassFromInput,
   buildMyClassesMetrics,
   duplicateClassFrom,
+  restoreClassRow,
+  snapshotBeforeArchive,
+  type ArchivedClassSnapshot,
 } from './utils';
 
 const PAGE_SIZE = 6;
@@ -47,6 +51,11 @@ export function useMyClasses() {
   const [selectedClassId, setSelectedClassId] = useState<number | null>(null);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [editingClassId, setEditingClassId] = useState<number | null>(null);
+  const [scheduleClassId, setScheduleClassId] = useState<number | null>(null);
+  const [archiveClassId, setArchiveClassId] = useState<number | null>(null);
+  const [archivedSnapshots, setArchivedSnapshots] = useState<
+    Record<number, ArchivedClassSnapshot>
+  >({});
   const [toast, setToast] = useState<{ title: string; message?: string } | null>(null);
 
   const metrics = useMemo(() => buildMyClassesMetrics(classes), [classes]);
@@ -66,6 +75,16 @@ export function useMyClasses() {
   const editingClass = useMemo(
     () => classes.find((cls) => cls.id === editingClassId) ?? null,
     [classes, editingClassId],
+  );
+
+  const scheduleClass = useMemo(
+    () => classes.find((cls) => cls.id === scheduleClassId) ?? null,
+    [classes, scheduleClassId],
+  );
+
+  const archiveTarget = useMemo(
+    () => classes.find((cls) => cls.id === archiveClassId) ?? null,
+    [classes, archiveClassId],
   );
 
   useEffect(() => {
@@ -109,6 +128,49 @@ export function useMyClasses() {
     });
   };
 
+  const confirmArchive = () => {
+    if (archiveClassId == null) return;
+    const source = classes.find((cls) => cls.id === archiveClassId);
+    if (!source || source.status === 'Archived') {
+      setArchiveClassId(null);
+      return;
+    }
+
+    setArchivedSnapshots((prev) => ({
+      ...prev,
+      [source.id]: snapshotBeforeArchive(source),
+    }));
+    setClasses((prev) =>
+      prev.map((cls) => (cls.id === source.id ? archiveClassRow(cls) : cls)),
+    );
+    setArchiveClassId(null);
+    setEditingClassId((id) => (id === source.id ? null : id));
+    setScheduleClassId((id) => (id === source.id ? null : id));
+    if (selectedClassId === source.id) setSelectedClassId(null);
+    setToast({
+      title: 'Class archived',
+      message: `${source.subject} · ${source.gradeSection}. Find it under Archived.`,
+    });
+  };
+
+  const restoreClass = (id: number) => {
+    const source = classes.find((cls) => cls.id === id);
+    if (!source || source.status !== 'Archived') return;
+    const snapshot = archivedSnapshots[id];
+    setClasses((prev) =>
+      prev.map((cls) => (cls.id === id ? restoreClassRow(cls, snapshot) : cls)),
+    );
+    setArchivedSnapshots((prev) => {
+      const next = { ...prev };
+      delete next[id];
+      return next;
+    });
+    setToast({
+      title: 'Class restored',
+      message: `${source.subject} · ${source.gradeSection} is Active again.`,
+    });
+  };
+
   return {
     metrics,
     filterOptions,
@@ -120,6 +182,8 @@ export function useMyClasses() {
     isCreateOpen,
     openCreate: () => {
       setEditingClassId(null);
+      setScheduleClassId(null);
+      setArchiveClassId(null);
       setIsCreateOpen(true);
     },
     closeCreate: () => setIsCreateOpen(false),
@@ -127,11 +191,31 @@ export function useMyClasses() {
     editingClass,
     openEdit: (id: number) => {
       setIsCreateOpen(false);
+      setScheduleClassId(null);
+      setArchiveClassId(null);
       setEditingClassId(id);
     },
     closeEdit: () => setEditingClassId(null),
     updateClass,
     duplicateClass,
+    scheduleClass,
+    openSchedule: (id: number) => {
+      setIsCreateOpen(false);
+      setEditingClassId(null);
+      setArchiveClassId(null);
+      setScheduleClassId(id);
+    },
+    closeSchedule: () => setScheduleClassId(null),
+    archiveTarget,
+    openArchive: (id: number) => {
+      setIsCreateOpen(false);
+      setEditingClassId(null);
+      setScheduleClassId(null);
+      setArchiveClassId(id);
+    },
+    closeArchive: () => setArchiveClassId(null),
+    confirmArchive,
+    restoreClass,
     toast,
     dismissToast: () => setToast(null),
   };

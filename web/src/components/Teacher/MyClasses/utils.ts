@@ -205,6 +205,58 @@ function nextCopySection(section: string, existing: MyClassRow[], gradeLevel: st
   return candidate;
 }
 
+const DEFAULT_RESTORE_SCHEDULE = 'Mon, Wed, Fri · 8:00 - 9:00 AM';
+
+export interface ArchivedClassSnapshot {
+  schedule: string;
+  accent: string;
+  icon: string;
+}
+
+export function snapshotBeforeArchive(cls: MyClassRow): ArchivedClassSnapshot {
+  return {
+    schedule: cls.schedule,
+    accent: cls.accent,
+    icon: cls.icon,
+  };
+}
+
+/** Mark a class archived (schedule shown as Archived; accent muted). */
+export function archiveClassRow(cls: MyClassRow): MyClassRow {
+  if (cls.status === 'Archived') return cls;
+  return {
+    ...cls,
+    status: 'Archived',
+    schedule: 'Archived',
+    accent: '#8a9a90',
+  };
+}
+
+/** Reactivate an archived class, restoring snapshot fields when available. */
+export function restoreClassRow(
+  cls: MyClassRow,
+  snapshot?: ArchivedClassSnapshot,
+): MyClassRow {
+  if (cls.status !== 'Archived') return cls;
+  const schedule =
+    snapshot?.schedule && snapshot.schedule !== 'Archived'
+      ? snapshot.schedule
+      : DEFAULT_RESTORE_SCHEDULE;
+  const style =
+    SUBJECT_STYLE[cls.subject] ??
+    (snapshot
+      ? { accent: snapshot.accent, icon: snapshot.icon }
+      : styleForSubject(cls.subject, cls.id));
+
+  return {
+    ...cls,
+    status: 'Active',
+    schedule,
+    accent: snapshot?.accent ?? style.accent,
+    icon: snapshot?.icon ?? style.icon,
+  };
+}
+
 /** Clone a class with a new id; roster/progress reset for the copy. */
 export function duplicateClassFrom(cls: MyClassRow, existing: MyClassRow[]): MyClassRow {
   const nextId = existing.reduce((max, item) => Math.max(max, item.id), 0) + 1;

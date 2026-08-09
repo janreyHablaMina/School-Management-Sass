@@ -2,8 +2,10 @@
 
 import type { TeacherNavRequest } from '@/lib/teacher/classFocus';
 import { listStyles, ResourceListPage, TeacherToast } from '../shared';
+import { ArchiveClassModal } from './components/ArchiveClassModal';
 import { ClassDetailView } from './components/ClassDetailView';
 import { ClassFormModal } from './components/ClassFormModal';
+import { ClassScheduleModal } from './components/ClassScheduleModal';
 import { CreateClassModal } from './components/CreateClassModal';
 import { ClassesTable } from './ClassesTable';
 import { MyClassesFilters } from './MyClassesFilters';
@@ -40,6 +42,14 @@ export function MyClassesView({ onNavigate }: MyClassesViewProps) {
     closeEdit,
     updateClass,
     duplicateClass,
+    scheduleClass,
+    openSchedule,
+    closeSchedule,
+    archiveTarget,
+    openArchive,
+    closeArchive,
+    confirmArchive,
+    restoreClass,
     toast,
     dismissToast,
   } = useMyClasses();
@@ -50,7 +60,11 @@ export function MyClassesView({ onNavigate }: MyClassesViewProps) {
         <ClassDetailView
           cls={selectedClass}
           onBack={backToClasses}
-          onEdit={() => openEdit(selectedClass.id)}
+          onEdit={
+            selectedClass.status === 'Active'
+              ? () => openEdit(selectedClass.id)
+              : undefined
+          }
           onNavigate={onNavigate}
         />
       ) : (
@@ -84,6 +98,9 @@ export function MyClassesView({ onNavigate }: MyClassesViewProps) {
               onOpen={openClass}
               onEdit={openEdit}
               onDuplicate={duplicateClass}
+              onViewSchedule={openSchedule}
+              onArchive={openArchive}
+              onRestore={restoreClass}
             />
           }
           rangeStart={rangeStart}
@@ -115,6 +132,30 @@ export function MyClassesView({ onNavigate }: MyClassesViewProps) {
           initialValues={classToFormValues(editingClass)}
           onCancel={closeEdit}
           onSubmit={updateClass}
+        />
+      ) : null}
+
+      {scheduleClass ? (
+        <ClassScheduleModal
+          cls={scheduleClass}
+          onClose={closeSchedule}
+          onEdit={
+            scheduleClass.status === 'Active'
+              ? () => openEdit(scheduleClass.id)
+              : undefined
+          }
+          onOpenCalendar={() => {
+            closeSchedule();
+            onNavigate?.('Calendar');
+          }}
+        />
+      ) : null}
+
+      {archiveTarget ? (
+        <ArchiveClassModal
+          cls={archiveTarget}
+          onCancel={closeArchive}
+          onConfirm={confirmArchive}
         />
       ) : null}
 
