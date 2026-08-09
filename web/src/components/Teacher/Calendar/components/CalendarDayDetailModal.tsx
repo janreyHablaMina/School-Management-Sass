@@ -12,6 +12,7 @@ interface CalendarDayDetailModalProps {
   events: TeacherCalendarEvent[];
   focusEventId?: string | null;
   onClose: () => void;
+  onAddEvent: () => void;
 }
 
 export function CalendarDayDetailModal({
@@ -19,6 +20,7 @@ export function CalendarDayDetailModal({
   events,
   focusEventId = null,
   onClose,
+  onAddEvent,
 }: CalendarDayDetailModalProps) {
   const focusRef = useRef<HTMLElement | null>(null);
 
@@ -103,7 +105,7 @@ export function CalendarDayDetailModal({
           <button type="button" className={listStyles.secondaryBtn} onClick={onClose}>
             Close
           </button>
-          <button type="button" className={listStyles.primaryBtn}>
+          <button type="button" className={listStyles.primaryBtn} onClick={onAddEvent}>
             + Add Event
           </button>
         </div>

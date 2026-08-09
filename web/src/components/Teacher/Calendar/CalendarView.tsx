@@ -7,6 +7,7 @@ import { CalendarDayDetailModal } from './components/CalendarDayDetailModal';
 import { CalendarLegend } from './components/CalendarLegend';
 import { CalendarMonthGrid } from './components/CalendarMonthGrid';
 import { CalendarTypeFilters } from './components/CalendarTypeFilters';
+import { CreateEventModal } from './components/CreateEventModal';
 import { useCalendar } from './useCalendar';
 import styles from './calendar.module.css';
 
@@ -14,6 +15,7 @@ export function CalendarView() {
   const {
     metrics,
     filters,
+    classroomOptions,
     typeFilter,
     setTypeFilter,
     monthLabel,
@@ -23,6 +25,7 @@ export function CalendarView() {
     selectedDay,
     selectedYear,
     selectedMonth,
+    selectedDateKey,
     selectedDayLabel,
     selectedDayEvents,
     selectDay,
@@ -31,6 +34,10 @@ export function CalendarView() {
     closeDayDetail,
     isDayDetailOpen,
     focusEventId,
+    isCreateOpen,
+    openCreate,
+    closeCreate,
+    createEvent,
     goToPrevMonth,
     goToNextMonth,
     goToToday,
@@ -46,7 +53,7 @@ export function CalendarView() {
         <button type="button" className={listStyles.secondaryBtn} onClick={goToToday}>
           Today
         </button>
-        <button type="button" className={listStyles.primaryBtn}>
+        <button type="button" className={listStyles.primaryBtn} onClick={openCreate}>
           + Add Event
         </button>
       </PageHeader>
@@ -89,6 +96,16 @@ export function CalendarView() {
           events={selectedDayEvents}
           focusEventId={focusEventId}
           onClose={closeDayDetail}
+          onAddEvent={openCreate}
+        />
+      ) : null}
+
+      {isCreateOpen ? (
+        <CreateEventModal
+          defaultDateKey={selectedDateKey}
+          classrooms={classroomOptions}
+          onCancel={closeCreate}
+          onCreate={createEvent}
         />
       ) : null}
     </div>

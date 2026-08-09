@@ -312,8 +312,22 @@
   color: rgba(240, 239, 237, 0.55);
 }
 
-.dayDetailCard {
+.dayDetailCard,
+.createEventCard {
   width: min(640px, 100%);
+}
+
+.createEventGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 0.75rem;
+  margin-top: 0;
+}
+
+@media (max-width: 720px) {
+  .createEventGrid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .dayDetailHeader {

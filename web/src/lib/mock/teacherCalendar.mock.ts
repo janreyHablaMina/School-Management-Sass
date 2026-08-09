@@ -1,5 +1,6 @@
 import { CALENDAR_FILTERS, CALENDAR_TYPE_ACCENTS } from '@/lib/calendar/constants';
 import { formatDateKey, shiftDays } from '@/lib/calendar/dates';
+import { buildCalendarMetrics } from '@/lib/calendar/metrics';
 import type { TeacherCalendarEvent, TeacherCalendarPageData } from '@/types/teacherCalendar';
 
 function event(
@@ -184,45 +185,17 @@ export function buildTeacherCalendarMock(referenceDate = new Date()): TeacherCal
     }),
   ];
 
-  const monthKey = formatDateKey(today).slice(0, 7);
-  const monthEvents = events.filter((item) => item.dateKey.startsWith(monthKey));
-
   return {
-    metrics: [
-      {
-        label: 'This Month',
-        value: String(monthEvents.length),
-        subtitle: 'Scheduled items',
-        icon: '📅',
-        accent: CALENDAR_TYPE_ACCENTS.Event,
-      },
-      {
-        label: 'Classes',
-        value: String(monthEvents.filter((item) => item.type === 'Class').length),
-        subtitle: 'Teaching blocks',
-        icon: '📚',
-        accent: CALENDAR_TYPE_ACCENTS.Class,
-      },
-      {
-        label: 'Deadlines',
-        value: String(
-          monthEvents.filter((item) =>
-            item.type === 'Assignment' || item.type === 'Quiz' || item.type === 'Exam',
-          ).length,
-        ),
-        subtitle: 'Assignments & tests',
-        icon: '⏰',
-        accent: CALENDAR_TYPE_ACCENTS.Exam,
-      },
-      {
-        label: 'Events',
-        value: String(monthEvents.filter((item) => item.type === 'Event').length),
-        subtitle: 'Meetings & school events',
-        icon: '🗓️',
-        accent: CALENDAR_TYPE_ACCENTS.Quiz,
-      },
-    ],
+    metrics: buildCalendarMetrics(events, today),
     filters: CALENDAR_FILTERS,
+    classroomOptions: [
+      'All Classes',
+      'Grade 7 - Section A',
+      'Grade 8 - Section B',
+      'Grade 9 - Section A',
+      'Grade 10 - ICT',
+      'Homeroom',
+    ],
     events,
   };
 }

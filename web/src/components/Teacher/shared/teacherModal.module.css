@@ -100,6 +100,11 @@
   color-scheme: dark;
 }
 
+select.modalInput option {
+  background: #0b1610;
+  color: #f0efed;
+}
+
 .modalTextarea {
   resize: vertical;
   min-height: 96px;

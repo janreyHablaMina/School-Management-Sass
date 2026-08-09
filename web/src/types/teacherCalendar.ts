@@ -27,8 +27,21 @@ export interface TeacherCalendarEvent {
   accent: string;
 }
 
+export interface CreateCalendarEventInput {
+  title: string;
+  type: CalendarEventType;
+  classLabel: string;
+  dateKey: string;
+  startTime: string;
+  endTime?: string;
+  location?: string;
+  description: string;
+  notes?: string;
+}
+
 export interface TeacherCalendarPageData {
   metrics: TeacherSummaryMetric[];
   filters: CalendarFilter[];
+  classroomOptions: string[];
   events: TeacherCalendarEvent[];
 }

@@ -2,8 +2,14 @@
 
 import { useMemo, useState } from 'react';
 import { teacherCalendarPageMock } from '@/lib/mock/teacherCalendar.mock';
-import type { CalendarFilter, TeacherCalendarEvent } from '@/types/teacherCalendar';
+import type {
+  CalendarFilter,
+  CreateCalendarEventInput,
+  TeacherCalendarEvent,
+} from '@/types/teacherCalendar';
 import {
+  buildCalendarMetrics,
+  buildEventFromInput,
   formatDayLabel,
   formatMonthLabel,
   groupEventsByDay,
@@ -15,18 +21,21 @@ import {
 } from './utils';
 
 export function useCalendar() {
-  const { metrics, filters, events } = teacherCalendarPageMock;
+  const { filters, classroomOptions, events: seedEvents } = teacherCalendarPageMock;
   const today = todayParts();
   const initialKey = toDateKey(today.year, today.month, today.day);
 
+  const [events, setEvents] = useState(seedEvents);
   const [viewYear, setViewYear] = useState(today.year);
   const [viewMonth, setViewMonth] = useState(today.month);
   const [selectedDateKey, setSelectedDateKey] = useState(initialKey);
   const [typeFilter, setTypeFilter] = useState<CalendarFilter>('All');
   const [isDayDetailOpen, setIsDayDetailOpen] = useState(false);
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [focusEventId, setFocusEventId] = useState<string | null>(null);
 
   const selected = parseDateKey(selectedDateKey);
+  const metrics = useMemo(() => buildCalendarMetrics(events), [events]);
 
   const filteredEvents = useMemo(() => {
     if (typeFilter === 'All') return events;
@@ -71,6 +80,26 @@ export function useCalendar() {
     setFocusEventId(null);
   };
 
+  const openCreate = () => {
+    setIsDayDetailOpen(false);
+    setIsCreateOpen(true);
+  };
+
+  const closeCreate = () => setIsCreateOpen(false);
+
+  const createEvent = (input: CreateCalendarEventInput) => {
+    const next = buildEventFromInput(input, `evt-${Date.now()}`);
+    const { year, month } = parseDateKey(next.dateKey);
+
+    setEvents((prev) => [next, ...prev]);
+    setViewYear(year);
+    setViewMonth(month);
+    setSelectedDateKey(next.dateKey);
+    setIsCreateOpen(false);
+    setFocusEventId(next.id);
+    setIsDayDetailOpen(true);
+  };
+
   const goToPrevMonth = () => {
     if (viewMonth === 1) {
       setViewMonth(12);
@@ -99,6 +128,7 @@ export function useCalendar() {
   return {
     metrics,
     filters,
+    classroomOptions,
     typeFilter,
     setTypeFilter,
     monthLabel: formatMonthLabel(viewYear, viewMonth),
@@ -108,6 +138,7 @@ export function useCalendar() {
     selectedDay: selected.day,
     selectedYear: selected.year,
     selectedMonth: selected.month,
+    selectedDateKey,
     selectedDayLabel: formatDayLabel(selectedDateKey),
     selectedDayEvents,
     selectDay,
@@ -116,6 +147,10 @@ export function useCalendar() {
     closeDayDetail,
     isDayDetailOpen,
     focusEventId,
+    isCreateOpen,
+    openCreate,
+    closeCreate,
+    createEvent,
     goToPrevMonth,
     goToNextMonth,
     goToToday,
