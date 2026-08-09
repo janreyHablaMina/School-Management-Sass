@@ -3,65 +3,29 @@
 import type { StudentGuardian, TeacherStudentRow } from '@/types/teacherStudents';
 import { listStyles, TeacherModal } from '../../shared';
 import {
+  GUARDIAN_CHANNELS,
   openGuardianChannel,
   type GuardianContactChannel,
-} from '../utils';
+} from '../contactChannels';
 import styles from '../students.module.css';
-
-const CHANNELS: Array<{
-  id: GuardianContactChannel;
-  icon: string;
-  label: string;
-  hint: string;
-  featured?: boolean;
-}> = [
-  {
-    id: 'app',
-    icon: '💬',
-    label: 'App message',
-    hint: 'Send in Teachify (parents app)',
-    featured: true,
-  },
-  {
-    id: 'email',
-    icon: '✉️',
-    label: 'Email',
-    hint: 'Open your email app',
-  },
-  {
-    id: 'sms',
-    icon: '📱',
-    label: 'SMS',
-    hint: 'Text message to phone',
-  },
-  {
-    id: 'call',
-    icon: '📞',
-    label: 'Call',
-    hint: 'Dial guardian phone',
-  },
-];
 
 interface ContactGuardianModalProps {
   student: TeacherStudentRow;
   guardian: StudentGuardian;
   onClose: () => void;
-  onAppMessage?: (guardian: StudentGuardian) => void;
+  /** Called when a channel produces a toast (e.g. app-message stub). */
+  onNotice?: (notice: { title: string; message: string }) => void;
 }
 
 export function ContactGuardianModal({
   student,
   guardian,
   onClose,
-  onAppMessage,
+  onNotice,
 }: ContactGuardianModalProps) {
   const handleChannel = (channel: GuardianContactChannel) => {
-    if (channel === 'app') {
-      onAppMessage?.(guardian);
-      onClose();
-      return;
-    }
-    openGuardianChannel(channel, student, guardian);
+    const notice = openGuardianChannel(channel, student, guardian);
+    if (notice) onNotice?.(notice);
     onClose();
   };
 
@@ -84,7 +48,7 @@ export function ContactGuardianModal({
         connected.
       </p>
       <div className={styles.contactChannelGrid}>
-        {CHANNELS.map((channel) => (
+        {GUARDIAN_CHANNELS.map((channel) => (
           <button
             key={channel.id}
             type="button"

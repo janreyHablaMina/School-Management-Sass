@@ -1,26 +1,14 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import type { TeacherClassFocus, TeacherNavRequest } from '@/lib/teacher/classFocus';
-import type { StudentGuardian, TeacherStudentRow } from '@/types/teacherStudents';
-import {
-  EmptyState,
-  listStyles,
-  PageHeader,
-  PaginationBar,
-  SummaryMetrics,
-  TeacherToast,
-} from '../shared';
+import { listStyles, ResourceListPage, TeacherToast } from '../shared';
 import { ContactGuardianModal } from './components/ContactGuardianModal';
 import { StudentDetailView } from './components/StudentDetailView';
-import { useStudents } from './useStudents';
 import { StudentsFilters } from './StudentsFilters';
 import { StudentsTable } from './StudentsTable';
-import {
-  openGuardianChannel,
-  primaryGuardian,
-  toStudentClassFocus,
-} from './utils';
+import { useGuardianContact } from './useGuardianContact';
+import { useStudents } from './useStudents';
+import { toStudentClassFocus } from './utils';
 
 interface StudentsViewProps {
   classFocus?: TeacherClassFocus | null;
@@ -48,19 +36,14 @@ export function StudentsView({
     backToStudents,
   } = useStudents({ classFocus });
 
-  const [contactTarget, setContactTarget] = useState<{
-    student: TeacherStudentRow;
-    guardian: StudentGuardian;
-  } | null>(null);
-  const [toast, setToast] = useState<{ title: string; message?: string } | null>(
-    null,
-  );
-
-  useEffect(() => {
-    if (!toast) return;
-    const timer = window.setTimeout(() => setToast(null), 3500);
-    return () => window.clearTimeout(timer);
-  }, [toast]);
+  const {
+    target,
+    openContact,
+    closeContact,
+    showToast,
+    toast,
+    dismissToast,
+  } = useGuardianContact();
 
   if (selectedStudent) {
     return (
@@ -73,54 +56,49 @@ export function StudentsView({
   }
 
   return (
-    <div className={listStyles.page}>
-      <PageHeader
+    <>
+      <ResourceListPage
         title="Students"
         subtitle="View and manage all students from your classes."
-      >
-        <button type="button" className={listStyles.secondaryBtn}>
-          ⬆ Import Students
-        </button>
-        <button type="button" className={listStyles.primaryBtn}>
-          + Add Student
-        </button>
-      </PageHeader>
-
-      <SummaryMetrics metrics={metrics} columns={5} />
-
-      <StudentsFilters
-        filters={filters}
-        onFilterChange={setFilter}
-        classes={filterOptions.classes}
-        gradeLevels={filterOptions.gradeLevels}
-        statuses={filterOptions.statuses}
-      />
-
-      {paginatedStudents.length === 0 ? (
-        <EmptyState
-          title="No students found"
-          description="Try adjusting your search or filters."
-        />
-      ) : (
-        <StudentsTable
-          students={paginatedStudents}
-          onOpen={openStudent}
-          onViewGrades={(id) => {
-            const student = paginatedStudents.find((item) => item.id === id);
-            if (!student) return;
-            onNavigate?.({ tab: 'Grades', classFocus: toStudentClassFocus(student) });
-          }}
-          onMessage={(id) => {
-            const student = paginatedStudents.find((item) => item.id === id);
-            if (!student) return;
-            const guardian = primaryGuardian(student);
-            if (!guardian) return;
-            setContactTarget({ student, guardian });
-          }}
-        />
-      )}
-
-      <PaginationBar
+        headerActions={
+          <>
+            <button type="button" className={listStyles.secondaryBtn}>
+              ⬆ Import Students
+            </button>
+            <button type="button" className={listStyles.primaryBtn}>
+              + Add Student
+            </button>
+          </>
+        }
+        metrics={metrics}
+        metricsColumns={5}
+        filters={
+          <StudentsFilters
+            filters={filters}
+            onFilterChange={setFilter}
+            classes={filterOptions.classes}
+            gradeLevels={filterOptions.gradeLevels}
+            statuses={filterOptions.statuses}
+          />
+        }
+        itemsCount={paginatedStudents.length}
+        emptyTitle="No students found"
+        emptyDescription="Try adjusting your search or filters."
+        table={
+          <StudentsTable
+            students={paginatedStudents}
+            onOpen={openStudent}
+            onViewGrades={(id) => {
+              const student = paginatedStudents.find((item) => item.id === id);
+              if (!student) return;
+              onNavigate?.({ tab: 'Grades', classFocus: toStudentClassFocus(student) });
+            }}
+            onMessage={(id) => {
+              const student = paginatedStudents.find((item) => item.id === id);
+              if (student) openContact(student);
+            }}
+          />
+        }
         rangeStart={rangeStart}
         rangeEnd={rangeEnd}
         total={filteredCount}
@@ -130,19 +108,12 @@ export function StudentsView({
         onPageChange={setPage}
       />
 
-      {contactTarget ? (
+      {target ? (
         <ContactGuardianModal
-          student={contactTarget.student}
-          guardian={contactTarget.guardian}
-          onClose={() => setContactTarget(null)}
-          onAppMessage={(guardian) => {
-            const notice = openGuardianChannel(
-              'app',
-              contactTarget.student,
-              guardian,
-            );
-            if (notice) setToast(notice);
-          }}
+          student={target.student}
+          guardian={target.guardian}
+          onClose={closeContact}
+          onNotice={showToast}
         />
       ) : null}
 
@@ -150,9 +121,9 @@ export function StudentsView({
         <TeacherToast
           title={toast.title}
           message={toast.message}
-          onClose={() => setToast(null)}
+          onClose={dismissToast}
         />
       ) : null}
-    </div>
+    </>
   );
 }

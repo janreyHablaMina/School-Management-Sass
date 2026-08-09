@@ -42,65 +42,6 @@ export function primaryGuardian(student: TeacherStudentRow): StudentGuardian | n
   );
 }
 
-export type GuardianContactChannel = 'app' | 'email' | 'sms' | 'call';
-
-export function contactSubject(student: TeacherStudentRow): string {
-  return `Regarding ${student.fullName} · ${student.classLabel}`;
-}
-
-export function contactSmsBody(student: TeacherStudentRow): string {
-  return `Hi, this is about ${student.fullName} (${student.classLabel}).`;
-}
-
-export function emailContact(email: string, subject: string) {
-  window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
-}
-
-export function smsContact(phone: string, body: string) {
-  const digits = phone.replace(/[^\d+]/g, '');
-  if (!digits) return;
-  window.location.href = `sms:${digits}?body=${encodeURIComponent(body)}`;
-}
-
-export function callPhone(phone: string) {
-  const digits = phone.replace(/[^\d+]/g, '');
-  if (!digits) return;
-  window.location.href = `tel:${digits}`;
-}
-
-/** Prefer primary guardian email; falls back to student email. */
-export function messageGuardian(student: TeacherStudentRow) {
-  const guardian = primaryGuardian(student);
-  emailContact(guardian?.email ?? student.email, contactSubject(student));
-}
-
-export function openGuardianChannel(
-  channel: GuardianContactChannel,
-  student: TeacherStudentRow,
-  guardian: StudentGuardian,
-): { title: string; message: string } | null {
-  const subject = contactSubject(student);
-
-  switch (channel) {
-    case 'email':
-      emailContact(guardian.email, subject);
-      return null;
-    case 'sms':
-      smsContact(guardian.phone, contactSmsBody(student));
-      return null;
-    case 'call':
-      callPhone(guardian.phone);
-      return null;
-    case 'app':
-      return {
-        title: 'App message ready',
-        message: `Draft to ${guardian.name} will open in Teachify Messages once messaging is connected.`,
-      };
-    default:
-      return null;
-  }
-}
-
 export interface StudentActivityItem {
   id: string;
   tone: 'ok' | 'warn' | 'info';

@@ -2,21 +2,17 @@
 
 import { useEffect, useState } from 'react';
 import type { TeacherNavRequest } from '@/lib/teacher/classFocus';
-import type { StudentGuardian, TeacherStudentRow } from '@/types/teacherStudents';
+import type { TeacherStudentRow } from '@/types/teacherStudents';
 import { listStyles, TeacherToast } from '../../shared';
-import {
-  openGuardianChannel,
-  primaryGuardian,
-  toStudentClassFocus,
-  type GuardianContactChannel,
-} from '../utils';
+import { useGuardianContact } from '../useGuardianContact';
+import { toStudentClassFocus } from '../utils';
 import styles from '../students.module.css';
 import { ContactGuardianModal } from './ContactGuardianModal';
 import {
   StudentDossierBody,
+  StudentDossierHero,
   type DossierTab,
-} from './StudentDossierBody';
-import { StudentDossierHero } from './StudentDossierHero';
+} from './dossier';
 
 interface StudentDetailViewProps {
   student: TeacherStudentRow;
@@ -31,43 +27,19 @@ export function StudentDetailView({
 }: StudentDetailViewProps) {
   const classFocus = toStudentClassFocus(student);
   const [tab, setTab] = useState<DossierTab>('overview');
-  const [contactGuardian, setContactGuardian] = useState<StudentGuardian | null>(
-    null,
-  );
-  const [toast, setToast] = useState<{ title: string; message?: string } | null>(
-    null,
-  );
+  const {
+    target,
+    openContact,
+    closeContact,
+    runChannel,
+    showToast,
+    toast,
+    dismissToast,
+  } = useGuardianContact();
 
   useEffect(() => {
     setTab('overview');
   }, [student.id]);
-
-  useEffect(() => {
-    if (!toast) return;
-    const timer = window.setTimeout(() => setToast(null), 3500);
-    return () => window.clearTimeout(timer);
-  }, [toast]);
-
-  const handleAppMessage = (guardian: StudentGuardian) => {
-    const notice = openGuardianChannel('app', student, guardian);
-    if (notice) setToast(notice);
-  };
-
-  const handleGuardianChannel = (
-    guardian: StudentGuardian,
-    channel: GuardianContactChannel,
-  ) => {
-    if (channel === 'app') {
-      handleAppMessage(guardian);
-      return;
-    }
-    openGuardianChannel(channel, student, guardian);
-  };
-
-  const openPrimaryContact = () => {
-    const guardian = primaryGuardian(student);
-    if (guardian) setContactGuardian(guardian);
-  };
 
   return (
     <div className={listStyles.page}>
@@ -75,7 +47,7 @@ export function StudentDetailView({
         <StudentDossierHero
           student={student}
           onBack={onBack}
-          onContact={openPrimaryContact}
+          onContact={() => openContact(student)}
           onViewGrades={() => onNavigate?.({ tab: 'Grades', classFocus })}
         />
 
@@ -84,17 +56,19 @@ export function StudentDetailView({
           activeTab={tab}
           onTabChange={setTab}
           onNavigate={onNavigate}
-          onContact={openPrimaryContact}
-          onGuardianChannel={handleGuardianChannel}
+          onContact={() => openContact(student)}
+          onGuardianChannel={(guardian, channel) =>
+            runChannel(channel, student, guardian)
+          }
         />
       </div>
 
-      {contactGuardian ? (
+      {target ? (
         <ContactGuardianModal
-          student={student}
-          guardian={contactGuardian}
-          onClose={() => setContactGuardian(null)}
-          onAppMessage={handleAppMessage}
+          student={target.student}
+          guardian={target.guardian}
+          onClose={closeContact}
+          onNotice={showToast}
         />
       ) : null}
 
@@ -102,7 +76,7 @@ export function StudentDetailView({
         <TeacherToast
           title={toast.title}
           message={toast.message}
-          onClose={() => setToast(null)}
+          onClose={dismissToast}
         />
       ) : null}
     </div>

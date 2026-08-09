@@ -3,14 +3,18 @@
 import type { TeacherNavRequest } from '@/lib/teacher/classFocus';
 import type { StudentGuardian, TeacherStudentRow } from '@/types/teacherStudents';
 import {
+  GUARDIAN_CHANNELS,
+  type GuardianContactChannel,
+} from '../../contactChannels';
+import {
   buildStudentActivity,
   primaryGuardian,
   toStudentClassFocus,
-  type GuardianContactChannel,
-} from '../utils';
-import styles from '../students.module.css';
+} from '../../utils';
+import styles from '../../students.module.css';
+import { DossierFact } from './DossierFact';
 
-type DossierTab = 'overview' | 'family' | 'record';
+export type DossierTab = 'overview' | 'family' | 'record';
 
 interface StudentDossierBodyProps {
   student: TeacherStudentRow;
@@ -38,15 +42,6 @@ const JUMPS = [
   { tab: 'Assignments', icon: '📋', label: 'Assignments' },
   { tab: 'Lessons', icon: '📖', label: 'Lessons' },
 ] as const;
-
-function Fact({ label, value }: { label: string; value: string }) {
-  return (
-    <div className={styles.dossierFact}>
-      <span>{label}</span>
-      <strong>{value}</strong>
-    </div>
-  );
-}
 
 export function StudentDossierBody({
   student,
@@ -187,33 +182,26 @@ export function StudentDossierBody({
                 </div>
 
                 <div className={styles.dossierFactList}>
-                  <Fact label="Phone" value={item.phone} />
-                  <Fact label="Email" value={item.email} />
+                  <DossierFact label="Phone" value={item.phone} />
+                  <DossierFact label="Email" value={item.email} />
                 </div>
 
                 <div className={styles.dossierChannelRow}>
-                  {(
-                    [
-                      ['app', '💬', 'App'],
-                      ['email', '✉️', 'Email'],
-                      ['sms', '📱', 'SMS'],
-                      ['call', '📞', 'Call'],
-                    ] as const
-                  ).map(([channel, icon, label]) => (
+                  {GUARDIAN_CHANNELS.map((channel) => (
                     <button
-                      key={channel}
+                      key={channel.id}
                       type="button"
                       className={
-                        channel === 'app'
+                        channel.featured
                           ? `${styles.dossierChannel} ${styles.dossierChannelApp}`
                           : styles.dossierChannel
                       }
-                      onClick={() => onGuardianChannel?.(item, channel)}
+                      onClick={() => onGuardianChannel?.(item, channel.id)}
                     >
                       <span className={styles.dossierChannelIcon} aria-hidden>
-                        {icon}
+                        {channel.icon}
                       </span>
-                      <span>{label}</span>
+                      <span>{channel.shortLabel}</span>
                     </button>
                   ))}
                 </div>
@@ -226,9 +214,12 @@ export function StudentDossierBody({
               <p className={styles.dossierBlockEyebrow}>Safety</p>
               <h2 className={styles.dossierBlockTitle}>Emergency</h2>
               <div className={styles.dossierFactList}>
-                <Fact label="Name" value={details.emergencyContact.name} />
-                <Fact label="Relation" value={details.emergencyContact.relationship} />
-                <Fact label="Phone" value={details.emergencyContact.phone} />
+                <DossierFact label="Name" value={details.emergencyContact.name} />
+                <DossierFact
+                  label="Relation"
+                  value={details.emergencyContact.relationship}
+                />
+                <DossierFact label="Phone" value={details.emergencyContact.phone} />
               </div>
             </div>
 
@@ -257,15 +248,15 @@ export function StudentDossierBody({
               <p className={styles.dossierBlockEyebrow}>Personal</p>
               <h2 className={styles.dossierBlockTitle}>About</h2>
               <div className={styles.dossierFactList}>
-                <Fact label="Gender" value={details.gender} />
-                <Fact
+                <DossierFact label="Gender" value={details.gender} />
+                <DossierFact
                   label="Birth date"
                   value={`${details.birthDate} (${details.age} yrs)`}
                 />
-                <Fact label="LRN" value={details.lrn} />
-                <Fact label="Student ID" value={student.idNumber} />
-                <Fact label="Phone" value={student.phone} />
-                <Fact label="Email" value={student.email} />
+                <DossierFact label="LRN" value={details.lrn} />
+                <DossierFact label="Student ID" value={student.idNumber} />
+                <DossierFact label="Phone" value={student.phone} />
+                <DossierFact label="Email" value={student.email} />
               </div>
               <div className={styles.dossierAddress}>
                 <span>Home address</span>
@@ -277,8 +268,8 @@ export function StudentDossierBody({
               <p className={styles.dossierBlockEyebrow}>Health</p>
               <h2 className={styles.dossierBlockTitle}>Medical</h2>
               <div className={styles.dossierFactList}>
-                <Fact label="Allergies" value={details.allergies} />
-                <Fact label="Notes" value={details.medicalNotes} />
+                <DossierFact label="Allergies" value={details.allergies} />
+                <DossierFact label="Notes" value={details.medicalNotes} />
               </div>
             </div>
 
@@ -297,10 +288,10 @@ export function StudentDossierBody({
                 </button>
               </div>
               <div className={styles.dossierFactList}>
-                <Fact label="Class" value={student.classLabel} />
-                <Fact label="Subject" value={student.subject} />
-                <Fact label="Enrolled" value={details.enrollmentDate} />
-                <Fact label="Standing" value={student.status} />
+                <DossierFact label="Class" value={student.classLabel} />
+                <DossierFact label="Subject" value={student.subject} />
+                <DossierFact label="Enrolled" value={details.enrollmentDate} />
+                <DossierFact label="Standing" value={student.status} />
               </div>
               <p className={styles.dossierNote}>
                 <span>Teacher notes</span>
@@ -313,5 +304,3 @@ export function StudentDossierBody({
     </section>
   );
 }
-
-export type { DossierTab };

@@ -1,13 +1,13 @@
 'use client';
 
 import type { TeacherStudentRow } from '@/types/teacherStudents';
-import { ChalkBadge, listStyles } from '../../shared';
+import { ChalkBadge, listStyles } from '../../../shared';
 import {
   attendanceBarColor,
   letterGradeAccent,
   statusAccent,
-} from '../utils';
-import styles from '../students.module.css';
+} from '../../utils';
+import styles from '../../students.module.css';
 
 interface StudentDossierHeroProps {
   student: TeacherStudentRow;
