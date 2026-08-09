@@ -6,10 +6,16 @@ import { ChalkBadge, ClassHubHeader, classHubStyles, listStyles } from '../../sh
 interface ClassDetailHeaderProps {
   cls: MyClassRow;
   onBack: () => void;
+  onEdit?: () => void;
   onAddLesson?: () => void;
 }
 
-export function ClassDetailHeader({ cls, onBack, onAddLesson }: ClassDetailHeaderProps) {
+export function ClassDetailHeader({
+  cls,
+  onBack,
+  onEdit,
+  onAddLesson,
+}: ClassDetailHeaderProps) {
   return (
     <ClassHubHeader
       subject={cls.subject}
@@ -33,7 +39,7 @@ export function ClassDetailHeader({ cls, onBack, onAddLesson }: ClassDetailHeade
       }
       actions={
         <>
-          <button type="button" className={listStyles.secondaryBtn}>
+          <button type="button" className={listStyles.secondaryBtn} onClick={onEdit}>
             Edit Class
           </button>
           <button type="button" className={listStyles.primaryBtn} onClick={onAddLesson}>

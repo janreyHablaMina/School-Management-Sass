@@ -22,6 +22,7 @@ export { usePagedList } from './usePagedList';
 export { useLockWorkspaceScroll } from './useLockWorkspaceScroll';
 export { useEscapeKey } from './useEscapeKey';
 export { TeacherModal } from './TeacherModal';
+export { TeacherToast } from './TeacherToast';
 export {
   accentFromMap,
   matchesAllOrExact,
@@ -31,4 +32,5 @@ export {
 } from './resourceHelpers';
 export { default as listStyles } from './listPage.module.css';
 export { default as modalStyles } from './teacherModal.module.css';
+
 

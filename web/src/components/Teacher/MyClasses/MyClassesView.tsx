@@ -1,11 +1,13 @@
 'use client';
 
 import type { TeacherNavRequest } from '@/lib/teacher/classFocus';
-import { listStyles, ResourceListPage } from '../shared';
+import { listStyles, ResourceListPage, TeacherToast } from '../shared';
 import { ClassDetailView } from './components/ClassDetailView';
+import { ClassFormModal } from './components/ClassFormModal';
 import { CreateClassModal } from './components/CreateClassModal';
 import { ClassesTable } from './ClassesTable';
 import { MyClassesFilters } from './MyClassesFilters';
+import { classToFormValues } from './utils';
 import { useMyClasses } from './useMyClasses';
 
 interface MyClassesViewProps {
@@ -33,6 +35,13 @@ export function MyClassesView({ onNavigate }: MyClassesViewProps) {
     openCreate,
     closeCreate,
     createClass,
+    editingClass,
+    openEdit,
+    closeEdit,
+    updateClass,
+    duplicateClass,
+    toast,
+    dismissToast,
   } = useMyClasses();
 
   return (
@@ -41,6 +50,7 @@ export function MyClassesView({ onNavigate }: MyClassesViewProps) {
         <ClassDetailView
           cls={selectedClass}
           onBack={backToClasses}
+          onEdit={() => openEdit(selectedClass.id)}
           onNavigate={onNavigate}
         />
       ) : (
@@ -68,7 +78,14 @@ export function MyClassesView({ onNavigate }: MyClassesViewProps) {
           itemsCount={paginatedClasses.length}
           emptyTitle="No classes found"
           emptyDescription="Try adjusting your search or filters."
-          table={<ClassesTable classes={paginatedClasses} onOpen={openClass} />}
+          table={
+            <ClassesTable
+              classes={paginatedClasses}
+              onOpen={openClass}
+              onEdit={openEdit}
+              onDuplicate={duplicateClass}
+            />
+          }
           rangeStart={rangeStart}
           rangeEnd={rangeEnd}
           total={filteredCount}
@@ -86,6 +103,26 @@ export function MyClassesView({ onNavigate }: MyClassesViewProps) {
           academicYears={filterOptions.academicYears}
           onCancel={closeCreate}
           onCreate={createClass}
+        />
+      ) : null}
+
+      {editingClass ? (
+        <ClassFormModal
+          mode="edit"
+          subjects={filterOptions.subjects}
+          gradeLevels={filterOptions.gradeLevels}
+          academicYears={filterOptions.academicYears}
+          initialValues={classToFormValues(editingClass)}
+          onCancel={closeEdit}
+          onSubmit={updateClass}
+        />
+      ) : null}
+
+      {toast ? (
+        <TeacherToast
+          title={toast.title}
+          message={toast.message}
+          onClose={dismissToast}
         />
       ) : null}
     </>

@@ -1,11 +1,22 @@
 import { teacherLessonsPageMock } from '@/lib/mock/teacherLessons.mock';
 import { teacherStudentsPageMock } from '@/lib/mock/teacherStudents.mock';
-import type { CreateClassInput, MyClassRow } from '@/types/myClasses';
+import type { ClassFormInput, MyClassRow } from '@/types/myClasses';
 import type { TeacherSummaryMetric } from '@/types/teacherList';
 import type { TeacherLessonRow } from '@/types/teacherLessons';
 import type { TeacherStudentRow } from '@/types/teacherStudents';
 
 export const CLASS_WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as const;
+
+export interface ClassFormValues {
+  subject: string;
+  gradeLevel: string;
+  section: string;
+  academicYear: string;
+  room: string;
+  days: string[];
+  startTime: string;
+  endTime: string;
+}
 
 const SUBJECT_STYLE: Record<string, { accent: string; icon: string }> = {
   Mathematics: { accent: '#b68eff', icon: '∑' },
@@ -35,6 +46,17 @@ function formatTimeLabel(value: string): string {
   return `${hour12}:${minute} ${period}`;
 }
 
+function parseTimeToInput(label: string): string | null {
+  const match = label.trim().match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+  if (!match) return null;
+  let hour = Number(match[1]);
+  const minute = match[2];
+  const period = match[3].toUpperCase();
+  if (period === 'PM' && hour < 12) hour += 12;
+  if (period === 'AM' && hour === 12) hour = 0;
+  return `${String(hour).padStart(2, '0')}:${minute}`;
+}
+
 export function formatClassSchedule(
   days: string[],
   startTime: string,
@@ -43,7 +65,58 @@ export function formatClassSchedule(
   return `${days.join(', ')} · ${formatTimeLabel(startTime)} - ${formatTimeLabel(endTime)}`;
 }
 
-export function getCreateClassError(input: {
+export function parseSectionFromGradeSection(gradeSection: string): string {
+  const match = gradeSection.match(/Section\s+(.+)$/i);
+  return match?.[1]?.trim() ?? gradeSection.trim();
+}
+
+export function parseScheduleParts(schedule: string): {
+  days: string[];
+  startTime: string;
+  endTime: string;
+} {
+  const fallback = {
+    days: ['Mon', 'Wed', 'Fri'] as string[],
+    startTime: '08:00',
+    endTime: '09:00',
+  };
+
+  if (!schedule || schedule === 'Archived') return fallback;
+
+  const [daysPart, timePart] = schedule.split('·').map((part) => part.trim());
+  const days = CLASS_WEEKDAYS.filter((day) =>
+    daysPart
+      .split(',')
+      .map((item) => item.trim())
+      .includes(day),
+  );
+
+  const times = timePart?.split(/\s*-\s*/) ?? [];
+  const startTime = times[0] ? parseTimeToInput(times[0]) : null;
+  const endTime = times[1] ? parseTimeToInput(times[1]) : null;
+
+  return {
+    days: days.length > 0 ? [...days] : fallback.days,
+    startTime: startTime ?? fallback.startTime,
+    endTime: endTime ?? fallback.endTime,
+  };
+}
+
+export function classToFormValues(cls: MyClassRow): ClassFormValues {
+  const schedule = parseScheduleParts(cls.schedule);
+  return {
+    subject: cls.subject,
+    gradeLevel: cls.gradeLevel,
+    section: parseSectionFromGradeSection(cls.gradeSection),
+    academicYear: cls.academicYear,
+    room: cls.room,
+    days: schedule.days,
+    startTime: schedule.startTime,
+    endTime: schedule.endTime,
+  };
+}
+
+export function getClassFormError(input: {
   subject: string;
   gradeLevel: string;
   section: string;
@@ -64,8 +137,11 @@ export function getCreateClassError(input: {
   return null;
 }
 
+/** @deprecated Use getClassFormError */
+export const getCreateClassError = getClassFormError;
+
 export function buildClassFromInput(
-  input: CreateClassInput,
+  input: ClassFormInput,
   existing: MyClassRow[],
 ): MyClassRow {
   const nextId = existing.reduce((max, cls) => Math.max(max, cls.id), 0) + 1;
@@ -91,6 +167,63 @@ export function buildClassFromInput(
     status: 'Active',
     accent: style.accent,
     icon: style.icon,
+  };
+}
+
+export function applyClassFormInput(cls: MyClassRow, input: ClassFormInput): MyClassRow {
+  const subject = input.subject.trim();
+  const section = input.section.trim();
+  const gradeLevel = input.gradeLevel.trim();
+  const style =
+    SUBJECT_STYLE[subject] ??
+    (subject === cls.subject
+      ? { accent: cls.accent, icon: cls.icon }
+      : styleForSubject(subject, cls.id));
+
+  return {
+    ...cls,
+    subject,
+    gradeSection: `${gradeLevel} - Section ${section}`,
+    gradeLevel,
+    academicYear: input.academicYear.trim(),
+    schedule: formatClassSchedule(input.days, input.startTime, input.endTime),
+    room: input.room.trim(),
+    accent: style.accent,
+    icon: style.icon,
+  };
+}
+
+function nextCopySection(section: string, existing: MyClassRow[], gradeLevel: string): string {
+  const base = section.replace(/\s*\(Copy(?:\s+\d+)?\)$/i, '').trim() || section;
+  let candidate = `${base} (Copy)`;
+  let n = 2;
+  const taken = new Set(existing.map((cls) => cls.gradeSection.toLowerCase()));
+  while (taken.has(`${gradeLevel} - Section ${candidate}`.toLowerCase())) {
+    candidate = `${base} (Copy ${n})`;
+    n += 1;
+  }
+  return candidate;
+}
+
+/** Clone a class with a new id; roster/progress reset for the copy. */
+export function duplicateClassFrom(cls: MyClassRow, existing: MyClassRow[]): MyClassRow {
+  const nextId = existing.reduce((max, item) => Math.max(max, item.id), 0) + 1;
+  const section = nextCopySection(
+    parseSectionFromGradeSection(cls.gradeSection),
+    existing,
+    cls.gradeLevel,
+  );
+
+  return {
+    ...cls,
+    id: nextId,
+    gradeSection: `${cls.gradeLevel} - Section ${section}`,
+    studentCount: 0,
+    attendanceRate: 100,
+    courseProgress: 0,
+    lessonsCompleted: 0,
+    status: 'Active',
+    schedule: cls.schedule === 'Archived' ? 'Mon, Wed, Fri · 8:00 - 9:00 AM' : cls.schedule,
   };
 }
 

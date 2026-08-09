@@ -24,7 +24,7 @@ export interface MyClassRow {
   icon: string;
 }
 
-export interface CreateClassInput {
+export interface ClassFormInput {
   subject: string;
   gradeLevel: string;
   section: string;
@@ -35,6 +35,9 @@ export interface CreateClassInput {
   endTime: string;
   lessonsTotal?: number;
 }
+
+/** @deprecated Use ClassFormInput */
+export type CreateClassInput = ClassFormInput;
 
 export interface MyClassesPageData {
   metrics: MyClassSummaryMetric[];

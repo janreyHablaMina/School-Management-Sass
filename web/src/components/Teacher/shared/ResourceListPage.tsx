@@ -10,6 +10,7 @@ interface ResourceListPageProps {
   title: string;
   subtitle: string;
   headerActions?: React.ReactNode;
+  notice?: React.ReactNode;
   metrics: TeacherSummaryMetric[];
   metricsColumns?: 4 | 5;
   filters: React.ReactNode;
@@ -30,6 +31,7 @@ export function ResourceListPage({
   title,
   subtitle,
   headerActions,
+  notice,
   metrics,
   metricsColumns = 5,
   filters,
@@ -50,6 +52,8 @@ export function ResourceListPage({
       <PageHeader title={title} subtitle={subtitle}>
         {headerActions}
       </PageHeader>
+
+      {notice}
 
       <SummaryMetrics metrics={metrics} columns={metricsColumns} />
       {filters}

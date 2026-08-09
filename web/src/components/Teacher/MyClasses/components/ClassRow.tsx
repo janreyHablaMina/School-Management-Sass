@@ -17,9 +17,11 @@ const DANGER_ACTIONS = [{ icon: '📦', label: 'Archive Class' }] as const;
 interface ClassRowProps {
   cls: MyClassRow;
   onOpen: (id: number) => void;
+  onEdit: (id: number) => void;
+  onDuplicate: (id: number) => void;
 }
 
-export function ClassRow({ cls, onOpen }: ClassRowProps) {
+export function ClassRow({ cls, onOpen, onEdit, onDuplicate }: ClassRowProps) {
   return (
     <tr
       className={styles.clickableRow}
@@ -95,6 +97,8 @@ export function ClassRow({ cls, onOpen }: ClassRowProps) {
           dangerActions={DANGER_ACTIONS}
           onAction={(label) => {
             if (label === 'Open Class') onOpen(cls.id);
+            if (label === 'Edit Class') onEdit(cls.id);
+            if (label === 'Duplicate Class') onDuplicate(cls.id);
           }}
         />
       </td>

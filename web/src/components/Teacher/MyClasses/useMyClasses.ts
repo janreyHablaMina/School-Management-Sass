@@ -1,10 +1,15 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { myClassesPageMock } from '@/lib/mock/myClasses.mock';
-import type { ClassStatus, CreateClassInput, MyClassRow } from '@/types/myClasses';
+import type { ClassFormInput, ClassStatus, MyClassRow } from '@/types/myClasses';
 import { usePagedList } from '../shared';
-import { buildClassFromInput, buildMyClassesMetrics } from './utils';
+import {
+  applyClassFormInput,
+  buildClassFromInput,
+  buildMyClassesMetrics,
+  duplicateClassFrom,
+} from './utils';
 
 const PAGE_SIZE = 6;
 
@@ -41,6 +46,8 @@ export function useMyClasses() {
   const [classes, setClasses] = useState(myClassesPageMock.classes);
   const [selectedClassId, setSelectedClassId] = useState<number | null>(null);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [editingClassId, setEditingClassId] = useState<number | null>(null);
+  const [toast, setToast] = useState<{ title: string; message?: string } | null>(null);
 
   const metrics = useMemo(() => buildMyClassesMetrics(classes), [classes]);
 
@@ -56,14 +63,49 @@ export function useMyClasses() {
     [classes, selectedClassId],
   );
 
-  const createClass = (input: CreateClassInput) => {
+  const editingClass = useMemo(
+    () => classes.find((cls) => cls.id === editingClassId) ?? null,
+    [classes, editingClassId],
+  );
+
+  useEffect(() => {
+    if (!toast) return;
+    const timer = window.setTimeout(() => setToast(null), 3500);
+    return () => window.clearTimeout(timer);
+  }, [toast]);
+
+  const createClass = (input: ClassFormInput) => {
     const next = buildClassFromInput(input, classes);
-    // Close the modal first, then open detail on the next frame so React
-    // finishes unmounting the modal before mounting the detail view.
     setIsCreateOpen(false);
     setClasses((prev) => [next, ...prev]);
     queueMicrotask(() => {
       setSelectedClassId(next.id);
+    });
+  };
+
+  const updateClass = (input: ClassFormInput) => {
+    if (editingClassId == null) return;
+    setClasses((prev) =>
+      prev.map((cls) =>
+        cls.id === editingClassId ? applyClassFormInput(cls, input) : cls,
+      ),
+    );
+    setEditingClassId(null);
+    setToast({
+      title: 'Class updated',
+      message: 'Your changes were saved for this session.',
+    });
+  };
+
+  const duplicateClass = (id: number) => {
+    const source = classes.find((cls) => cls.id === id);
+    if (!source) return;
+    const next = duplicateClassFrom(source, classes);
+    setClasses((prev) => [next, ...prev]);
+    list.setPage(1);
+    setToast({
+      title: 'Class duplicated successfully',
+      message: `${next.subject} · ${next.gradeSection}`,
     });
   };
 
@@ -76,8 +118,21 @@ export function useMyClasses() {
     openClass: (id: number) => setSelectedClassId(id),
     backToClasses: () => setSelectedClassId(null),
     isCreateOpen,
-    openCreate: () => setIsCreateOpen(true),
+    openCreate: () => {
+      setEditingClassId(null);
+      setIsCreateOpen(true);
+    },
     closeCreate: () => setIsCreateOpen(false),
     createClass,
+    editingClass,
+    openEdit: (id: number) => {
+      setIsCreateOpen(false);
+      setEditingClassId(id);
+    },
+    closeEdit: () => setEditingClassId(null),
+    updateClass,
+    duplicateClass,
+    toast,
+    dismissToast: () => setToast(null),
   };
 }

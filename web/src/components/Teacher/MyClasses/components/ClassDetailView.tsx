@@ -11,10 +11,16 @@ import { ClassSpotlight } from './ClassSpotlight';
 interface ClassDetailViewProps {
   cls: MyClassRow;
   onBack: () => void;
+  onEdit?: () => void;
   onNavigate?: (request: TeacherNavRequest | string) => void;
 }
 
-export function ClassDetailView({ cls, onBack, onNavigate }: ClassDetailViewProps) {
+export function ClassDetailView({
+  cls,
+  onBack,
+  onEdit,
+  onNavigate,
+}: ClassDetailViewProps) {
   const classFocus = toClassFocus(cls);
 
   return (
@@ -22,6 +28,7 @@ export function ClassDetailView({ cls, onBack, onNavigate }: ClassDetailViewProp
       <ClassDetailHeader
         cls={cls}
         onBack={onBack}
+        onEdit={onEdit}
         onAddLesson={() => onNavigate?.({ tab: 'Lessons', classFocus })}
       />
 
