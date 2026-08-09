@@ -211,6 +211,16 @@
   min-width: 130px;
 }
 
+.filterFieldFull {
+  width: 100%;
+  min-width: 0;
+}
+
+.filterFieldFull .filterSelect {
+  width: 100%;
+  min-width: 0;
+}
+
 .filterLabel {
   font-size: 0.65rem;
   font-weight: 700;

@@ -165,8 +165,8 @@ export const teacherPortalMock: TeacherPortalData = {
   aiTools: [
     {
       id: 1,
-      title: 'Upload PDF / Document',
-      desc: 'Upload learning material',
+      title: 'Upload PDF / Docs',
+      desc: 'PDF, PPT, Word, and notes',
       icon: '📄',
       credits: 'Free',
       iconBg: 'rgba(182, 142, 255, 0.15)',

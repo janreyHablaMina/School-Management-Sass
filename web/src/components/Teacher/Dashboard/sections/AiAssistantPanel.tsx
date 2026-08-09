@@ -8,9 +8,15 @@ interface AiAssistantPanelProps {
   aiCredits: number;
   aiUsage: AiUsage;
   aiTools: AiTool[];
+  onOpenAssistant?: () => void;
 }
 
-export function AiAssistantPanel({ aiCredits, aiUsage, aiTools }: AiAssistantPanelProps) {
+export function AiAssistantPanel({
+  aiCredits,
+  aiUsage,
+  aiTools,
+  onOpenAssistant,
+}: AiAssistantPanelProps) {
   return (
     <div className={`${styles.panel} ${styles.aiPanel} ${styles.areaAi}`}>
       <PanelHeader
@@ -34,7 +40,12 @@ export function AiAssistantPanel({ aiCredits, aiUsage, aiTools }: AiAssistantPan
 
       <div className={styles.aiToolList}>
         {aiTools.map((tool) => (
-          <button type="button" key={tool.id} className={styles.aiToolRow}>
+          <button
+            type="button"
+            key={tool.id}
+            className={styles.aiToolRow}
+            onClick={onOpenAssistant}
+          >
             <ItemIcon icon={tool.icon} bg={tool.iconBg} color={tool.iconColor} />
             <div className={styles.aiToolContent}>
               <span className={styles.aiToolTitle}>{tool.title}</span>
@@ -45,7 +56,7 @@ export function AiAssistantPanel({ aiCredits, aiUsage, aiTools }: AiAssistantPan
           </button>
         ))}
       </div>
-      <button type="button" className={styles.panelFooterLink}>
+      <button type="button" className={styles.panelFooterLink} onClick={onOpenAssistant}>
         View all AI tools ›
       </button>
     </div>

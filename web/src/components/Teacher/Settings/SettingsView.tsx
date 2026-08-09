@@ -2,7 +2,7 @@
 
 import React from 'react';
 import type { TeacherProfile } from '@/types/teacherPortal';
-import { listStyles, modalStyles, PageHeader } from '../shared';
+import { FilterSelect, listStyles, modalStyles, PageHeader } from '../shared';
 import { ChangePasswordModal } from './components/ChangePasswordModal';
 import { SettingsNav } from './components/SettingsNav';
 import { SettingsSection } from './components/SettingsSection';
@@ -166,35 +166,20 @@ export function SettingsView({ onProfileSave }: SettingsViewProps) {
               description="Set defaults that speed up your daily classroom flow."
             >
               <div className={styles.fieldGrid}>
-                <label className={modalStyles.modalField}>
-                  <span className={modalStyles.modalLabel}>Default classroom</span>
-                  <select
-                    className={modalStyles.modalInput}
-                    value={preferences.defaultClassroom}
-                    onChange={(e) => updatePreference('defaultClassroom', e.target.value)}
-                  >
-                    {classroomOptions.map((option) => (
-                      <option key={option} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-
-                <label className={modalStyles.modalField}>
-                  <span className={modalStyles.modalLabel}>Landing tab</span>
-                  <select
-                    className={modalStyles.modalInput}
-                    value={preferences.landingTab}
-                    onChange={(e) => updatePreference('landingTab', e.target.value)}
-                  >
-                    {landingTabOptions.map((option) => (
-                      <option key={option} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </select>
-                </label>
+                <FilterSelect
+                  label="Default classroom"
+                  value={preferences.defaultClassroom}
+                  options={classroomOptions}
+                  onChange={(value) => updatePreference('defaultClassroom', value)}
+                  fullWidth
+                />
+                <FilterSelect
+                  label="Landing tab"
+                  value={preferences.landingTab}
+                  options={landingTabOptions}
+                  onChange={(value) => updatePreference('landingTab', value)}
+                  fullWidth
+                />
               </div>
 
               <div className={modalStyles.modalField}>

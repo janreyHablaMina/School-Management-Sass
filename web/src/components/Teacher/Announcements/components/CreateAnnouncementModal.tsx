@@ -215,9 +215,7 @@ export function CreateAnnouncementModal({
                 onClick={() => setDropdownOpen((open) => !open)}
               >
                 <span>{dropdownLabel}</span>
-                <span className={styles.dropdownCaret} aria-hidden>
-                  ▾
-                </span>
+                <span className={styles.dropdownCaret} aria-hidden />
               </button>
 
               {dropdownOpen ? (

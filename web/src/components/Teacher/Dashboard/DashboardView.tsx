@@ -14,7 +14,11 @@ import {
   DeadlinesPanel,
 } from './sections';
 
-export function DashboardView() {
+interface DashboardViewProps {
+  onNavigate?: (tab: string) => void;
+}
+
+export function DashboardView({ onNavigate }: DashboardViewProps) {
   const {
     teacher,
     aiCredits,
@@ -31,14 +35,21 @@ export function DashboardView() {
     deadlines,
   } = teacherPortalMock;
 
+  const goToAi = () => onNavigate?.('AI Assistant');
+
   return (
     <div className={styles.dashboardContainer}>
-      <DashboardHeader shortName={teacher.shortName} />
+      <DashboardHeader shortName={teacher.shortName} onAskAi={goToAi} />
       <MetricsRow metrics={metrics} />
 
       <div className={styles.middleSection}>
         <SchedulePanel schedule={schedule} />
-        <AiAssistantPanel aiCredits={aiCredits} aiUsage={aiUsage} aiTools={aiTools} />
+        <AiAssistantPanel
+          aiCredits={aiCredits}
+          aiUsage={aiUsage}
+          aiTools={aiTools}
+          onOpenAssistant={goToAi}
+        />
         <AnnouncementsPanel announcements={announcements} />
         <StudentOverviewPanel
           studentOverview={studentOverview}

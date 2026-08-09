@@ -6,11 +6,18 @@ interface FilterSelectProps {
   value: string;
   options: string[];
   onChange: (value: string) => void;
+  fullWidth?: boolean;
 }
 
-export function FilterSelect({ label, value, options, onChange }: FilterSelectProps) {
+export function FilterSelect({
+  label,
+  value,
+  options,
+  onChange,
+  fullWidth = false,
+}: FilterSelectProps) {
   return (
-    <label className={styles.filterField}>
+    <label className={`${styles.filterField} ${fullWidth ? styles.filterFieldFull : ''}`}>
       <span className={styles.filterLabel}>{label}</span>
       <select
         className={styles.filterSelect}

@@ -6,6 +6,7 @@ import { Sidebar } from '@/components/AdminLayout/Sidebar';
 import { TopBar } from '@/components/AdminLayout/TopBar';
 import { ChalkFilter } from '@/components/ChalkCharts';
 import {
+  AiAssistantView,
   AnnouncementsView,
   AssignmentsView,
   AttendanceView,
@@ -35,7 +36,7 @@ export default function TeacherDashboard() {
   const renderContent = () => {
     switch (activeTab) {
       case 'Dashboard':
-        return <DashboardView />;
+        return <DashboardView onNavigate={setActiveTab} />;
       case 'My Classes':
         return <MyClassesView />;
       case 'Students':
@@ -56,6 +57,8 @@ export default function TeacherDashboard() {
         return <AnnouncementsView />;
       case 'Calendar':
         return <CalendarView />;
+      case 'AI Assistant':
+        return <AiAssistantView />;
       case 'Settings':
         return <SettingsView onProfileSave={setTeacher} />;
       default:

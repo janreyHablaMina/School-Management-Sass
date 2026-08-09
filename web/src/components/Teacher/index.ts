@@ -9,4 +9,5 @@ export { AttendanceView } from './Attendance';
 export { GradesView } from './Grades';
 export { AnnouncementsView } from './Announcements';
 export { CalendarView } from './Calendar';
+export { AiAssistantView } from './AiAssistant';
 export { SettingsView } from './Settings';
