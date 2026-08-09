@@ -32,6 +32,34 @@
   width: min(480px, 100%);
 }
 
+.modalCardWide {
+  width: min(640px, 100%);
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.modalClose {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: 1.5px dashed rgba(240, 239, 237, 0.3);
+  background: transparent;
+  color: rgba(240, 239, 237, 0.7);
+  cursor: pointer;
+  font-family: inherit;
+  flex-shrink: 0;
+}
+
+.modalClose:hover {
+  border-color: #f5c842;
+  color: #f5c842;
+}
+
 .modalCard::-webkit-scrollbar {
   width: 8px;
 }

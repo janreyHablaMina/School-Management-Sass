@@ -1,5 +1,3 @@
-import type { TeacherSummaryMetric } from './teacherList';
-
 export type CalendarEventType =
   | 'Class'
   | 'Assignment'
@@ -40,8 +38,6 @@ export interface CreateCalendarEventInput {
 }
 
 export interface TeacherCalendarPageData {
-  metrics: TeacherSummaryMetric[];
-  filters: CalendarFilter[];
   classroomOptions: string[];
   events: TeacherCalendarEvent[];
 }

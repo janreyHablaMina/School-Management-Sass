@@ -1,6 +1,5 @@
-import { CALENDAR_FILTERS, CALENDAR_TYPE_ACCENTS } from '@/lib/calendar/constants';
+import { CALENDAR_TYPE_ACCENTS } from '@/lib/calendar/constants';
 import { formatDateKey, shiftDays } from '@/lib/calendar/dates';
-import { buildCalendarMetrics } from '@/lib/calendar/metrics';
 import type { TeacherCalendarEvent, TeacherCalendarPageData } from '@/types/teacherCalendar';
 
 function event(
@@ -186,8 +185,6 @@ export function buildTeacherCalendarMock(referenceDate = new Date()): TeacherCal
   ];
 
   return {
-    metrics: buildCalendarMetrics(events, today),
-    filters: CALENDAR_FILTERS,
     classroomOptions: [
       'All Classes',
       'Grade 7 - Section A',

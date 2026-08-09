@@ -29,7 +29,7 @@ export function CalendarView() {
     selectedDayLabel,
     selectedDayEvents,
     selectDay,
-    openSelectedDayDetail,
+    openDayDetail,
     openEventDetail,
     closeDayDetail,
     isDayDetailOpen,
@@ -83,7 +83,7 @@ export function CalendarView() {
         <CalendarAgenda
           dayLabel={selectedDayLabel}
           events={selectedDayEvents}
-          onViewDayDetails={openSelectedDayDetail}
+          onViewDayDetails={openDayDetail}
           onOpenEvent={openEventDetail}
         />
       </div>
