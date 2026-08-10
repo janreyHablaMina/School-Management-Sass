@@ -46,6 +46,9 @@ export const LESSON_CREATE_STATUSES: LessonStatus[] = ['Draft', 'Published'];
 /** AI Assistant tool id for "Generate Lesson". */
 export const GENERATE_LESSON_AI_TOOL_ID = 2;
 
+/** AI Assistant tool id for "Upload PDF / Docs". */
+export const UPLOAD_LESSON_AI_TOOL_ID = 1;
+
 /** Starter prompt for AI Generate Lesson from the Create Lesson modal. */
 export function buildGenerateLessonPrompt(input: {
   subject: string;
@@ -66,6 +69,16 @@ export function buildGenerateLessonPrompt(input: {
   }
 
   return `Create a ${mins}-minute ${subject} lesson for ${classLabel}, with a warm-up, guided practice, and exit ticket. Suggest a clear topic that fits the class.`;
+}
+
+/** Starter prompt when creating a lesson from uploaded files. */
+export function buildUploadLessonPrompt(input: {
+  subject: string;
+  classLabel: string;
+}): string {
+  const subject = input.subject.trim() || 'this subject';
+  const classLabel = input.classLabel.trim() || 'this class';
+  return `I will upload my materials. Please analyze them and draft a classroom-ready ${subject} lesson for ${classLabel}, including a short outline and key teaching points.`;
 }
 
 export interface CreateLessonInput {

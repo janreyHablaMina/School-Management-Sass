@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import {
   ClassroomResourceFilters,
   listStyles,
@@ -8,8 +8,10 @@ import {
   TeacherToast,
 } from '../shared';
 import { CreateLessonModal } from './components/CreateLessonModal';
+import { LessonGeneratorView } from './LessonGeneratorView';
 import { useLessons } from './useLessons';
 import { LessonsTable } from './LessonsTable';
+import type { LessonGeneratorSession } from './types';
 
 import type { TeacherClassFocus, TeacherNavRequest } from '@/lib/teacher/classFocus';
 
@@ -20,7 +22,6 @@ interface LessonsViewProps {
 
 export function LessonsView({
   classFocus = null,
-  onNavigate,
 }: LessonsViewProps) {
   const {
     metrics,
@@ -54,6 +55,17 @@ export function LessonsView({
     toast,
     dismissToast,
   } = useLessons({ classFocus });
+
+  const [generator, setGenerator] = useState<LessonGeneratorSession | null>(null);
+
+  if (generator) {
+    return (
+      <LessonGeneratorView
+        session={generator}
+        onBack={() => setGenerator(null)}
+      />
+    );
+  }
 
   return (
     <>
@@ -124,14 +136,10 @@ export function LessonsView({
           initialSubject={filters.subject}
           onCancel={closeCreate}
           onCreate={createLesson}
-          onGenerateWithAi={
-            onNavigate
-              ? (request) => {
-                  closeCreate();
-                  onNavigate(request);
-                }
-              : undefined
-          }
+          onStartGenerator={(session) => {
+            closeCreate();
+            setGenerator(session);
+          }}
         />
       ) : null}
 

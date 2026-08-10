@@ -1,16 +1,16 @@
 'use client';
 
 import { useState, type FormEvent } from 'react';
-import type { TeacherClassFocus, TeacherNavRequest } from '@/lib/teacher/classFocus';
 import { listStyles, modalStyles, TeacherModal } from '../../shared';
+import type { LessonGeneratorSession } from '../types';
 import {
-  buildGenerateLessonPrompt,
-  GENERATE_LESSON_AI_TOOL_ID,
   getCreateLessonError,
   LESSON_CREATE_STATUSES,
   LESSON_TYPES,
   type CreateLessonInput,
 } from '../utils';
+
+type CreateLessonStep = 'choose' | 'manual';
 
 interface CreateLessonModalProps {
   classes: string[];
@@ -19,19 +19,7 @@ interface CreateLessonModalProps {
   initialSubject?: string;
   onCancel: () => void;
   onCreate: (input: CreateLessonInput) => void;
-  onGenerateWithAi?: (request: TeacherNavRequest) => void;
-}
-
-function classFocusFromSelection(
-  classLabel: string,
-  subject: string,
-): TeacherClassFocus {
-  const gradeMatch = classLabel.match(/Grade\s+\d+/i);
-  return {
-    gradeSection: classLabel,
-    subject,
-    gradeLevel: gradeMatch?.[0],
-  };
+  onStartGenerator?: (session: LessonGeneratorSession) => void;
 }
 
 export function CreateLessonModal({
@@ -41,11 +29,12 @@ export function CreateLessonModal({
   initialSubject = '',
   onCancel,
   onCreate,
-  onGenerateWithAi,
+  onStartGenerator,
 }: CreateLessonModalProps) {
   const classOptions = classes.filter((item) => item !== 'All Classes');
   const subjectOptions = subjects.filter((item) => item !== 'All Subjects');
 
+  const [step, setStep] = useState<CreateLessonStep>('choose');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [classLabel, setClassLabel] = useState(
@@ -62,11 +51,27 @@ export function CreateLessonModal({
   const [status, setStatus] =
     useState<CreateLessonInput['status']>('Draft');
   const [durationMins, setDurationMins] = useState(45);
-  const [topic, setTopic] = useState('');
   const [error, setError] = useState<string | null>(null);
+
+  const startGenerator = (mode: LessonGeneratorSession['mode']) => {
+    if (!onStartGenerator) return;
+    if (!classLabel.trim() || !subject.trim()) {
+      setError('Choose a class and subject filter on Lessons, then try again.');
+      return;
+    }
+    onStartGenerator({
+      mode,
+      classLabel,
+      subject,
+      durationMins,
+      initialPrompt: '',
+    });
+  };
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
+    if (step !== 'manual') return;
+
     const input: CreateLessonInput = {
       title,
       description,
@@ -84,31 +89,81 @@ export function CreateLessonModal({
     onCreate(input);
   };
 
-  const handleGenerateWithAi = () => {
-    if (!onGenerateWithAi) return;
-    if (!classLabel.trim() || !subject.trim()) {
-      setError('Choose a class and subject before generating with AI.');
-      return;
-    }
-    onGenerateWithAi({
-      tab: 'AI Assistant',
-      aiToolId: GENERATE_LESSON_AI_TOOL_ID,
-      classFocus: classFocusFromSelection(classLabel, subject),
-      aiPrompt: buildGenerateLessonPrompt({
-        subject,
-        classLabel,
-        durationMins,
-        topic,
-      }),
-    });
+  const goBack = () => {
+    setError(null);
+    setStep('choose');
   };
+
+  if (step === 'choose') {
+    return (
+      <TeacherModal
+        titleId="create-lesson-title"
+        eyebrow="Lessons"
+        title="Create lesson"
+        copy="How do you want to start this lesson?"
+        onClose={onCancel}
+        cardClassName={modalStyles.modalCardWide}
+        showClose
+        footer={
+          <button type="button" className={listStyles.secondaryBtn} onClick={onCancel}>
+            Cancel
+          </button>
+        }
+      >
+        <div className={modalStyles.pathGrid}>
+          <button
+            type="button"
+            className={modalStyles.pathCard}
+            onClick={() => startGenerator('generate')}
+            disabled={!onStartGenerator}
+          >
+            <span className={modalStyles.pathIcon} aria-hidden>
+              ✨
+            </span>
+            <p className={modalStyles.pathTitle}>Generate with AI</p>
+            <p className={modalStyles.pathCopy}>
+              Open Lesson studio and chat to draft a lesson for your class.
+            </p>
+          </button>
+
+          <button
+            type="button"
+            className={modalStyles.pathCard}
+            onClick={() => startGenerator('upload')}
+            disabled={!onStartGenerator}
+          >
+            <span className={modalStyles.pathIcon} aria-hidden>
+              📎
+            </span>
+            <p className={modalStyles.pathTitle}>Upload files</p>
+            <p className={modalStyles.pathCopy}>
+              Open Lesson studio, attach a PDF/PPT/Word file, then generate.
+            </p>
+          </button>
+        </div>
+
+        {error ? <p className={modalStyles.modalError}>{error}</p> : null}
+
+        <button
+          type="button"
+          className={modalStyles.pathLink}
+          onClick={() => {
+            setError(null);
+            setStep('manual');
+          }}
+        >
+          Or create manually
+        </button>
+      </TeacherModal>
+    );
+  }
 
   return (
     <TeacherModal
-      titleId="create-lesson-title"
-      eyebrow="Lessons"
-      title="Create lesson"
-      copy="Pick the class, then generate with AI or fill in the details yourself."
+      titleId="create-lesson-manual-title"
+      eyebrow="Create manually"
+      title="Lesson details"
+      copy="Fill in the lesson yourself and save it to your class."
       onClose={onCancel}
       as="form"
       onSubmit={handleSubmit}
@@ -116,8 +171,8 @@ export function CreateLessonModal({
       showClose
       footer={
         <>
-          <button type="button" className={listStyles.secondaryBtn} onClick={onCancel}>
-            Cancel
+          <button type="button" className={listStyles.secondaryBtn} onClick={goBack}>
+            Back
           </button>
           <button type="submit" className={listStyles.primaryBtn}>
             {status === 'Published' ? 'Publish lesson' : 'Save draft'}
@@ -156,51 +211,6 @@ export function CreateLessonModal({
       </label>
 
       <label className={modalStyles.modalField}>
-        <span className={modalStyles.modalLabel}>Topic (optional for AI)</span>
-        <input
-          className={modalStyles.modalInput}
-          type="text"
-          value={topic}
-          onChange={(e) => setTopic(e.target.value)}
-          placeholder="e.g. comparing fractions, linear equations"
-          maxLength={100}
-        />
-      </label>
-
-      <label className={modalStyles.modalField}>
-        <span className={modalStyles.modalLabel}>Duration (minutes)</span>
-        <input
-          className={modalStyles.modalInput}
-          type="number"
-          min={5}
-          max={240}
-          step={5}
-          value={durationMins}
-          onChange={(e) => setDurationMins(Number(e.target.value))}
-        />
-      </label>
-
-      {onGenerateWithAi ? (
-        <div className={modalStyles.modalField}>
-          <span className={modalStyles.modalLabel}>AI Assistant</span>
-          <button
-            type="button"
-            className={listStyles.secondaryBtn}
-            onClick={handleGenerateWithAi}
-            style={{ width: '100%', justifyContent: 'center' }}
-          >
-            Generate with AI
-          </button>
-          <p className={modalStyles.modalHint}>
-            Prefills Generate Lesson for {subject || 'this subject'}
-            {topic.trim() ? ` · ${topic.trim()}` : ''}.
-          </p>
-        </div>
-      ) : null}
-
-      <p className={modalStyles.modalMeta}>Or create manually</p>
-
-      <label className={modalStyles.modalField}>
         <span className={modalStyles.modalLabel}>Title</span>
         <input
           className={modalStyles.modalInput}
@@ -221,6 +231,19 @@ export function CreateLessonModal({
           placeholder="What will students learn?"
           rows={3}
           maxLength={280}
+        />
+      </label>
+
+      <label className={modalStyles.modalField}>
+        <span className={modalStyles.modalLabel}>Duration (minutes)</span>
+        <input
+          className={modalStyles.modalInput}
+          type="number"
+          min={5}
+          max={240}
+          step={5}
+          value={durationMins}
+          onChange={(e) => setDurationMins(Number(e.target.value))}
         />
       </label>
 

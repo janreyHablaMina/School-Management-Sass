@@ -1,0 +1,334 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 7.5rem);
+  margin: 0 auto;
+  max-width: 52rem;
+  padding: 0 0.5rem 1rem;
+}
+
+.topBar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.35rem 0 0.9rem;
+  border-bottom: 1px solid rgba(240, 239, 237, 0.1);
+}
+
+.topLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.backBtn {
+  appearance: none;
+  border: 1.5px dashed rgba(240, 239, 237, 0.28);
+  background: transparent;
+  color: rgba(240, 239, 237, 0.75);
+  border-radius: 10px;
+  padding: 0.45rem 0.75rem;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.backBtn:hover {
+  border-color: rgba(245, 200, 66, 0.55);
+  color: #f5c842;
+}
+
+.heading {
+  min-width: 0;
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(240, 239, 237, 0.42);
+}
+
+.title {
+  margin: 0.2rem 0 0;
+  font-family: 'Caveat', cursive;
+  font-size: 1.85rem;
+  line-height: 1;
+  color: #f5c842;
+}
+
+.stage {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding-top: 1rem;
+}
+
+.thread {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0.25rem 0.15rem 1.25rem;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(245, 200, 66, 0.35) transparent;
+}
+
+.empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 0.65rem;
+  padding: 2rem 1rem;
+}
+
+.emptyIcon {
+  font-size: 2.2rem;
+  line-height: 1;
+}
+
+.emptyTitle {
+  margin: 0;
+  font-family: 'Caveat', cursive;
+  font-size: 2.2rem;
+  color: #f5c842;
+  line-height: 1;
+}
+
+.emptyCopy {
+  margin: 0;
+  max-width: 28rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: rgba(240, 239, 237, 0.65);
+}
+
+.suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.85rem;
+}
+
+.suggestion {
+  appearance: none;
+  border: 1.5px dashed rgba(240, 239, 237, 0.28);
+  background: rgba(240, 239, 237, 0.03);
+  color: rgba(240, 239, 237, 0.8);
+  border-radius: 999px;
+  padding: 0.45rem 0.85rem;
+  font: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.suggestion:hover {
+  border-color: rgba(245, 200, 66, 0.5);
+  color: #f5c842;
+}
+
+.bubble {
+  max-width: min(100%, 40rem);
+  border-radius: 16px;
+  padding: 0.85rem 1rem;
+}
+
+.bubbleUser {
+  align-self: flex-end;
+  border: 1.5px solid rgba(245, 200, 66, 0.35);
+  background: rgba(245, 200, 66, 0.12);
+}
+
+.bubbleAssistant {
+  align-self: flex-start;
+  border: 1.5px dashed rgba(240, 239, 237, 0.22);
+  background: rgba(240, 239, 237, 0.04);
+}
+
+.bubbleMeta {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.4rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: rgba(240, 239, 237, 0.45);
+}
+
+.bubbleText {
+  margin: 0;
+  white-space: pre-wrap;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: #f0efed;
+}
+
+.bubbleActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 0.8rem;
+  padding-top: 0.7rem;
+  border-top: 1px solid rgba(240, 239, 237, 0.1);
+}
+
+.actionBtn {
+  appearance: none;
+  border: 1.5px solid rgba(245, 200, 66, 0.35);
+  border-radius: 999px;
+  padding: 0.4rem 0.8rem;
+  background: rgba(245, 200, 66, 0.1);
+  color: #f5c842;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.actionBtn:hover:not(:disabled) {
+  background: rgba(245, 200, 66, 0.2);
+  border-color: rgba(245, 200, 66, 0.55);
+}
+
+.actionBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.status {
+  margin: 0 0 0.65rem;
+  font-size: 0.82rem;
+  color: rgba(240, 239, 237, 0.55);
+}
+
+.statusError {
+  color: #ff7e93;
+}
+
+.composerWrap {
+  position: sticky;
+  bottom: 0;
+  padding-top: 0.35rem;
+  background: linear-gradient(180deg, transparent, rgba(8, 18, 12, 0.92) 28%);
+}
+
+.composer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  border: 1.5px solid rgba(240, 239, 237, 0.22);
+  border-radius: 18px;
+  background: rgba(11, 22, 16, 0.96);
+  padding: 0.75rem 0.85rem;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
+}
+
+.composerInput {
+  width: 100%;
+  min-height: 3.2rem;
+  max-height: 10rem;
+  resize: none;
+  border: 0;
+  background: transparent;
+  color: #f0efed;
+  font: inherit;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  outline: none;
+}
+
+.composerInput::placeholder {
+  color: rgba(240, 239, 237, 0.38);
+}
+
+.composerBottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem;
+}
+
+.composerHint {
+  font-size: 0.75rem;
+  color: rgba(240, 239, 237, 0.42);
+}
+
+.sendBtn {
+  appearance: none;
+  border: 0;
+  border-radius: 999px;
+  padding: 0.5rem 1rem;
+  background: #f5c842;
+  color: #0b1610;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.sendBtn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.fileRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.fileChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: 1px dashed rgba(240, 239, 237, 0.28);
+  border-radius: 999px;
+  padding: 0.25rem 0.55rem;
+  font-size: 0.75rem;
+  color: rgba(240, 239, 237, 0.75);
+}
+
+.fileRemove {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: rgba(240, 239, 237, 0.55);
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+}
+
+.attachBtn {
+  appearance: none;
+  border: 1.5px dashed rgba(240, 239, 237, 0.28);
+  background: transparent;
+  color: rgba(240, 239, 237, 0.7);
+  border-radius: 999px;
+  padding: 0.4rem 0.75rem;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.attachBtn:hover {
+  border-color: rgba(245, 200, 66, 0.5);
+  color: #f5c842;
+}
+
+.hiddenInput {
+  display: none;
+}
