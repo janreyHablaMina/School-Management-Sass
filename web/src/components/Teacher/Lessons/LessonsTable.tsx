@@ -22,6 +22,7 @@ interface LessonsTableProps {
   onDeleteSelected: () => void;
   onArchiveItem: (id: string) => void;
   onDeleteItem: (id: string) => void;
+  highlightId?: string | null;
 }
 
 const COLUMNS: DataTableColumn[] = [
@@ -47,6 +48,7 @@ export function LessonsTable({
   onDeleteSelected,
   onArchiveItem,
   onDeleteItem,
+  highlightId = null,
 }: LessonsTableProps) {
   return (
     <div>
@@ -79,6 +81,7 @@ export function LessonsTable({
             key={lesson.id}
             lesson={lesson}
             selected={selectedIds.includes(lesson.id)}
+            highlighted={highlightId === lesson.id}
             onToggleSelect={onToggle}
             onArchive={onArchiveItem}
             onDelete={onDeleteItem}

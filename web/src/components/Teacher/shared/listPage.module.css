@@ -340,6 +340,21 @@
   background: rgba(245, 200, 66, 0.06);
 }
 
+.rowHighlight td {
+  background: rgba(92, 199, 137, 0.14);
+  box-shadow: inset 0 0 0 1px rgba(92, 199, 137, 0.35);
+  animation: rowPulse 1.4s ease;
+}
+
+@keyframes rowPulse {
+  0% {
+    background: rgba(92, 199, 137, 0.28);
+  }
+  100% {
+    background: rgba(92, 199, 137, 0.14);
+  }
+}
+
 .bulkBar {
   display: flex;
   justify-content: space-between;

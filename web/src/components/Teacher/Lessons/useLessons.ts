@@ -116,6 +116,7 @@ export function useLessons(options?: { classFocus?: TeacherClassFocus | null }) 
   const [toast, setToast] = useState<{ title: string; message?: string } | null>(
     null,
   );
+  const [highlightId, setHighlightId] = useState<string | null>(null);
   const { sortConfig, sortKey, sortDirection, handleSort: toggleSort } =
     useColumnSort<LessonSortKey>();
 
@@ -146,6 +147,12 @@ export function useLessons(options?: { classFocus?: TeacherClassFocus | null }) 
     const pending = consumeLessonsPendingToast();
     if (pending) setToast(pending);
   }, []);
+
+  useEffect(() => {
+    if (!highlightId) return;
+    const timer = window.setTimeout(() => setHighlightId(null), 4500);
+    return () => window.clearTimeout(timer);
+  }, [highlightId]);
 
   useEffect(() => {
     if (!toast) return;
@@ -193,9 +200,27 @@ export function useLessons(options?: { classFocus?: TeacherClassFocus | null }) 
     setLessons((prev) => [next, ...prev]);
     setIsCreateOpen(false);
     list.setPage(1);
+    setHighlightId(next.id);
     setToast({
       title: input.status === 'Published' ? 'Lesson published' : 'Draft saved',
       message: `${next.title} · ${next.classLabel}`,
+    });
+  };
+
+  const ingestSavedLesson = (lesson: TeacherLessonRow) => {
+    setLessons((prev) => [lesson, ...prev.filter((item) => item.id !== lesson.id)]);
+    list.setFilter('searchTerm', '');
+    list.setFilter('tab', 'All Lessons');
+    list.setFilter('classFilter', 'All Classes');
+    list.setFilter('subject', 'All Subjects');
+    list.setFilter('status', 'All Status');
+    list.setFilter('type', 'All Types');
+    list.setFilter('sort', 'Newest First');
+    list.setPage(1);
+    setHighlightId(lesson.id);
+    setToast({
+      title: 'Lesson created',
+      message: `${lesson.title} · added to your list`,
     });
   };
 
@@ -221,6 +246,8 @@ export function useLessons(options?: { classFocus?: TeacherClassFocus | null }) 
     openCreate: () => setIsCreateOpen(true),
     closeCreate: () => setIsCreateOpen(false),
     createLesson,
+    ingestSavedLesson,
+    highlightId,
     toast,
     dismissToast: () => setToast(null),
   };

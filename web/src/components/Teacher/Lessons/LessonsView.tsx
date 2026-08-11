@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
   ClassroomResourceFilters,
   listStyles,
@@ -12,6 +12,7 @@ import { LessonGeneratorView } from './LessonGeneratorView';
 import { useLessons } from './useLessons';
 import { LessonsTable } from './LessonsTable';
 import type { LessonGeneratorSession } from './types';
+import type { TeacherLessonRow } from '@/types/teacherLessons';
 
 import type { TeacherClassFocus, TeacherNavRequest } from '@/lib/teacher/classFocus';
 
@@ -52,17 +53,32 @@ export function LessonsView({
     openCreate,
     closeCreate,
     createLesson,
+    ingestSavedLesson,
+    highlightId,
     toast,
     dismissToast,
   } = useLessons({ classFocus });
 
   const [generator, setGenerator] = useState<LessonGeneratorSession | null>(null);
 
+  const handleSaved = useCallback(
+    (lesson: TeacherLessonRow) => {
+      setGenerator(null);
+      ingestSavedLesson(lesson);
+    },
+    [ingestSavedLesson],
+  );
+
   if (generator) {
     return (
       <LessonGeneratorView
         session={generator}
+        classOptions={filterOptions.classes.filter((item) => item !== 'All Classes')}
+        subjectOptions={filterOptions.subjects.filter(
+          (item) => item !== 'All Subjects',
+        )}
         onBack={() => setGenerator(null)}
+        onSaved={handleSaved}
       />
     );
   }
@@ -117,6 +133,7 @@ export function LessonsView({
             onDeleteSelected={deleteSelected}
             onArchiveItem={archiveItem}
             onDeleteItem={deleteItem}
+            highlightId={highlightId}
           />
         }
         rangeStart={rangeStart}

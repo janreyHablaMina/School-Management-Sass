@@ -24,6 +24,7 @@ const DANGER_ACTIONS = [
 interface LessonRowProps {
   lesson: TeacherLessonRow;
   selected: boolean;
+  highlighted?: boolean;
   onToggleSelect: (id: string) => void;
   onArchive: (id: string) => void;
   onDelete: (id: string) => void;
@@ -32,12 +33,20 @@ interface LessonRowProps {
 export function LessonRow({
   lesson,
   selected,
+  highlighted = false,
   onToggleSelect,
   onArchive,
   onDelete,
 }: LessonRowProps) {
+  const rowClass = [
+    selected ? listStyles.rowSelected : '',
+    highlighted ? listStyles.rowHighlight : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
+
   return (
-    <tr className={selected ? listStyles.rowSelected : undefined}>
+    <tr className={rowClass || undefined}>
       <RowSelectCell
         selected={selected}
         onToggle={() => onToggleSelect(lesson.id)}

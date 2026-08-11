@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import type { AiAttachment, AiChatMessage } from '@/types/teacherAiAssistant';
+import type { TeacherLessonRow } from '@/types/teacherLessons';
 import { teacherAiAssistantMock } from '@/lib/mock/teacherAiAssistant.mock';
 import {
   ACCEPTED_UPLOAD_ACCEPT,
@@ -11,22 +12,41 @@ import {
   createMessage,
   followUpActionsFor,
 } from '../AiAssistant/utils';
-import { saveAiDraftAsLesson } from './utils';
+import { saveAiDraftAsLesson, titleFromAiTopic } from './utils';
+import {
+  SaveLessonTitleModal,
+  type SaveLessonDetails,
+} from './components/SaveLessonTitleModal';
 import type { LessonGeneratorSession } from './types';
 import styles from './lessonGenerator.module.css';
 
 interface LessonGeneratorViewProps {
   session: LessonGeneratorSession;
+  classOptions: string[];
+  subjectOptions: string[];
   onBack: () => void;
+  onSaved: (lesson: TeacherLessonRow) => void;
 }
 
-export function LessonGeneratorView({ session, onBack }: LessonGeneratorViewProps) {
+export function LessonGeneratorView({
+  session,
+  classOptions,
+  subjectOptions,
+  onBack,
+  onSaved,
+}: LessonGeneratorViewProps) {
   const [messages, setMessages] = useState<AiChatMessage[]>([]);
   const [prompt, setPrompt] = useState('');
   const [attachments, setAttachments] = useState<AiAttachment[]>([]);
   const [isGenerating, setIsGenerating] = useState(false);
   const [status, setStatus] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [saveTarget, setSaveTarget] = useState<{
+    messageId: string;
+    topic: string;
+    content: string;
+    suggestedTitle: string;
+  } | null>(null);
   const endRef = useRef<HTMLDivElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const autoSent = useRef(false);
@@ -37,7 +57,6 @@ export function LessonGeneratorView({ session, onBack }: LessonGeneratorViewProp
     ) ?? teacherAiAssistantMock.tools[1];
 
   const classroom = session.classLabel;
-  const subject = session.subject;
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
@@ -128,21 +147,12 @@ export function LessonGeneratorView({ session, onBack }: LessonGeneratorViewProp
         onBack();
         return;
       }
-      const lesson = saveAiDraftAsLesson({
+      setSaveTarget({
+        messageId: message.id,
         topic,
         content: message.content,
-        classroom,
-        classFocus: {
-          gradeSection: session.classLabel,
-          subject: session.subject,
-        },
+        suggestedTitle: titleFromAiTopic(topic, message.content),
       });
-      setMessages((prev) =>
-        prev.map((item) =>
-          item.id === messageId ? { ...item, savedLessonId: lesson.id } : item,
-        ),
-      );
-      setStatus(`Saved “${lesson.title}” to Lessons as a draft`);
       return;
     }
 
@@ -175,15 +185,46 @@ export function LessonGeneratorView({ session, onBack }: LessonGeneratorViewProp
     }
   };
 
+  const confirmSaveDetails = (details: SaveLessonDetails): TeacherLessonRow => {
+    if (!saveTarget) {
+      throw new Error('Nothing to save');
+    }
+    const lesson = saveAiDraftAsLesson({
+      topic: saveTarget.topic,
+      content: saveTarget.content,
+      classroom: details.classLabel,
+      title: details.title,
+      classLabel: details.classLabel,
+      subject: details.subject,
+      classFocus: {
+        gradeSection: details.classLabel,
+        subject: details.subject,
+      },
+    });
+    setMessages((prev) =>
+      prev.map((item) =>
+        item.id === saveTarget.messageId
+          ? { ...item, savedLessonId: lesson.id }
+          : item,
+      ),
+    );
+    return lesson;
+  };
+
+  const finishSaveRedirect = (lesson: TeacherLessonRow) => {
+    setSaveTarget(null);
+    onSaved(lesson);
+  };
+
   const suggestions =
     session.mode === 'upload'
       ? [
-          'Turn this file into a 45-minute lesson',
+          'Turn this file into a lesson',
           'Extract key vocabulary and examples',
           'Make a student-friendly summary',
         ]
       : [
-          `Lesson on ${session.topic?.trim() || subject}`,
+          'Draft a lesson plan',
           'Add a warm-up and exit ticket',
           'Write a student-friendly summary',
         ];
@@ -191,17 +232,15 @@ export function LessonGeneratorView({ session, onBack }: LessonGeneratorViewProp
   return (
     <div className={styles.page}>
       <header className={styles.topBar}>
-        <div className={styles.topLeft}>
-          <button type="button" className={styles.backBtn} onClick={onBack}>
-            ← Back to Lessons
-          </button>
-          <div className={styles.heading}>
-            <p className={styles.eyebrow}>
-              {session.mode === 'upload' ? 'Upload → Lesson' : 'Generate lesson'}
-            </p>
-            <h1 className={styles.title}>Lesson studio</h1>
-          </div>
-        </div>
+        <button type="button" className={styles.backBtn} onClick={onBack}>
+          ← Back to Lessons
+        </button>
+        <h1 className={styles.title}>Lesson studio</h1>
+        <p className={styles.subtitle}>
+          {session.mode === 'upload'
+            ? 'Upload a file, then generate a lesson draft.'
+            : 'Chat to draft a lesson, then save it to your list.'}
+        </p>
       </header>
 
       <div className={styles.stage}>
@@ -368,6 +407,18 @@ export function LessonGeneratorView({ session, onBack }: LessonGeneratorViewProp
           </div>
         </div>
       </div>
+
+      {saveTarget ? (
+        <SaveLessonTitleModal
+          suggestedTitle={saveTarget.suggestedTitle}
+          classOptions={classOptions}
+          defaultSubject={session.subject || subjectOptions[0] || 'English'}
+          initialClassLabel={session.classLabel}
+          onCancel={() => setSaveTarget(null)}
+          onConfirm={confirmSaveDetails}
+          onDone={finishSaveRedirect}
+        />
+      ) : null}
     </div>
   );
 }

@@ -226,6 +226,9 @@ export function buildLessonInputFromAiDraft(input: {
   topic: string;
   content: string;
   classroom: string;
+  title?: string;
+  classLabel?: string;
+  subject?: string;
   classFocus?: { gradeSection: string; subject: string } | null;
 }): CreateLessonInput {
   const classes = teacherLessonsPageMock.filterOptions.classes.filter(
@@ -267,11 +270,15 @@ export function buildLessonInputFromAiDraft(input: {
     subjects[0] ||
     'English';
 
+  const customTitle = input.title?.trim();
+  const customClass = input.classLabel?.trim();
+  const customSubject = input.subject?.trim();
+
   return {
-    title: titleFromAiTopic(input.topic, input.content),
+    title: customTitle || titleFromAiTopic(input.topic, input.content),
     description: shortLessonDescription(input.content, input.topic),
-    classLabel,
-    subject,
+    classLabel: customClass || classLabel,
+    subject: customSubject || subject,
     type: 'Text Lesson',
     status: 'Draft',
     durationMins: 45,
@@ -283,10 +290,20 @@ export function saveAiDraftAsLesson(input: {
   topic: string;
   content: string;
   classroom: string;
+  title?: string;
+  classLabel?: string;
+  subject?: string;
   classFocus?: { gradeSection: string; subject: string } | null;
 }): TeacherLessonRow {
   const existing = loadTeacherLessons();
-  const lesson = buildLessonFromInput(buildLessonInputFromAiDraft(input), existing);
+  const lesson = buildLessonFromInput(
+    buildLessonInputFromAiDraft({
+      ...input,
+      classLabel: input.classLabel,
+      subject: input.subject,
+    }),
+    existing,
+  );
   persistTeacherLessons([lesson, ...existing]);
   setLessonsPendingToast({
     title: 'Lesson saved',
