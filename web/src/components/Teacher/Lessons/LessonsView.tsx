@@ -53,7 +53,7 @@ export function LessonsView({
     openCreate,
     closeCreate,
     createLesson,
-    ingestSavedLesson,
+    ingestSavedLessons,
     highlightId,
     toast,
     dismissToast,
@@ -62,11 +62,11 @@ export function LessonsView({
   const [generator, setGenerator] = useState<LessonGeneratorSession | null>(null);
 
   const handleSaved = useCallback(
-    (lesson: TeacherLessonRow) => {
+    (lessons: TeacherLessonRow[]) => {
       setGenerator(null);
-      ingestSavedLesson(lesson);
+      ingestSavedLessons(lessons);
     },
-    [ingestSavedLesson],
+    [ingestSavedLessons],
   );
 
   if (generator) {

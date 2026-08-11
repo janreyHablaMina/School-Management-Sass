@@ -25,7 +25,7 @@ interface LessonGeneratorViewProps {
   classOptions: string[];
   subjectOptions: string[];
   onBack: () => void;
-  onSaved: (lesson: TeacherLessonRow) => void;
+  onSaved: (lessons: TeacherLessonRow[]) => void;
 }
 
 export function LessonGeneratorView({
@@ -185,35 +185,42 @@ export function LessonGeneratorView({
     }
   };
 
-  const confirmSaveDetails = (details: SaveLessonDetails): TeacherLessonRow => {
+  const confirmSaveDetails = (details: SaveLessonDetails): TeacherLessonRow[] => {
     if (!saveTarget) {
       throw new Error('Nothing to save');
     }
-    const lesson = saveAiDraftAsLesson({
-      topic: saveTarget.topic,
-      content: saveTarget.content,
-      classroom: details.classLabel,
-      title: details.title,
-      classLabel: details.classLabel,
-      subject: details.subject,
-      classFocus: {
-        gradeSection: details.classLabel,
+
+    const lessons = details.classLabels.map((classLabel) =>
+      saveAiDraftAsLesson({
+        topic: saveTarget.topic,
+        content: saveTarget.content,
+        classroom: classLabel,
+        title: details.title,
+        classLabel,
         subject: details.subject,
-      },
-    });
-    setMessages((prev) =>
-      prev.map((item) =>
-        item.id === saveTarget.messageId
-          ? { ...item, savedLessonId: lesson.id }
-          : item,
-      ),
+        classFocus: {
+          gradeSection: classLabel,
+          subject: details.subject,
+        },
+      }),
     );
-    return lesson;
+
+    const primaryId = lessons[0]?.id;
+    if (primaryId) {
+      setMessages((prev) =>
+        prev.map((item) =>
+          item.id === saveTarget.messageId
+            ? { ...item, savedLessonId: primaryId }
+            : item,
+        ),
+      );
+    }
+    return lessons;
   };
 
-  const finishSaveRedirect = (lesson: TeacherLessonRow) => {
+  const finishSaveRedirect = (lessons: TeacherLessonRow[]) => {
     setSaveTarget(null);
-    onSaved(lesson);
+    onSaved(lessons);
   };
 
   const suggestions =
@@ -413,7 +420,6 @@ export function LessonGeneratorView({
           suggestedTitle={saveTarget.suggestedTitle}
           classOptions={classOptions}
           defaultSubject={session.subject || subjectOptions[0] || 'English'}
-          initialClassLabel={session.classLabel}
           onCancel={() => setSaveTarget(null)}
           onConfirm={confirmSaveDetails}
           onDone={finishSaveRedirect}

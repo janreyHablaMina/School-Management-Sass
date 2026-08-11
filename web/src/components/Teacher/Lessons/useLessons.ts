@@ -208,7 +208,15 @@ export function useLessons(options?: { classFocus?: TeacherClassFocus | null }) 
   };
 
   const ingestSavedLesson = (lesson: TeacherLessonRow) => {
-    setLessons((prev) => [lesson, ...prev.filter((item) => item.id !== lesson.id)]);
+    ingestSavedLessons([lesson]);
+  };
+
+  const ingestSavedLessons = (saved: TeacherLessonRow[]) => {
+    if (saved.length === 0) return;
+    setLessons((prev) => {
+      const ids = new Set(saved.map((item) => item.id));
+      return [...saved, ...prev.filter((item) => !ids.has(item.id))];
+    });
     list.setFilter('searchTerm', '');
     list.setFilter('tab', 'All Lessons');
     list.setFilter('classFilter', 'All Classes');
@@ -217,10 +225,14 @@ export function useLessons(options?: { classFocus?: TeacherClassFocus | null }) 
     list.setFilter('type', 'All Types');
     list.setFilter('sort', 'Newest First');
     list.setPage(1);
-    setHighlightId(lesson.id);
+    setHighlightId(saved[0].id);
+    const first = saved[0];
     setToast({
-      title: 'Lesson created',
-      message: `${lesson.title} · added to your list`,
+      title: saved.length > 1 ? 'Lessons created' : 'Lesson created',
+      message:
+        saved.length > 1
+          ? `${first.title} · saved to ${saved.length} classes`
+          : `${first.title} · ${first.classLabel}`,
     });
   };
 
@@ -247,6 +259,7 @@ export function useLessons(options?: { classFocus?: TeacherClassFocus | null }) 
     closeCreate: () => setIsCreateOpen(false),
     createLesson,
     ingestSavedLesson,
+    ingestSavedLessons,
     highlightId,
     toast,
     dismissToast: () => setToast(null),
