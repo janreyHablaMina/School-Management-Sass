@@ -650,10 +650,39 @@
   min-width: 140px;
 }
 
+.classMetaPrimaryRow {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
 .classMetaLabel {
   margin: 0;
   font-weight: 600;
   color: #f0efed;
+  line-height: 1.25;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.classMetaCount {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.4rem;
+  height: 1.15rem;
+  padding: 0 0.35rem;
+  border-radius: 999px;
+  border: 1px solid rgba(245, 200, 66, 0.4);
+  background: rgba(245, 200, 66, 0.12);
+  color: #f5c842;
+  font-size: 0.68rem;
+  font-weight: 700;
+  line-height: 1;
 }
 
 .classMetaSubject {

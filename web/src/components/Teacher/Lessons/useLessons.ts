@@ -31,7 +31,7 @@ import {
   usePagedList,
   useRowSelection,
 } from '../shared';
-import { buildLessonFromInput, sanitizeLessonList, type CreateLessonInput } from './utils';
+import { buildLessonFromInput, lessonAssignedToClass, sanitizeLessonList, type CreateLessonInput } from './utils';
 
 const PAGE_SIZE = 6;
 
@@ -57,7 +57,7 @@ export type LessonSortKey =
 function matchesLesson(lesson: TeacherLessonRow, filters: LessonsFiltersState) {
   return (
     matchesSearch(filters.searchTerm, [lesson.title, lesson.description, lesson.subject]) &&
-    matchesAllOrExact(filters.classFilter, lesson.classLabel, 'All Classes') &&
+    lessonAssignedToClass(lesson, filters.classFilter) &&
     matchesAllOrExact(filters.subject, lesson.subject, 'All Subjects') &&
     matchesAllOrExact(filters.status, lesson.status, 'All Status') &&
     matchesAllOrExact(filters.type, lesson.type, 'All Types')
@@ -227,12 +227,26 @@ export function useLessons(options?: { classFocus?: TeacherClassFocus | null }) 
     list.setPage(1);
     setHighlightId(saved[0].id);
     const first = saved[0];
+    const allPublished = saved.every((item) => item.status === 'Published');
+    const allDraft = saved.every((item) => item.status === 'Draft');
+    const classCount = first.classLabels?.length ?? 1;
     setToast({
-      title: saved.length > 1 ? 'Lessons created' : 'Lesson created',
+      title:
+        saved.length > 1
+          ? allPublished
+            ? 'Lessons published'
+            : 'Lessons created'
+          : allPublished
+            ? 'Lesson published'
+            : allDraft
+              ? 'Draft saved'
+              : 'Lesson created',
       message:
         saved.length > 1
-          ? `${first.title} · saved to ${saved.length} classes`
-          : `${first.title} · ${first.classLabel}`,
+          ? `${first.title} · ${saved.length} lessons`
+          : classCount > 1
+            ? `${first.title} · ${classCount} classes`
+            : `${first.title} · ${first.classLabel}`,
     });
   };
 

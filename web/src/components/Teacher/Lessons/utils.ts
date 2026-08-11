@@ -65,6 +65,9 @@ export const AI_LESSON_SAVE_TYPE_HINTS: Record<
 
 export const LESSON_CREATE_STATUSES: LessonStatus[] = ['Draft', 'Published'];
 
+/** Class label used when saving without assigning a classroom. */
+export const UNASSIGNED_CLASS_LABEL = 'Unassigned';
+
 /** AI Assistant tool id for "Generate Lesson". */
 export const GENERATE_LESSON_AI_TOOL_ID = 2;
 
@@ -107,6 +110,8 @@ export interface CreateLessonInput {
   title: string;
   description: string;
   classLabel: string;
+  /** All classes when multi-assign; defaults to [classLabel]. */
+  classLabels?: string[];
   subject: string;
   type: LessonType;
   status: LessonStatus;
@@ -124,6 +129,19 @@ export function lessonTypeIcon(type: LessonType): string {
 export function lessonTypeLabel(type: LessonType): string {
   if (type === 'Document') return 'Docs';
   return type;
+}
+
+export function lessonClassLabels(lesson: Pick<TeacherLessonRow, 'classLabel' | 'classLabels'>): string[] {
+  if (lesson.classLabels?.length) return lesson.classLabels;
+  return lesson.classLabel ? [lesson.classLabel] : [];
+}
+
+export function lessonAssignedToClass(
+  lesson: Pick<TeacherLessonRow, 'classLabel' | 'classLabels'>,
+  classFilter: string,
+): boolean {
+  if (classFilter === 'All Classes') return true;
+  return lessonClassLabels(lesson).includes(classFilter);
 }
 
 export function lessonStatusAccent(status: LessonStatus): string {
@@ -166,6 +184,15 @@ export function buildLessonFromInput(
   const { label, sortKey } = formatLessonDate();
   const type = input.type;
   const status = input.status;
+  const labels = (
+    input.classLabels?.length
+      ? input.classLabels
+      : [input.classLabel]
+  )
+    .map((item) => item.trim())
+    .filter(Boolean);
+  const uniqueLabels = [...new Set(labels)];
+  const primaryClass = uniqueLabels[0] || input.classLabel.trim();
 
   return {
     id: String(maxNumericId + 1),
@@ -174,7 +201,8 @@ export function buildLessonFromInput(
     durationMins: Math.round(input.durationMins),
     icon: TYPE_ICONS[type],
     accent: TYPE_ACCENTS[type],
-    classLabel: input.classLabel.trim(),
+    classLabel: primaryClass,
+    classLabels: uniqueLabels.length > 0 ? uniqueLabels : [primaryClass],
     subject: input.subject.trim(),
     type,
     status,
@@ -259,6 +287,7 @@ export function buildLessonInputFromAiDraft(input: {
   classroom: string;
   title?: string;
   classLabel?: string;
+  classLabels?: string[];
   subject?: string;
   type?: LessonType;
   classFocus?: { gradeSection: string; subject: string } | null;
@@ -303,20 +332,32 @@ export function buildLessonInputFromAiDraft(input: {
     'English';
 
   const customTitle = input.title?.trim();
-  const customClass = input.classLabel?.trim();
   const customSubject = input.subject?.trim();
   const customType =
     input.type && AI_LESSON_SAVE_TYPES.includes(input.type)
       ? input.type
       : 'PDF';
+  const resolvedLabels = (
+    input.classLabels?.length
+      ? input.classLabels
+      : [input.classLabel?.trim() || classLabel]
+  )
+    .map((item) => item.trim())
+    .filter(Boolean);
+  const uniqueLabels = [...new Set(resolvedLabels)];
+  const primaryClass = uniqueLabels[0] || UNASSIGNED_CLASS_LABEL;
+  const isAssigned = uniqueLabels.some(
+    (label) => label !== UNASSIGNED_CLASS_LABEL,
+  );
 
   return {
     title: customTitle || titleFromAiTopic(input.topic, input.content),
     description: shortLessonDescription(input.content, input.topic),
-    classLabel: customClass || classLabel,
+    classLabel: primaryClass,
+    classLabels: uniqueLabels,
     subject: customSubject || subject,
     type: customType,
-    status: 'Draft',
+    status: isAssigned ? 'Published' : 'Draft',
     durationMins: 45,
   };
 }
@@ -328,6 +369,7 @@ export function saveAiDraftAsLesson(input: {
   classroom: string;
   title?: string;
   classLabel?: string;
+  classLabels?: string[];
   subject?: string;
   type?: LessonType;
   classFocus?: { gradeSection: string; subject: string } | null;
@@ -337,33 +379,45 @@ export function saveAiDraftAsLesson(input: {
     buildLessonInputFromAiDraft({
       ...input,
       classLabel: input.classLabel,
+      classLabels: input.classLabels,
       subject: input.subject,
       type: input.type,
     }),
     existing,
   );
   persistTeacherLessons([lesson, ...existing]);
+  const classSummary =
+    lesson.classLabels.length > 1
+      ? `${lesson.classLabels.length} classes`
+      : lesson.classLabel;
   setLessonsPendingToast({
-    title: 'Lesson saved',
-    message: `${lesson.title} · ${lesson.classLabel} (Draft)`,
+    title: lesson.status === 'Published' ? 'Lesson published' : 'Draft saved',
+    message: `${lesson.title} · ${classSummary} (${lesson.status})`,
   });
   return lesson;
 }
 
 /** Compact long AI drafts already sitting in the Lessons list. */
 export function sanitizeLessonListRow(lesson: TeacherLessonRow): TeacherLessonRow {
-  const titleTooLong = lesson.title.length > 56;
-  const descTooLong = lesson.description.length > 140;
-  if (!titleTooLong && !descTooLong) return lesson;
+  const labels = lessonClassLabels(lesson);
+  const withClasses: TeacherLessonRow = {
+    ...lesson,
+    classLabel: labels[0] || lesson.classLabel || UNASSIGNED_CLASS_LABEL,
+    classLabels: labels,
+  };
+
+  const titleTooLong = withClasses.title.length > 56;
+  const descTooLong = withClasses.description.length > 140;
+  if (!titleTooLong && !descTooLong) return withClasses;
 
   return {
-    ...lesson,
+    ...withClasses,
     title: titleTooLong
-      ? titleFromAiTopic(lesson.title, lesson.description)
-      : lesson.title,
+      ? titleFromAiTopic(withClasses.title, withClasses.description)
+      : withClasses.title,
     description: descTooLong
-      ? shortLessonDescription(lesson.description, lesson.title)
-      : lesson.description,
+      ? shortLessonDescription(withClasses.description, withClasses.title)
+      : withClasses.description,
   };
 }
 

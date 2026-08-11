@@ -8,9 +8,10 @@ import {
   AI_LESSON_SAVE_TYPE_LABELS,
   AI_LESSON_SAVE_TYPES,
   lessonTypeIcon,
+  UNASSIGNED_CLASS_LABEL,
 } from '../utils';
 
-export const UNASSIGNED_CLASS_LABEL = 'Unassigned';
+export { UNASSIGNED_CLASS_LABEL };
 
 export interface SaveLessonDetails {
   title: string;

@@ -25,7 +25,10 @@ export interface TeacherLessonRow {
   durationMins: number;
   icon: string;
   accent: string;
+  /** Primary / first class — used for sort and single-class display. */
   classLabel: string;
+  /** All assigned classes (includes classLabel). */
+  classLabels: string[];
   subject: string;
   type: LessonType;
   status: LessonStatus;

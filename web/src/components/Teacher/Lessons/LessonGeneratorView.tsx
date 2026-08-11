@@ -190,33 +190,30 @@ export function LessonGeneratorView({
       throw new Error('Nothing to save');
     }
 
-    const lessons = details.classLabels.map((classLabel) =>
-      saveAiDraftAsLesson({
-        topic: saveTarget.topic,
-        content: saveTarget.content,
-        classroom: classLabel,
-        title: details.title,
-        classLabel,
+    const primaryClass = details.classLabels[0] ?? 'Unassigned';
+    const lesson = saveAiDraftAsLesson({
+      topic: saveTarget.topic,
+      content: saveTarget.content,
+      classroom: primaryClass,
+      title: details.title,
+      classLabel: primaryClass,
+      classLabels: details.classLabels,
+      subject: details.subject,
+      type: details.type,
+      classFocus: {
+        gradeSection: primaryClass,
         subject: details.subject,
-        type: details.type,
-        classFocus: {
-          gradeSection: classLabel,
-          subject: details.subject,
-        },
-      }),
-    );
+      },
+    });
 
-    const primaryId = lessons[0]?.id;
-    if (primaryId) {
-      setMessages((prev) =>
-        prev.map((item) =>
-          item.id === saveTarget.messageId
-            ? { ...item, savedLessonId: primaryId }
-            : item,
-        ),
-      );
-    }
-    return lessons;
+    setMessages((prev) =>
+      prev.map((item) =>
+        item.id === saveTarget.messageId
+          ? { ...item, savedLessonId: lesson.id }
+          : item,
+      ),
+    );
+    return [lesson];
   };
 
   const finishSaveRedirect = (lessons: TeacherLessonRow[]) => {

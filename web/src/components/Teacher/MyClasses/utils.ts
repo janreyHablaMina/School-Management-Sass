@@ -322,15 +322,22 @@ export function rosterForClass(cls: MyClassRow, limit = 5): TeacherStudentRow[] 
 
 export function lessonsForClass(cls: MyClassRow, limit = 3): TeacherLessonRow[] {
   const lessons = teacherLessonsPageMock.lessons;
+  const inClass = (lesson: TeacherLessonRow) => {
+    const labels =
+      lesson.classLabels?.length > 0 ? lesson.classLabels : [lesson.classLabel];
+    return labels.includes(cls.gradeSection);
+  };
+
   const exact = lessons.filter(
-    (lesson) => lesson.classLabel === cls.gradeSection && lesson.subject === cls.subject,
+    (lesson) => inClass(lesson) && lesson.subject === cls.subject,
   );
   if (exact.length > 0) return exact.slice(0, limit);
 
   return lessons
     .filter(
       (lesson) =>
-        lesson.subject === cls.subject && lesson.classLabel.includes(cls.gradeLevel),
+        lesson.subject === cls.subject &&
+        (inClass(lesson) || lesson.classLabel.includes(cls.gradeLevel)),
     )
     .slice(0, limit);
 }

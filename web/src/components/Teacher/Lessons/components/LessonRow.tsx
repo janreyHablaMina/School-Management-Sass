@@ -62,7 +62,11 @@ export function LessonRow({
         />
       </td>
       <td>
-        <ClassMeta classLabel={lesson.classLabel} subject={lesson.subject} />
+        <ClassMeta
+          classLabel={lesson.classLabel}
+          classLabels={lesson.classLabels}
+          subject={lesson.subject}
+        />
       </td>
       <td>
         <ChalkBadge label={lessonTypeLabel(lesson.type)} accent={lessonTypeAccent(lesson.type)} />
