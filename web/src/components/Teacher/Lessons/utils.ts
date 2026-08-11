@@ -14,6 +14,7 @@ import { accentFromMap } from '../shared';
 const TYPE_ACCENTS: Record<LessonType, string> = {
   'Video Lesson': '#b68eff',
   Document: '#5cc789',
+  PDF: '#e85d5d',
   Presentation: '#f5a623',
   Link: '#84a9ff',
   'Text Lesson': '#c9a8ff',
@@ -22,6 +23,7 @@ const TYPE_ACCENTS: Record<LessonType, string> = {
 const TYPE_ICONS: Record<LessonType, string> = {
   'Video Lesson': '▶',
   Document: '📄',
+  PDF: '📕',
   Presentation: '🖥',
   Link: '🔗',
   'Text Lesson': 'Aa',
@@ -36,10 +38,30 @@ const STATUS_ACCENTS: Record<LessonStatus, string> = {
 export const LESSON_TYPES: LessonType[] = [
   'Video Lesson',
   'Document',
+  'PDF',
   'Presentation',
   'Link',
   'Text Lesson',
 ];
+
+/** AI Lesson studio save options — text drafts as Docs or PDF. */
+export const AI_LESSON_SAVE_TYPES: LessonType[] = ['PDF', 'Document'];
+
+export const AI_LESSON_SAVE_TYPE_LABELS: Record<
+  (typeof AI_LESSON_SAVE_TYPES)[number],
+  string
+> = {
+  PDF: 'PDF',
+  Document: 'Docs',
+};
+
+export const AI_LESSON_SAVE_TYPE_HINTS: Record<
+  (typeof AI_LESSON_SAVE_TYPES)[number],
+  string
+> = {
+  PDF: 'Shareable file for students',
+  Document: 'Editable notes / Word-style',
+};
 
 export const LESSON_CREATE_STATUSES: LessonStatus[] = ['Draft', 'Published'];
 
@@ -93,6 +115,15 @@ export interface CreateLessonInput {
 
 export function lessonTypeAccent(type: LessonType): string {
   return accentFromMap(TYPE_ACCENTS, type, '#f5c842');
+}
+
+export function lessonTypeIcon(type: LessonType): string {
+  return TYPE_ICONS[type] ?? '📄';
+}
+
+export function lessonTypeLabel(type: LessonType): string {
+  if (type === 'Document') return 'Docs';
+  return type;
 }
 
 export function lessonStatusAccent(status: LessonStatus): string {
@@ -229,6 +260,7 @@ export function buildLessonInputFromAiDraft(input: {
   title?: string;
   classLabel?: string;
   subject?: string;
+  type?: LessonType;
   classFocus?: { gradeSection: string; subject: string } | null;
 }): CreateLessonInput {
   const classes = teacherLessonsPageMock.filterOptions.classes.filter(
@@ -273,13 +305,17 @@ export function buildLessonInputFromAiDraft(input: {
   const customTitle = input.title?.trim();
   const customClass = input.classLabel?.trim();
   const customSubject = input.subject?.trim();
+  const customType =
+    input.type && AI_LESSON_SAVE_TYPES.includes(input.type)
+      ? input.type
+      : 'PDF';
 
   return {
     title: customTitle || titleFromAiTopic(input.topic, input.content),
     description: shortLessonDescription(input.content, input.topic),
     classLabel: customClass || classLabel,
     subject: customSubject || subject,
-    type: 'Text Lesson',
+    type: customType,
     status: 'Draft',
     durationMins: 45,
   };
@@ -293,6 +329,7 @@ export function saveAiDraftAsLesson(input: {
   title?: string;
   classLabel?: string;
   subject?: string;
+  type?: LessonType;
   classFocus?: { gradeSection: string; subject: string } | null;
 }): TeacherLessonRow {
   const existing = loadTeacherLessons();
@@ -301,6 +338,7 @@ export function saveAiDraftAsLesson(input: {
       ...input,
       classLabel: input.classLabel,
       subject: input.subject,
+      type: input.type,
     }),
     existing,
   );

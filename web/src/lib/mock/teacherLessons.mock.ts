@@ -54,6 +54,7 @@ export const teacherLessonsPageMock: TeacherLessonsPageData = {
       'All Types',
       'Video Lesson',
       'Document',
+      'PDF',
       'Presentation',
       'Link',
       'Text Lesson',

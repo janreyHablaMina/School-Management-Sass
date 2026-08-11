@@ -7,6 +7,7 @@ export type LessonStatus = 'Published' | 'Draft' | 'Archived';
 export type LessonType =
   | 'Video Lesson'
   | 'Document'
+  | 'PDF'
   | 'Presentation'
   | 'Link'
   | 'Text Lesson';

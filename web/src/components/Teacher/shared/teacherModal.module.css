@@ -347,12 +347,75 @@ select.modalInput:focus {
   display: flex;
   flex-direction: column;
   gap: 0.45rem;
-  max-height: 260px;
+  max-height: 280px;
   padding: 0.55rem;
   border: 1.5px solid rgba(240, 239, 237, 0.28);
   border-radius: 10px;
   background: #0f1c14;
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+}
+
+.multiSelectHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.1rem 0.15rem 0.05rem;
+}
+
+.multiSelectHeaderLabel {
+  min-width: 0;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: rgba(240, 239, 237, 0.55);
+}
+
+.multiSelectClose {
+  appearance: none;
+  flex-shrink: 0;
+  width: 1.55rem;
+  height: 1.55rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(240, 239, 237, 0.22);
+  border-radius: 7px;
+  background: rgba(240, 239, 237, 0.05);
+  color: rgba(240, 239, 237, 0.7);
+  cursor: pointer;
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0;
+}
+
+.multiSelectClose:hover {
+  border-color: rgba(245, 200, 66, 0.45);
+  background: rgba(245, 200, 66, 0.1);
+  color: #f5c842;
+}
+
+.multiSelectFooter {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 0.15rem;
+}
+
+.multiSelectDone {
+  appearance: none;
+  border: 1px solid rgba(245, 200, 66, 0.4);
+  border-radius: 8px;
+  background: rgba(245, 200, 66, 0.12);
+  color: #f5c842;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.4rem 0.75rem;
+}
+
+.multiSelectDone:hover {
+  background: rgba(245, 200, 66, 0.2);
 }
 
 .multiSelectSearch {
@@ -419,6 +482,69 @@ select.modalInput:focus {
   font-size: 0.84rem;
   color: rgba(240, 239, 237, 0.45);
   text-align: center;
+}
+
+.selectOption {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  width: 100%;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: rgba(240, 239, 237, 0.85);
+  font: inherit;
+  font-size: 0.88rem;
+  text-align: left;
+  padding: 0.6rem 0.65rem;
+  cursor: pointer;
+}
+
+.selectOption:hover {
+  background: rgba(245, 200, 66, 0.08);
+}
+
+.selectOptionActive {
+  background: rgba(245, 200, 66, 0.14);
+  color: #f5c842;
+}
+
+.selectOptionIcon {
+  flex-shrink: 0;
+  width: 1.6rem;
+  height: 1.6rem;
+  display: grid;
+  place-items: center;
+  border-radius: 7px;
+  background: rgba(240, 239, 237, 0.08);
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+.selectOptionActive .selectOptionIcon {
+  background: rgba(245, 200, 66, 0.18);
+}
+
+.selectOptionCopy {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.12rem;
+}
+
+.selectOptionLabel {
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.selectOptionHint {
+  font-size: 0.75rem;
+  color: rgba(240, 239, 237, 0.45);
+  line-height: 1.3;
+}
+
+.selectOptionActive .selectOptionHint {
+  color: rgba(245, 200, 66, 0.65);
 }
 
 .selectedTags {

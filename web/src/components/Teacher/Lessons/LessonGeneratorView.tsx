@@ -198,6 +198,7 @@ export function LessonGeneratorView({
         title: details.title,
         classLabel,
         subject: details.subject,
+        type: details.type,
         classFocus: {
           gradeSection: classLabel,
           subject: details.subject,

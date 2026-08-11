@@ -6,7 +6,7 @@ import {
   RowActionsMenu,
   RowSelectCell,
 } from '../../shared';
-import { lessonStatusAccent, lessonTypeAccent } from '../utils';
+import { lessonStatusAccent, lessonTypeAccent, lessonTypeLabel } from '../utils';
 import type { TeacherLessonRow } from '@/types/teacherLessons';
 
 const ROW_ACTIONS = [
@@ -65,7 +65,7 @@ export function LessonRow({
         <ClassMeta classLabel={lesson.classLabel} subject={lesson.subject} />
       </td>
       <td>
-        <ChalkBadge label={lesson.type} accent={lessonTypeAccent(lesson.type)} />
+        <ChalkBadge label={lessonTypeLabel(lesson.type)} accent={lessonTypeAccent(lesson.type)} />
       </td>
       <td>
         <div className={listStyles.stackMeta}>

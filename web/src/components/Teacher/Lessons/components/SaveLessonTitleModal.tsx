@@ -1,8 +1,14 @@
 'use client';
 
 import { useEffect, useId, useMemo, useRef, useState, type FormEvent } from 'react';
-import type { TeacherLessonRow } from '@/types/teacherLessons';
+import type { LessonType, TeacherLessonRow } from '@/types/teacherLessons';
 import { listStyles, modalStyles, TeacherModal } from '../../shared';
+import {
+  AI_LESSON_SAVE_TYPE_HINTS,
+  AI_LESSON_SAVE_TYPE_LABELS,
+  AI_LESSON_SAVE_TYPES,
+  lessonTypeIcon,
+} from '../utils';
 
 export const UNASSIGNED_CLASS_LABEL = 'Unassigned';
 
@@ -10,6 +16,7 @@ export interface SaveLessonDetails {
   title: string;
   classLabels: string[];
   subject: string;
+  type: LessonType;
 }
 
 interface SaveLessonTitleModalProps {
@@ -31,12 +38,17 @@ export function SaveLessonTitleModal({
   onConfirm,
   onDone,
 }: SaveLessonTitleModalProps) {
-  const dropdownId = useId();
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const assignId = useId();
+  const typeId = useId();
+  const assignRef = useRef<HTMLDivElement>(null);
+  const typeRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
   const [title, setTitle] = useState(suggestedTitle);
   const [selectedClasses, setSelectedClasses] = useState<string[]>([]);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [lessonType, setLessonType] =
+    useState<(typeof AI_LESSON_SAVE_TYPES)[number]>('PDF');
+  const [assignOpen, setAssignOpen] = useState(false);
+  const [typeOpen, setTypeOpen] = useState(false);
   const [classQuery, setClassQuery] = useState('');
   const [error, setError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -47,17 +59,29 @@ export function SaveLessonTitleModal({
   }, []);
 
   useEffect(() => {
-    if (!dropdownOpen) return;
+    if (!assignOpen) return;
     searchRef.current?.focus();
 
     const onPointerDown = (event: MouseEvent) => {
-      if (!dropdownRef.current?.contains(event.target as Node)) {
-        setDropdownOpen(false);
+      if (!assignRef.current?.contains(event.target as Node)) {
+        setAssignOpen(false);
       }
     };
     document.addEventListener('mousedown', onPointerDown);
     return () => document.removeEventListener('mousedown', onPointerDown);
-  }, [dropdownOpen]);
+  }, [assignOpen]);
+
+  useEffect(() => {
+    if (!typeOpen) return;
+
+    const onPointerDown = (event: MouseEvent) => {
+      if (!typeRef.current?.contains(event.target as Node)) {
+        setTypeOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', onPointerDown);
+    return () => document.removeEventListener('mousedown', onPointerDown);
+  }, [typeOpen]);
 
   const filteredClasses = useMemo(() => {
     const query = classQuery.trim().toLowerCase();
@@ -97,6 +121,7 @@ export function SaveLessonTitleModal({
         title: cleaned,
         classLabels,
         subject: defaultSubject.trim() || 'English',
+        type: lessonType,
       }),
     );
   };
@@ -141,26 +166,44 @@ export function SaveLessonTitleModal({
 
       <div className={modalStyles.modalField}>
         <span className={modalStyles.modalLabel}>Assign</span>
-        <div className={modalStyles.multiSelect} ref={dropdownRef}>
+        <div className={modalStyles.multiSelect} ref={assignRef}>
           <button
             type="button"
-            id={dropdownId}
+            id={assignId}
             className={modalStyles.multiSelectTrigger}
             aria-haspopup="listbox"
-            aria-expanded={dropdownOpen}
-            onClick={() => setDropdownOpen((open) => !open)}
+            aria-expanded={assignOpen}
+            onClick={() => {
+              setTypeOpen(false);
+              setAssignOpen((open) => !open);
+            }}
           >
             <span className={modalStyles.multiSelectTriggerText}>{dropdownLabel}</span>
             <span className={modalStyles.multiSelectCaret} aria-hidden />
           </button>
 
-          {dropdownOpen ? (
+          {assignOpen ? (
             <div
               className={modalStyles.multiSelectPanel}
               role="listbox"
               aria-multiselectable="true"
-              aria-labelledby={dropdownId}
+              aria-labelledby={assignId}
             >
+              <div className={modalStyles.multiSelectHeader}>
+                <span className={modalStyles.multiSelectHeaderLabel}>
+                  {selectedClasses.length === 0
+                    ? 'Select classes'
+                    : `${selectedClasses.length} selected`}
+                </span>
+                <button
+                  type="button"
+                  className={modalStyles.multiSelectClose}
+                  aria-label="Close"
+                  onClick={() => setAssignOpen(false)}
+                >
+                  ×
+                </button>
+              </div>
               <input
                 ref={searchRef}
                 className={modalStyles.multiSelectSearch}
@@ -196,6 +239,15 @@ export function SaveLessonTitleModal({
                   })
                 )}
               </div>
+              <div className={modalStyles.multiSelectFooter}>
+                <button
+                  type="button"
+                  className={modalStyles.multiSelectDone}
+                  onClick={() => setAssignOpen(false)}
+                >
+                  Done
+                </button>
+              </div>
             </div>
           ) : null}
         </div>
@@ -217,6 +269,69 @@ export function SaveLessonTitleModal({
             ))}
           </div>
         ) : null}
+      </div>
+
+      <div className={modalStyles.modalField}>
+        <span className={modalStyles.modalLabel}>Type</span>
+        <div className={modalStyles.multiSelect} ref={typeRef}>
+          <button
+            type="button"
+            id={typeId}
+            className={modalStyles.multiSelectTrigger}
+            aria-haspopup="listbox"
+            aria-expanded={typeOpen}
+            onClick={() => {
+              setAssignOpen(false);
+              setTypeOpen((open) => !open);
+            }}
+          >
+            <span className={modalStyles.multiSelectTriggerText}>
+              {lessonTypeIcon(lessonType)} {AI_LESSON_SAVE_TYPE_LABELS[lessonType]}
+            </span>
+            <span className={modalStyles.multiSelectCaret} aria-hidden />
+          </button>
+
+          {typeOpen ? (
+            <div
+              className={modalStyles.multiSelectPanel}
+              role="listbox"
+              aria-labelledby={typeId}
+            >
+              <div className={modalStyles.multiSelectList}>
+                {AI_LESSON_SAVE_TYPES.map((option) => {
+                  const selected = lessonType === option;
+                  return (
+                    <button
+                      key={option}
+                      type="button"
+                      role="option"
+                      aria-selected={selected}
+                      className={`${modalStyles.selectOption} ${
+                        selected ? modalStyles.selectOptionActive : ''
+                      }`}
+                      onClick={() => {
+                        setLessonType(option);
+                        setTypeOpen(false);
+                      }}
+                    >
+                      <span className={modalStyles.selectOptionIcon} aria-hidden>
+                        {lessonTypeIcon(option)}
+                      </span>
+                      <span className={modalStyles.selectOptionCopy}>
+                        <span className={modalStyles.selectOptionLabel}>
+                          {AI_LESSON_SAVE_TYPE_LABELS[option]}
+                        </span>
+                        <span className={modalStyles.selectOptionHint}>
+                          {AI_LESSON_SAVE_TYPE_HINTS[option]}
+                        </span>
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          ) : null}
+        </div>
       </div>
 
       {error ? <p className={modalStyles.modalError}>{error}</p> : null}
