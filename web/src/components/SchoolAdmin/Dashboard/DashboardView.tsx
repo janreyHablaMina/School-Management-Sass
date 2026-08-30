@@ -1,15 +1,18 @@
+'use client';
 import React from 'react';
 import styles from './dashboard.module.css';
 import { ChalkLineChart, ChalkDonutChart } from '@/components/ChalkCharts';
 import { schoolAdminMockData } from '@/lib/mock/schoolAdmin.mock';
+import { useGreeting } from '@/lib/utils/greeting';
 
 export const DashboardView: React.FC = () => {
+  const greeting = useGreeting();
   return (
     <div className={styles.dashboardContainer}>
       {/* HEADER SECTION */}
       <div className={styles.headerSection}>
         <div className={styles.headerText}>
-          <h1>Good morning, Sophia! 👋</h1>
+          <h1>{greeting}, Sophia! 👋</h1>
           <p>Here&apos;s what&apos;s happening at ABC Learning Academy today.</p>
         </div>
         

@@ -38,6 +38,8 @@ export function DashboardView({ onNavigate }: DashboardViewProps) {
   } = teacherPortalMock;
 
   const goToAi = () => onNavigate?.({ tab: 'AI Assistant' });
+  const goToCalendar = () => onNavigate?.('Calendar');
+  const goToGrades = () => onNavigate?.('Grades');
 
   return (
     <div className={styles.dashboardContainer}>
@@ -45,7 +47,7 @@ export function DashboardView({ onNavigate }: DashboardViewProps) {
       <MetricsRow metrics={metrics} />
 
       <div className={styles.middleSection}>
-        <SchedulePanel schedule={schedule} />
+        <SchedulePanel schedule={schedule} onViewAll={goToCalendar} />
         <AiAssistantPanel
           aiCredits={aiCredits}
           aiUsage={aiUsage}
@@ -54,9 +56,9 @@ export function DashboardView({ onNavigate }: DashboardViewProps) {
         />
         <AnnouncementsPanel announcements={announcements} />
         <StudentOverviewPanel
-          studentOverview={studentOverview}
           classPerformance={classPerformance}
           attentionItems={attentionItems}
+          onViewReport={goToGrades}
         />
       </div>
 

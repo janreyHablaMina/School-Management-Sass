@@ -1,45 +1,45 @@
 import React from 'react';
 import styles from '../dashboard.module.css';
 import { PanelHeader } from '../components/PanelHeader';
-import { MiniSparkline } from '../components/MiniSparkline';
 import { getInitials } from '../../utils';
-import type { AttentionItem, ClassPerformance, OverviewStat } from '@/types/teacherPortal';
+import type { AttentionItem, ClassPerformance } from '@/types/teacherPortal';
 
 interface StudentOverviewPanelProps {
-  studentOverview: OverviewStat[];
   classPerformance: ClassPerformance[];
   attentionItems: AttentionItem[];
+  onViewReport?: () => void;
 }
 
 export function StudentOverviewPanel({
-  studentOverview,
   classPerformance,
   attentionItems,
+  onViewReport,
 }: StudentOverviewPanelProps) {
   return (
     <div className={`${styles.panel} ${styles.overviewPanel} ${styles.areaOverview}`}>
-      <PanelHeader
-        title="Student Overview"
-        right={
-          <button type="button" className={styles.panelLink}>
-            View report
-          </button>
-        }
-      />
+      <PanelHeader title="Student Overview" />
 
-      <div className={styles.overviewGrid}>
-        {studentOverview.map((item) => (
-          <div key={item.id} className={styles.overviewCard}>
-            <span className={styles.overviewLabel}>{item.label}</span>
-            <div className={styles.overviewValueRow}>
-              <span className={styles.overviewValue}>{item.value}</span>
-              <span className={`${styles.overviewChange} ${item.up ? styles.up : styles.down}`}>
-                {item.up ? '↑' : '↓'} {item.change}
-              </span>
-            </div>
-            <MiniSparkline path={item.path} stroke={item.stroke} />
-          </div>
-        ))}
+      {/* Compact summary strip */}
+      <div className={styles.overviewStatStrip}>
+        <div className={styles.overviewStatChip}>
+          <span className={styles.overviewStatChipValue}>128</span>
+          <span className={styles.overviewStatChipLabel}>Total Students</span>
+        </div>
+        <div className={styles.overviewStatChipDivider} />
+        <div className={styles.overviewStatChip}>
+          <span className={styles.overviewStatChipValue} style={{ color: '#5cc789' }}>92%</span>
+          <span className={styles.overviewStatChipLabel}>Attendance Today</span>
+        </div>
+        <div className={styles.overviewStatChipDivider} />
+        <div className={styles.overviewStatChip}>
+          <span className={styles.overviewStatChipValue} style={{ color: '#f5a623' }}>4</span>
+          <span className={styles.overviewStatChipLabel}>At-Risk Students</span>
+        </div>
+        <div className={styles.overviewStatChipDivider} />
+        <div className={styles.overviewStatChip}>
+          <span className={styles.overviewStatChipValue} style={{ color: '#84a9ff' }}>78%</span>
+          <span className={styles.overviewStatChipLabel}>Submissions</span>
+        </div>
       </div>
 
       <div className={styles.overviewSplit}>
@@ -92,6 +92,9 @@ export function StudentOverviewPanel({
           </div>
         </div>
       </div>
+      <button type="button" className={styles.panelFooterLink} onClick={onViewReport}>
+        View full report ›
+      </button>
     </div>
   );
 }

@@ -217,44 +217,48 @@
   }
 }
 
-/* Schedule timeline */
+/* Schedule Card Layout */
 .scheduleList {
   display: flex;
   flex-direction: column;
-  flex: 1;
-  gap: 0;
+  gap: 0.6rem;
+  padding: 0.5rem 0;
 }
 
 .scheduleRow {
   display: grid;
   grid-template-columns: 18px 4.2rem 1fr auto;
   gap: 0.7rem;
-  align-items: start;
-  padding: 0.7rem 0.45rem 0.7rem 0;
-  border-radius: 8px 10px 7px 9px / 9px 7px 9px 8px;
-  transition: background 0.15s ease;
+  align-items: center;
+  padding: 0.8rem 0.45rem;
+  margin-left: -0.45rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.scheduleRow:last-child {
+  border-bottom: 1px solid transparent;
 }
 
 .scheduleRow:hover {
-  background: rgba(245, 200, 66, 0.04);
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 6px;
+  border-bottom-color: transparent;
 }
 
 .scheduleRowActive {
-  background: rgba(182, 142, 255, 0.08);
-  border: 1px dashed rgba(182, 142, 255, 0.35);
-  padding-left: 0.45rem;
-  padding-right: 0.45rem;
-  margin-bottom: 0.15rem;
+  background: rgba(182, 142, 255, 0.05);
+  border-radius: 6px;
+  border: 1px dashed rgba(182, 142, 255, 0.25);
+  border-bottom-color: transparent;
 }
 
 .scheduleTimeline {
-  position: relative;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  padding-top: 0.35rem;
-  min-height: 100%;
-  align-self: stretch;
+  justify-content: center;
 }
 
 .scheduleDot {
@@ -262,7 +266,6 @@
   height: 10px;
   border-radius: 50%;
   flex-shrink: 0;
-  z-index: 1;
 }
 
 .scheduleDotPulse {
@@ -275,11 +278,7 @@
 }
 
 .scheduleLine {
-  flex: 1;
-  width: 0;
-  min-height: 28px;
-  margin-top: 4px;
-  border-left: 1.5px dashed rgba(240, 239, 237, 0.22);
+  display: none; /* Hidden since we sort by status now */
 }
 
 .scheduleTimeBlock {
@@ -325,6 +324,9 @@
   margin: 0.25rem 0 0;
   font-size: 0.7rem;
   color: rgba(240, 239, 237, 0.4);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
 }
 
 .badgeOngoing {
@@ -371,6 +373,48 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 0.75rem;
+}
+
+/* Compact inline stat strip */
+.overviewStatStrip {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  padding: 0.8rem 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.overviewStatChip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  gap: 0.2rem;
+}
+
+.overviewStatChipValue {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #f0efed;
+  line-height: 1;
+}
+
+.overviewStatChipLabel {
+  font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.45);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+
+.overviewStatChipDivider {
+  width: 1px;
+  height: 2rem;
+  background: rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
 }
 
 .overviewCard {
@@ -1151,4 +1195,45 @@
   .headerText h1 {
     font-size: 2rem;
   }
+}
+
+/* Schedule Status Badges */
+.badgeOngoing {
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+  background: rgba(182, 142, 255, 0.15);
+  color: #b68eff;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: 1px solid rgba(182, 142, 255, 0.3);
+}
+
+.badgeDone {
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+  background: rgba(240, 239, 237, 0.05);
+  color: rgba(240, 239, 237, 0.4);
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: 1px solid rgba(240, 239, 237, 0.1);
+}
+
+.badgeUpcoming {
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+  background: rgba(245, 200, 66, 0.1);
+  color: #f5c842;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: 1px solid rgba(245, 200, 66, 0.25);
+}
+
+.scheduleRowDone {
+  background: rgba(255, 255, 255, 0.01);
 }

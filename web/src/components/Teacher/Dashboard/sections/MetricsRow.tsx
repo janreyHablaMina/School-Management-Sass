@@ -17,6 +17,7 @@ export function MetricsRow({ metrics }: MetricsRowProps) {
             className={`${styles.metricGrowth} ${
               m.growthClass === 'green' ? styles.growthGreen : styles.growthYellow
             }`}
+            style={{ fontSize: '0.72rem', marginTop: '0.3rem' }}
           >
             {m.growth}
           </div>

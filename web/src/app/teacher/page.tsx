@@ -26,6 +26,7 @@ import { teacherPortalMock } from '@/lib/mock/teacherPortal.mock';
 import type { TeacherNavRequest } from '@/lib/teacher/classFocus';
 import type { TeacherProfile } from '@/types/teacherPortal';
 import { useWorkspaceScroll } from '@/hooks/useWorkspaceScroll';
+import { useGreeting } from '@/lib/utils/greeting';
 
 export default function TeacherDashboard() {
   const [activeTab, setActiveTab] = useState('Dashboard');
@@ -33,6 +34,7 @@ export default function TeacherDashboard() {
   const [teacher, setTeacher] = useState<TeacherProfile>(teacherPortalMock.teacher);
   const workspaceRef = useRef<HTMLDivElement>(null);
   const isScrolled = useWorkspaceScroll(workspaceRef);
+  const greeting = useGreeting();
   const { aiCredits } = teacherPortalMock;
 
   const navigateTo = (request: TeacherNavRequest | string) => {
@@ -117,7 +119,7 @@ export default function TeacherDashboard() {
           onSchoolsClick={() => {}}
           userName={teacher.fullName}
           userInitials={teacher.initials}
-          welcomeText={`Welcome back, ${teacher.shortName}!`}
+          welcomeText={`${greeting}, ${teacher.shortName}!`}
           notificationCount={3}
           searchPlaceholder="Search students, classes, exams..."
           hideTitle
