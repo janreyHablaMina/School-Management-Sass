@@ -40,6 +40,9 @@ export function DashboardView({ onNavigate }: DashboardViewProps) {
   const goToAi = () => onNavigate?.({ tab: 'AI Assistant' });
   const goToCalendar = () => onNavigate?.('Calendar');
   const goToGrades = () => onNavigate?.('Grades');
+  const goToAnnouncements = () => onNavigate?.('Announcements');
+  const goToMyClasses = () => onNavigate?.('My Classes');
+  const goToAssignments = () => onNavigate?.('Assignments');
 
   return (
     <div className={styles.dashboardContainer}>
@@ -54,7 +57,11 @@ export function DashboardView({ onNavigate }: DashboardViewProps) {
           aiTools={aiTools}
           onOpenAssistant={goToAi}
         />
-        <AnnouncementsPanel announcements={announcements} />
+        <AnnouncementsPanel
+          announcements={announcements}
+          onViewAll={goToAnnouncements}
+          onSelectAnnouncement={goToAnnouncements}
+        />
         <StudentOverviewPanel
           classPerformance={classPerformance}
           attentionItems={attentionItems}
@@ -63,8 +70,12 @@ export function DashboardView({ onNavigate }: DashboardViewProps) {
       </div>
 
       <div className={styles.bottomGrid}>
-        <MyClassesPanel myClasses={myClasses} classActivity={classActivity} />
-        <DeadlinesPanel deadlines={deadlines} />
+        <MyClassesPanel
+          myClasses={myClasses}
+          classActivity={classActivity}
+          onViewAll={goToMyClasses}
+        />
+        <DeadlinesPanel deadlines={deadlines} onViewAll={goToAssignments} />
       </div>
     </div>
   );

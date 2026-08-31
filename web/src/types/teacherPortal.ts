@@ -95,6 +95,7 @@ export interface ClassActivity {
   text: string;
   time: string;
   accent: string;
+  subject: string;
 }
 
 export interface DeadlineItem {

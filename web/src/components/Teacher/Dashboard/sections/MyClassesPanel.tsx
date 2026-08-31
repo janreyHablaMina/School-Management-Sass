@@ -6,9 +6,14 @@ import type { ClassActivity, TeacherClass } from '@/types/teacherPortal';
 interface MyClassesPanelProps {
   myClasses: TeacherClass[];
   classActivity: ClassActivity[];
+  onViewAll?: () => void;
 }
 
-export function MyClassesPanel({ myClasses, classActivity }: MyClassesPanelProps) {
+export function MyClassesPanel({
+  myClasses,
+  classActivity,
+  onViewAll,
+}: MyClassesPanelProps) {
   return (
     <div className={`${styles.panel} ${styles.classesPanel}`}>
       <PanelHeader
@@ -16,55 +21,28 @@ export function MyClassesPanel({ myClasses, classActivity }: MyClassesPanelProps
         right={
           <div className={styles.classesHeaderRight}>
             <span className={styles.classesCount}>{myClasses.length} active</span>
-            <button type="button" className={styles.panelLink}>
+            <button type="button" className={styles.panelLink} onClick={onViewAll}>
               View all
             </button>
           </div>
         }
       />
-      <div className={styles.classesGrid}>
+      <div className={styles.classesList}>
         {myClasses.map((cls) => (
-          <div key={cls.id} className={styles.classCard}>
-            <div className={styles.classAccent} style={{ background: cls.accent }} />
-            <div className={styles.classBody}>
-              <div className={styles.classTop}>
-                <div>
-                  <p className={styles.classTitle}>{cls.title}</p>
-                  <p className={styles.classSubject}>{cls.subject}</p>
-                </div>
-                <span
-                  className={styles.classGradePill}
-                  style={{ color: cls.accent, borderColor: `${cls.accent}66` }}
-                >
-                  {cls.avgGrade}
-                </span>
-              </div>
-
-              <div className={styles.classStats}>
-                <span className={styles.classStat}>
-                  <span className={styles.classStatIcon}>👥</span>
-                  {cls.students} Students
-                </span>
-                <span className={styles.classStat}>
-                  <span className={styles.classStatIcon}>📅</span>
-                  {cls.attendance}% Attendance
-                </span>
-              </div>
-
-              <div className={styles.classAttendanceTrack}>
-                <div
-                  className={styles.classAttendanceFill}
-                  style={{ width: `${cls.attendance}%`, background: cls.accent }}
-                />
-              </div>
-
-              <p className={styles.classNext}>
-                <span>Next</span> {cls.next}
-              </p>
-
-              <button type="button" className={styles.classOpenBtn}>
-                Open Class ›
-              </button>
+          <div key={cls.id} className={styles.classRow}>
+            <div className={styles.classAccentDot} style={{ background: cls.accent, boxShadow: `0 0 8px ${cls.accent}40` }} />
+            <div className={styles.classInfo}>
+              <p className={styles.classTitle}>{cls.title}</p>
+              <p className={styles.classSubject}>{cls.subject}</p>
+            </div>
+            <div className={styles.classMeta}>
+              <span className={styles.classStat}>{cls.students} Students</span>
+              <span
+                className={styles.classGradePill}
+                style={{ color: cls.accent, borderColor: `${cls.accent}40`, background: `${cls.accent}15` }}
+              >
+                Avg: {cls.avgGrade}
+              </span>
             </div>
           </div>
         ))}
@@ -78,7 +56,10 @@ export function MyClassesPanel({ myClasses, classActivity }: MyClassesPanelProps
           {classActivity.map((act) => (
             <div key={act.id} className={styles.classActivityRow}>
               <span className={styles.classActivityDot} style={{ background: act.accent }} />
-              <p className={styles.classActivityText}>{act.text}</p>
+              <div className={styles.classActivityContent}>
+                <p className={styles.classActivitySubject} style={{ color: act.accent }}>{act.subject}</p>
+                <p className={styles.classActivityText}>{act.text}</p>
+              </div>
               <span className={styles.classActivityTime}>{act.time}</span>
             </div>
           ))}

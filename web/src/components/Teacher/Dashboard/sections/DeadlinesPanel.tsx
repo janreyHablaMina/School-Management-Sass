@@ -5,15 +5,16 @@ import type { DeadlineItem } from '@/types/teacherPortal';
 
 interface DeadlinesPanelProps {
   deadlines: DeadlineItem[];
+  onViewAll?: () => void;
 }
 
-export function DeadlinesPanel({ deadlines }: DeadlinesPanelProps) {
+export function DeadlinesPanel({ deadlines, onViewAll }: DeadlinesPanelProps) {
   return (
     <div className={`${styles.panel} ${styles.deadlinesPanel}`}>
       <PanelHeader
         title="Upcoming Deadlines"
         right={
-          <button type="button" className={styles.panelLink}>
+          <button type="button" className={styles.panelLink} onClick={onViewAll}>
             View all
           </button>
         }

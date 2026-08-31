@@ -249,21 +249,24 @@ export const teacherPortalMock: TeacherPortalData = {
   classActivity: [
     {
       id: 1,
-      text: '12 students submitted Math Quiz drafts',
+      text: '12 students submitted drafts',
       time: '12 min ago',
       accent: '#b68eff',
+      subject: 'Math 101',
     },
     {
       id: 2,
-      text: 'Science Lab attendance marked for Sec B',
+      text: 'Lab attendance marked for Sec B',
       time: '45 min ago',
       accent: '#5cc789',
+      subject: 'Science',
     },
     {
       id: 3,
-      text: 'New resource uploaded to ICT class',
+      text: 'New resource uploaded',
       time: '2 hrs ago',
       accent: '#84a9ff',
+      subject: 'Information Technology',
     },
   ],
   deadlines: [
