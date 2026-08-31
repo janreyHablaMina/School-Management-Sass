@@ -7,12 +7,14 @@ interface MyClassesPanelProps {
   myClasses: TeacherClass[];
   classActivity: ClassActivity[];
   onViewAll?: () => void;
+  onSelectClass?: (id: number) => void;
 }
 
 export function MyClassesPanel({
   myClasses,
   classActivity,
   onViewAll,
+  onSelectClass,
 }: MyClassesPanelProps) {
   return (
     <div className={`${styles.panel} ${styles.classesPanel}`}>
@@ -29,7 +31,11 @@ export function MyClassesPanel({
       />
       <div className={styles.classesList}>
         {myClasses.map((cls) => (
-          <div key={cls.id} className={styles.classRow}>
+          <div
+            key={cls.id}
+            className={styles.classRow}
+            onClick={() => onSelectClass?.(cls.id)}
+          >
             <div className={styles.classAccentDot} style={{ background: cls.accent, boxShadow: `0 0 8px ${cls.accent}40` }} />
             <div className={styles.classInfo}>
               <p className={styles.classTitle}>{cls.title}</p>
@@ -65,6 +71,9 @@ export function MyClassesPanel({
           ))}
         </div>
       </div>
+      <button type="button" className={styles.panelFooterLink} onClick={onViewAll}>
+        View all classes ›
+      </button>
     </div>
   );
 }

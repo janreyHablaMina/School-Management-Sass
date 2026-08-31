@@ -74,8 +74,14 @@ export function DashboardView({ onNavigate }: DashboardViewProps) {
           myClasses={myClasses}
           classActivity={classActivity}
           onViewAll={goToMyClasses}
+          onSelectClass={goToMyClasses}
         />
-        <DeadlinesPanel deadlines={deadlines} onViewAll={goToAssignments} />
+        <DeadlinesPanel
+          deadlines={deadlines}
+          onViewAll={goToAssignments}
+          onSelectDeadline={goToAssignments}
+          onViewCalendar={goToCalendar}
+        />
       </div>
     </div>
   );

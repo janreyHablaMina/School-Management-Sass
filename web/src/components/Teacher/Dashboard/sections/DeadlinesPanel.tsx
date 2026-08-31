@@ -6,9 +6,16 @@ import type { DeadlineItem } from '@/types/teacherPortal';
 interface DeadlinesPanelProps {
   deadlines: DeadlineItem[];
   onViewAll?: () => void;
+  onSelectDeadline?: (id: number) => void;
+  onViewCalendar?: () => void;
 }
 
-export function DeadlinesPanel({ deadlines, onViewAll }: DeadlinesPanelProps) {
+export function DeadlinesPanel({
+  deadlines,
+  onViewAll,
+  onSelectDeadline,
+  onViewCalendar,
+}: DeadlinesPanelProps) {
   return (
     <div className={`${styles.panel} ${styles.deadlinesPanel}`}>
       <PanelHeader
@@ -21,10 +28,14 @@ export function DeadlinesPanel({ deadlines, onViewAll }: DeadlinesPanelProps) {
       />
       <div className={styles.deadlineList}>
         {deadlines.map((d) => (
-          <div key={d.id} className={styles.deadlineRow}>
+          <div
+            key={d.id}
+            className={styles.deadlineRow}
+            onClick={() => onSelectDeadline?.(d.id)}
+          >
             <div
               className={styles.deadlineDateBox}
-              style={{ borderColor: `${d.color}88`, boxShadow: `0 0 0 3px ${d.color}18` }}
+              style={{ borderColor: `${d.color}88` }}
             >
               <span className={styles.deadlineMonth} style={{ color: d.color }}>
                 {d.month}
@@ -34,20 +45,20 @@ export function DeadlinesPanel({ deadlines, onViewAll }: DeadlinesPanelProps) {
             <div className={styles.deadlineContent}>
               <div className={styles.deadlineTitleRow}>
                 <p className={styles.deadlineTitle}>{d.title}</p>
-                <span
-                  className={styles.deadlineType}
-                  style={{ color: d.color, borderColor: `${d.color}55` }}
-                >
-                  {d.type}
-                </span>
               </div>
               <p className={styles.deadlineClass}>{d.className}</p>
               <span className={styles.deadlineDays}>{d.daysLeft}</span>
             </div>
+            <span
+              className={styles.deadlineType}
+              style={{ color: d.color, borderColor: `${d.color}55` }}
+            >
+              {d.type}
+            </span>
           </div>
         ))}
       </div>
-      <button type="button" className={styles.panelFooterLink}>
+      <button type="button" className={styles.panelFooterLink} onClick={onViewCalendar}>
         View calendar ›
       </button>
     </div>
