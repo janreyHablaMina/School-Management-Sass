@@ -7,12 +7,10 @@ import {
   DashboardHeader,
   MetricsRow,
   SchedulePanel,
-  AiAssistantPanel,
   AnnouncementsPanel,
-  StudentOverviewPanel,
-  MyClassesPanel,
   DeadlinesPanel,
 } from './sections';
+import { AlertsPanel } from './sections/AlertsPanel';
 
 import type { TeacherNavRequest } from '@/lib/teacher/classFocus';
 
@@ -23,66 +21,48 @@ interface DashboardViewProps {
 export function DashboardView({ onNavigate }: DashboardViewProps) {
   const {
     teacher,
-    aiCredits,
     metrics,
     schedule,
-    studentOverview,
-    classPerformance,
     attentionItems,
     announcements,
-    aiTools,
-    aiUsage,
-    myClasses,
-    classActivity,
     deadlines,
   } = teacherPortalMock;
 
   const goToAi = () => onNavigate?.({ tab: 'AI Assistant' });
   const goToCalendar = () => onNavigate?.('Calendar');
-  const goToGrades = () => onNavigate?.('Grades');
   const goToAnnouncements = () => onNavigate?.('Announcements');
-  const goToMyClasses = () => onNavigate?.('My Classes');
   const goToAssignments = () => onNavigate?.('Assignments');
+  const goToStudents = () => onNavigate?.('Students');
 
   return (
     <div className={styles.dashboardContainer}>
       <DashboardHeader shortName={teacher.shortName} onAskAi={goToAi} />
+
       <MetricsRow metrics={metrics} />
 
-      <div className={styles.middleSection}>
+      <div className={styles.topSplit}>
         <SchedulePanel schedule={schedule} onViewAll={goToCalendar} />
-        <AiAssistantPanel
-          aiCredits={aiCredits}
-          aiUsage={aiUsage}
-          aiTools={aiTools}
-          onOpenAssistant={goToAi}
-        />
-        <AnnouncementsPanel
-          announcements={announcements}
-          onViewAll={goToAnnouncements}
-          onSelectAnnouncement={goToAnnouncements}
-        />
-        <StudentOverviewPanel
-          classPerformance={classPerformance}
+        <AlertsPanel
           attentionItems={attentionItems}
-          onViewReport={goToGrades}
+          onViewAll={goToStudents}
         />
       </div>
 
-      <div className={styles.bottomGrid}>
-        <MyClassesPanel
-          myClasses={myClasses}
-          classActivity={classActivity}
-          onViewAll={goToMyClasses}
-          onSelectClass={goToMyClasses}
-        />
+      <div className={styles.bottomSplit}>
         <DeadlinesPanel
           deadlines={deadlines}
           onViewAll={goToAssignments}
           onSelectDeadline={goToAssignments}
           onViewCalendar={goToCalendar}
         />
+        <AnnouncementsPanel
+          announcements={announcements}
+          onViewAll={goToAnnouncements}
+          onSelectAnnouncement={goToAnnouncements}
+        />
       </div>
     </div>
   );
 }
+
+

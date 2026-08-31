@@ -16,7 +16,7 @@ export function AnnouncementsPanel({
   onSelectAnnouncement,
 }: AnnouncementsPanelProps) {
   return (
-    <div className={`${styles.panel} ${styles.announcementPanel} ${styles.areaAnnouncements}`}>
+    <div className={`${styles.panel} ${styles.announcementPanel}`}>
       <PanelHeader
         title="Recent Announcements"
         right={

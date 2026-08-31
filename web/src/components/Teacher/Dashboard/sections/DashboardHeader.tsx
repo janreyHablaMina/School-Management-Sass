@@ -16,7 +16,11 @@ export function DashboardHeader({ shortName, onAskAi }: DashboardHeaderProps) {
         <h1>{greeting}, {shortName}! 👋</h1>
         <p>Here&apos;s what&apos;s happening in your classes today.</p>
       </div>
-
+      <button className={styles.aiAskBtn} onClick={onAskAi} type="button">
+        <span className="material-symbols-rounded" style={{ fontSize: '1.1rem' }}>auto_awesome</span>
+        Ask AI Assistant
+      </button>
     </div>
   );
 }
+
