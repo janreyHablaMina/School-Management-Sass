@@ -20,14 +20,9 @@ export function DeadlinesPanel({
     <div className={`${styles.panel} ${styles.deadlinesPanel}`}>
       <PanelHeader
         title="Upcoming Deadlines"
-        right={
-          <button type="button" className={styles.panelLink} onClick={onViewAll}>
-            View all
-          </button>
-        }
       />
       <div className={styles.deadlineList}>
-        {deadlines.map((d) => (
+        {deadlines.slice(0, 3).map((d) => (
           <div
             key={d.id}
             className={styles.deadlineRow}

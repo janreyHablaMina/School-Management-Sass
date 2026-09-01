@@ -626,7 +626,16 @@
   border-radius: 8px 10px 7px 9px / 9px 7px 9px 8px;
   border: 1px solid rgba(240, 239, 237, 0.1);
   background: rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease, transform 0.15s ease;
 }
+
+.attentionRow:hover {
+  border-color: rgba(245, 200, 66, 0.35);
+  background: rgba(245, 200, 66, 0.04);
+  transform: translateX(2px);
+}
+
 
 .attentionAvatar {
   width: 30px;

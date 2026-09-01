@@ -19,14 +19,9 @@ export function AnnouncementsPanel({
     <div className={`${styles.panel} ${styles.announcementPanel}`}>
       <PanelHeader
         title="Recent Announcements"
-        right={
-          <button type="button" className={styles.panelLink} onClick={onViewAll}>
-            View all
-          </button>
-        }
       />
       <div className={styles.announcementList}>
-        {announcements.map((ann) => (
+        {announcements.slice(0, 3).map((ann) => (
           <div
             key={ann.id}
             className={styles.announcementRow}

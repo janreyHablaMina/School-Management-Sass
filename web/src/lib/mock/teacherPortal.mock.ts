@@ -115,6 +115,13 @@ export const teacherPortalMock: TeacherPortalData = {
       tag: 'Grades',
       tagColor: '#b68eff',
     },
+    {
+      id: 4,
+      name: 'Angela Cruz',
+      detail: 'Incomplete lab report submission',
+      tag: 'Lab Work',
+      tagColor: '#5cc789',
+    },
   ],
   announcements: [
     {

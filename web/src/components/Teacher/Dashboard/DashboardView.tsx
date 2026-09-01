@@ -45,6 +45,7 @@ export function DashboardView({ onNavigate }: DashboardViewProps) {
         <AlertsPanel
           attentionItems={attentionItems}
           onViewAll={goToStudents}
+          onSelectStudent={goToStudents}
         />
       </div>
 

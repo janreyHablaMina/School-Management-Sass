@@ -68,6 +68,7 @@ export function SchedulePanel({ schedule, onViewAll }: SchedulePanelProps) {
             const priority: Record<string, number> = { ongoing: 1, upcoming: 2, done: 3 };
             return priority[a.computedStatus] - priority[b.computedStatus];
           })
+          .slice(0, 3)
           .map((row) => {
             const isOngoing = row.computedStatus === 'ongoing';
             const isDone = row.computedStatus === 'done';

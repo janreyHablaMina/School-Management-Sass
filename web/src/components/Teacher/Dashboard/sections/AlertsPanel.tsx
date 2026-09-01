@@ -7,11 +7,13 @@ import type { AttentionItem } from '@/types/teacherPortal';
 interface AlertsPanelProps {
   attentionItems: AttentionItem[];
   onViewAll?: () => void;
+  onSelectStudent?: (id: number) => void;
 }
 
 export function AlertsPanel({
   attentionItems,
   onViewAll,
+  onSelectStudent,
 }: AlertsPanelProps) {
   return (
     <div className={`${styles.panel} ${styles.alertsPanel}`}>
@@ -29,8 +31,12 @@ export function AlertsPanel({
             <p>All students are on track!</p>
           </div>
         )}
-        {attentionItems.map((item) => (
-          <div key={item.id} className={styles.attentionRow}>
+        {attentionItems.slice(0, 4).map((item) => (
+          <div
+            key={item.id}
+            className={styles.attentionRow}
+            onClick={() => (onSelectStudent ? onSelectStudent(item.id) : onViewAll?.())}
+          >
             <div className={styles.attentionAvatar}>{getInitials(item.name)}</div>
             <div className={styles.attentionContent}>
               <p className={styles.attentionName}>{item.name}</p>
