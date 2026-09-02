@@ -33,7 +33,7 @@ export function ChatThread({
       <div className={styles.emptyChat}>
         <span className={styles.emptyIcon}>{selectedTool?.icon ?? '✨'}</span>
         <h3 className={styles.emptyTitle}>
-          {selectedTool ? selectedTool.title : 'Ask Teachify AI'}
+          {selectedTool ? selectedTool.title : 'Ask Eskwelahan + AI'}
         </h3>
         <p className={styles.emptyCopy}>
           {selectedTool?.promptHint ??
@@ -61,7 +61,7 @@ export function ChatThread({
             }`}
           >
             <header className={styles.bubbleMeta}>
-              <span>{message.role === 'user' ? 'You' : 'Teachify AI'}</span>
+              <span>{message.role === 'user' ? 'You' : 'Eskwelahan + AI'}</span>
               <time>{message.createdAt}</time>
             </header>
             {message.attachments?.length ? (
@@ -99,7 +99,7 @@ export function ChatThread({
       {isGenerating ? (
         <article className={`${styles.bubble} ${styles.bubbleAssistant} ${styles.bubbleTyping}`}>
           <header className={styles.bubbleMeta}>
-            <span>Teachify AI</span>
+            <span>Eskwelahan + AI</span>
             <span>Thinking…</span>
           </header>
           <p className={styles.bubbleText}>Drafting something classroom-ready…</p>

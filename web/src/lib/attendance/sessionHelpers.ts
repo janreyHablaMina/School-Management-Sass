@@ -1,7 +1,7 @@
 import type { AttendanceSessionRecord } from '@/types/attendanceSession';
 
-export const ATTENDANCE_SESSION_EVENT = 'teachify-attendance-session';
-export const ATTENDANCE_CHECKINS_EVENT = 'teachify-attendance-checkins';
+export const ATTENDANCE_SESSION_EVENT = 'eskwelahan-plus-attendance-session';
+export const ATTENDANCE_CHECKINS_EVENT = 'eskwelahan-plus-attendance-checkins';
 
 export function remainingSecondsUntil(endsAt: string, now = Date.now()): number {
   return Math.max(0, Math.floor((new Date(endsAt).getTime() - now) / 1000));

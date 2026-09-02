@@ -17,7 +17,7 @@ export const GUARDIAN_CHANNELS: GuardianChannelOption[] = [
     icon: '💬',
     label: 'App message',
     shortLabel: 'App',
-    hint: 'Send in Teachify (parents app)',
+    hint: 'Send in Eskwelahan + (parents app)',
     featured: true,
   },
   {
@@ -81,7 +81,7 @@ export function openGuardianChannel(
     case 'app':
       return {
         title: 'App message ready',
-        message: `Draft to ${guardian.name} will open in Teachify Messages once messaging is connected.`,
+        message: `Draft to ${guardian.name} will open in Eskwelahan + Messages once messaging is connected.`,
       };
     default:
       return null;

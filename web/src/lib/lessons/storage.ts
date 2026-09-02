@@ -1,8 +1,8 @@
 import { teacherLessonsPageMock } from '@/lib/mock/teacherLessons.mock';
 import type { TeacherLessonRow } from '@/types/teacherLessons';
 
-const LESSONS_STORAGE_KEY = 'teachify.teacher.lessons';
-const LESSONS_TOAST_KEY = 'teachify.teacher.lessons.toast';
+const LESSONS_STORAGE_KEY = 'eskwelahan-plus.teacher.lessons';
+const LESSONS_TOAST_KEY = 'eskwelahan-plus.teacher.lessons.toast';
 
 function canUseStorage() {
   return typeof window !== 'undefined' && typeof localStorage !== 'undefined';

@@ -14,5 +14,5 @@ export const attendanceSchoolConfigMock: AttendanceSchoolConfig = {
   },
 };
 
-export const ATTENDANCE_SESSION_STORAGE_KEY = 'teachify.attendanceSession.v1';
-export const ATTENDANCE_CHECKINS_STORAGE_KEY = 'teachify.attendanceCheckIns.v1';
+export const ATTENDANCE_SESSION_STORAGE_KEY = 'eskwelahan-plus.attendanceSession.v1';
+export const ATTENDANCE_CHECKINS_STORAGE_KEY = 'eskwelahan-plus.attendanceCheckIns.v1';

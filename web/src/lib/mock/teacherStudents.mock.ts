@@ -86,7 +86,7 @@ function withDetails(seed: StudentSeed): TeacherStudentRow {
   const { details: extras, ...row } = seed;
   return {
     ...row,
-    photoUrl: row.photoUrl ?? `https://i.pravatar.cc/150?u=teachify-stu-${row.id}`,
+    photoUrl: row.photoUrl ?? `https://i.pravatar.cc/150?u=eskwelahan-stu-${row.id}`,
     details: buildDetails(seed, extras),
   };
 }

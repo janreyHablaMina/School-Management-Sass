@@ -31,7 +31,7 @@ export default function StudentAttendancePage() {
   return (
     <main className={styles.page}>
       <div className={styles.shell}>
-        <p className={styles.brand}>Teachify · Student</p>
+        <p className={styles.brand}>Eskwelahan + · Student</p>
         <h1 className={styles.title}>Attendance check-in</h1>
         <p className={styles.subtitle}>
           Mark yourself present when your teacher starts a location session. Manual teacher marking

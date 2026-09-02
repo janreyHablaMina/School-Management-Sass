@@ -101,7 +101,7 @@ export default function TeacherDashboard() {
         onTabChange={handleTabChange}
         menuGroups={teacherMenuGroups}
         roleTitle="School Portal + LMS"
-        brandName="Teachify"
+        brandName="Eskwelahan +"
         brandAccent=""
         showCredits={false}
         profileName={teacher.fullName}

@@ -76,7 +76,7 @@ export function SettingsView({ onProfileSave }: SettingsViewProps) {
           {section === 'Profile' ? (
             <SettingsSection
               title="Profile"
-              description="Update how your name and contact details appear across Teachify."
+              description="Update how your name and contact details appear across Eskwelahan +."
             >
               <div className={styles.avatarCard}>
                 <div className={styles.avatar}>{initialsFromName(profile.fullName)}</div>
@@ -223,7 +223,7 @@ export function SettingsView({ onProfileSave }: SettingsViewProps) {
           {section === 'Security' ? (
             <SettingsSection
               title="Security"
-              description="Keep your Teachify account protected."
+              description="Keep your Eskwelahan + account protected."
             >
               <label className={modalStyles.modalField}>
                 <span className={modalStyles.modalLabel}>Signed-in email</span>

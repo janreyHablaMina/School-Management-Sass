@@ -295,7 +295,7 @@ export function LessonGeneratorView({
                   }`}
                 >
                   <header className={styles.bubbleMeta}>
-                    <span>{message.role === 'user' ? 'You' : 'Teachify'}</span>
+                    <span>{message.role === 'user' ? 'You' : 'Eskwelahan +'}</span>
                     <time>{message.createdAt}</time>
                   </header>
                   <p className={styles.bubbleText}>{message.content}</p>
@@ -320,7 +320,7 @@ export function LessonGeneratorView({
             {isGenerating ? (
               <article className={`${styles.bubble} ${styles.bubbleAssistant}`}>
                 <header className={styles.bubbleMeta}>
-                  <span>Teachify</span>
+                  <span>Eskwelahan +</span>
                   <span>Thinking…</span>
                 </header>
                 <p className={styles.bubbleText}>Drafting your lesson…</p>

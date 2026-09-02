@@ -8,7 +8,7 @@ export const teacherSettingsMock: TeacherSettingsData = {
     fullName: teacher.fullName,
     shortName: teacher.shortName,
     role: teacher.role,
-    email: 'sarah.johnson@teachify.edu',
+    email: 'sarah.johnson@eskwelahan.edu',
     phone: '+63 917 555 0142',
     department: 'Mathematics & ICT',
     subjects: 'Mathematics, Information Technology',

@@ -1,7 +1,7 @@
 import { formatDateKey } from '@/lib/calendar/dates';
 import type { MyClassRow } from '@/types/myClasses';
 
-const INVITE_STORAGE_KEY = 'teachify.classInvites';
+const INVITE_STORAGE_KEY = 'eskwelahan-plus.classInvites';
 
 export const DEFAULT_INVITE_HOURS = 1;
 

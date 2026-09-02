@@ -16,7 +16,7 @@ export interface StudentGuardian {
   occupation?: string;
   isPrimary?: boolean;
   isLegalGuardian?: boolean;
-  /** Parent has the Teachify app linked. */
+  /** Parent has the Eskwelahan + app linked. */
   appLinked?: boolean;
 }
 

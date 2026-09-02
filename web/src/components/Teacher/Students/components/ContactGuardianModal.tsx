@@ -44,7 +44,7 @@ export function ContactGuardianModal({
       }
     >
       <p className={styles.contactModalCopy}>
-        Choose how to reach them. App message will use Teachify once messaging is
+        Choose how to reach them. App message will use Eskwelahan + once messaging is
         connected.
       </p>
       <div className={styles.contactChannelGrid}>

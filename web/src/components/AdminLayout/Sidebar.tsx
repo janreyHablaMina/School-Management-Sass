@@ -48,23 +48,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
 }) => (
   <aside className={styles.sidebar}>
     {/* Logo / Brand */}
-    <div className={styles.logoSection}>
-      <span className={styles.logoIcon}>🎓</span>
-      <div className={styles.logoTextContainer}>
-        <span className={styles.logoMainText}>
-          {brandName ? (
-            <>
-              {brandName}
-              {brandAccent ? <span> {brandAccent}</span> : null}
-            </>
-          ) : (
-            <>
-              School<span>SaaS</span>
-            </>
-          )}
-        </span>
-        <span className={styles.logoSubText}>{roleTitle}</span>
-      </div>
+    <div className={styles.logoSection} style={{ flexDirection: 'column', alignItems: 'center', paddingBottom: '0.5rem', marginTop: '-0.5rem' }}>
+      <img src="/logo-transparent.png" alt="Eskwelahan +" style={{ width: '100%', maxWidth: '180px', height: 'auto', objectFit: 'contain' }} />
     </div>
 
     {/* Navigation */}

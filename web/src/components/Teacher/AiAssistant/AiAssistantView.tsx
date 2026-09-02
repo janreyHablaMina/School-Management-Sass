@@ -163,7 +163,7 @@ export function AiAssistantView({
           <div>
             <p className={styles.panelEyebrow}>Workspace</p>
             <h2 className={styles.panelTitle}>
-              {selectedTool ? selectedTool.title : 'Ask Teachify AI'}
+              {selectedTool ? selectedTool.title : 'Ask Eskwelahan + AI'}
             </h2>
             <p className={styles.workspaceCopy}>
               Attach class materials, pick a starter or write a prompt, then generate a draft
