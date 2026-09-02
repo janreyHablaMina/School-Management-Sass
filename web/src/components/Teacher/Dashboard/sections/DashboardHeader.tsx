@@ -13,9 +13,7 @@ export function DashboardHeader({ shortName, onAskAi }: DashboardHeaderProps) {
         <h1>Good morning, {shortName}! 👋</h1>
         <p>Here&apos;s what&apos;s happening in your classes today.</p>
       </div>
-      <button type="button" className={styles.aiAskBtn} onClick={onAskAi}>
-        <span>✨</span> Ask AI Assistant
-      </button>
+
     </div>
   );
 }

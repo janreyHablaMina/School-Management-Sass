@@ -126,6 +126,17 @@ export default function TeacherDashboard() {
         />
         {renderContent()}
       </section>
+
+      {/* Floating AI Button */}
+      {activeTab !== 'AI Assistant' && (
+        <button 
+          className={styles.floatingAiBtn} 
+          onClick={() => handleTabChange('AI Assistant')}
+          title="Ask PieYah"
+        >
+          <img src="/ai-teacher.jpg" alt="AI Teacher" />
+        </button>
+      )}
     </div>
   );
 }

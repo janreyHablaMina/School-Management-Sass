@@ -26,17 +26,7 @@ export function AiAssistantPanel({
         }
       />
 
-      <div className={styles.aiUsageBox}>
-        <div className={styles.aiUsageTop}>
-          <span>Credits used this month</span>
-          <span>
-            {aiUsage.used} / {aiUsage.total}
-          </span>
-        </div>
-        <div className={styles.aiUsageTrack}>
-          <div className={styles.aiUsageFill} style={{ width: `${aiUsage.percent}%` }} />
-        </div>
-      </div>
+
 
       <div className={styles.aiToolList}>
         {aiTools.map((tool) => (
