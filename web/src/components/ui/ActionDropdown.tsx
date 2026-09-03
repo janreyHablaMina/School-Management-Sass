@@ -7,7 +7,8 @@ import styles from './ui.module.css';
 export interface ActionDropdownFixedStyle {
   top?: number;
   bottom?: number;
-  right: number;
+  right?: number;
+  left?: number;
 }
 
 interface ActionDropdownProps {
@@ -51,6 +52,7 @@ export const ActionDropdown: React.FC<ActionDropdownProps> = ({
                 top: fixedStyle.top,
                 bottom: fixedStyle.bottom,
                 right: fixedStyle.right,
+                left: fixedStyle.left,
               }
             : undefined
         }

@@ -22,6 +22,7 @@ export interface MyClassRow {
   status: ClassStatus;
   accent: string;
   icon: string;
+  coverImage?: string;
 }
 
 export interface ClassFormInput {
@@ -34,6 +35,7 @@ export interface ClassFormInput {
   startTime: string;
   endTime: string;
   lessonsTotal?: number;
+  coverImage?: string;
 }
 
 /** @deprecated Use ClassFormInput */

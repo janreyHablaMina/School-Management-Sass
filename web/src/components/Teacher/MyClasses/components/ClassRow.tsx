@@ -70,13 +70,22 @@ export function ClassRow({
         <div className={styles.classCell}>
           <div
             className={styles.classIcon}
-            style={{
-              background: `${cls.accent}22`,
-              color: cls.accent,
-              borderColor: `${cls.accent}55`,
-            }}
+            style={
+              cls.coverImage
+                ? {
+                    backgroundImage: `url(${cls.coverImage})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    border: 'none',
+                  }
+                : {
+                    background: `${cls.accent}22`,
+                    color: cls.accent,
+                    borderColor: `${cls.accent}55`,
+                  }
+            }
           >
-            {cls.icon}
+            {!cls.coverImage && cls.icon}
           </div>
           <div className={styles.classMeta}>
             <p className={styles.classSubject}>{cls.subject}</p>

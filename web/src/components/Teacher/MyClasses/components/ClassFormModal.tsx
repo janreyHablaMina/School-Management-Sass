@@ -6,7 +6,9 @@ import { listStyles, modalStyles, TeacherModal } from '../../shared';
 import {
   CLASS_WEEKDAYS,
   type ClassFormValues,
-  getClassFormError,
+  getClassFormErrors,
+  TIME_OPTIONS,
+  formatTimeLabel,
 } from '../utils';
 import styles from '../myClasses.module.css';
 
@@ -19,6 +21,9 @@ interface ClassFormModalProps {
   onCancel: () => void;
   onSubmit: (input: ClassFormInput) => void;
 }
+
+import { CustomSelect } from '@/components/ui/CustomSelect';
+import { TimePicker } from '@/components/ui/TimePicker';
 
 export function ClassFormModal({
   mode,
@@ -47,7 +52,8 @@ export function ClassFormModal({
   );
   const [startTime, setStartTime] = useState(initialValues?.startTime ?? '08:00');
   const [endTime, setEndTime] = useState(initialValues?.endTime ?? '09:00');
-  const [error, setError] = useState<string | null>(null);
+  const [coverImage, setCoverImage] = useState<string | undefined>(initialValues?.coverImage);
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   const isEdit = mode === 'edit';
   const listId = isEdit ? 'edit-class' : 'create-class';
@@ -58,11 +64,19 @@ export function ClassFormModal({
     );
   };
 
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setCoverImage(url);
+    }
+  };
+
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
     const orderedDays = CLASS_WEEKDAYS.filter((day) => days.includes(day));
-    const validationError = getClassFormError({
+    const validationErrors = getClassFormErrors({
       subject,
       gradeLevel,
       section,
@@ -73,11 +87,12 @@ export function ClassFormModal({
       endTime,
     });
 
-    if (validationError) {
-      setError(validationError);
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
       return;
     }
 
+    setErrors({});
     onSubmit({
       subject,
       gradeLevel,
@@ -87,6 +102,7 @@ export function ClassFormModal({
       days: [...orderedDays],
       startTime,
       endTime,
+      coverImage,
     });
   };
 
@@ -115,82 +131,83 @@ export function ClassFormModal({
         </>
       }
     >
+      <div className={styles.imageUploadBox}>
+        {coverImage ? (
+          <img src={coverImage} alt="Cover" className={styles.imageUploadPreview} />
+        ) : (
+          <div className={styles.imageUploadPreview}>
+            <span role="img" aria-label="placeholder">
+              🎨
+            </span>
+          </div>
+        )}
+        <div>
+          <label className={styles.imageUploadBtn}>
+            Upload class cover
+            <input 
+              type="file" 
+              accept="image/*" 
+              style={{ display: 'none' }} 
+              onChange={handleImageUpload} 
+            />
+          </label>
+          <p className={styles.imageUploadText}>We'll generate a beautiful icon if you don't upload an image.</p>
+        </div>
+      </div>
       <div className={styles.createClassGrid}>
         <label className={modalStyles.modalField}>
-          <span className={modalStyles.modalLabel}>Subject</span>
+          <span className={modalStyles.modalLabel}>Subject<span className={modalStyles.requiredMark}>*</span></span>
           <input
             className={modalStyles.modalInput}
             type="text"
-            list={`${listId}-subjects`}
             value={subject}
             onChange={(e) => setSubject(e.target.value)}
             placeholder="e.g. Mathematics or Filipino"
             maxLength={60}
             autoComplete="off"
           />
-          <datalist id={`${listId}-subjects`}>
-            {subjectSuggestions.map((option) => (
-              <option key={option} value={option} />
-            ))}
-          </datalist>
+          {errors.subject && <span className={modalStyles.fieldError}>{errors.subject}</span>}
         </label>
 
         <label className={modalStyles.modalField}>
-          <span className={modalStyles.modalLabel}>Section</span>
+          <span className={modalStyles.modalLabel}>Section<span className={modalStyles.requiredMark}>*</span></span>
           <input
             className={modalStyles.modalInput}
             type="text"
-            list={`${listId}-sections`}
             value={section}
             onChange={(e) => setSection(e.target.value)}
             placeholder="e.g. A, Love, or ICT"
             maxLength={40}
             autoComplete="off"
           />
-          <datalist id={`${listId}-sections`}>
-            <option value="A" />
-            <option value="B" />
-            <option value="C" />
-            <option value="D" />
-            <option value="ICT" />
-          </datalist>
+          {errors.section && <span className={modalStyles.fieldError}>{errors.section}</span>}
         </label>
       </div>
 
       <div className={styles.createClassGrid}>
         <label className={modalStyles.modalField}>
-          <span className={modalStyles.modalLabel}>Grade level</span>
-          <select
-            className={modalStyles.modalInput}
+          <span className={modalStyles.modalLabel}>Grade level<span className={modalStyles.requiredMark}>*</span></span>
+          <CustomSelect
             value={gradeLevel}
-            onChange={(e) => setGradeLevel(e.target.value)}
-          >
-            {gradeOptions.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
+            onChange={setGradeLevel}
+            options={gradeOptions}
+          />
+          {errors.gradeLevel && <span className={modalStyles.fieldError}>{errors.gradeLevel}</span>}
         </label>
 
         <label className={modalStyles.modalField}>
-          <span className={modalStyles.modalLabel}>Academic year</span>
-          <select
-            className={modalStyles.modalInput}
+          <span className={modalStyles.modalLabel}>Academic year<span className={modalStyles.requiredMark}>*</span></span>
+          <CustomSelect
             value={academicYear}
-            onChange={(e) => setAcademicYear(e.target.value)}
-          >
-            {yearOptions.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
+            onChange={setAcademicYear}
+            options={yearOptions}
+          />
+          {errors.academicYear && <span className={modalStyles.fieldError}>{errors.academicYear}</span>}
         </label>
       </div>
 
       <label className={modalStyles.modalField}>
-        <span className={modalStyles.modalLabel}>Room</span>
+        <span className={modalStyles.modalLabel}>Room<span className={modalStyles.requiredMark}>*</span></span>
         <input
           className={modalStyles.modalInput}
           type="text"
@@ -199,10 +216,11 @@ export function ClassFormModal({
           placeholder="e.g. Room 201"
           maxLength={40}
         />
+        {errors.room && <span className={modalStyles.fieldError}>{errors.room}</span>}
       </label>
 
       <div className={modalStyles.modalField}>
-        <span className={modalStyles.modalLabel}>Class days</span>
+        <span className={modalStyles.modalLabel}>Class days<span className={modalStyles.requiredMark}>*</span></span>
         <div className={modalStyles.chipRow}>
           {CLASS_WEEKDAYS.map((day) => (
             <button
@@ -217,31 +235,28 @@ export function ClassFormModal({
             </button>
           ))}
         </div>
+        {errors.days && <span className={modalStyles.fieldError}>{errors.days}</span>}
       </div>
 
       <div className={styles.createClassGrid}>
         <label className={modalStyles.modalField}>
-          <span className={modalStyles.modalLabel}>Start time</span>
-          <input
-            className={modalStyles.modalInput}
-            type="time"
+          <span className={modalStyles.modalLabel}>Start time<span className={modalStyles.requiredMark}>*</span></span>
+          <TimePicker
             value={startTime}
-            onChange={(e) => setStartTime(e.target.value)}
+            onChange={setStartTime}
           />
+          {errors.startTime && <span className={modalStyles.fieldError}>{errors.startTime}</span>}
         </label>
 
         <label className={modalStyles.modalField}>
-          <span className={modalStyles.modalLabel}>End time</span>
-          <input
-            className={modalStyles.modalInput}
-            type="time"
+          <span className={modalStyles.modalLabel}>End time<span className={modalStyles.requiredMark}>*</span></span>
+          <TimePicker
             value={endTime}
-            onChange={(e) => setEndTime(e.target.value)}
+            onChange={setEndTime}
           />
+          {errors.endTime && <span className={modalStyles.fieldError}>{errors.endTime}</span>}
         </label>
       </div>
-
-      {error ? <p className={modalStyles.modalError}>{error}</p> : null}
     </TeacherModal>
   );
 }

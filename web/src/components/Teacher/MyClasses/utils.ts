@@ -8,6 +8,12 @@ import type { TeacherStudentRow } from '@/types/teacherStudents';
 
 export const CLASS_WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as const;
 
+export const TIME_OPTIONS = Array.from({ length: 48 }).map((_, i) => {
+  const hour = Math.floor(i / 2);
+  const minute = i % 2 === 0 ? '00' : '30';
+  return `${hour.toString().padStart(2, '0')}:${minute}`;
+});
+
 export interface ClassFormValues {
   subject: string;
   gradeLevel: string;
@@ -38,7 +44,7 @@ function styleForSubject(subject: string, nextId: number) {
   );
 }
 
-function formatTimeLabel(value: string): string {
+export function formatTimeLabel(value: string): string {
   const [hourRaw, minute = '00'] = value.split(':');
   const hour = Number(hourRaw);
   if (Number.isNaN(hour)) return value;
@@ -112,7 +118,7 @@ export function classToFormValues(cls: MyClassRow): ClassFormValues {
   };
 }
 
-export function getClassFormError(input: {
+export function getClassFormErrors(input: {
   subject: string;
   gradeLevel: string;
   section: string;
@@ -121,16 +127,23 @@ export function getClassFormError(input: {
   days: string[];
   startTime: string;
   endTime: string;
-}): string | null {
-  if (!input.subject.trim()) return 'Choose a subject for this class.';
-  if (!input.gradeLevel.trim()) return 'Choose a grade level.';
-  if (!input.section.trim()) return 'Choose a section.';
-  if (!input.academicYear.trim()) return 'Choose an academic year.';
-  if (!input.room.trim()) return 'Add a room or meeting place.';
-  if (input.days.length === 0) return 'Pick at least one class day.';
-  if (!input.startTime || !input.endTime) return 'Set start and end times.';
-  if (input.startTime >= input.endTime) return 'End time must be after start time.';
-  return null;
+}): Record<string, string> {
+  const errors: Record<string, string> = {};
+
+  if (!input.subject.trim()) errors.subject = 'Subject is required.';
+  if (!input.gradeLevel.trim()) errors.gradeLevel = 'Grade level is required.';
+  if (!input.section.trim()) errors.section = 'Section is required.';
+  if (!input.academicYear.trim()) errors.academicYear = 'Academic year is required.';
+  if (!input.room.trim()) errors.room = 'Room is required.';
+  if (input.days.length === 0) errors.days = 'Pick at least one day.';
+  if (!input.startTime) errors.startTime = 'Start time is required.';
+  if (!input.endTime) errors.endTime = 'End time is required.';
+  
+  if (input.startTime && input.endTime && input.startTime >= input.endTime) {
+    errors.endTime = 'Must be after start time.';
+  }
+
+  return errors;
 }
 
 export function buildClassFromInput(
@@ -160,6 +173,7 @@ export function buildClassFromInput(
     status: 'Active',
     accent: style.accent,
     icon: style.icon,
+    coverImage: input.coverImage,
   };
 }
 
@@ -183,6 +197,7 @@ export function applyClassFormInput(cls: MyClassRow, input: ClassFormInput): MyC
     room: input.room.trim(),
     accent: style.accent,
     icon: style.icon,
+    coverImage: input.coverImage ?? cls.coverImage,
   };
 }
 
