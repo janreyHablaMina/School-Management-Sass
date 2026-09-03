@@ -65,7 +65,7 @@ export function StudentFormModal({
             gradeLevelFromClassLabel(classOptions[0] ?? 'Grade 7 - Section A'),
         }),
   );
-  const [error, setError] = useState<string | null>(null);
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const patch = <K extends keyof StudentProfileFormInput>(
@@ -100,9 +100,12 @@ export function StudentFormModal({
     try {
       const next = await readStudentPhotoFile(file);
       patch('photoUrl', next);
-      setError(null);
+      setErrors((prev) => ({ ...prev, photo: '' }));
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Could not use that photo.');
+      setErrors((prev) => ({
+        ...prev,
+        photo: err instanceof Error ? err.message : 'Could not use that photo.',
+      }));
     }
   };
 
@@ -112,17 +115,17 @@ export function StudentFormModal({
     });
 
   const goNext = () => {
-    const validationError = validateStep(step);
-    if (validationError) {
-      setError(validationError);
+    const stepErrors = validateStep(step);
+    if (Object.keys(stepErrors).length > 0) {
+      setErrors(stepErrors);
       return;
     }
-    setError(null);
+    setErrors({});
     setStep((prev) => Math.min(prev + 1, LAST_STEP) as StudentEditStep);
   };
 
   const goBack = () => {
-    setError(null);
+    setErrors({});
     setStep((prev) => Math.max(prev - 1, 0) as StudentEditStep);
   };
 
@@ -133,9 +136,9 @@ export function StudentFormModal({
       return;
     }
 
-    const validationError = validateStep(2);
-    if (validationError) {
-      setError(validationError);
+    const stepErrors = validateStep(2);
+    if (Object.keys(stepErrors).length > 0) {
+      setErrors(stepErrors);
       return;
     }
 
@@ -252,9 +255,11 @@ export function StudentFormModal({
 
           <div className={styles.formGrid}>
             <label className={modalStyles.modalField}>
-              <span className={modalStyles.modalLabel}>Full name</span>
+              <span className={modalStyles.modalLabel}>
+                Full name<span className={modalStyles.requiredMark}>*</span>
+              </span>
               <input
-                className={modalStyles.modalInput}
+                className={`${modalStyles.modalInput} ${errors.fullName ? modalStyles.fieldError : ''}`}
                 type="text"
                 value={values.fullName}
                 onChange={(e) => patch('fullName', e.target.value)}
@@ -262,6 +267,7 @@ export function StudentFormModal({
                 maxLength={80}
                 autoComplete="off"
               />
+              {errors.fullName ? <span className={modalStyles.inlineError}>{errors.fullName}</span> : null}
             </label>
 
             <label className={modalStyles.modalField}>
@@ -284,9 +290,11 @@ export function StudentFormModal({
             <>
               <div className={styles.formGrid}>
                 <label className={modalStyles.modalField}>
-                  <span className={modalStyles.modalLabel}>Class</span>
+                  <span className={modalStyles.modalLabel}>
+                    Class<span className={modalStyles.requiredMark}>*</span>
+                  </span>
                   <select
-                    className={modalStyles.modalInput}
+                    className={`${modalStyles.modalInput} ${errors.classLabel ? modalStyles.fieldError : ''}`}
                     value={values.classLabel ?? ''}
                     onChange={(e) => {
                       const nextClass = e.target.value;
@@ -303,12 +311,15 @@ export function StudentFormModal({
                       </option>
                     ))}
                   </select>
+                  {errors.classLabel ? <span className={modalStyles.inlineError}>{errors.classLabel}</span> : null}
                 </label>
 
                 <label className={modalStyles.modalField}>
-                  <span className={modalStyles.modalLabel}>Subject</span>
+                  <span className={modalStyles.modalLabel}>
+                    Subject<span className={modalStyles.requiredMark}>*</span>
+                  </span>
                   <select
-                    className={modalStyles.modalInput}
+                    className={`${modalStyles.modalInput} ${errors.subject ? modalStyles.fieldError : ''}`}
                     value={values.subject ?? ''}
                     onChange={(e) => patch('subject', e.target.value)}
                   >
@@ -318,13 +329,16 @@ export function StudentFormModal({
                       </option>
                     ))}
                   </select>
+                  {errors.subject ? <span className={modalStyles.inlineError}>{errors.subject}</span> : null}
                 </label>
               </div>
 
               <label className={modalStyles.modalField}>
-                <span className={modalStyles.modalLabel}>Grade level</span>
+                <span className={modalStyles.modalLabel}>
+                  Grade level<span className={modalStyles.requiredMark}>*</span>
+                </span>
                 <select
-                  className={modalStyles.modalInput}
+                  className={`${modalStyles.modalInput} ${errors.gradeLevel ? modalStyles.fieldError : ''}`}
                   value={values.gradeLevel ?? ''}
                   onChange={(e) => patch('gradeLevel', e.target.value)}
                 >
@@ -334,21 +348,25 @@ export function StudentFormModal({
                     </option>
                   ))}
                 </select>
+                {errors.gradeLevel ? <span className={modalStyles.inlineError}>{errors.gradeLevel}</span> : null}
               </label>
             </>
           ) : null}
 
           <div className={styles.formGrid}>
             <label className={modalStyles.modalField}>
-              <span className={modalStyles.modalLabel}>Student phone</span>
+              <span className={modalStyles.modalLabel}>
+                Student phone<span className={modalStyles.requiredMark}>*</span>
+              </span>
               <input
-                className={modalStyles.modalInput}
+                className={`${modalStyles.modalInput} ${errors.phone ? modalStyles.fieldError : ''}`}
                 type="tel"
                 value={values.phone}
                 onChange={(e) => patch('phone', e.target.value)}
                 placeholder="09XX XXX XXXX"
                 maxLength={40}
               />
+              {errors.phone ? <span className={modalStyles.inlineError}>{errors.phone}</span> : null}
             </label>
 
             <label className={modalStyles.modalField}>
@@ -387,15 +405,18 @@ export function StudentFormModal({
               </p>
               <div className={styles.formGrid}>
                 <label className={modalStyles.modalField}>
-                  <span className={modalStyles.modalLabel}>Name</span>
+                  <span className={modalStyles.modalLabel}>
+                    Name{index === 0 ? <span className={modalStyles.requiredMark}>*</span> : null}
+                  </span>
                   <input
-                    className={modalStyles.modalInput}
+                    className={`${modalStyles.modalInput} ${errors[`guardian${index}.name`] ? modalStyles.fieldError : ''}`}
                     type="text"
                     value={guardian.name}
                     onChange={(e) => updateGuardian(index, 'name', e.target.value)}
                     placeholder="Guardian full name"
                     maxLength={80}
                   />
+                  {errors[`guardian${index}.name`] ? <span className={modalStyles.inlineError}>{errors[`guardian${index}.name`]}</span> : null}
                 </label>
                 <label className={modalStyles.modalField}>
                   <span className={modalStyles.modalLabel}>Relationship</span>
@@ -413,26 +434,30 @@ export function StudentFormModal({
               </div>
               <div className={styles.formGrid}>
                 <label className={modalStyles.modalField}>
-                  <span className={modalStyles.modalLabel}>Contact number</span>
+                  <span className={modalStyles.modalLabel}>
+                    Contact number{index === 0 ? <span className={modalStyles.requiredMark}>*</span> : null}
+                  </span>
                   <input
-                    className={modalStyles.modalInput}
+                    className={`${modalStyles.modalInput} ${errors[`guardian${index}.phone`] ? modalStyles.fieldError : ''}`}
                     type="tel"
                     value={guardian.phone}
                     onChange={(e) => updateGuardian(index, 'phone', e.target.value)}
                     placeholder="09XX XXX XXXX"
                     maxLength={40}
                   />
+                  {errors[`guardian${index}.phone`] ? <span className={modalStyles.inlineError}>{errors[`guardian${index}.phone`]}</span> : null}
                 </label>
                 <label className={modalStyles.modalField}>
                   <span className={modalStyles.modalLabel}>Email</span>
                   <input
-                    className={modalStyles.modalInput}
+                    className={`${modalStyles.modalInput} ${errors[`guardian${index}.email`] ? modalStyles.fieldError : ''}`}
                     type="email"
                     value={guardian.email}
                     onChange={(e) => updateGuardian(index, 'email', e.target.value)}
                     placeholder="parent@email.com"
                     maxLength={80}
                   />
+                  {errors[`guardian${index}.email`] ? <span className={modalStyles.inlineError}>{errors[`guardian${index}.email`]}</span> : null}
                 </label>
               </div>
               <label className={modalStyles.modalField}>
@@ -468,9 +493,11 @@ export function StudentFormModal({
 
           <div className={styles.formGrid}>
             <label className={modalStyles.modalField}>
-              <span className={modalStyles.modalLabel}>Name</span>
+              <span className={modalStyles.modalLabel}>
+                Name<span className={modalStyles.requiredMark}>*</span>
+              </span>
               <input
-                className={modalStyles.modalInput}
+                className={`${modalStyles.modalInput} ${errors['emergencyContact.name'] ? modalStyles.fieldError : ''}`}
                 type="text"
                 value={values.emergencyContact.name}
                 onChange={(e) =>
@@ -482,6 +509,7 @@ export function StudentFormModal({
                 placeholder="Emergency contact name"
                 maxLength={80}
               />
+              {errors['emergencyContact.name'] ? <span className={modalStyles.inlineError}>{errors['emergencyContact.name']}</span> : null}
             </label>
             <label className={modalStyles.modalField}>
               <span className={modalStyles.modalLabel}>Relationship</span>
@@ -502,9 +530,11 @@ export function StudentFormModal({
           </div>
 
           <label className={modalStyles.modalField}>
-            <span className={modalStyles.modalLabel}>Contact number</span>
+            <span className={modalStyles.modalLabel}>
+              Contact number<span className={modalStyles.requiredMark}>*</span>
+            </span>
             <input
-              className={modalStyles.modalInput}
+              className={`${modalStyles.modalInput} ${errors['emergencyContact.phone'] ? modalStyles.fieldError : ''}`}
               type="tel"
               value={values.emergencyContact.phone}
               onChange={(e) =>
@@ -516,6 +546,7 @@ export function StudentFormModal({
               placeholder="09XX XXX XXXX"
               maxLength={40}
             />
+            {errors['emergencyContact.phone'] ? <span className={modalStyles.inlineError}>{errors['emergencyContact.phone']}</span> : null}
           </label>
         </>
       ) : null}
@@ -560,7 +591,7 @@ export function StudentFormModal({
         </>
       ) : null}
 
-      {error ? <p className={modalStyles.modalError}>{error}</p> : null}
+      {/* Global errors are removed; using inline errors on individual fields */}
     </TeacherModal>
   );
 }

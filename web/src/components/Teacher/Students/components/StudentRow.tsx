@@ -78,23 +78,14 @@ export function StudentRow({
           <StudentAvatar student={student} size="row" />
           <div className={styles.studentMeta}>
             <p className={styles.studentName}>{student.fullName}</p>
-            <p className={styles.studentCode}>{student.studentCode}</p>
+            <p className={styles.studentCode}>{student.idNumber}</p>
           </div>
         </div>
-      </td>
-      <td>
-        <span className={styles.idNumber}>{student.idNumber}</span>
       </td>
       <td>
         <div className={styles.classCell}>
           <p className={styles.classLabel}>{student.classLabel}</p>
           <p className={styles.classSubject}>{student.subject}</p>
-        </div>
-      </td>
-      <td>
-        <div className={styles.contactCell}>
-          <p className={styles.contactPrimary}>{student.phone}</p>
-          <p className={styles.contactSecondary}>{student.email}</p>
         </div>
       </td>
       <td>

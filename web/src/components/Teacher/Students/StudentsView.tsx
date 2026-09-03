@@ -27,6 +27,7 @@ export function StudentsView({
     subjectOptions,
     filters,
     setFilter,
+    clearFilters,
     filteredCount,
     paginatedStudents,
     page,
@@ -107,9 +108,6 @@ export function StudentsView({
         subtitle="View and manage all students from your classes."
         headerActions={
           <>
-            <button type="button" className={listStyles.secondaryBtn}>
-              ⬆ Import Students
-            </button>
             <button type="button" className={listStyles.primaryBtn} onClick={openCreate}>
               + Add Student
             </button>
@@ -124,6 +122,7 @@ export function StudentsView({
             classes={filterOptions.classes}
             gradeLevels={filterOptions.gradeLevels}
             statuses={filterOptions.statuses}
+            onClear={clearFilters}
           />
         }
         itemsCount={paginatedStudents.length}

@@ -13,6 +13,7 @@ interface StudentsFiltersProps {
   gradeLevels: string[];
   statuses: string[];
   onExport?: () => void;
+  onClear: () => void;
 }
 
 const SELECT_FILTERS: Array<{
@@ -32,8 +33,14 @@ export function StudentsFilters({
   gradeLevels,
   statuses,
   onExport,
+  onClear,
 }: StudentsFiltersProps) {
   const optionsMap = { classes, gradeLevels, statuses };
+  const isDirty = 
+    filters.searchTerm !== '' ||
+    filters.classFilter !== 'All Classes' ||
+    filters.gradeLevel !== 'All Grades' ||
+    filters.status !== 'All Status';
 
   return (
     <div className={listStyles.filtersPanel}>
@@ -56,14 +63,21 @@ export function StudentsFilters({
         />
       ))}
 
-      <div className={listStyles.filterActions}>
-        <button type="button" className={listStyles.toolBtn}>
-          ⚙ Filters
-        </button>
-        <button type="button" className={listStyles.toolBtn} onClick={onExport}>
-          ⬇ Export
-        </button>
-      </div>
+      <button 
+        type="button" 
+        className={isDirty ? listStyles.toolBtnActive : listStyles.toolBtn} 
+        onClick={onClear}
+      >
+        Reset Filters
+      </button>
+
+      {onExport ? (
+        <div className={listStyles.filterActions}>
+          <button type="button" className={listStyles.toolBtn} onClick={onExport}>
+            Export
+          </button>
+        </div>
+      ) : null}
     </div>
   );
 }

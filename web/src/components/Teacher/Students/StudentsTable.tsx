@@ -32,9 +32,7 @@ interface StudentsTableProps {
 
 const COLUMNS: DataTableColumn[] = [
   { id: 'fullName', label: 'Student', sortable: true },
-  { id: 'idNumber', label: 'ID Number', sortable: true },
   { id: 'classLabel', label: 'Class', sortable: true },
-  { id: 'phone', label: 'Contact', sortable: true },
   { id: 'attendanceRate', label: 'Attendance', sortable: true },
   { id: 'averageGrade', label: 'Average Grade', sortable: true },
   { id: 'status', label: 'Status', sortable: true },

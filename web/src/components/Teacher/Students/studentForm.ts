@@ -101,27 +101,29 @@ export function getStudentFormStepError(
   step: StudentEditStep,
   values: StudentProfileFormInput,
   options?: { requireClassPlacement?: boolean },
-): string | null {
+): Record<string, string> {
+  const errors: Record<string, string> = {};
+
   if (step === 0) {
-    if (!values.fullName.trim()) return 'Student name is required.';
-    if (!values.phone.trim()) return 'Student phone number is required.';
-    if (!values.email.trim()) return 'Student email is required.';
-    if (!values.email.includes('@')) return 'Enter a valid student email address.';
-    if (!values.address.trim()) return 'Home address is required.';
+    if (!values.fullName.trim()) errors.fullName = 'Student name is required.';
+    if (!values.phone.trim()) errors.phone = 'Student phone number is required.';
+    if (!values.email.trim()) errors.email = 'Student email is required.';
+    else if (!values.email.includes('@')) errors.email = 'Enter a valid student email address.';
+    if (!values.address.trim()) errors.address = 'Home address is required.';
+    
     if (options?.requireClassPlacement) {
-      if (!values.classLabel?.trim()) return 'Class is required.';
-      if (!values.subject?.trim()) return 'Subject is required.';
-      if (!values.gradeLevel?.trim()) return 'Grade level is required.';
+      if (!values.classLabel?.trim()) errors.classLabel = 'Class is required.';
+      if (!values.subject?.trim()) errors.subject = 'Subject is required.';
+      if (!values.gradeLevel?.trim()) errors.gradeLevel = 'Grade level is required.';
     }
-    return null;
   }
 
   if (step === 1) {
     const primary = values.guardians[0];
-    if (!primary?.name.trim()) return 'Primary guardian name is required.';
-    if (!primary.phone.trim()) return 'Primary guardian phone is required.';
+    if (!primary?.name.trim()) errors['guardian0.name'] = 'Primary guardian name is required.';
+    if (!primary.phone.trim()) errors['guardian0.phone'] = 'Primary guardian phone is required.';
     if (primary.email.trim() && !primary.email.includes('@')) {
-      return 'Enter a valid primary guardian email.';
+      errors['guardian0.email'] = 'Enter a valid primary guardian email.';
     }
 
     for (let i = 1; i < values.guardians.length; i += 1) {
@@ -132,23 +134,22 @@ export function getStudentFormStepError(
         guardian.email.trim() ||
         guardian.occupation.trim();
       if (!hasAny) continue;
-      if (!guardian.name.trim()) return `Guardian ${i + 1} name is required.`;
-      if (!guardian.phone.trim()) return `Guardian ${i + 1} phone is required.`;
+      if (!guardian.name.trim()) errors[`guardian${i}.name`] = `Guardian ${i + 1} name is required.`;
+      if (!guardian.phone.trim()) errors[`guardian${i}.phone`] = `Guardian ${i + 1} phone is required.`;
       if (guardian.email.trim() && !guardian.email.includes('@')) {
-        return `Enter a valid email for guardian ${i + 1}.`;
+        errors[`guardian${i}.email`] = `Enter a valid email for guardian ${i + 1}.`;
       }
     }
 
     if (!values.emergencyContact.name.trim()) {
-      return 'Emergency contact name is required.';
+      errors['emergencyContact.name'] = 'Emergency contact name is required.';
     }
     if (!values.emergencyContact.phone.trim()) {
-      return 'Emergency contact phone is required.';
+      errors['emergencyContact.phone'] = 'Emergency contact phone is required.';
     }
-    return null;
   }
 
-  return null;
+  return errors;
 }
 
 export const STUDENT_PHOTO_ACCEPT = 'image/jpeg,image/png,image/webp,image/gif';

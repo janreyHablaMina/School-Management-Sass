@@ -216,9 +216,18 @@ select.modalInput:focus {
 }
 
 .modalError {
-  margin: 0.85rem 0 0;
-  font-size: 0.84rem;
-  color: #ff7e93;
+  margin: 1.05rem 0 0;
+  font-size: 0.85rem;
+  color: #ff8a8a;
+  background: rgba(255, 138, 138, 0.1);
+  padding: 0.65rem 0.85rem;
+  border-radius: 8px;
+}
+
+.inlineError {
+  margin: 0.35rem 0 0;
+  font-size: 0.78rem;
+  color: #ff8a8a;
 }
 
 .fieldError {
