@@ -9,6 +9,7 @@ export interface ActionDropdownFixedStyle {
   bottom?: number;
   right?: number;
   left?: number;
+  width?: number;
 }
 
 interface ActionDropdownProps {
@@ -17,6 +18,7 @@ interface ActionDropdownProps {
   openUpwards?: boolean;
   /** When set, menu is portaled to body with fixed coords (escapes table overflow). */
   fixedStyle?: ActionDropdownFixedStyle | null;
+  menuClassName?: string;
   children: React.ReactNode;
 }
 
@@ -25,6 +27,7 @@ export const ActionDropdown: React.FC<ActionDropdownProps> = ({
   onClose,
   openUpwards = false,
   fixedStyle = null,
+  menuClassName,
   children,
 }) => {
   if (!isOpen) return null;
@@ -43,6 +46,7 @@ export const ActionDropdown: React.FC<ActionDropdownProps> = ({
           styles.actionDropdownMenu,
           openUpwards ? styles.actionDropdownMenuUp : '',
           fixedStyle ? styles.actionDropdownMenuFixed : '',
+          menuClassName || '',
         ]
           .filter(Boolean)
           .join(' ')}
@@ -53,6 +57,7 @@ export const ActionDropdown: React.FC<ActionDropdownProps> = ({
                 bottom: fixedStyle.bottom,
                 right: fixedStyle.right,
                 left: fixedStyle.left,
+                width: fixedStyle.width,
               }
             : undefined
         }

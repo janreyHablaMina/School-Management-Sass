@@ -93,6 +93,7 @@ export function TimePicker({ value, onChange, className }: TimePickerProps) {
             ? { top: fixedStyle.top, bottom: fixedStyle.bottom, left: fixedStyle.left }
             : null
         }
+        menuClassName={styles.actionDropdownMenuNoPadding}
       >
         <div className={styles.timePickerMenu}>
           <div className={styles.timePickerColumn}>

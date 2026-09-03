@@ -3,10 +3,6 @@
 import { toClassFocus, type TeacherNavRequest } from '@/lib/teacher/classFocus';
 import type { MyClassRow } from '@/types/myClasses';
 import { listStyles } from '../../shared';
-import { ClassDetailHeader } from './ClassDetailHeader';
-import { ClassPulse } from './ClassPulse';
-import { ClassQuickActions } from './ClassQuickActions';
-import { ClassSpotlight } from './ClassSpotlight';
 
 interface ClassDetailViewProps {
   cls: MyClassRow;
@@ -19,25 +15,19 @@ interface ClassDetailViewProps {
 export function ClassDetailView({
   cls,
   onBack,
-  onEdit,
-  onInvite,
-  onNavigate,
 }: ClassDetailViewProps) {
-  const classFocus = toClassFocus(cls);
-
   return (
-    <div className={listStyles.page}>
-      <ClassDetailHeader
-        cls={cls}
-        onBack={onBack}
-        onEdit={onEdit}
-        onInvite={onInvite}
-        onAddLesson={() => onNavigate?.({ tab: 'Lessons', classFocus })}
-      />
-
-      <ClassSpotlight cls={cls} />
-      <ClassQuickActions cls={cls} onNavigate={onNavigate} />
-      <ClassPulse cls={cls} onNavigate={onNavigate} onInvite={onInvite} />
+    <div className={listStyles.page} style={{ padding: '2rem' }}>
+      <button type="button" className={listStyles.backBtn} onClick={onBack} style={{ marginBottom: '2rem' }}>
+        <span aria-hidden>‹</span> Back to My Classes
+      </button>
+      
+      <h1 style={{ color: '#fff', fontSize: '2rem' }}>
+        Detailed View: {cls.subject} ({cls.gradeSection})
+      </h1>
+      <p style={{ color: 'rgba(255,255,255,0.5)', marginTop: '1rem' }}>
+        (This page is currently empty and will be designed later)
+      </p>
     </div>
   );
 }

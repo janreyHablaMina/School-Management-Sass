@@ -23,25 +23,43 @@ export function ClassQuickActions({ cls, onNavigate }: ClassQuickActionsProps) {
     <section className={styles.quickActions} aria-label="Class quick actions">
       <div className={styles.quickIntro}>
         <div>
-          <p className={styles.quickEyebrow}>Quick actions</p>
           <h2 className={styles.quickTitle}>Jump in</h2>
+          <p className={styles.quickEyebrow}>What would you like to do today?</p>
         </div>
       </div>
 
-      <div className={styles.featuredRow}>
-        {featured.map((action) => (
-          <button
-            key={action.id}
-            type="button"
-            className={styles.featuredTile}
-            onClick={() => openAction(action.tab, action.aiToolId)}
-          >
-            <span className={styles.featuredMark} style={{ background: action.accent }} />
-            <span className={styles.featuredIcon}>{action.icon}</span>
-            <span className={styles.featuredLabel}>{action.label}</span>
-            <span className={styles.featuredHint}>{action.hint}</span>
-          </button>
-        ))}
+      <div className={styles.featuredGrid}>
+        {featured.map((action, index) => {
+          const isPrimary = index === 0;
+          return (
+            <button
+              key={action.id}
+              type="button"
+              className={`${styles.featuredCard} ${isPrimary ? styles.primaryCard : ''}`}
+              onClick={() => openAction(action.tab, action.aiToolId)}
+            >
+              <div 
+                className={styles.cardIconBox} 
+                style={{ 
+                  background: action.accent, 
+                  boxShadow: `0 4px 20px ${action.accent}50` 
+                }}
+              >
+                <span className={styles.cardIcon}>{action.icon}</span>
+              </div>
+              <div className={styles.cardContent}>
+                <span className={styles.cardLabel}>{action.label}</span>
+                <span className={styles.cardHint}>{action.hint}</span>
+              </div>
+              {isPrimary && (
+                <div 
+                  className={styles.cardGlow} 
+                  style={{ background: `radial-gradient(circle at bottom right, ${action.accent}30, transparent 60%)` }} 
+                />
+              )}
+            </button>
+          );
+        })}
       </div>
 
       <div className={styles.moreRow}>

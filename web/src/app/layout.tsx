@@ -38,8 +38,9 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${inter.variable} ${caveat.variable} ${londrinaSolid.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
-      <body>{children}</body>
+      <body suppressHydrationWarning>{children}</body>
     </html>
   );
 }

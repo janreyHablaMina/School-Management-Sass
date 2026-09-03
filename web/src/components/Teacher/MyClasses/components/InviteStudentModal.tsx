@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useState, type CSSProperties } from 'react';
 import {
-  classInvitePath,
   classInviteUrl,
   classJoinCode,
   combineDateAndTime,
@@ -10,13 +9,13 @@ import {
   formatInviteExpiry,
   formatInviteRemaining,
   inviteExpiresAt,
-  INVITE_QUICK_EXPIRY,
-  loginInvitePath,
   rememberClassInvite,
   toDateInputValue,
   toTimeInputValue,
 } from '@/lib/classroom';
 import type { MyClassRow } from '@/types/myClasses';
+import { TimePicker } from '@/components/ui/TimePicker';
+import { DatePicker } from '@/components/ui/DatePicker';
 import { listStyles, modalStyles, TeacherModal } from '../../shared';
 import styles from './InviteStudentModal.module.css';
 
@@ -52,10 +51,6 @@ export function InviteStudentModal({
 
   const expiryValid = expiresAt != null && expiresAt > Date.now();
   const link = expiresAt != null ? classInviteUrl(cls, expiresAt) : '';
-  const previewHref =
-    expiresAt != null
-      ? classInvitePath(cls, expiresAt)
-      : loginInvitePath(code);
 
   useEffect(() => {
     if (!expiryValid || expiresAt == null) return;
@@ -89,20 +84,9 @@ export function InviteStudentModal({
       showClose
       cardClassName={modalStyles.modalCardWide}
       footer={
-        <>
-          <a
-            className={listStyles.secondaryBtn}
-            href={previewHref}
-            target="_blank"
-            rel="noreferrer"
-            style={{ textDecoration: 'none' }}
-          >
-            Preview login
-          </a>
-          <button type="button" className={listStyles.primaryBtn} onClick={onClose}>
-            Done
-          </button>
-        </>
+        <button type="button" className={listStyles.primaryBtn} onClick={onClose}>
+          Done
+        </button>
       }
     >
       <div
@@ -141,37 +125,23 @@ export function InviteStudentModal({
         <p className={styles.inviteShareLabel}>Expires on</p>
 
         <div className={styles.inviteDateTimeRow}>
-          <label className={styles.inviteDateTimeField}>
+          <div className={styles.inviteDateTimeField}>
             <span>Date</span>
-            <input
-              type="date"
+            <DatePicker
               value={expiryDate}
-              min={toDateInputValue(Date.now())}
-              onChange={(e) => setExpiryDate(e.target.value)}
+              minDate={toDateInputValue(Date.now())}
+              onChange={setExpiryDate}
             />
-          </label>
-          <label className={styles.inviteDateTimeField}>
+          </div>
+          <div className={styles.inviteDateTimeField}>
             <span>Time</span>
-            <input
-              type="time"
+            <TimePicker
               value={expiryTime}
-              onChange={(e) => setExpiryTime(e.target.value)}
+              onChange={setExpiryTime}
             />
-          </label>
+          </div>
         </div>
 
-        <div className={styles.inviteQuickRow} role="group" aria-label="Quick expiry">
-          {INVITE_QUICK_EXPIRY.map((item) => (
-            <button
-              key={item.id}
-              type="button"
-              className={styles.inviteQuickChip}
-              onClick={() => applyExpiry(inviteExpiresAt(item.hoursFromNow))}
-            >
-              {item.label}
-            </button>
-          ))}
-        </div>
 
         {expiryValid && expiresAt != null ? (
           <p className={styles.inviteExpiryLine}>
