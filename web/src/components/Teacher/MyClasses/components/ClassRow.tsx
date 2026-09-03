@@ -31,6 +31,7 @@ interface ClassRowProps {
   onViewSchedule: (id: number) => void;
   onArchive: (id: number) => void;
   onRestore: (id: number) => void;
+  isHighlighted?: boolean;
 }
 
 export function ClassRow({
@@ -44,12 +45,13 @@ export function ClassRow({
   onViewSchedule,
   onArchive,
   onRestore,
+  isHighlighted,
 }: ClassRowProps) {
   const isArchived = cls.status === 'Archived';
 
   return (
     <tr
-      className={`${styles.clickableRow}${selected ? ` ${listStyles.rowSelected}` : ''}`}
+      className={`${styles.clickableRow}${selected ? ` ${listStyles.rowSelected}` : ''}${isHighlighted ? ` ${styles.highlightedRow}` : ''}`}
       onClick={() => onOpen(cls.id)}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {

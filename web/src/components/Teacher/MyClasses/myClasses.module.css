@@ -251,6 +251,99 @@
   }
 }
 
+/* Calendar Grid Styles */
+.calendarGridContainer {
+  display: flex;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-top: 1rem;
+  overflow-x: auto;
+}
+
+.calendarTimeAxis {
+  display: flex;
+  flex-direction: column;
+  padding-right: 1rem;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  margin-right: 1rem;
+  position: relative;
+  min-width: 50px;
+}
+
+.calendarTimeLabel {
+  height: 48px; /* Assuming 1 hour = 48px */
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+  display: flex;
+  align-items: flex-start;
+  transform: translateY(-8px);
+}
+
+.calendarDaysWrapper {
+  display: flex;
+  flex-grow: 1;
+  gap: 0.5rem;
+  min-width: 500px;
+}
+
+.calendarDayColumn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.calendarDayHeader {
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.calendarDayContent {
+  position: relative;
+  /* 48px per hour * 10 hours = 480px total height */
+  height: 480px; 
+}
+
+.calendarHourLine {
+  height: 48px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.05);
+  box-sizing: border-box;
+}
+
+.calendarSessionBlock {
+  position: absolute;
+  left: 2px;
+  right: 2px;
+  border: 1px solid;
+  border-radius: 6px;
+  padding: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  backdrop-filter: blur(4px);
+  z-index: 2;
+  transition: all 0.2s ease;
+}
+
+.calendarSessionBlock:hover {
+  transform: scale(1.02);
+  z-index: 3;
+}
+
+.calendarSessionTime {
+  display: flex;
+  flex-direction: column;
+}
+
 .clickableRow {
   cursor: pointer;
   transition: background 0.15s ease;
@@ -258,6 +351,24 @@
 
 .clickableRow:hover {
   background: rgba(245, 200, 66, 0.06);
+}
+
+.clickableRow:focus-visible td:first-child::before {
+  opacity: 1;
+  background: #f5c842;
+}
+
+@keyframes highlight-flash-animation {
+  0% {
+    background-color: rgba(245, 200, 66, 0.3);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+.highlightedRow td {
+  animation: highlight-flash-animation 3s ease-out forwards !important;
 }
 
 .clickableRow:focus-visible {

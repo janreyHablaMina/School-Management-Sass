@@ -12,7 +12,8 @@ export interface MyClassRow {
   gradeSection: string;
   gradeLevel: string;
   academicYear: string;
-  schedule: string;
+  schedule: string; // Keep as fallback/display string
+  sessions?: { day: string; startTime: string; endTime: string }[];
   room: string;
   studentCount: number;
   attendanceRate: number;

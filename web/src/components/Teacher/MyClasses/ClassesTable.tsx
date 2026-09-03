@@ -29,6 +29,7 @@ interface ClassesTableProps {
   onViewSchedule: (id: number) => void;
   onArchive: (id: number) => void;
   onRestore: (id: number) => void;
+  highlightedClassId?: number | null;
 }
 
 const COLUMNS: DataTableColumn[] = [
@@ -61,6 +62,7 @@ export function ClassesTable({
   onViewSchedule,
   onArchive,
   onRestore,
+  highlightedClassId,
 }: ClassesTableProps) {
   const bulkActions = [
     ...(selectedActiveCount > 0
@@ -119,6 +121,7 @@ export function ClassesTable({
             onViewSchedule={onViewSchedule}
             onArchive={onArchive}
             onRestore={onRestore}
+            isHighlighted={cls.id === highlightedClassId}
           />
         ))}
       </DataTable>

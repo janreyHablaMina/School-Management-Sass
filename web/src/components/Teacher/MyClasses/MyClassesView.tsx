@@ -5,7 +5,7 @@ import { listStyles, ResourceListPage, TeacherToast } from '../shared';
 import { ArchiveClassModal } from './components/ArchiveClassModal';
 import { ClassDetailView } from './components/ClassDetailView';
 import { ClassFormModal } from './components/ClassFormModal';
-import { ClassScheduleModal } from './components/ClassScheduleModal';
+import { ClassScheduleView } from './components/ClassScheduleView';
 import { CreateClassModal } from './components/CreateClassModal';
 import { InviteStudentModal } from './components/InviteStudentModal';
 import { ClassesTable } from './ClassesTable';
@@ -70,6 +70,7 @@ export function MyClassesView({ onNavigate }: MyClassesViewProps) {
     sortKey,
     sortDirection,
     handleSort,
+    highlightedClassId,
     toast,
     dismissToast,
   } = useMyClasses();
@@ -91,6 +92,20 @@ export function MyClassesView({ onNavigate }: MyClassesViewProps) {
               : undefined
           }
           onNavigate={onNavigate}
+        />
+      ) : scheduleClass ? (
+        <ClassScheduleView
+          cls={scheduleClass}
+          onBack={closeSchedule}
+          onEdit={
+            scheduleClass.status === 'Active'
+              ? () => openEdit(scheduleClass.id)
+              : undefined
+          }
+          onNavigate={(req) => {
+            closeSchedule();
+            onNavigate?.(req);
+          }}
         />
       ) : (
         <ResourceListPage
@@ -139,6 +154,7 @@ export function MyClassesView({ onNavigate }: MyClassesViewProps) {
               onViewSchedule={openSchedule}
               onArchive={openArchive}
               onRestore={restoreClass}
+              highlightedClassId={highlightedClassId}
             />
           }
           rangeStart={rangeStart}
@@ -170,22 +186,6 @@ export function MyClassesView({ onNavigate }: MyClassesViewProps) {
           initialValues={classToFormValues(editingClass)}
           onCancel={closeEdit}
           onSubmit={updateClass}
-        />
-      ) : null}
-
-      {scheduleClass ? (
-        <ClassScheduleModal
-          cls={scheduleClass}
-          onClose={closeSchedule}
-          onEdit={
-            scheduleClass.status === 'Active'
-              ? () => openEdit(scheduleClass.id)
-              : undefined
-          }
-          onOpenCalendar={() => {
-            closeSchedule();
-            onNavigate?.('Calendar');
-          }}
         />
       ) : null}
 

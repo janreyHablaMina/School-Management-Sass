@@ -54,6 +54,11 @@ export const myClassesPageMock: MyClassesPageData = {
       status: 'Active',
       accent: '#b68eff',
       icon: '∑',
+      sessions: [
+        { day: 'Mon', startTime: '08:00', endTime: '09:00' },
+        { day: 'Wed', startTime: '08:00', endTime: '09:00' },
+        { day: 'Fri', startTime: '13:00', endTime: '14:00' },
+      ],
     },
     {
       id: 2,
@@ -71,6 +76,10 @@ export const myClassesPageMock: MyClassesPageData = {
       status: 'Active',
       accent: '#5cc789',
       icon: '🔬',
+      sessions: [
+        { day: 'Tue', startTime: '09:30', endTime: '10:30' },
+        { day: 'Thu', startTime: '14:00', endTime: '15:30' },
+      ],
     },
     {
       id: 3,

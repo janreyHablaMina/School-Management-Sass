@@ -94,17 +94,21 @@ export function CalendarMonthGrid({
               <span className={styles.dayNumber}>{day}</span>
               <span className={styles.dayEvents}>
                 {visible.map((event) => (
-                  <span
-                    key={event.id}
-                    className={styles.dayEventPill}
-                    style={{
-                      background: `${event.accent}22`,
-                      borderColor: `${event.accent}66`,
-                      color: event.accent,
-                    }}
-                  >
-                    {event.title}
-                  </span>
+                  <div key={event.id} style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                    <span
+                      className={styles.dayEventPill}
+                      style={{
+                        background: `${event.accent}22`,
+                        borderColor: `${event.accent}66`,
+                        color: event.accent,
+                      }}
+                    >
+                      {event.title}
+                    </span>
+                    <span style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,0.5)', paddingLeft: '4px' }}>
+                      {event.startTime} {event.endTime ? `- ${event.endTime}` : ''}
+                    </span>
+                  </div>
                 ))}
                 {extra > 0 ? <span className={styles.dayMore}>+{extra} more</span> : null}
               </span>

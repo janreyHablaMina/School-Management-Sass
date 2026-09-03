@@ -71,6 +71,7 @@ export function useMyClasses() {
   const [inviteClassId, setInviteClassId] = useState<number | null>(null);
   const [archiveClassId, setArchiveClassId] = useState<number | null>(null);
   const [bulkArchiveOpen, setBulkArchiveOpen] = useState(false);
+  const [highlightedClassId, setHighlightedClassId] = useState<number | null>(null);
   const [archivedSnapshots, setArchivedSnapshots] = useState<
     Record<number, ArchivedClassSnapshot>
   >({});
@@ -191,8 +192,17 @@ export function useMyClasses() {
     const source = classes.find((cls) => cls.id === id);
     if (!source) return;
     const next = duplicateClassFrom(source, classes);
-    setClasses((prev) => [next, ...prev]);
-    list.setPage(1);
+    setClasses((prev) => {
+      const idx = prev.findIndex((c) => c.id === id);
+      if (idx === -1) return prev;
+      const copy = [...prev];
+      copy.splice(idx + 1, 0, next);
+      return copy;
+    });
+    setHighlightedClassId(next.id);
+    setTimeout(() => {
+      setHighlightedClassId(null);
+    }, 4000);
     setToast({
       title: 'Class duplicated successfully',
       message: `${next.subject} · ${next.gradeSection}`,
