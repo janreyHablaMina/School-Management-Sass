@@ -353,12 +353,7 @@
   vertical-align: middle;
 }
 
-.checkbox {
-  width: 16px;
-  height: 16px;
-  accent-color: #f5c842;
-  cursor: pointer;
-}
+
 
 .rowSelected td {
   background: rgba(245, 200, 66, 0.06);

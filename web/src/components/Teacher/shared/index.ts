@@ -16,7 +16,7 @@ export {
 } from './useColumnSort';
 export type { SortConfig, SortDirection } from './useColumnSort';
 export { useRowSelection } from './useRowSelection';
-export { SelectAllCheckbox, RowSelectCell } from './SelectCheckbox';
+export { SelectAllCheckbox, RowSelectCell } from '@/components/ui/SelectCheckbox';
 export { ListTabs } from './ListTabs';
 export { ChalkBadge } from './ChalkBadge';
 export { ClassMeta } from './ClassMeta';
