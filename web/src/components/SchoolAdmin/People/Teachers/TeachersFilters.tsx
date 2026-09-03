@@ -61,11 +61,20 @@ export const TeachersFilters: React.FC<TeachersFiltersProps> = ({
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
         Filters
       </button>
-      <button className={styles.clearBtn} onClick={() => {
-        setSearchTerm('');
-        setDepartmentFilter('All Departments');
-        setStatusFilter('All Status');
-      }}>Clear</button>
+      <button 
+        className={
+          (searchTerm !== '' || departmentFilter !== 'All Departments' || statusFilter !== 'All Status')
+            ? styles.clearBtnActive 
+            : styles.clearBtn
+        } 
+        onClick={() => {
+          setSearchTerm('');
+          setDepartmentFilter('All Departments');
+          setStatusFilter('All Status');
+        }}
+      >
+        Reset Filters
+      </button>
     </div>
   );
 };

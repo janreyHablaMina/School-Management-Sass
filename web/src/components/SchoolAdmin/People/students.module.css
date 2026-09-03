@@ -245,6 +245,24 @@
   padding: 0.6rem;
 }
 
+.clearBtnActive {
+  background: #f5c842;
+  border: 1px solid #f5c842;
+  color: #0a1911;
+  padding: 0.6rem 1rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.clearBtnActive:hover {
+  background: #e6b72e;
+  border-color: #e6b72e;
+  box-shadow: 0 0 10px rgba(245, 200, 66, 0.2);
+}
+
 /* Table Section */
 .tableSection {
   background: rgba(0, 0, 0, 0.2);

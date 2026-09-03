@@ -107,6 +107,34 @@ export const TeacherClassesTab: React.FC<TeacherClassesTabProps> = ({ teacher })
     }
   ];
 
+  const [selectedClass, setSelectedClass] = useState<TeacherClass | null>(null);
+
+  if (selectedClass) {
+    return (
+      <div className={uiStyles.tabLayoutContainer}>
+        <div className={uiStyles.tabLeftCol} style={{ width: '100%' }}>
+          <div className={styles.card}>
+            <div className={styles.cardHeader} style={{ marginBottom: '1rem' }}>
+              <button 
+                className={`${uiStyles.btnBase} ${uiStyles.btnSm} ${uiStyles.btnSecondary}`}
+                onClick={() => setSelectedClass(null)}
+              >
+                ← Back to Classes
+              </button>
+            </div>
+            <div className={styles.emptyNotes} style={{ padding: '4rem 2rem' }}>
+              <h2 className={styles.cardTitle} style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>
+                {selectedClass.name} - {selectedClass.section}
+              </h2>
+              <p>This page is currently under construction.</p>
+              <span>Detailed class metrics, students, and activities will be displayed here soon.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={uiStyles.tabLayoutContainer}>
       
@@ -133,6 +161,7 @@ export const TeacherClassesTab: React.FC<TeacherClassesTabProps> = ({ teacher })
             columns={classesColumns} 
             data={mockTeacherClasses.slice(0, itemsPerPage)} 
             keyExtractor={(cls) => cls.id} 
+            onRowClick={(cls) => setSelectedClass(cls)}
           />
           
           <Pagination 

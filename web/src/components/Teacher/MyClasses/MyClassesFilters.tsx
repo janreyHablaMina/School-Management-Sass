@@ -38,6 +38,12 @@ export function MyClassesFilters({
   onClear,
 }: MyClassesFiltersProps) {
   const optionsMap = { academicYears, gradeLevels, subjects, statuses };
+  const isDirty = 
+    filters.searchTerm !== '' ||
+    filters.academicYear !== '2026 - 2027' ||
+    filters.gradeLevel !== 'All Grades' ||
+    filters.subject !== 'All Subjects' ||
+    filters.status !== 'Active';
 
   return (
     <div className={listStyles.filtersPanel}>
@@ -60,8 +66,12 @@ export function MyClassesFilters({
         />
       ))}
 
-      <button type="button" className={listStyles.toolBtn} onClick={onClear}>
-        ↺ Clear Filters
+      <button 
+        type="button" 
+        className={isDirty ? listStyles.toolBtnActive : listStyles.toolBtn} 
+        onClick={onClear}
+      >
+        Reset Filters
       </button>
     </div>
   );

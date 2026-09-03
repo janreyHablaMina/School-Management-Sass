@@ -96,6 +96,30 @@
   color: #f5c842;
 }
 
+.toolBtnActive {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 0.9rem;
+  border: 1.5px solid rgba(245, 200, 66, 0.55);
+  border-radius: 8px 10px 7px 9px / 9px 7px 9px 8px;
+  background: rgba(245, 200, 66, 0.18);
+  color: #f5c842;
+  font-size: 0.8rem;
+  font-weight: 600;
+  height: fit-content;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.toolBtnActive:hover {
+  background: rgba(245, 200, 66, 0.28);
+  border-color: rgba(245, 200, 66, 0.8);
+}
+
+
+
 .metricsGrid {
   display: grid;
   gap: 1rem;

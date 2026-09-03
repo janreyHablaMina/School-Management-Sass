@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import styles from './ui.module.css';
 
 export interface Column<T> {
@@ -11,9 +11,10 @@ interface TableProps<T> {
   columns: Column<T>[];
   data: T[];
   keyExtractor: (item: T) => string;
+  onRowClick?: (item: T) => void;
 }
 
-export function Table<T>({ columns, data, keyExtractor }: TableProps<T>) {
+export function Table<T>({ columns, data, keyExtractor, onRowClick }: TableProps<T>) {
   return (
     <table className={styles.table}>
       <thead>
@@ -32,7 +33,12 @@ export function Table<T>({ columns, data, keyExtractor }: TableProps<T>) {
           </tr>
         ) : (
           data.map((item) => (
-            <tr key={keyExtractor(item)}>
+            <tr 
+              key={keyExtractor(item)} 
+              onClick={() => onRowClick && onRowClick(item)}
+              style={onRowClick ? { cursor: 'pointer' } : undefined}
+              className={onRowClick ? styles.clickableRow : undefined}
+            >
               {columns.map((col, index) => (
                 <td key={index}>
                   {col.render ? col.render(item) : String(col.accessor ? item[col.accessor] : '')}
