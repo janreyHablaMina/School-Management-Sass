@@ -57,6 +57,11 @@ export interface TeacherStudentRow {
   avatarAccent: string;
   /** Profile photo URL or data URL; falls back to initials when empty. */
   photoUrl?: string | null;
+  enrolledClasses?: {
+    classLabel: string;
+    subject: string;
+    gradeLevel: string;
+  }[];
   classLabel: string;
   subject: string;
   classFilter: string;
@@ -111,4 +116,9 @@ export interface StudentProfileFormInput {
   classLabel?: string;
   subject?: string;
   gradeLevel?: string;
+  enrolledClasses?: {
+    classLabel: string;
+    subject: string;
+    gradeLevel: string;
+  }[];
 }

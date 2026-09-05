@@ -283,54 +283,105 @@ export function StudentFormModal({
           </div>
 
           {isCreate ? (
-            <>
-              <div className={styles.formGrid}>
-                <label className={modalStyles.modalField}>
-                  <span className={modalStyles.modalLabel}>
-                    Class<span className={modalStyles.requiredMark}>*</span>
-                  </span>
-                  <CustomSelect
-                    className={`${modalStyles.modalInput} ${errors.classLabel ? modalStyles.fieldError : ''}`}
-                    value={values.classLabel ?? ''}
-                    onChange={(nextClass) => {
-                      setValues((prev) => ({
-                        ...prev,
-                        classLabel: nextClass,
-                        gradeLevel: gradeLevelFromClassLabel(nextClass),
-                      }));
-                    }}
-                    options={classOptions}
-                  />
-                  {errors.classLabel ? <span className={modalStyles.inlineError}>{errors.classLabel}</span> : null}
-                </label>
+            <div className={styles.editGuardianBlock}>
+              <p className={styles.editGuardianLabel}>Class Enrollments</p>
+              {(values.enrolledClasses || []).map((cls, index) => (
+                <div key={index} style={{ marginBottom: '1rem' }}>
+                  <div className={styles.formGrid}>
+                    <label className={modalStyles.modalField}>
+                      <span className={modalStyles.modalLabel}>
+                        Class<span className={modalStyles.requiredMark}>*</span>
+                      </span>
+                      <CustomSelect
+                        className={`${modalStyles.modalInput} ${errors[`classLabel_${index}`] ? modalStyles.fieldError : ''}`}
+                        value={cls.classLabel}
+                        onChange={(nextClass) => {
+                          setValues((prev) => {
+                            const next = [...(prev.enrolledClasses || [])];
+                            next[index] = {
+                              ...next[index],
+                              classLabel: nextClass,
+                              gradeLevel: gradeLevelFromClassLabel(nextClass),
+                            };
+                            return { ...prev, enrolledClasses: next };
+                          });
+                        }}
+                        options={classOptions}
+                      />
+                      {errors[`classLabel_${index}`] ? <span className={modalStyles.inlineError}>{errors[`classLabel_${index}`]}</span> : null}
+                    </label>
 
-                <label className={modalStyles.modalField}>
-                  <span className={modalStyles.modalLabel}>
-                    Subject<span className={modalStyles.requiredMark}>*</span>
-                  </span>
-                  <CustomSelect
-                    className={`${modalStyles.modalInput} ${errors.subject ? modalStyles.fieldError : ''}`}
-                    value={values.subject ?? ''}
-                    onChange={(value) => patch('subject', value)}
-                    options={subjectOptions}
-                  />
-                  {errors.subject ? <span className={modalStyles.inlineError}>{errors.subject}</span> : null}
-                </label>
-              </div>
+                    <label className={modalStyles.modalField}>
+                      <span className={modalStyles.modalLabel}>
+                        Subject<span className={modalStyles.requiredMark}>*</span>
+                      </span>
+                      <CustomSelect
+                        className={`${modalStyles.modalInput} ${errors[`subject_${index}`] ? modalStyles.fieldError : ''}`}
+                        value={cls.subject}
+                        onChange={(value) => {
+                          setValues((prev) => {
+                            const next = [...(prev.enrolledClasses || [])];
+                            next[index] = { ...next[index], subject: value };
+                            return { ...prev, enrolledClasses: next };
+                          });
+                        }}
+                        options={subjectOptions}
+                      />
+                      {errors[`subject_${index}`] ? <span className={modalStyles.inlineError}>{errors[`subject_${index}`]}</span> : null}
+                    </label>
+                  </div>
 
-              <label className={modalStyles.modalField}>
-                <span className={modalStyles.modalLabel}>
-                  Grade level<span className={modalStyles.requiredMark}>*</span>
-                </span>
-                <CustomSelect
-                  className={`${modalStyles.modalInput} ${errors.gradeLevel ? modalStyles.fieldError : ''}`}
-                  value={values.gradeLevel ?? ''}
-                  onChange={(value) => patch('gradeLevel', value)}
-                  options={gradeOptions}
-                />
-                {errors.gradeLevel ? <span className={modalStyles.inlineError}>{errors.gradeLevel}</span> : null}
-              </label>
-            </>
+                  <label className={modalStyles.modalField}>
+                    <span className={modalStyles.modalLabel}>
+                      Grade level<span className={modalStyles.requiredMark}>*</span>
+                    </span>
+                    <CustomSelect
+                      className={`${modalStyles.modalInput} ${errors[`gradeLevel_${index}`] ? modalStyles.fieldError : ''}`}
+                      value={cls.gradeLevel}
+                      onChange={(value) => {
+                        setValues((prev) => {
+                          const next = [...(prev.enrolledClasses || [])];
+                          next[index] = { ...next[index], gradeLevel: value };
+                          return { ...prev, enrolledClasses: next };
+                        });
+                      }}
+                      options={gradeOptions}
+                    />
+                    {errors[`gradeLevel_${index}`] ? <span className={modalStyles.inlineError}>{errors[`gradeLevel_${index}`]}</span> : null}
+                  </label>
+                  
+                  {index > 0 && (
+                    <button
+                      type="button"
+                      className={styles.editAddGuardian}
+                      style={{ marginTop: '0.5rem', color: '#ff8a8a', borderColor: '#ff8a8a' }}
+                      onClick={() => {
+                        setValues((prev) => {
+                          const next = [...(prev.enrolledClasses || [])];
+                          next.splice(index, 1);
+                          return { ...prev, enrolledClasses: next };
+                        });
+                      }}
+                    >
+                      - Remove class
+                    </button>
+                  )}
+                </div>
+              ))}
+              
+              <button
+                type="button"
+                className={styles.editAddGuardian}
+                onClick={() =>
+                  setValues((prev) => ({
+                    ...prev,
+                    enrolledClasses: [...(prev.enrolledClasses || []), { classLabel: '', subject: '', gradeLevel: '' }],
+                  }))
+                }
+              >
+                + Add another class
+              </button>
+            </div>
           ) : null}
 
           <div className={styles.formGrid}>

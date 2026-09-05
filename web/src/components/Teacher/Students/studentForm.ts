@@ -60,6 +60,7 @@ export function studentToFormValues(student: TeacherStudentRow): StudentProfileF
     classLabel: student.classLabel,
     subject: student.subject,
     gradeLevel: student.gradeLevel,
+    enrolledClasses: student.enrolledClasses,
   };
 }
 
@@ -79,6 +80,7 @@ export function emptyStudentFormValues(
     classLabel: '',
     subject: '',
     gradeLevel: '',
+    enrolledClasses: [{ classLabel: '', subject: '', gradeLevel: '' }],
     ...defaults,
     guardians: defaults?.guardians ?? [emptyGuardianInput()],
     emergencyContact: defaults?.emergencyContact ?? {
@@ -113,9 +115,17 @@ export function getStudentFormStepError(
     if (!values.address.trim()) errors.address = 'Home address is required.';
     
     if (options?.requireClassPlacement) {
-      if (!values.classLabel?.trim()) errors.classLabel = 'Class is required.';
-      if (!values.subject?.trim()) errors.subject = 'Subject is required.';
-      if (!values.gradeLevel?.trim()) errors.gradeLevel = 'Grade level is required.';
+      if (values.enrolledClasses && values.enrolledClasses.length > 0) {
+        values.enrolledClasses.forEach((cls, i) => {
+          if (!cls.classLabel?.trim()) errors[`classLabel_${i}`] = 'Class is required.';
+          if (!cls.subject?.trim()) errors[`subject_${i}`] = 'Subject is required.';
+          if (!cls.gradeLevel?.trim()) errors[`gradeLevel_${i}`] = 'Grade level is required.';
+        });
+      } else {
+        if (!values.classLabel?.trim()) errors.classLabel = 'Class is required.';
+        if (!values.subject?.trim()) errors.subject = 'Subject is required.';
+        if (!values.gradeLevel?.trim()) errors.gradeLevel = 'Grade level is required.';
+      }
     }
   }
 
@@ -218,6 +228,7 @@ export function applyStudentFormInput(
     email: input.email.trim(),
     status: input.status,
     photoUrl: input.photoUrl,
+    enrolledClasses: input.enrolledClasses || student.enrolledClasses,
     details: {
       ...student.details,
       address: input.address.trim(),
@@ -304,6 +315,9 @@ export function buildStudentFromInput(
     subject,
     classFilter: classLabel,
     gradeLevel,
+    enrolledClasses: input.enrolledClasses || [
+      { classLabel, subject, gradeLevel },
+    ],
     phone: input.phone.trim(),
     email: input.email.trim(),
     attendanceRate: 100,

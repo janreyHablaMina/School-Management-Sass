@@ -8,6 +8,7 @@ import type {
 
 type StudentSeed = Omit<TeacherStudentRow, 'details'> & {
   details?: Partial<TeacherStudentDetails>;
+  enrolledClasses?: { classLabel: string; subject: string; gradeLevel: string }[];
 };
 
 function lastNameOf(fullName: string): string {
@@ -83,9 +84,10 @@ function buildDetails(
 }
 
 function withDetails(seed: StudentSeed): TeacherStudentRow {
-  const { details: extras, ...row } = seed;
+  const { details: extras, enrolledClasses, ...row } = seed;
   return {
     ...row,
+    enrolledClasses,
     photoUrl: row.photoUrl ?? `https://i.pravatar.cc/150?u=eskwelahan-stu-${row.id}`,
     details: buildDetails(seed, extras),
   };
@@ -103,6 +105,10 @@ const studentSeeds: StudentSeed[] = [
     subject: 'Mathematics',
     classFilter: 'Grade 7 - Section A',
     gradeLevel: 'Grade 7',
+    enrolledClasses: [
+      { classLabel: 'Grade 7 - Section A', subject: 'Mathematics', gradeLevel: 'Grade 7' },
+      { classLabel: 'Grade 7 - Section B', subject: 'Science', gradeLevel: 'Grade 7' }
+    ],
     phone: '+63 912 345 6789',
     email: 'juan.delacruz@email.com',
     attendanceRate: 95,

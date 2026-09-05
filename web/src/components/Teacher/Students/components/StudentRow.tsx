@@ -84,8 +84,17 @@ export function StudentRow({
       </td>
       <td>
         <div className={styles.classCell}>
-          <p className={styles.classLabel}>{student.classLabel}</p>
-          <p className={styles.classSubject}>{student.subject}</p>
+          {student.enrolledClasses && student.enrolledClasses.length > 1 ? (
+            <>
+              <p className={styles.classLabel}>{student.enrolledClasses.length} Classes</p>
+              <p className={styles.classSubject}>Multiple Subjects</p>
+            </>
+          ) : (
+            <>
+              <p className={styles.classLabel}>{student.classLabel}</p>
+              <p className={styles.classSubject}>{student.subject}</p>
+            </>
+          )}
         </div>
       </td>
       <td>

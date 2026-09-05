@@ -55,13 +55,31 @@ export function StudentDossierHero({
             <h1 className={styles.dossierName}>{student.fullName}</h1>
             <ChalkBadge label={student.status} accent={statusColor} />
           </div>
-          <p className={styles.dossierMeta}>
-            {student.classLabel}
-            <span aria-hidden> · </span>
-            {student.subject}
-            <span aria-hidden> · </span>
-            {student.studentCode}
-          </p>
+          {student.enrolledClasses && student.enrolledClasses.length > 1 ? (
+            <div className={styles.dossierClassesList}>
+              {student.enrolledClasses.map((c, i) => (
+                <p key={i} className={styles.dossierMeta}>
+                  {c.classLabel}
+                  <span aria-hidden> · </span>
+                  {c.subject}
+                  {i === 0 && (
+                    <>
+                      <span aria-hidden> · </span>
+                      {student.studentCode}
+                    </>
+                  )}
+                </p>
+              ))}
+            </div>
+          ) : (
+            <p className={styles.dossierMeta}>
+              {student.classLabel}
+              <span aria-hidden> · </span>
+              {student.subject}
+              <span aria-hidden> · </span>
+              {student.studentCode}
+            </p>
+          )}
         </div>
       </div>
 

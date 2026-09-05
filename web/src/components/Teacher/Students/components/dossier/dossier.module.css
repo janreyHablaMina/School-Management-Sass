@@ -620,3 +620,14 @@
     align-items: flex-start;
   }
 }
+
+.dossierClassesList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin-top: 0.4rem;
+}
+
+.dossierClassesList .dossierMeta {
+  margin: 0;
+}
