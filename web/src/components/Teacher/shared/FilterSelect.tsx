@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './listPage.module.css';
+import { CustomSelect } from '@/components/ui/CustomSelect';
 
 interface FilterSelectProps {
   label: string;
@@ -19,17 +20,11 @@ export function FilterSelect({
   return (
     <label className={`${styles.filterField} ${fullWidth ? styles.filterFieldFull : ''}`}>
       <span className={styles.filterLabel}>{label}</span>
-      <select
-        className={styles.filterSelect}
+      <CustomSelect
         value={value}
-        onChange={(e) => onChange(e.target.value)}
-      >
-        {options.map((option) => (
-          <option key={option} value={option}>
-            {option}
-          </option>
-        ))}
-      </select>
+        onChange={onChange}
+        options={options}
+      />
     </label>
   );
 }

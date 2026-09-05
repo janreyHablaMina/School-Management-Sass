@@ -22,6 +22,7 @@ import {
 } from '../studentForm';
 import styles from '../students.module.css';
 import { StudentAvatar } from './StudentAvatar';
+import { CustomSelect } from '@/components/ui/CustomSelect';
 
 const STATUSES: StudentStatus[] = ['Active', 'At Risk', 'Inactive'];
 const LAST_STEP = STUDENT_EDIT_STEPS.length - 1;
@@ -272,17 +273,12 @@ export function StudentFormModal({
 
             <label className={modalStyles.modalField}>
               <span className={modalStyles.modalLabel}>Status</span>
-              <select
+              <CustomSelect
                 className={modalStyles.modalInput}
                 value={values.status}
-                onChange={(e) => patch('status', e.target.value as StudentStatus)}
-              >
-                {STATUSES.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
+                onChange={(value) => patch('status', value as StudentStatus)}
+                options={STATUSES}
+              />
             </label>
           </div>
 
@@ -293,24 +289,18 @@ export function StudentFormModal({
                   <span className={modalStyles.modalLabel}>
                     Class<span className={modalStyles.requiredMark}>*</span>
                   </span>
-                  <select
+                  <CustomSelect
                     className={`${modalStyles.modalInput} ${errors.classLabel ? modalStyles.fieldError : ''}`}
                     value={values.classLabel ?? ''}
-                    onChange={(e) => {
-                      const nextClass = e.target.value;
+                    onChange={(nextClass) => {
                       setValues((prev) => ({
                         ...prev,
                         classLabel: nextClass,
                         gradeLevel: gradeLevelFromClassLabel(nextClass),
                       }));
                     }}
-                  >
-                    {classOptions.map((option) => (
-                      <option key={option} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </select>
+                    options={classOptions}
+                  />
                   {errors.classLabel ? <span className={modalStyles.inlineError}>{errors.classLabel}</span> : null}
                 </label>
 
@@ -318,17 +308,12 @@ export function StudentFormModal({
                   <span className={modalStyles.modalLabel}>
                     Subject<span className={modalStyles.requiredMark}>*</span>
                   </span>
-                  <select
+                  <CustomSelect
                     className={`${modalStyles.modalInput} ${errors.subject ? modalStyles.fieldError : ''}`}
                     value={values.subject ?? ''}
-                    onChange={(e) => patch('subject', e.target.value)}
-                  >
-                    {subjectOptions.map((option) => (
-                      <option key={option} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </select>
+                    onChange={(value) => patch('subject', value)}
+                    options={subjectOptions}
+                  />
                   {errors.subject ? <span className={modalStyles.inlineError}>{errors.subject}</span> : null}
                 </label>
               </div>
@@ -337,17 +322,12 @@ export function StudentFormModal({
                 <span className={modalStyles.modalLabel}>
                   Grade level<span className={modalStyles.requiredMark}>*</span>
                 </span>
-                <select
+                <CustomSelect
                   className={`${modalStyles.modalInput} ${errors.gradeLevel ? modalStyles.fieldError : ''}`}
                   value={values.gradeLevel ?? ''}
-                  onChange={(e) => patch('gradeLevel', e.target.value)}
-                >
-                  {gradeOptions.map((option) => (
-                    <option key={option} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </select>
+                  onChange={(value) => patch('gradeLevel', value)}
+                  options={gradeOptions}
+                />
                 {errors.gradeLevel ? <span className={modalStyles.inlineError}>{errors.gradeLevel}</span> : null}
               </label>
             </>
@@ -362,9 +342,9 @@ export function StudentFormModal({
                 className={`${modalStyles.modalInput} ${errors.phone ? modalStyles.fieldError : ''}`}
                 type="tel"
                 value={values.phone}
-                onChange={(e) => patch('phone', e.target.value)}
+                onChange={(e) => patch('phone', e.target.value.replace(/\D/g, ''))}
                 placeholder="09XX XXX XXXX"
-                maxLength={40}
+                maxLength={11}
               />
               {errors.phone ? <span className={modalStyles.inlineError}>{errors.phone}</span> : null}
             </label>
@@ -372,13 +352,25 @@ export function StudentFormModal({
             <label className={modalStyles.modalField}>
               <span className={modalStyles.modalLabel}>Student email</span>
               <input
-                className={modalStyles.modalInput}
+                className={`${modalStyles.modalInput} ${errors.email ? modalStyles.fieldError : ''}`}
                 type="email"
                 value={values.email}
                 onChange={(e) => patch('email', e.target.value)}
+                onBlur={() => {
+                  if (values.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
+                    setErrors((prev) => ({ ...prev, email: 'Enter a valid student email address.' }));
+                  } else {
+                    setErrors((prev) => {
+                      const next = { ...prev };
+                      delete next.email;
+                      return next;
+                    });
+                  }
+                }}
                 placeholder="student@email.com"
                 maxLength={80}
               />
+              {errors.email ? <span className={modalStyles.inlineError}>{errors.email}</span> : null}
             </label>
           </div>
 
@@ -441,9 +433,9 @@ export function StudentFormModal({
                     className={`${modalStyles.modalInput} ${errors[`guardian${index}.phone`] ? modalStyles.fieldError : ''}`}
                     type="tel"
                     value={guardian.phone}
-                    onChange={(e) => updateGuardian(index, 'phone', e.target.value)}
+                    onChange={(e) => updateGuardian(index, 'phone', e.target.value.replace(/\D/g, ''))}
                     placeholder="09XX XXX XXXX"
-                    maxLength={40}
+                    maxLength={11}
                   />
                   {errors[`guardian${index}.phone`] ? <span className={modalStyles.inlineError}>{errors[`guardian${index}.phone`]}</span> : null}
                 </label>
@@ -454,6 +446,17 @@ export function StudentFormModal({
                     type="email"
                     value={guardian.email}
                     onChange={(e) => updateGuardian(index, 'email', e.target.value)}
+                    onBlur={() => {
+                      if (guardian.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(guardian.email)) {
+                        setErrors((prev) => ({ ...prev, [`guardian${index}.email`]: index === 0 ? 'Enter a valid primary guardian email.' : `Enter a valid email for guardian ${index + 1}.` }));
+                      } else {
+                        setErrors((prev) => {
+                          const next = { ...prev };
+                          delete next[`guardian${index}.email`];
+                          return next;
+                        });
+                      }
+                    }}
                     placeholder="parent@email.com"
                     maxLength={80}
                   />
@@ -540,11 +543,11 @@ export function StudentFormModal({
               onChange={(e) =>
                 patch('emergencyContact', {
                   ...values.emergencyContact,
-                  phone: e.target.value,
+                  phone: e.target.value.replace(/\D/g, ''),
                 })
               }
               placeholder="09XX XXX XXXX"
-              maxLength={40}
+              maxLength={11}
             />
             {errors['emergencyContact.phone'] ? <span className={modalStyles.inlineError}>{errors['emergencyContact.phone']}</span> : null}
           </label>

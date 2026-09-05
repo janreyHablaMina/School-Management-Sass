@@ -1,6 +1,7 @@
 import React from 'react';
 import layoutStyles from '../../shared/layout.module.css';
 import styles from '../students.module.css';
+import { CustomSelect } from '../../../ui/CustomSelect';
 
 interface TeachersFiltersProps {
   searchTerm: string;
@@ -31,31 +32,33 @@ export const TeachersFilters: React.FC<TeachersFiltersProps> = ({
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
-      <select 
+      <CustomSelect 
         className={styles.filterSelect}
         value={departmentFilter}
-        onChange={(e) => setDepartmentFilter(e.target.value)}
-      >
-        <option value="All Departments">All Departments</option>
-        <option value="Science">Science</option>
-        <option value="Mathematics">Mathematics</option>
-        <option value="English">English</option>
-        <option value="Filipino">Filipino</option>
-        <option value="Social Studies">Social Studies</option>
-        <option value="Computer">Computer</option>
-        <option value="MAPEH">MAPEH</option>
-        <option value="Physical Education">Physical Education</option>
-        <option value="Religion">Religion</option>
-      </select>
-      <select 
+        onChange={setDepartmentFilter}
+        options={[
+          'All Departments',
+          'Science',
+          'Mathematics',
+          'English',
+          'Filipino',
+          'Social Studies',
+          'Computer',
+          'MAPEH',
+          'Physical Education',
+          'Religion'
+        ]}
+      />
+      <CustomSelect 
         className={styles.filterSelect}
         value={statusFilter}
-        onChange={(e) => setStatusFilter(e.target.value)}
-      >
-        <option value="All Status">All Status</option>
-        <option value="Active">Active</option>
-        <option value="On Leave">On Leave</option>
-      </select>
+        onChange={setStatusFilter}
+        options={[
+          'All Status',
+          'Active',
+          'On Leave'
+        ]}
+      />
       
       <button className={styles.filterBtn}>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>

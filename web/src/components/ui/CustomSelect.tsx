@@ -59,6 +59,7 @@ export function CustomSelect({ value, onChange, options, className }: CustomSele
       <ActionDropdown
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
+        menuClassName={styles.actionDropdownMenuNoPadding}
         fixedStyle={
           fixedStyle
             ? { top: fixedStyle.top, bottom: fixedStyle.bottom, left: fixedStyle.left }

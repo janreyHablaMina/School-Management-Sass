@@ -107,8 +107,9 @@ export function getStudentFormStepError(
   if (step === 0) {
     if (!values.fullName.trim()) errors.fullName = 'Student name is required.';
     if (!values.phone.trim()) errors.phone = 'Student phone number is required.';
-    if (!values.email.trim()) errors.email = 'Student email is required.';
-    else if (!values.email.includes('@')) errors.email = 'Enter a valid student email address.';
+    if (values.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
+      errors.email = 'Enter a valid student email address.';
+    }
     if (!values.address.trim()) errors.address = 'Home address is required.';
     
     if (options?.requireClassPlacement) {
@@ -122,7 +123,7 @@ export function getStudentFormStepError(
     const primary = values.guardians[0];
     if (!primary?.name.trim()) errors['guardian0.name'] = 'Primary guardian name is required.';
     if (!primary.phone.trim()) errors['guardian0.phone'] = 'Primary guardian phone is required.';
-    if (primary.email.trim() && !primary.email.includes('@')) {
+    if (primary.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(primary.email)) {
       errors['guardian0.email'] = 'Enter a valid primary guardian email.';
     }
 
@@ -136,7 +137,7 @@ export function getStudentFormStepError(
       if (!hasAny) continue;
       if (!guardian.name.trim()) errors[`guardian${i}.name`] = `Guardian ${i + 1} name is required.`;
       if (!guardian.phone.trim()) errors[`guardian${i}.phone`] = `Guardian ${i + 1} phone is required.`;
-      if (guardian.email.trim() && !guardian.email.includes('@')) {
+      if (guardian.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(guardian.email)) {
         errors[`guardian${i}.email`] = `Enter a valid email for guardian ${i + 1}.`;
       }
     }
