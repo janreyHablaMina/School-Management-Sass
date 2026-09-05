@@ -1,7 +1,8 @@
 'use client';
 
+import { useState } from 'react';
 import type { TeacherStudentRow } from '@/types/teacherStudents';
-import { listStyles, TeacherModal } from '../../shared';
+import { listStyles, TeacherModal, modalStyles } from '../../shared';
 import styles from '../students.module.css';
 
 interface MarkInactiveModalProps {
@@ -17,6 +18,7 @@ export function MarkInactiveModal({
   onCancel,
   onConfirm,
 }: MarkInactiveModalProps) {
+  const [reason, setReason] = useState('');
   const isBulk = !student && count > 0;
   const title = isBulk
     ? `${count} student${count === 1 ? '' : 's'}`
@@ -58,12 +60,9 @@ export function MarkInactiveModal({
           </>
         )}
       </p>
+      
       {!isBulk && student ? (
         <ul className={styles.inactiveFacts}>
-          <li>
-            <span>Current status</span>
-            <strong>{student.status}</strong>
-          </li>
           <li>
             <span>Class</span>
             <strong>{student.classLabel}</strong>
@@ -74,6 +73,18 @@ export function MarkInactiveModal({
           </li>
         </ul>
       ) : null}
+
+      <div style={{ marginTop: '1.25rem' }}>
+        <label className={modalStyles.modalField}>
+          <span className={modalStyles.modalLabel}>Reason (Optional)</span>
+          <textarea
+            className={modalStyles.modalTextarea}
+            placeholder="Why is this student being marked inactive?"
+            value={reason}
+            onChange={(e) => setReason(e.target.value)}
+          />
+        </label>
+      </div>
     </TeacherModal>
   );
 }

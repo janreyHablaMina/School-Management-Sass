@@ -19,7 +19,6 @@ const ROW_ACTIONS = [
   { icon: '👤', label: 'View Profile' },
   { icon: '✏️', label: 'Edit Student' },
   { icon: '📧', label: 'Message Parent' },
-  { icon: '📊', label: 'View Grades' },
 ] as const;
 
 interface StudentRowProps {
@@ -128,7 +127,6 @@ export function StudentRow({
           onAction={(label) => {
             if (label === 'View Profile') onOpen(student.id);
             if (label === 'Edit Student') onEdit?.(student.id);
-            if (label === 'View Grades') onViewGrades?.(student.id);
             if (label === 'Message Parent') onMessage?.(student.id);
             if (label === 'Mark Inactive') onMarkInactive?.(student.id);
             if (label === 'Restore Active') onRestoreActive?.(student.id);
