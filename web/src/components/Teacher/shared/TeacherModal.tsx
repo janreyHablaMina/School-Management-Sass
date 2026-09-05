@@ -19,6 +19,9 @@ interface TeacherModalProps {
   showClose?: boolean;
 }
 
+import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
+
 export function TeacherModal({
   titleId,
   eyebrow,
@@ -34,6 +37,9 @@ export function TeacherModal({
 }: TeacherModalProps) {
   useLockWorkspaceScroll();
   useEscapeKey(onClose);
+
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   const cardClass = [modalStyles.modalCard, cardClassName].filter(Boolean).join(' ');
 
@@ -63,7 +69,9 @@ export function TeacherModal({
     </>
   );
 
-  return (
+  if (!mounted) return null;
+
+  return createPortal(
     <div
       className={modalStyles.modalOverlay}
       role="dialog"
@@ -80,6 +88,7 @@ export function TeacherModal({
           {body}
         </div>
       )}
-    </div>
+    </div>,
+    document.body
   );
 }

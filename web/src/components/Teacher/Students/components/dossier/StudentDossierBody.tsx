@@ -1,4 +1,5 @@
 'use client';
+import { useState } from 'react';
 
 import type { TeacherNavRequest } from '@/lib/teacher/classFocus';
 import type { StudentGuardian, TeacherStudentRow } from '@/types/teacherStudents';
@@ -12,6 +13,7 @@ import {
   toStudentClassFocus,
   toStudentGradesNav,
 } from '../../studentDisplay';
+import { TeacherModal, modalStyles } from '../../../shared';
 import styles from './dossier.module.css';
 import { DossierFact } from './DossierFact';
 
@@ -56,6 +58,13 @@ export function StudentDossierBody({
   const classFocus = toStudentClassFocus(student);
   const guardian = primaryGuardian(student);
   const activity = buildStudentActivity(student);
+  const [selectedClassIdx, setSelectedClassIdx] = useState(0);
+
+  const activeEnrolledClass = student.enrolledClasses?.[selectedClassIdx] ?? {
+    classLabel: student.classLabel,
+    subject: student.subject,
+    gradeLevel: student.gradeLevel,
+  };
 
   return (
     <section className={styles.dossierBody}>
@@ -82,7 +91,6 @@ export function StudentDossierBody({
         <div className={styles.dossierPanel} role="tabpanel">
           <div className={styles.dossierOverviewGrid}>
             <div className={styles.dossierBlock}>
-              <p className={styles.dossierBlockEyebrow}>Signals</p>
               <h2 className={styles.dossierBlockTitle}>What&apos;s happening</h2>
               <ul className={styles.dossierSignalList}>
                 {activity.map((item) => (
@@ -115,19 +123,44 @@ export function StudentDossierBody({
             <div className={styles.dossierBlock}>
               <p className={styles.dossierBlockEyebrow}>Shortcuts</p>
               <h2 className={styles.dossierBlockTitle}>Open related work</h2>
+              
+              {student.enrolledClasses && student.enrolledClasses.length > 1 && (
+                <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
+                  {student.enrolledClasses.map((cls, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setSelectedClassIdx(idx)}
+                      style={{
+                        background: selectedClassIdx === idx ? 'rgba(245, 200, 66, 0.15)' : 'transparent',
+                        border: `1px solid ${selectedClassIdx === idx ? '#f5c842' : 'rgba(240, 239, 237, 0.3)'}`,
+                        color: selectedClassIdx === idx ? '#f5c842' : 'rgba(240, 239, 237, 0.7)',
+                        padding: '0.4rem 0.8rem',
+                        borderRadius: '999px',
+                        fontSize: '0.75rem',
+                        fontWeight: 600,
+                        cursor: 'pointer',
+                        transition: 'all 0.2s ease',
+                      }}
+                    >
+                      {cls.subject}
+                    </button>
+                  ))}
+                </div>
+              )}
+
               <div className={styles.dossierJumpGrid}>
                 {JUMPS.map((jump) => (
                   <button
                     key={jump.tab}
                     type="button"
                     className={styles.dossierJump}
-                    onClick={() =>
+                    onClick={() => {
                       onNavigate?.(
                         jump.tab === 'Grades'
-                          ? toStudentGradesNav(student)
-                          : { tab: jump.tab, classFocus },
-                      )
-                    }
+                          ? toStudentGradesNav(student, activeEnrolledClass)
+                          : { tab: jump.tab, classFocus: toStudentClassFocus(student, activeEnrolledClass) }
+                      );
+                    }}
                   >
                     <span aria-hidden>{jump.icon}</span>
                     {jump.label}
@@ -284,8 +317,12 @@ export function StudentDossierBody({
             <div className={`${styles.dossierBlock} ${styles.dossierRecordWide}`}>
               <div className={styles.dossierBlockHead}>
                 <div>
-                  <p className={styles.dossierBlockEyebrow}>Classroom</p>
-                  <h2 className={styles.dossierBlockTitle}>This class</h2>
+                  <p className={styles.dossierBlockEyebrow}>Classrooms</p>
+                  <h2 className={styles.dossierBlockTitle}>
+                    {student.enrolledClasses && student.enrolledClasses.length > 1
+                      ? 'Enrolled Classes'
+                      : 'This class'}
+                  </h2>
                 </div>
                 <button
                   type="button"
@@ -296,8 +333,23 @@ export function StudentDossierBody({
                 </button>
               </div>
               <div className={styles.dossierFactList}>
-                <DossierFact label="Class" value={student.classLabel} />
-                <DossierFact label="Subject" value={student.subject} />
+                {student.enrolledClasses && student.enrolledClasses.length > 1 ? (
+                  <>
+                    <DossierFact
+                      label="Classes"
+                      value={student.enrolledClasses.map((c) => c.classLabel).join(', ')}
+                    />
+                    <DossierFact
+                      label="Subjects"
+                      value={student.enrolledClasses.map((c) => c.subject).join(', ')}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <DossierFact label="Class" value={student.classLabel} />
+                    <DossierFact label="Subject" value={student.subject} />
+                  </>
+                )}
                 <DossierFact label="Enrolled" value={details.enrollmentDate} />
                 <DossierFact label="Standing" value={student.status} />
               </div>
