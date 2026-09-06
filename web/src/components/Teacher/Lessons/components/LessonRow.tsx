@@ -13,7 +13,7 @@ const ROW_ACTIONS = [
   { icon: '👁', label: 'View Lesson' },
   { icon: '✎', label: 'Edit Lesson' },
   { icon: '📋', label: 'Duplicate Lesson' },
-  { icon: '📤', label: 'Share Lesson' },
+  { icon: '➕', label: 'Assign Lesson' },
   { icon: '⬇', label: 'Download Lesson' },
 ] as const;
 

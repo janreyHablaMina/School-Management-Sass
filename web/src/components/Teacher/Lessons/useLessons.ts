@@ -177,12 +177,14 @@ export function useLessons(options?: { classFocus?: TeacherClassFocus | null }) 
   const archiveSelected = () => {
     if (selectedIds.length === 0) return;
     setLessons((prev) => archiveRowsByIds(prev, selectedIds));
+    setToast({ title: 'Lessons archived', message: `${selectedIds.length} lessons moved to archive.` });
     clearSelection();
   };
 
   const deleteSelected = () => {
     if (selectedIds.length === 0) return;
     setLessons((prev) => deleteRowsByIds(prev, selectedIds));
+    setToast({ title: 'Lessons deleted', message: `${selectedIds.length} lessons have been deleted.` });
     clearSelection();
   };
 
@@ -194,11 +196,13 @@ export function useLessons(options?: { classFocus?: TeacherClassFocus | null }) 
 
   const archiveItem = (id: string) => {
     setLessons((prev) => archiveRowById(prev, id));
+    setToast({ title: 'Lesson archived', message: 'The lesson has been moved to archive.' });
   };
 
   const deleteItem = (id: string) => {
     setLessons((prev) => deleteRowById(prev, id));
     setSelectedIds((prev) => prev.filter((itemId) => itemId !== id));
+    setToast({ title: 'Lesson deleted', message: 'The lesson has been deleted.' });
   };
 
   const duplicateItem = (id: string) => {

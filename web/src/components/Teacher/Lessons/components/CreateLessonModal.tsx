@@ -120,7 +120,7 @@ export function CreateLessonModal({
             <span className={modalStyles.pathIcon} aria-hidden>
               ✨
             </span>
-            <p className={modalStyles.pathTitle}>Generate with AI</p>
+            <p className={modalStyles.pathTitle}>Generate with PieYah</p>
             <p className={modalStyles.pathCopy}>
               Open Lesson studio and chat to draft a lesson for your class.
             </p>
@@ -129,31 +129,22 @@ export function CreateLessonModal({
           <button
             type="button"
             className={modalStyles.pathCard}
-            onClick={() => startGenerator('upload')}
-            disabled={!onStartGenerator}
+            onClick={() => {
+              setError(null);
+              setStep('manual');
+            }}
           >
             <span className={modalStyles.pathIcon} aria-hidden>
               📎
             </span>
             <p className={modalStyles.pathTitle}>Upload files</p>
             <p className={modalStyles.pathCopy}>
-              Open Lesson studio, attach a PDF/PPT/Word file, then generate.
+              Manually create a lesson by uploading your own PDF, PPT, or Word file.
             </p>
           </button>
         </div>
 
         {error ? <p className={modalStyles.modalError}>{error}</p> : null}
-
-        <button
-          type="button"
-          className={modalStyles.pathLink}
-          onClick={() => {
-            setError(null);
-            setStep('manual');
-          }}
-        >
-          Or create manually
-        </button>
       </TeacherModal>
     );
   }
