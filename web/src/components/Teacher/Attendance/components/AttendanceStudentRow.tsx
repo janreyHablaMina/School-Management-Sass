@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { ChalkBadge, RowActionsMenu } from '../../shared';
+import { ChalkBadge, listStyles, RowActionsMenu, RowSelectCell } from '../../shared';
 import type { AttendanceStudentRow as AttendanceStudentRowType } from '@/types/teacherAttendance';
 import { attendanceStatusAccent } from '../utils';
 import styles from '../attendance.module.css';
@@ -27,16 +27,12 @@ export function AttendanceStudentRow({
   const statusAccent = attendanceStatusAccent(student.status);
 
   return (
-    <tr className={selected ? styles.rowSelected : undefined}>
-      <td className={styles.checkCell}>
-        <input
-          type="checkbox"
-          className={styles.checkbox}
-          checked={selected}
-          onChange={() => onToggle(student.id)}
-          aria-label={`Select ${student.fullName}`}
-        />
-      </td>
+    <tr className={selected ? listStyles.rowSelected : undefined}>
+      <RowSelectCell
+        selected={selected}
+        onToggle={() => onToggle(student.id)}
+        label={`Select ${student.fullName}`}
+      />
       <td>
         <div className={styles.studentCell}>
           <div

@@ -9,7 +9,6 @@ import {
 import type {
   AttendanceStatus,
   AttendanceStudentRow,
-  AttendanceViewMode,
 } from '@/types/teacherAttendance';
 import {
   bindColumnSort,
@@ -41,7 +40,6 @@ export function useAttendance(options?: { classFocus?: TeacherClassFocus | null 
   const {
     metrics,
     classes,
-    viewModes,
     calendarYear: initialYear,
     calendarMonth: initialMonth,
     calendarDays,
@@ -53,7 +51,6 @@ export function useAttendance(options?: { classFocus?: TeacherClassFocus | null 
     : null;
 
   const [selectedClassId, setSelectedClassId] = useState<string | null>(focusedClassId);
-  const [viewMode, setViewMode] = useState<AttendanceViewMode>(viewModes[0]);
   const [viewYear, setViewYear] = useState(initialYear);
   const [viewMonth, setViewMonth] = useState(initialMonth);
   const [selectedYear, setSelectedYear] = useState(initialYear);
@@ -160,11 +157,11 @@ export function useAttendance(options?: { classFocus?: TeacherClassFocus | null 
     setSelectedDay(clampDay(viewYear, viewMonth, day));
   };
 
-  const markStudents = (ids: string[] | 'all', status: AttendanceStatus) => {
-    const idSet = ids === 'all' ? null : new Set(ids);
+  const markStudents = (ids: string[], status: AttendanceStatus) => {
+    const idSet = new Set(ids);
     setStudents((prev) =>
       prev.map((student) => {
-        if (idSet && !idSet.has(student.id)) return student;
+        if (!idSet.has(student.id)) return student;
         return {
           ...student,
           status,
@@ -179,7 +176,6 @@ export function useAttendance(options?: { classFocus?: TeacherClassFocus | null 
   return {
     metrics,
     classes,
-    viewModes,
     selectedDateLabel,
     calendarMonthLabel,
     calendarYear: viewYear,
@@ -190,8 +186,6 @@ export function useAttendance(options?: { classFocus?: TeacherClassFocus | null 
     backToClasses,
     goToPrevMonth,
     goToNextMonth,
-    viewMode,
-    setViewMode,
     selectedDay,
     selectedYear,
     selectedMonth,
@@ -205,7 +199,6 @@ export function useAttendance(options?: { classFocus?: TeacherClassFocus | null 
     sortKey,
     sortDirection,
     handleSort,
-    markAll: (status: AttendanceStatus) => markStudents('all', status),
     markSelected: (status: AttendanceStatus) => {
       if (selectedIds.length === 0) return;
       markStudents(selectedIds, status);

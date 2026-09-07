@@ -6,9 +6,10 @@ import {
   PageHeader,
   PaginationBar,
   SummaryMetrics,
+  TeacherToast,
+  useRowSelection,
 } from '../shared';
 import { useAttendance } from './useAttendance';
-import { AttendanceControls } from './AttendanceControls';
 import { AttendanceTable } from './AttendanceTable';
 import { AttendanceCalendar } from './components/AttendanceCalendar';
 import { AttendanceClassGrid } from './components/AttendanceClassGrid';
@@ -25,10 +26,10 @@ interface AttendanceViewProps {
 }
 
 export function AttendanceView({ classFocus = null }: AttendanceViewProps) {
+  const [toast, setToast] = React.useState<{ title: string; message?: string } | null>(null);
   const {
     metrics,
     classes,
-    viewModes,
     schoolConfig,
     selectedDateLabel,
     calendarMonthLabel,
@@ -38,8 +39,6 @@ export function AttendanceView({ classFocus = null }: AttendanceViewProps) {
     selectedClass,
     openClass,
     backToClasses,
-    viewMode,
-    setViewMode,
     selectedDay,
     selectedYear,
     selectedMonth,
@@ -48,14 +47,13 @@ export function AttendanceView({ classFocus = null }: AttendanceViewProps) {
     goToNextMonth,
     paginatedStudents,
     totalStudents,
-    selectedIds,
+    selectedIds: selectedStudentIds,
     toggleStudent,
     toggleAllVisible,
     allVisibleSelected,
     sortKey,
     sortDirection,
     handleSort,
-    markAll,
     markSelected,
     clearSelection,
     page,
@@ -75,6 +73,24 @@ export function AttendanceView({ classFocus = null }: AttendanceViewProps) {
     endAttendanceSession,
     sessionActive,
   } = useAttendance({ classFocus });
+  const classIds = classes.map((cls) => cls.id);
+  const {
+    selectedIds: selectedClassIds,
+    allVisibleSelected: allClassesSelected,
+    toggle: toggleClass,
+    toggleAllVisible: toggleAllClasses,
+    clearSelection: clearClassSelection,
+  } = useRowSelection<string>({ visibleIds: classIds });
+  const openAttendanceClass = (id: string) => {
+    clearClassSelection();
+    openClass(id);
+  };
+  const exportAttendanceReport = (count = 1) => {
+    setToast({
+      title: count === 1 ? 'Attendance report exported' : `${count} attendance reports exported`,
+      message: 'The report is ready for download.',
+    });
+  };
 
   if (!selectedClass) {
     return (
@@ -83,14 +99,36 @@ export function AttendanceView({ classFocus = null }: AttendanceViewProps) {
           title="Attendance"
           subtitle="Choose a class or section to track and manage attendance."
         >
-          <button type="button" className={listStyles.secondaryBtn}>
+          <button
+            type="button"
+            className={listStyles.secondaryBtn}
+            onClick={() => exportAttendanceReport(classes.length)}
+          >
             ⬇ Export Report
           </button>
         </PageHeader>
 
         <SummaryMetrics metrics={metrics} columns={5} />
 
-        <AttendanceClassGrid classes={classes} onOpen={openClass} />
+        <AttendanceClassGrid
+          classes={classes}
+          selectedIds={selectedClassIds}
+          allVisibleSelected={allClassesSelected}
+          onToggleClass={toggleClass}
+          onToggleAllVisible={toggleAllClasses}
+          onClearSelection={clearClassSelection}
+          onExportSelected={() => exportAttendanceReport(selectedClassIds.length)}
+          onExportClass={() => exportAttendanceReport()}
+          onOpen={openAttendanceClass}
+        />
+
+        {toast ? (
+          <TeacherToast
+            title={toast.title}
+            message={toast.message}
+            onClose={() => setToast(null)}
+          />
+        ) : null}
       </div>
     );
   }
@@ -137,18 +175,10 @@ export function AttendanceView({ classFocus = null }: AttendanceViewProps) {
         />
       </section>
 
-      <AttendanceControls
-        selectedDateLabel={selectedDateLabel}
-        viewModes={viewModes}
-        viewMode={viewMode}
-        onViewModeChange={setViewMode}
-        onMarkAll={markAll}
-      />
-
       <AttendanceTable
         students={paginatedStudents}
         totalStudents={totalStudents}
-        selectedIds={selectedIds}
+        selectedIds={selectedStudentIds}
         allVisibleSelected={allVisibleSelected}
         sortKey={sortKey}
         sortDirection={sortDirection}

@@ -1,9 +1,13 @@
 'use client';
 
 import React from 'react';
-import { listStyles } from '../shared';
+import {
+  DataTable,
+  ResourceBulkBar,
+  SelectAllCheckbox,
+  type DataTableColumn,
+} from '../shared';
 import type { AttendanceStatus, AttendanceStudentRow } from '@/types/teacherAttendance';
-import { AttendanceBulkBar } from './components/AttendanceBulkBar';
 import { AttendanceStudentRow as StudentRow } from './components/AttendanceStudentRow';
 import type { AttendanceSortKey } from './useAttendance';
 import styles from './attendance.module.css';
@@ -22,20 +26,12 @@ interface AttendanceTableProps {
   onClearSelection: () => void;
 }
 
-function sortIcon(
-  columnId: AttendanceSortKey,
-  sortKey: AttendanceSortKey | null,
-  sortDirection: 'asc' | 'desc',
-) {
-  if (!sortKey || sortKey !== columnId) return '↕';
-  return sortDirection === 'asc' ? '↑' : '↓';
-}
-
-const SORTABLE_HEADERS: { id: AttendanceSortKey; label: string }[] = [
-  { id: 'fullName', label: 'Student' },
-  { id: 'status', label: 'Status' },
-  { id: 'time', label: 'Time in' },
-  { id: 'notes', label: 'Notes' },
+const COLUMNS: DataTableColumn[] = [
+  { id: 'fullName', label: 'Student', sortable: true },
+  { id: 'status', label: 'Status', sortable: true },
+  { id: 'time', label: 'Time in', sortable: true },
+  { id: 'notes', label: 'Notes', sortable: true },
+  { id: 'actions', label: 'Actions' },
 ];
 
 export function AttendanceTable({
@@ -62,68 +58,52 @@ export function AttendanceTable({
         </div>
       </div>
 
-      <AttendanceBulkBar
+      <ResourceBulkBar
         selectedCount={selectedCount}
-        onMarkSelected={onMarkSelected}
+        itemLabel="student"
         onClearSelection={onClearSelection}
+        actions={[
+          {
+            label: `Mark present (${selectedCount})`,
+            onClick: () => onMarkSelected('Present'),
+            tone: 'default',
+          },
+          {
+            label: `Mark absent (${selectedCount})`,
+            onClick: () => onMarkSelected('Absent'),
+            tone: 'danger',
+          },
+          {
+            label: `Mark late (${selectedCount})`,
+            onClick: () => onMarkSelected('Late'),
+            tone: 'default',
+          },
+        ]}
       />
 
-      <div className={listStyles.tableWrap}>
-        <table className={`${listStyles.table} ${styles.rosterTable}`} style={{ minWidth: 680 }}>
-          <thead>
-            <tr>
-              <th className={styles.checkCell}>
-                <input
-                  type="checkbox"
-                  className={styles.checkbox}
-                  checked={allVisibleSelected}
-                  onChange={onToggleAllVisible}
-                  aria-label="Select all visible students"
-                />
-              </th>
-              {SORTABLE_HEADERS.map((column) => {
-                const active = sortKey === column.id;
-                return (
-                  <th
-                    key={column.id}
-                    className={listStyles.sortableTh}
-                    aria-sort={
-                      active
-                        ? sortDirection === 'asc'
-                          ? 'ascending'
-                          : 'descending'
-                        : 'none'
-                    }
-                  >
-                    <button
-                      type="button"
-                      className={listStyles.sortButton}
-                      onClick={() => onSort(column.id)}
-                      aria-label={`Sort by ${column.label}`}
-                    >
-                      {column.label}
-                      <span className={listStyles.sortIcon} aria-hidden>
-                        {sortIcon(column.id, sortKey, sortDirection)}
-                      </span>
-                    </button>
-                  </th>
-                );
-              })}
-              <th />
-            </tr>
-          </thead>
-          <tbody>
-            {students.map((student) => (
-              <StudentRow
-                key={student.id}
-                student={student}
-                selected={selectedIds.includes(student.id)}
-                onToggle={onToggleStudent}
-              />
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <DataTable
+        columns={COLUMNS}
+        minWidth={760}
+        sortKey={sortKey}
+        sortDirection={sortDirection}
+        onSort={(key) => onSort(key as AttendanceSortKey)}
+        leadingHeader={
+          <SelectAllCheckbox
+            checked={allVisibleSelected}
+            onChange={onToggleAllVisible}
+            label="Select all visible students"
+          />
+        }
+      >
+        {students.map((student) => (
+          <StudentRow
+            key={student.id}
+            student={student}
+            selected={selectedIds.includes(student.id)}
+            onToggle={onToggleStudent}
+          />
+        ))}
+      </DataTable>
     </section>
   );
 }

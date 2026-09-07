@@ -310,105 +310,6 @@
   text-decoration: underline;
 }
 
-.detailToolbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  gap: 0.85rem;
-  flex-wrap: wrap;
-  padding: 0.85rem 1rem;
-  border: 1.5px dashed rgba(240, 239, 237, 0.2);
-  border-radius: 12px;
-  background: rgba(0, 0, 0, 0.12);
-}
-
-.toolbarLeft,
-.toolbarRight {
-  display: flex;
-  align-items: flex-end;
-  gap: 0.65rem;
-  flex-wrap: wrap;
-}
-
-.dateNav {
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-}
-
-.dateChip {
-  min-width: 132px;
-  border: 1.5px dashed rgba(240, 239, 237, 0.3);
-  border-radius: 8px;
-  background: rgba(0, 0, 0, 0.2);
-  color: #f0efed;
-  padding: 0.5rem 0.75rem;
-  font-size: 0.84rem;
-  font-weight: 600;
-  font-family: inherit;
-  cursor: pointer;
-}
-
-.dateChip:hover {
-  border-color: rgba(245, 200, 66, 0.55);
-  color: #f5c842;
-}
-
-.todayBtn {
-  border: none;
-  background: transparent;
-  color: #f5c842;
-  font-size: 0.8rem;
-  font-weight: 700;
-  cursor: pointer;
-  font-family: inherit;
-  padding: 0.45rem 0.35rem;
-}
-
-.todayBtn:hover {
-  text-decoration: underline;
-}
-
-.toolbarLabel {
-  font-size: 0.65rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: rgba(240, 239, 237, 0.42);
-  align-self: center;
-  margin-right: 0.1rem;
-}
-
-.bulkBtn {
-  border: 1.5px solid transparent;
-  background: rgba(240, 239, 237, 0.04);
-  border-radius: 8px;
-  padding: 0.45rem 0.75rem;
-  font-size: 0.78rem;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: inherit;
-}
-
-.bulkPresent {
-  color: #5cc789;
-  border-color: rgba(92, 199, 137, 0.35);
-}
-
-.bulkAbsent {
-  color: #ff7e93;
-  border-color: rgba(255, 126, 147, 0.35);
-}
-
-.bulkLate {
-  color: #f5a623;
-  border-color: rgba(245, 166, 35, 0.35);
-}
-
-.bulkBtn:hover {
-  background: rgba(240, 239, 237, 0.08);
-}
-
 .rosterPanel {
   border: 2px solid rgba(240, 239, 237, 0.22);
   border-radius: 14px 16px 12px 14px / 16px 12px 14px 13px;
@@ -431,61 +332,6 @@
   gap: 0.65rem;
 }
 
-.bulkBar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 0.85rem;
-  flex-wrap: wrap;
-  padding: 0.7rem 1.1rem;
-  border-bottom: 1px dashed rgba(245, 200, 66, 0.28);
-  background: rgba(245, 200, 66, 0.08);
-}
-
-.bulkBarInfo {
-  display: flex;
-  align-items: center;
-  gap: 0.45rem;
-  font-size: 0.84rem;
-  color: rgba(240, 239, 237, 0.75);
-}
-
-.bulkBarCount {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 1.5rem;
-  height: 1.5rem;
-  padding: 0 0.4rem;
-  border-radius: 999px;
-  background: rgba(245, 200, 66, 0.22);
-  color: #f5c842;
-  font-size: 0.78rem;
-  font-weight: 700;
-}
-
-.bulkBarActions {
-  display: flex;
-  align-items: center;
-  gap: 0.45rem;
-  flex-wrap: wrap;
-}
-
-.clearSelectionBtn {
-  border: none;
-  background: transparent;
-  color: rgba(240, 239, 237, 0.55);
-  font-size: 0.78rem;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: inherit;
-  padding: 0.4rem 0.5rem;
-}
-
-.clearSelectionBtn:hover {
-  color: #f5c842;
-}
-
 .rosterTitle {
   margin: 0;
   font-family: 'Caveat', cursive;
@@ -497,10 +343,6 @@
   margin: 0;
   font-size: 0.78rem;
   color: rgba(240, 239, 237, 0.45);
-}
-
-.rosterTable th {
-  background: transparent;
 }
 
 .studentCell {
@@ -540,17 +382,6 @@
   color: rgba(240, 239, 237, 0.5);
 }
 
-.checkCell {
-  width: 36px;
-}
-
-.checkbox {
-  width: 16px;
-  height: 16px;
-  accent-color: #f5c842;
-  cursor: pointer;
-}
-
 .timeText,
 .notesText {
   color: rgba(240, 239, 237, 0.75);
@@ -559,10 +390,6 @@
 
 .muted {
   color: rgba(240, 239, 237, 0.35);
-}
-
-.rowSelected td {
-  background: rgba(245, 200, 66, 0.06);
 }
 
 /* Live location session */
