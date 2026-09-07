@@ -24,10 +24,10 @@ export const teacherQuizzesPageMock: TeacherQuizzesPageData = {
       accent: '#f5a623',
     },
     {
-      label: 'Average Score',
-      value: '76.4%',
-      subtitle: 'Across all quizzes',
-      icon: '📊',
+      label: 'Unassigned',
+      value: '0',
+      subtitle: 'Not assigned to any class',
+      icon: '📦',
       accent: '#84a9ff',
     },
     {

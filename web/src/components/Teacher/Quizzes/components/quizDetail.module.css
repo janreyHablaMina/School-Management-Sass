@@ -1,0 +1,146 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  align-items: flex-start;
+  padding: 1.35rem;
+  margin-top: 1.25rem;
+  border: 1.5px solid rgba(240, 239, 237, 0.16);
+  border-radius: 8px;
+  background: rgba(240, 239, 237, 0.025);
+}
+
+.titleLine {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+}
+
+.title {
+  margin: 0;
+  color: #f0efed;
+  font-size: 1.55rem;
+  line-height: 1.15;
+}
+
+.description {
+  max-width: 760px;
+  margin: 0.65rem 0 0;
+  color: rgba(240, 239, 237, 0.64);
+  line-height: 1.5;
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 0.9rem;
+}
+
+.schedule {
+  min-width: 170px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  text-align: right;
+  color: rgba(240, 239, 237, 0.58);
+  font-size: 0.86rem;
+}
+
+.schedule strong {
+  color: #f0efed;
+  font-size: 1rem;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.8rem;
+  margin-top: 1rem;
+}
+
+.statCard {
+  min-height: 112px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 1rem;
+  border: 1.5px dashed rgba(240, 239, 237, 0.18);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.16);
+  color: rgba(240, 239, 237, 0.58);
+  font-size: 0.83rem;
+}
+
+.statCard strong {
+  color: #f0efed;
+  font-family: 'Caveat', cursive;
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.statLabel {
+  color: rgba(240, 239, 237, 0.46);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.results {
+  margin-top: 1rem;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.65rem;
+}
+
+.sectionHeader h2 {
+  margin: 0;
+  color: #f0efed;
+  font-size: 1.05rem;
+}
+
+.sectionHeader span {
+  color: rgba(240, 239, 237, 0.52);
+  font-size: 0.84rem;
+}
+
+.studentName {
+  color: #f0efed;
+  font-weight: 700;
+}
+
+.score {
+  color: #5cc789;
+  font-weight: 700;
+}
+
+.muted {
+  color: rgba(240, 239, 237, 0.58);
+}
+
+@media (max-width: 900px) {
+  .header {
+    flex-direction: column;
+  }
+
+  .schedule {
+    text-align: left;
+  }
+
+  .statsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+}

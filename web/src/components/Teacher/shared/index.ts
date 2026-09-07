@@ -35,6 +35,7 @@ export { useLockWorkspaceScroll } from './useLockWorkspaceScroll';
 export { useEscapeKey } from './useEscapeKey';
 export { TeacherModal } from './TeacherModal';
 export { TeacherToast } from './TeacherToast';
+export { ConfirmActionModal } from './ConfirmActionModal';
 export {
   accentFromMap,
   archiveRowById,

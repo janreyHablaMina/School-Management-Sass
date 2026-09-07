@@ -28,6 +28,8 @@ interface QuizRowProps {
   onToggleSelect: (id: string) => void;
   onArchive: (id: string) => void;
   onDelete: (id: string) => void;
+  onDuplicate: (id: string) => void;
+  onViewQuiz: (quiz: TeacherQuizRow) => void;
 }
 
 export function QuizRow({
@@ -36,6 +38,8 @@ export function QuizRow({
   onToggleSelect,
   onArchive,
   onDelete,
+  onDuplicate,
+  onViewQuiz,
 }: QuizRowProps) {
   const attemptRate = Math.round(
     (quiz.attemptCount / Math.max(quiz.totalStudents, 1)) * 100
@@ -50,10 +54,8 @@ export function QuizRow({
       />
       <td>
         <ResourceTitle
-          icon={quiz.icon}
-          accent={quiz.accent}
           title={quiz.title}
-          description={quiz.description}
+          footer={<ChalkBadge label={quiz.status} accent={quizStatusAccent(quiz.status)} />}
         />
       </td>
       <td>
@@ -79,14 +81,14 @@ export function QuizRow({
         />
       </td>
       <td>
-        <ChalkBadge label={quiz.status} accent={quizStatusAccent(quiz.status)} />
-      </td>
-      <td>
         <RowActionsMenu
           label={`More actions for ${quiz.title}`}
           actions={ROW_ACTIONS}
           dangerActions={DANGER_ACTIONS}
           onAction={(actionLabel) => {
+            if (actionLabel === 'View Quiz') onViewQuiz(quiz);
+            if (actionLabel === 'View Results') onViewQuiz(quiz);
+            if (actionLabel === 'Duplicate Quiz') onDuplicate(quiz.id);
             if (actionLabel === 'Archive Quiz') onArchive(quiz.id);
             if (actionLabel === 'Delete Quiz') onDelete(quiz.id);
           }}

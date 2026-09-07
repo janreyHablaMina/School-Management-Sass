@@ -91,6 +91,7 @@ export function useQuizzes(options?: { classFocus?: TeacherClassFocus | null }) 
   );
 
   const [quizzes, setQuizzes] = useState(seed);
+  const [toast, setToast] = useState<{ title: string; message?: string } | null>(null);
   const { sortConfig, sortKey, sortDirection, handleSort: toggleSort } =
     useColumnSort<QuizSortKey>();
 
@@ -130,22 +131,49 @@ export function useQuizzes(options?: { classFocus?: TeacherClassFocus | null }) 
   const archiveSelected = () => {
     if (selectedIds.length === 0) return;
     setQuizzes((prev) => archiveRowsByIds(prev, selectedIds));
+    setToast({
+      title: `${selectedIds.length} Quiz${selectedIds.length === 1 ? '' : 'zes'} archived`,
+    });
     clearSelection();
   };
 
   const deleteSelected = () => {
     if (selectedIds.length === 0) return;
     setQuizzes((prev) => deleteRowsByIds(prev, selectedIds));
+    setToast({
+      title: `${selectedIds.length} Quiz${selectedIds.length === 1 ? '' : 'zes'} deleted`,
+    });
     clearSelection();
   };
 
   const archiveItem = (id: string) => {
     setQuizzes((prev) => archiveRowById(prev, id));
+    setToast({ title: 'Quiz archived' });
   };
 
   const deleteItem = (id: string) => {
     setQuizzes((prev) => deleteRowById(prev, id));
     setSelectedIds((prev) => prev.filter((itemId) => itemId !== id));
+    setToast({ title: 'Quiz deleted' });
+  };
+
+  const duplicateItem = (id: string) => {
+    setQuizzes((prev) => {
+      const itemToCopy = prev.find((item) => item.id === id);
+      if (!itemToCopy) return prev;
+
+      const duplicate: TeacherQuizRow = {
+        ...itemToCopy,
+        id: Date.now().toString(),
+        title: `Copy of ${itemToCopy.title}`,
+        status: 'Draft',
+        attemptCount: 0,
+        averageScore: null,
+      };
+
+      return [duplicate, ...prev];
+    });
+    setToast({ title: 'Quiz duplicated', message: 'A draft copy was added to the list.' });
   };
 
   return {
@@ -166,5 +194,8 @@ export function useQuizzes(options?: { classFocus?: TeacherClassFocus | null }) 
     deleteSelected,
     archiveItem,
     deleteItem,
+    duplicateItem,
+    toast,
+    dismissToast: () => setToast(null),
   };
 }

@@ -22,6 +22,8 @@ interface QuizzesTableProps {
   onDeleteSelected: () => void;
   onArchiveItem: (id: string) => void;
   onDeleteItem: (id: string) => void;
+  onDuplicateItem: (id: string) => void;
+  onViewQuiz: (quiz: TeacherQuizRow) => void;
 }
 
 const COLUMNS: DataTableColumn[] = [
@@ -30,7 +32,6 @@ const COLUMNS: DataTableColumn[] = [
   { id: 'questionCount', label: 'Questions', sortable: true },
   { id: 'dueSortKey', label: 'Due Date / Schedule', sortable: true },
   { id: 'attemptCount', label: 'Attempts', sortable: true },
-  { id: 'status', label: 'Status', sortable: true },
   { id: 'actions', label: 'Actions' },
 ];
 
@@ -48,22 +49,35 @@ export function QuizzesTable({
   onDeleteSelected,
   onArchiveItem,
   onDeleteItem,
+  onDuplicateItem,
+  onViewQuiz,
 }: QuizzesTableProps) {
+  const selectedCount = selectedIds.length;
+  const bulkActions = [
+    {
+      label: `Archive selected (${selectedCount})`,
+      onClick: onArchiveSelected,
+      tone: 'danger' as const,
+    },
+    {
+      label: `Delete selected (${selectedCount})`,
+      onClick: onDeleteSelected,
+      tone: 'danger' as const,
+    },
+  ];
+
   return (
     <div>
       <ResourceBulkBar
-        selectedCount={selectedIds.length}
+        selectedCount={selectedCount}
         itemLabel="quiz"
         onClearSelection={onClearSelection}
-        actions={[
-          { label: 'Archive', onClick: onArchiveSelected, tone: 'danger' },
-          { label: 'Delete', onClick: onDeleteSelected, tone: 'danger' },
-        ]}
+        actions={bulkActions}
       />
 
       <DataTable
         columns={COLUMNS}
-        minWidth={1020}
+        minWidth={920}
         sortKey={sortKey}
         sortDirection={sortDirection}
         onSort={(key) => onSort(key as QuizSortKey)}
@@ -83,6 +97,8 @@ export function QuizzesTable({
             onToggleSelect={onToggle}
             onArchive={onArchiveItem}
             onDelete={onDeleteItem}
+            onDuplicate={onDuplicateItem}
+            onViewQuiz={onViewQuiz}
           />
         ))}
       </DataTable>
