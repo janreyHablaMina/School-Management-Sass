@@ -88,7 +88,6 @@ export function GradesView({
       <GradesFilters
         filters={filters}
         onFilterChange={setFilter}
-        tabs={tabs}
         statuses={filterOptions.statuses}
         terms={filterOptions.terms}
         sorts={filterOptions.sorts}

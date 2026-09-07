@@ -3,6 +3,7 @@ import styles from '../students.module.css';
 import layoutStyles from '../../shared/layout.module.css';
 import { ActionDropdown, ActionDropdownItem, ActionDropdownSeparator } from '@/components/ui/ActionDropdown';
 import { SortKey } from './useTeachers';
+import { ResourceBulkBar } from '@/components/Teacher/shared';
 import { Teacher } from '@/lib/mock/teachers.mock';
 
 interface TeachersTableProps {
@@ -50,6 +51,19 @@ export const TeachersTable: React.FC<TeachersTableProps> = ({
           </button>
         </div>
       </div>
+
+      <ResourceBulkBar
+        selectedCount={selectedTeachers.length}
+        itemLabel="teacher"
+        onClearSelection={() => onSelectAll(false)}
+        actions={[
+          {
+            label: 'Delete',
+            onClick: () => alert('Delete teachers functionality not implemented yet.'),
+            tone: 'danger',
+          }
+        ]}
+      />
 
       <div style={{ overflowX: 'auto' }}>
         <table className={styles.studentsTable}>

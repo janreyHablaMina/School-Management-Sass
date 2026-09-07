@@ -28,6 +28,7 @@ export function StudentsView({
     filters,
     setFilter,
     clearFilters,
+    isDirty,
     filteredCount,
     paginatedStudents,
     page,

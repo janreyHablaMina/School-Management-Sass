@@ -696,3 +696,69 @@
     display: contents;
   }
 }
+
+/* Custom Select */
+.customSelectBtn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1.5px dashed rgba(240, 239, 237, 0.3);
+  border-radius: 8px;
+  color: #f0efed;
+  padding: 0.55rem 0.8rem;
+  font-size: 0.85rem;
+  font-family: inherit;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: 100%;
+}
+.customSelectBtn:focus {
+  border-style: solid;
+  border-color: #f5c842;
+}
+.customSelectArrow {
+  font-size: 0.7rem;
+  color: #f5c842;
+  margin-left: 0.5rem;
+}
+.customSelectMenu {
+  display: flex;
+  flex-direction: column;
+  padding: 0.3rem;
+  max-height: 240px;
+  overflow-y: auto;
+}
+.customSelectMenu::-webkit-scrollbar {
+  width: 6px;
+}
+.customSelectMenu::-webkit-scrollbar-thumb {
+  background: rgba(240, 239, 237, 0.2);
+  border-radius: 4px;
+}
+.customSelectOption {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  border: none;
+  background: transparent;
+  color: #f0efed;
+  font-size: 0.85rem;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.1s;
+}
+.customSelectOption:hover {
+  background: rgba(240, 239, 237, 0.1);
+}
+.customSelectOptionActive {
+  background: rgba(245, 200, 66, 0.15);
+  color: #f5c842;
+  font-weight: 600;
+}
+.customSelectOptionActive:hover {
+  background: rgba(245, 200, 66, 0.25);
+}

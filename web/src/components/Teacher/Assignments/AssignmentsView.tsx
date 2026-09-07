@@ -21,6 +21,8 @@ export function AssignmentsView({ classFocus = null }: AssignmentsViewProps) {
     filterOptions,
     filters,
     setFilter,
+    clearFilters,
+    isDirty,
     filteredCount,
     paginatedAssignments,
     page,
@@ -62,7 +64,6 @@ export function AssignmentsView({ classFocus = null }: AssignmentsViewProps) {
         <ClassroomResourceFilters
           filters={filters}
           onFilterChange={setFilter}
-          tabs={tabs}
           classes={filterOptions.classes}
           subjects={filterOptions.subjects}
           statuses={filterOptions.statuses}
@@ -72,6 +73,8 @@ export function AssignmentsView({ classFocus = null }: AssignmentsViewProps) {
           searchAriaLabel="Search assignments"
           tabsAriaLabel="Assignment views"
           tabsPlacement="after"
+          onClear={clearFilters}
+          isDirty={isDirty}
         />
       }
       itemsCount={paginatedAssignments.length}

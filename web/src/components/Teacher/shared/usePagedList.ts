@@ -51,6 +51,10 @@ export function usePagedList<TItem, TFilters extends Record<string, unknown>>({
     setPage(1);
   };
 
+  const isDirty = Object.keys(initialFilters).some(
+    (key) => filters[key] !== initialFilters[key]
+  );
+
   const rangeStart = filteredCount === 0 ? 0 : (currentPage - 1) * pageSize + 1;
   const rangeEnd = Math.min(currentPage * pageSize, filteredCount);
 
@@ -58,6 +62,7 @@ export function usePagedList<TItem, TFilters extends Record<string, unknown>>({
     filters,
     setFilter,
     clearFilters,
+    isDirty,
     filteredCount,
     paginatedItems,
     page: currentPage,

@@ -61,7 +61,6 @@ export function AnnouncementsView() {
           <AnnouncementsFilters
             filters={filters}
             onFilterChange={setFilter}
-            tabs={tabs}
             audiences={filterOptions.audiences}
             statuses={filterOptions.statuses}
             types={filterOptions.types}

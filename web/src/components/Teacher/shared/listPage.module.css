@@ -839,15 +839,12 @@
   }
 }
 
-@media (max-width: 1400px) {
-  .metricsCols5 {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
 @media (max-width: 1200px) {
   .metricsCols4 {
     grid-template-columns: repeat(2, 1fr);
+  }
+  .metricsCols5 {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 

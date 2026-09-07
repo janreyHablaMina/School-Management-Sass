@@ -62,7 +62,6 @@ export function QuizzesView({ classFocus = null }: QuizzesViewProps) {
         <ClassroomResourceFilters
           filters={filters}
           onFilterChange={setFilter}
-          tabs={tabs}
           classes={filterOptions.classes}
           subjects={filterOptions.subjects}
           statuses={filterOptions.statuses}

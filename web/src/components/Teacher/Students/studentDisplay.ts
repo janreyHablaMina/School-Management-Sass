@@ -27,18 +27,24 @@ export function statusAccent(status: StudentStatus): string {
   return 'rgba(240, 239, 237, 0.55)';
 }
 
-export function toStudentClassFocus(student: TeacherStudentRow): TeacherClassFocus {
+export function toStudentClassFocus(
+  student: TeacherStudentRow,
+  enrolledClass?: { classLabel: string; subject: string; gradeLevel: string }
+): TeacherClassFocus {
   return {
-    gradeSection: student.classLabel,
-    subject: student.subject,
-    gradeLevel: student.gradeLevel,
+    gradeSection: enrolledClass?.classLabel ?? student.classLabel,
+    subject: enrolledClass?.subject ?? student.subject,
+    gradeLevel: enrolledClass?.gradeLevel ?? student.gradeLevel,
   };
 }
 
-export function toStudentGradesNav(student: TeacherStudentRow) {
+export function toStudentGradesNav(
+  student: TeacherStudentRow,
+  enrolledClass?: { classLabel: string; subject: string; gradeLevel: string }
+) {
   return {
     tab: 'Grades' as const,
-    classFocus: toStudentClassFocus(student),
+    classFocus: toStudentClassFocus(student, enrolledClass),
     studentFocus: {
       fullName: student.fullName,
       studentCode: student.studentCode,
@@ -76,42 +82,36 @@ export function buildStudentActivity(student: TeacherStudentRow): StudentActivit
     {
       id: 'attendance',
       tone: presentLikely ? 'ok' : 'warn',
-      title: presentLikely ? 'Marked present today' : 'Absence flagged recently',
+      title: presentLikely ? 'Present to this class' : 'Absent from this class',
       meta: `${student.subject} · ${student.classLabel}`,
       when: 'Today',
       tab: 'Attendance',
     },
     {
-      id: 'grade',
-      tone: gradeTone,
-      title:
-        gradeTone === 'ok'
-          ? `Strong average — ${student.averageGrade.toFixed(1)} (${student.letterGrade})`
-          : gradeTone === 'info'
-            ? `Holding at ${student.averageGrade.toFixed(1)} (${student.letterGrade})`
-            : `Grade needs support — ${student.averageGrade.toFixed(1)} (${student.letterGrade})`,
-      meta: `${student.subject} class standing`,
-      when: 'This week',
+      id: 'quiz',
+      tone: 'ok',
+      title: 'Submitted Quiz: Linear Equations',
+      meta: `Scored ${Math.round(student.averageGrade)}%`,
+      when: 'Yesterday',
       tab: 'Grades',
+    },
+    {
+      id: 'assignment',
+      tone: 'info',
+      title: 'Completed Assignment: Chapter 4',
+      meta: 'On time delivery',
+      when: '2 days ago',
+      tab: 'Assignments',
     },
     {
       id: 'guardian',
       tone: student.status === 'At Risk' ? 'warn' : 'info',
       title:
         student.status === 'At Risk'
-          ? `Follow up with ${guardian?.name ?? 'guardian'}`
-          : `Last note shared with ${guardian?.relationship?.toLowerCase() ?? 'guardian'}`,
+          ? `Missing Homework: Follow up with ${guardian?.name ?? 'guardian'}`
+          : `Note shared with ${guardian?.relationship?.toLowerCase() ?? 'guardian'}`,
       meta: guardian?.phone ?? student.phone,
-      when: student.status === 'At Risk' ? 'Due soon' : '2 days ago',
-    },
-    {
-      id: 'health',
-      tone: student.details.allergies.toLowerCase().includes('none') ? 'info' : 'warn',
-      title: student.details.allergies.toLowerCase().includes('none')
-        ? 'No allergy alerts on file'
-        : `Allergy on file — ${student.details.allergies}`,
-      meta: 'Health record',
-      when: 'On file',
+      when: student.status === 'At Risk' ? 'Due soon' : 'Last week',
     },
   ];
 }

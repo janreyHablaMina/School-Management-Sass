@@ -13,13 +13,14 @@ interface GradesFiltersProps {
   tabs: readonly string[];
   statuses: string[];
   terms: string[];
+  classes: string[];
+  subjects: string[];
   sorts: string[];
 }
 
 export function GradesFilters({
   filters,
   onFilterChange,
-  tabs,
   statuses,
   terms,
   sorts,

@@ -23,11 +23,8 @@ interface ResourceFiltersProps {
   sorts?: string[];
   sortValue?: string;
   onSortChange?: (value: string) => void;
-  tabs?: readonly string[];
-  tabValue?: string;
-  onTabChange?: (tab: string) => void;
-  tabsAriaLabel?: string;
-  tabsPlacement?: 'before' | 'after';
+  onClear?: () => void;
+  isDirty?: boolean;
 }
 
 export function ResourceFilters({
@@ -41,26 +38,11 @@ export function ResourceFilters({
   sorts,
   sortValue,
   onSortChange,
-  tabs,
-  tabValue,
-  onTabChange,
-  tabsAriaLabel,
-  tabsPlacement = 'before',
+  onClear,
+  isDirty = false,
 }: ResourceFiltersProps) {
-  const tabsNode =
-    tabs && tabValue != null && onTabChange ? (
-      <ListTabs
-        tabs={tabs}
-        value={tabValue}
-        onChange={onTabChange}
-        aria-label={tabsAriaLabel}
-      />
-    ) : null;
-
   return (
     <>
-      {tabsPlacement === 'before' ? tabsNode : null}
-
       <div className={styles.filtersPanel}>
         <SearchField
           value={searchTerm}
@@ -80,9 +62,6 @@ export function ResourceFilters({
         ))}
 
         <div className={styles.filterActions}>
-          <button type="button" className={styles.toolBtn}>
-            ⚙ Filters
-          </button>
           {sorts && sortValue != null && onSortChange ? (
             <FilterSelect
               label="Sort by"
@@ -91,10 +70,17 @@ export function ResourceFilters({
               onChange={onSortChange}
             />
           ) : null}
+          {onClear ? (
+            <button
+              type="button"
+              className={isDirty ? styles.toolBtnActive : styles.toolBtn}
+              onClick={onClear}
+            >
+              Reset Filters
+            </button>
+          ) : null}
         </div>
       </div>
-
-      {tabsPlacement === 'after' ? tabsNode : null}
     </>
   );
 }

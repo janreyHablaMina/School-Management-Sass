@@ -30,6 +30,8 @@ export function LessonsView({
     filterOptions,
     filters,
     setFilter,
+    clearFilters,
+    isDirty,
     filteredCount,
     paginatedLessons,
     page,
@@ -98,12 +100,11 @@ export function LessonsView({
           </button>
         }
         metrics={metrics}
-        metricsColumns={4}
+        metricsColumns={5}
         filters={
           <ClassroomResourceFilters
             filters={filters}
             onFilterChange={setFilter}
-            tabs={tabs}
             classes={filterOptions.classes}
             subjects={filterOptions.subjects}
             statuses={filterOptions.statuses}
@@ -113,6 +114,8 @@ export function LessonsView({
             searchAriaLabel="Search lessons"
             tabsAriaLabel="Lesson views"
             tabsPlacement="before"
+            onClear={clearFilters}
+            isDirty={isDirty}
           />
         }
         itemsCount={paginatedLessons.length}

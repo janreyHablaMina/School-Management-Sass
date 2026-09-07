@@ -3,6 +3,7 @@ import styles from './students.module.css';
 import layoutStyles from '../shared/layout.module.css';
 import { ActionDropdown, ActionDropdownItem, ActionDropdownSeparator } from '@/components/ui/ActionDropdown';
 import { SortKey } from './useStudents';
+import { ResourceBulkBar } from '@/components/Teacher/shared';
 
 interface Student {
   id: string;
@@ -62,6 +63,19 @@ export const StudentsTable: React.FC<StudentsTableProps> = ({
           </button>
         </div>
       </div>
+
+      <ResourceBulkBar
+        selectedCount={selectedStudents.length}
+        itemLabel="student"
+        onClearSelection={() => onSelectAll(false)}
+        actions={[
+          {
+            label: 'Delete',
+            onClick: () => alert('Delete students functionality not implemented yet.'),
+            tone: 'danger',
+          }
+        ]}
+      />
 
       <div style={{ overflowX: 'auto' }}>
         <table className={styles.studentsTable}>

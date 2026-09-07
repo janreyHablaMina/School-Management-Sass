@@ -16,22 +16,20 @@ export interface ClassroomFilterShape {
 interface ClassroomResourceFiltersProps<T extends ClassroomFilterShape> {
   filters: T;
   onFilterChange: <K extends keyof T>(key: K, value: T[K]) => void;
-  tabs: readonly string[];
-  classes: string[];
-  subjects: string[];
+  classes?: string[];
+  subjects?: string[];
   statuses: string[];
   types: string[];
   sorts: string[];
   searchPlaceholder: string;
   searchAriaLabel: string;
-  tabsAriaLabel: string;
-  tabsPlacement?: 'before' | 'after';
+  onClear?: () => void;
+  isDirty?: boolean;
 }
 
 export function ClassroomResourceFilters<T extends ClassroomFilterShape>({
   filters,
   onFilterChange,
-  tabs,
   classes,
   subjects,
   statuses,
@@ -39,8 +37,8 @@ export function ClassroomResourceFilters<T extends ClassroomFilterShape>({
   sorts,
   searchPlaceholder,
   searchAriaLabel,
-  tabsAriaLabel,
-  tabsPlacement = 'after',
+  onClear,
+  isDirty = false,
 }: ClassroomResourceFiltersProps<T>) {
   return (
     <ResourceFilters
@@ -59,11 +57,8 @@ export function ClassroomResourceFilters<T extends ClassroomFilterShape>({
       sorts={sorts}
       sortValue={filters.sort}
       onSortChange={(value) => onFilterChange('sort' as keyof T, value as T[keyof T])}
-      tabs={tabs}
-      tabValue={filters.tab}
-      onTabChange={(tab) => onFilterChange('tab' as keyof T, tab as T[keyof T])}
-      tabsAriaLabel={tabsAriaLabel}
-      tabsPlacement={tabsPlacement}
+      onClear={onClear}
+      isDirty={isDirty}
     />
   );
 }

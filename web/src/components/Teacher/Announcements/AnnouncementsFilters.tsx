@@ -10,7 +10,6 @@ interface AnnouncementsFiltersProps {
     key: K,
     value: AnnouncementsFiltersState[K]
   ) => void;
-  tabs: readonly string[];
   audiences: string[];
   statuses: string[];
   types: string[];
@@ -20,7 +19,6 @@ interface AnnouncementsFiltersProps {
 export function AnnouncementsFilters({
   filters,
   onFilterChange,
-  tabs,
   audiences,
   statuses,
   types,

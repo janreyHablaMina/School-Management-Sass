@@ -33,18 +33,6 @@ export function StudentDossierHero({
         <button type="button" className={styles.dossierBack} onClick={onBack}>
           ← All students
         </button>
-        <div className={styles.dossierTopActions}>
-          {onContact ? (
-            <button type="button" className={listStyles.secondaryBtn} onClick={onContact}>
-              Contact Parent
-            </button>
-          ) : null}
-          {onViewGrades ? (
-            <button type="button" className={listStyles.primaryBtn} onClick={onViewGrades}>
-              View Grades
-            </button>
-          ) : null}
-        </div>
       </div>
 
       <div className={styles.dossierIdentity}>

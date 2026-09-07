@@ -30,6 +30,13 @@ export const teacherLessonsPageMock: TeacherLessonsPageData = {
       icon: '📦',
       accent: '#84a9ff',
     },
+    {
+      label: 'Unassigned Lessons',
+      value: '12',
+      subtitle: 'Needs class assignment',
+      icon: '⚠️',
+      accent: '#ff8a8a',
+    },
   ],
   tabs: ['All Lessons', 'By Class', 'By Subject', 'Recently Updated'],
   filterOptions: {

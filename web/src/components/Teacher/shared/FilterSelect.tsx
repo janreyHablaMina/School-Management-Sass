@@ -21,6 +21,7 @@ export function FilterSelect({
     <label className={`${styles.filterField} ${fullWidth ? styles.filterFieldFull : ''}`}>
       <span className={styles.filterLabel}>{label}</span>
       <CustomSelect
+        className={styles.filterSelect}
         value={value}
         onChange={onChange}
         options={options}
