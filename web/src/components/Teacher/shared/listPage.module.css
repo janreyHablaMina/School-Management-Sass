@@ -359,6 +359,14 @@
   background: rgba(245, 200, 66, 0.06);
 }
 
+.clickableRow {
+  cursor: pointer;
+}
+
+.clickableRow:hover td {
+  background: rgba(240, 239, 237, 0.04);
+}
+
 .rowHighlight td {
   background: rgba(92, 199, 137, 0.14);
   box-shadow: inset 0 0 0 1px rgba(92, 199, 137, 0.35);

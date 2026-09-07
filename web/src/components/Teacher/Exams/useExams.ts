@@ -92,6 +92,7 @@ export function useExams(options?: { classFocus?: TeacherClassFocus | null }) {
   );
 
   const [exams, setExams] = useState(seed);
+  const [toast, setToast] = useState<{ title: string; message?: string } | null>(null);
   const { sortConfig, sortKey, sortDirection, handleSort: toggleSort } =
     useColumnSort<ExamSortKey>();
 
@@ -131,22 +132,49 @@ export function useExams(options?: { classFocus?: TeacherClassFocus | null }) {
   const archiveSelected = () => {
     if (selectedIds.length === 0) return;
     setExams((prev) => archiveRowsByIds(prev, selectedIds));
+    setToast({
+      title: `${selectedIds.length} Exam${selectedIds.length === 1 ? '' : 's'} archived`,
+    });
     clearSelection();
   };
 
   const deleteSelected = () => {
     if (selectedIds.length === 0) return;
     setExams((prev) => deleteRowsByIds(prev, selectedIds));
+    setToast({
+      title: `${selectedIds.length} Exam${selectedIds.length === 1 ? '' : 's'} deleted`,
+    });
     clearSelection();
   };
 
   const archiveItem = (id: string) => {
     setExams((prev) => archiveRowById(prev, id));
+    setToast({ title: 'Exam archived' });
   };
 
   const deleteItem = (id: string) => {
     setExams((prev) => deleteRowById(prev, id));
     setSelectedIds((prev) => prev.filter((itemId) => itemId !== id));
+    setToast({ title: 'Exam deleted' });
+  };
+
+  const duplicateItem = (id: string) => {
+    setExams((prev) => {
+      const itemToCopy = prev.find((item) => item.id === id);
+      if (!itemToCopy) return prev;
+
+      const duplicate: TeacherExamRow = {
+        ...itemToCopy,
+        id: Date.now().toString(),
+        title: `Copy of ${itemToCopy.title}`,
+        status: 'Draft',
+        completedCount: 0,
+        averageScore: null,
+      };
+
+      return [duplicate, ...prev];
+    });
+    setToast({ title: 'Exam duplicated', message: 'A draft copy was added to the list.' });
   };
 
   return {
@@ -167,5 +195,8 @@ export function useExams(options?: { classFocus?: TeacherClassFocus | null }) {
     deleteSelected,
     archiveItem,
     deleteItem,
+    duplicateItem,
+    toast,
+    dismissToast: () => setToast(null),
   };
 }

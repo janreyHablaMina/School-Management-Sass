@@ -22,6 +22,8 @@ interface ExamsTableProps {
   onDeleteSelected: () => void;
   onArchiveItem: (id: string) => void;
   onDeleteItem: (id: string) => void;
+  onDuplicateItem: (id: string) => void;
+  onViewExam: (exam: TeacherExamRow) => void;
 }
 
 const COLUMNS: DataTableColumn[] = [
@@ -48,6 +50,8 @@ export function ExamsTable({
   onDeleteSelected,
   onArchiveItem,
   onDeleteItem,
+  onDuplicateItem,
+  onViewExam,
 }: ExamsTableProps) {
   const selectedCount = selectedIds.length;
   const bulkActions = [
@@ -94,6 +98,8 @@ export function ExamsTable({
             onToggleSelect={onToggle}
             onArchive={onArchiveItem}
             onDelete={onDeleteItem}
+            onDuplicate={onDuplicateItem}
+            onViewExam={onViewExam}
           />
         ))}
       </DataTable>
