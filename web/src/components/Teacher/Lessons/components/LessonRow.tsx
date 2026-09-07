@@ -14,6 +14,7 @@ const ROW_ACTIONS = [
   { icon: '✎', label: 'Edit Lesson' },
   { icon: '📋', label: 'Duplicate Lesson' },
   { icon: '📤', label: 'Share Lesson' },
+  { icon: '⬇', label: 'Download Lesson' },
 ] as const;
 
 const DANGER_ACTIONS = [
@@ -28,6 +29,7 @@ interface LessonRowProps {
   onToggleSelect: (id: string) => void;
   onArchive: (id: string) => void;
   onDelete: (id: string) => void;
+  onDuplicate: (id: string) => void;
   onViewLesson: (lesson: TeacherLessonRow) => void;
 }
 
@@ -38,6 +40,7 @@ export function LessonRow({
   onToggleSelect,
   onArchive,
   onDelete,
+  onDuplicate,
   onViewLesson,
 }: LessonRowProps) {
   const rowClass = [
@@ -96,6 +99,10 @@ export function LessonRow({
                 onViewLesson(lesson);
               }
             }
+            if (actionLabel === 'Download Lesson') {
+              alert(`Downloading lesson: ${lesson.title}`);
+            }
+            if (actionLabel === 'Duplicate Lesson') onDuplicate(lesson.id);
             if (actionLabel === 'Archive Lesson') onArchive(lesson.id);
             if (actionLabel === 'Delete Lesson') onDelete(lesson.id);
           }}

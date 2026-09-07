@@ -20,8 +20,10 @@ interface LessonsTableProps {
   onClearSelection: () => void;
   onArchiveSelected: () => void;
   onDeleteSelected: () => void;
+  onDownloadSelected: () => void;
   onArchiveItem: (id: string) => void;
   onDeleteItem: (id: string) => void;
+  onDuplicateItem: (id: string) => void;
   onViewLesson: (lesson: TeacherLessonRow) => void;
   highlightId?: string | null;
 }
@@ -45,8 +47,10 @@ export function LessonsTable({
   onClearSelection,
   onArchiveSelected,
   onDeleteSelected,
+  onDownloadSelected,
   onArchiveItem,
   onDeleteItem,
+  onDuplicateItem,
   onViewLesson,
   highlightId = null,
 }: LessonsTableProps) {
@@ -57,6 +61,7 @@ export function LessonsTable({
         itemLabel="lesson"
         onClearSelection={onClearSelection}
         actions={[
+          { label: 'Download', onClick: onDownloadSelected, tone: 'neutral' },
           { label: 'Archive', onClick: onArchiveSelected, tone: 'danger' },
           { label: 'Delete', onClick: onDeleteSelected, tone: 'danger' },
         ]}
@@ -85,6 +90,7 @@ export function LessonsTable({
             onToggleSelect={onToggle}
             onArchive={onArchiveItem}
             onDelete={onDeleteItem}
+            onDuplicate={onDuplicateItem}
             onViewLesson={onViewLesson}
           />
         ))}

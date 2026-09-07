@@ -50,8 +50,10 @@ export function LessonsView({
     clearSelection,
     archiveSelected,
     deleteSelected,
+    downloadSelected,
     archiveItem,
     deleteItem,
+    duplicateItem,
     isCreateOpen,
     openCreate,
     closeCreate,
@@ -136,8 +138,10 @@ export function LessonsView({
             onClearSelection={clearSelection}
             onArchiveSelected={archiveSelected}
             onDeleteSelected={deleteSelected}
+            onDownloadSelected={downloadSelected}
             onArchiveItem={archiveItem}
             onDeleteItem={deleteItem}
+            onDuplicateItem={duplicateItem}
             onViewLesson={setPreviewLesson}
             highlightId={highlightId}
           />

@@ -186,6 +186,12 @@ export function useLessons(options?: { classFocus?: TeacherClassFocus | null }) 
     clearSelection();
   };
 
+  const downloadSelected = () => {
+    if (selectedIds.length === 0) return;
+    alert(`Downloading ${selectedIds.length} lessons...`);
+    clearSelection();
+  };
+
   const archiveItem = (id: string) => {
     setLessons((prev) => archiveRowById(prev, id));
   };
@@ -193,6 +199,30 @@ export function useLessons(options?: { classFocus?: TeacherClassFocus | null }) 
   const deleteItem = (id: string) => {
     setLessons((prev) => deleteRowById(prev, id));
     setSelectedIds((prev) => prev.filter((itemId) => itemId !== id));
+  };
+
+  const duplicateItem = (id: string) => {
+    setLessons((prev) => {
+      const original = prev.find((item) => item.id === id);
+      if (!original) return prev;
+      
+      const copy: TeacherLessonRow = {
+        ...original,
+        id: `lesson-${Date.now()}`,
+        title: `${original.title} (Copy)`,
+        statusDate: new Date().toLocaleDateString('en-US', {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric',
+        }),
+      };
+      
+      return [copy, ...prev];
+    });
+    setToast({
+      title: 'Lesson duplicated',
+      message: 'A copy of the lesson has been created.',
+    });
   };
 
   const createLesson = (input: CreateLessonInput) => {
@@ -264,8 +294,10 @@ export function useLessons(options?: { classFocus?: TeacherClassFocus | null }) 
     clearSelection,
     archiveSelected,
     deleteSelected,
+    downloadSelected,
     archiveItem,
     deleteItem,
+    duplicateItem,
     isCreateOpen,
     openCreate: () => setIsCreateOpen(true),
     closeCreate: () => setIsCreateOpen(false),
