@@ -29,6 +29,7 @@ interface AssignmentRowProps {
   onToggleSelect: (id: string) => void;
   onArchive: (id: string) => void;
   onDelete: (id: string) => void;
+  onViewAssignment: (id: string) => void;
 }
 
 export function AssignmentRow({
@@ -37,6 +38,7 @@ export function AssignmentRow({
   onToggleSelect,
   onArchive,
   onDelete,
+  onViewAssignment,
 }: AssignmentRowProps) {
   const submissionRate = Math.round(
     (assignment.submittedCount / Math.max(assignment.totalStudents, 1)) * 100
@@ -54,14 +56,15 @@ export function AssignmentRow({
           icon={assignment.icon}
           accent={assignment.accent}
           title={assignment.title}
-          description={assignment.description}
+          footer={
+            <div style={{ marginTop: '0.2rem' }}>
+              <ChalkBadge label={assignment.type} accent={assignmentTypeAccent(assignment.type)} />
+            </div>
+          }
         />
       </td>
       <td>
         <ClassMeta classLabel={assignment.classLabel} subject={assignment.subject} />
-      </td>
-      <td>
-        <ChalkBadge label={assignment.type} accent={assignmentTypeAccent(assignment.type)} />
       </td>
       <td>
         <div className={listStyles.stackMeta}>
@@ -95,6 +98,7 @@ export function AssignmentRow({
           actions={ROW_ACTIONS}
           dangerActions={DANGER_ACTIONS}
           onAction={(actionLabel) => {
+            if (actionLabel === 'View Assignment') onViewAssignment(assignment.id);
             if (actionLabel === 'Archive Assignment') onArchive(assignment.id);
             if (actionLabel === 'Delete Assignment') onDelete(assignment.id);
           }}

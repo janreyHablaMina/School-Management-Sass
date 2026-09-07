@@ -13,7 +13,7 @@ interface ResourceListPageProps {
   notice?: React.ReactNode;
   metrics: TeacherSummaryMetric[];
   metricsColumns?: 4 | 5;
-  filters: React.ReactNode;
+  filters?: React.ReactNode;
   itemsCount: number;
   emptyTitle: string;
   emptyDescription: string;

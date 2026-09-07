@@ -22,12 +22,12 @@ interface AssignmentsTableProps {
   onDeleteSelected: () => void;
   onArchiveItem: (id: string) => void;
   onDeleteItem: (id: string) => void;
+  onViewAssignment: (id: string) => void;
 }
 
 const COLUMNS: DataTableColumn[] = [
   { id: 'title', label: 'Assignment', sortable: true },
   { id: 'classLabel', label: 'Class', sortable: true },
-  { id: 'type', label: 'Type', sortable: true },
   { id: 'dueSortKey', label: 'Due Date', sortable: true },
   { id: 'submittedCount', label: 'Submissions', sortable: true },
   { id: 'averageScore', label: 'Average Score', sortable: true },
@@ -49,6 +49,7 @@ export function AssignmentsTable({
   onDeleteSelected,
   onArchiveItem,
   onDeleteItem,
+  onViewAssignment,
 }: AssignmentsTableProps) {
   return (
     <div>
@@ -57,8 +58,8 @@ export function AssignmentsTable({
         itemLabel="assignment"
         onClearSelection={onClearSelection}
         actions={[
-          { label: 'Archive', onClick: onArchiveSelected, tone: 'danger' },
-          { label: 'Delete', onClick: onDeleteSelected, tone: 'danger' },
+          { label: `Archive selected (${selectedIds.length})`, onClick: onArchiveSelected, tone: 'danger' },
+          { label: `Delete selected (${selectedIds.length})`, onClick: onDeleteSelected, tone: 'danger' },
         ]}
       />
 
@@ -84,6 +85,7 @@ export function AssignmentsTable({
             onToggleSelect={onToggle}
             onArchive={onArchiveItem}
             onDelete={onDeleteItem}
+            onViewAssignment={onViewAssignment}
           />
         ))}
       </DataTable>

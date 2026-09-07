@@ -18,9 +18,9 @@ interface ClassroomResourceFiltersProps<T extends ClassroomFilterShape> {
   onFilterChange: <K extends keyof T>(key: K, value: T[K]) => void;
   classes?: string[];
   subjects?: string[];
-  statuses: string[];
-  types: string[];
-  sorts: string[];
+  statuses?: string[];
+  types?: string[];
+  sorts?: string[];
   searchPlaceholder: string;
   searchAriaLabel: string;
   onClear?: () => void;
@@ -47,10 +47,10 @@ export function ClassroomResourceFilters<T extends ClassroomFilterShape>({
       searchPlaceholder={searchPlaceholder}
       searchAriaLabel={searchAriaLabel}
       selects={[
-        { key: 'classFilter', label: 'Class', options: classes },
-        { key: 'subject', label: 'Subject', options: subjects },
-        { key: 'status', label: 'Status', options: statuses },
-        { key: 'type', label: 'Type', options: types },
+        ...(classes ? [{ key: 'classFilter', label: 'Class', options: classes }] : []),
+        ...(subjects ? [{ key: 'subject', label: 'Subject', options: subjects }] : []),
+        ...(statuses ? [{ key: 'status', label: 'Status', options: statuses }] : []),
+        ...(types ? [{ key: 'type', label: 'Type', options: types }] : []),
       ]}
       getSelectValue={(key) => String(filters[key as keyof T] ?? '')}
       onSelectChange={(key, value) => onFilterChange(key as keyof T, value as T[keyof T])}

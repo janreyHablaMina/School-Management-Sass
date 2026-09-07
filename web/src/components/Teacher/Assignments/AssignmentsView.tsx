@@ -9,6 +9,7 @@ import {
 import type { TeacherClassFocus } from '@/lib/teacher/classFocus';
 import { useAssignments } from './useAssignments';
 import { AssignmentsTable } from './AssignmentsTable';
+import { AssignmentDetailView } from './components/AssignmentDetailView';
 
 interface AssignmentsViewProps {
   classFocus?: TeacherClassFocus | null;
@@ -42,41 +43,35 @@ export function AssignmentsView({ classFocus = null }: AssignmentsViewProps) {
     deleteSelected,
     archiveItem,
     deleteItem,
+    selectedAssignment,
+    openAssignment,
+    backToAssignments,
   } = useAssignments({ classFocus });
+
+  if (selectedAssignment) {
+    return (
+      <AssignmentDetailView
+        assignment={selectedAssignment}
+        onBack={backToAssignments}
+      />
+    );
+  }
 
   return (
     <ResourceListPage
       title="Assignments"
       subtitle="Create, manage and track student assignments."
+      metrics={metrics}
+      metricsColumns={4}
       headerActions={
         <>
-          <button type="button" className={listStyles.secondaryBtn}>
-            + New Folder
-          </button>
           <button type="button" className={listStyles.primaryBtn}>
             + Create New Assignment
           </button>
         </>
       }
-      metrics={metrics}
-      metricsColumns={5}
-      filters={
-        <ClassroomResourceFilters
-          filters={filters}
-          onFilterChange={setFilter}
-          classes={filterOptions.classes}
-          subjects={filterOptions.subjects}
-          statuses={filterOptions.statuses}
-          types={filterOptions.types}
-          sorts={filterOptions.sorts}
-          searchPlaceholder="Search assignments by title or keyword..."
-          searchAriaLabel="Search assignments"
-          tabsAriaLabel="Assignment views"
-          tabsPlacement="after"
-          onClear={clearFilters}
-          isDirty={isDirty}
-        />
-      }
+      metricsColumns={4}
+
       itemsCount={paginatedAssignments.length}
       emptyTitle="No assignments found"
       emptyDescription="Try adjusting your search or filters."
@@ -95,6 +90,7 @@ export function AssignmentsView({ classFocus = null }: AssignmentsViewProps) {
           onDeleteSelected={deleteSelected}
           onArchiveItem={archiveItem}
           onDeleteItem={deleteItem}
+          onViewAssignment={openAssignment}
         />
       }
       rangeStart={rangeStart}

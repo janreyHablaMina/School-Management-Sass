@@ -103,6 +103,15 @@ export function useAssignments(options?: { classFocus?: TeacherClassFocus | null
   );
 
   const [assignments, setAssignments] = useState(seed);
+  const [selectedAssignmentId, setSelectedAssignmentId] = useState<string | null>(null);
+
+  const selectedAssignment = selectedAssignmentId 
+    ? assignments.find((a) => a.id === selectedAssignmentId) || null 
+    : null;
+
+  const openAssignment = (id: string) => setSelectedAssignmentId(id);
+  const backToAssignments = () => setSelectedAssignmentId(null);
+
   const { sortConfig, sortKey, sortDirection, handleSort: toggleSort } =
     useColumnSort<AssignmentSortKey>();
 
@@ -178,5 +187,8 @@ export function useAssignments(options?: { classFocus?: TeacherClassFocus | null
     deleteSelected,
     archiveItem,
     deleteItem,
+    selectedAssignment,
+    openAssignment,
+    backToAssignments,
   };
 }
