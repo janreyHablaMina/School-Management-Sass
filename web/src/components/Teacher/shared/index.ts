@@ -36,6 +36,16 @@ export { useEscapeKey } from './useEscapeKey';
 export { TeacherModal } from './TeacherModal';
 export { TeacherToast } from './TeacherToast';
 export { ConfirmActionModal } from './ConfirmActionModal';
+export { AssessmentDetailPage } from './AssessmentDetailPage';
+export type { AssessmentDetailStat } from './AssessmentDetailPage';
+export { default as assessmentDetailStyles } from './assessmentDetail.module.css';
+export {
+  ASSESSMENT_RESULT_COLUMNS,
+  ASSESSMENT_STUDENTS,
+  assessmentResultStatusAccent,
+  mockScoreFromAverage,
+  visibleAssessmentResultCount,
+} from './assessmentResults';
 export {
   accentFromMap,
   archiveRowById,
@@ -49,5 +59,3 @@ export {
 } from './resourceHelpers';
 export { default as listStyles } from './listPage.module.css';
 export { default as modalStyles } from './teacherModal.module.css';
-
-

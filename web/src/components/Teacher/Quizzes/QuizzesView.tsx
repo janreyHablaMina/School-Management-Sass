@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import dynamic from 'next/dynamic';
 import {
   ClassroomResourceFilters,
   ConfirmActionModal,
@@ -12,7 +13,10 @@ import type { TeacherClassFocus } from '@/lib/teacher/classFocus';
 import type { TeacherQuizRow } from '@/types/teacherQuizzes';
 import { useQuizzes } from './useQuizzes';
 import { QuizzesTable } from './QuizzesTable';
-import { QuizDetailView } from './components/QuizDetailView';
+
+const QuizDetailView = dynamic(() =>
+  import('./components/QuizDetailView').then((mod) => mod.QuizDetailView),
+);
 
 interface QuizzesViewProps {
   classFocus?: TeacherClassFocus | null;
