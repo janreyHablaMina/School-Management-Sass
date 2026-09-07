@@ -22,15 +22,14 @@ interface LessonsTableProps {
   onDeleteSelected: () => void;
   onArchiveItem: (id: string) => void;
   onDeleteItem: (id: string) => void;
+  onViewLesson: (lesson: TeacherLessonRow) => void;
   highlightId?: string | null;
 }
 
 const COLUMNS: DataTableColumn[] = [
   { id: 'title', label: 'Lesson', sortable: true },
   { id: 'classLabel', label: 'Class', sortable: true },
-  { id: 'type', label: 'Type', sortable: true },
   { id: 'status', label: 'Status', sortable: true },
-  { id: 'updatedSortKey', label: 'Last Updated', sortable: true },
   { id: 'actions', label: 'Actions' },
 ];
 
@@ -48,6 +47,7 @@ export function LessonsTable({
   onDeleteSelected,
   onArchiveItem,
   onDeleteItem,
+  onViewLesson,
   highlightId = null,
 }: LessonsTableProps) {
   return (
@@ -85,6 +85,7 @@ export function LessonsTable({
             onToggleSelect={onToggle}
             onArchive={onArchiveItem}
             onDelete={onDeleteItem}
+            onViewLesson={onViewLesson}
           />
         ))}
       </DataTable>

@@ -12,6 +12,7 @@ import { LessonGeneratorView } from './LessonGeneratorView';
 import { useLessons } from './useLessons';
 import { LessonsTable } from './LessonsTable';
 import type { LessonGeneratorSession } from './types';
+import { LessonPreviewModal } from './components/LessonPreviewModal';
 import type { TeacherLessonRow } from '@/types/teacherLessons';
 
 import type { TeacherClassFocus, TeacherNavRequest } from '@/lib/teacher/classFocus';
@@ -62,6 +63,7 @@ export function LessonsView({
   } = useLessons({ classFocus });
 
   const [generator, setGenerator] = useState<LessonGeneratorSession | null>(null);
+  const [previewLesson, setPreviewLesson] = useState<TeacherLessonRow | null>(null);
 
   const handleSaved = useCallback(
     (lessons: TeacherLessonRow[]) => {
@@ -136,6 +138,7 @@ export function LessonsView({
             onDeleteSelected={deleteSelected}
             onArchiveItem={archiveItem}
             onDeleteItem={deleteItem}
+            onViewLesson={setPreviewLesson}
             highlightId={highlightId}
           />
         }
@@ -170,6 +173,13 @@ export function LessonsView({
           onClose={dismissToast}
         />
       ) : null}
+
+      {previewLesson && (
+        <LessonPreviewModal
+          lesson={previewLesson}
+          onClose={() => setPreviewLesson(null)}
+        />
+      )}
     </>
   );
 }

@@ -1,0 +1,206 @@
+.previewModalCard {
+  max-width: 800px;
+  width: 100%;
+}
+
+.previewContainer {
+  padding: 1.5rem;
+  background: var(--bg-primary);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  margin-top: 1rem;
+}
+
+/* Video Preview */
+.videoPreview {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.videoPlaceholder {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #0a1017;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  gap: 1rem;
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.5);
+}
+
+.playIcon {
+  width: 64px;
+  height: 64px;
+  color: #f5c842;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.playIcon:hover {
+  transform: scale(1.1);
+}
+
+.videoDetails h4 {
+  margin: 0 0 0.5rem;
+  color: #f0efed;
+}
+
+.videoDetails p {
+  margin: 0;
+  color: rgba(240, 239, 237, 0.6);
+  font-size: 0.85rem;
+}
+
+/* Document Preview */
+.documentPreview {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  overflow: hidden;
+  height: 60vh;
+}
+
+.documentToolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--border-color);
+  font-size: 0.85rem;
+  color: #f0efed;
+}
+
+.documentActions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.documentActions button {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #f0efed;
+  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.documentActions button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.documentViewer {
+  flex: 1;
+  background: #2a2a2a;
+  padding: 2rem;
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+}
+
+.documentPage {
+  background: #fff;
+  color: #333;
+  width: 100%;
+  max-width: 600px;
+  min-height: 800px;
+  padding: 3rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.documentPage h2 {
+  margin-top: 0;
+}
+
+.mockLines {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
+.mockLine {
+  height: 12px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  width: 100%;
+}
+
+/* Link Preview */
+.linkPreview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 2rem;
+}
+
+.linkCard {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 500px;
+}
+
+.linkIcon {
+  font-size: 2rem;
+}
+
+.linkInfo h4 {
+  margin: 0 0 0.5rem;
+  color: #f0efed;
+}
+
+.linkUrl {
+  color: #3498db;
+  text-decoration: none;
+  font-size: 0.85rem;
+}
+
+.linkUrl:hover {
+  text-decoration: underline;
+}
+
+.openLinkBtn {
+  background: #f5c842;
+  color: #1a1a1a;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.openLinkBtn:hover {
+  opacity: 0.9;
+}
+
+/* Text Preview */
+.textPreview {
+  padding: 1rem;
+}
+
+.textPreview h2 {
+  margin-top: 0;
+  color: #f0efed;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 1rem;
+}
+
+.textBody {
+  margin-top: 1.5rem;
+  color: rgba(240, 239, 237, 0.8);
+  line-height: 1.6;
+}

@@ -28,6 +28,7 @@ interface LessonRowProps {
   onToggleSelect: (id: string) => void;
   onArchive: (id: string) => void;
   onDelete: (id: string) => void;
+  onViewLesson: (lesson: TeacherLessonRow) => void;
 }
 
 export function LessonRow({
@@ -37,6 +38,7 @@ export function LessonRow({
   onToggleSelect,
   onArchive,
   onDelete,
+  onViewLesson,
 }: LessonRowProps) {
   const rowClass = [
     selected ? listStyles.rowSelected : '',
@@ -54,11 +56,12 @@ export function LessonRow({
       />
       <td>
         <ResourceTitle
-          icon={lesson.icon}
-          accent={lesson.accent}
           title={lesson.title}
-          description={lesson.description}
-          footer={`⏱ ${lesson.durationMins} mins`}
+          footer={
+            <div style={{ marginTop: '0.2rem' }}>
+              <ChalkBadge label={lessonTypeLabel(lesson.type)} accent={lessonTypeAccent(lesson.type)} />
+            </div>
+          }
         />
       </td>
       <td>
@@ -67,9 +70,6 @@ export function LessonRow({
           classLabels={lesson.classLabels}
           subject={lesson.subject}
         />
-      </td>
-      <td>
-        <ChalkBadge label={lessonTypeLabel(lesson.type)} accent={lessonTypeAccent(lesson.type)} />
       </td>
       <td>
         <div className={listStyles.stackMeta}>
@@ -82,18 +82,20 @@ export function LessonRow({
           <p className={listStyles.stackMetaSecondary}>{lesson.statusDate}</p>
         </div>
       </td>
-      <td>
-        <div className={listStyles.stackMeta}>
-          <p className={listStyles.stackMetaPrimary}>{lesson.updatedAt}</p>
-          <p className={listStyles.stackMetaSecondary}>by {lesson.updatedBy}</p>
-        </div>
-      </td>
+
       <td>
         <RowActionsMenu
           label={`More actions for ${lesson.title}`}
           actions={ROW_ACTIONS}
           dangerActions={DANGER_ACTIONS}
           onAction={(actionLabel) => {
+            if (actionLabel === 'View Lesson') {
+              if (['PDF', 'Document', 'Presentation'].includes(lesson.type)) {
+                window.open(`/preview/document/${lesson.id}`, '_blank');
+              } else {
+                onViewLesson(lesson);
+              }
+            }
             if (actionLabel === 'Archive Lesson') onArchive(lesson.id);
             if (actionLabel === 'Delete Lesson') onDelete(lesson.id);
           }}
