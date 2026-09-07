@@ -51,17 +51,12 @@ export function ExamRow({
       />
       <td>
         <ResourceTitle
-          icon={exam.icon}
-          accent={exam.accent}
           title={exam.title}
-          description={exam.description}
+          footer={<ChalkBadge label={exam.type} accent={examTypeAccent(exam.type)} />}
         />
       </td>
       <td>
         <ClassMeta classLabel={exam.classLabel} subject={exam.subject} />
-      </td>
-      <td>
-        <ChalkBadge label={exam.type} accent={examTypeAccent(exam.type)} />
       </td>
       <td>
         <div className={listStyles.stackMeta}>

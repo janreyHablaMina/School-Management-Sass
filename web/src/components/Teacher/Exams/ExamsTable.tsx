@@ -27,7 +27,6 @@ interface ExamsTableProps {
 const COLUMNS: DataTableColumn[] = [
   { id: 'title', label: 'Exam', sortable: true },
   { id: 'classLabel', label: 'Class', sortable: true },
-  { id: 'type', label: 'Type', sortable: true },
   { id: 'dueSortKey', label: 'Date / Schedule', sortable: true },
   { id: 'duration', label: 'Duration', sortable: true },
   { id: 'completedCount', label: 'Students', sortable: true },
@@ -50,21 +49,32 @@ export function ExamsTable({
   onArchiveItem,
   onDeleteItem,
 }: ExamsTableProps) {
+  const selectedCount = selectedIds.length;
+  const bulkActions = [
+    {
+      label: `Archive selected (${selectedCount})`,
+      onClick: onArchiveSelected,
+      tone: 'danger' as const,
+    },
+    {
+      label: `Delete selected (${selectedCount})`,
+      onClick: onDeleteSelected,
+      tone: 'danger' as const,
+    },
+  ];
+
   return (
     <div>
       <ResourceBulkBar
-        selectedCount={selectedIds.length}
+        selectedCount={selectedCount}
         itemLabel="exam"
         onClearSelection={onClearSelection}
-        actions={[
-          { label: 'Archive', onClick: onArchiveSelected, tone: 'danger' },
-          { label: 'Delete', onClick: onDeleteSelected, tone: 'danger' },
-        ]}
+        actions={bulkActions}
       />
 
       <DataTable
         columns={COLUMNS}
-        minWidth={1080}
+        minWidth={980}
         sortKey={sortKey}
         sortDirection={sortDirection}
         onSort={(key) => onSort(key as ExamSortKey)}

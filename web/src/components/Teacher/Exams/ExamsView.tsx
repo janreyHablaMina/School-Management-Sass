@@ -17,10 +17,11 @@ interface ExamsViewProps {
 export function ExamsView({ classFocus = null }: ExamsViewProps) {
   const {
     metrics,
-    tabs,
     filterOptions,
     filters,
     setFilter,
+    clearFilters,
+    isDirty,
     filteredCount,
     paginatedExams,
     page,
@@ -47,14 +48,9 @@ export function ExamsView({ classFocus = null }: ExamsViewProps) {
       title="Exams"
       subtitle="Create, manage and monitor all your exams."
       headerActions={
-        <>
-          <button type="button" className={listStyles.secondaryBtn}>
-            + New Folder
-          </button>
-          <button type="button" className={listStyles.primaryBtn}>
-            + Create New Exam
-          </button>
-        </>
+        <button type="button" className={listStyles.primaryBtn}>
+          + Create New Exam
+        </button>
       }
       metrics={metrics}
       metricsColumns={5}
@@ -65,12 +61,10 @@ export function ExamsView({ classFocus = null }: ExamsViewProps) {
           classes={filterOptions.classes}
           subjects={filterOptions.subjects}
           statuses={filterOptions.statuses}
-          types={filterOptions.types}
-          sorts={filterOptions.sorts}
           searchPlaceholder="Search exams by title or keyword..."
           searchAriaLabel="Search exams"
-          tabsAriaLabel="Exam views"
-          tabsPlacement="after"
+          onClear={clearFilters}
+          isDirty={isDirty}
         />
       }
       itemsCount={paginatedExams.length}
