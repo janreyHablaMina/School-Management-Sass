@@ -83,7 +83,6 @@ export function AssignmentsView({ classFocus = null }: AssignmentsViewProps) {
         </>
       }
       metricsColumns={4}
-
       itemsCount={paginatedAssignments.length}
       emptyTitle="No assignments found"
       emptyDescription="Try adjusting your search or filters."

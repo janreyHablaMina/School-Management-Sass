@@ -1,4 +1,4 @@
-export function getInitials(name: string, max = 2): string {
+﻿export function getInitials(name: string, max = 2): string {
   return name
     .split(/\s+/)
     .filter(Boolean)

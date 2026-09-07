@@ -1,7 +1,7 @@
-'use client';
+﻿'use client';
 
 import type { MyClassRow } from '@/types/myClasses';
-import { listStyles, TeacherModal } from '../../shared';
+import { ConfirmActionModal } from '../../shared';
 import styles from '../myClasses.module.css';
 
 interface ArchiveClassModalProps {
@@ -17,63 +17,31 @@ export function ArchiveClassModal({
   onCancel,
   onConfirm,
 }: ArchiveClassModalProps) {
-  const isBulk = !cls && count > 0;
+  const isBulk = !cls && count > 1;
   const title = isBulk
-    ? `${count} class${count === 1 ? '' : 'es'}`
+    ? count + ' classes'
     : (cls?.subject ?? 'Class');
   const copy = isBulk
     ? 'Selected from your class list'
-    : `${cls?.gradeSection ?? ''} · ${cls?.academicYear ?? ''}`;
+    : (cls?.gradeSection ?? '') + ' - ' + (cls?.academicYear ?? '');
 
   return (
-    <TeacherModal
-      titleId="archive-class-title"
-      eyebrow="Archive class"
+    <ConfirmActionModal
       title={title}
       copy={copy}
-      onClose={onCancel}
-      showClose
-      footer={
-        <>
-          <button type="button" className={listStyles.secondaryBtn} onClick={onCancel}>
-            Cancel
-          </button>
-          <button type="button" className={styles.dangerBtn} onClick={onConfirm}>
-            {isBulk ? `Archive ${count}` : 'Archive class'}
-          </button>
-        </>
-      }
+      itemLabel="class"
+      count={isBulk ? count : 1}
+      actionType="archive"
+      onCancel={onCancel}
+      onConfirm={onConfirm}
     >
-      <p className={styles.archiveCopy}>
-        {isBulk ? (
-          <>
-            <strong>{count}</strong> selected class{count === 1 ? '' : 'es'} will move
-            to <strong>Archived</strong> and leave your Active list. You can restore
-            them anytime from the Archived filter.
-          </>
-        ) : (
-          <>
-            This class will move to <strong>Archived</strong> and leave your Active
-            list. You can restore it anytime from the Archived filter.
-          </>
-        )}
-      </p>
       {!isBulk && cls ? (
         <ul className={styles.archiveFacts}>
-          <li>
-            <span>Room</span>
-            <strong>{cls.room}</strong>
-          </li>
-          <li>
-            <span>Students</span>
-            <strong>{cls.studentCount}</strong>
-          </li>
-          <li>
-            <span>Schedule</span>
-            <strong>{cls.schedule}</strong>
-          </li>
+          <li><span>Room</span><strong>{cls.room}</strong></li>
+          <li><span>Students</span><strong>{cls.studentCount}</strong></li>
+          <li><span>Schedule</span><strong>{cls.schedule}</strong></li>
         </ul>
       ) : null}
-    </TeacherModal>
+    </ConfirmActionModal>
   );
 }

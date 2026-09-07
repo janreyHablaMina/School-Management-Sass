@@ -1,8 +1,7 @@
-'use client';
+﻿'use client';
 
 import type { TeacherAssignmentRow } from '@/types/teacherAssignments';
-import { listStyles, TeacherModal } from '../../shared';
-import styles from './confirmAssignmentModal.module.css';
+import { ConfirmActionModal } from '../../shared';
 
 interface ConfirmAssignmentModalProps {
   assignment?: TeacherAssignmentRow | null;
@@ -19,46 +18,23 @@ export function ConfirmAssignmentModal({
   onCancel,
   onConfirm,
 }: ConfirmAssignmentModalProps) {
-  const isBulk = !assignment && count > 0;
+  const isBulk = !assignment && count > 1;
   const title = isBulk
-    ? `${count} assignment${count === 1 ? '' : 's'}`
+    ? count + ' assignments'
     : (assignment?.title ?? 'Assignment');
   const copy = isBulk
     ? 'Selected from your assignments list'
-    : `${assignment?.classLabel ?? ''} · ${assignment?.subject ?? ''}`;
-
-  const isArchive = actionType === 'archive';
+    : (assignment?.classLabel ?? '') + ' - ' + (assignment?.subject ?? '');
 
   return (
-    <TeacherModal
-      titleId={`confirm-${actionType}-assignment-title`}
-      eyebrow={isArchive ? 'Archive assignment' : 'Delete assignment'}
+    <ConfirmActionModal
       title={title}
       copy={copy}
-      onClose={onCancel}
-      showClose
-      footer={
-        <>
-          <button type="button" className={listStyles.secondaryBtn} onClick={onCancel}>
-            Cancel
-          </button>
-          <button type="button" className={styles.dangerBtn} onClick={onConfirm}>
-            {isBulk ? `${isArchive ? 'Archive' : 'Delete'} ${count}` : `${isArchive ? 'Archive' : 'Delete'} assignment`}
-          </button>
-        </>
-      }
-    >
-      <p className={styles.confirmCopy}>
-        {isBulk ? (
-          <>
-            <strong>{count}</strong> selected assignment{count === 1 ? '' : 's'} will {isArchive ? 'move to Archived and leave your Active list. You can restore them anytime from the Archived filter.' : 'be permanently deleted. This action cannot be undone.'}
-          </>
-        ) : (
-          <>
-            This assignment will {isArchive ? 'move to Archived and leave your Active list. You can restore it anytime from the Archived filter.' : 'be permanently deleted. This action cannot be undone.'}
-          </>
-        )}
-      </p>
-    </TeacherModal>
+      itemLabel="assignment"
+      count={isBulk ? count : 1}
+      actionType={actionType}
+      onCancel={onCancel}
+      onConfirm={onConfirm}
+    />
   );
 }
