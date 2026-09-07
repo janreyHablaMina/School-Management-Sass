@@ -11,13 +11,15 @@ import { SubmissionsTable } from './SubmissionsTable';
 interface AssignmentDetailViewProps {
   assignment: TeacherAssignmentRow;
   onBack: () => void;
+  initialTab?: string;
 }
 
 export function AssignmentDetailView({
   assignment,
   onBack,
+  initialTab = 'Instructions & Attachments',
 }: AssignmentDetailViewProps) {
-  const [activeTab, setActiveTab] = useState('Instructions & Attachments');
+  const [activeTab, setActiveTab] = useState(initialTab);
 
   return (
     <div className={listStyles.page} style={{ padding: '2rem' }}>
@@ -27,9 +29,6 @@ export function AssignmentDetailView({
       
       <div className={styles.header}>
         <div className={styles.titleRow}>
-          <div className={styles.icon} style={{ background: `${assignment.accent}22`, color: assignment.accent, borderColor: `${assignment.accent}55` }}>
-            {assignment.icon}
-          </div>
           <div className={styles.titleInfo}>
             <h1 className={styles.title}>{assignment.title}</h1>
             <div className={styles.badges}>

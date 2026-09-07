@@ -29,7 +29,8 @@ interface AssignmentRowProps {
   onToggleSelect: (id: string) => void;
   onArchive: (id: string) => void;
   onDelete: (id: string) => void;
-  onViewAssignment: (id: string) => void;
+  onDuplicate: (id: string) => void;
+  onViewAssignment: (id: string, initialTab?: string) => void;
 }
 
 export function AssignmentRow({
@@ -38,6 +39,7 @@ export function AssignmentRow({
   onToggleSelect,
   onArchive,
   onDelete,
+  onDuplicate,
   onViewAssignment,
 }: AssignmentRowProps) {
   const submissionRate = Math.round(
@@ -45,7 +47,11 @@ export function AssignmentRow({
   );
 
   return (
-    <tr className={selected ? listStyles.rowSelected : undefined}>
+    <tr 
+      className={selected ? listStyles.rowSelected : undefined}
+      onClick={() => onViewAssignment(assignment.id)}
+      style={{ cursor: 'pointer' }}
+    >
       <RowSelectCell
         selected={selected}
         onToggle={() => onToggleSelect(assignment.id)}
@@ -53,8 +59,6 @@ export function AssignmentRow({
       />
       <td>
         <ResourceTitle
-          icon={assignment.icon}
-          accent={assignment.accent}
           title={assignment.title}
           footer={
             <div style={{ marginTop: '0.2rem' }}>
@@ -99,6 +103,8 @@ export function AssignmentRow({
           dangerActions={DANGER_ACTIONS}
           onAction={(actionLabel) => {
             if (actionLabel === 'View Assignment') onViewAssignment(assignment.id);
+            if (actionLabel === 'View Submissions') onViewAssignment(assignment.id, 'Submissions');
+            if (actionLabel === 'Duplicate Assignment') onDuplicate(assignment.id);
             if (actionLabel === 'Archive Assignment') onArchive(assignment.id);
             if (actionLabel === 'Delete Assignment') onDelete(assignment.id);
           }}

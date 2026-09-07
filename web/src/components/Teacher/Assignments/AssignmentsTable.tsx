@@ -22,7 +22,8 @@ interface AssignmentsTableProps {
   onDeleteSelected: () => void;
   onArchiveItem: (id: string) => void;
   onDeleteItem: (id: string) => void;
-  onViewAssignment: (id: string) => void;
+  onDuplicateItem: (id: string) => void;
+  onViewAssignment: (id: string, initialTab?: string) => void;
 }
 
 const COLUMNS: DataTableColumn[] = [
@@ -49,6 +50,7 @@ export function AssignmentsTable({
   onDeleteSelected,
   onArchiveItem,
   onDeleteItem,
+  onDuplicateItem,
   onViewAssignment,
 }: AssignmentsTableProps) {
   return (
@@ -85,6 +87,7 @@ export function AssignmentsTable({
             onToggleSelect={onToggle}
             onArchive={onArchiveItem}
             onDelete={onDeleteItem}
+            onDuplicate={onDuplicateItem}
             onViewAssignment={onViewAssignment}
           />
         ))}

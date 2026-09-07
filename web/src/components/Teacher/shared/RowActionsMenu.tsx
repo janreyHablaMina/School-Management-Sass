@@ -86,7 +86,8 @@ export function RowActionsMenu({
           className={styles.moreBtn}
           aria-label={label}
           aria-expanded={open}
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation();
             if (open) {
               close();
               return;

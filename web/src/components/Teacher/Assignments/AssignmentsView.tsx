@@ -10,12 +10,18 @@ import type { TeacherClassFocus } from '@/lib/teacher/classFocus';
 import { useAssignments } from './useAssignments';
 import { AssignmentsTable } from './AssignmentsTable';
 import { AssignmentDetailView } from './components/AssignmentDetailView';
+import { ConfirmAssignmentModal } from './components/ConfirmAssignmentModal';
+import { TeacherToast } from '../shared/TeacherToast';
 
 interface AssignmentsViewProps {
   classFocus?: TeacherClassFocus | null;
 }
 
 export function AssignmentsView({ classFocus = null }: AssignmentsViewProps) {
+  const [confirmAction, setConfirmAction] = React.useState<{
+    type: 'archive_bulk' | 'delete_bulk' | 'archive_single' | 'delete_single';
+    id?: string;
+  } | null>(null);
   const {
     metrics,
     tabs,
@@ -43,9 +49,13 @@ export function AssignmentsView({ classFocus = null }: AssignmentsViewProps) {
     deleteSelected,
     archiveItem,
     deleteItem,
+    duplicateItem,
     selectedAssignment,
+    selectedAssignmentTab,
     openAssignment,
     backToAssignments,
+    toast,
+    dismissToast,
   } = useAssignments({ classFocus });
 
   if (selectedAssignment) {
@@ -53,11 +63,13 @@ export function AssignmentsView({ classFocus = null }: AssignmentsViewProps) {
       <AssignmentDetailView
         assignment={selectedAssignment}
         onBack={backToAssignments}
+        initialTab={selectedAssignmentTab}
       />
     );
   }
 
   return (
+    <>
     <ResourceListPage
       title="Assignments"
       subtitle="Create, manage and track student assignments."
@@ -86,10 +98,11 @@ export function AssignmentsView({ classFocus = null }: AssignmentsViewProps) {
           onToggle={toggle}
           onToggleAllVisible={toggleAllVisible}
           onClearSelection={clearSelection}
-          onArchiveSelected={archiveSelected}
-          onDeleteSelected={deleteSelected}
-          onArchiveItem={archiveItem}
-          onDeleteItem={deleteItem}
+          onArchiveSelected={() => setConfirmAction({ type: 'archive_bulk' })}
+          onDeleteSelected={() => setConfirmAction({ type: 'delete_bulk' })}
+          onArchiveItem={(id) => setConfirmAction({ type: 'archive_single', id })}
+          onDeleteItem={(id) => setConfirmAction({ type: 'delete_single', id })}
+          onDuplicateItem={duplicateItem}
           onViewAssignment={openAssignment}
         />
       }
@@ -101,5 +114,36 @@ export function AssignmentsView({ classFocus = null }: AssignmentsViewProps) {
       itemLabel="assignments"
       onPageChange={setPage}
     />
+    
+    {toast && (
+      <TeacherToast
+        title={toast.title}
+        message={toast.message}
+        onClose={dismissToast}
+      />
+    )}
+
+    {confirmAction && (
+      <ConfirmAssignmentModal
+        assignment={
+          confirmAction.type.includes('single') && confirmAction.id
+            ? paginatedAssignments.find((a) => a.id === confirmAction.id)
+            : null
+        }
+        count={confirmAction.type.includes('bulk') ? selectedIds.length : 1}
+        actionType={confirmAction.type.includes('archive') ? 'archive' : 'delete'}
+        onCancel={() => setConfirmAction(null)}
+        onConfirm={() => {
+          if (confirmAction.type === 'archive_bulk') archiveSelected();
+          if (confirmAction.type === 'delete_bulk') deleteSelected();
+          if (confirmAction.type === 'archive_single' && confirmAction.id)
+            archiveItem(confirmAction.id);
+          if (confirmAction.type === 'delete_single' && confirmAction.id)
+            deleteItem(confirmAction.id);
+          setConfirmAction(null);
+        }}
+      />
+    )}
+    </>
   );
 }

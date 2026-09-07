@@ -104,13 +104,21 @@ export function useAssignments(options?: { classFocus?: TeacherClassFocus | null
 
   const [assignments, setAssignments] = useState(seed);
   const [selectedAssignmentId, setSelectedAssignmentId] = useState<string | null>(null);
+  const [selectedAssignmentTab, setSelectedAssignmentTab] = useState<string | undefined>();
+  const [toast, setToast] = useState<{ title: string; message?: string } | null>(null);
 
   const selectedAssignment = selectedAssignmentId 
     ? assignments.find((a) => a.id === selectedAssignmentId) || null 
     : null;
 
-  const openAssignment = (id: string) => setSelectedAssignmentId(id);
-  const backToAssignments = () => setSelectedAssignmentId(null);
+  const openAssignment = (id: string, initialTab?: string) => {
+    setSelectedAssignmentId(id);
+    setSelectedAssignmentTab(initialTab);
+  };
+  const backToAssignments = () => {
+    setSelectedAssignmentId(null);
+    setSelectedAssignmentTab(undefined);
+  };
 
   const { sortConfig, sortKey, sortDirection, handleSort: toggleSort } =
     useColumnSort<AssignmentSortKey>();
@@ -151,22 +159,49 @@ export function useAssignments(options?: { classFocus?: TeacherClassFocus | null
   const archiveSelected = () => {
     if (selectedIds.length === 0) return;
     setAssignments((prev) => archiveRowsByIds(prev, selectedIds));
+    setToast({
+      title: `${selectedIds.length} Assignment${selectedIds.length === 1 ? '' : 's'} archived`,
+    });
     clearSelection();
   };
 
   const deleteSelected = () => {
     if (selectedIds.length === 0) return;
     setAssignments((prev) => deleteRowsByIds(prev, selectedIds));
+    setToast({
+      title: `${selectedIds.length} Assignment${selectedIds.length === 1 ? '' : 's'} deleted`,
+    });
     clearSelection();
   };
 
   const archiveItem = (id: string) => {
     setAssignments((prev) => archiveRowById(prev, id));
+    setToast({ title: 'Assignment archived' });
   };
 
   const deleteItem = (id: string) => {
     setAssignments((prev) => deleteRowById(prev, id));
     setSelectedIds((prev) => prev.filter((itemId) => itemId !== id));
+    setToast({ title: 'Assignment deleted' });
+  };
+
+  const duplicateItem = (id: string) => {
+    setAssignments((prev) => {
+      const itemToCopy = prev.find((item) => item.id === id);
+      if (!itemToCopy) return prev;
+      
+      const newId = Date.now().toString();
+      const duplicate: TeacherAssignmentRow = {
+        ...itemToCopy,
+        id: newId,
+        title: `Copy of ${itemToCopy.title}`,
+        status: 'Draft',
+        submittedCount: 0,
+        averageScore: null,
+      };
+      
+      return [duplicate, ...prev];
+    });
   };
 
   return {
@@ -187,8 +222,12 @@ export function useAssignments(options?: { classFocus?: TeacherClassFocus | null
     deleteSelected,
     archiveItem,
     deleteItem,
+    duplicateItem,
     selectedAssignment,
+    selectedAssignmentTab,
     openAssignment,
     backToAssignments,
+    toast,
+    dismissToast: () => setToast(null),
   };
 }
