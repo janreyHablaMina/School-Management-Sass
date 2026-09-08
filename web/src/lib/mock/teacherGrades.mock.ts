@@ -421,42 +421,44 @@ const classes: GradeClassSection[] = [
   },
 ];
 
+const allGrades = classes.flatMap((cls) => cls.grades);
+const totalGrades = allGrades.length;
+const passingStudents = allGrades.filter((grade) => grade.overallScore >= 75).length;
+const atRiskStudents = allGrades.filter(
+  (grade) => grade.status === 'Needs Attention' || grade.overallScore < 75,
+).length;
+const incompleteRecords = allGrades.filter((grade) => grade.status === 'Incomplete').length;
+const missingExamScores = allGrades.filter((grade) => grade.examsAvg === null).length;
+
 export const teacherGradesPageMock: TeacherGradesPageData = {
   metrics: [
     {
-      label: 'Class Average',
-      value: '86.4%',
-      subtitle: 'Across all sections',
-      icon: '📊',
-      accent: '#b68eff',
+      label: 'Students Graded',
+      value: String(totalGrades),
+      subtitle: `${classes.length} active gradebooks`,
+      icon: '👥',
+      accent: '#84a9ff',
     },
     {
-      label: 'Passing Rate',
-      value: '94%',
+      label: 'Passing Students',
+      value: `${passingStudents}/${totalGrades}`,
       subtitle: 'Score ≥ 75%',
       icon: '✅',
       accent: '#5cc789',
     },
     {
-      label: 'Needs Attention',
-      value: '7',
-      subtitle: 'Below 75% or incomplete',
+      label: 'At Risk',
+      value: String(atRiskStudents),
+      subtitle: 'Needs attention or below 75%',
       icon: '⚠️',
       accent: '#f5a623',
     },
     {
-      label: 'Pending Entries',
-      value: '12',
-      subtitle: 'Awaiting scores',
+      label: 'Missing Inputs',
+      value: String(incompleteRecords + missingExamScores),
+      subtitle: `${incompleteRecords} incomplete, ${missingExamScores} exams missing`,
       icon: '📝',
-      accent: '#84a9ff',
-    },
-    {
-      label: 'Top Performers',
-      value: '18',
-      subtitle: 'Letter A / A-',
-      icon: '🏆',
-      accent: '#f5c842',
+      accent: '#ff7e93',
     },
   ],
   classes,

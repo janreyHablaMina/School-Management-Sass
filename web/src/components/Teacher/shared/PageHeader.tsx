@@ -3,7 +3,7 @@ import styles from './listPage.module.css';
 
 interface PageHeaderProps {
   title: string;
-  subtitle: string;
+  subtitle?: string;
   children?: React.ReactNode;
 }
 
@@ -12,7 +12,7 @@ export function PageHeader({ title, subtitle, children }: PageHeaderProps) {
     <div className={styles.header}>
       <div className={styles.headerText}>
         <h1>{title}</h1>
-        <p>{subtitle}</p>
+        {subtitle ? <p>{subtitle}</p> : null}
       </div>
       {children ? <div className={styles.headerActions}>{children}</div> : null}
     </div>

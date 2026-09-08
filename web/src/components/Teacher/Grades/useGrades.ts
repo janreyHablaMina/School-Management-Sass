@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { teacherGradesPageMock } from '@/lib/mock/teacherGrades.mock';
 import {
   findClassIdByFocus,
@@ -25,6 +25,7 @@ import {
 } from '../shared';
 
 const PAGE_SIZE = 8;
+const EMPTY_GRADES: TeacherGradeRow[] = [];
 
 const DEFAULT_FILTERS = {
   searchTerm: '',
@@ -102,6 +103,7 @@ export function useGrades(options?: {
 
   const [selectedClassId, setSelectedClassId] = useState<string | null>(initialClassId);
   const [selectedGradeId, setSelectedGradeId] = useState<string | null>(initialGradeId);
+  const [toast, setToast] = useState<{ title: string; message?: string } | null>(null);
   const { sortConfig, sortKey, sortDirection, handleSort: toggleSort } =
     useColumnSort<GradeSortKey>();
 
@@ -110,7 +112,8 @@ export function useGrades(options?: {
     [classes, selectedClassId],
   );
 
-  const classGrades = selectedClass?.grades ?? [];
+  const classGrades = selectedClass?.grades ?? EMPTY_GRADES;
+  const classIds = useMemo(() => classes.map((cls) => cls.id), [classes]);
 
   const selectedGrade = useMemo(
     () => classGrades.find((item) => item.id === selectedGradeId) ?? null,
@@ -150,8 +153,24 @@ export function useGrades(options?: {
     visibleIds,
     resetKey: selectedClassId,
   });
+  const {
+    selectedIds: selectedClassIds,
+    allVisibleSelected: allVisibleClassesSelected,
+    toggle: toggleClassSelection,
+    toggleAllVisible: toggleAllVisibleClasses,
+    clearSelection: clearClassSelection,
+  } = useRowSelection<string>({
+    visibleIds: classIds,
+    resetKey: 'grades-class-list',
+  });
 
   const handleSort = bindColumnSort(toggleSort, list.setPage);
+
+  useEffect(() => {
+    if (!toast) return;
+    const timer = window.setTimeout(() => setToast(null), 3500);
+    return () => window.clearTimeout(timer);
+  }, [toast]);
 
   const flagSelectedForReview = () => {
     if (selectedIds.length === 0 || !selectedClassId) return;
@@ -176,6 +195,17 @@ export function useGrades(options?: {
     clearSelection();
   };
 
+  const exportSelectedGradebooks = () => {
+    if (selectedClassIds.length === 0) return;
+    setToast({
+      title: 'Gradebooks exported',
+      message: `${selectedClassIds.length} gradebook${
+        selectedClassIds.length === 1 ? '' : 's'
+      } prepared for export.`,
+    });
+    clearClassSelection();
+  };
+
   const openClass = (id: string) => {
     setSelectedGradeId(null);
     setSelectedClassId(id);
@@ -192,6 +222,28 @@ export function useGrades(options?: {
 
   const backToGradebook = () => setSelectedGradeId(null);
 
+  const enterGrades = (id: string) => openClass(id);
+
+  const exportGradebook = (id: string) => {
+    const source = classes.find((cls) => cls.id === id);
+    if (!source) return;
+    setToast({
+      title: 'Gradebook exported',
+      message: `${source.subject} - ${source.gradeSection} is ready for export.`,
+    });
+  };
+
+  const viewClassSummary = (id: string) => {
+    const source = classes.find((cls) => cls.id === id);
+    if (!source) return;
+    setToast({
+      title: 'Class summary',
+      message: `${source.classAverage.toFixed(1)}% average - ${
+        source.needsAttention
+      } at risk - ${source.incomplete} incomplete.`,
+    });
+  };
+
   return {
     metrics,
     classes,
@@ -200,6 +252,9 @@ export function useGrades(options?: {
     selectedClass,
     selectedGrade,
     openClass,
+    enterGrades,
+    exportGradebook,
+    viewClassSummary,
     openGrade,
     backToClasses,
     backToGradebook,
@@ -209,10 +264,18 @@ export function useGrades(options?: {
     sortDirection,
     handleSort,
     selectedIds,
+    selectedClassIds,
     allVisibleSelected,
+    allVisibleClassesSelected,
     toggleStudent: toggle,
+    toggleClassSelection,
     toggleAllVisible,
+    toggleAllVisibleClasses,
     clearSelection,
+    clearClassSelection,
     flagSelectedForReview,
+    exportSelectedGradebooks,
+    toast,
+    dismissToast: () => setToast(null),
   };
 }

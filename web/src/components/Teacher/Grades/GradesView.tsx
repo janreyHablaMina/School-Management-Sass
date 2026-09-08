@@ -6,6 +6,7 @@ import {
   PageHeader,
   PaginationBar,
   SummaryMetrics,
+  TeacherToast,
 } from '../shared';
 import type { TeacherClassFocus, TeacherStudentFocus } from '@/lib/teacher/classFocus';
 import { GradesFilters } from './GradesFilters';
@@ -32,6 +33,9 @@ export function GradesView({
     selectedClass,
     selectedGrade,
     openClass,
+    enterGrades,
+    exportGradebook,
+    viewClassSummary,
     openGrade,
     backToClasses,
     backToGradebook,
@@ -48,27 +52,51 @@ export function GradesView({
     sortDirection,
     handleSort,
     selectedIds,
+    selectedClassIds,
     allVisibleSelected,
+    allVisibleClassesSelected,
     toggleStudent,
+    toggleClassSelection,
     toggleAllVisible,
+    toggleAllVisibleClasses,
     clearSelection,
+    clearClassSelection,
     flagSelectedForReview,
+    exportSelectedGradebooks,
+    toast,
+    dismissToast,
   } = useGrades({ classFocus, studentFocus });
 
   if (!selectedClass) {
     return (
       <div className={listStyles.page}>
-        <PageHeader
-          title="Grades"
-          subtitle="Choose a class or section to open its gradebook."
-        >
+        <PageHeader title="Grades">
           <button type="button" className={listStyles.secondaryBtn}>
             ⬇ Export Report
           </button>
         </PageHeader>
 
-        <SummaryMetrics metrics={metrics} columns={5} />
-        <GradeClassGrid classes={classes} onOpen={openClass} />
+        <SummaryMetrics metrics={metrics} columns={4} />
+        <GradeClassGrid
+          classes={classes}
+          selectedIds={selectedClassIds}
+          allVisibleSelected={allVisibleClassesSelected}
+          onToggleClass={toggleClassSelection}
+          onToggleAllVisible={toggleAllVisibleClasses}
+          onClearSelection={clearClassSelection}
+          onExportSelected={exportSelectedGradebooks}
+          onOpen={openClass}
+          onEnterGrades={enterGrades}
+          onExportClass={exportGradebook}
+          onViewSummary={viewClassSummary}
+        />
+        {toast ? (
+          <TeacherToast
+            title={toast.title}
+            message={toast.message}
+            onClose={dismissToast}
+          />
+        ) : null}
       </div>
     );
   }
@@ -88,6 +116,7 @@ export function GradesView({
       <GradesFilters
         filters={filters}
         onFilterChange={setFilter}
+        tabs={tabs}
         statuses={filterOptions.statuses}
         terms={filterOptions.terms}
         sorts={filterOptions.sorts}
