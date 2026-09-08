@@ -42,7 +42,6 @@ export type GradeSortKey =
   | 'classLabel'
   | 'term'
   | 'overallScore'
-  | 'letterGrade'
   | 'trend'
   | 'status';
 

@@ -9,7 +9,6 @@ import {
 } from '../../shared';
 import type { TeacherGradeRow } from '@/types/teacherGrades';
 import {
-  gradeLetterAccent,
   gradeScoreBarColor,
   gradeStatusAccent,
   gradeTrendAccent,
@@ -34,7 +33,6 @@ interface GradeRowProps {
 }
 
 export function GradeRow({ grade, selected, onToggleSelect, onOpen }: GradeRowProps) {
-  const letterColor = gradeLetterAccent(grade.letterGrade);
   const statusColor = gradeStatusAccent(grade.status);
   const scoreColor = gradeScoreBarColor(grade.overallScore);
   const trendColor = gradeTrendAccent(grade.trend);
@@ -99,25 +97,6 @@ export function GradeRow({ grade, selected, onToggleSelect, onOpen }: GradeRowPr
               style={{ width: `${Math.min(grade.overallScore, 100)}%`, background: scoreColor }}
             />
           </div>
-        </div>
-      </td>
-      <td>
-        <span
-          className={styles.letterBadge}
-          style={{
-            color: letterColor,
-            borderColor: `${letterColor}88`,
-            background: `${letterColor}18`,
-          }}
-        >
-          {grade.letterGrade}
-        </span>
-      </td>
-      <td>
-        <div className={styles.breakdown}>
-          <span>A {grade.assignmentsAvg}%</span>
-          <span>Q {grade.quizzesAvg}%</span>
-          <span>E {grade.examsAvg == null ? '—' : `${grade.examsAvg}%`}</span>
         </div>
       </td>
       <td>

@@ -135,27 +135,6 @@
   font-weight: 700;
 }
 
-.letterBadge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 2.2rem;
-  padding: 0.28rem 0.55rem;
-  border-radius: 8px;
-  border: 1px solid;
-  font-size: 0.82rem;
-  font-weight: 700;
-}
-
-.breakdown {
-  display: flex;
-  flex-direction: column;
-  gap: 0.15rem;
-  font-size: 0.72rem;
-  color: rgba(240, 239, 237, 0.6);
-  white-space: nowrap;
-}
-
 .trendText {
   font-size: 0.8rem;
   font-weight: 600;

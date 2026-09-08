@@ -27,8 +27,6 @@ const COLUMNS: DataTableColumn[] = [
   { id: 'classLabel', label: 'Class', sortable: true },
   { id: 'term', label: 'Term', sortable: true },
   { id: 'overallScore', label: 'Overall', sortable: true },
-  { id: 'letterGrade', label: 'Letter', sortable: true },
-  { id: 'breakdown', label: 'Breakdown' },
   { id: 'trend', label: 'Trend', sortable: true },
   { id: 'status', label: 'Status', sortable: true },
   { id: 'actions', label: 'Actions' },

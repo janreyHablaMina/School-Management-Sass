@@ -65,6 +65,7 @@ export function AnnouncementsView() {
             statuses={filterOptions.statuses}
             types={filterOptions.types}
             sorts={filterOptions.sorts}
+            tabs={tabs}
           />
         }
         itemsCount={paginatedAnnouncements.length}

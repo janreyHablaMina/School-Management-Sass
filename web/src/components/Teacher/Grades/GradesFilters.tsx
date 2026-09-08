@@ -10,19 +10,19 @@ interface GradesFiltersProps {
     key: K,
     value: GradesFiltersState[K]
   ) => void;
-  tabs: readonly string[];
   statuses: string[];
   terms: string[];
-  sorts: string[];
+  onClearFilters: () => void;
+  isDirty: boolean;
 }
 
 export function GradesFilters({
   filters,
   onFilterChange,
-  tabs,
   statuses,
   terms,
-  sorts,
+  onClearFilters,
+  isDirty,
 }: GradesFiltersProps) {
   return (
     <ResourceFilters
@@ -41,14 +41,8 @@ export function GradesFilters({
           value as GradesFiltersState[keyof GradesFiltersState]
         )
       }
-      sorts={sorts}
-      sortValue={filters.sort}
-      onSortChange={(value) => onFilterChange('sort', value as GradesFiltersState['sort'])}
-      tabs={tabs}
-      tabValue={filters.tab}
-      onTabChange={(tab) => onFilterChange('tab', tab as GradesFiltersState['tab'])}
-      tabsAriaLabel="Grade views"
-      tabsPlacement="after"
+      onClear={onClearFilters}
+      isDirty={isDirty}
     />
   );
 }

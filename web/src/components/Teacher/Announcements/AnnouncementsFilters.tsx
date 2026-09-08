@@ -14,6 +14,7 @@ interface AnnouncementsFiltersProps {
   statuses: string[];
   types: string[];
   sorts: string[];
+  tabs: readonly string[];
 }
 
 export function AnnouncementsFilters({
@@ -23,6 +24,7 @@ export function AnnouncementsFilters({
   statuses,
   types,
   sorts,
+  tabs,
 }: AnnouncementsFiltersProps) {
   return (
     <ResourceFilters

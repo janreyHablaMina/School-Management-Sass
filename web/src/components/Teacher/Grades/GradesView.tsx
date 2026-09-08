@@ -28,7 +28,6 @@ export function GradesView({
   const {
     metrics,
     classes,
-    tabs,
     filterOptions,
     selectedClass,
     selectedGrade,
@@ -41,6 +40,8 @@ export function GradesView({
     backToGradebook,
     filters,
     setFilter,
+    clearFilters,
+    isDirty,
     filteredCount,
     paginatedGrades,
     page,
@@ -116,10 +117,10 @@ export function GradesView({
       <GradesFilters
         filters={filters}
         onFilterChange={setFilter}
-        tabs={tabs}
         statuses={filterOptions.statuses}
         terms={filterOptions.terms}
-        sorts={filterOptions.sorts}
+        onClearFilters={clearFilters}
+        isDirty={isDirty}
       />
 
       {paginatedGrades.length === 0 ? (
