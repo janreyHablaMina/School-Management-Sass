@@ -10,11 +10,12 @@ import { useAnnouncements } from './useAnnouncements';
 export function AnnouncementsView() {
   const {
     metrics,
-    tabs,
     filterOptions,
     classroomOptions,
     filters,
     setFilter,
+    clearFilters,
+    isDirty,
     filteredCount,
     paginatedAnnouncements,
     page,
@@ -64,8 +65,8 @@ export function AnnouncementsView() {
             audiences={filterOptions.audiences}
             statuses={filterOptions.statuses}
             types={filterOptions.types}
-            sorts={filterOptions.sorts}
-            tabs={tabs}
+            onClearFilters={clearFilters}
+            isDirty={isDirty}
           />
         }
         itemsCount={paginatedAnnouncements.length}

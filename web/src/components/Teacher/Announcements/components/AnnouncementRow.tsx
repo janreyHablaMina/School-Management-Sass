@@ -47,13 +47,7 @@ export function AnnouncementRow({
       />
       <td>
         <div className={styles.titleCell}>
-          <ResourceTitle
-            icon={announcement.icon}
-            accent={announcement.accent}
-            title={announcement.title}
-            description={announcement.description}
-          />
-          {announcement.pinned ? <span className={styles.pinBadge}>Pinned</span> : null}
+          <ResourceTitle title={announcement.title} />
         </div>
       </td>
       <td>

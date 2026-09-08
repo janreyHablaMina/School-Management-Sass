@@ -13,8 +13,8 @@ interface AnnouncementsFiltersProps {
   audiences: string[];
   statuses: string[];
   types: string[];
-  sorts: string[];
-  tabs: readonly string[];
+  onClearFilters: () => void;
+  isDirty: boolean;
 }
 
 export function AnnouncementsFilters({
@@ -23,8 +23,8 @@ export function AnnouncementsFilters({
   audiences,
   statuses,
   types,
-  sorts,
-  tabs,
+  onClearFilters,
+  isDirty,
 }: AnnouncementsFiltersProps) {
   return (
     <ResourceFilters
@@ -44,16 +44,8 @@ export function AnnouncementsFilters({
           value as AnnouncementsFiltersState[keyof AnnouncementsFiltersState]
         )
       }
-      sorts={sorts}
-      sortValue={filters.sort}
-      onSortChange={(value) =>
-        onFilterChange('sort', value as AnnouncementsFiltersState['sort'])
-      }
-      tabs={tabs}
-      tabValue={filters.tab}
-      onTabChange={(tab) => onFilterChange('tab', tab as AnnouncementsFiltersState['tab'])}
-      tabsAriaLabel="Announcement views"
-      tabsPlacement="after"
+      onClear={onClearFilters}
+      isDirty={isDirty}
     />
   );
 }
