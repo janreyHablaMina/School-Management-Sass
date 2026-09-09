@@ -19,6 +19,8 @@ export interface TeacherAnnouncementRow {
   publishedAt: string;
   createdSortKey: string;
   views: number;
+  imageUrl?: string;
+  imageName?: string;
 }
 
 export type AnnouncementPublishMode = 'publish' | 'draft' | 'schedule';
@@ -33,6 +35,9 @@ export interface CreateAnnouncementInput {
   pinned: boolean;
   publishMode: AnnouncementPublishMode;
   scheduledAt?: string;
+  scheduledTime?: string;
+  imageUrl?: string;
+  imageName?: string;
 }
 
 export interface TeacherAnnouncementsPageData {

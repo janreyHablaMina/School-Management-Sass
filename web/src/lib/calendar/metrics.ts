@@ -12,7 +12,7 @@ export function buildCalendarMetrics(
 
   return [
     {
-      label: 'This Month',
+      label: 'Month Events',
       value: String(monthEvents.length),
       subtitle: 'Scheduled items',
       icon: '📅',

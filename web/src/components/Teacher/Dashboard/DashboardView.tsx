@@ -28,7 +28,7 @@ export function DashboardView({ onNavigate }: DashboardViewProps) {
     deadlines,
   } = teacherPortalMock;
 
-  const goToAi = () => onNavigate?.({ tab: 'AI Assistant' });
+  const goToAi = () => onNavigate?.({ tab: 'PieYah Assistant' });
   const goToCalendar = () => onNavigate?.('Calendar');
   const goToAnnouncements = () => onNavigate?.('Announcements');
   const goToAssignments = () => onNavigate?.('Assignments');

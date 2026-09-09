@@ -103,7 +103,7 @@ export const teacherMenuGroups: NavGroup[] = [
     items: [
       { label: 'Announcements', icon: '📢' },
       { label: 'Calendar', icon: '📅' },
-      { label: 'AI Assistant', icon: '✨' },
+      { label: 'PieYah Assistant', icon: '✨' },
       { label: 'Settings', icon: '⚙️' },
     ],
   },

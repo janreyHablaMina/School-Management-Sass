@@ -43,6 +43,6 @@ export const teacherSettingsMock: TeacherSettingsData = {
     'Grades',
     'Announcements',
     'Calendar',
-    'AI Assistant',
+    'PieYah Assistant',
   ],
 };

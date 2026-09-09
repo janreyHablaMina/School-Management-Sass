@@ -56,6 +56,19 @@ export function AnnouncementDetailView({
         </div>
 
         <p className={styles.detailContent}>{announcement.description}</p>
+
+        {announcement.imageUrl ? (
+          <figure className={styles.detailImageWrap}>
+            <img
+              src={announcement.imageUrl}
+              alt={announcement.imageName || announcement.title}
+              className={styles.detailImage}
+            />
+            {announcement.imageName ? (
+              <figcaption>{announcement.imageName}</figcaption>
+            ) : null}
+          </figure>
+        ) : null}
       </article>
     </div>
   );

@@ -79,7 +79,7 @@ export default function TeacherDashboard() {
         return <AnnouncementsView />;
       case 'Calendar':
         return <CalendarView />;
-      case 'AI Assistant':
+      case 'PieYah Assistant':
         return (
           <AiAssistantView
             classFocus={classFocus}
@@ -130,10 +130,10 @@ export default function TeacherDashboard() {
       </section>
 
       {/* Floating AI Button */}
-      {activeTab !== 'AI Assistant' && (
+      {activeTab !== 'PieYah Assistant' && (
         <button 
           className={styles.floatingAiBtn} 
-          onClick={() => handleTabChange('AI Assistant')}
+          onClick={() => handleTabChange('PieYah Assistant')}
           title="Ask PieYah"
         >
           <img src="/ai-teacher.jpg" alt="AI Teacher" />

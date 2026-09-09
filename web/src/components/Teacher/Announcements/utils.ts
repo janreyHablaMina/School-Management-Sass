@@ -54,6 +54,19 @@ function formatDisplayDate(date: Date) {
   });
 }
 
+function formatScheduledDateTime(dateKey: string, time: string) {
+  const date = new Date(`${dateKey}T${time}:00`);
+  if (Number.isNaN(date.getTime())) return formatDisplayDate(new Date(`${dateKey}T12:00:00`));
+
+  return date.toLocaleString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+  });
+}
+
 function toSortKey(date: Date) {
   const y = date.getFullYear();
   const m = String(date.getMonth() + 1).padStart(2, '0');
@@ -68,7 +81,7 @@ export function buildAnnouncementFromInput(
   const now = new Date();
   const scheduled =
     input.publishMode === 'schedule' && input.scheduledAt
-      ? new Date(`${input.scheduledAt}T12:00:00`)
+      ? new Date(`${input.scheduledAt}T${input.scheduledTime ?? '12:00'}:00`)
       : null;
 
   let status: AnnouncementStatus = 'Draft';
@@ -79,7 +92,7 @@ export function buildAnnouncementFromInput(
     publishedAt = formatDisplayDate(now);
   } else if (input.publishMode === 'schedule' && scheduled && !Number.isNaN(scheduled.getTime())) {
     status = 'Scheduled';
-    publishedAt = formatDisplayDate(scheduled);
+    publishedAt = formatScheduledDateTime(input.scheduledAt, input.scheduledTime ?? '12:00');
   }
 
   return {
@@ -93,5 +106,7 @@ export function buildAnnouncementFromInput(
     publishedAt,
     createdSortKey: toSortKey(now),
     views: 0,
+    imageUrl: input.imageUrl,
+    imageName: input.imageName,
   };
 }

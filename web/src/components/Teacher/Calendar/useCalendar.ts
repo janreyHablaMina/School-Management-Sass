@@ -26,14 +26,41 @@ function shiftMonth(year: number, month: number, delta: number) {
   return { year: date.getFullYear(), month: date.getMonth() + 1 };
 }
 
+function timeToMinutes(time: string) {
+  const match = time.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+  if (!match) return 0;
+
+  const [, hourRaw, minuteRaw, periodRaw] = match;
+  const hour = Number(hourRaw);
+  const minute = Number(minuteRaw);
+  const period = periodRaw.toUpperCase();
+  const normalizedHour = (hour % 12) + (period === 'PM' ? 12 : 0);
+
+  return normalizedHour * 60 + minute;
+}
+
+function findInitialFocus(events: TeacherCalendarEvent[], todayKey: string) {
+  const upcoming = events
+    .filter((event) => event.dateKey >= todayKey)
+    .sort((a, b) => {
+      const dateSort = a.dateKey.localeCompare(b.dateKey);
+      return dateSort || timeToMinutes(a.startTime) - timeToMinutes(b.startTime);
+    });
+
+  return upcoming.find((event) => event.type === 'Class') ?? upcoming[0] ?? null;
+}
+
 export function useCalendar() {
   const { classroomOptions, events: seedEvents } = teacherCalendarPageMock;
   const today = todayParts();
-  const initialKey = toDateKey(today.year, today.month, today.day);
+  const todayKey = toDateKey(today.year, today.month, today.day);
+  const initialFocus = findInitialFocus(seedEvents, todayKey);
+  const initialKey = initialFocus?.dateKey ?? todayKey;
+  const initialDate = parseDateKey(initialKey);
 
   const [events, setEvents] = useState(seedEvents);
-  const [viewYear, setViewYear] = useState(today.year);
-  const [viewMonth, setViewMonth] = useState(today.month);
+  const [viewYear, setViewYear] = useState(initialDate.year);
+  const [viewMonth, setViewMonth] = useState(initialDate.month);
   const [selectedDateKey, setSelectedDateKey] = useState(initialKey);
   const [typeFilter, setTypeFilter] = useState<CalendarFilter>('All');
   const [isDayDetailOpen, setIsDayDetailOpen] = useState(false);

@@ -53,10 +53,15 @@ export function AnnouncementRow({
           <ResourceTitle
             title={announcement.title}
             footer={
-              <ChalkBadge
-                label={announcement.type}
-                accent={announcementTypeAccent(announcement.type)}
-              />
+              <div className={styles.titleBadges}>
+                <ChalkBadge
+                  label={announcement.type}
+                  accent={announcementTypeAccent(announcement.type)}
+                />
+                {announcement.imageUrl ? (
+                  <ChalkBadge label="Image" accent="#84a9ff" />
+                ) : null}
+              </div>
             }
           />
         </div>
