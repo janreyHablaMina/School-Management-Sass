@@ -116,7 +116,7 @@ export function useAnnouncements() {
   const [announcements, setAnnouncements] = useState(seed);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [toast, setToast] = useState<{ title: string; message?: string } | null>(null);
-  const { sortConfig, sortKey, sortDirection, handleSort: toggleSort } =
+  const { sortConfig, sortKey, sortDirection, handleSort: toggleSort, setSortConfig } =
     useColumnSort<AnnouncementSortKey>();
 
   const metrics = useMemo(() => buildMetrics(announcements), [announcements]);
@@ -158,7 +158,22 @@ export function useAnnouncements() {
     const next = buildAnnouncementFromInput(input, `ann-${Date.now()}`);
     setAnnouncements((prev) => [next, ...prev]);
     setIsCreateOpen(false);
+    setSortConfig(null);
+    list.clearFilters();
     list.setPage(1);
+    clearSelection();
+    setToast({
+      title:
+        next.status === 'Published'
+          ? 'Announcement published'
+          : next.status === 'Scheduled'
+            ? 'Announcement scheduled'
+            : 'Draft saved',
+      message:
+        next.status === 'Scheduled' && next.scheduledFor
+          ? `${next.title} will auto-send on ${next.scheduledFor}.`
+          : `${next.title} was added to your announcements.`,
+    });
   };
 
   const archiveSelected = () => {
