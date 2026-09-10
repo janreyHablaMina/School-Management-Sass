@@ -48,6 +48,12 @@ export function AnnouncementDetailView({
               <dt>Date</dt>
               <dd>{announcement.publishedAt}</dd>
             </div>
+            {announcement.scheduledFor ? (
+              <div>
+                <dt>Scheduled Send</dt>
+                <dd>{announcement.scheduledFor}</dd>
+              </div>
+            ) : null}
             <div>
               <dt>Views</dt>
               <dd>{announcement.views}</dd>

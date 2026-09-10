@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import styles from './ui.module.css';
 import { ActionDropdown } from './ActionDropdown';
 
@@ -16,27 +16,34 @@ export function CustomSelect({ value, onChange, options, className }: CustomSele
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [fixedStyle, setFixedStyle] = useState<{ top?: number; bottom?: number; left: number; width: number } | null>(null);
 
-  useEffect(() => {
-    if (isOpen && buttonRef.current) {
-      const rect = buttonRef.current.getBoundingClientRect();
-      const spaceBelow = window.innerHeight - rect.bottom;
-      const spaceAbove = rect.top;
+  const closeSelect = () => {
+    setIsOpen(false);
+    setFixedStyle(null);
+  };
 
-      if (spaceBelow < 260 && spaceAbove > spaceBelow) {
-        setFixedStyle({
-          bottom: window.innerHeight - rect.top + 8,
-          left: rect.left,
-          width: rect.width,
-        });
-      } else {
-        setFixedStyle({
-          top: rect.bottom + 8,
-          left: rect.left,
-          width: rect.width,
-        });
-      }
+  const openSelect = () => {
+    const rect = buttonRef.current?.getBoundingClientRect();
+    if (!rect) return;
+
+    const spaceBelow = window.innerHeight - rect.bottom;
+    const spaceAbove = rect.top;
+
+    if (spaceBelow < 260 && spaceAbove > spaceBelow) {
+      setFixedStyle({
+        bottom: window.innerHeight - rect.top + 8,
+        left: rect.left,
+        width: rect.width,
+      });
+    } else {
+      setFixedStyle({
+        top: rect.bottom + 8,
+        left: rect.left,
+        width: rect.width,
+      });
     }
-  }, [isOpen]);
+
+    setIsOpen(true);
+  };
 
   const getLabel = (val: string) => {
     const opt = options.find(o => typeof o === 'string' ? o === val : o.value === val);
@@ -50,7 +57,7 @@ export function CustomSelect({ value, onChange, options, className }: CustomSele
         ref={buttonRef}
         type="button"
         className={`${styles.customSelectBtn} ${className || ''}`}
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => (isOpen ? closeSelect() : openSelect())}
       >
         <span>{getLabel(value) || 'Select option'}</span>
         <span className={styles.customSelectArrow}>▼</span>
@@ -58,7 +65,7 @@ export function CustomSelect({ value, onChange, options, className }: CustomSele
       
       <ActionDropdown
         isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
+        onClose={closeSelect}
         menuClassName={styles.actionDropdownMenuNoPadding}
         fixedStyle={
           fixedStyle
@@ -77,7 +84,7 @@ export function CustomSelect({ value, onChange, options, className }: CustomSele
                 className={`${styles.customSelectOption} ${optValue === value ? styles.customSelectOptionSelected : ''}`}
                 onClick={() => {
                   onChange(optValue);
-                  setIsOpen(false);
+                  closeSelect();
                 }}
               >
                 {optLabel}

@@ -41,6 +41,15 @@ export function AnnouncementRow({
   onArchive,
   onDelete,
 }: AnnouncementRowProps) {
+  const dateLabel =
+    announcement.status === 'Scheduled' && announcement.scheduledFor
+      ? announcement.scheduledFor
+      : announcement.publishedAt;
+  const dateMeta =
+    announcement.status === 'Scheduled' && announcement.scheduledFor
+      ? 'Scheduled send'
+      : `${announcement.views} views`;
+
   return (
     <tr className={selected ? listStyles.rowSelected : undefined}>
       <RowSelectCell
@@ -77,8 +86,8 @@ export function AnnouncementRow({
       </td>
       <td>
         <div className={listStyles.stackMeta}>
-          <p className={listStyles.stackMetaPrimary}>{announcement.publishedAt}</p>
-          <p className={listStyles.stackMetaSecondary}>{announcement.views} views</p>
+          <p className={listStyles.stackMetaPrimary}>{dateLabel}</p>
+          <p className={listStyles.stackMetaSecondary}>{dateMeta}</p>
         </div>
       </td>
       <td>

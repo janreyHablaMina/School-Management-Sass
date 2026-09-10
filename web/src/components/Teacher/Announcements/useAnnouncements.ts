@@ -29,25 +29,24 @@ const PAGE_SIZE = 8;
 
 const DEFAULT_FILTERS = {
   searchTerm: '',
-  classFilter: 'All Audiences',
+  recipientFilter: 'All Recipients',
   status: 'All Status' as 'All Status' | AnnouncementStatus,
   type: 'All Types' as 'All Types' | AnnouncementType,
 };
 
 export type AnnouncementsFiltersState = typeof DEFAULT_FILTERS;
 
-function matchesAudience(row: TeacherAnnouncementRow, classFilter: string) {
-  if (classFilter === 'All Audiences') return true;
-  if (row.audience === classFilter) return true;
-  if (classFilter === 'All Classes' && row.audience.includes('All Classes')) return true;
-  if (classFilter === 'Parents' && row.audience.includes('Parents')) return true;
-  return row.audience.split(', ').includes(classFilter);
+function matchesRecipient(row: TeacherAnnouncementRow, recipientFilter: string) {
+  if (recipientFilter === 'All Recipients') return true;
+  if (recipientFilter === 'Parents') return row.audience.includes('Parents');
+  if (recipientFilter === 'Students') return row.audience !== 'Parents';
+  return true;
 }
 
 function matchesAnnouncement(row: TeacherAnnouncementRow, filters: AnnouncementsFiltersState) {
   return (
     matchesSearch(filters.searchTerm, [row.title, row.description, row.audience]) &&
-    matchesAudience(row, filters.classFilter) &&
+    matchesRecipient(row, filters.recipientFilter) &&
     matchesAllOrExact(filters.status, row.status, 'All Status') &&
     matchesAllOrExact(filters.type, row.type, 'All Types')
   );
@@ -203,6 +202,7 @@ export function useAnnouncements() {
         status: 'Draft',
         pinned: false,
         publishedAt: 'Not published',
+        scheduledFor: undefined,
         createdSortKey: new Date().toISOString().slice(0, 10),
         views: 0,
       };

@@ -82,9 +82,6 @@ export function AnnouncementsView() {
         subtitle="Create and manage updates for your classes and parents."
         headerActions={
           <>
-            <button type="button" className={listStyles.secondaryBtn}>
-              ⬇ Export
-            </button>
             <button type="button" className={listStyles.primaryBtn} onClick={openCreate}>
               + New Announcement
             </button>
@@ -96,7 +93,7 @@ export function AnnouncementsView() {
           <AnnouncementsFilters
             filters={filters}
             onFilterChange={setFilter}
-            audiences={filterOptions.audiences}
+            recipients={filterOptions.recipients}
             statuses={filterOptions.statuses}
             types={filterOptions.types}
             onClearFilters={clearFilters}

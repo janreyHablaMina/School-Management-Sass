@@ -10,7 +10,7 @@ interface AnnouncementsFiltersProps {
     key: K,
     value: AnnouncementsFiltersState[K]
   ) => void;
-  audiences: string[];
+  recipients: string[];
   statuses: string[];
   types: string[];
   onClearFilters: () => void;
@@ -20,7 +20,7 @@ interface AnnouncementsFiltersProps {
 export function AnnouncementsFilters({
   filters,
   onFilterChange,
-  audiences,
+  recipients,
   statuses,
   types,
   onClearFilters,
@@ -33,7 +33,7 @@ export function AnnouncementsFilters({
       searchPlaceholder="Search announcements by title or keyword..."
       searchAriaLabel="Search announcements"
       selects={[
-        { key: 'classFilter', label: 'Audience', options: audiences },
+        { key: 'recipientFilter', label: 'Recipient', options: recipients },
         { key: 'status', label: 'Status', options: statuses },
         { key: 'type', label: 'Type', options: types },
       ]}

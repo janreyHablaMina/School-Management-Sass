@@ -17,6 +17,7 @@ export interface TeacherAnnouncementRow {
   status: AnnouncementStatus;
   pinned: boolean;
   publishedAt: string;
+  scheduledFor?: string;
   createdSortKey: string;
   views: number;
   imageUrl?: string;
@@ -44,7 +45,7 @@ export interface TeacherAnnouncementsPageData {
   announcements: TeacherAnnouncementRow[];
   classroomOptions: string[];
   filterOptions: {
-    audiences: string[];
+    recipients: string[];
     statuses: Array<'All Status' | AnnouncementStatus>;
     types: Array<'All Types' | AnnouncementType>;
   };

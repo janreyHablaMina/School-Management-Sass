@@ -86,13 +86,15 @@ export function buildAnnouncementFromInput(
 
   let status: AnnouncementStatus = 'Draft';
   let publishedAt = '—';
+  let scheduledFor: string | undefined;
 
   if (input.publishMode === 'publish') {
     status = 'Published';
     publishedAt = formatDisplayDate(now);
   } else if (input.publishMode === 'schedule' && scheduled && !Number.isNaN(scheduled.getTime())) {
     status = 'Scheduled';
-    publishedAt = formatScheduledDateTime(input.scheduledAt, input.scheduledTime ?? '12:00');
+    scheduledFor = formatScheduledDateTime(input.scheduledAt, input.scheduledTime ?? '12:00');
+    publishedAt = 'Not published';
   }
 
   return {
@@ -104,6 +106,7 @@ export function buildAnnouncementFromInput(
     status,
     pinned: input.pinned,
     publishedAt,
+    scheduledFor,
     createdSortKey: toSortKey(now),
     views: 0,
     imageUrl: input.imageUrl,
