@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import styles from './ui.module.css';
 import { ActionDropdown } from './ActionDropdown';
 
@@ -15,27 +15,34 @@ export function TimePicker({ value, onChange, className }: TimePickerProps) {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [fixedStyle, setFixedStyle] = useState<{ top?: number; bottom?: number; left: number; width: number } | null>(null);
 
-  useEffect(() => {
-    if (isOpen && buttonRef.current) {
-      const rect = buttonRef.current.getBoundingClientRect();
-      const spaceBelow = window.innerHeight - rect.bottom;
-      const spaceAbove = rect.top;
+  const closePicker = () => {
+    setIsOpen(false);
+    setFixedStyle(null);
+  };
 
-      if (spaceBelow < 260 && spaceAbove > spaceBelow) {
-        setFixedStyle({
-          bottom: window.innerHeight - rect.top + 8,
-          left: rect.left,
-          width: rect.width,
-        });
-      } else {
-        setFixedStyle({
-          top: rect.bottom + 8,
-          left: rect.left,
-          width: rect.width,
-        });
-      }
+  const openPicker = () => {
+    const rect = buttonRef.current?.getBoundingClientRect();
+    if (!rect) return;
+
+    const spaceBelow = window.innerHeight - rect.bottom;
+    const spaceAbove = rect.top;
+
+    if (spaceBelow < 260 && spaceAbove > spaceBelow) {
+      setFixedStyle({
+        bottom: window.innerHeight - rect.top + 8,
+        left: rect.left,
+        width: rect.width,
+      });
+    } else {
+      setFixedStyle({
+        top: rect.bottom + 8,
+        left: rect.left,
+        width: rect.width,
+      });
     }
-  }, [isOpen]);
+
+    setIsOpen(true);
+  };
 
   const [hourRaw, minuteRaw] = (value || '08:00').split(':');
   const hour24 = parseInt(hourRaw, 10) || 8;
@@ -77,7 +84,7 @@ export function TimePicker({ value, onChange, className }: TimePickerProps) {
         ref={buttonRef}
         type='button'
         className={`${styles.customSelectBtn} ${className || ''}`}
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => (isOpen ? closePicker() : openPicker())}
       >
         <span>
           {String(currentHour12).padStart(2, '0')}:{String(minute).padStart(2, '0')} {currentPeriod}
@@ -87,7 +94,7 @@ export function TimePicker({ value, onChange, className }: TimePickerProps) {
 
       <ActionDropdown
         isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
+        onClose={closePicker}
         fixedStyle={
           fixedStyle
             ? { top: fixedStyle.top, bottom: fixedStyle.bottom, left: fixedStyle.left }

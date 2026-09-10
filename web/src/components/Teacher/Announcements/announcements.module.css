@@ -262,6 +262,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.85rem;
+  margin-top: 0.95rem;
   padding: 0.9rem;
   border: 1.5px dashed rgba(132, 169, 255, 0.45);
   border-radius: 10px;
@@ -288,6 +289,18 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(140px, 0.65fr);
   gap: 0.75rem;
+}
+
+.scheduleField button {
+  min-height: 50px;
+  border-color: rgba(240, 239, 237, 0.28);
+  background: rgba(0, 0, 0, 0.22);
+}
+
+.scheduleField button:focus {
+  border-style: solid;
+  border-color: rgba(245, 200, 66, 0.65);
+  background: rgba(245, 200, 66, 0.07);
 }
 
 .radioOption input,

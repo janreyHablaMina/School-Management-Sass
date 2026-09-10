@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useEffect, useId, useRef, useState } from 'react';
+import { DatePicker } from '@/components/ui/DatePicker';
+import { TimePicker } from '@/components/ui/TimePicker';
 import { listStyles, modalStyles, useLockWorkspaceScroll } from '../../shared';
 import type {
   AnnouncementPublishMode,
@@ -38,6 +40,19 @@ function toDateInputValue(date: Date) {
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const day = String(date.getDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
+}
+
+function formatSchedulePreview(dateKey: string, time: string) {
+  const date = new Date(`${dateKey}T${time}:00`);
+  if (Number.isNaN(date.getTime())) return 'Auto-send later';
+
+  return date.toLocaleString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
 }
 
 function readAnnouncementImage(file: File): Promise<string> {
@@ -169,7 +184,7 @@ export function CreateAnnouncementModal({
   };
 
   const goToNextStep = () => {
-    const nextError = step === 'content' ? validateStep('content') : null;
+    const nextError = validateStep(step);
     if (nextError) {
       setError(nextError);
       return;
@@ -184,9 +199,7 @@ export function CreateAnnouncementModal({
     setStep(STEPS[Math.max(stepIndex - 1, 0)].value);
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-
+  const handleCreate = () => {
     const trimmedTitle = title.trim();
     const trimmedDescription = description.trim();
     const allClasses = audienceMode === 'all';
@@ -234,7 +247,7 @@ export function CreateAnnouncementModal({
     >
       <form
         className={`${modalStyles.modalCard} ${modalStyles.modalCardWide} ${styles.announcementComposer}`}
-        onSubmit={handleSubmit}
+        onSubmit={(event) => event.preventDefault()}
       >
         <div className={styles.composerHeader}>
           <div>
@@ -479,23 +492,19 @@ export function CreateAnnouncementModal({
                       </p>
                     </div>
                     <div className={styles.scheduleGrid}>
-                      <label className={modalStyles.modalField}>
+                      <label className={`${modalStyles.modalField} ${styles.scheduleField}`}>
                         <span className={modalStyles.modalLabel}>Send date</span>
-                        <input
-                          className={modalStyles.modalInput}
-                          type="date"
-                          min={minScheduleDate}
+                        <DatePicker
                           value={scheduledAt}
-                          onChange={(e) => setScheduledAt(e.target.value)}
+                          minDate={minScheduleDate}
+                          onChange={setScheduledAt}
                         />
                       </label>
-                      <label className={modalStyles.modalField}>
+                      <label className={`${modalStyles.modalField} ${styles.scheduleField}`}>
                         <span className={modalStyles.modalLabel}>Send time</span>
-                        <input
-                          className={modalStyles.modalInput}
-                          type="time"
+                        <TimePicker
                           value={scheduledTime}
-                          onChange={(e) => setScheduledTime(e.target.value)}
+                          onChange={setScheduledTime}
                         />
                       </label>
                     </div>
@@ -540,7 +549,7 @@ export function CreateAnnouncementModal({
                 <dt>Delivery</dt>
                 <dd>
                   {publishMode === 'schedule' && scheduledAt
-                    ? `${scheduledAt} ${scheduledTime}`
+                    ? formatSchedulePreview(scheduledAt, scheduledTime)
                     : PUBLISH_MODES.find((mode) => mode.value === publishMode)?.label}
                 </dd>
               </div>
@@ -566,13 +575,22 @@ export function CreateAnnouncementModal({
             ) : null}
             {isLastStep ? (
               <button
-                type="submit"
+                type="button"
                 className={listStyles.primaryBtn}
+                onClick={handleCreate}
               >
                 {submitLabel}
               </button>
             ) : (
-              <button type="button" className={listStyles.primaryBtn} onClick={goToNextStep}>
+              <button
+                type="button"
+                className={listStyles.primaryBtn}
+                onClick={(event) => {
+                  event.preventDefault();
+                  event.stopPropagation();
+                  goToNextStep();
+                }}
+              >
                 Continue
               </button>
             )}
