@@ -106,25 +106,38 @@ export const DashboardView: React.FC = () => {
         </div>
 
         {/* Upcoming Events */}
-        <div className={styles.listCard}>
-          <div className={styles.listHeader}>
-            <h3 className={styles.listTitle}>Upcoming Events</h3>
-            <button className={styles.listLink}>View Calendar</button>
+        <div className={`${styles.listCard} ${styles.eventPanel}`}>
+          <div className={styles.eventHeader}>
+            <h3 className={styles.eventTitle}>Upcoming Events</h3>
           </div>
-          <div className={styles.listBody}>
+          <div className={styles.eventList}>
             {schoolAdminMockData.upcomingEvents.map(evt => (
-              <div key={evt.id} className={styles.listItem}>
-                <div className={styles.eventDateBox}>
-                  <span className={styles.eventMonth} style={{ color: evt.color }}>{evt.month}</span>
+              <div key={evt.id} className={styles.eventRow}>
+                <div
+                  className={styles.eventDateBox}
+                  style={{ borderColor: `${evt.color}88` }}
+                >
+                  <span className={styles.eventMonth} style={{ color: evt.color }}>
+                    {evt.month}
+                  </span>
                   <span className={styles.eventDay}>{evt.day}</span>
                 </div>
-                <div className={styles.itemContent}>
-                  <p className={styles.itemTitle}>{evt.title}</p>
-                  <p className={styles.itemDesc}>{evt.time}</p>
+                <div className={styles.eventContent}>
+                  <div className={styles.eventTitleRow}>
+                    <p className={styles.eventItemTitle}>{evt.title}</p>
+                  </div>
+                  <p className={styles.eventMeta}>{evt.time}</p>
                 </div>
+                <span
+                  className={styles.eventType}
+                  style={{ color: evt.color, borderColor: `${evt.color}55` }}
+                >
+                  Event
+                </span>
               </div>
             ))}
           </div>
+          <button type="button" className={styles.eventFooterLink}>View calendar ›</button>
         </div>
 
         {/* Announcements */}
