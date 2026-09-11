@@ -4,6 +4,7 @@ import styles from './dashboard.module.css';
 import { ChalkLineChart, ChalkDonutChart } from '@/components/ChalkCharts';
 import { schoolAdminMockData } from '@/lib/mock/schoolAdmin.mock';
 import { DashboardHeader } from '@/components/shared/DashboardHeader';
+import { DashboardListPanel } from '@/components/shared/DashboardListPanel';
 import { DashboardMetrics } from '@/components/shared/DashboardMetrics';
 
 export const DashboardView: React.FC = () => {
@@ -70,105 +71,46 @@ export const DashboardView: React.FC = () => {
       {/* LISTS ROW */}
       <div className={styles.listsGrid}>
         
-        {/* Recent Activities */}
-        <div className={`${styles.listCard} ${styles.activityPanel}`}>
-          <div className={styles.activityHeader}>
-            <h3 className={styles.activityTitle}>Recent Activities</h3>
-          </div>
-          <div className={styles.activityList}>
-            {schoolAdminMockData.recentActivities.map(act => (
-              <div key={act.id} className={styles.activityRow}>
-                <div
-                  className={styles.activityIconBox}
-                  style={{ borderColor: `${act.iconColor}88`, color: act.iconColor }}
-                >
-                  {act.icon}
-                </div>
-                <div className={styles.activityContent}>
-                  <div className={styles.activityTitleRow}>
-                    <p className={styles.activityItemTitle}>{act.user}</p>
-                  </div>
-                  <p className={styles.activityDetails}>{act.details}</p>
-                </div>
-                <span
-                  className={styles.activityType}
-                  style={{ color: act.iconColor, borderColor: `${act.iconColor}55` }}
-                >
-                  Update
-                </span>
-              </div>
-            ))}
-          </div>
-          <button type="button" className={styles.activityFooterLink}>View all ›</button>
-        </div>
+        <DashboardListPanel
+          title="Recent Activities"
+          footerLabel="View all ›"
+          items={schoolAdminMockData.recentActivities.map((activity) => ({
+            id: activity.id,
+            title: activity.user,
+            description: activity.details,
+            icon: activity.icon,
+            color: activity.iconColor,
+            badge: 'Update',
+          }))}
+        />
 
-        {/* Upcoming Events */}
-        <div className={`${styles.listCard} ${styles.eventPanel}`}>
-          <div className={styles.eventHeader}>
-            <h3 className={styles.eventTitle}>Upcoming Events</h3>
-          </div>
-          <div className={styles.eventList}>
-            {schoolAdminMockData.upcomingEvents.map(evt => (
-              <div key={evt.id} className={styles.eventRow}>
-                <div
-                  className={styles.eventDateBox}
-                  style={{ borderColor: `${evt.color}88` }}
-                >
-                  <span className={styles.eventMonth} style={{ color: evt.color }}>
-                    {evt.month}
-                  </span>
-                  <span className={styles.eventDay}>{evt.day}</span>
-                </div>
-                <div className={styles.eventContent}>
-                  <div className={styles.eventTitleRow}>
-                    <p className={styles.eventItemTitle}>{evt.title}</p>
-                  </div>
-                  <p className={styles.eventMeta}>{evt.time}</p>
-                </div>
-                <span
-                  className={styles.eventType}
-                  style={{ color: evt.color, borderColor: `${evt.color}55` }}
-                >
-                  Event
-                </span>
-              </div>
-            ))}
-          </div>
-          <button type="button" className={styles.eventFooterLink}>View calendar ›</button>
-        </div>
+        <DashboardListPanel
+          title="Upcoming Events"
+          footerLabel="View calendar ›"
+          items={schoolAdminMockData.upcomingEvents.map((event) => ({
+            id: event.id,
+            title: event.title,
+            description: event.time,
+            month: event.month,
+            day: event.day,
+            color: event.color,
+            badge: 'Event',
+          }))}
+        />
 
-        {/* Announcements */}
-        <div className={`${styles.listCard} ${styles.announcementPanel}`}>
-          <div className={styles.announcementHeader}>
-            <h3 className={styles.announcementTitle}>Announcements</h3>
-          </div>
-          <div className={styles.announcementList}>
-            {schoolAdminMockData.announcements.map(ann => (
-              <div key={ann.id} className={styles.announcementRow}>
-                <div
-                  className={styles.announcementIconBox}
-                  style={{ borderColor: `${ann.iconColor}88`, color: ann.iconColor }}
-                >
-                  {ann.icon}
-                </div>
-                <div className={styles.announcementContent}>
-                  <div className={styles.announcementTitleRow}>
-                    <p className={styles.announcementItemTitle}>{ann.title}</p>
-                  </div>
-                  <p className={styles.announcementDesc}>{ann.desc}</p>
-                  <span className={styles.announcementDate}>{ann.date}</span>
-                </div>
-                <span
-                  className={styles.announcementType}
-                  style={{ color: ann.iconColor, borderColor: `${ann.iconColor}55` }}
-                >
-                  Notice
-                </span>
-              </div>
-            ))}
-          </div>
-          <button type="button" className={styles.announcementFooterLink}>View all ›</button>
-        </div>
+        <DashboardListPanel
+          title="Announcements"
+          footerLabel="View all ›"
+          items={schoolAdminMockData.announcements.map((announcement) => ({
+            id: announcement.id,
+            title: announcement.title,
+            description: announcement.desc,
+            meta: announcement.date,
+            icon: announcement.icon,
+            color: announcement.iconColor,
+            badge: 'Notice',
+          }))}
+        />
 
       </div>
 
