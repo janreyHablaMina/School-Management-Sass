@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useId, useState } from 'react';
 
 /**
  * Invisible SVG filter that applies a subtle "chalk wobble" distortion
@@ -21,40 +21,136 @@ export const ChalkFilter = () => (
 interface ChalkLineChartProps {
   tooltipDate?: string;
   tooltipText?: string;
+  variant?: 'default' | 'attendance';
 }
 
-export const ChalkLineChart = ({ tooltipDate = "MAY 16, 2025", tooltipText = "Total Schools: 24" }: ChalkLineChartProps = {}) => (
-  <svg width="100%" height="100%" viewBox="0 0 500 180" preserveAspectRatio="none" fill="none" style={{ filter: 'url(#chalk-wobble)' }}>
-    <line x1="40" y1="30" x2="480" y2="30" stroke="rgba(240, 239, 237, 0.12)" strokeWidth="1" strokeDasharray="3 3" />
-    <line x1="40" y1="70" x2="480" y2="70" stroke="rgba(240, 239, 237, 0.12)" strokeWidth="1" strokeDasharray="3 3" />
-    <line x1="40" y1="110" x2="480" y2="110" stroke="rgba(240, 239, 237, 0.12)" strokeWidth="1" strokeDasharray="3 3" />
-    <line x1="40" y1="150" x2="480" y2="150" stroke="rgba(240, 239, 237, 0.22)" strokeWidth="1.5" />
-    <line x1="40" y1="20" x2="40" y2="150" stroke="rgba(240, 239, 237, 0.22)" strokeWidth="1.5" />
-    <path d="M 40 120 Q 110 100 180 90 T 320 85 T 410 75 T 480 65" fill="none" stroke="rgba(132, 169, 255, 0.85)" strokeWidth="2.5" strokeLinecap="round" />
-    <circle cx="210" cy="88" r="5" fill="#f5c842" stroke="#08120d" strokeWidth="2" />
-    <line x1="210" y1="88" x2="210" y2="150" stroke="rgba(245, 200, 66, 0.35)" strokeWidth="1" strokeDasharray="2 2" />
-    <g transform="translate(190, 45)">
-      <rect x="0" y="0" width="130" height="36" rx="4" fill="rgba(8, 18, 13, 0.9)" stroke="rgba(240, 239, 237, 0.25)" strokeWidth="1" />
-      <text x="12" y="14" fill="rgba(240, 239, 237, 0.42)" fontSize="8" fontWeight="600" fontFamily="Inter, sans-serif">{tooltipDate}</text>
-      <text x="12" y="27" fill="rgba(240, 239, 237, 0.95)" fontSize="9" fontWeight="700" fontFamily="Inter, sans-serif">{tooltipText}</text>
-    </g>
-    <g fill="rgba(240, 239, 237, 0.45)" fontSize="8" fontWeight="600">
-      <text x="35" y="165">May 1</text>
-      <text x="110" y="165">May 6</text>
-      <text x="190" y="165">May 11</text>
-      <text x="270" y="165">May 16</text>
-      <text x="350" y="165">May 21</text>
-      <text x="420" y="165">May 26</text>
-      <text x="470" y="165">May 31</text>
-    </g>
-    <g fill="rgba(240, 239, 237, 0.45)" fontSize="8" fontWeight="600" textAnchor="end">
-      <text x="30" y="33">30</text>
-      <text x="30" y="73">20</text>
-      <text x="30" y="113">10</text>
-      <text x="30" y="153">0</text>
-    </g>
-  </svg>
-);
+export const ChalkLineChart = ({
+  tooltipDate = "MAY 16, 2025",
+  tooltipText = "Total Schools: 24",
+  variant = 'default',
+}: ChalkLineChartProps = {}) => {
+  const chartId = useId().replace(/:/g, '');
+  const areaId = `chalk-line-area-${chartId}`;
+  const strokeId = `chalk-line-stroke-${chartId}`;
+
+  if (variant === 'attendance') {
+    const points = [
+      [52, 106],
+      [118, 92],
+      [184, 98],
+      [250, 76],
+      [316, 82],
+      [382, 62],
+      [448, 54],
+    ];
+    const pointPath = points.map(([x, y], index) => `${index === 0 ? 'M' : 'L'} ${x} ${y}`).join(' ');
+    const areaPath = `${pointPath} L 448 150 L 52 150 Z`;
+
+    return (
+      <svg width="100%" height="100%" viewBox="0 0 500 180" preserveAspectRatio="none" fill="none" style={{ filter: 'url(#chalk-wobble)' }}>
+        <defs>
+          <linearGradient id={areaId} x1="0" y1="48" x2="0" y2="150" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor="#84a9ff" stopOpacity="0.16" />
+            <stop offset="100%" stopColor="#84a9ff" stopOpacity="0" />
+          </linearGradient>
+          <linearGradient id={strokeId} x1="52" y1="0" x2="448" y2="0" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor="#84a9ff" />
+            <stop offset="100%" stopColor="#9eb8ff" />
+          </linearGradient>
+        </defs>
+
+        <rect x="38" y="18" width="430" height="132" rx="4" fill="rgba(255, 255, 255, 0.01)" stroke="rgba(240, 239, 237, 0.08)" />
+        {[35, 65, 95, 125, 150].map((y) => (
+          <line key={y} x1="44" y1={y} x2="462" y2={y} stroke="rgba(240, 239, 237, 0.09)" strokeWidth="1" />
+        ))}
+        {[118, 184, 250, 316, 382, 448].map((x) => (
+          <line key={x} x1={x} y1="24" x2={x} y2="150" stroke="rgba(240, 239, 237, 0.035)" strokeWidth="1" />
+        ))}
+
+        <path d={areaPath} fill={`url(#${areaId})`} />
+        <path d={pointPath} fill="none" stroke="rgba(8, 18, 13, 0.75)" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d={pointPath} fill="none" stroke={`url(#${strokeId})`} strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" />
+
+        {points.map(([x, y], index) => (
+          <circle
+            key={`${x}-${y}`}
+            cx={x}
+            cy={y}
+            r={index === points.length - 1 ? 4.5 : 3.4}
+            fill={index === points.length - 1 ? '#f0efed' : '#84a9ff'}
+            stroke="#08120d"
+            strokeWidth="1.8"
+          />
+        ))}
+
+        <line x1="448" y1="54" x2="448" y2="150" stroke="rgba(240, 239, 237, 0.28)" strokeWidth="1" strokeDasharray="3 4" />
+        <g transform="translate(334, 24)">
+          <rect x="0" y="0" width="124" height="42" rx="4" fill="rgba(8, 18, 13, 0.94)" stroke="rgba(240, 239, 237, 0.24)" strokeWidth="1" />
+          <text x="12" y="15" fill="rgba(240, 239, 237, 0.48)" fontSize="8" fontWeight="700" fontFamily="Inter, sans-serif">{tooltipDate}</text>
+          <text x="12" y="30" fill="rgba(240, 239, 237, 0.95)" fontSize="12" fontWeight="800" fontFamily="Inter, sans-serif">{tooltipText}</text>
+        </g>
+
+        <g fontFamily="Inter, sans-serif" fontSize="8" fontWeight="700">
+          <g fill="rgba(240, 239, 237, 0.48)" textAnchor="end">
+            <text x="33" y="38">100%</text>
+            <text x="33" y="68">95%</text>
+            <text x="33" y="98">90%</text>
+            <text x="33" y="128">85%</text>
+            <text x="33" y="153">80%</text>
+          </g>
+          <g fill="rgba(240, 239, 237, 0.52)" textAnchor="middle">
+            <text x="52" y="168">Mon</text>
+            <text x="118" y="168">Tue</text>
+            <text x="184" y="168">Wed</text>
+            <text x="250" y="168">Thu</text>
+            <text x="316" y="168">Fri</text>
+            <text x="382" y="168">Sat</text>
+            <text x="448" y="168">Today</text>
+          </g>
+        </g>
+        <g transform="translate(56, 31)" fontFamily="Inter, sans-serif" fontSize="9" fontWeight="700">
+          <text x="0" y="0" fill="rgba(240, 239, 237, 0.48)">Weekly change</text>
+          <text x="0" y="14" fill="#8affad">+2.8%</text>
+          <text x="64" y="0" fill="rgba(240, 239, 237, 0.48)">Average</text>
+          <text x="64" y="14" fill="rgba(240, 239, 237, 0.9)">96.4%</text>
+        </g>
+      </svg>
+    );
+  }
+
+  return (
+    <svg width="100%" height="100%" viewBox="0 0 500 180" preserveAspectRatio="none" fill="none" style={{ filter: 'url(#chalk-wobble)' }}>
+      <line x1="40" y1="30" x2="480" y2="30" stroke="rgba(240, 239, 237, 0.12)" strokeWidth="1" strokeDasharray="3 3" />
+      <line x1="40" y1="70" x2="480" y2="70" stroke="rgba(240, 239, 237, 0.12)" strokeWidth="1" strokeDasharray="3 3" />
+      <line x1="40" y1="110" x2="480" y2="110" stroke="rgba(240, 239, 237, 0.12)" strokeWidth="1" strokeDasharray="3 3" />
+      <line x1="40" y1="150" x2="480" y2="150" stroke="rgba(240, 239, 237, 0.22)" strokeWidth="1.5" />
+      <line x1="40" y1="20" x2="40" y2="150" stroke="rgba(240, 239, 237, 0.22)" strokeWidth="1.5" />
+      <path d="M 40 120 Q 110 100 180 90 T 320 85 T 410 75 T 480 65" fill="none" stroke="rgba(132, 169, 255, 0.85)" strokeWidth="2.5" strokeLinecap="round" />
+      <circle cx="210" cy="88" r="5" fill="#f5c842" stroke="#08120d" strokeWidth="2" />
+      <line x1="210" y1="88" x2="210" y2="150" stroke="rgba(245, 200, 66, 0.35)" strokeWidth="1" strokeDasharray="2 2" />
+      <g transform="translate(190, 45)">
+        <rect x="0" y="0" width="130" height="36" rx="4" fill="rgba(8, 18, 13, 0.9)" stroke="rgba(240, 239, 237, 0.25)" strokeWidth="1" />
+        <text x="12" y="14" fill="rgba(240, 239, 237, 0.42)" fontSize="8" fontWeight="600" fontFamily="Inter, sans-serif">{tooltipDate}</text>
+        <text x="12" y="27" fill="rgba(240, 239, 237, 0.95)" fontSize="9" fontWeight="700" fontFamily="Inter, sans-serif">{tooltipText}</text>
+      </g>
+      <g fill="rgba(240, 239, 237, 0.45)" fontSize="8" fontWeight="600">
+        <text x="35" y="165">May 1</text>
+        <text x="110" y="165">May 6</text>
+        <text x="190" y="165">May 11</text>
+        <text x="270" y="165">May 16</text>
+        <text x="350" y="165">May 21</text>
+        <text x="420" y="165">May 26</text>
+        <text x="470" y="165">May 31</text>
+      </g>
+      <g fill="rgba(240, 239, 237, 0.45)" fontSize="8" fontWeight="600" textAnchor="end">
+        <text x="30" y="33">30</text>
+        <text x="30" y="73">20</text>
+        <text x="30" y="113">10</text>
+        <text x="30" y="153">0</text>
+      </g>
+    </svg>
+  );
+};
 
 /** Donut chart for the Dashboard "Students by Grade Level" card */
 export const ChalkDonutChart = () => {
