@@ -26,10 +26,8 @@ interface StudentsTableProps {
 
 const COLUMNS: DataTableColumn[] = [
   { id: 'name', label: 'Student', sortable: true },
-  { id: 'studentId', label: 'Student ID', sortable: true },
-  { id: 'gradeSection', label: 'Grade & Section', sortable: true },
-  { id: 'parentGuardian', label: 'Parent / Guardian', sortable: true },
-  { id: 'contact', label: 'Contact' },
+  { id: 'grade', label: 'Grade', sortable: true },
+  { id: 'section', label: 'Section', sortable: true },
   { id: 'status', label: 'Status', sortable: true },
   { id: 'dateEnrolled', label: 'Date Enrolled', sortable: true },
   { id: 'actions', label: 'Action' },
@@ -126,14 +124,12 @@ export const StudentsTable: React.FC<StudentsTableProps> = ({
                 </div>
                 <div className={styles.studentInfo}>
                   <span className={styles.studentName}>{student.name}</span>
-                  <span className={styles.studentEmail}>{student.email}</span>
+                  <span className={styles.studentEmail}>ID: {student.studentId}</span>
                 </div>
               </div>
             </td>
-            <td>{student.studentId}</td>
-            <td>{student.gradeSection}</td>
-            <td>{student.parentGuardian}</td>
-            <td>{student.contact}</td>
+            <td>{student.gradeSection.split(' - ')[0] || student.gradeSection}</td>
+            <td>{student.gradeSection.split(' - ')[1]?.replace('Section ', '') || ''}</td>
             <td>
               <ChalkBadge label={student.status ?? 'Unknown'} accent={statusAccent(student.status)} />
             </td>

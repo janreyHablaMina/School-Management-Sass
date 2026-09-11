@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { schoolAdminMockData } from '@/lib/mock/schoolAdmin.mock';
 
-export type SortKey = 'name' | 'studentId' | 'gradeSection' | 'parentGuardian' | 'status' | 'dateEnrolled';
+export type SortKey = 'name' | 'studentId' | 'grade' | 'section' | 'parentGuardian' | 'status' | 'dateEnrolled';
 
 export const useStudents = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -38,8 +38,19 @@ export const useStudents = () => {
     
     if (sortConfig !== null) {
       sortableItems.sort((a, b) => {
-        if (a[sortConfig.key] < b[sortConfig.key]) return sortConfig.direction === 'asc' ? -1 : 1;
-        if (a[sortConfig.key] > b[sortConfig.key]) return sortConfig.direction === 'asc' ? 1 : -1;
+        let valA: any = a[sortConfig.key as keyof typeof a];
+        let valB: any = b[sortConfig.key as keyof typeof b];
+
+        if (sortConfig.key === 'grade') {
+          valA = a.gradeSection.split(' - ')[0] || a.gradeSection;
+          valB = b.gradeSection.split(' - ')[0] || b.gradeSection;
+        } else if (sortConfig.key === 'section') {
+          valA = a.gradeSection.split(' - ')[1] || '';
+          valB = b.gradeSection.split(' - ')[1] || '';
+        }
+
+        if (valA < valB) return sortConfig.direction === 'asc' ? -1 : 1;
+        if (valA > valB) return sortConfig.direction === 'asc' ? 1 : -1;
         return 0;
       });
     }
