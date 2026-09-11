@@ -1,4 +1,3 @@
-export { DashboardHeader } from './DashboardHeader';
 export { MetricsRow } from './MetricsRow';
 export { SchedulePanel } from './SchedulePanel';
 export { AiAssistantPanel } from './AiAssistantPanel';

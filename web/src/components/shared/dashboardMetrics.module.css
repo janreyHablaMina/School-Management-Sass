@@ -1,0 +1,66 @@
+.metricsGrid {
+  display: grid;
+  grid-template-columns: repeat(var(--dashboard-metric-columns, 6), 1fr);
+  gap: 1rem;
+  width: 100%;
+}
+
+.metricCard {
+  border: 2px solid rgba(240, 239, 237, 0.35);
+  border-radius: 8px 10px 7px 9px / 9px 7px 9px 8px;
+  padding: 0.9rem;
+  background: rgba(10, 25, 17, 0.2);
+  position: relative;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.metricCard:hover {
+  transform: translateY(-1px);
+  border-color: rgba(240, 239, 237, 0.55);
+  background: rgba(10, 25, 17, 0.3);
+}
+
+.metricLabel {
+  font-size: 0.7rem;
+  color: rgba(240, 239, 237, 0.42);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.metricValue {
+  font-family: 'Caveat', cursive;
+  font-size: 2.1rem;
+  font-weight: 700;
+  margin-top: 0.2rem;
+  line-height: 1;
+  color: #f0efed;
+}
+
+.metricGrowth {
+  font-family: 'Caveat', cursive;
+  font-size: 0.72rem;
+  margin-top: 0.3rem;
+}
+
+.growthYellow {
+  color: #f5c842;
+}
+
+.growthGreen {
+  color: #5cc789;
+}
+
+@media (max-width: 1400px) {
+  .metricsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .metricsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

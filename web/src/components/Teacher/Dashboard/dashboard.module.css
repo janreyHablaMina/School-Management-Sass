@@ -8,31 +8,6 @@
   color: #f0efed;
 }
 
-/* Header */
-.headerSection {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-  flex-wrap: wrap;
-  border-bottom: 1px dashed rgba(240, 239, 237, 0.2);
-  padding-bottom: 1.35rem;
-}
-
-.headerText h1 {
-  font-family: 'Caveat', cursive;
-  font-size: 2.5rem;
-  color: #f5c842;
-  margin: 0 0 0.2rem 0;
-  line-height: 1.1;
-}
-
-.headerText p {
-  margin: 0;
-  color: rgba(240, 239, 237, 0.7);
-  font-size: 1rem;
-}
-
 .aiAskBtn {
   display: inline-flex;
   align-items: center;
@@ -54,62 +29,6 @@
 }
 
 /* Metrics — Super Admin chalkboard cards */
-.metricsGrid {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 1rem;
-  width: 100%;
-}
-
-.metricCard {
-  border: 2px solid rgba(240, 239, 237, 0.35);
-  border-radius: 8px 10px 7px 9px / 9px 7px 9px 8px;
-  padding: 0.9rem;
-  background: rgba(10, 25, 17, 0.2);
-  position: relative;
-  transition: all 0.2s ease;
-  display: flex;
-  flex-direction: column;
-}
-
-.metricCard:hover {
-  transform: translateY(-1px);
-  border-color: rgba(240, 239, 237, 0.55);
-  background: rgba(10, 25, 17, 0.3);
-}
-
-.metricLabel {
-  font-size: 0.7rem;
-  color: rgba(240, 239, 237, 0.42);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-
-.metricValue {
-  font-family: 'Caveat', cursive;
-  font-size: 2.1rem;
-  font-weight: 700;
-  margin-top: 0.2rem;
-  line-height: 1;
-  color: #f0efed;
-}
-
-.metricGrowth {
-  font-family: 'Caveat', cursive;
-  font-size: 0.85rem;
-  margin-top: auto;
-  padding-top: 0.5rem;
-}
-
-.growthYellow {
-  color: #f5c842;
-}
-
-.growthGreen {
-  color: #5cc789;
-}
-
 /* Panels */
 .panel {
   border: 2px solid rgba(240, 239, 237, 0.35);
@@ -1161,12 +1080,6 @@
 }
 
 /* Responsive */
-@media (max-width: 1400px) {
-  .metricsGrid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
 @media (max-width: 1100px) {
   .middleSection {
     grid-template-columns: 1fr;
@@ -1191,16 +1104,6 @@
 
   .overviewSplit {
     grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 700px) {
-  .metricsGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .headerText h1 {
-    font-size: 2rem;
   }
 }
 

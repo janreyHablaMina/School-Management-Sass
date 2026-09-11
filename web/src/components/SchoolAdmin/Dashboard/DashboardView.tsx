@@ -3,45 +3,30 @@ import React from 'react';
 import styles from './dashboard.module.css';
 import { ChalkLineChart, ChalkDonutChart } from '@/components/ChalkCharts';
 import { schoolAdminMockData } from '@/lib/mock/schoolAdmin.mock';
-import { useGreeting } from '@/lib/utils/greeting';
+import { DashboardHeader } from '@/components/shared/DashboardHeader';
+import { DashboardMetrics } from '@/components/shared/DashboardMetrics';
 
 export const DashboardView: React.FC = () => {
-  const greeting = useGreeting();
-  const { perTeacher, teacherCount, totalAllocated } = schoolAdminMockData.aiCredits;
+  const { teacherCount, totalAllocated } = schoolAdminMockData.aiCredits;
   const totalAllocatedLabel = totalAllocated.toLocaleString();
-  const perTeacherLabel = perTeacher.toLocaleString();
 
   return (
     <div className={styles.dashboardContainer}>
-      {/* HEADER SECTION */}
-      <div className={styles.headerSection}>
-        <div className={styles.headerText}>
-          <h1>{greeting}, Sophia! 👋</h1>
-          <p>Here&apos;s what&apos;s happening at ABC Learning Academy today.</p>
-        </div>
-      </div>
+      <DashboardHeader
+        name="Sophia"
+        description="Here's what's happening at ABC Learning Academy today."
+      />
 
-      {/* METRICS GRID */}
-      <div className={styles.metricsGrid}>
-        {[
-          { label: 'TOTAL STUDENTS', value: '1,245', icon: '👨‍🎓' },
-          { label: 'TOTAL TEACHERS', value: '78', icon: '👩‍🏫' },
-          { label: 'TOTAL SECTIONS', value: '42', icon: '🏫' },
-          { label: 'ATTENDANCE TODAY', value: '96.4%', icon: '📅' },
-          { label: 'PENDING TASKS', value: '18', icon: '📋' },
-          { label: 'AI CREDITS', value: totalAllocatedLabel, icon: '🤖' },
-        ].map(m => (
-          <div key={m.label} className={styles.metricCard}>
-            <div className={styles.metricTop}>
-              <span className={styles.metricLabel}>{m.label}</span>
-              <span className={styles.metricIcon}>{m.icon}</span>
-            </div>
-            <div className={styles.metricBottom}>
-              <span className={styles.metricValue}>{m.value}</span>
-            </div>
-          </div>
-        ))}
-      </div>
+      <DashboardMetrics
+        columns={5}
+        metrics={[
+          { label: 'Total Students', value: '1,245', growth: 'View all →', growthClass: 'yellow' },
+          { label: 'Total Teachers', value: '78', growth: 'View all →', growthClass: 'yellow' },
+          { label: 'Total Sections', value: '42', growth: 'View all →', growthClass: 'yellow' },
+          { label: 'Teachers Present', value: '74', growth: '4 on leave today', growthClass: 'green' },
+          { label: 'At-Risk Students', value: '23', growth: 'Needs intervention', growthClass: 'yellow' },
+        ]}
+      />
 
       {/* CHARTS ROW */}
       <div className={styles.chartsGrid}>
@@ -156,7 +141,7 @@ export const DashboardView: React.FC = () => {
             { icon: '📉', text: 'Attendance dropped by 4.2% compared to last week.', color: '#b68eff' },
             { icon: '⚠️', text: 'Grade 10 - Section B has the highest missing assignments.', color: '#5cc789' },
             { icon: '📖', text: '8 students have incomplete requirements.', color: '#ffab6b' },
-            { icon: '⚡', text: `${totalAllocatedLabel} AI credits are allocated across ${teacherCount} teachers (${perTeacherLabel} each).`, color: '#ff7e93' },
+            { icon: '⚡', text: `${totalAllocatedLabel} AI credits are allocated across ${teacherCount} teachers.`, color: '#ff7e93' },
           ].map((insight, i) => (
             <div key={i} className={styles.insightBox}>
               <div className={styles.insightBoxIcon} style={{ background: `rgba(255,255,255,0.05)`, color: insight.color }}>

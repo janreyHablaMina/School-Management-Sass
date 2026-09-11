@@ -1,22 +1,23 @@
 'use client';
+
 import React from 'react';
-import styles from '../dashboard.module.css';
 import { useGreeting } from '@/lib/utils/greeting';
+import styles from './dashboardHeader.module.css';
 
 interface DashboardHeaderProps {
-  shortName: string;
-  onAskAi?: () => void;
+  name: string;
+  description: string;
 }
 
-export function DashboardHeader({ shortName, onAskAi }: DashboardHeaderProps) {
+export function DashboardHeader({ name, description }: DashboardHeaderProps) {
   const greeting = useGreeting();
+
   return (
     <div className={styles.headerSection}>
       <div className={styles.headerText}>
-        <h1>{greeting}, {shortName}! 👋</h1>
-        <p>Here&apos;s what&apos;s happening in your classes today.</p>
+        <h1>{greeting}, {name}! 👋</h1>
+        <p>{description}</p>
       </div>
     </div>
   );
 }
-

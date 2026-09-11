@@ -4,13 +4,13 @@ import React from 'react';
 import styles from './dashboard.module.css';
 import { teacherPortalMock } from '@/lib/mock/teacherPortal.mock';
 import {
-  DashboardHeader,
   MetricsRow,
   SchedulePanel,
   AnnouncementsPanel,
   DeadlinesPanel,
 } from './sections';
 import { AlertsPanel } from './sections/AlertsPanel';
+import { DashboardHeader } from '@/components/shared/DashboardHeader';
 
 import type { TeacherNavRequest } from '@/lib/teacher/classFocus';
 
@@ -28,7 +28,6 @@ export function DashboardView({ onNavigate }: DashboardViewProps) {
     deadlines,
   } = teacherPortalMock;
 
-  const goToAi = () => onNavigate?.({ tab: 'PieYah Assistant' });
   const goToCalendar = () => onNavigate?.('Calendar');
   const goToAnnouncements = () => onNavigate?.('Announcements');
   const goToAssignments = () => onNavigate?.('Assignments');
@@ -36,7 +35,10 @@ export function DashboardView({ onNavigate }: DashboardViewProps) {
 
   return (
     <div className={styles.dashboardContainer}>
-      <DashboardHeader shortName={teacher.shortName} onAskAi={goToAi} />
+      <DashboardHeader
+        name={teacher.shortName}
+        description="Here's what's happening in your classes today."
+      />
 
       <MetricsRow metrics={metrics} />
 
