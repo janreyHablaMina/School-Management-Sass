@@ -21,7 +21,7 @@ export const PageHeader: React.FC<PageHeaderProps> = ({ title, subtitle, actionB
       
       {actionButton && (
         <div className={styles.headerActions}>
-          <button className={styles.addBtn} onClick={actionButton.onClick}>
+          <button type="button" className={styles.addBtn} onClick={actionButton.onClick}>
             {actionButton.icon || (
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <line x1="12" y1="5" x2="12" y2="19"></line>

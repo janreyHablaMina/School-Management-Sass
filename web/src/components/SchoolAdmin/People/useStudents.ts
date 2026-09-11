@@ -70,6 +70,8 @@ export const useStudents = () => {
     handleSelectAll,
     handleSelectStudent,
     handleSort,
+    sortKey: sortConfig?.key ?? null,
+    sortDirection: sortConfig?.direction ?? 'asc',
     getSortIcon,
     sortedStudents,
     totalCount: schoolAdminMockData.students.length

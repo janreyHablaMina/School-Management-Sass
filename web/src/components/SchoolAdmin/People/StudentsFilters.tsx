@@ -1,8 +1,5 @@
 import React from 'react';
-import { Search } from 'lucide-react';
-import layoutStyles from '../shared/layout.module.css';
-import styles from './students.module.css';
-import { CustomSelect } from '../../ui/CustomSelect';
+import { FilterSelect, listStyles, SearchField } from '@/components/Teacher/shared';
 
 interface StudentsFiltersProps {
   searchTerm: string;
@@ -11,44 +8,41 @@ interface StudentsFiltersProps {
 
 export const StudentsFilters: React.FC<StudentsFiltersProps> = ({ searchTerm, setSearchTerm }) => {
   return (
-    <div className={layoutStyles.filtersRow}>
-      <div className={layoutStyles.searchWrapper}>
-        <Search className={layoutStyles.searchIcon} size={18} />
-        <input 
-          type="text" 
-          placeholder="Search students..." 
-          className={layoutStyles.searchInput}
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-      </div>
-      <CustomSelect 
-        className={styles.filterSelect}
+    <div className={listStyles.filtersPanel}>
+      <SearchField
+        value={searchTerm}
+        onChange={setSearchTerm}
+        placeholder="Search students..."
+        aria-label="Search students"
+      />
+      <FilterSelect
+        label="Grade Level"
         value="All Grade Levels"
         onChange={() => {}}
         options={['All Grade Levels', 'Grade 7', 'Grade 8', 'Grade 9', 'Grade 10', 'Grade 11', 'Grade 12']}
       />
-      <CustomSelect 
-        className={styles.filterSelect}
+      <FilterSelect
+        label="Class"
         value="All Sections"
         onChange={() => {}}
         options={['All Sections', 'Section A', 'Section B']}
       />
-      <CustomSelect 
-        className={styles.filterSelect}
+      <FilterSelect
+        label="Status"
         value="All Status"
         onChange={() => {}}
         options={['All Status', 'Active', 'Inactive']}
       />
-      <CustomSelect 
-        className={styles.filterSelect}
+      <FilterSelect
+        label="Gender"
         value="All Gender"
         onChange={() => {}}
         options={['All Gender', 'Male', 'Female']}
       />
 
       <button 
-        className={searchTerm !== '' ? styles.clearBtnActive : styles.clearBtn}
+        type="button"
+        className={searchTerm !== '' ? listStyles.toolBtnActive : listStyles.toolBtn}
         onClick={() => setSearchTerm('')}
       >
         Reset Filters

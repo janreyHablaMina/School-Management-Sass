@@ -264,6 +264,12 @@
 }
 
 /* Table Section */
+.tableStack {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
 .tableSection {
   background: rgba(0, 0, 0, 0.2);
   border: 1px dashed rgba(240, 239, 237, 0.25);

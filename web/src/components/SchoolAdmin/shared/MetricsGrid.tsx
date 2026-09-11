@@ -7,7 +7,7 @@ export interface Metric {
   subtitle: string;
   iconBg: string;
   iconColor: string;
-  iconName?: string; 
+  iconName?: string;
 }
 
 interface MetricsGridProps {
@@ -16,29 +16,33 @@ interface MetricsGridProps {
 }
 
 export const MetricsGrid: React.FC<MetricsGridProps> = ({ metrics, columns = 4 }) => {
+  const columnClass =
+    columns === 6 ? styles.metricsCols6 : columns === 5 ? styles.metricsCols5 : styles.metricsCols4;
+
   return (
-    <div className={styles.metricsGrid} style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}>
+    <section className={`${styles.metricsGrid} ${columnClass}`}>
       {metrics.map((metric, idx) => (
         <div key={idx} className={styles.metricCard}>
-          <div className={styles.metricTop}>
-            <div className={styles.metricIconWrapper} style={{ background: metric.iconBg, color: metric.iconColor }}>
-              {metric.title === 'Total Teachers' ? '👥' : 
-               metric.title === 'Active Teachers' ? '✅' :
-               metric.title === 'Advisers' ? '👩‍🏫' : 
-               metric.title === 'On Leave' ? '🌴' : 
-               metric.title === 'Total Students' ? '👥' :
-               metric.title === 'Active Students' ? '🟢' :
-               metric.title === 'New Enrollments' ? '📈' :
-               metric.title === 'Avg. Attendance' ? '📅' : '📊'}
-            </div>
-            <span className={styles.metricLabel}>{metric.title}</span>
+          <div className={styles.metricIconWrapper} style={{ background: metric.iconBg, color: metric.iconColor }}>
+            {metric.title === 'Total Teachers' ? '👥' :
+             metric.title === 'Active Teachers' ? '✅' :
+             metric.title === 'Advisers' ? '👩‍🏫' :
+             metric.title === 'On Leave' ? '🌴' :
+             metric.title === 'Total Students' ? '👥' :
+             metric.title === 'Male Students' ? '♂' :
+             metric.title === 'Female Students' ? '♀' :
+             metric.title === 'New Enrollments' ? '↗' :
+             metric.title === 'With Incomplete Info' ? '!' :
+             metric.title === 'Active Students' ? '●' :
+             metric.title === 'Avg. Attendance' ? '◷' : '▣'}
           </div>
-          <div className={styles.metricValue}>{metric.value}</div>
-          <div className={styles.metricBottom}>
+          <div className={styles.metricBody}>
+            <span className={styles.metricLabel}>{metric.title}</span>
+            <span className={styles.metricValue}>{metric.value}</span>
             <span className={styles.subText}>{metric.subtitle}</span>
           </div>
         </div>
       ))}
-    </div>
+    </section>
   );
 };
