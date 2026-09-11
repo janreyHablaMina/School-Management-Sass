@@ -7,9 +7,6 @@ import { DashboardHeader } from '@/components/shared/DashboardHeader';
 import { DashboardMetrics } from '@/components/shared/DashboardMetrics';
 
 export const DashboardView: React.FC = () => {
-  const { teacherCount, totalAllocated } = schoolAdminMockData.aiCredits;
-  const totalAllocatedLabel = totalAllocated.toLocaleString();
-
   return (
     <div className={styles.dashboardContainer}>
       <DashboardHeader
@@ -141,52 +138,38 @@ export const DashboardView: React.FC = () => {
         </div>
 
         {/* Announcements */}
-        <div className={styles.listCard}>
-          <div className={styles.listHeader}>
-            <h3 className={styles.listTitle}>Announcements</h3>
-            <button className={styles.listLink}>View All</button>
+        <div className={`${styles.listCard} ${styles.announcementPanel}`}>
+          <div className={styles.announcementHeader}>
+            <h3 className={styles.announcementTitle}>Announcements</h3>
           </div>
-          <div className={styles.listBody}>
+          <div className={styles.announcementList}>
             {schoolAdminMockData.announcements.map(ann => (
-              <div key={ann.id} className={styles.listItem}>
-                <div className={styles.itemIcon} style={{ background: ann.iconBg, color: ann.iconColor }}>
+              <div key={ann.id} className={styles.announcementRow}>
+                <div
+                  className={styles.announcementIconBox}
+                  style={{ borderColor: `${ann.iconColor}88`, color: ann.iconColor }}
+                >
                   {ann.icon}
                 </div>
-                <div className={styles.itemContent}>
-                  <p className={styles.itemTitle}>{ann.title}</p>
-                  <p className={styles.itemDesc}>{ann.desc}</p>
-                  <p className={styles.itemDateMuted}>{ann.date}</p>
+                <div className={styles.announcementContent}>
+                  <div className={styles.announcementTitleRow}>
+                    <p className={styles.announcementItemTitle}>{ann.title}</p>
+                  </div>
+                  <p className={styles.announcementDesc}>{ann.desc}</p>
+                  <span className={styles.announcementDate}>{ann.date}</span>
                 </div>
+                <span
+                  className={styles.announcementType}
+                  style={{ color: ann.iconColor, borderColor: `${ann.iconColor}55` }}
+                >
+                  Notice
+                </span>
               </div>
             ))}
           </div>
+          <button type="button" className={styles.announcementFooterLink}>View all ›</button>
         </div>
 
-      </div>
-
-      {/* AI INSIGHTS BANNER */}
-      <div className={styles.insightsBanner}>
-        <div className={styles.insightsHeader}>
-          <h3 className={styles.insightsTitle}>
-            ✨ AI Assistant Insights
-          </h3>
-          <button className={styles.listLink}>View All Insights →</button>
-        </div>
-        <div className={styles.insightsGrid}>
-          {[
-            { icon: '📉', text: 'Attendance dropped by 4.2% compared to last week.', color: '#b68eff' },
-            { icon: '⚠️', text: 'Grade 10 - Section B has the highest missing assignments.', color: '#5cc789' },
-            { icon: '📖', text: '8 students have incomplete requirements.', color: '#ffab6b' },
-            { icon: '⚡', text: `${totalAllocatedLabel} AI credits are allocated across ${teacherCount} teachers.`, color: '#ff7e93' },
-          ].map((insight, i) => (
-            <div key={i} className={styles.insightBox}>
-              <div className={styles.insightBoxIcon} style={{ background: `rgba(255,255,255,0.05)`, color: insight.color }}>
-                {insight.icon}
-              </div>
-              <p className={styles.insightBoxText}>{insight.text}</p>
-            </div>
-          ))}
-        </div>
       </div>
 
     </div>

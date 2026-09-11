@@ -509,72 +509,144 @@
   text-decoration: underline;
 }
 
-/* AI Insights Banner */
-.insightsBanner {
-  background: rgba(182, 142, 255, 0.05);
-  border: 1.5px solid rgba(182, 142, 255, 0.2);
-  border-radius: 16px;
-  padding: 1.5rem;
-  margin-top: 0.5rem;
+.announcementPanel {
+  border: 2px solid rgba(240, 239, 237, 0.35);
+  border-radius: 12px 14px 11px 13px / 14px 11px 13px 12px;
+  padding: 1.15rem 1.25rem;
+  background: rgba(10, 25, 17, 0.15);
+  display: flex;
+  flex-direction: column;
 }
 
-.insightsHeader {
+.announcementHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
-}
-
-.insightsTitle {
-  display: flex;
-  align-items: center;
   gap: 0.5rem;
-  font-weight: 600;
-  color: #b68eff;
+  border-bottom: 1.5px dashed rgba(240, 239, 237, 0.15);
+  padding-bottom: 0.55rem;
+}
+
+.announcementTitle {
   margin: 0;
+  font-family: 'Caveat', cursive;
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: #f5c842;
 }
 
-.insightsGrid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
+.announcementList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+  margin-bottom: 0.5rem;
 }
 
-.insightBox {
+.announcementRow {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  background: rgba(0, 0, 0, 0.2);
+  gap: 0.85rem;
+  padding: 0.7rem 0.65rem;
   border: 1px solid rgba(240, 239, 237, 0.1);
-  border-radius: 10px;
-  padding: 1rem;
+  border-radius: 8px 10px 7px 9px / 9px 7px 9px 8px;
+  background: rgba(0, 0, 0, 0.12);
+  transition: border-color 0.15s ease, background 0.15s ease;
+  cursor: pointer;
 }
 
-.insightBoxIcon {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
+.announcementRow:hover {
+  border-color: rgba(245, 200, 66, 0.35);
+  background: rgba(245, 200, 66, 0.04);
+}
+
+.announcementIconBox {
+  width: 48px;
+  height: 50px;
+  border-radius: 8px 10px 7px 9px / 9px 7px 9px 8px;
+  border: 1.5px solid rgba(240, 239, 237, 0.2);
+  background: rgba(0, 0, 0, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1rem;
   flex-shrink: 0;
+  font-size: 1rem;
 }
 
-.insightBoxText {
-  font-size: 0.75rem;
-  color: rgba(240, 239, 237, 0.8);
-  line-height: 1.4;
+.announcementContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.announcementTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.announcementItemTitle {
   margin: 0;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #f0efed;
+}
+
+.announcementDesc {
+  margin: 0.2rem 0 0;
+  font-size: 0.74rem;
+  color: rgba(240, 239, 237, 0.55);
+  line-height: 1.4;
+}
+
+.announcementDate {
+  display: inline-block;
+  margin-top: 0.3rem;
+  font-family: 'Caveat', cursive;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #f5c842;
+}
+
+.announcementType {
+  font-size: 0.58rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 0.12rem 0.4rem;
+  border-radius: 999px;
+  border: 1px solid;
+  background: rgba(0, 0, 0, 0.2);
+  align-self: flex-start;
+  margin-left: auto;
+}
+
+.announcementFooterLink {
+  margin-top: 1.25rem;
+  padding-top: 0.85rem;
+  background: none;
+  border: none;
+  border-top: 1.5px dashed rgba(240, 239, 237, 0.15);
+  color: #f5c842;
+  font-family: 'Caveat', cursive;
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: left;
+  padding-left: 0;
+  padding-right: 0;
+  transition: color 0.15s ease;
+}
+
+.announcementFooterLink:hover {
+  text-decoration: underline;
 }
 
 /* Responsiveness */
 @media (max-width: 1600px) {
   .quickActionsGrid {
     grid-template-columns: repeat(3, 1fr);
-  }
-  .insightsGrid {
-    grid-template-columns: repeat(2, 1fr);
   }
   .donutContainer {
     flex-direction: column;
