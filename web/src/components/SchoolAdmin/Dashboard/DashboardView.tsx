@@ -7,6 +7,10 @@ import { useGreeting } from '@/lib/utils/greeting';
 
 export const DashboardView: React.FC = () => {
   const greeting = useGreeting();
+  const { perTeacher, teacherCount, totalAllocated } = schoolAdminMockData.aiCredits;
+  const totalAllocatedLabel = totalAllocated.toLocaleString();
+  const perTeacherLabel = perTeacher.toLocaleString();
+
   return (
     <div className={styles.dashboardContainer}>
       {/* HEADER SECTION */}
@@ -14,17 +18,6 @@ export const DashboardView: React.FC = () => {
         <div className={styles.headerText}>
           <h1>{greeting}, Sophia! 👋</h1>
           <p>Here&apos;s what&apos;s happening at ABC Learning Academy today.</p>
-        </div>
-        
-        <div className={styles.headerControls}>
-          <select className={styles.dropdownSelect} defaultValue="2025-2026">
-            <option value="2025-2026">School Year 2025 - 2026</option>
-            <option value="2024-2025">School Year 2024 - 2025</option>
-          </select>
-          <select className={styles.dropdownSelect} defaultValue="1">
-            <option value="1">1st Semester</option>
-            <option value="2">2nd Semester</option>
-          </select>
         </div>
       </div>
 
@@ -36,7 +29,7 @@ export const DashboardView: React.FC = () => {
           { label: 'TOTAL SECTIONS', value: '42', icon: '🏫' },
           { label: 'ATTENDANCE TODAY', value: '96.4%', icon: '📅' },
           { label: 'PENDING TASKS', value: '18', icon: '📋' },
-          { label: 'AI CREDITS', value: '1,250', icon: '🤖' },
+          { label: 'AI CREDITS', value: totalAllocatedLabel, icon: '🤖' },
         ].map(m => (
           <div key={m.label} className={styles.metricCard}>
             <div className={styles.metricTop}>
@@ -163,7 +156,7 @@ export const DashboardView: React.FC = () => {
             { icon: '📉', text: 'Attendance dropped by 4.2% compared to last week.', color: '#b68eff' },
             { icon: '⚠️', text: 'Grade 10 - Section B has the highest missing assignments.', color: '#5cc789' },
             { icon: '📖', text: '8 students have incomplete requirements.', color: '#ffab6b' },
-            { icon: '⚡', text: 'You have 1,250 AI credits remaining this month.', color: '#ff7e93' },
+            { icon: '⚡', text: `${totalAllocatedLabel} AI credits are allocated across ${teacherCount} teachers (${perTeacherLabel} each).`, color: '#ff7e93' },
           ].map((insight, i) => (
             <div key={i} className={styles.insightBox}>
               <div className={styles.insightBoxIcon} style={{ background: `rgba(255,255,255,0.05)`, color: insight.color }}>

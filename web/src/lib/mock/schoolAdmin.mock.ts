@@ -1,4 +1,11 @@
 export const schoolAdminMockData = {
+  aiCredits: {
+    perTeacher: 1250,
+    teacherCount: 78,
+    get totalAllocated() {
+      return this.perTeacher * this.teacherCount;
+    },
+  },
   recentActivities: [
     {
       id: 1,

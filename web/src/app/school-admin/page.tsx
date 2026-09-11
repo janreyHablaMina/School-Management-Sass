@@ -1,11 +1,14 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import styles from '@/app/admin/admin.module.css';
 import { Sidebar } from '@/components/AdminLayout/Sidebar';
 import { TopBar } from '@/components/AdminLayout/TopBar';
 import { ChalkFilter } from '@/components/ChalkCharts';
 import { schoolAdminMenuGroups } from '@/lib/constants/navigation';
+import { useWorkspaceScroll } from '@/hooks/useWorkspaceScroll';
+import { useGreeting } from '@/lib/utils/greeting';
+import { schoolAdminMockData } from '@/lib/mock/schoolAdmin.mock';
 
 // Import views
 import { DashboardView } from '@/components/SchoolAdmin/Dashboard/DashboardView';
@@ -15,22 +18,10 @@ import { SchoolAdminPlaceholder } from '@/components/SchoolAdmin/shared/SchoolAd
 
 export default function SchoolAdminDashboard() {
   const [activeTab, setActiveTab] = useState('Dashboard');
-  const [isScrolled, setIsScrolled] = useState(false);
   const workspaceRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const workspace = workspaceRef.current;
-      const scrollTop = workspace ? workspace.scrollTop : 0;
-      const scrollY = window.scrollY;
-      setIsScrolled(scrollTop > 10 || scrollY > 10);
-    };
-
-    window.addEventListener('scroll', handleScroll, true);
-    return () => {
-      window.removeEventListener('scroll', handleScroll, true);
-    };
-  }, []);
+  const isScrolled = useWorkspaceScroll(workspaceRef);
+  const greeting = useGreeting();
+  const { totalAllocated } = schoolAdminMockData.aiCredits;
 
   const handleSetActiveTab = (tab: string) => {
     setActiveTab(tab);
@@ -67,6 +58,14 @@ export default function SchoolAdminDashboard() {
           selectedSchool={null}
           isScrolled={isScrolled}
           onSchoolsClick={() => {}}
+          userName="Sophia Mendoza"
+          userInitials="SM"
+          welcomeText={`${greeting}, Sophia!`}
+          notificationCount={8}
+          searchPlaceholder="Search students, teachers, sections..."
+          hideTitle
+          showMessages
+          aiCredits={totalAllocated}
         />
         {renderContent()}
       </section>
