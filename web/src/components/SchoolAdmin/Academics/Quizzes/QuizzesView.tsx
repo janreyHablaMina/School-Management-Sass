@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Metric } from '../../shared/MetricsGrid';
-import { AcademicDirectoryPage } from '../shared/AcademicDirectoryPage';
+import { SchoolAdminDirectoryPage } from '../../shared/SchoolAdminDirectoryPage';
 import { QuizzesFilters } from './QuizzesFilters';
 import { QuizzesTable } from './QuizzesTable';
 import { useQuizzes } from './useQuizzes';
@@ -62,7 +62,7 @@ export const QuizzesView: React.FC = () => {
   } = useQuizzes();
 
   return (
-    <AcademicDirectoryPage
+    <SchoolAdminDirectoryPage
       title="Quizzes"
       subtitle="Monitor quiz schedules, attempts, score trends, and low-participation risk"
       actionButton={{ label: 'Create Quiz', onClick: () => console.log('create quiz') }}
@@ -96,6 +96,6 @@ export const QuizzesView: React.FC = () => {
         onSelectQuiz={handleSelectQuiz}
         onSort={handleSort}
       />
-    </AcademicDirectoryPage>
+    </SchoolAdminDirectoryPage>
   );
 };

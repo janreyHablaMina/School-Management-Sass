@@ -1,8 +1,8 @@
 import React from 'react';
 import { PaginationBar } from '@/components/Teacher/shared';
-import { MetricsGrid, type Metric } from '../../shared/MetricsGrid';
-import { PageHeader } from '../../shared/PageHeader';
-import layoutStyles from '../../shared/layout.module.css';
+import { MetricsGrid, type Metric } from './MetricsGrid';
+import { PageHeader } from './PageHeader';
+import layoutStyles from './layout.module.css';
 
 interface HeaderAction {
   label: string;
@@ -10,7 +10,7 @@ interface HeaderAction {
   onClick: () => void;
 }
 
-interface AcademicDirectoryPageProps {
+interface SchoolAdminDirectoryPageProps {
   title: string;
   subtitle: string;
   actionButton?: HeaderAction;
@@ -29,7 +29,7 @@ interface AcademicDirectoryPageProps {
   };
 }
 
-export const AcademicDirectoryPage: React.FC<AcademicDirectoryPageProps> = ({
+export const SchoolAdminDirectoryPage: React.FC<SchoolAdminDirectoryPageProps> = ({
   title,
   subtitle,
   actionButton,

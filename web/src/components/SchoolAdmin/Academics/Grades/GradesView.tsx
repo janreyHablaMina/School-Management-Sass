@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Metric } from '../../shared/MetricsGrid';
-import { AcademicDirectoryPage } from '../shared/AcademicDirectoryPage';
+import { SchoolAdminDirectoryPage } from '../../shared/SchoolAdminDirectoryPage';
 import { GradesFilters } from './GradesFilters';
 import { GradesTable } from './GradesTable';
 import { useGrades } from './useGrades';
@@ -62,7 +62,7 @@ export const GradesView: React.FC = () => {
   } = useGrades();
 
   return (
-    <AcademicDirectoryPage
+    <SchoolAdminDirectoryPage
       title="Grades"
       subtitle="Monitor gradebook completion, averages, passing rates, and at-risk sections"
       actionButton={{ label: 'Export Grades', onClick: () => console.log('export grades') }}
@@ -96,6 +96,6 @@ export const GradesView: React.FC = () => {
         onSelectGrade={handleSelectGrade}
         onSort={handleSort}
       />
-    </AcademicDirectoryPage>
+    </SchoolAdminDirectoryPage>
   );
 };

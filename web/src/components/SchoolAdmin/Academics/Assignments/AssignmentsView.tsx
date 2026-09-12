@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Metric } from '../../shared/MetricsGrid';
-import { AcademicDirectoryPage } from '../shared/AcademicDirectoryPage';
+import { SchoolAdminDirectoryPage } from '../../shared/SchoolAdminDirectoryPage';
 import { AssignmentsFilters } from './AssignmentsFilters';
 import { AssignmentsTable } from './AssignmentsTable';
 import { useAssignments } from './useAssignments';
@@ -62,7 +62,7 @@ export const AssignmentsView: React.FC = () => {
   } = useAssignments();
 
   return (
-    <AcademicDirectoryPage
+    <SchoolAdminDirectoryPage
       title="Assignments"
       subtitle="Track assignment publishing, due dates, submissions, and grading progress"
       actionButton={{ label: 'Create Assignment', onClick: () => console.log('create assignment') }}
@@ -96,6 +96,6 @@ export const AssignmentsView: React.FC = () => {
         onSelectAssignment={handleSelectAssignment}
         onSort={handleSort}
       />
-    </AcademicDirectoryPage>
+    </SchoolAdminDirectoryPage>
   );
 };

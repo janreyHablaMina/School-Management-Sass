@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Metric } from '../../shared/MetricsGrid';
-import { AcademicDirectoryPage } from '../shared/AcademicDirectoryPage';
+import { SchoolAdminDirectoryPage } from '../../shared/SchoolAdminDirectoryPage';
 import { LessonsFilters } from './LessonsFilters';
 import { LessonsTable } from './LessonsTable';
 import { useLessons } from './useLessons';
@@ -62,7 +62,7 @@ export const LessonsView: React.FC = () => {
   } = useLessons();
 
   return (
-    <AcademicDirectoryPage
+    <SchoolAdminDirectoryPage
       title="Lessons"
       subtitle="Review lesson content, publication status, and curriculum coverage"
       actionButton={{ label: 'Create Lesson', onClick: () => console.log('create lesson') }}
@@ -96,6 +96,6 @@ export const LessonsView: React.FC = () => {
         onSelectLesson={handleSelectLesson}
         onSort={handleSort}
       />
-    </AcademicDirectoryPage>
+    </SchoolAdminDirectoryPage>
   );
 };

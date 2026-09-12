@@ -47,6 +47,11 @@ const QuizzesView = dynamic(() =>
 const GradesView = dynamic(() =>
   import('@/components/SchoolAdmin/Academics/Grades').then((mod) => mod.GradesView),
 );
+const AnnouncementsView = dynamic(() =>
+  import('@/components/SchoolAdmin/Communications/Announcements').then(
+    (mod) => mod.AnnouncementsView,
+  ),
+);
 
 export default function SchoolAdminDashboard() {
   const [activeTab, setActiveTab] = useState('Dashboard');
@@ -83,6 +88,8 @@ export default function SchoolAdminDashboard() {
         return <QuizzesView />;
       case 'Grades':
         return <GradesView />;
+      case 'Announcements':
+        return <AnnouncementsView />;
       default:
         // Generic fallback for unimplemented tabs
         return <SchoolAdminPlaceholder title={activeTab} />;

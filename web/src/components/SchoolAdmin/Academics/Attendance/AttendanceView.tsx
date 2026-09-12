@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Metric } from '../../shared/MetricsGrid';
-import { AcademicDirectoryPage } from '../shared/AcademicDirectoryPage';
+import { SchoolAdminDirectoryPage } from '../../shared/SchoolAdminDirectoryPage';
 import { AttendanceFilters } from './AttendanceFilters';
 import { AttendanceTable } from './AttendanceTable';
 import { useAttendance } from './useAttendance';
@@ -69,7 +69,7 @@ export const AttendanceView: React.FC = () => {
   } = useAttendance();
 
   return (
-    <AcademicDirectoryPage
+    <SchoolAdminDirectoryPage
       title="Attendance"
       subtitle="Monitor daily attendance submissions and follow-up risk across sections"
       actionButton={{ label: 'Export Report', onClick: () => console.log('export attendance') }}
@@ -104,6 +104,6 @@ export const AttendanceView: React.FC = () => {
         onSelectAttendance={handleSelectAttendance}
         onSort={handleSort}
       />
-    </AcademicDirectoryPage>
+    </SchoolAdminDirectoryPage>
   );
 };

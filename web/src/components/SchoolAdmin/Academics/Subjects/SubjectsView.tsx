@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Metric } from '../../shared/MetricsGrid';
-import { AcademicDirectoryPage } from '../shared/AcademicDirectoryPage';
+import { SchoolAdminDirectoryPage } from '../../shared/SchoolAdminDirectoryPage';
 import { SubjectsFilters } from './SubjectsFilters';
 import { SubjectsTable } from './SubjectsTable';
 import { useSubjects } from './useSubjects';
@@ -63,7 +63,7 @@ export const SubjectsView: React.FC = () => {
   } = useSubjects();
 
   return (
-    <AcademicDirectoryPage
+    <SchoolAdminDirectoryPage
       title="Subjects"
       subtitle="Manage curriculum subjects, departments, teachers, and section coverage"
       actionButton={{ label: 'Add Subject', onClick: () => console.log('add subject') }}
@@ -98,6 +98,6 @@ export const SubjectsView: React.FC = () => {
         onSelectSubject={handleSelectSubject}
         onSort={handleSort}
       />
-    </AcademicDirectoryPage>
+    </SchoolAdminDirectoryPage>
   );
 };

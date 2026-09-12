@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Metric } from '../../shared/MetricsGrid';
-import { AcademicDirectoryPage } from '../shared/AcademicDirectoryPage';
+import { SchoolAdminDirectoryPage } from '../../shared/SchoolAdminDirectoryPage';
 import { ClassesSectionsFilters } from './ClassesSectionsFilters';
 import { ClassesSectionsTable } from './ClassesSectionsTable';
 import { useClassesSections } from './useClassesSections';
@@ -62,7 +62,7 @@ export const ClassesSectionsView: React.FC = () => {
   } = useClassesSections();
 
   return (
-    <AcademicDirectoryPage
+    <SchoolAdminDirectoryPage
       title="Classes & Sections"
       subtitle="Organize grade sections, advisers, rooms, and class capacity"
       actionButton={{ label: 'Add Section', onClick: () => console.log('add section') }}
@@ -96,6 +96,6 @@ export const ClassesSectionsView: React.FC = () => {
         onSelectClassSection={handleSelectClassSection}
         onSort={handleSort}
       />
-    </AcademicDirectoryPage>
+    </SchoolAdminDirectoryPage>
   );
 };
