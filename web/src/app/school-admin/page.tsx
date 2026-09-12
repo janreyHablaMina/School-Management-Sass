@@ -15,6 +15,7 @@ import { DashboardView } from '@/components/SchoolAdmin/Dashboard/DashboardView'
 import { StudentsView } from '@/components/SchoolAdmin/People/StudentsView';
 import { TeachersView } from '@/components/SchoolAdmin/People/Teachers/TeachersView';
 import { ParentsView } from '@/components/SchoolAdmin/People/Parents';
+import { ClassesSectionsView } from '@/components/SchoolAdmin/Academics/ClassesSections';
 import { SchoolAdminPlaceholder } from '@/components/SchoolAdmin/shared/SchoolAdminPlaceholder';
 
 export default function SchoolAdminDashboard() {
@@ -38,6 +39,8 @@ export default function SchoolAdminDashboard() {
         return <TeachersView />;
       case 'Parents':
         return <ParentsView />;
+      case 'Classes & Sections':
+        return <ClassesSectionsView />;
       default:
         // Generic fallback for unimplemented tabs
         return <SchoolAdminPlaceholder title={activeTab} />;
