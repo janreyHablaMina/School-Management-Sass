@@ -1,8 +1,6 @@
 import React from 'react';
-import { PaginationBar } from '@/components/Teacher/shared';
-import { MetricsGrid, type Metric } from '../../shared/MetricsGrid';
-import { PageHeader } from '../../shared/PageHeader';
-import layoutStyles from '../../shared/layout.module.css';
+import type { Metric } from '../../shared/MetricsGrid';
+import { AcademicDirectoryPage } from '../shared/AcademicDirectoryPage';
 import { ClassesSectionsFilters } from './ClassesSectionsFilters';
 import { ClassesSectionsTable } from './ClassesSectionsTable';
 import { useClassesSections } from './useClassesSections';
@@ -64,13 +62,21 @@ export const ClassesSectionsView: React.FC = () => {
   } = useClassesSections();
 
   return (
-    <div className={layoutStyles.studentsContainer}>
-      <PageHeader
-        title="Classes & Sections"
-        subtitle="Organize grade sections, advisers, rooms, and class capacity"
-        actionButton={{ label: 'Add Section', onClick: () => console.log('add section') }}
-      />
-      <MetricsGrid metrics={CLASSES_SECTIONS_METRICS} columns={4} />
+    <AcademicDirectoryPage
+      title="Classes & Sections"
+      subtitle="Organize grade sections, advisers, rooms, and class capacity"
+      actionButton={{ label: 'Add Section', onClick: () => console.log('add section') }}
+      metrics={CLASSES_SECTIONS_METRICS}
+      pagination={{
+        rangeStart,
+        rangeEnd,
+        total: totalCount,
+        page: currentPage,
+        totalPages,
+        itemLabel: 'sections',
+        onPageChange: setCurrentPage,
+      }}
+    >
       <ClassesSectionsFilters
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
@@ -90,15 +96,6 @@ export const ClassesSectionsView: React.FC = () => {
         onSelectClassSection={handleSelectClassSection}
         onSort={handleSort}
       />
-      <PaginationBar
-        rangeStart={rangeStart}
-        rangeEnd={rangeEnd}
-        total={totalCount}
-        page={currentPage}
-        totalPages={totalPages}
-        itemLabel="sections"
-        onPageChange={setCurrentPage}
-      />
-    </div>
+    </AcademicDirectoryPage>
   );
 };

@@ -1,8 +1,6 @@
 import React from 'react';
-import { PaginationBar } from '@/components/Teacher/shared';
-import { MetricsGrid, type Metric } from '../../shared/MetricsGrid';
-import { PageHeader } from '../../shared/PageHeader';
-import layoutStyles from '../../shared/layout.module.css';
+import type { Metric } from '../../shared/MetricsGrid';
+import { AcademicDirectoryPage } from '../shared/AcademicDirectoryPage';
 import { QuizzesFilters } from './QuizzesFilters';
 import { QuizzesTable } from './QuizzesTable';
 import { useQuizzes } from './useQuizzes';
@@ -64,13 +62,21 @@ export const QuizzesView: React.FC = () => {
   } = useQuizzes();
 
   return (
-    <div className={layoutStyles.studentsContainer}>
-      <PageHeader
-        title="Quizzes"
-        subtitle="Monitor quiz schedules, attempts, score trends, and low-participation risk"
-        actionButton={{ label: 'Create Quiz', onClick: () => console.log('create quiz') }}
-      />
-      <MetricsGrid metrics={QUIZZES_METRICS} columns={4} />
+    <AcademicDirectoryPage
+      title="Quizzes"
+      subtitle="Monitor quiz schedules, attempts, score trends, and low-participation risk"
+      actionButton={{ label: 'Create Quiz', onClick: () => console.log('create quiz') }}
+      metrics={QUIZZES_METRICS}
+      pagination={{
+        rangeStart,
+        rangeEnd,
+        total: totalCount,
+        page: currentPage,
+        totalPages,
+        itemLabel: 'quizzes',
+        onPageChange: setCurrentPage,
+      }}
+    >
       <QuizzesFilters
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
@@ -90,15 +96,6 @@ export const QuizzesView: React.FC = () => {
         onSelectQuiz={handleSelectQuiz}
         onSort={handleSort}
       />
-      <PaginationBar
-        rangeStart={rangeStart}
-        rangeEnd={rangeEnd}
-        total={totalCount}
-        page={currentPage}
-        totalPages={totalPages}
-        itemLabel="quizzes"
-        onPageChange={setCurrentPage}
-      />
-    </div>
+    </AcademicDirectoryPage>
   );
 };

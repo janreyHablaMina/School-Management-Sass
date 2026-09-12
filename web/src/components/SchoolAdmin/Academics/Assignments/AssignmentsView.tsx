@@ -1,8 +1,6 @@
 import React from 'react';
-import { PaginationBar } from '@/components/Teacher/shared';
-import { MetricsGrid, type Metric } from '../../shared/MetricsGrid';
-import { PageHeader } from '../../shared/PageHeader';
-import layoutStyles from '../../shared/layout.module.css';
+import type { Metric } from '../../shared/MetricsGrid';
+import { AcademicDirectoryPage } from '../shared/AcademicDirectoryPage';
 import { AssignmentsFilters } from './AssignmentsFilters';
 import { AssignmentsTable } from './AssignmentsTable';
 import { useAssignments } from './useAssignments';
@@ -64,13 +62,21 @@ export const AssignmentsView: React.FC = () => {
   } = useAssignments();
 
   return (
-    <div className={layoutStyles.studentsContainer}>
-      <PageHeader
-        title="Assignments"
-        subtitle="Track assignment publishing, due dates, submissions, and grading progress"
-        actionButton={{ label: 'Create Assignment', onClick: () => console.log('create assignment') }}
-      />
-      <MetricsGrid metrics={ASSIGNMENTS_METRICS} columns={4} />
+    <AcademicDirectoryPage
+      title="Assignments"
+      subtitle="Track assignment publishing, due dates, submissions, and grading progress"
+      actionButton={{ label: 'Create Assignment', onClick: () => console.log('create assignment') }}
+      metrics={ASSIGNMENTS_METRICS}
+      pagination={{
+        rangeStart,
+        rangeEnd,
+        total: totalCount,
+        page: currentPage,
+        totalPages,
+        itemLabel: 'assignments',
+        onPageChange: setCurrentPage,
+      }}
+    >
       <AssignmentsFilters
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
@@ -90,15 +96,6 @@ export const AssignmentsView: React.FC = () => {
         onSelectAssignment={handleSelectAssignment}
         onSort={handleSort}
       />
-      <PaginationBar
-        rangeStart={rangeStart}
-        rangeEnd={rangeEnd}
-        total={totalCount}
-        page={currentPage}
-        totalPages={totalPages}
-        itemLabel="assignments"
-        onPageChange={setCurrentPage}
-      />
-    </div>
+    </AcademicDirectoryPage>
   );
 };

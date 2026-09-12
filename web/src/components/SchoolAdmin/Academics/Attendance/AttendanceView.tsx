@@ -1,8 +1,6 @@
 import React from 'react';
-import { PaginationBar } from '@/components/Teacher/shared';
-import { MetricsGrid, type Metric } from '../../shared/MetricsGrid';
-import { PageHeader } from '../../shared/PageHeader';
-import layoutStyles from '../../shared/layout.module.css';
+import type { Metric } from '../../shared/MetricsGrid';
+import { AcademicDirectoryPage } from '../shared/AcademicDirectoryPage';
 import { AttendanceFilters } from './AttendanceFilters';
 import { AttendanceTable } from './AttendanceTable';
 import { useAttendance } from './useAttendance';
@@ -71,13 +69,22 @@ export const AttendanceView: React.FC = () => {
   } = useAttendance();
 
   return (
-    <div className={layoutStyles.studentsContainer}>
-      <PageHeader
-        title="Attendance"
-        subtitle="Monitor daily attendance submissions and follow-up risk across sections"
-        actionButton={{ label: 'Export Report', onClick: () => console.log('export attendance') }}
-      />
-      <MetricsGrid metrics={ATTENDANCE_METRICS} columns={5} />
+    <AcademicDirectoryPage
+      title="Attendance"
+      subtitle="Monitor daily attendance submissions and follow-up risk across sections"
+      actionButton={{ label: 'Export Report', onClick: () => console.log('export attendance') }}
+      metrics={ATTENDANCE_METRICS}
+      metricColumns={5}
+      pagination={{
+        rangeStart,
+        rangeEnd,
+        total: totalCount,
+        page: currentPage,
+        totalPages,
+        itemLabel: 'sections',
+        onPageChange: setCurrentPage,
+      }}
+    >
       <AttendanceFilters
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
@@ -97,15 +104,6 @@ export const AttendanceView: React.FC = () => {
         onSelectAttendance={handleSelectAttendance}
         onSort={handleSort}
       />
-      <PaginationBar
-        rangeStart={rangeStart}
-        rangeEnd={rangeEnd}
-        total={totalCount}
-        page={currentPage}
-        totalPages={totalPages}
-        itemLabel="sections"
-        onPageChange={setCurrentPage}
-      />
-    </div>
+    </AcademicDirectoryPage>
   );
 };

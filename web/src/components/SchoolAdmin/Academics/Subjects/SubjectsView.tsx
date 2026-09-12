@@ -1,8 +1,6 @@
 import React from 'react';
-import { PaginationBar } from '@/components/Teacher/shared';
-import { MetricsGrid, type Metric } from '../../shared/MetricsGrid';
-import { PageHeader } from '../../shared/PageHeader';
-import layoutStyles from '../../shared/layout.module.css';
+import type { Metric } from '../../shared/MetricsGrid';
+import { AcademicDirectoryPage } from '../shared/AcademicDirectoryPage';
 import { SubjectsFilters } from './SubjectsFilters';
 import { SubjectsTable } from './SubjectsTable';
 import { useSubjects } from './useSubjects';
@@ -65,13 +63,21 @@ export const SubjectsView: React.FC = () => {
   } = useSubjects();
 
   return (
-    <div className={layoutStyles.studentsContainer}>
-      <PageHeader
-        title="Subjects"
-        subtitle="Manage curriculum subjects, departments, teachers, and section coverage"
-        actionButton={{ label: 'Add Subject', onClick: () => console.log('add subject') }}
-      />
-      <MetricsGrid metrics={SUBJECTS_METRICS} columns={4} />
+    <AcademicDirectoryPage
+      title="Subjects"
+      subtitle="Manage curriculum subjects, departments, teachers, and section coverage"
+      actionButton={{ label: 'Add Subject', onClick: () => console.log('add subject') }}
+      metrics={SUBJECTS_METRICS}
+      pagination={{
+        rangeStart,
+        rangeEnd,
+        total: totalCount,
+        page: currentPage,
+        totalPages,
+        itemLabel: 'subjects',
+        onPageChange: setCurrentPage,
+      }}
+    >
       <SubjectsFilters
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
@@ -92,15 +98,6 @@ export const SubjectsView: React.FC = () => {
         onSelectSubject={handleSelectSubject}
         onSort={handleSort}
       />
-      <PaginationBar
-        rangeStart={rangeStart}
-        rangeEnd={rangeEnd}
-        total={totalCount}
-        page={currentPage}
-        totalPages={totalPages}
-        itemLabel="subjects"
-        onPageChange={setCurrentPage}
-      />
-    </div>
+    </AcademicDirectoryPage>
   );
 };

@@ -1,8 +1,6 @@
 import React from 'react';
-import { PaginationBar } from '@/components/Teacher/shared';
-import { MetricsGrid, type Metric } from '../../shared/MetricsGrid';
-import { PageHeader } from '../../shared/PageHeader';
-import layoutStyles from '../../shared/layout.module.css';
+import type { Metric } from '../../shared/MetricsGrid';
+import { AcademicDirectoryPage } from '../shared/AcademicDirectoryPage';
 import { GradesFilters } from './GradesFilters';
 import { GradesTable } from './GradesTable';
 import { useGrades } from './useGrades';
@@ -64,13 +62,21 @@ export const GradesView: React.FC = () => {
   } = useGrades();
 
   return (
-    <div className={layoutStyles.studentsContainer}>
-      <PageHeader
-        title="Grades"
-        subtitle="Monitor gradebook completion, averages, passing rates, and at-risk sections"
-        actionButton={{ label: 'Export Grades', onClick: () => console.log('export grades') }}
-      />
-      <MetricsGrid metrics={GRADES_METRICS} columns={4} />
+    <AcademicDirectoryPage
+      title="Grades"
+      subtitle="Monitor gradebook completion, averages, passing rates, and at-risk sections"
+      actionButton={{ label: 'Export Grades', onClick: () => console.log('export grades') }}
+      metrics={GRADES_METRICS}
+      pagination={{
+        rangeStart,
+        rangeEnd,
+        total: totalCount,
+        page: currentPage,
+        totalPages,
+        itemLabel: 'gradebooks',
+        onPageChange: setCurrentPage,
+      }}
+    >
       <GradesFilters
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
@@ -90,15 +96,6 @@ export const GradesView: React.FC = () => {
         onSelectGrade={handleSelectGrade}
         onSort={handleSort}
       />
-      <PaginationBar
-        rangeStart={rangeStart}
-        rangeEnd={rangeEnd}
-        total={totalCount}
-        page={currentPage}
-        totalPages={totalPages}
-        itemLabel="gradebooks"
-        onPageChange={setCurrentPage}
-      />
-    </div>
+    </AcademicDirectoryPage>
   );
 };

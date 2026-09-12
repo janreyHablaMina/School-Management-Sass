@@ -1,8 +1,6 @@
 import React from 'react';
-import { PaginationBar } from '@/components/Teacher/shared';
-import { MetricsGrid, type Metric } from '../../shared/MetricsGrid';
-import { PageHeader } from '../../shared/PageHeader';
-import layoutStyles from '../../shared/layout.module.css';
+import type { Metric } from '../../shared/MetricsGrid';
+import { AcademicDirectoryPage } from '../shared/AcademicDirectoryPage';
 import { LessonsFilters } from './LessonsFilters';
 import { LessonsTable } from './LessonsTable';
 import { useLessons } from './useLessons';
@@ -64,13 +62,21 @@ export const LessonsView: React.FC = () => {
   } = useLessons();
 
   return (
-    <div className={layoutStyles.studentsContainer}>
-      <PageHeader
-        title="Lessons"
-        subtitle="Review lesson content, publication status, and curriculum coverage"
-        actionButton={{ label: 'Create Lesson', onClick: () => console.log('create lesson') }}
-      />
-      <MetricsGrid metrics={LESSONS_METRICS} columns={4} />
+    <AcademicDirectoryPage
+      title="Lessons"
+      subtitle="Review lesson content, publication status, and curriculum coverage"
+      actionButton={{ label: 'Create Lesson', onClick: () => console.log('create lesson') }}
+      metrics={LESSONS_METRICS}
+      pagination={{
+        rangeStart,
+        rangeEnd,
+        total: totalCount,
+        page: currentPage,
+        totalPages,
+        itemLabel: 'lessons',
+        onPageChange: setCurrentPage,
+      }}
+    >
       <LessonsFilters
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
@@ -90,15 +96,6 @@ export const LessonsView: React.FC = () => {
         onSelectLesson={handleSelectLesson}
         onSort={handleSort}
       />
-      <PaginationBar
-        rangeStart={rangeStart}
-        rangeEnd={rangeEnd}
-        total={totalCount}
-        page={currentPage}
-        totalPages={totalPages}
-        itemLabel="lessons"
-        onPageChange={setCurrentPage}
-      />
-    </div>
+    </AcademicDirectoryPage>
   );
 };
