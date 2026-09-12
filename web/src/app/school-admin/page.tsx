@@ -32,6 +32,12 @@ const ClassesSectionsView = dynamic(() =>
 const SubjectsView = dynamic(() =>
   import('@/components/SchoolAdmin/Academics/Subjects').then((mod) => mod.SubjectsView),
 );
+const AttendanceView = dynamic(() =>
+  import('@/components/SchoolAdmin/Academics/Attendance').then((mod) => mod.AttendanceView),
+);
+const AssignmentsView = dynamic(() =>
+  import('@/components/SchoolAdmin/Academics/Assignments').then((mod) => mod.AssignmentsView),
+);
 
 export default function SchoolAdminDashboard() {
   const [activeTab, setActiveTab] = useState('Dashboard');
@@ -58,6 +64,10 @@ export default function SchoolAdminDashboard() {
         return <ClassesSectionsView />;
       case 'Subjects':
         return <SubjectsView />;
+      case 'Attendance':
+        return <AttendanceView />;
+      case 'Assignments':
+        return <AssignmentsView />;
       default:
         // Generic fallback for unimplemented tabs
         return <SchoolAdminPlaceholder title={activeTab} />;
