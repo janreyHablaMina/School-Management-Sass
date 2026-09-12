@@ -52,6 +52,11 @@ const AnnouncementsView = dynamic(() =>
     (mod) => mod.AnnouncementsView,
   ),
 );
+const AdminCalendarView = dynamic(() =>
+  import('@/components/SchoolAdmin/Communications/Calendar/CalendarView').then(
+    (mod) => mod.CalendarView,
+  ),
+);
 
 export default function SchoolAdminDashboard() {
   const [activeTab, setActiveTab] = useState('Dashboard');
@@ -90,6 +95,8 @@ export default function SchoolAdminDashboard() {
         return <GradesView />;
       case 'Announcements':
         return <AnnouncementsView />;
+      case 'Calendar':
+        return <AdminCalendarView />;
       default:
         // Generic fallback for unimplemented tabs
         return <SchoolAdminPlaceholder title={activeTab} />;

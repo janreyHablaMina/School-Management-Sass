@@ -60,7 +60,6 @@ export const schoolAdminMenuGroups: NavGroup[] = [
     title: 'Communication',
     items: [
       { label: 'Announcements', icon: '📢' },
-      { label: 'Class Feed', icon: '💬' },
       { label: 'Calendar', icon: '📆' },
     ],
   },

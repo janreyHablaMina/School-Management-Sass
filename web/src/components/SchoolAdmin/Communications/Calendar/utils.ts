@@ -1,0 +1,22 @@
+/** Calendar UI helpers — re-exports shared lib for local imports. */
+export {
+  CALENDAR_EVENT_TYPES,
+  CALENDAR_FILTERS,
+  buildCalendarMetrics,
+  buildEventFromInput,
+  buildMonthCells,
+  calendarTypeAccent,
+  countEventsByType,
+  eventAccent,
+  formatDayLabel,
+  formatEventTime,
+  formatMonthLabel,
+  formatTimeInput,
+  getCreateEventError,
+  groupEventsByDay,
+  monthPrefix,
+  parseDateKey,
+  sortEventsByTime,
+  toDateKey,
+  todayParts,
+} from '@/lib/calendar';
