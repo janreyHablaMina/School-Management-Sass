@@ -1,0 +1,101 @@
+.twoColRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.threeColRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.chartBody {
+  height: 250px;
+  padding: 1rem 0;
+}
+
+.donutBody {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.donutWrapper {
+  width: 160px;
+  height: 160px;
+  margin-bottom: 1.5rem;
+}
+
+.donutLegend {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.actionLink {
+  margin-top: 1.5rem;
+  text-align: center;
+  padding-top: 1rem;
+  border-top: 1px dashed rgba(240, 239, 237, 0.15);
+  color: #84a9ff;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.actionLink:hover {
+  opacity: 0.8;
+}
+
+.quickReportItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px dashed rgba(240, 239, 237, 0.15);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.quickReportItem:hover {
+  transform: translateX(4px);
+}
+
+.quickReportLeft {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.quickReportIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.quickReportTitle {
+  margin: 0 0 0.25rem 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #f0efed;
+}
+
+.quickReportDesc {
+  margin: 0;
+  font-size: 0.8rem;
+  color: rgba(240, 239, 237, 0.6);
+}
+
+@media (max-width: 1024px) {
+  .twoColRow, .threeColRow {
+    grid-template-columns: 1fr;
+  }
+}

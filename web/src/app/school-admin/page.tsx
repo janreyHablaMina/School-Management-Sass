@@ -57,6 +57,11 @@ const AdminCalendarView = dynamic(() =>
     (mod) => mod.CalendarView,
   ),
 );
+const SchoolAdminReportsView = dynamic(() =>
+  import('@/components/SchoolAdmin/Analytics/Reports/ReportsView').then(
+    (mod) => mod.ReportsView,
+  ),
+);
 
 export default function SchoolAdminDashboard() {
   const [activeTab, setActiveTab] = useState('Dashboard');
@@ -97,6 +102,8 @@ export default function SchoolAdminDashboard() {
         return <AnnouncementsView />;
       case 'Calendar':
         return <AdminCalendarView />;
+      case 'Reports':
+        return <SchoolAdminReportsView />;
       default:
         // Generic fallback for unimplemented tabs
         return <SchoolAdminPlaceholder title={activeTab} />;
