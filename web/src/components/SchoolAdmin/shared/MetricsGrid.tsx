@@ -32,7 +32,6 @@ export const MetricsGrid: React.FC<MetricsGridProps> = ({ metrics, columns = 4 }
              metric.title === 'Male Students' ? '♂' :
              metric.title === 'Female Students' ? '♀' :
              metric.title === 'New Enrollments' ? '↗' :
-             metric.title === 'With Incomplete Info' ? '!' :
              metric.title === 'Active Students' ? '●' :
              metric.title === 'Avg. Attendance' ? '◷' : '▣'}
           </div>

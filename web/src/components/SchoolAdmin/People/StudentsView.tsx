@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useStudents } from './useStudents';
+import { MessageModal, MessageData } from '@/components/ui/MessageModal';
 import { PageHeader } from '../shared/PageHeader';
 import { MetricsGrid, Metric } from '../shared/MetricsGrid';
 import layoutStyles from '../shared/layout.module.css';
@@ -26,6 +27,8 @@ export const StudentsView: React.FC = () => {
   } = useStudents();
 
   const [selectedStudentForDetails, setSelectedStudentForDetails] = useState<Student | null>(null);
+  const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
+  const [messageTargetIds, setMessageTargetIds] = useState<string[]>([]);
 
   if (selectedStudentForDetails) {
     return <StudentProfileView student={selectedStudentForDetails} onBack={() => setSelectedStudentForDetails(null)} />;
@@ -36,7 +39,6 @@ export const StudentsView: React.FC = () => {
     { title: 'Male Students', value: '642', subtitle: '51.6% of total', iconBg: 'rgba(92, 199, 137, 0.1)', iconColor: '#5cc789' },
     { title: 'Female Students', value: '603', subtitle: '48.4% of total', iconBg: 'rgba(255, 126, 147, 0.1)', iconColor: '#ff7e93' },
     { title: 'New Enrollments', value: '56', subtitle: '12.0% vs last month', iconBg: 'rgba(255, 171, 107, 0.1)', iconColor: '#ffab6b' },
-    { title: 'With Incomplete Info', value: '18', subtitle: 'View list', iconBg: 'rgba(182, 142, 255, 0.1)', iconColor: '#b68eff' },
   ];
 
   return (
@@ -46,7 +48,7 @@ export const StudentsView: React.FC = () => {
         subtitle="Management panel for Students" 
         actionButton={{ label: "Add Student", onClick: () => console.log('add') }} 
       />
-      <MetricsGrid metrics={STUDENTS_METRICS} columns={5} />
+      <MetricsGrid metrics={STUDENTS_METRICS} columns={4} />
       <StudentsFilters searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       
       <StudentsTable 
@@ -58,6 +60,10 @@ export const StudentsView: React.FC = () => {
         onSelectStudent={handleSelectStudent}
         onSort={handleSort}
         onViewDetails={setSelectedStudentForDetails}
+        onMessage={(ids) => {
+          setMessageTargetIds(ids);
+          setIsMessageModalOpen(true);
+        }}
       />
       <PaginationBar
         rangeStart={sortedStudents.length > 0 ? 1 : 0}
@@ -67,6 +73,17 @@ export const StudentsView: React.FC = () => {
         totalPages={Math.max(1, Math.ceil(totalCount / 10))}
         itemLabel="students"
         onPageChange={setCurrentPage}
+      />
+      <MessageModal
+        isOpen={isMessageModalOpen}
+        onClose={() => setIsMessageModalOpen(false)}
+        recipientCount={messageTargetIds.length}
+        onSend={(data: MessageData) => {
+          console.log('Sending message to', messageTargetIds, data);
+          setIsMessageModalOpen(false);
+          // Here we would typically show a success toast
+          alert(`Message sent to ${messageTargetIds.length} student(s) / parent(s)!`);
+        }}
       />
     </div>
   );

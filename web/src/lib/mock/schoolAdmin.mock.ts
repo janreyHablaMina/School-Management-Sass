@@ -254,6 +254,9 @@ export const schoolAdminMockData = {
       status: 'Active',
       lastLogin: 'Today, 7:45 AM',
       avatarColor: '#84a9ff',
+      attendanceRate: 86,
+      averageGrade: 76,
+      letterGrade: 'C+',
     },
     {
       id: 'p2',
@@ -267,6 +270,9 @@ export const schoolAdminMockData = {
       status: 'Active',
       lastLogin: 'Yesterday, 8:10 PM',
       avatarColor: '#ff7e93',
+      attendanceRate: 87,
+      averageGrade: 77,
+      letterGrade: 'C+',
     },
     {
       id: 'p3',
@@ -280,6 +286,9 @@ export const schoolAdminMockData = {
       status: 'Pending Invite',
       lastLogin: 'Never',
       avatarColor: '#5cc789',
+      attendanceRate: 88,
+      averageGrade: 78,
+      letterGrade: 'C+',
     },
     {
       id: 'p4',
@@ -293,6 +302,9 @@ export const schoolAdminMockData = {
       status: 'Active',
       lastLogin: 'May 21, 2026',
       avatarColor: '#ffab6b',
+      attendanceRate: 89,
+      averageGrade: 79,
+      letterGrade: 'C+',
     },
     {
       id: 'p5',
@@ -306,6 +318,9 @@ export const schoolAdminMockData = {
       status: 'Active',
       lastLogin: 'May 20, 2026',
       avatarColor: '#b68eff',
+      attendanceRate: 90,
+      averageGrade: 80,
+      letterGrade: 'B',
     },
     {
       id: 'p6',
@@ -319,6 +334,9 @@ export const schoolAdminMockData = {
       status: 'Inactive',
       lastLogin: 'Apr 30, 2026',
       avatarColor: '#ff7e93',
+      attendanceRate: 91,
+      averageGrade: 81,
+      letterGrade: 'B',
     },
     {
       id: 'p7',
@@ -332,6 +350,9 @@ export const schoolAdminMockData = {
       status: 'Active',
       lastLogin: 'Today, 6:15 AM',
       avatarColor: '#6bcbff',
+      attendanceRate: 92,
+      averageGrade: 82,
+      letterGrade: 'B',
     },
     {
       id: 'p8',
@@ -345,6 +366,9 @@ export const schoolAdminMockData = {
       status: 'Active',
       lastLogin: 'May 22, 2026',
       avatarColor: '#f5c842',
+      attendanceRate: 93,
+      averageGrade: 83,
+      letterGrade: 'B',
     },
     {
       id: 'p9',
@@ -358,6 +382,9 @@ export const schoolAdminMockData = {
       status: 'Pending Invite',
       lastLogin: 'Never',
       avatarColor: '#84a9ff',
+      attendanceRate: 94,
+      averageGrade: 84,
+      letterGrade: 'B',
     },
     {
       id: 'p10',
@@ -371,6 +398,9 @@ export const schoolAdminMockData = {
       status: 'Active',
       lastLogin: 'May 19, 2026',
       avatarColor: '#ff7e93',
+      attendanceRate: 95,
+      averageGrade: 85,
+      letterGrade: 'B+',
     },
   ],
   classesSections: [
@@ -1505,7 +1535,10 @@ export const schoolAdminMockData = {
       status: 'Active',
       dateEnrolled: 'May 20, 2025',
       avatarColor: '#84a9ff'
-    },
+    ,
+      attendanceRate: 96,
+      averageGrade: 86,
+      letterGrade: 'B+'},
     {
       id: '2',
       name: 'Maria Santos',
@@ -1517,7 +1550,10 @@ export const schoolAdminMockData = {
       status: 'Active',
       dateEnrolled: 'May 20, 2025',
       avatarColor: '#ff7e93'
-    },
+    ,
+      attendanceRate: 97,
+      averageGrade: 87,
+      letterGrade: 'B+'},
     {
       id: '3',
       name: 'John Reyes',
@@ -1529,7 +1565,10 @@ export const schoolAdminMockData = {
       status: 'Active',
       dateEnrolled: 'May 19, 2025',
       avatarColor: '#5cc789'
-    },
+    ,
+      attendanceRate: 98,
+      averageGrade: 88,
+      letterGrade: 'B+'},
     {
       id: '4',
       name: 'Ashley Garcia',
@@ -1541,7 +1580,10 @@ export const schoolAdminMockData = {
       status: 'Active',
       dateEnrolled: 'May 19, 2025',
       avatarColor: '#ffab6b'
-    },
+    ,
+      attendanceRate: 99,
+      averageGrade: 89,
+      letterGrade: 'B+'},
     {
       id: '5',
       name: 'Miguel Salvador',
@@ -1553,7 +1595,10 @@ export const schoolAdminMockData = {
       status: 'Active',
       dateEnrolled: 'May 18, 2025',
       avatarColor: '#b68eff'
-    },
+    ,
+      attendanceRate: 85,
+      averageGrade: 90,
+      letterGrade: 'A'},
     {
       id: '6',
       name: 'Patricia Lim',
@@ -1565,7 +1610,10 @@ export const schoolAdminMockData = {
       status: 'Inactive',
       dateEnrolled: 'May 18, 2025',
       avatarColor: '#ff7e93'
-    },
+    ,
+      attendanceRate: 86,
+      averageGrade: 91,
+      letterGrade: 'A'},
     {
       id: '7',
       name: 'Daniel Tan',
@@ -1577,7 +1625,10 @@ export const schoolAdminMockData = {
       status: 'Active',
       dateEnrolled: 'May 17, 2025',
       avatarColor: '#6bcbff'
-    },
+    ,
+      attendanceRate: 87,
+      averageGrade: 92,
+      letterGrade: 'A'},
     {
       id: '8',
       name: 'Kimberly Cruz',
@@ -1589,7 +1640,10 @@ export const schoolAdminMockData = {
       status: 'Active',
       dateEnrolled: 'May 17, 2025',
       avatarColor: '#f5c842'
-    },
+    ,
+      attendanceRate: 88,
+      averageGrade: 93,
+      letterGrade: 'A'},
     {
       id: '9',
       name: 'Ethan Co',
@@ -1601,7 +1655,10 @@ export const schoolAdminMockData = {
       status: 'Active',
       dateEnrolled: 'May 16, 2025',
       avatarColor: '#84a9ff'
-    },
+    ,
+      attendanceRate: 89,
+      averageGrade: 94,
+      letterGrade: 'A'},
     {
       id: '10',
       name: 'Sophia Mendoza',
@@ -1613,6 +1670,9 @@ export const schoolAdminMockData = {
       status: 'Active',
       dateEnrolled: 'May 16, 2025',
       avatarColor: '#ff7e93'
-    }
+    ,
+      attendanceRate: 90,
+      averageGrade: 95,
+      letterGrade: 'A+'}
   ]
 };

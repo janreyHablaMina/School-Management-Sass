@@ -23,8 +23,8 @@ export const DashboardView: React.FC = () => {
         metrics={[
           { label: 'Total Students', value: '1,245', growth: 'View all →', growthClass: 'yellow' },
           { label: 'Total Teachers', value: '78', growth: 'View all →', growthClass: 'yellow' },
+          { label: 'Total Parents', value: '984', growth: 'View all →', growthClass: 'yellow' },
           { label: 'Total Classes', value: '42', growth: 'View all →', growthClass: 'yellow' },
-          { label: 'Teachers Present', value: '74', growth: '4 on leave today', growthClass: 'green' },
           { label: 'At-Risk Students', value: '23', growth: 'Needs intervention', growthClass: 'yellow' },
         ]}
       />
@@ -62,7 +62,7 @@ export const DashboardView: React.FC = () => {
         <DashboardListPanel
           title="Recent Activities"
           footerLabel="View all ›"
-          items={schoolAdminMockData.recentActivities.map((activity) => ({
+          items={schoolAdminMockData.recentActivities.slice(0, 3).map((activity) => ({
             id: activity.id,
             title: activity.user,
             description: activity.details,
@@ -74,7 +74,7 @@ export const DashboardView: React.FC = () => {
         <DashboardListPanel
           title="Upcoming Events"
           footerLabel="View calendar ›"
-          items={schoolAdminMockData.upcomingEvents.map((event) => ({
+          items={schoolAdminMockData.upcomingEvents.slice(0, 4).map((event) => ({
             id: event.id,
             title: event.title,
             description: event.time,
@@ -87,7 +87,7 @@ export const DashboardView: React.FC = () => {
         <DashboardListPanel
           title="Announcements"
           footerLabel="View all ›"
-          items={schoolAdminMockData.announcements.map((announcement) => ({
+          items={schoolAdminMockData.announcements.slice(0, 3).map((announcement) => ({
             id: announcement.id,
             title: announcement.title,
             description: announcement.desc,

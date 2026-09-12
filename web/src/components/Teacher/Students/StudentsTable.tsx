@@ -61,6 +61,10 @@ export function StudentsTable({
   onRestoreActive,
 }: StudentsTableProps) {
   const bulkActions = [
+    {
+      label: `Send Message`,
+      onClick: () => alert('Bulk message functionality not implemented yet.'),
+    },
     ...(selectedActiveCount > 0
       ? [
           {
@@ -79,6 +83,11 @@ export function StudentsTable({
           },
         ]
       : []),
+    {
+      label: `Archive`,
+      onClick: () => alert('Bulk archive functionality not implemented yet.'),
+      tone: 'danger' as const,
+    },
   ];
 
   return (

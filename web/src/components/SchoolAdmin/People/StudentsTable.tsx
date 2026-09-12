@@ -20,26 +20,32 @@ interface StudentsTableProps {
   sortDirection: 'asc' | 'desc';
   onSelectAll: (checked: boolean) => void;
   onSelectStudent: (id: string) => void;
-  onSort: (key: SortKey) => void;
+  onSort: (key: string) => void;
   onViewDetails: (student: Student) => void;
+  onMessage?: (studentIds: string[]) => void;
 }
+
+import { attendanceBarColor, letterGradeAccent } from '@/components/Teacher/Students/studentDisplay';
 
 const COLUMNS: DataTableColumn[] = [
   { id: 'name', label: 'Student', sortable: true },
-  { id: 'grade', label: 'Grade', sortable: true },
-  { id: 'section', label: 'Section', sortable: true },
+  { id: 'grade', label: 'Class', sortable: true },
+  { id: 'attendanceRate', label: 'Attendance', sortable: true },
+  { id: 'averageGrade', label: 'Average Grade', sortable: true },
   { id: 'status', label: 'Status', sortable: true },
-  { id: 'dateEnrolled', label: 'Date Enrolled', sortable: true },
-  { id: 'actions', label: 'Action' },
+  { id: 'actions', label: 'Actions' },
 ];
 
 const ROW_ACTIONS = [
   { icon: '👤', label: 'View Profile' },
   { icon: '✏️', label: 'Edit Student' },
-  { icon: '📧', label: 'Message Parent' },
+  { icon: '📧', label: 'Send Message' },
 ] as const;
 
-const DANGER_ACTIONS = [{ icon: '!', label: 'Delete Student' }] as const;
+const DANGER_ACTIONS = [
+  { icon: '🚫', label: 'Mark Inactive' },
+  { icon: '🗃️', label: 'Archive Student' },
+] as const;
 
 function getInitials(name: string) {
   return name
@@ -63,6 +69,7 @@ export const StudentsTable: React.FC<StudentsTableProps> = ({
   onSelectStudent,
   onSort,
   onViewDetails,
+  onMessage,
 }) => {
   const allVisibleSelected = selectedStudents.length === students.length && students.length > 0;
 
@@ -74,8 +81,17 @@ export const StudentsTable: React.FC<StudentsTableProps> = ({
         onClearSelection={() => onSelectAll(false)}
         actions={[
           {
-            label: 'Delete',
-            onClick: () => alert('Delete students functionality not implemented yet.'),
+            label: 'Send Message',
+            onClick: () => onMessage?.(selectedStudents),
+          },
+          {
+            label: 'Mark Inactive',
+            onClick: () => alert('Bulk mark inactive functionality not implemented yet.'),
+            tone: 'danger',
+          },
+          {
+            label: 'Archive',
+            onClick: () => alert('Bulk archive functionality not implemented yet.'),
             tone: 'danger',
           },
         ]}
@@ -126,12 +142,31 @@ export const StudentsTable: React.FC<StudentsTableProps> = ({
                 </div>
               </div>
             </td>
-            <td>{student.gradeSection.split(' - ')[0] || student.gradeSection}</td>
-            <td>{student.gradeSection.split(' - ')[1]?.replace('Section ', '') || ''}</td>
+            <td>
+              <div className={styles.classCell}>
+                <p className={styles.classLabel}>{student.gradeSection}</p>
+                <p className={styles.classSubject}>Homeroom</p>
+              </div>
+            </td>
+            <td>
+              <div className={styles.attendanceCell}>
+                <span className={styles.attendancePct}>{student.attendanceRate ?? 0}%</span>
+                <div className={listStyles.progressTrack}>
+                  <div
+                    className={listStyles.progressFill}
+                    style={{ width: `${student.attendanceRate ?? 0}%`, background: attendanceBarColor(student.attendanceRate ?? 0) }}
+                  />
+                </div>
+              </div>
+            </td>
+            <td>
+              <div className={styles.gradeCell}>
+                <span className={styles.gradeValue}>{(student.averageGrade ?? 0).toFixed(1)}</span>
+              </div>
+            </td>
             <td>
               <ChalkBadge label={student.status ?? 'Unknown'} accent={statusAccent(student.status)} />
             </td>
-            <td>{student.dateEnrolled}</td>
             <td
               onClick={(event) => event.stopPropagation()}
               onKeyDown={(event) => event.stopPropagation()}
@@ -145,11 +180,14 @@ export const StudentsTable: React.FC<StudentsTableProps> = ({
                   if (label === 'Edit Student') {
                     alert('Edit student functionality not implemented yet.');
                   }
-                  if (label === 'Message Parent') {
-                    alert('Message parent functionality not implemented yet.');
+                  if (label === 'Send Message') {
+                    onMessage?.([student.id]);
                   }
-                  if (label === 'Delete Student') {
-                    alert('Delete student functionality not implemented yet.');
+                  if (label === 'Mark Inactive') {
+                    alert('Mark inactive functionality not implemented yet.');
+                  }
+                  if (label === 'Archive Student') {
+                    alert('Archive student functionality not implemented yet.');
                   }
                 }}
               />

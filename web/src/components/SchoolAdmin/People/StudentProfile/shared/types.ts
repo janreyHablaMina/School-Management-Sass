@@ -9,4 +9,7 @@ export interface Student {
   dateEnrolled: string;
   avatarColor?: string;
   status?: string;
+  attendanceRate?: number;
+  averageGrade?: number;
+  letterGrade?: string;
 }

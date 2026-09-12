@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { schoolAdminMockData } from '@/lib/mock/schoolAdmin.mock';
 
-export type SortKey = 'name' | 'studentId' | 'grade' | 'section' | 'parentGuardian' | 'status' | 'dateEnrolled';
+export type SortKey = 'name' | 'studentId' | 'grade' | 'section' | 'parentGuardian' | 'status' | 'dateEnrolled' | 'attendanceRate' | 'averageGrade';
 
 export const useStudents = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -47,6 +47,12 @@ export const useStudents = () => {
         } else if (sortConfig.key === 'section') {
           valA = a.gradeSection.split(' - ')[1] || '';
           valB = b.gradeSection.split(' - ')[1] || '';
+        } else if (sortConfig.key === 'attendanceRate') {
+          valA = a.attendanceRate ?? 0;
+          valB = b.attendanceRate ?? 0;
+        } else if (sortConfig.key === 'averageGrade') {
+          valA = a.averageGrade ?? 0;
+          valB = b.averageGrade ?? 0;
         }
 
         if (valA < valB) return sortConfig.direction === 'asc' ? -1 : 1;

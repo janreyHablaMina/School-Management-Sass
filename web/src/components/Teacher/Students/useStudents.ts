@@ -64,7 +64,8 @@ type Overlay =
   | { kind: 'create' }
   | { kind: 'edit'; id: string }
   | { kind: 'inactive'; id: string }
-  | { kind: 'bulkInactive' };
+  | { kind: 'bulkInactive' }
+  | { kind: 'message'; ids: string[] };
 
 export function useStudents(options?: { classFocus?: TeacherClassFocus | null }) {
   const { metrics, filterOptions } = teacherStudentsPageMock;
@@ -165,6 +166,10 @@ export function useStudents(options?: { classFocus?: TeacherClassFocus | null })
     const unique = Array.from(new Set(students.map((student) => student.subject)));
     return unique.sort((a, b) => a.localeCompare(b));
   }, [students]);
+
+  const openMessageModal = (ids: string[]) => {
+    setOverlay({ kind: 'message', ids });
+  };
 
   const updateStudent = (input: StudentProfileFormInput) => {
     if (overlay.kind !== 'edit') return;

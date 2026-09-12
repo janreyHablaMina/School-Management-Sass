@@ -18,7 +18,7 @@ import { StudentAvatar } from './StudentAvatar';
 const ROW_ACTIONS = [
   { icon: '👤', label: 'View Profile' },
   { icon: '✏️', label: 'Edit Student' },
-  { icon: '📧', label: 'Message Parent' },
+  { icon: '📧', label: 'Send Message' },
 ] as const;
 
 interface StudentRowProps {
@@ -50,8 +50,8 @@ export function StudentRow({
   const isInactive = student.status === 'Inactive';
 
   const dangerActions = isInactive
-    ? ([{ icon: '♻️', label: 'Restore Active' }] as const)
-    : ([{ icon: '🚫', label: 'Mark Inactive' }] as const);
+    ? ([{ icon: '♻️', label: 'Restore Active' }, { icon: '🗃️', label: 'Archive Student' }] as const)
+    : ([{ icon: '🚫', label: 'Mark Inactive' }, { icon: '🗃️', label: 'Archive Student' }] as const);
 
   return (
     <tr
@@ -110,7 +110,6 @@ export function StudentRow({
       <td>
         <div className={styles.gradeCell}>
           <span className={styles.gradeValue}>{student.averageGrade.toFixed(1)}</span>
-          <ChalkBadge label={student.letterGrade} accent={letterColor} />
         </div>
       </td>
       <td>
@@ -127,9 +126,10 @@ export function StudentRow({
           onAction={(label) => {
             if (label === 'View Profile') onOpen(student.id);
             if (label === 'Edit Student') onEdit?.(student.id);
-            if (label === 'Message Parent') onMessage?.(student.id);
+            if (label === 'Send Message') onMessage?.(student.id);
             if (label === 'Mark Inactive') onMarkInactive?.(student.id);
             if (label === 'Restore Active') onRestoreActive?.(student.id);
+            if (label === 'Archive Student') alert('Archive student functionality not implemented yet.');
           }}
         />
       </td>
