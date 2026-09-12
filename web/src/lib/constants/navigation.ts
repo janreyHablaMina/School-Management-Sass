@@ -67,7 +67,7 @@ export const schoolAdminMenuGroups: NavGroup[] = [
     title: 'Analytics',
     items: [
       { label: 'Reports', icon: '📊' },
-      { label: 'AI Assistant', icon: '🤖' },
+      { label: 'PieYah Assistant', icon: '🤖' },
     ],
   },
   {

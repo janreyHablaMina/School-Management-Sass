@@ -62,6 +62,11 @@ const SchoolAdminReportsView = dynamic(() =>
     (mod) => mod.ReportsView,
   ),
 );
+const SchoolAdminAiAssistantView = dynamic(() =>
+  import('@/components/SchoolAdmin/Analytics/AiAssistant/AiAssistantView').then(
+    (mod) => mod.AiAssistantView,
+  ),
+);
 
 export default function SchoolAdminDashboard() {
   const [activeTab, setActiveTab] = useState('Dashboard');
@@ -104,6 +109,8 @@ export default function SchoolAdminDashboard() {
         return <AdminCalendarView />;
       case 'Reports':
         return <SchoolAdminReportsView />;
+      case 'PieYah Assistant':
+        return <SchoolAdminAiAssistantView />;
       default:
         // Generic fallback for unimplemented tabs
         return <SchoolAdminPlaceholder title={activeTab} />;
