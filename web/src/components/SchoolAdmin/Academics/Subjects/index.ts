@@ -1,0 +1,1 @@
+export { SubjectsView } from './SubjectsView';
