@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useSchoolAdminDirectory } from '@/components/SchoolAdmin/shared/useSchoolAdminDirectory';
 import { schoolAdminMockData } from '@/lib/mock/schoolAdmin.mock';
 
 export type ParentRecord = (typeof schoolAdminMockData.parents)[number];
@@ -10,123 +10,74 @@ export type ParentSortKey =
   | 'status'
   | 'lastLogin';
 
-const PAGE_SIZE = 10;
+interface ParentFilters extends Record<string, string> {
+  searchTerm: string;
+  statusFilter: string;
+  relationshipFilter: string;
+}
+
+const INITIAL_FILTERS: ParentFilters = {
+  searchTerm: '',
+  statusFilter: 'All Status',
+  relationshipFilter: 'All Relationships',
+};
 
 function valueForSort(parent: ParentRecord, key: ParentSortKey) {
   if (key === 'grade') return parent.gradeSection;
   return parent[key];
 }
 
+function filterParent(parent: ParentRecord, filters: ParentFilters) {
+  const normalizedSearch = filters.searchTerm.trim().toLowerCase();
+  const matchesSearch =
+    normalizedSearch === '' ||
+    parent.name.toLowerCase().includes(normalizedSearch) ||
+    parent.email.toLowerCase().includes(normalizedSearch) ||
+    parent.contact.toLowerCase().includes(normalizedSearch) ||
+    parent.studentName.toLowerCase().includes(normalizedSearch) ||
+    parent.studentId.toLowerCase().includes(normalizedSearch);
+
+  const matchesStatus =
+    filters.statusFilter === 'All Status' || parent.status === filters.statusFilter;
+
+  const matchesRelationship =
+    filters.relationshipFilter === 'All Relationships' ||
+    parent.relationship === filters.relationshipFilter;
+
+  return matchesSearch && matchesStatus && matchesRelationship;
+}
+
 export function useParents() {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [statusFilter, setStatusFilter] = useState('All Status');
-  const [relationshipFilter, setRelationshipFilter] = useState('All Relationships');
-  const [currentPage, setCurrentPage] = useState(1);
-  const [selectedParents, setSelectedParents] = useState<string[]>([]);
-  const [sortConfig, setSortConfig] = useState<{
-    key: ParentSortKey;
-    direction: 'asc' | 'desc';
-  } | null>(null);
-
-  const handleSort = (key: ParentSortKey) => {
-    setSortConfig((current) => {
-      if (current && current.key === key) {
-        if (current.direction === 'asc') return { key, direction: 'desc' };
-        return null;
-      }
-      return { key, direction: 'asc' };
-    });
-  };
-
-  const filteredParents = useMemo(() => {
-    const normalizedSearch = searchTerm.trim().toLowerCase();
-
-    let parents = schoolAdminMockData.parents.filter((parent) => {
-      const matchesSearch =
-        normalizedSearch === '' ||
-        parent.name.toLowerCase().includes(normalizedSearch) ||
-        parent.email.toLowerCase().includes(normalizedSearch) ||
-        parent.contact.toLowerCase().includes(normalizedSearch) ||
-        parent.studentName.toLowerCase().includes(normalizedSearch) ||
-        parent.studentId.toLowerCase().includes(normalizedSearch);
-
-      const matchesStatus =
-        statusFilter === 'All Status' || parent.status === statusFilter;
-
-      const matchesRelationship =
-        relationshipFilter === 'All Relationships' ||
-        parent.relationship === relationshipFilter;
-
-      return matchesSearch && matchesStatus && matchesRelationship;
-    });
-
-    if (sortConfig) {
-      parents = [...parents].sort((a, b) => {
-        const left = String(valueForSort(a, sortConfig.key));
-        const right = String(valueForSort(b, sortConfig.key));
-        const comparison = left.localeCompare(right, undefined, {
-          numeric: true,
-          sensitivity: 'base',
-        });
-        return sortConfig.direction === 'asc' ? comparison : -comparison;
-      });
-    }
-
-    return parents;
-  }, [relationshipFilter, searchTerm, sortConfig, statusFilter]);
-
-  const totalCount = filteredParents.length;
-  const totalPages = Math.max(1, Math.ceil(totalCount / PAGE_SIZE));
-  const page = Math.min(currentPage, totalPages);
-  const pagedParents = filteredParents.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
-
-  const handleSelectAll = (checked: boolean) => {
-    if (checked) {
-      setSelectedParents(pagedParents.map((parent) => parent.id));
-      return;
-    }
-    setSelectedParents([]);
-  };
-
-  const handleSelectParent = (id: string) => {
-    setSelectedParents((current) =>
-      current.includes(id)
-        ? current.filter((parentId) => parentId !== id)
-        : [...current, id],
-    );
-  };
-
-  const resetFilters = () => {
-    setSearchTerm('');
-    setStatusFilter('All Status');
-    setRelationshipFilter('All Relationships');
-    setCurrentPage(1);
-  };
+  const directory = useSchoolAdminDirectory<ParentRecord, ParentSortKey, ParentFilters>({
+    items: schoolAdminMockData.parents,
+    initialFilters: INITIAL_FILTERS,
+    getId: (parent) => parent.id,
+    filterItem: filterParent,
+    getSortValue: valueForSort,
+  });
 
   return {
-    searchTerm,
-    setSearchTerm,
-    statusFilter,
-    setStatusFilter,
-    relationshipFilter,
-    setRelationshipFilter,
-    currentPage: page,
-    setCurrentPage,
-    selectedParents,
-    handleSelectAll,
-    handleSelectParent,
-    handleSort,
-    sortKey: sortConfig?.key ?? null,
-    sortDirection: sortConfig?.direction ?? 'asc',
-    parents: pagedParents,
-    totalCount,
-    totalPages,
-    rangeStart: totalCount === 0 ? 0 : (page - 1) * PAGE_SIZE + 1,
-    rangeEnd: Math.min(page * PAGE_SIZE, totalCount),
-    resetFilters,
-    hasActiveFilters:
-      searchTerm !== '' ||
-      statusFilter !== 'All Status' ||
-      relationshipFilter !== 'All Relationships',
+    searchTerm: directory.filters.searchTerm,
+    setSearchTerm: (value: string) => directory.setFilter('searchTerm', value),
+    statusFilter: directory.filters.statusFilter,
+    setStatusFilter: (value: string) => directory.setFilter('statusFilter', value),
+    relationshipFilter: directory.filters.relationshipFilter,
+    setRelationshipFilter: (value: string) =>
+      directory.setFilter('relationshipFilter', value),
+    currentPage: directory.page,
+    setCurrentPage: directory.setPage,
+    selectedParents: directory.selectedIds,
+    handleSelectAll: directory.handleSelectAll,
+    handleSelectParent: directory.handleSelectItem,
+    handleSort: directory.handleSort,
+    sortKey: directory.sortKey,
+    sortDirection: directory.sortDirection,
+    parents: directory.paginatedItems,
+    totalCount: directory.filteredCount,
+    totalPages: directory.totalPages,
+    rangeStart: directory.rangeStart,
+    rangeEnd: directory.rangeEnd,
+    resetFilters: directory.clearFilters,
+    hasActiveFilters: directory.isDirty,
   };
 }

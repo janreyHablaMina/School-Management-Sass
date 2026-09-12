@@ -1,4 +1,5 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
+import { useSchoolAdminDirectory } from '@/components/SchoolAdmin/shared/useSchoolAdminDirectory';
 import { schoolAdminMockData } from '@/lib/mock/schoolAdmin.mock';
 
 export type SubjectRecord = (typeof schoolAdminMockData.subjects)[number];
@@ -11,23 +12,41 @@ export type SubjectSortKey =
   | 'units'
   | 'status';
 
-const PAGE_SIZE = 10;
+interface SubjectFilters extends Record<string, string> {
+  searchTerm: string;
+  departmentFilter: string;
+  statusFilter: string;
+}
+
+const INITIAL_FILTERS: SubjectFilters = {
+  searchTerm: '',
+  departmentFilter: 'All Departments',
+  statusFilter: 'All Status',
+};
 
 function valueForSort(subject: SubjectRecord, key: SubjectSortKey) {
   return subject[key];
 }
 
-export function useSubjects() {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [departmentFilter, setDepartmentFilter] = useState('All Departments');
-  const [statusFilter, setStatusFilter] = useState('All Status');
-  const [currentPage, setCurrentPage] = useState(1);
-  const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
-  const [sortConfig, setSortConfig] = useState<{
-    key: SubjectSortKey;
-    direction: 'asc' | 'desc';
-  } | null>(null);
+function filterSubject(subject: SubjectRecord, filters: SubjectFilters) {
+  const normalizedSearch = filters.searchTerm.trim().toLowerCase();
+  const matchesSearch =
+    normalizedSearch === '' ||
+    subject.name.toLowerCase().includes(normalizedSearch) ||
+    subject.code.toLowerCase().includes(normalizedSearch) ||
+    subject.department.toLowerCase().includes(normalizedSearch) ||
+    subject.gradeLevels.toLowerCase().includes(normalizedSearch);
 
+  const matchesDepartment =
+    filters.departmentFilter === 'All Departments' ||
+    subject.department === filters.departmentFilter;
+  const matchesStatus =
+    filters.statusFilter === 'All Status' || subject.status === filters.statusFilter;
+
+  return matchesSearch && matchesDepartment && matchesStatus;
+}
+
+export function useSubjects() {
   const departments = useMemo(
     () => [
       'All Departments',
@@ -36,106 +55,37 @@ export function useSubjects() {
     [],
   );
 
-  const handleSort = (key: SubjectSortKey) => {
-    setSortConfig((current) => {
-      if (current && current.key === key) {
-        if (current.direction === 'asc') return { key, direction: 'desc' };
-        return null;
-      }
-      return { key, direction: 'asc' };
-    });
-  };
-
-  const filteredSubjects = useMemo(() => {
-    const normalizedSearch = searchTerm.trim().toLowerCase();
-
-    let items = schoolAdminMockData.subjects.filter((subject) => {
-      const matchesSearch =
-        normalizedSearch === '' ||
-        subject.name.toLowerCase().includes(normalizedSearch) ||
-        subject.code.toLowerCase().includes(normalizedSearch) ||
-        subject.department.toLowerCase().includes(normalizedSearch) ||
-        subject.gradeLevels.toLowerCase().includes(normalizedSearch);
-
-      const matchesDepartment =
-        departmentFilter === 'All Departments' || subject.department === departmentFilter;
-      const matchesStatus = statusFilter === 'All Status' || subject.status === statusFilter;
-
-      return matchesSearch && matchesDepartment && matchesStatus;
-    });
-
-    if (sortConfig) {
-      items = [...items].sort((a, b) => {
-        const left = valueForSort(a, sortConfig.key);
-        const right = valueForSort(b, sortConfig.key);
-        const comparison =
-          typeof left === 'number' && typeof right === 'number'
-            ? left - right
-            : String(left).localeCompare(String(right), undefined, {
-                numeric: true,
-                sensitivity: 'base',
-              });
-
-        return sortConfig.direction === 'asc' ? comparison : -comparison;
-      });
-    }
-
-    return items;
-  }, [departmentFilter, searchTerm, sortConfig, statusFilter]);
-
-  const totalCount = filteredSubjects.length;
-  const totalPages = Math.max(1, Math.ceil(totalCount / PAGE_SIZE));
-  const page = Math.min(currentPage, totalPages);
-  const subjects = filteredSubjects.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
-
-  const handleSelectAll = (checked: boolean) => {
-    if (checked) {
-      setSelectedSubjects(subjects.map((subject) => subject.id));
-      return;
-    }
-    setSelectedSubjects([]);
-  };
-
-  const handleSelectSubject = (id: string) => {
-    setSelectedSubjects((current) =>
-      current.includes(id)
-        ? current.filter((subjectId) => subjectId !== id)
-        : [...current, id],
-    );
-  };
-
-  const resetFilters = () => {
-    setSearchTerm('');
-    setDepartmentFilter('All Departments');
-    setStatusFilter('All Status');
-    setCurrentPage(1);
-  };
+  const directory = useSchoolAdminDirectory<SubjectRecord, SubjectSortKey, SubjectFilters>({
+    items: schoolAdminMockData.subjects,
+    initialFilters: INITIAL_FILTERS,
+    getId: (subject) => subject.id,
+    filterItem: filterSubject,
+    getSortValue: valueForSort,
+  });
 
   return {
-    searchTerm,
-    setSearchTerm,
-    departmentFilter,
-    setDepartmentFilter,
-    statusFilter,
-    setStatusFilter,
+    searchTerm: directory.filters.searchTerm,
+    setSearchTerm: (value: string) => directory.setFilter('searchTerm', value),
+    departmentFilter: directory.filters.departmentFilter,
+    setDepartmentFilter: (value: string) =>
+      directory.setFilter('departmentFilter', value),
+    statusFilter: directory.filters.statusFilter,
+    setStatusFilter: (value: string) => directory.setFilter('statusFilter', value),
     departments,
-    currentPage: page,
-    setCurrentPage,
-    selectedSubjects,
-    handleSelectAll,
-    handleSelectSubject,
-    handleSort,
-    sortKey: sortConfig?.key ?? null,
-    sortDirection: sortConfig?.direction ?? 'asc',
-    subjects,
-    totalCount,
-    totalPages,
-    rangeStart: totalCount === 0 ? 0 : (page - 1) * PAGE_SIZE + 1,
-    rangeEnd: Math.min(page * PAGE_SIZE, totalCount),
-    resetFilters,
-    hasActiveFilters:
-      searchTerm !== '' ||
-      departmentFilter !== 'All Departments' ||
-      statusFilter !== 'All Status',
+    currentPage: directory.page,
+    setCurrentPage: directory.setPage,
+    selectedSubjects: directory.selectedIds,
+    handleSelectAll: directory.handleSelectAll,
+    handleSelectSubject: directory.handleSelectItem,
+    handleSort: directory.handleSort,
+    sortKey: directory.sortKey,
+    sortDirection: directory.sortDirection,
+    subjects: directory.paginatedItems,
+    totalCount: directory.filteredCount,
+    totalPages: directory.totalPages,
+    rangeStart: directory.rangeStart,
+    rangeEnd: directory.rangeEnd,
+    resetFilters: directory.clearFilters,
+    hasActiveFilters: directory.isDirty,
   };
 }

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useRef, useState } from 'react';
+import dynamic from 'next/dynamic';
 import styles from '@/app/admin/admin.module.css';
 import { Sidebar } from '@/components/AdminLayout/Sidebar';
 import { TopBar } from '@/components/AdminLayout/TopBar';
@@ -12,12 +13,25 @@ import { schoolAdminMockData } from '@/lib/mock/schoolAdmin.mock';
 
 // Import views
 import { DashboardView } from '@/components/SchoolAdmin/Dashboard/DashboardView';
-import { StudentsView } from '@/components/SchoolAdmin/People/StudentsView';
-import { TeachersView } from '@/components/SchoolAdmin/People/Teachers/TeachersView';
-import { ParentsView } from '@/components/SchoolAdmin/People/Parents';
-import { ClassesSectionsView } from '@/components/SchoolAdmin/Academics/ClassesSections';
-import { SubjectsView } from '@/components/SchoolAdmin/Academics/Subjects';
 import { SchoolAdminPlaceholder } from '@/components/SchoolAdmin/shared/SchoolAdminPlaceholder';
+
+const StudentsView = dynamic(() =>
+  import('@/components/SchoolAdmin/People/StudentsView').then((mod) => mod.StudentsView),
+);
+const TeachersView = dynamic(() =>
+  import('@/components/SchoolAdmin/People/Teachers/TeachersView').then((mod) => mod.TeachersView),
+);
+const ParentsView = dynamic(() =>
+  import('@/components/SchoolAdmin/People/Parents').then((mod) => mod.ParentsView),
+);
+const ClassesSectionsView = dynamic(() =>
+  import('@/components/SchoolAdmin/Academics/ClassesSections').then(
+    (mod) => mod.ClassesSectionsView,
+  ),
+);
+const SubjectsView = dynamic(() =>
+  import('@/components/SchoolAdmin/Academics/Subjects').then((mod) => mod.SubjectsView),
+);
 
 export default function SchoolAdminDashboard() {
   const [activeTab, setActiveTab] = useState('Dashboard');
