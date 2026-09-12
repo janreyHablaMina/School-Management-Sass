@@ -1,5 +1,5 @@
 import React from 'react';
-import { FilterSelect, listStyles, SearchField } from '@/components/Teacher/shared';
+import { SchoolAdminDirectoryFilters } from '../../shared/SchoolAdminDirectoryFilters';
 
 interface ParentsFiltersProps {
   searchTerm: string;
@@ -23,32 +23,27 @@ export const ParentsFilters: React.FC<ParentsFiltersProps> = ({
   onReset,
 }) => {
   return (
-    <div className={listStyles.filtersPanel}>
-      <SearchField
-        value={searchTerm}
-        onChange={setSearchTerm}
-        placeholder="Search parents, students, contact..."
-        aria-label="Search parents"
-      />
-      <FilterSelect
-        label="Relationship"
-        value={relationshipFilter}
-        onChange={setRelationshipFilter}
-        options={['All Relationships', 'Mother', 'Father', 'Guardian']}
-      />
-      <FilterSelect
-        label="Portal Status"
-        value={statusFilter}
-        onChange={setStatusFilter}
-        options={['All Status', 'Active', 'Pending Invite', 'Inactive']}
-      />
-      <button
-        type="button"
-        className={hasActiveFilters ? listStyles.toolBtnActive : listStyles.toolBtn}
-        onClick={onReset}
-      >
-        Reset Filters
-      </button>
-    </div>
+    <SchoolAdminDirectoryFilters
+      searchTerm={searchTerm}
+      onSearchChange={setSearchTerm}
+      searchPlaceholder="Search parents, students, contact..."
+      searchAriaLabel="Search parents"
+      selects={[
+        {
+          label: 'Relationship',
+          value: relationshipFilter,
+          onChange: setRelationshipFilter,
+          options: ['All Relationships', 'Mother', 'Father', 'Guardian'],
+        },
+        {
+          label: 'Portal Status',
+          value: statusFilter,
+          onChange: setStatusFilter,
+          options: ['All Status', 'Active', 'Pending Invite', 'Inactive'],
+        },
+      ]}
+      hasActiveFilters={hasActiveFilters}
+      onReset={onReset}
+    />
   );
 };

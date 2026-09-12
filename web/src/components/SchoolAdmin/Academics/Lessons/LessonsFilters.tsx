@@ -1,5 +1,5 @@
 import React from 'react';
-import { FilterSelect, listStyles, SearchField } from '@/components/Teacher/shared';
+import { SchoolAdminDirectoryFilters } from '../../shared/SchoolAdminDirectoryFilters';
 
 interface LessonsFiltersProps {
   searchTerm: string;
@@ -23,32 +23,27 @@ export const LessonsFilters: React.FC<LessonsFiltersProps> = ({
   onReset,
 }) => {
   return (
-    <div className={listStyles.filtersPanel}>
-      <SearchField
-        value={searchTerm}
-        onChange={setSearchTerm}
-        placeholder="Search lessons, classes, subjects..."
-        aria-label="Search lessons"
-      />
-      <FilterSelect
-        label="Status"
-        value={statusFilter}
-        onChange={setStatusFilter}
-        options={['All Status', 'Published', 'Draft', 'Archived']}
-      />
-      <FilterSelect
-        label="Coverage"
-        value={coverageFilter}
-        onChange={setCoverageFilter}
-        options={['All Coverage', 'Complete', 'Needs Review', 'Missing Classes', 'Archived']}
-      />
-      <button
-        type="button"
-        className={hasActiveFilters ? listStyles.toolBtnActive : listStyles.toolBtn}
-        onClick={onReset}
-      >
-        Reset Filters
-      </button>
-    </div>
+    <SchoolAdminDirectoryFilters
+      searchTerm={searchTerm}
+      onSearchChange={setSearchTerm}
+      searchPlaceholder="Search lessons, classes, subjects..."
+      searchAriaLabel="Search lessons"
+      selects={[
+        {
+          label: 'Status',
+          value: statusFilter,
+          onChange: setStatusFilter,
+          options: ['All Status', 'Published', 'Draft', 'Archived'],
+        },
+        {
+          label: 'Coverage',
+          value: coverageFilter,
+          onChange: setCoverageFilter,
+          options: ['All Coverage', 'Complete', 'Needs Review', 'Missing Classes', 'Archived'],
+        },
+      ]}
+      hasActiveFilters={hasActiveFilters}
+      onReset={onReset}
+    />
   );
 };

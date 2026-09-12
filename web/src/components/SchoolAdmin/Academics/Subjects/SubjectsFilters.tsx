@@ -1,5 +1,5 @@
 import React from 'react';
-import { FilterSelect, listStyles, SearchField } from '@/components/Teacher/shared';
+import { SchoolAdminDirectoryFilters } from '../../shared/SchoolAdminDirectoryFilters';
 
 interface SubjectsFiltersProps {
   searchTerm: string;
@@ -25,32 +25,27 @@ export const SubjectsFilters: React.FC<SubjectsFiltersProps> = ({
   onReset,
 }) => {
   return (
-    <div className={listStyles.filtersPanel}>
-      <SearchField
-        value={searchTerm}
-        onChange={setSearchTerm}
-        placeholder="Search subjects, codes, grade levels..."
-        aria-label="Search subjects"
-      />
-      <FilterSelect
-        label="Department"
-        value={departmentFilter}
-        onChange={setDepartmentFilter}
-        options={departments}
-      />
-      <FilterSelect
-        label="Status"
-        value={statusFilter}
-        onChange={setStatusFilter}
-        options={['All Status', 'Active', 'Needs Teacher', 'Draft']}
-      />
-      <button
-        type="button"
-        className={hasActiveFilters ? listStyles.toolBtnActive : listStyles.toolBtn}
-        onClick={onReset}
-      >
-        Reset Filters
-      </button>
-    </div>
+    <SchoolAdminDirectoryFilters
+      searchTerm={searchTerm}
+      onSearchChange={setSearchTerm}
+      searchPlaceholder="Search subjects, codes, grade levels..."
+      searchAriaLabel="Search subjects"
+      selects={[
+        {
+          label: 'Department',
+          value: departmentFilter,
+          onChange: setDepartmentFilter,
+          options: departments,
+        },
+        {
+          label: 'Status',
+          value: statusFilter,
+          onChange: setStatusFilter,
+          options: ['All Status', 'Active', 'Needs Teacher', 'Draft'],
+        },
+      ]}
+      hasActiveFilters={hasActiveFilters}
+      onReset={onReset}
+    />
   );
 };

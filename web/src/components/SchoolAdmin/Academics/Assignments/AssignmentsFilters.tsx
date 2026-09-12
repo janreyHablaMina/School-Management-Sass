@@ -1,5 +1,5 @@
 import React from 'react';
-import { FilterSelect, listStyles, SearchField } from '@/components/Teacher/shared';
+import { SchoolAdminDirectoryFilters } from '../../shared/SchoolAdminDirectoryFilters';
 
 interface AssignmentsFiltersProps {
   searchTerm: string;
@@ -23,32 +23,27 @@ export const AssignmentsFilters: React.FC<AssignmentsFiltersProps> = ({
   onReset,
 }) => {
   return (
-    <div className={listStyles.filtersPanel}>
-      <SearchField
-        value={searchTerm}
-        onChange={setSearchTerm}
-        placeholder="Search assignments, classes, subjects..."
-        aria-label="Search assignments"
-      />
-      <FilterSelect
-        label="Status"
-        value={statusFilter}
-        onChange={setStatusFilter}
-        options={['All Status', 'Active', 'Due Soon', 'Completed', 'Draft', 'Archived']}
-      />
-      <FilterSelect
-        label="Risk"
-        value={riskFilter}
-        onChange={setRiskFilter}
-        options={['All Risk Levels', 'Low', 'Medium', 'High']}
-      />
-      <button
-        type="button"
-        className={hasActiveFilters ? listStyles.toolBtnActive : listStyles.toolBtn}
-        onClick={onReset}
-      >
-        Reset Filters
-      </button>
-    </div>
+    <SchoolAdminDirectoryFilters
+      searchTerm={searchTerm}
+      onSearchChange={setSearchTerm}
+      searchPlaceholder="Search assignments, classes, subjects..."
+      searchAriaLabel="Search assignments"
+      selects={[
+        {
+          label: 'Status',
+          value: statusFilter,
+          onChange: setStatusFilter,
+          options: ['All Status', 'Active', 'Due Soon', 'Completed', 'Draft', 'Archived'],
+        },
+        {
+          label: 'Risk',
+          value: riskFilter,
+          onChange: setRiskFilter,
+          options: ['All Risk Levels', 'Low', 'Medium', 'High'],
+        },
+      ]}
+      hasActiveFilters={hasActiveFilters}
+      onReset={onReset}
+    />
   );
 };
