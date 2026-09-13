@@ -20,7 +20,7 @@ interface StudentsTableProps {
   sortDirection: 'asc' | 'desc';
   onSelectAll: (checked: boolean) => void;
   onSelectStudent: (id: string) => void;
-  onSort: (key: string) => void;
+  onSort: (key: SortKey) => void;
   onViewDetails: (student: Student) => void;
   onMessage?: (studentIds: string[]) => void;
 }

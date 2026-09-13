@@ -9,6 +9,7 @@ import { StudentsTable } from './StudentsTable';
 import { StudentProfileView } from './StudentProfile/StudentProfileView';
 import { Student } from './StudentProfile/shared/types';
 import { PaginationBar } from '@/components/Teacher/shared';
+import { StudentFormModal } from '@/components/Teacher/Students/components/StudentFormModal';
 
 export const StudentsView: React.FC = () => {
   const {
@@ -23,7 +24,14 @@ export const StudentsView: React.FC = () => {
     sortKey,
     sortDirection,
     sortedStudents,
-    totalCount
+    totalCount,
+    classOptions,
+    gradeLevelOptions,
+    subjectOptions,
+    isCreateOpen,
+    openCreate,
+    closeCreate,
+    createStudent
   } = useStudents();
 
   const [selectedStudentForDetails, setSelectedStudentForDetails] = useState<Student | null>(null);
@@ -46,7 +54,7 @@ export const StudentsView: React.FC = () => {
       <PageHeader 
         title="Students" 
         subtitle="Management panel for Students" 
-        actionButton={{ label: "Add Student", onClick: () => console.log('add') }} 
+        actionButton={{ label: "Add Student", onClick: openCreate }} 
       />
       <MetricsGrid metrics={STUDENTS_METRICS} columns={4} />
       <StudentsFilters searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
@@ -85,6 +93,16 @@ export const StudentsView: React.FC = () => {
           alert(`Message sent to ${messageTargetIds.length} student(s) / parent(s)!`);
         }}
       />
+      {isCreateOpen ? (
+        <StudentFormModal
+          mode="create"
+          classes={classOptions}
+          subjects={subjectOptions}
+          gradeLevels={gradeLevelOptions}
+          onCancel={closeCreate}
+          onSubmit={createStudent}
+        />
+      ) : null}
     </div>
   );
 };

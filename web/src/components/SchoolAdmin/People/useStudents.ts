@@ -1,12 +1,70 @@
 import { useState, useMemo } from 'react';
 import { schoolAdminMockData } from '@/lib/mock/schoolAdmin.mock';
+import type { StudentProfileFormInput } from '@/types/teacherStudents';
+import type { Student } from './StudentProfile/shared/types';
 
 export type SortKey = 'name' | 'studentId' | 'grade' | 'section' | 'parentGuardian' | 'status' | 'dateEnrolled' | 'attendanceRate' | 'averageGrade';
 
+const AVATAR_COLORS = [
+  '#84a9ff',
+  '#ff7e93',
+  '#5cc789',
+  '#ffab6b',
+  '#b68eff',
+  '#6bcbff',
+  '#f5c842',
+];
+
+function formatEnrollmentDate(date = new Date()) {
+  return date.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
+}
+
+function nextStudentId(students: Student[]) {
+  let max = 0;
+
+  for (const student of students) {
+    const match = student.studentId.match(/(\d+)$/);
+    if (match) {
+      max = Math.max(max, Number(match[1]));
+    }
+  }
+
+  return `S2026-${String(max + 1).padStart(4, '0')}`;
+}
+
+function createStudentFromInput(input: StudentProfileFormInput, students: Student[]): Student {
+  const primaryClass = input.enrolledClasses?.[0];
+  const fullName = input.fullName.trim();
+  const studentId = nextStudentId(students);
+  const primaryGuardian = input.guardians[0];
+
+  return {
+    id: `student-${Date.now()}`,
+    name: fullName,
+    email: input.email.trim(),
+    studentId,
+    gradeSection: primaryClass?.classLabel || input.classLabel || 'Grade 7 - Section A',
+    parentGuardian: primaryGuardian?.name.trim() || 'No guardian assigned',
+    contact: primaryGuardian?.phone.trim() || input.phone.trim(),
+    status: input.status,
+    dateEnrolled: formatEnrollmentDate(),
+    avatarColor: AVATAR_COLORS[students.length % AVATAR_COLORS.length],
+    attendanceRate: 100,
+    averageGrade: 0,
+    letterGrade: 'N/A',
+  };
+}
+
 export const useStudents = () => {
+  const [students, setStudents] = useState<Student[]>(schoolAdminMockData.students);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedStudents, setSelectedStudents] = useState<string[]>([]);
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [sortConfig, setSortConfig] = useState<{ key: SortKey; direction: 'asc' | 'desc' } | null>(null);
 
   const handleSort = (key: SortKey) => {
@@ -25,7 +83,7 @@ export const useStudents = () => {
   };
 
   const sortedStudents = useMemo(() => {
-    let sortableItems = [...schoolAdminMockData.students];
+    let sortableItems = [...students];
     
     if (searchTerm) {
       const lowerSearch = searchTerm.toLowerCase();
@@ -62,7 +120,27 @@ export const useStudents = () => {
     }
     
     return sortableItems;
-  }, [searchTerm, sortConfig]);
+  }, [searchTerm, sortConfig, students]);
+
+  const classOptions = useMemo(
+    () => Array.from(new Set(students.map((student) => student.gradeSection))).sort(),
+    [students],
+  );
+
+  const gradeLevelOptions = useMemo(
+    () =>
+      Array.from(
+        new Set(students.map((student) => student.gradeSection.split(' - ')[0] || student.gradeSection)),
+      ).sort(),
+    [students],
+  );
+
+  const createStudent = (input: StudentProfileFormInput) => {
+    const next = createStudentFromInput(input, students);
+    setStudents((current) => [next, ...current]);
+    setCurrentPage(1);
+    setIsCreateOpen(false);
+  };
 
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
@@ -91,6 +169,13 @@ export const useStudents = () => {
     sortDirection: sortConfig?.direction ?? 'asc',
     getSortIcon,
     sortedStudents,
-    totalCount: schoolAdminMockData.students.length
+    totalCount: students.length,
+    classOptions,
+    gradeLevelOptions,
+    subjectOptions: ['Homeroom', 'Mathematics', 'English', 'Science', 'Filipino', 'Araling Panlipunan'],
+    isCreateOpen,
+    openCreate: () => setIsCreateOpen(true),
+    closeCreate: () => setIsCreateOpen(false),
+    createStudent,
   };
 };
