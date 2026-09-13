@@ -1,12 +1,22 @@
 import React from 'react';
 import { FilterSelect, listStyles, SearchField } from '@/components/Teacher/shared';
+import type { StudentStatusFilter } from './useStudents';
 
 interface StudentsFiltersProps {
   searchTerm: string;
   setSearchTerm: (term: string) => void;
+  statusFilter: StudentStatusFilter;
+  setStatusFilter: (status: StudentStatusFilter) => void;
 }
 
-export const StudentsFilters: React.FC<StudentsFiltersProps> = ({ searchTerm, setSearchTerm }) => {
+export const StudentsFilters: React.FC<StudentsFiltersProps> = ({
+  searchTerm,
+  setSearchTerm,
+  statusFilter,
+  setStatusFilter,
+}) => {
+  const hasActiveFilters = searchTerm !== '' || statusFilter !== 'All Status';
+
   return (
     <div className={listStyles.filtersPanel}>
       <SearchField
@@ -22,16 +32,16 @@ export const StudentsFilters: React.FC<StudentsFiltersProps> = ({ searchTerm, se
         options={['All Grade Levels', 'Grade 7', 'Grade 8', 'Grade 9', 'Grade 10', 'Grade 11', 'Grade 12']}
       />
       <FilterSelect
-        label="Class"
+        label="Section"
         value="All Sections"
         onChange={() => {}}
         options={['All Sections', 'Section A', 'Section B']}
       />
       <FilterSelect
         label="Status"
-        value="All Status"
-        onChange={() => {}}
-        options={['All Status', 'Active', 'Inactive']}
+        value={statusFilter}
+        onChange={(value) => setStatusFilter(value as StudentStatusFilter)}
+        options={['All Status', 'Active', 'Inactive', 'At Risk', 'Archived']}
       />
       <FilterSelect
         label="Gender"
@@ -42,8 +52,11 @@ export const StudentsFilters: React.FC<StudentsFiltersProps> = ({ searchTerm, se
 
       <button 
         type="button"
-        className={searchTerm !== '' ? listStyles.toolBtnActive : listStyles.toolBtn}
-        onClick={() => setSearchTerm('')}
+        className={hasActiveFilters ? listStyles.toolBtnActive : listStyles.toolBtn}
+        onClick={() => {
+          setSearchTerm('');
+          setStatusFilter('All Status');
+        }}
       >
         Reset Filters
       </button>

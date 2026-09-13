@@ -23,6 +23,10 @@ interface StudentsTableProps {
   onSort: (key: SortKey) => void;
   onViewDetails: (student: Student) => void;
   onMessage?: (studentIds: string[]) => void;
+  onArchiveStudent: (id: string) => void;
+  onArchiveSelected: () => void;
+  onRestoreStudent: (id: string) => void;
+  onRestoreSelected: () => void;
 }
 
 import { attendanceBarColor, letterGradeAccent } from '@/components/Teacher/Students/studentDisplay';
@@ -42,6 +46,10 @@ const ROW_ACTIONS = [
   { icon: '📧', label: 'Send Message' },
 ] as const;
 
+const ARCHIVED_ACTIONS = [
+  { icon: '↩', label: 'Restore Student' },
+] as const;
+
 const DANGER_ACTIONS = [
   { icon: '🚫', label: 'Mark Inactive' },
   { icon: '🗃️', label: 'Archive Student' },
@@ -57,6 +65,7 @@ function getInitials(name: string) {
 }
 
 function statusAccent(status?: string) {
+  if (status === 'Archived') return '#f5c842';
   return status === 'Active' ? '#5cc789' : '#ff7e93';
 }
 
@@ -70,8 +79,13 @@ export const StudentsTable: React.FC<StudentsTableProps> = ({
   onSort,
   onViewDetails,
   onMessage,
+  onArchiveStudent,
+  onArchiveSelected,
+  onRestoreStudent,
+  onRestoreSelected,
 }) => {
   const allVisibleSelected = selectedStudents.length === students.length && students.length > 0;
+  const showingArchivedOnly = students.length > 0 && students.every((student) => student.status === 'Archived');
 
   return (
     <div className={styles.tableStack}>
@@ -90,9 +104,9 @@ export const StudentsTable: React.FC<StudentsTableProps> = ({
             tone: 'danger',
           },
           {
-            label: 'Archive',
-            onClick: () => alert('Bulk archive functionality not implemented yet.'),
-            tone: 'danger',
+            label: showingArchivedOnly ? 'Restore' : 'Archive',
+            onClick: showingArchivedOnly ? onRestoreSelected : onArchiveSelected,
+            tone: showingArchivedOnly ? 'restore' : 'danger',
           },
         ]}
       />
@@ -173,8 +187,8 @@ export const StudentsTable: React.FC<StudentsTableProps> = ({
             >
               <RowActionsMenu
                 label={`More actions for ${student.name}`}
-                actions={ROW_ACTIONS}
-                dangerActions={DANGER_ACTIONS}
+                actions={student.status === 'Archived' ? ARCHIVED_ACTIONS : ROW_ACTIONS}
+                dangerActions={student.status === 'Archived' ? [] : DANGER_ACTIONS}
                 onAction={(label) => {
                   if (label === 'View Profile') onViewDetails(student);
                   if (label === 'Edit Student') {
@@ -187,7 +201,10 @@ export const StudentsTable: React.FC<StudentsTableProps> = ({
                     alert('Mark inactive functionality not implemented yet.');
                   }
                   if (label === 'Archive Student') {
-                    alert('Archive student functionality not implemented yet.');
+                    onArchiveStudent(student.id);
+                  }
+                  if (label === 'Restore Student') {
+                    onRestoreStudent(student.id);
                   }
                 }}
               />

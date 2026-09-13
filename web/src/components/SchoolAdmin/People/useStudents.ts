@@ -4,6 +4,7 @@ import type { StudentProfileFormInput } from '@/types/teacherStudents';
 import type { Student } from './StudentProfile/shared/types';
 
 export type SortKey = 'name' | 'studentId' | 'grade' | 'section' | 'parentGuardian' | 'status' | 'dateEnrolled' | 'attendanceRate' | 'averageGrade';
+export type StudentStatusFilter = 'All Status' | 'Active' | 'Inactive' | 'At Risk' | 'Archived';
 
 const AVATAR_COLORS = [
   '#84a9ff',
@@ -59,9 +60,18 @@ function createStudentFromInput(input: StudentProfileFormInput, students: Studen
   };
 }
 
+function isAtRiskStudent(student: Student) {
+  return (
+    student.status === 'At Risk' ||
+    (student.attendanceRate ?? 100) < 90 ||
+    (student.averageGrade ?? 100) < 75
+  );
+}
+
 export const useStudents = () => {
   const [students, setStudents] = useState<Student[]>(schoolAdminMockData.students);
   const [searchTerm, setSearchTerm] = useState('');
+  const [statusFilter, setStatusFilter] = useState<StudentStatusFilter>('All Status');
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedStudents, setSelectedStudents] = useState<string[]>([]);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
@@ -84,6 +94,12 @@ export const useStudents = () => {
 
   const sortedStudents = useMemo(() => {
     let sortableItems = [...students];
+
+    if (statusFilter === 'All Status') {
+      sortableItems = sortableItems.filter((student) => student.status !== 'Archived');
+    } else {
+      sortableItems = sortableItems.filter((student) => student.status === statusFilter);
+    }
     
     if (searchTerm) {
       const lowerSearch = searchTerm.toLowerCase();
@@ -120,7 +136,7 @@ export const useStudents = () => {
     }
     
     return sortableItems;
-  }, [searchTerm, sortConfig, students]);
+  }, [searchTerm, sortConfig, statusFilter, students]);
 
   const classOptions = useMemo(
     () => Array.from(new Set(students.map((student) => student.gradeSection))).sort(),
@@ -142,6 +158,11 @@ export const useStudents = () => {
     setIsCreateOpen(false);
   };
 
+  const atRiskCount = useMemo(
+    () => students.filter((student) => student.status !== 'Archived' && isAtRiskStudent(student)).length,
+    [students],
+  );
+
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
       setSelectedStudents(sortedStudents.map(s => s.id));
@@ -156,9 +177,33 @@ export const useStudents = () => {
     );
   };
 
+  const archiveStudents = (ids: string[]) => {
+    if (ids.length === 0) return;
+    const idSet = new Set(ids);
+    setStudents((current) =>
+      current.map((student) =>
+        idSet.has(student.id) ? { ...student, status: 'Archived' } : student,
+      ),
+    );
+    setSelectedStudents((current) => current.filter((id) => !idSet.has(id)));
+  };
+
+  const restoreStudents = (ids: string[]) => {
+    if (ids.length === 0) return;
+    const idSet = new Set(ids);
+    setStudents((current) =>
+      current.map((student) =>
+        idSet.has(student.id) ? { ...student, status: 'Active' } : student,
+      ),
+    );
+    setSelectedStudents((current) => current.filter((id) => !idSet.has(id)));
+  };
+
   return {
     searchTerm,
     setSearchTerm,
+    statusFilter,
+    setStatusFilter,
     currentPage,
     setCurrentPage,
     selectedStudents,
@@ -169,7 +214,8 @@ export const useStudents = () => {
     sortDirection: sortConfig?.direction ?? 'asc',
     getSortIcon,
     sortedStudents,
-    totalCount: students.length,
+    totalCount: sortedStudents.length,
+    atRiskCount,
     classOptions,
     gradeLevelOptions,
     subjectOptions: ['Homeroom', 'Mathematics', 'English', 'Science', 'Filipino', 'Araling Panlipunan'],
@@ -177,5 +223,9 @@ export const useStudents = () => {
     openCreate: () => setIsCreateOpen(true),
     closeCreate: () => setIsCreateOpen(false),
     createStudent,
+    archiveStudent: (id: string) => archiveStudents([id]),
+    archiveSelectedStudents: () => archiveStudents(selectedStudents),
+    restoreStudent: (id: string) => restoreStudents([id]),
+    restoreSelectedStudents: () => restoreStudents(selectedStudents),
   };
 };

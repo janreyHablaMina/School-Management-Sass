@@ -8,7 +8,7 @@ export interface Student {
   contact: string;
   dateEnrolled: string;
   avatarColor?: string;
-  status?: string;
+  status?: 'Active' | 'Inactive' | 'At Risk' | 'Archived' | string;
   attendanceRate?: number;
   averageGrade?: number;
   letterGrade?: string;
