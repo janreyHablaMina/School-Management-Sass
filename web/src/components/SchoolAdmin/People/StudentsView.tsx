@@ -6,10 +6,112 @@ import { MetricsGrid, Metric } from '../shared/MetricsGrid';
 import layoutStyles from '../shared/layout.module.css';
 import { StudentsFilters } from './StudentsFilters';
 import { StudentsTable } from './StudentsTable';
-import { StudentProfileView } from './StudentProfile/StudentProfileView';
 import { Student } from './StudentProfile/shared/types';
 import { EmptyState, PaginationBar } from '@/components/Teacher/shared';
 import { StudentFormModal } from '@/components/Teacher/Students/components/StudentFormModal';
+import { StudentDetailView } from '@/components/Teacher/Students/components/StudentDetailView';
+import type { LetterGrade, StudentStatus, TeacherStudentRow } from '@/types/teacherStudents';
+
+const LETTER_GRADES: LetterGrade[] = ['A', 'A-', 'B+', 'B', 'C+', 'C', 'D', 'F'];
+
+function initialsFromName(name: string) {
+  return name
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase() ?? '')
+    .join('');
+}
+
+function gradeLevelFromSection(gradeSection: string) {
+  return gradeSection.split(' - ')[0] || gradeSection || 'Grade 7';
+}
+
+function normalizeLetterGrade(letterGrade?: string): LetterGrade {
+  if (letterGrade && LETTER_GRADES.includes(letterGrade as LetterGrade)) {
+    return letterGrade as LetterGrade;
+  }
+
+  return letterGrade === 'A+' ? 'A' : 'C';
+}
+
+function normalizeStudentStatus(status?: string): StudentStatus {
+  if (status === 'Active' || status === 'At Risk' || status === 'Inactive') {
+    return status;
+  }
+
+  return 'Inactive';
+}
+
+function lrnFromStudentId(studentId: string) {
+  return studentId.replace(/\D/g, '').padEnd(12, '0').slice(0, 12);
+}
+
+function toTeacherStudentRow(student: Student): TeacherStudentRow {
+  const gradeLevel = gradeLevelFromSection(student.gradeSection);
+  const guardianName = student.parentGuardian || 'Parent / Guardian';
+  const guardianPhone = student.contact || 'Not provided';
+
+  return {
+    id: student.id,
+    fullName: student.name,
+    studentCode: student.studentId,
+    idNumber: student.studentId,
+    initials: initialsFromName(student.name) || 'ST',
+    avatarAccent: student.avatarColor ?? '#f5c842',
+    photoUrl: null,
+    classLabel: student.gradeSection,
+    subject: 'Homeroom',
+    classFilter: student.gradeSection,
+    gradeLevel,
+    enrolledClasses: [
+      {
+        classLabel: student.gradeSection,
+        subject: 'Homeroom',
+        gradeLevel,
+      },
+    ],
+    phone: student.contact,
+    email: student.email,
+    attendanceRate: student.attendanceRate ?? 0,
+    averageGrade: student.averageGrade ?? 0,
+    letterGrade: normalizeLetterGrade(student.letterGrade),
+    status: normalizeStudentStatus(student.status),
+    details: {
+      gender: 'Male',
+      birthDate: 'January 1, 2013',
+      age: 13,
+      address: 'No address on file',
+      enrollmentDate: student.dateEnrolled,
+      lrn: lrnFromStudentId(student.studentId),
+      guardians: [
+        {
+          name: guardianName,
+          relationship: 'Guardian',
+          phone: guardianPhone,
+          email: '',
+          isPrimary: true,
+        },
+      ],
+      emergencyContact: {
+        name: guardianName,
+        relationship: 'Guardian',
+        phone: guardianPhone,
+      },
+      authorizedPickup: [
+        {
+          name: guardianName,
+          relationship: 'Guardian',
+          phone: guardianPhone,
+        },
+      ],
+      allergies: 'None on file',
+      medicalNotes: 'No medical notes on file.',
+      teacherNotes: 'No special notes.',
+    },
+  };
+}
 
 export const StudentsView: React.FC = () => {
   const {
@@ -41,12 +143,17 @@ export const StudentsView: React.FC = () => {
     restoreSelectedStudents,
   } = useStudents();
 
-  const [selectedStudentForDetails, setSelectedStudentForDetails] = useState<Student | null>(null);
+  const [selectedStudentForDetails, setSelectedStudentForDetails] = useState<TeacherStudentRow | null>(null);
   const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
   const [messageTargetIds, setMessageTargetIds] = useState<string[]>([]);
 
   if (selectedStudentForDetails) {
-    return <StudentProfileView student={selectedStudentForDetails} onBack={() => setSelectedStudentForDetails(null)} />;
+    return (
+      <StudentDetailView
+        student={selectedStudentForDetails}
+        onBack={() => setSelectedStudentForDetails(null)}
+      />
+    );
   }
 
   const STUDENTS_METRICS: Metric[] = [
@@ -86,7 +193,7 @@ export const StudentsView: React.FC = () => {
           onSelectAll={handleSelectAll}
           onSelectStudent={handleSelectStudent}
           onSort={handleSort}
-          onViewDetails={setSelectedStudentForDetails}
+          onViewDetails={(student) => setSelectedStudentForDetails(toTeacherStudentRow(student))}
           onMessage={(ids) => {
             setMessageTargetIds(ids);
             setIsMessageModalOpen(true);
