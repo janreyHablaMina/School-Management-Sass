@@ -137,6 +137,7 @@ export const StudentsView: React.FC = () => {
     openCreate,
     closeCreate,
     createStudent,
+    updateStudent,
     archiveStudent,
     archiveSelectedStudents,
     restoreStudent,
@@ -144,6 +145,7 @@ export const StudentsView: React.FC = () => {
   } = useStudents();
 
   const [selectedStudentForDetails, setSelectedStudentForDetails] = useState<TeacherStudentRow | null>(null);
+  const [editingStudent, setEditingStudent] = useState<TeacherStudentRow | null>(null);
   const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
   const [messageTargetIds, setMessageTargetIds] = useState<string[]>([]);
 
@@ -194,6 +196,7 @@ export const StudentsView: React.FC = () => {
           onSelectStudent={handleSelectStudent}
           onSort={handleSort}
           onViewDetails={(student) => setSelectedStudentForDetails(toTeacherStudentRow(student))}
+          onEditStudent={(student) => setEditingStudent(toTeacherStudentRow(student))}
           onMessage={(ids) => {
             setMessageTargetIds(ids);
             setIsMessageModalOpen(true);
@@ -232,6 +235,20 @@ export const StudentsView: React.FC = () => {
           gradeLevels={gradeLevelOptions}
           onCancel={closeCreate}
           onSubmit={createStudent}
+        />
+      ) : null}
+      {editingStudent ? (
+        <StudentFormModal
+          mode="edit"
+          student={editingStudent}
+          classes={classOptions}
+          subjects={subjectOptions}
+          gradeLevels={gradeLevelOptions}
+          onCancel={() => setEditingStudent(null)}
+          onSubmit={(input) => {
+            updateStudent(editingStudent.id, input);
+            setEditingStudent(null);
+          }}
         />
       ) : null}
     </div>

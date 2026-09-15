@@ -60,6 +60,21 @@ function createStudentFromInput(input: StudentProfileFormInput, students: Studen
   };
 }
 
+function updateStudentFromInput(student: Student, input: StudentProfileFormInput): Student {
+  const primaryClass = input.enrolledClasses?.[0];
+  const primaryGuardian = input.guardians[0];
+
+  return {
+    ...student,
+    name: input.fullName.trim(),
+    email: input.email.trim(),
+    gradeSection: primaryClass?.classLabel || input.classLabel || student.gradeSection,
+    parentGuardian: primaryGuardian?.name.trim() || student.parentGuardian,
+    contact: primaryGuardian?.phone.trim() || input.phone.trim() || student.contact,
+    status: input.status,
+  };
+}
+
 function isAtRiskStudent(student: Student) {
   return (
     student.status === 'At Risk' ||
@@ -158,6 +173,14 @@ export const useStudents = () => {
     setIsCreateOpen(false);
   };
 
+  const updateStudent = (id: string, input: StudentProfileFormInput) => {
+    setStudents((current) =>
+      current.map((student) =>
+        student.id === id ? updateStudentFromInput(student, input) : student,
+      ),
+    );
+  };
+
   const atRiskCount = useMemo(
     () => students.filter((student) => student.status !== 'Archived' && isAtRiskStudent(student)).length,
     [students],
@@ -223,6 +246,7 @@ export const useStudents = () => {
     openCreate: () => setIsCreateOpen(true),
     closeCreate: () => setIsCreateOpen(false),
     createStudent,
+    updateStudent,
     archiveStudent: (id: string) => archiveStudents([id]),
     archiveSelectedStudents: () => archiveStudents(selectedStudents),
     restoreStudent: (id: string) => restoreStudents([id]),

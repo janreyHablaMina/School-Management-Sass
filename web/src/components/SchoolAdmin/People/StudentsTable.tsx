@@ -22,6 +22,7 @@ interface StudentsTableProps {
   onSelectStudent: (id: string) => void;
   onSort: (key: SortKey) => void;
   onViewDetails: (student: Student) => void;
+  onEditStudent: (student: Student) => void;
   onMessage?: (studentIds: string[]) => void;
   onArchiveStudent: (id: string) => void;
   onArchiveSelected: () => void;
@@ -83,6 +84,7 @@ export const StudentsTable: React.FC<StudentsTableProps> = ({
   onSelectStudent,
   onSort,
   onViewDetails,
+  onEditStudent,
   onMessage,
   onArchiveStudent,
   onArchiveSelected,
@@ -189,7 +191,7 @@ export const StudentsTable: React.FC<StudentsTableProps> = ({
                   onAction={(label) => {
                     if (label === 'View Profile') onViewDetails(student);
                     if (label === 'Edit Student') {
-                      alert('Edit student functionality not implemented yet.');
+                      onEditStudent(student);
                     }
                     if (label === 'Send Message') {
                       onMessage?.([student.id]);
