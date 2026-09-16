@@ -65,6 +65,8 @@ type Overlay =
   | { kind: 'edit'; id: string }
   | { kind: 'inactive'; id: string }
   | { kind: 'bulkInactive' }
+  | { kind: 'archive'; id: string }
+  | { kind: 'bulkArchive' }
   | { kind: 'message'; ids: string[] };
 
 export function useStudents(options?: { classFocus?: TeacherClassFocus | null }) {
@@ -137,6 +139,14 @@ export function useStudents(options?: { classFocus?: TeacherClassFocus | null })
     [students, overlay],
   );
 
+  const archiveTarget = useMemo(
+    () =>
+      overlay.kind === 'archive'
+        ? (students.find((student) => student.id === overlay.id) ?? null)
+        : null,
+    [students, overlay],
+  );
+
   const selectedStudents = useMemo(
     () => students.filter((student) => selectedIds.includes(student.id)),
     [students, selectedIds],
@@ -154,12 +164,12 @@ export function useStudents(options?: { classFocus?: TeacherClassFocus | null })
   }, [toast]);
 
   useEffect(() => {
-    setOverlay((prev) => (prev.kind === 'bulkInactive' ? { kind: 'none' } : prev));
+    setOverlay((prev) => (prev.kind === 'bulkInactive' || prev.kind === 'bulkArchive' ? { kind: 'none' } : prev));
   }, [list.filters, list.page]);
 
   const clearSelection = () => {
     clearRowSelection();
-    setOverlay((prev) => (prev.kind === 'bulkInactive' ? { kind: 'none' } : prev));
+    setOverlay((prev) => (prev.kind === 'bulkInactive' || prev.kind === 'bulkArchive' ? { kind: 'none' } : prev));
   };
 
   const subjectOptions = useMemo(() => {
@@ -240,6 +250,48 @@ export function useStudents(options?: { classFocus?: TeacherClassFocus | null })
     });
   };
 
+  const confirmArchive = () => {
+    if (overlay.kind !== 'archive') return;
+    const targetId = overlay.id;
+    const source = students.find((student) => student.id === targetId);
+    if (!source || source.status === 'Archived') {
+      setOverlay({ kind: 'none' });
+      return;
+    }
+
+    setStudents((prev) =>
+      prev.map((student) =>
+        student.id === targetId ? { ...student, status: 'Archived' } : student,
+      ),
+    );
+    setSelectedIds((prev) => prev.filter((id) => id !== targetId));
+    setOverlay({ kind: 'none' });
+    setToast({
+      title: 'Student archived',
+      message: `${source.fullName} is now Archived.`,
+    });
+  };
+
+  const confirmBulkArchive = () => {
+    const targets = selectedStudents.filter((student) => student.status !== 'Archived');
+    if (targets.length === 0) {
+      setOverlay({ kind: 'none' });
+      return;
+    }
+
+    const targetIds = new Set(targets.map((student) => student.id));
+    setStudents((prev) =>
+      prev.map((student) =>
+        targetIds.has(student.id) ? { ...student, status: 'Archived' } : student,
+      ),
+    );
+    clearSelection();
+    setToast({
+      title: 'Students archived',
+      message: `${targets.length} student${targets.length === 1 ? '' : 's'} moved to Archived.`,
+    });
+  };
+
   const restoreActive = (id: string) => {
     const source = students.find((student) => student.id === id);
     if (!source || source.status !== 'Inactive') return;
@@ -293,6 +345,10 @@ export function useStudents(options?: { classFocus?: TeacherClassFocus | null })
     openMarkInactive: (id: string) => setOverlay({ kind: 'inactive', id }),
     closeMarkInactive: () => setOverlay({ kind: 'none' }),
     confirmMarkInactive,
+    archiveTarget,
+    openArchive: (id: string) => setOverlay({ kind: 'archive', id }),
+    closeArchive: () => setOverlay({ kind: 'none' }),
+    confirmArchive,
     restoreActive,
     selectedIds,
     selectedActiveCount,
@@ -308,6 +364,13 @@ export function useStudents(options?: { classFocus?: TeacherClassFocus | null })
     },
     closeBulkMarkInactive: () => setOverlay({ kind: 'none' }),
     confirmBulkMarkInactive,
+    bulkArchiveOpen: overlay.kind === 'bulkArchive',
+    openBulkArchive: () => {
+      if (selectedStudents.length === 0) return;
+      setOverlay({ kind: 'bulkArchive' });
+    },
+    closeBulkArchive: () => setOverlay({ kind: 'none' }),
+    confirmBulkArchive,
     restoreSelectedActive,
     sortKey,
     sortDirection,

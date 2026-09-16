@@ -93,6 +93,8 @@ export const useStudents = () => {
   const [sortConfig, setSortConfig] = useState<{ key: SortKey; direction: 'asc' | 'desc' } | null>(null);
   const [inactiveTargetId, setInactiveTargetId] = useState<string | null>(null);
   const [isBulkInactiveOpen, setIsBulkInactiveOpen] = useState(false);
+  const [archiveTargetId, setArchiveTargetId] = useState<string | null>(null);
+  const [isBulkArchiveOpen, setIsBulkArchiveOpen] = useState(false);
   const [toast, setToast] = useState<{ title: string; message: string } | null>(null);
 
   const handleSort = (key: SortKey) => {
@@ -293,6 +295,20 @@ export const useStudents = () => {
     },
     restoreActive: (id: string) => restoreStudents([id]),
     selectedActiveCount: selectedStudents.filter(id => students.find(s => s.id === id)?.status !== 'Inactive').length,
+    archiveTarget: archiveTargetId ? sortedStudents.find(s => s.id === archiveTargetId) : null,
+    openArchive: (id: string) => setArchiveTargetId(id),
+    closeArchive: () => setArchiveTargetId(null),
+    confirmArchive: () => {
+      if (archiveTargetId) archiveStudents([archiveTargetId]);
+      setArchiveTargetId(null);
+    },
+    bulkArchiveOpen: isBulkArchiveOpen,
+    openBulkArchive: () => setIsBulkArchiveOpen(true),
+    closeBulkArchive: () => setIsBulkArchiveOpen(false),
+    confirmBulkArchive: () => {
+      archiveStudents(selectedStudents);
+      setIsBulkArchiveOpen(false);
+    },
     toast,
     dismissToast: () => setToast(null),
   };

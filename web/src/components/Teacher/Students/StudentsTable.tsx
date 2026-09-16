@@ -22,12 +22,14 @@ interface StudentsTableProps {
   onClearSelection: () => void;
   onBulkMarkInactive: () => void;
   onBulkRestoreActive: () => void;
+  onBulkArchive: () => void;
   onOpen: (id: string) => void;
   onEdit?: (id: string) => void;
   onViewGrades?: (id: string) => void;
   onMessage?: (id: string) => void;
   onMarkInactive?: (id: string) => void;
   onRestoreActive?: (id: string) => void;
+  onArchive?: (id: string) => void;
 }
 
 const COLUMNS: DataTableColumn[] = [
@@ -59,6 +61,7 @@ export function StudentsTable({
   onMessage,
   onMarkInactive,
   onRestoreActive,
+  onArchive,
 }: StudentsTableProps) {
   const bulkActions = [
     {
@@ -85,7 +88,7 @@ export function StudentsTable({
       : []),
     {
       label: `Archive`,
-      onClick: () => alert('Bulk archive functionality not implemented yet.'),
+      onClick: onBulkArchive,
       tone: 'danger' as const,
     },
   ];
@@ -125,6 +128,7 @@ export function StudentsTable({
             onMessage={onMessage}
             onMarkInactive={onMarkInactive}
             onRestoreActive={onRestoreActive}
+            onArchive={onArchive}
           />
         ))}
       </DataTable>

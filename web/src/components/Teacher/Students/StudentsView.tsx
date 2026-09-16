@@ -5,6 +5,7 @@ import { listStyles, ResourceListPage, TeacherToast } from '../shared';
 import { ContactGuardianModal } from './components/ContactGuardianModal';
 import { StudentFormModal } from './components/StudentFormModal';
 import { MarkInactiveModal } from './components/MarkInactiveModal';
+import { ArchiveStudentModal } from './components/ArchiveStudentModal';
 import { StudentDetailView } from './components/StudentDetailView';
 import { StudentsFilters } from './StudentsFilters';
 import { StudentsTable } from './StudentsTable';
@@ -51,6 +52,10 @@ export function StudentsView({
     openMarkInactive,
     closeMarkInactive,
     confirmMarkInactive,
+    archiveTarget,
+    openArchive,
+    closeArchive,
+    confirmArchive,
     restoreActive,
     selectedIds,
     selectedActiveCount,
@@ -63,6 +68,10 @@ export function StudentsView({
     openBulkMarkInactive,
     closeBulkMarkInactive,
     confirmBulkMarkInactive,
+    bulkArchiveOpen,
+    openBulkArchive,
+    closeBulkArchive,
+    confirmBulkArchive,
     restoreSelectedActive,
     sortKey,
     sortDirection,
@@ -144,6 +153,7 @@ export function StudentsView({
             onClearSelection={clearSelection}
             onBulkMarkInactive={openBulkMarkInactive}
             onBulkRestoreActive={restoreSelectedActive}
+            onBulkArchive={openBulkArchive}
             onOpen={openStudent}
             onEdit={openEdit}
             onViewGrades={(id) => {
@@ -157,6 +167,7 @@ export function StudentsView({
             }}
             onMarkInactive={openMarkInactive}
             onRestoreActive={restoreActive}
+            onArchive={openArchive}
           />
         }
         rangeStart={rangeStart}
@@ -204,6 +215,22 @@ export function StudentsView({
           count={selectedActiveCount}
           onCancel={closeBulkMarkInactive}
           onConfirm={confirmBulkMarkInactive}
+        />
+      ) : null}
+
+      {archiveTarget ? (
+        <ArchiveStudentModal
+          student={archiveTarget}
+          onCancel={closeArchive}
+          onConfirm={confirmArchive}
+        />
+      ) : null}
+
+      {bulkArchiveOpen ? (
+        <ArchiveStudentModal
+          count={selectedIds.length}
+          onCancel={closeBulkArchive}
+          onConfirm={confirmBulkArchive}
         />
       ) : null}
 

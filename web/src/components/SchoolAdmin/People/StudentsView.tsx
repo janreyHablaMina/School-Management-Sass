@@ -11,6 +11,7 @@ import { EmptyState, PaginationBar } from '@/components/Teacher/shared';
 import { StudentFormModal } from '@/components/Teacher/Students/components/StudentFormModal';
 import { StudentDetailView } from '@/components/Teacher/Students/components/StudentDetailView';
 import { MarkInactiveModal } from '@/components/Teacher/Students/components/MarkInactiveModal';
+import { ArchiveStudentModal } from '@/components/Teacher/Students/components/ArchiveStudentModal';
 import { TeacherToast } from '@/components/Teacher/shared';
 import type { LetterGrade, StudentStatus, TeacherStudentRow } from '@/types/teacherStudents';
 
@@ -154,6 +155,14 @@ export const StudentsView: React.FC = () => {
     confirmBulkMarkInactive,
     restoreActive,
     selectedActiveCount,
+    archiveTarget,
+    openArchive,
+    closeArchive,
+    confirmArchive,
+    bulkArchiveOpen,
+    openBulkArchive,
+    closeBulkArchive,
+    confirmBulkArchive,
     toast,
     dismissToast,
   } = useStudents();
@@ -215,8 +224,8 @@ export const StudentsView: React.FC = () => {
             setMessageTargetIds(ids);
             setIsMessageModalOpen(true);
           }}
-          onArchiveStudent={archiveStudent}
-          onArchiveSelected={archiveSelectedStudents}
+          onArchiveStudent={openArchive}
+          onArchiveSelected={openBulkArchive}
           onRestoreStudent={restoreStudent}
           onRestoreSelected={restoreSelectedStudents}
           onMarkInactive={openMarkInactive}
@@ -282,6 +291,22 @@ export const StudentsView: React.FC = () => {
           count={selectedActiveCount}
           onCancel={closeBulkMarkInactive}
           onConfirm={confirmBulkMarkInactive}
+        />
+      ) : null}
+
+      {archiveTarget ? (
+        <ArchiveStudentModal
+          student={toTeacherStudentRow(archiveTarget)}
+          onCancel={closeArchive}
+          onConfirm={confirmArchive}
+        />
+      ) : null}
+
+      {bulkArchiveOpen ? (
+        <ArchiveStudentModal
+          count={selectedStudents.length}
+          onCancel={closeBulkArchive}
+          onConfirm={confirmBulkArchive}
         />
       ) : null}
 

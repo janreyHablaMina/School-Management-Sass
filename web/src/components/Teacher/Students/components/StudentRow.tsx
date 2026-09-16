@@ -31,6 +31,7 @@ interface StudentRowProps {
   onMessage?: (id: string) => void;
   onMarkInactive?: (id: string) => void;
   onRestoreActive?: (id: string) => void;
+  onArchive?: (id: string) => void;
 }
 
 export function StudentRow({
@@ -43,6 +44,7 @@ export function StudentRow({
   onMessage,
   onMarkInactive,
   onRestoreActive,
+  onArchive,
 }: StudentRowProps) {
   const letterColor = letterGradeAccent(student.letterGrade);
   const statusColor = statusAccent(student.status);
@@ -129,7 +131,7 @@ export function StudentRow({
             if (label === 'Send Message') onMessage?.(student.id);
             if (label === 'Mark Inactive') onMarkInactive?.(student.id);
             if (label === 'Restore Active') onRestoreActive?.(student.id);
-            if (label === 'Archive Student') alert('Archive student functionality not implemented yet.');
+            if (label === 'Archive Student') onArchive?.(student.id);
           }}
         />
       </td>
