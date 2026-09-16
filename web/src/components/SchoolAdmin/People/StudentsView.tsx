@@ -10,6 +10,8 @@ import { Student } from './StudentProfile/shared/types';
 import { EmptyState, PaginationBar } from '@/components/Teacher/shared';
 import { StudentFormModal } from '@/components/Teacher/Students/components/StudentFormModal';
 import { StudentDetailView } from '@/components/Teacher/Students/components/StudentDetailView';
+import { MarkInactiveModal } from '@/components/Teacher/Students/components/MarkInactiveModal';
+import { TeacherToast } from '@/components/Teacher/shared';
 import type { LetterGrade, StudentStatus, TeacherStudentRow } from '@/types/teacherStudents';
 
 const LETTER_GRADES: LetterGrade[] = ['A', 'A-', 'B+', 'B', 'C+', 'C', 'D', 'F'];
@@ -142,6 +144,18 @@ export const StudentsView: React.FC = () => {
     archiveSelectedStudents,
     restoreStudent,
     restoreSelectedStudents,
+    inactiveTarget,
+    openMarkInactive,
+    closeMarkInactive,
+    confirmMarkInactive,
+    bulkInactiveOpen,
+    openBulkMarkInactive,
+    closeBulkMarkInactive,
+    confirmBulkMarkInactive,
+    restoreActive,
+    selectedActiveCount,
+    toast,
+    dismissToast,
   } = useStudents();
 
   const [selectedStudentForDetails, setSelectedStudentForDetails] = useState<TeacherStudentRow | null>(null);
@@ -205,6 +219,9 @@ export const StudentsView: React.FC = () => {
           onArchiveSelected={archiveSelectedStudents}
           onRestoreStudent={restoreStudent}
           onRestoreSelected={restoreSelectedStudents}
+          onMarkInactive={openMarkInactive}
+          onRestoreActive={restoreActive}
+          onBulkMarkInactive={openBulkMarkInactive}
         />
       )}
       <PaginationBar
@@ -249,6 +266,30 @@ export const StudentsView: React.FC = () => {
             updateStudent(editingStudent.id, input);
             setEditingStudent(null);
           }}
+        />
+      ) : null}
+      
+      {inactiveTarget ? (
+        <MarkInactiveModal
+          student={inactiveTarget}
+          onCancel={closeMarkInactive}
+          onConfirm={confirmMarkInactive}
+        />
+      ) : null}
+
+      {bulkInactiveOpen ? (
+        <MarkInactiveModal
+          count={selectedActiveCount}
+          onCancel={closeBulkMarkInactive}
+          onConfirm={confirmBulkMarkInactive}
+        />
+      ) : null}
+
+      {toast ? (
+        <TeacherToast
+          title={toast.title}
+          message={toast.message}
+          onClose={dismissToast}
         />
       ) : null}
     </div>

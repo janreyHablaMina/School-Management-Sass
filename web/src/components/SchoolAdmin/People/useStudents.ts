@@ -91,6 +91,9 @@ export const useStudents = () => {
   const [selectedStudents, setSelectedStudents] = useState<string[]>([]);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [sortConfig, setSortConfig] = useState<{ key: SortKey; direction: 'asc' | 'desc' } | null>(null);
+  const [inactiveTargetId, setInactiveTargetId] = useState<string | null>(null);
+  const [isBulkInactiveOpen, setIsBulkInactiveOpen] = useState(false);
+  const [toast, setToast] = useState<{ title: string; message: string } | null>(null);
 
   const handleSort = (key: SortKey) => {
     setSortConfig(current => {
@@ -209,6 +212,10 @@ export const useStudents = () => {
       ),
     );
     setSelectedStudents((current) => current.filter((id) => !idSet.has(id)));
+    setToast({
+      title: 'Students archived',
+      message: `${ids.length} student${ids.length > 1 ? 's' : ''} moved to archive.`,
+    });
   };
 
   const restoreStudents = (ids: string[]) => {
@@ -220,6 +227,25 @@ export const useStudents = () => {
       ),
     );
     setSelectedStudents((current) => current.filter((id) => !idSet.has(id)));
+    setToast({
+      title: 'Students restored',
+      message: `${ids.length} student${ids.length > 1 ? 's' : ''} marked as Active.`,
+    });
+  };
+
+  const markInactive = (ids: string[]) => {
+    if (ids.length === 0) return;
+    const idSet = new Set(ids);
+    setStudents((current) =>
+      current.map((student) =>
+        idSet.has(student.id) ? { ...student, status: 'Inactive' } : student,
+      ),
+    );
+    setSelectedStudents((current) => current.filter((id) => !idSet.has(id)));
+    setToast({
+      title: 'Students deactivated',
+      message: `${ids.length} student${ids.length > 1 ? 's' : ''} marked as Inactive.`,
+    });
   };
 
   return {
@@ -251,5 +277,23 @@ export const useStudents = () => {
     archiveSelectedStudents: () => archiveStudents(selectedStudents),
     restoreStudent: (id: string) => restoreStudents([id]),
     restoreSelectedStudents: () => restoreStudents(selectedStudents),
+    inactiveTarget: inactiveTargetId ? sortedStudents.find(s => s.id === inactiveTargetId) : null,
+    openMarkInactive: (id: string) => setInactiveTargetId(id),
+    closeMarkInactive: () => setInactiveTargetId(null),
+    confirmMarkInactive: () => {
+      if (inactiveTargetId) markInactive([inactiveTargetId]);
+      setInactiveTargetId(null);
+    },
+    bulkInactiveOpen: isBulkInactiveOpen,
+    openBulkMarkInactive: () => setIsBulkInactiveOpen(true),
+    closeBulkMarkInactive: () => setIsBulkInactiveOpen(false),
+    confirmBulkMarkInactive: () => {
+      markInactive(selectedStudents);
+      setIsBulkInactiveOpen(false);
+    },
+    restoreActive: (id: string) => restoreStudents([id]),
+    selectedActiveCount: selectedStudents.filter(id => students.find(s => s.id === id)?.status !== 'Inactive').length,
+    toast,
+    dismissToast: () => setToast(null),
   };
 };

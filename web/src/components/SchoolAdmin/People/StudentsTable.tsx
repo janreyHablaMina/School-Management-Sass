@@ -26,8 +26,12 @@ interface StudentsTableProps {
   onMessage?: (studentIds: string[]) => void;
   onArchiveStudent: (id: string) => void;
   onArchiveSelected: () => void;
+  onArchiveSelected: () => void;
   onRestoreStudent: (id: string) => void;
   onRestoreSelected: () => void;
+  onMarkInactive: (id: string) => void;
+  onRestoreActive: (id: string) => void;
+  onBulkMarkInactive: () => void;
 }
 
 const COLUMNS: DataTableColumn[] = [
@@ -48,8 +52,13 @@ const ARCHIVED_ACTIONS = [
   { icon: '↩', label: 'Restore Student' },
 ] as const;
 
-const DANGER_ACTIONS = [
+const DANGER_ACTIONS_ACTIVE = [
   { icon: '🚫', label: 'Mark Inactive' },
+  { icon: '🗃️', label: 'Archive Student' },
+] as const;
+
+const DANGER_ACTIONS_INACTIVE = [
+  { icon: '♻️', label: 'Restore Active' },
   { icon: '🗃️', label: 'Archive Student' },
 ] as const;
 
@@ -90,6 +99,9 @@ export const StudentsTable: React.FC<StudentsTableProps> = ({
   onArchiveSelected,
   onRestoreStudent,
   onRestoreSelected,
+  onMarkInactive,
+  onRestoreActive,
+  onBulkMarkInactive,
 }) => {
   const allVisibleSelected = selectedStudents.length === students.length && students.length > 0;
   const showingArchivedOnly = students.length > 0 && students.every((student) => student.status === 'Archived');
@@ -107,7 +119,7 @@ export const StudentsTable: React.FC<StudentsTableProps> = ({
           },
           {
             label: 'Mark Inactive',
-            onClick: () => alert('Bulk mark inactive functionality not implemented yet.'),
+            onClick: onBulkMarkInactive,
             tone: 'danger',
           },
           {
@@ -134,6 +146,8 @@ export const StudentsTable: React.FC<StudentsTableProps> = ({
       >
         {students.map((student) => {
           const classParts = splitGradeSection(student.gradeSection);
+          const isInactive = student.status === 'Inactive';
+          const dangerActions = isInactive ? DANGER_ACTIONS_INACTIVE : DANGER_ACTIONS_ACTIVE;
 
           return (
             <tr
@@ -187,7 +201,7 @@ export const StudentsTable: React.FC<StudentsTableProps> = ({
                 <RowActionsMenu
                   label={`More actions for ${student.name}`}
                   actions={student.status === 'Archived' ? ARCHIVED_ACTIONS : ROW_ACTIONS}
-                  dangerActions={student.status === 'Archived' ? [] : DANGER_ACTIONS}
+                  dangerActions={student.status === 'Archived' ? [] : dangerActions}
                   onAction={(label) => {
                     if (label === 'View Profile') onViewDetails(student);
                     if (label === 'Edit Student') {
@@ -197,7 +211,10 @@ export const StudentsTable: React.FC<StudentsTableProps> = ({
                       onMessage?.([student.id]);
                     }
                     if (label === 'Mark Inactive') {
-                      alert('Mark inactive functionality not implemented yet.');
+                      onMarkInactive(student.id);
+                    }
+                    if (label === 'Restore Active') {
+                      onRestoreActive(student.id);
                     }
                     if (label === 'Archive Student') {
                       onArchiveStudent(student.id);
