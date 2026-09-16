@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
+import { TeacherModal, listStyles } from '@/components/ui/shared';
 import styles from './messageModal.module.css';
-import uiStyles from './ui.module.css';
 
 export interface MessageData {
-  sendToStudent: boolean;
-  sendToParent: boolean;
-  subject: string;
-  message: string;
+  targets: string[];
+  channel: string;
 }
 
 interface MessageModalProps {
@@ -16,100 +14,93 @@ interface MessageModalProps {
   onSend: (data: MessageData) => void;
 }
 
+const CHANNELS = [
+  { id: 'app', icon: '💬', label: 'App message', hint: 'Send in Eskwelahan +', featured: true },
+  { id: 'email', icon: '✉️', label: 'Email', hint: 'Open your email app' },
+  { id: 'sms', icon: '📱', label: 'SMS', hint: 'Text message to phone' },
+  { id: 'call', icon: '📞', label: 'Call', hint: 'Dial phone number' },
+];
+
 export const MessageModal: React.FC<MessageModalProps> = ({
   isOpen,
   onClose,
   recipientCount,
   onSend,
 }) => {
-  const [sendToStudent, setSendToStudent] = useState(true);
-  const [sendToParent, setSendToParent] = useState(false);
-  const [subject, setSubject] = useState('');
-  const [message, setMessage] = useState('');
+  const [targets, setTargets] = useState<string[]>(['parent']);
 
   if (!isOpen) return null;
 
-  const handleSend = () => {
-    onSend({ sendToStudent, sendToParent, subject, message });
-    // Reset state after send
-    setSubject('');
-    setMessage('');
-    setSendToStudent(true);
-    setSendToParent(false);
+  const toggleTarget = (val: string) => {
+    setTargets(prev => prev.includes(val) ? prev.filter(t => t !== val) : [...prev, val]);
   };
-
-  const handleClose = () => {
-    setSubject('');
-    setMessage('');
-    setSendToStudent(true);
-    setSendToParent(false);
-    onClose();
-  };
-
-  const isSendDisabled = (!sendToStudent && !sendToParent) || !message.trim();
 
   return (
-    <div className={styles.overlay}>
-      <div className={styles.modal}>
-        <h3 className={styles.title}>📧 Send Message</h3>
-        
-        <div className={styles.recipients}>
-          Sending to {recipientCount} selected student{recipientCount !== 1 ? 's' : ''}
-        </div>
-
-        <div className={styles.toggles}>
-          <label className={styles.toggleLabel}>
+    <TeacherModal
+      titleId="contact-modal-title"
+      eyebrow="Contact"
+      title={`Message ${recipientCount} recipient${recipientCount !== 1 ? 's' : ''}`}
+      copy="Choose how to reach them. App message will use Eskwelahan + once messaging is connected."
+      onClose={onClose}
+      showClose
+      footer={
+        <button type="button" className={listStyles.secondaryBtn} onClick={onClose}>
+          Cancel
+        </button>
+      }
+    >
+      <div className={styles.targetSelector}>
+        <span className={styles.targetLabel}>Send message to:</span>
+        <div className={styles.targetGroup}>
+          <label className={styles.targetOption}>
             <input 
               type="checkbox" 
-              className={styles.checkbox}
-              checked={sendToStudent}
-              onChange={(e) => setSendToStudent(e.target.checked)}
+              name="messageTarget" 
+              value="student" 
+              checked={targets.includes('student')}
+              onChange={() => toggleTarget('student')}
             />
-            Student(s)
+            Student
           </label>
-          <label className={styles.toggleLabel}>
+          <label className={styles.targetOption}>
             <input 
               type="checkbox" 
-              className={styles.checkbox}
-              checked={sendToParent}
-              onChange={(e) => setSendToParent(e.target.checked)}
+              name="messageTarget" 
+              value="parent" 
+              checked={targets.includes('parent')}
+              onChange={() => toggleTarget('parent')}
             />
-            Parent(s) / Guardian(s)
+            Parent / Guardian
           </label>
-        </div>
-
-        <div className={uiStyles.formGroup}>
-          <label className={uiStyles.formLabel}>Subject</label>
-          <input 
-            type="text" 
-            className={uiStyles.inputBase} 
-            placeholder="Message Subject (Optional)"
-            value={subject}
-            onChange={(e) => setSubject(e.target.value)}
-          />
-        </div>
-
-        <div className={uiStyles.formGroup}>
-          <label className={uiStyles.formLabel}>Message</label>
-          <textarea 
-            className={`${uiStyles.inputBase} ${styles.textarea}`}
-            placeholder="Type your message here..."
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-          />
-        </div>
-
-        <div className={styles.actions}>
-          <button className={styles.cancelBtn} onClick={handleClose}>Cancel</button>
-          <button 
-            className={styles.sendBtn} 
-            onClick={handleSend}
-            disabled={isSendDisabled}
-          >
-            Send Message
-          </button>
+          <label className={styles.targetOption}>
+            <input 
+              type="checkbox" 
+              name="messageTarget" 
+              value="teacher" 
+              checked={targets.includes('teacher')}
+              onChange={() => toggleTarget('teacher')}
+            />
+            Teacher
+          </label>
         </div>
       </div>
-    </div>
+
+      <div className={styles.channelGrid}>
+        {CHANNELS.map((channel) => (
+          <button
+            key={channel.id}
+            type="button"
+            className={`${styles.channelBtn} ${channel.featured ? styles.featuredChannel : ''}`}
+            onClick={() => onSend({ targets, channel: channel.id })}
+          >
+            <span className={styles.channelIcon} aria-hidden>{channel.icon}</span>
+            <span className={styles.channelText}>
+              <span className={styles.channelLabel}>{channel.label}</span>
+              <span className={styles.channelHint}>{channel.hint}</span>
+            </span>
+          </button>
+        ))}
+      </div>
+    </TeacherModal>
   );
 };
