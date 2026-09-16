@@ -1,7 +1,7 @@
 import React from 'react';
-import { ChalkBadge, DataTable, listStyles, ResourceBulkBar, RowActionsMenu, RowSelectCell, SelectAllCheckbox, type DataTableColumn } from '@/components/ui/shared';;;
+import { ChalkBadge, DataTable, listStyles, ResourceBulkBar, RowActionsMenu, RowSelectCell, SelectAllCheckbox, type DataTableColumn } from '@/components/ui/shared';
 import { SortKey } from './useTeachers';
-import styles from '../students.module.css';
+import styles from './teachers.module.css';
 import { Teacher } from '@/lib/mock/teachers.mock';
 
 interface TeachersTableProps {
@@ -115,7 +115,7 @@ export const TeachersTable: React.FC<TeachersTableProps> = ({
                 label={`Select ${teacher.name}`}
               />
               <td>
-                <div className={styles.studentCell}>
+                <div className={styles.teacherCell}>
                   <div className={styles.avatar} style={{ background: teacher.departmentColor, color: '#fff' }}>
                     {teacher.avatar ? (
                       <img src={teacher.avatar} alt={teacher.name} style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} />
@@ -123,9 +123,9 @@ export const TeachersTable: React.FC<TeachersTableProps> = ({
                       getInitials(teacher.name)
                     )}
                   </div>
-                  <div className={styles.studentInfo}>
-                    <span className={styles.studentName}>{teacher.name}</span>
-                    <span className={styles.studentEmail}>ID: {teacher.employeeId}</span>
+                  <div className={styles.teacherInfo}>
+                    <span className={styles.teacherName}>{teacher.name}</span>
+                    <span className={styles.teacherId}>ID: {teacher.employeeId}</span>
                   </div>
                 </div>
               </td>

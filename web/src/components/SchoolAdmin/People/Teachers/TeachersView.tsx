@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import styles from '../students.module.css';
 import { useTeachers, type SortKey } from './useTeachers';
 import { PageHeader } from '../../shared/PageHeader';
 import { MetricsGrid } from '../../shared/MetricsGrid';
@@ -8,8 +7,8 @@ import layoutStyles from '../../shared/layout.module.css';
 import { TeachersFilters } from './TeachersFilters';
 import { TeachersTable } from './TeachersTable';
 import { TeacherProfileView } from './TeacherProfileView';
-import { EmptyState, PaginationBar, ConfirmActionModal, TeacherToast } from '@/components/ui/shared';;;
-import { MessageModal, MessageData } from '@/components/ui/MessageModal';
+import { EmptyState, PaginationBar, ConfirmActionModal, TeacherToast } from '@/components/ui/shared';
+import { MessageModal } from '@/components/ui/MessageModal';
 
 export const TeachersView: React.FC = () => {
   const {
