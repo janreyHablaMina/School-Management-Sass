@@ -1,7 +1,5 @@
 import React from 'react';
-import layoutStyles from '../../shared/layout.module.css';
-import styles from '../students.module.css';
-import { CustomSelect } from '../../../ui/CustomSelect';
+import { FilterSelect, listStyles, SearchField } from '@/components/ui/shared';;;
 
 interface TeachersFiltersProps {
   searchTerm: string;
@@ -20,20 +18,18 @@ export const TeachersFilters: React.FC<TeachersFiltersProps> = ({
   statusFilter,
   setStatusFilter
 }) => {
+  const hasActiveFilters = searchTerm !== '' || departmentFilter !== 'All Departments' || statusFilter !== 'All Status';
+
   return (
-    <div className={layoutStyles.filtersRow}>
-      <div className={layoutStyles.searchWrapper}>
-        <svg className={layoutStyles.searchIcon} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-        <input 
-          type="text" 
-          placeholder="Search teachers..." 
-          className={layoutStyles.searchInput}
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-      </div>
-      <CustomSelect 
-        className={styles.filterSelect}
+    <div className={listStyles.filtersPanel}>
+      <SearchField
+        value={searchTerm}
+        onChange={setSearchTerm}
+        placeholder="Search teachers..."
+        aria-label="Search teachers"
+      />
+      <FilterSelect 
+        label="Department"
         value={departmentFilter}
         onChange={setDepartmentFilter}
         options={[
@@ -49,8 +45,8 @@ export const TeachersFilters: React.FC<TeachersFiltersProps> = ({
           'Religion'
         ]}
       />
-      <CustomSelect 
-        className={styles.filterSelect}
+      <FilterSelect 
+        label="Status"
         value={statusFilter}
         onChange={setStatusFilter}
         options={[
@@ -60,13 +56,9 @@ export const TeachersFilters: React.FC<TeachersFiltersProps> = ({
         ]}
       />
       
-
       <button 
-        className={
-          (searchTerm !== '' || departmentFilter !== 'All Departments' || statusFilter !== 'All Status')
-            ? styles.clearBtnActive 
-            : styles.clearBtn
-        } 
+        type="button"
+        className={hasActiveFilters ? listStyles.toolBtnActive : listStyles.toolBtn}
         onClick={() => {
           setSearchTerm('');
           setDepartmentFilter('All Departments');

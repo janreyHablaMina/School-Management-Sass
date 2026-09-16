@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from '../students.module.css';
-import { useTeachers } from './useTeachers';
+import { useTeachers, type SortKey } from './useTeachers';
 import { PageHeader } from '../../shared/PageHeader';
 import { MetricsGrid } from '../../shared/MetricsGrid';
 import { TEACHERS_METRICS } from '@/lib/mock/teachers.mock';
@@ -8,6 +8,7 @@ import layoutStyles from '../../shared/layout.module.css';
 import { TeachersFilters } from './TeachersFilters';
 import { TeachersTable } from './TeachersTable';
 import { TeacherProfileView } from './TeacherProfileView';
+import { EmptyState, PaginationBar } from '@/components/ui/shared';;;
 
 export const TeachersView: React.FC = () => {
   const {
@@ -21,12 +22,18 @@ export const TeachersView: React.FC = () => {
     handleSelectAll,
     handleSelectTeacher,
     handleSort,
-    getSortIcon,
+    sortKey,
+    sortDirection,
     sortedTeachers,
     totalCount
   } = useTeachers();
 
   const [selectedTeacherForDetails, setSelectedTeacherForDetails] = useState<any | null>(null);
+
+  // Pagination logic mock
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+  const totalPages = Math.max(1, Math.ceil(totalCount / itemsPerPage));
 
   if (selectedTeacherForDetails) {
     return <TeacherProfileView teacher={selectedTeacherForDetails} onBack={() => setSelectedTeacherForDetails(null)} />;
@@ -54,15 +61,33 @@ export const TeachersView: React.FC = () => {
         setStatusFilter={setStatusFilter}
       />
       
-      <TeachersTable 
-        teachers={sortedTeachers}
-        totalCount={totalCount}
-        selectedTeachers={selectedTeachers}
-        onSelectAll={handleSelectAll}
-        onSelectTeacher={handleSelectTeacher}
-        onSort={handleSort}
-        getSortIcon={getSortIcon}
-        onViewDetails={setSelectedTeacherForDetails}
+      {sortedTeachers.length === 0 ? (
+        <EmptyState
+          title="No teachers found"
+          description="Try adjusting your search or filters."
+        />
+      ) : (
+        <TeachersTable 
+          teachers={sortedTeachers}
+          totalCount={totalCount}
+          selectedTeachers={selectedTeachers}
+          sortKey={sortKey as SortKey}
+          sortDirection={sortDirection}
+          onSelectAll={handleSelectAll}
+          onSelectTeacher={handleSelectTeacher}
+          onSort={handleSort}
+          onViewDetails={setSelectedTeacherForDetails}
+        />
+      )}
+
+      <PaginationBar
+        rangeStart={sortedTeachers.length > 0 ? 1 : 0}
+        rangeEnd={sortedTeachers.length}
+        total={totalCount}
+        page={currentPage}
+        totalPages={totalPages}
+        itemLabel="teachers"
+        onPageChange={setCurrentPage}
       />
     </div>
   );

@@ -90,6 +90,8 @@ export const useTeachers = () => {
     handleSort,
     getSortIcon,
     sortedTeachers,
-    totalCount: TEACHERS_LIST.length
+    totalCount: TEACHERS_LIST.length,
+    sortKey: sortConfig?.key ?? null,
+    sortDirection: sortConfig?.direction ?? 'asc'
   };
 };
