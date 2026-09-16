@@ -13,20 +13,7 @@ import type {
   AssignmentType,
   TeacherAssignmentRow,
 } from '@/types/teacherAssignments';
-import {
-  archiveRowById,
-  archiveRowsByIds,
-  bindColumnSort,
-  deleteRowById,
-  deleteRowsByIds,
-  matchesAllOrExact,
-  matchesSearch,
-  sortByCreatedOrTitle,
-  sortWithColumnOverride,
-  useColumnSort,
-  usePagedList,
-  useRowSelection,
-} from '../shared';
+import { archiveRowById, archiveRowsByIds, bindColumnSort, deleteRowById, deleteRowsByIds, matchesAllOrExact, matchesSearch, sortByCreatedOrTitle, sortWithColumnOverride, useColumnSort, usePagedList, useRowSelection } from '@/lib/hooks';;
 
 const PAGE_SIZE = 7;
 

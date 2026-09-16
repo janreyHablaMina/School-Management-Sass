@@ -1,7 +1,7 @@
 'use client';
 
 import type { TeacherNavRequest } from '@/lib/teacher/classFocus';
-import { listStyles, ResourceListPage, TeacherToast } from '../shared';
+import { listStyles, ResourceListPage, TeacherToast } from '@/components/ui/shared';;
 import { ArchiveClassModal } from './components/ArchiveClassModal';
 import { ClassDetailView } from './components/ClassDetailView';
 import { ClassFormModal } from './components/ClassFormModal';

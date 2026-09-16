@@ -9,7 +9,7 @@ import {
   persistTeacherLessons,
   setLessonsPendingToast,
 } from '@/lib/lessons/storage';
-import { accentFromMap } from '../shared';
+import { accentFromMap } from '@/lib/hooks';;
 
 const TYPE_ACCENTS: Record<LessonType, string> = {
   'Video Lesson': '#b68eff',

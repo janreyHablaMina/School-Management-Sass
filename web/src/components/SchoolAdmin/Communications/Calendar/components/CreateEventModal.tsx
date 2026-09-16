@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { listStyles, modalStyles, TeacherModal } from '@/components/Teacher/shared';
+import { listStyles, modalStyles, Modal as TeacherModal } from '@/components/ui/shared';;;
 import type { CalendarEventType, CreateCalendarEventInput } from '@/types/teacherCalendar';
 import {
   CALENDAR_EVENT_TYPES,

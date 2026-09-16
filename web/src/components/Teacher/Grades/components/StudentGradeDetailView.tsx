@@ -1,7 +1,7 @@
 'use client';
 
 import type { TeacherGradeRow } from '@/types/teacherGrades';
-import { ChalkBadge, listStyles } from '../../shared';
+import { ChalkBadge, listStyles } from '@/components/ui/shared';;
 import {
   gradeLetterAccent,
   gradeScoreBarColor,

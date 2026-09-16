@@ -2,7 +2,7 @@
 
 import { useEffect, useId, useMemo, useRef, useState, type FormEvent } from 'react';
 import type { LessonType, TeacherLessonRow } from '@/types/teacherLessons';
-import { listStyles, modalStyles, TeacherModal } from '../../shared';
+import { listStyles, modalStyles, TeacherModal } from '@/components/ui/shared';;
 import {
   AI_LESSON_SAVE_TYPE_HINTS,
   AI_LESSON_SAVE_TYPE_LABELS,

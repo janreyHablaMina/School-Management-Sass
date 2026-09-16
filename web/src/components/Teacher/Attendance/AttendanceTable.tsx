@@ -1,12 +1,7 @@
 'use client';
 
 import React from 'react';
-import {
-  DataTable,
-  ResourceBulkBar,
-  SelectAllCheckbox,
-  type DataTableColumn,
-} from '../shared';
+import { DataTable, ResourceBulkBar, SelectAllCheckbox, type DataTableColumn } from '@/components/ui/shared';;
 import type { AttendanceStatus, AttendanceStudentRow } from '@/types/teacherAttendance';
 import { AttendanceStudentRow as StudentRow } from './components/AttendanceStudentRow';
 import type { AttendanceSortKey } from './useAttendance';

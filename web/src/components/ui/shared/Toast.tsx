@@ -1,16 +1,16 @@
 'use client';
 
 import { useEffect } from 'react';
-import styles from './teacherToast.module.css';
+import styles from './toast.module.css';
 
-interface TeacherToastProps {
+interface ToastProps {
   title: string;
   message?: string;
   onClose?: () => void;
   durationMs?: number;
 }
 
-export function TeacherToast({ title, message, onClose, durationMs = 3000 }: TeacherToastProps) {
+export function Toast({ title, message, onClose, durationMs = 3000 }: ToastProps) {
   useEffect(() => {
     if (!onClose || durationMs <= 0) return;
     const timer = setTimeout(onClose, durationMs);

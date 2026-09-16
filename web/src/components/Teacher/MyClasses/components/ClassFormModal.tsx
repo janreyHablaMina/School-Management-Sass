@@ -2,7 +2,7 @@
 
 import { useState, type FormEvent } from 'react';
 import type { ClassFormInput } from '@/types/myClasses';
-import { listStyles, modalStyles, TeacherModal } from '../../shared';
+import { listStyles, modalStyles, TeacherModal } from '@/components/ui/shared';;
 import {
   CLASS_WEEKDAYS,
   type ClassFormValues,

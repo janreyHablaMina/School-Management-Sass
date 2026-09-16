@@ -1,5 +1,5 @@
 import type { GradeLetter, GradeStatus, GradeTrend } from '@/types/teacherGrades';
-import { accentFromMap, rateBarColor } from '../shared';
+import { accentFromMap, rateBarColor } from '@/lib/hooks';;
 
 const LETTER_ACCENTS: Record<GradeLetter, string> = {
   A: '#5cc789',

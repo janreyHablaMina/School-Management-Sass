@@ -1,14 +1,5 @@
 import React from 'react';
-import {
-  ChalkBadge,
-  DataTable,
-  listStyles,
-  ResourceBulkBar,
-  RowActionsMenu,
-  RowSelectCell,
-  SelectAllCheckbox,
-  type DataTableColumn,
-} from '@/components/Teacher/shared';
+import { ChalkBadge, DataTable, listStyles, ResourceBulkBar, RowActionsMenu, RowSelectCell, SelectAllCheckbox, type DataTableColumn } from '@/components/ui/shared';;;
 import parentStyles from '../students.module.css';
 import type { ParentRecord, ParentSortKey } from './useParents';
 

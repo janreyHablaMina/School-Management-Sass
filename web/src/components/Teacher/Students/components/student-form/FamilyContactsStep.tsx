@@ -1,6 +1,6 @@
 import React from 'react';
 import type { StudentProfileFormInput } from '@/types/teacherStudents';
-import { modalStyles } from '../../../shared';
+import { modalStyles } from '@/components/ui/shared';;
 import { emptyGuardianInput } from '../../studentForm';
 import styles from '../../students.module.css';
 

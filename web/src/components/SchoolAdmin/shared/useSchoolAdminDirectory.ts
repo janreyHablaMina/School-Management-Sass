@@ -1,12 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
-import {
-  sortByConfig,
-  useColumnSort,
-  usePagedList,
-  useRowSelection,
-} from '@/components/Teacher/shared';
+import { sortByConfig, useColumnSort, usePagedList, useRowSelection } from '@/lib/hooks';;
 
 interface UseSchoolAdminDirectoryOptions<
   TItem,

@@ -1,13 +1,5 @@
-import {
-  ChalkBadge,
-  ClassMeta,
-  listStyles,
-  ProgressStatCell,
-  rateBarColor,
-  ResourceTitle,
-  RowActionsMenu,
-  RowSelectCell,
-} from '../../shared';
+import { ChalkBadge, ClassMeta, listStyles, ProgressStatCell, ResourceTitle, RowActionsMenu, RowSelectCell } from '@/components/ui/shared';
+import { rateBarColor } from '@/lib/hooks';;
 import { examStatusAccent, examTypeAccent } from '../utils';
 import type { TeacherExamRow } from '@/types/teacherExams';
 

@@ -7,7 +7,7 @@ import type {
   StudentStatus,
   TeacherStudentRow,
 } from '@/types/teacherStudents';
-import { listStyles, modalStyles, TeacherModal } from '../../shared';
+import { listStyles, modalStyles, TeacherModal } from '@/components/ui/shared';;
 import {
   emptyGuardianInput,
   emptyStudentFormValues,

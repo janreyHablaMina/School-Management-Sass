@@ -1,17 +1,7 @@
 'use client';
 
 import type { TeacherQuizRow } from '@/types/teacherQuizzes';
-import {
-  AssessmentDetailPage,
-  ASSESSMENT_RESULT_COLUMNS,
-  ASSESSMENT_STUDENTS,
-  assessmentDetailStyles as styles,
-  assessmentResultStatusAccent,
-  ChalkBadge,
-  mockScoreFromAverage,
-  type AssessmentDetailStat,
-  visibleAssessmentResultCount,
-} from '../../shared';
+import { AssessmentDetailPage, ASSESSMENT_RESULT_COLUMNS, ASSESSMENT_STUDENTS, assessmentDetailStyles as styles, assessmentResultStatusAccent, ChalkBadge, mockScoreFromAverage, type AssessmentDetailStat, visibleAssessmentResultCount } from '@/components/ui/shared';;
 import { attemptBarColor, quizStatusAccent } from '../utils';
 
 interface QuizDetailViewProps {

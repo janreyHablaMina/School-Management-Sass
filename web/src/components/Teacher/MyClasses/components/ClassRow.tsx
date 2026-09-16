@@ -1,6 +1,6 @@
 'use client';
 
-import { listStyles, RowActionsMenu, RowSelectCell } from '../../shared';
+import { listStyles, RowActionsMenu, RowSelectCell } from '@/components/ui/shared';;
 import type { MyClassRow } from '@/types/myClasses';
 import { AttendanceRing } from './AttendanceRing';
 import styles from '../myClasses.module.css';

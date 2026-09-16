@@ -1,7 +1,7 @@
 ﻿'use client';
 
 import type { TeacherAssignmentRow } from '@/types/teacherAssignments';
-import { ConfirmActionModal } from '../../shared';
+import { ConfirmActionModal } from '@/components/ui/shared';;
 
 interface ConfirmAssignmentModalProps {
   assignment?: TeacherAssignmentRow | null;

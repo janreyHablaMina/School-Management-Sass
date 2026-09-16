@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { listStyles } from '../../shared';
+import { listStyles } from '@/components/ui/shared';;
 import { formatCountdown } from '@/lib/attendance';
 import { formatDistance } from '@/lib/geo/attendanceGeo';
 import type { AttendanceSessionRecord } from '@/types/attendanceSession';

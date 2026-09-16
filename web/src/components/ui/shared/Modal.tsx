@@ -1,11 +1,11 @@
 'use client';
 
 import React from 'react';
-import { useEscapeKey } from './useEscapeKey';
-import { useLockWorkspaceScroll } from './useLockWorkspaceScroll';
-import modalStyles from './teacherModal.module.css';
+import { useEscapeKey } from '@/lib/hooks';
+import { useLockWorkspaceScroll } from '@/lib/hooks';
+import modalStyles from './modal.module.css';
 
-interface TeacherModalProps {
+interface ModalProps {
   titleId: string;
   eyebrow: string;
   title: string;
@@ -22,7 +22,7 @@ interface TeacherModalProps {
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-export function TeacherModal({
+export function Modal({
   titleId,
   eyebrow,
   title,
@@ -34,7 +34,7 @@ export function TeacherModal({
   as = 'div',
   onSubmit,
   showClose = false,
-}: TeacherModalProps) {
+}: ModalProps) {
   useLockWorkspaceScroll();
   useEscapeKey(onClose);
 

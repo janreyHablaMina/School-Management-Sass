@@ -2,7 +2,7 @@
 
 import React from 'react';
 import type { TeacherProfile } from '@/types/teacherPortal';
-import { FilterSelect, listStyles, modalStyles, PageHeader } from '../shared';
+import { FilterSelect, listStyles, modalStyles, PageHeader } from '@/components/ui/shared';;
 import { ChangePasswordModal } from './components/ChangePasswordModal';
 import { SettingsNav } from './components/SettingsNav';
 import { SettingsSection } from './components/SettingsSection';

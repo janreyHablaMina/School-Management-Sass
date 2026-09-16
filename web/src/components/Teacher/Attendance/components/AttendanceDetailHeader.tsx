@@ -1,7 +1,7 @@
 'use client';
 
 import type { AttendanceClassSection } from '@/types/teacherAttendance';
-import { ClassHubHeader, classHubStyles, listStyles } from '../../shared';
+import { ClassHubHeader, classHubStyles, listStyles } from '@/components/ui/shared';;
 
 interface AttendanceDetailHeaderProps {
   cls: AttendanceClassSection;

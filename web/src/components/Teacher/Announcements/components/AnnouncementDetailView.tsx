@@ -2,7 +2,7 @@
 
 import { ArrowLeft } from 'lucide-react';
 import type { TeacherAnnouncementRow } from '@/types/teacherAnnouncements';
-import { ChalkBadge, listStyles, PageHeader } from '../../shared';
+import { ChalkBadge, listStyles, PageHeader } from '@/components/ui/shared';;
 import { announcementStatusAccent, announcementTypeAccent } from '../utils';
 import styles from '../announcements.module.css';
 

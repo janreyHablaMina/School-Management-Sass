@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import type { TeacherStudentRow } from '@/types/teacherStudents';
-import { listStyles, TeacherModal, modalStyles } from '../../shared';
+import { listStyles, TeacherModal, modalStyles } from '@/components/ui/shared';;
 import styles from '../students.module.css';
 
 interface ArchiveStudentModalProps {

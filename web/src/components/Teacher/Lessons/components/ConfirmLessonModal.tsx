@@ -1,7 +1,7 @@
 ﻿'use client';
 
 import type { TeacherLessonRow } from '@/types/teacherLessons';
-import { ConfirmActionModal } from '../../shared';
+import { ConfirmActionModal } from '@/components/ui/shared';;
 
 interface ConfirmLessonModalProps {
   lesson?: TeacherLessonRow | null;

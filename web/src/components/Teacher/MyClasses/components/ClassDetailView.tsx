@@ -2,7 +2,7 @@
 
 import { toClassFocus, type TeacherNavRequest } from '@/lib/teacher/classFocus';
 import type { MyClassRow } from '@/types/myClasses';
-import { listStyles } from '../../shared';
+import { listStyles } from '@/components/ui/shared';;
 
 interface ClassDetailViewProps {
   cls: MyClassRow;

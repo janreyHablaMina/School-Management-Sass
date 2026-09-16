@@ -1,12 +1,6 @@
 'use client';
 
-import {
-  ChalkBadge,
-  ResourceTitle,
-  RowActionsMenu,
-  RowSelectCell,
-  listStyles,
-} from '../../shared';
+import { ChalkBadge, ResourceTitle, RowActionsMenu, RowSelectCell, listStyles } from '@/components/ui/shared';;
 import type { TeacherAnnouncementRow } from '@/types/teacherAnnouncements';
 import { announcementStatusAccent, announcementTypeAccent } from '../utils';
 import styles from '../announcements.module.css';

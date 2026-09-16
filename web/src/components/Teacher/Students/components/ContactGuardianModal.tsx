@@ -1,7 +1,7 @@
 'use client';
 
 import type { StudentGuardian, TeacherStudentRow } from '@/types/teacherStudents';
-import { listStyles, TeacherModal } from '../../shared';
+import { listStyles, TeacherModal } from '@/components/ui/shared';;
 import {
   GUARDIAN_CHANNELS,
   openGuardianChannel,

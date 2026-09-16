@@ -1,14 +1,8 @@
 'use client';
 
 import React from 'react';
-import {
-  listStyles,
-  PageHeader,
-  PaginationBar,
-  SummaryMetrics,
-  TeacherToast,
-  useRowSelection,
-} from '../shared';
+import { listStyles, PageHeader, PaginationBar, SummaryMetrics, TeacherToast } from '@/components/ui/shared';
+import { useRowSelection } from '@/lib/hooks';;
 import { useAttendance } from './useAttendance';
 import { AttendanceTable } from './AttendanceTable';
 import { AttendanceCalendar } from './components/AttendanceCalendar';

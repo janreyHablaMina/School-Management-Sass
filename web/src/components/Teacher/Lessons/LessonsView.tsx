@@ -1,12 +1,7 @@
 'use client';
 
 import React, { useCallback, useState } from 'react';
-import {
-  ClassroomResourceFilters,
-  listStyles,
-  ResourceListPage,
-  TeacherToast,
-} from '../shared';
+import { ClassroomResourceFilters, listStyles, ResourceListPage, TeacherToast } from '@/components/ui/shared';;
 import { CreateLessonModal } from './components/CreateLessonModal';
 import { LessonGeneratorView } from './LessonGeneratorView';
 import { useLessons } from './useLessons';

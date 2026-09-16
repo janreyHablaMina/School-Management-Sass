@@ -1,7 +1,7 @@
 'use client';
 
 import type { MyClassRow } from '@/types/myClasses';
-import { listStyles, TeacherModal } from '../../shared';
+import { listStyles, TeacherModal } from '@/components/ui/shared';;
 import { parseScheduleParts } from '../utils';
 import styles from '../myClasses.module.css';
 import { WeeklyCalendarGrid } from './WeeklyCalendarGrid';

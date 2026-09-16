@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { ResourceFilters } from '../shared';
+import { ResourceFilters } from '@/components/ui/shared';;
 import type { AnnouncementsFiltersState } from './useAnnouncements';
 
 interface AnnouncementsFiltersProps {

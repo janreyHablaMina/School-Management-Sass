@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { FilterSelect, listStyles, SearchField } from '../shared';
+import { FilterSelect, listStyles, SearchField } from '@/components/ui/shared';;
 import type { MyClassesFiltersState } from './useMyClasses';
 
 interface MyClassesFiltersProps {

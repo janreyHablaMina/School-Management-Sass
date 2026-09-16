@@ -11,15 +11,7 @@ import type {
   StudentStatus,
   TeacherStudentRow,
 } from '@/types/teacherStudents';
-import {
-  bindColumnSort,
-  matchesAllOrExact,
-  matchesSearch,
-  sortByConfig,
-  useColumnSort,
-  usePagedList,
-  useRowSelection,
-} from '../shared';
+import { bindColumnSort, matchesAllOrExact, matchesSearch, sortByConfig, useColumnSort, usePagedList, useRowSelection } from '@/lib/hooks';;
 import { applyStudentFormInput, buildStudentFromInput } from './studentForm';
 
 const PAGE_SIZE = 8;

@@ -1,7 +1,7 @@
 'use client';
 
 import type { TeacherClassFocus, TeacherNavRequest } from '@/lib/teacher/classFocus';
-import { listStyles, ResourceListPage, TeacherToast } from '../shared';
+import { listStyles, ResourceListPage, TeacherToast } from '@/components/ui/shared';;
 import { ContactGuardianModal } from './components/ContactGuardianModal';
 import { StudentFormModal } from './components/StudentFormModal';
 import { MarkInactiveModal } from './components/MarkInactiveModal';

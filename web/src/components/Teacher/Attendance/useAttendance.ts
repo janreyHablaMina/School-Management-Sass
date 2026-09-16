@@ -10,12 +10,7 @@ import type {
   AttendanceStatus,
   AttendanceStudentRow,
 } from '@/types/teacherAttendance';
-import {
-  bindColumnSort,
-  sortByConfig,
-  useColumnSort,
-  useRowSelection,
-} from '../shared';
+import { bindColumnSort, sortByConfig, useColumnSort, useRowSelection } from '@/lib/hooks';;
 import {
   clampDay,
   formatAttendanceDate,

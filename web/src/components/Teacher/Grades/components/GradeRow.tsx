@@ -1,12 +1,6 @@
 'use client';
 
-import {
-  ChalkBadge,
-  ClassMeta,
-  listStyles,
-  RowActionsMenu,
-  RowSelectCell,
-} from '../../shared';
+import { ChalkBadge, ClassMeta, listStyles, RowActionsMenu, RowSelectCell } from '@/components/ui/shared';;
 import type { TeacherGradeRow } from '@/types/teacherGrades';
 import {
   gradeScoreBarColor,

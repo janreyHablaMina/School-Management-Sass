@@ -1,7 +1,7 @@
 ﻿'use client';
 
 import type { MyClassRow } from '@/types/myClasses';
-import { ConfirmActionModal } from '../../shared';
+import { ConfirmActionModal } from '@/components/ui/shared';;
 import styles from '../myClasses.module.css';
 
 interface ArchiveClassModalProps {

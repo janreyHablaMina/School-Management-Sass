@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { listStyles } from '@/components/Teacher/shared';
+import { listStyles } from '@/components/ui/shared';;;
 import type { TeacherCalendarEvent } from '@/types/teacherCalendar';
 import { eventAccent, formatEventTime } from '../utils';
 import styles from '../calendar.module.css';

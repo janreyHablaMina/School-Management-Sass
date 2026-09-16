@@ -1,5 +1,5 @@
 import type { ExamStatus, ExamType } from '@/types/teacherExams';
-import { accentFromMap } from '../shared';
+import { accentFromMap } from '@/lib/hooks';;
 
 const TYPE_ACCENTS: Record<ExamType, string> = {
   Written: '#b68eff',

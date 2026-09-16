@@ -1,5 +1,5 @@
 import React from 'react';
-import { FilterSelect, listStyles, SearchField } from '@/components/Teacher/shared';
+import { FilterSelect, listStyles, SearchField } from '@/components/ui/shared';;;
 import type { StudentStatusFilter } from './useStudents';
 
 interface StudentsFiltersProps {

@@ -2,12 +2,7 @@
 
 import React from 'react';
 import dynamic from 'next/dynamic';
-import {
-  ConfirmActionModal,
-  listStyles,
-  ResourceListPage,
-  TeacherToast,
-} from '../shared';
+import { ConfirmActionModal, listStyles, ResourceListPage, TeacherToast } from '@/components/ui/shared';;
 import type { TeacherAnnouncementRow } from '@/types/teacherAnnouncements';
 import { AnnouncementsFilters } from './AnnouncementsFilters';
 import { AnnouncementsTable } from './AnnouncementsTable';

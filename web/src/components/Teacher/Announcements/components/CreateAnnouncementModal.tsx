@@ -3,7 +3,8 @@
 import React, { useEffect, useId, useRef, useState } from 'react';
 import { DatePicker } from '@/components/ui/DatePicker';
 import { TimePicker } from '@/components/ui/TimePicker';
-import { listStyles, modalStyles, useLockWorkspaceScroll } from '../../shared';
+import { listStyles, modalStyles } from '@/components/ui/shared';
+import { useLockWorkspaceScroll } from '@/lib/hooks';;
 import type {
   AnnouncementPublishMode,
   AnnouncementType,

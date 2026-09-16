@@ -1,11 +1,4 @@
-import {
-  ChalkBadge,
-  ClassMeta,
-  listStyles,
-  ResourceTitle,
-  RowActionsMenu,
-  RowSelectCell,
-} from '../../shared';
+import { ChalkBadge, ClassMeta, listStyles, ResourceTitle, RowActionsMenu, RowSelectCell } from '@/components/ui/shared';;
 import { lessonStatusAccent, lessonTypeAccent, lessonTypeLabel } from '../utils';
 import type { TeacherLessonRow } from '@/types/teacherLessons';
 

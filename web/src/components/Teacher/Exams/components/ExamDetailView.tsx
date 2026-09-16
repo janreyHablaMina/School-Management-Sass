@@ -1,18 +1,8 @@
 'use client';
 
 import type { TeacherExamRow } from '@/types/teacherExams';
-import {
-  AssessmentDetailPage,
-  ASSESSMENT_RESULT_COLUMNS,
-  ASSESSMENT_STUDENTS,
-  assessmentDetailStyles as styles,
-  assessmentResultStatusAccent,
-  ChalkBadge,
-  mockScoreFromAverage,
-  rateBarColor,
-  type AssessmentDetailStat,
-  visibleAssessmentResultCount,
-} from '../../shared';
+import { AssessmentDetailPage, ASSESSMENT_RESULT_COLUMNS, ASSESSMENT_STUDENTS, assessmentDetailStyles as styles, assessmentResultStatusAccent, ChalkBadge, mockScoreFromAverage, type AssessmentDetailStat, visibleAssessmentResultCount } from '@/components/ui/shared';
+import { rateBarColor } from '@/lib/hooks';;
 import { examStatusAccent, examTypeAccent } from '../utils';
 
 interface ExamDetailViewProps {

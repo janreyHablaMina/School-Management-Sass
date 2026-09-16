@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { listStyles, TeacherModal } from './index';
+import { listStyles, Modal } from './index';
 import styles from './confirmActionModal.module.css';
 
 interface ConfirmActionModalProps {
@@ -37,7 +37,7 @@ export function ConfirmActionModal({
   const confirmLabel = isBulk ? `${actionWord} ${count}` : `${actionWord} ${itemLabel}`;
 
   return (
-    <TeacherModal
+    <Modal
       titleId={`confirm-${actionType}-${itemLabel}-title`}
       eyebrow={`${actionWord} ${itemLabel}`}
       title={title}
@@ -73,6 +73,6 @@ export function ConfirmActionModal({
         )}
       </p>
       {children}
-    </TeacherModal>
+    </Modal>
   );
 }

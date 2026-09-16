@@ -10,19 +10,7 @@ import type {
   CreateAnnouncementInput,
   TeacherAnnouncementRow,
 } from '@/types/teacherAnnouncements';
-import {
-  archiveRowById,
-  archiveRowsByIds,
-  bindColumnSort,
-  deleteRowById,
-  deleteRowsByIds,
-  matchesAllOrExact,
-  matchesSearch,
-  sortWithColumnOverride,
-  useColumnSort,
-  usePagedList,
-  useRowSelection,
-} from '../shared';
+import { archiveRowById, archiveRowsByIds, bindColumnSort, deleteRowById, deleteRowsByIds, matchesAllOrExact, matchesSearch, sortWithColumnOverride, useColumnSort, usePagedList, useRowSelection } from '@/lib/hooks';;
 import { buildAnnouncementFromInput } from './utils';
 
 const PAGE_SIZE = 8;

@@ -1,5 +1,5 @@
 import type { AssignmentStatus, AssignmentType } from '@/types/teacherAssignments';
-import { accentFromMap } from '../shared';
+import { accentFromMap } from '@/lib/hooks';;
 
 const TYPE_ACCENTS: Record<AssignmentType, string> = {
   Worksheet: '#b68eff',

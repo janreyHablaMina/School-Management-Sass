@@ -2,10 +2,10 @@
 
 import React, { useState } from 'react';
 import type { TeacherAssignmentRow } from '@/types/teacherAssignments';
-import { ChalkBadge, listStyles } from '../../shared';
+import { ChalkBadge, listStyles } from '@/components/ui/shared';;
 import { assignmentStatusAccent, assignmentTypeAccent } from '../utils';
 import styles from './assignmentDetail.module.css';
-import { ListTabs } from '../../shared';
+import { ListTabs } from '@/components/ui/shared';;
 import { SubmissionsTable } from './SubmissionsTable';
 
 interface AssignmentDetailViewProps {

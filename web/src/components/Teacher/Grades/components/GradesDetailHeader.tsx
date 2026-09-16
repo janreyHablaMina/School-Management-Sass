@@ -1,7 +1,7 @@
 'use client';
 
 import type { GradeClassSection } from '@/types/teacherGrades';
-import { ClassHubHeader, classHubStyles, listStyles } from '../../shared';
+import { ClassHubHeader, classHubStyles, listStyles } from '@/components/ui/shared';;
 
 interface GradesDetailHeaderProps {
   cls: GradeClassSection;

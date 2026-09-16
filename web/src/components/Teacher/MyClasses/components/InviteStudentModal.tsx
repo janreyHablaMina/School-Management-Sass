@@ -16,7 +16,7 @@ import {
 import type { MyClassRow } from '@/types/myClasses';
 import { TimePicker } from '@/components/ui/TimePicker';
 import { DatePicker } from '@/components/ui/DatePicker';
-import { listStyles, modalStyles, TeacherModal } from '../../shared';
+import { listStyles, modalStyles, TeacherModal } from '@/components/ui/shared';;
 import styles from './InviteStudentModal.module.css';
 
 interface InviteStudentModalProps {

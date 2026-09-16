@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, type FormEvent } from 'react';
-import { listStyles, modalStyles, TeacherModal } from '../../shared';
+import { listStyles, modalStyles, TeacherModal } from '@/components/ui/shared';;
 import type { LessonGeneratorSession } from '../types';
 import {
   getCreateLessonError,

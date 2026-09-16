@@ -2,13 +2,7 @@
 
 import React from 'react';
 import dynamic from 'next/dynamic';
-import {
-  ClassroomResourceFilters,
-  ConfirmActionModal,
-  listStyles,
-  ResourceListPage,
-  TeacherToast,
-} from '../shared';
+import { ClassroomResourceFilters, ConfirmActionModal, listStyles, ResourceListPage, TeacherToast } from '@/components/ui/shared';;
 import type { TeacherClassFocus } from '@/lib/teacher/classFocus';
 import type { TeacherExamRow } from '@/types/teacherExams';
 import { useExams } from './useExams';

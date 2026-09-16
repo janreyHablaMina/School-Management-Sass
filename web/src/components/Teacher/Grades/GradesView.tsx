@@ -1,13 +1,6 @@
 'use client';
 
-import {
-  EmptyState,
-  listStyles,
-  PageHeader,
-  PaginationBar,
-  SummaryMetrics,
-  TeacherToast,
-} from '../shared';
+import { EmptyState, listStyles, PageHeader, PaginationBar, SummaryMetrics, TeacherToast } from '@/components/ui/shared';;
 import type { TeacherClassFocus, TeacherStudentFocus } from '@/lib/teacher/classFocus';
 import { GradesFilters } from './GradesFilters';
 import { GradesTable } from './GradesTable';

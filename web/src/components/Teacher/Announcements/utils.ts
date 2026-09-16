@@ -4,7 +4,7 @@ import type {
   CreateAnnouncementInput,
   TeacherAnnouncementRow,
 } from '@/types/teacherAnnouncements';
-import { accentFromMap } from '../shared';
+import { accentFromMap } from '@/lib/hooks';;
 
 const TYPE_ACCENTS: Record<AnnouncementType, string> = {
   General: '#b68eff',

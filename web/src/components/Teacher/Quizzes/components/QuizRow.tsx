@@ -1,12 +1,4 @@
-import {
-  ChalkBadge,
-  ClassMeta,
-  listStyles,
-  ProgressStatCell,
-  ResourceTitle,
-  RowActionsMenu,
-  RowSelectCell,
-} from '../../shared';
+import { ChalkBadge, ClassMeta, listStyles, ProgressStatCell, ResourceTitle, RowActionsMenu, RowSelectCell } from '@/components/ui/shared';;
 import { attemptBarColor, quizStatusAccent } from '../utils';
 import type { TeacherQuizRow } from '@/types/teacherQuizzes';
 

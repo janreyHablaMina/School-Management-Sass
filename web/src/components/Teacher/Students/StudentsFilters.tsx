@@ -1,6 +1,6 @@
 'use client';
 
-import { FilterSelect, listStyles, SearchField } from '../shared';
+import { FilterSelect, listStyles, SearchField } from '@/components/ui/shared';;
 import type { StudentsFiltersState } from './useStudents';
 
 interface StudentsFiltersProps {

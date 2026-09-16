@@ -1,5 +1,5 @@
 import type { AttendanceStatus } from '@/types/teacherAttendance';
-import { accentFromMap } from '../shared';
+import { accentFromMap } from '@/lib/hooks';;
 
 const STATUS_ACCENTS: Record<AttendanceStatus, string> = {
   Present: '#5cc789',

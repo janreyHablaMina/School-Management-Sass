@@ -2,17 +2,8 @@
 
 import React from 'react';
 import type { AttendanceClassSection } from '@/types/teacherAttendance';
-import {
-  DataTable,
-  listStyles,
-  ProgressStatCell,
-  rateBarColor,
-  ResourceBulkBar,
-  RowActionsMenu,
-  RowSelectCell,
-  SelectAllCheckbox,
-  type DataTableColumn,
-} from '../../shared';
+import { DataTable, listStyles, ProgressStatCell, ResourceBulkBar, RowActionsMenu, RowSelectCell, SelectAllCheckbox, type DataTableColumn } from '@/components/ui/shared';
+import { rateBarColor } from '@/lib/hooks';;
 import styles from '../attendance.module.css';
 
 interface AttendanceClassGridProps {

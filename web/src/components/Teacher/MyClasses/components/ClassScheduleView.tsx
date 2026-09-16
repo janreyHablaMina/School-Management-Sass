@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import type { MyClassRow } from '@/types/myClasses';
 import type { TeacherCalendarEvent } from '@/types/teacherCalendar';
-import { listStyles, PageHeader } from '../../shared';
+import { listStyles, PageHeader } from '@/components/ui/shared';;
 import { parseScheduleParts } from '../utils';
 import { CalendarMonthGrid } from '../../Calendar/components/CalendarMonthGrid';
 import { CalendarAgenda } from '../../Calendar/components/CalendarAgenda';

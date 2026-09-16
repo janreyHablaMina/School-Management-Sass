@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import type { TeacherNavRequest } from '@/lib/teacher/classFocus';
 import type { TeacherStudentRow } from '@/types/teacherStudents';
-import { listStyles, TeacherToast } from '../../shared';
+import { listStyles, TeacherToast } from '@/components/ui/shared';;
 import { useGuardianContact } from '../useGuardianContact';
 import { toStudentGradesNav } from '../studentDisplay';
 import { ContactGuardianModal } from './ContactGuardianModal';

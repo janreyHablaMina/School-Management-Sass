@@ -18,19 +18,7 @@ import type {
   LessonType,
   TeacherLessonRow,
 } from '@/types/teacherLessons';
-import {
-  archiveRowById,
-  archiveRowsByIds,
-  bindColumnSort,
-  deleteRowById,
-  deleteRowsByIds,
-  matchesAllOrExact,
-  matchesSearch,
-  sortWithColumnOverride,
-  useColumnSort,
-  usePagedList,
-  useRowSelection,
-} from '../shared';
+import { archiveRowById, archiveRowsByIds, bindColumnSort, deleteRowById, deleteRowsByIds, matchesAllOrExact, matchesSearch, sortWithColumnOverride, useColumnSort, usePagedList, useRowSelection } from '@/lib/hooks';;
 import { buildLessonFromInput, lessonAssignedToClass, sanitizeLessonList, type CreateLessonInput } from './utils';
 
 const PAGE_SIZE = 6;

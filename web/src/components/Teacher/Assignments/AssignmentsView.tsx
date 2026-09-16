@@ -1,11 +1,7 @@
 'use client';
 
 import React from 'react';
-import {
-  ClassroomResourceFilters,
-  listStyles,
-  ResourceListPage,
-} from '../shared';
+import { ClassroomResourceFilters, listStyles, ResourceListPage } from '@/components/ui/shared';;
 import type { TeacherClassFocus } from '@/lib/teacher/classFocus';
 import { useAssignments } from './useAssignments';
 import { AssignmentsTable } from './AssignmentsTable';

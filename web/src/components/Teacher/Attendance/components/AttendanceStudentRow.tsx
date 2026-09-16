@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { ChalkBadge, listStyles, RowActionsMenu, RowSelectCell } from '../../shared';
+import { ChalkBadge, listStyles, RowActionsMenu, RowSelectCell } from '@/components/ui/shared';;
 import type { AttendanceStudentRow as AttendanceStudentRowType } from '@/types/teacherAttendance';
 import { attendanceStatusAccent } from '../utils';
 import styles from '../attendance.module.css';

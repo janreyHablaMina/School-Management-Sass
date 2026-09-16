@@ -2,15 +2,7 @@
 
 import React from 'react';
 import type { GradeClassSection } from '@/types/teacherGrades';
-import {
-  DataTable,
-  listStyles,
-  ResourceBulkBar,
-  RowActionsMenu,
-  RowSelectCell,
-  SelectAllCheckbox,
-  type DataTableColumn,
-} from '../../shared';
+import { DataTable, listStyles, ResourceBulkBar, RowActionsMenu, RowSelectCell, SelectAllCheckbox, type DataTableColumn } from '@/components/ui/shared';;
 import styles from '../grades.module.css';
 
 interface GradeClassGridProps {

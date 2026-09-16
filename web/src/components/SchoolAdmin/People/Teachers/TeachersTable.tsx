@@ -3,7 +3,7 @@ import styles from '../students.module.css';
 import layoutStyles from '../../shared/layout.module.css';
 import { ActionDropdown, ActionDropdownItem, ActionDropdownSeparator } from '@/components/ui/ActionDropdown';
 import { SortKey } from './useTeachers';
-import { ResourceBulkBar } from '@/components/Teacher/shared';
+import { ResourceBulkBar } from '@/components/ui/shared';;;
 import { Teacher } from '@/lib/mock/teachers.mock';
 
 interface TeachersTableProps {

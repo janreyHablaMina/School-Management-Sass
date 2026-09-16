@@ -1,5 +1,5 @@
 import React from 'react';
-import { PaginationBar } from '@/components/Teacher/shared';
+import { PaginationBar } from '@/components/ui/shared';;;
 import { MetricsGrid, type Metric } from '../../shared/MetricsGrid';
 import { PageHeader } from '../../shared/PageHeader';
 import layoutStyles from '../../shared/layout.module.css';

@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { listStyles, PageHeader, SummaryMetrics } from '@/components/Teacher/shared';
+import { listStyles, PageHeader, SummaryMetrics } from '@/components/ui/shared';;;
 import { CalendarAgenda } from './components/CalendarAgenda';
 import { CalendarDayDetailModal } from './components/CalendarDayDetailModal';
 import { CalendarLegend } from './components/CalendarLegend';

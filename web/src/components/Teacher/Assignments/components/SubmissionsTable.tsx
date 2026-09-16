@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import type { TeacherAssignmentRow } from '@/types/teacherAssignments';
-import { DataTable, type DataTableColumn, ChalkBadge, listStyles } from '../../shared';
+import { DataTable, type DataTableColumn, ChalkBadge, listStyles } from '@/components/ui/shared';;
 import styles from './assignmentDetail.module.css';
 
 // Mock submission data

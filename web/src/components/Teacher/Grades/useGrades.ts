@@ -14,15 +14,7 @@ import type {
   GradeTab,
   TeacherGradeRow,
 } from '@/types/teacherGrades';
-import {
-  bindColumnSort,
-  matchesAllOrExact,
-  matchesSearch,
-  sortWithColumnOverride,
-  useColumnSort,
-  usePagedList,
-  useRowSelection,
-} from '../shared';
+import { bindColumnSort, matchesAllOrExact, matchesSearch, sortWithColumnOverride, useColumnSort, usePagedList, useRowSelection } from '@/lib/hooks';;
 
 const PAGE_SIZE = 8;
 const EMPTY_GRADES: TeacherGradeRow[] = [];

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
-import { listStyles, modalStyles, TeacherModal } from '@/components/Teacher/shared';
+import { listStyles, modalStyles, Modal as TeacherModal } from '@/components/ui/shared';;;
 import type { TeacherCalendarEvent } from '@/types/teacherCalendar';
 import { calendarTypeAccent, countEventsByType } from '../utils';
 import { CalendarDayEventCard } from './CalendarDayEventCard';

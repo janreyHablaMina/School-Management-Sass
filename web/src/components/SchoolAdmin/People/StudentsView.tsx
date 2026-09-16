@@ -7,12 +7,12 @@ import layoutStyles from '../shared/layout.module.css';
 import { StudentsFilters } from './StudentsFilters';
 import { StudentsTable } from './StudentsTable';
 import { Student } from './StudentProfile/shared/types';
-import { EmptyState, PaginationBar } from '@/components/Teacher/shared';
+import { EmptyState, PaginationBar } from '@/components/ui/shared';;;
 import { StudentFormModal } from '@/components/Teacher/Students/components/StudentFormModal';
 import { StudentDetailView } from '@/components/Teacher/Students/components/StudentDetailView';
 import { MarkInactiveModal } from '@/components/Teacher/Students/components/MarkInactiveModal';
 import { ArchiveStudentModal } from '@/components/Teacher/Students/components/ArchiveStudentModal';
-import { TeacherToast } from '@/components/Teacher/shared';
+import { Toast as TeacherToast } from '@/components/ui/shared';;;
 import type { LetterGrade, StudentStatus, TeacherStudentRow } from '@/types/teacherStudents';
 
 const LETTER_GRADES: LetterGrade[] = ['A', 'A-', 'B+', 'B', 'C+', 'C', 'D', 'F'];

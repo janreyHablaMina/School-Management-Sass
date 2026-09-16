@@ -1,6 +1,6 @@
 import React from 'react';
 import type { StudentProfileFormInput, StudentStatus } from '@/types/teacherStudents';
-import { listStyles, modalStyles } from '../../../shared';
+import { listStyles, modalStyles } from '@/components/ui/shared';;
 import { STUDENT_PHOTO_ACCEPT, gradeLevelFromClassLabel } from '../../studentForm';
 import styles from '../../students.module.css';
 import { StudentAvatar } from '../StudentAvatar';

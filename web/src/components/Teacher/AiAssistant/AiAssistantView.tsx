@@ -1,7 +1,7 @@
 'use client';
 
 import type { TeacherClassFocus, TeacherNavRequest } from '@/lib/teacher/classFocus';
-import { listStyles, PageHeader, SummaryMetrics } from '../shared';
+import { listStyles, PageHeader, SummaryMetrics } from '@/components/ui/shared';;
 import { ChatThread } from './components/ChatThread';
 import { PromptComposer } from './components/PromptComposer';
 import { useAiAssistant } from './useAiAssistant';

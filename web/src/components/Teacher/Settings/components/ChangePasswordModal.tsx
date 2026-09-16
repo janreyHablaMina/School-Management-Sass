@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { listStyles, modalStyles, TeacherModal } from '../../shared';
+import { listStyles, modalStyles, TeacherModal } from '@/components/ui/shared';;
 
 interface ChangePasswordModalProps {
   onClose: () => void;

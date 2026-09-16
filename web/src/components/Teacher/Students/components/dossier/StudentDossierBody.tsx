@@ -13,7 +13,7 @@ import {
   toStudentClassFocus,
   toStudentGradesNav,
 } from '../../studentDisplay';
-import { TeacherModal, modalStyles } from '../../../shared';
+import { TeacherModal, modalStyles } from '@/components/ui/shared';;
 import styles from './dossier.module.css';
 import { DossierFact } from './DossierFact';
 

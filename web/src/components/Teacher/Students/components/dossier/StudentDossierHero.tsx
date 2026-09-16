@@ -1,7 +1,7 @@
 'use client';
 
 import type { TeacherStudentRow } from '@/types/teacherStudents';
-import { ChalkBadge, listStyles } from '../../../shared';
+import { ChalkBadge, listStyles } from '@/components/ui/shared';;
 import {
   attendanceBarColor,
   letterGradeAccent,

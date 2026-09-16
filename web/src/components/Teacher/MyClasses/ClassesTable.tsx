@@ -1,9 +1,4 @@
-import {
-  DataTable,
-  ResourceBulkBar,
-  SelectAllCheckbox,
-  type DataTableColumn,
-} from '../shared';
+import { DataTable, ResourceBulkBar, SelectAllCheckbox, type DataTableColumn } from '@/components/ui/shared';;
 import type { MyClassRow } from '@/types/myClasses';
 import { ClassRow } from './components/ClassRow';
 import type { MyClassSortKey } from './useMyClasses';

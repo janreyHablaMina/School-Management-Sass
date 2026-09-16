@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { TeacherModal, modalStyles, listStyles } from '../../shared';
+import { TeacherModal, modalStyles, listStyles } from '@/components/ui/shared';;
 import type { AttendanceSchoolConfig } from '@/types/attendanceSession';
 
 interface StartAttendanceModalProps {

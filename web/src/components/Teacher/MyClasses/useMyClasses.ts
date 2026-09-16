@@ -3,13 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { myClassesPageMock } from '@/lib/mock/myClasses.mock';
 import type { ClassFormInput, ClassStatus, MyClassRow } from '@/types/myClasses';
-import {
-  bindColumnSort,
-  sortByConfig,
-  useColumnSort,
-  usePagedList,
-  useRowSelection,
-} from '../shared';
+import { bindColumnSort, sortByConfig, useColumnSort, usePagedList, useRowSelection } from '@/lib/hooks';;
 import {
   applyClassFormInput,
   archiveClassRow,

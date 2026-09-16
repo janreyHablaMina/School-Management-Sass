@@ -1,5 +1,5 @@
 import type { QuizStatus } from '@/types/teacherQuizzes';
-import { accentFromMap, rateBarColor } from '../shared';
+import { accentFromMap, rateBarColor } from '@/lib/hooks';;
 
 const STATUS_ACCENTS: Record<QuizStatus, string> = {
   Active: '#5cc789',
