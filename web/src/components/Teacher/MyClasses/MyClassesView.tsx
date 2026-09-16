@@ -154,7 +154,7 @@ export function MyClassesView({ onNavigate }: MyClassesViewProps) {
               onViewSchedule={openSchedule}
               onArchive={openArchive}
               onRestore={restoreClass}
-              highlightedClassId={highlightedClassId}
+              
             />
           }
           rangeStart={rangeStart}

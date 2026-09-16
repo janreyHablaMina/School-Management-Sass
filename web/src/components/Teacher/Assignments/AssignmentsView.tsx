@@ -7,7 +7,7 @@ import { useAssignments } from './useAssignments';
 import { AssignmentsTable } from './AssignmentsTable';
 import { AssignmentDetailView } from './components/AssignmentDetailView';
 import { ConfirmAssignmentModal } from './components/ConfirmAssignmentModal';
-import { TeacherToast } from '../shared/TeacherToast';
+import { TeacherToast } from '@/components/ui/shared';
 
 interface AssignmentsViewProps {
   classFocus?: TeacherClassFocus | null;
@@ -78,7 +78,6 @@ export function AssignmentsView({ classFocus = null }: AssignmentsViewProps) {
           </button>
         </>
       }
-      metricsColumns={4}
       itemsCount={paginatedAssignments.length}
       emptyTitle="No assignments found"
       emptyDescription="Try adjusting your search or filters."

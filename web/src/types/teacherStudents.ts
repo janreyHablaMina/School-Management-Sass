@@ -2,7 +2,7 @@ import type { TeacherSummaryMetric } from './teacherList';
 
 export type { TeacherSummaryMetric };
 
-export type StudentStatus = 'Active' | 'At Risk' | 'Inactive';
+export type StudentStatus = 'Active' | 'At Risk' | 'Inactive' | 'Archived';
 
 export type LetterGrade = 'A' | 'A-' | 'B+' | 'B' | 'C+' | 'C' | 'D' | 'F';
 
@@ -110,6 +110,7 @@ export interface StudentProfileFormInput {
   medicalNotes: string;
   teacherNotes: string;
   photoUrl: string | null;
+  enrollmentDate?: string;
   guardians: StudentGuardianFormInput[];
   emergencyContact: StudentEmergencyFormInput;
   /** Required when creating a student. */

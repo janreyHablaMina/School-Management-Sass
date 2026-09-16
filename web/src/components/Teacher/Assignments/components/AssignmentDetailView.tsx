@@ -33,7 +33,7 @@ export function AssignmentDetailView({
             <h1 className={styles.title}>{assignment.title}</h1>
             <div className={styles.badges}>
               <ChalkBadge label={assignment.type} accent={assignmentTypeAccent(assignment.type)} />
-              <ChalkBadge label={assignment.classLabel} />
+              <ChalkBadge label={assignment.classLabel} accent="default" />
               <ChalkBadge label={assignment.status} accent={assignmentStatusAccent(assignment.status)} />
             </div>
           </div>
@@ -47,7 +47,7 @@ export function AssignmentDetailView({
 
       <ListTabs
         tabs={['Instructions & Attachments', 'Submissions']}
-        activeTab={activeTab}
+        value={activeTab}
         onChange={setActiveTab}
       />
 

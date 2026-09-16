@@ -57,6 +57,7 @@ export function StudentsTable({
   onMarkInactive,
   onRestoreActive,
   onArchive,
+  onBulkArchive,
 }: StudentsTableProps) {
   const bulkActions = [
     {

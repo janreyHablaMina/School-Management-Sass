@@ -17,7 +17,6 @@ interface StudentsTableProps {
   onMessage?: (studentIds: string[]) => void;
   onArchiveStudent: (id: string) => void;
   onArchiveSelected: () => void;
-  onArchiveSelected: () => void;
   onRestoreStudent: (id: string) => void;
   onRestoreSelected: () => void;
   onMarkInactive: (id: string) => void;

@@ -11,7 +11,7 @@ import {
 } from '@/lib/lessons/storage';
 import { accentFromMap } from '@/lib/hooks';;
 
-const TYPE_ACCENTS: Record<LessonType, string> = {
+const TYPE_ACCENTS: Record<string, string> = {
   'Video Lesson': '#b68eff',
   Document: '#5cc789',
   PDF: '#e85d5d',
@@ -20,7 +20,7 @@ const TYPE_ACCENTS: Record<LessonType, string> = {
   'Text Lesson': '#c9a8ff',
 };
 
-const TYPE_ICONS: Record<LessonType, string> = {
+const TYPE_ICONS: Record<string, string> = {
   'Video Lesson': '▶',
   Document: '📄',
   PDF: '📕',

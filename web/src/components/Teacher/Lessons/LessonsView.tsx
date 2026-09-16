@@ -116,8 +116,8 @@ export function LessonsView({
             sorts={filterOptions.sorts}
             searchPlaceholder="Search lessons by title or keyword..."
             searchAriaLabel="Search lessons"
-            tabsAriaLabel="Lesson views"
-            tabsPlacement="before"
+            
+            
             onClear={clearFilters}
             isDirty={isDirty}
           />

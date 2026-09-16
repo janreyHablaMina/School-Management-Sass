@@ -1,5 +1,5 @@
 import React from 'react';
-import { TeacherModal } from '../../shared/TeacherModal';
+import { TeacherModal } from '@/components/ui/shared';
 import type { TeacherLessonRow } from '@/types/teacherLessons';
 import styles from './lessonPreviewModal.module.css';
 
