@@ -12,6 +12,7 @@ interface MessageModalProps {
   onClose: () => void;
   recipientCount: number;
   onSend: (data: MessageData) => void;
+  hideTeacherOption?: boolean;
 }
 
 const CHANNELS = [
@@ -26,6 +27,7 @@ export const MessageModal: React.FC<MessageModalProps> = ({
   onClose,
   recipientCount,
   onSend,
+  hideTeacherOption = false,
 }) => {
   const [targets, setTargets] = useState<string[]>(['parent']);
 
@@ -72,16 +74,18 @@ export const MessageModal: React.FC<MessageModalProps> = ({
             />
             Parent / Guardian
           </label>
-          <label className={styles.targetOption}>
-            <input 
-              type="checkbox" 
-              name="messageTarget" 
-              value="teacher" 
-              checked={targets.includes('teacher')}
-              onChange={() => toggleTarget('teacher')}
-            />
-            Teacher
-          </label>
+          {!hideTeacherOption && (
+            <label className={styles.targetOption}>
+              <input 
+                type="checkbox" 
+                name="messageTarget" 
+                value="teacher" 
+                checked={targets.includes('teacher')}
+                onChange={() => toggleTarget('teacher')}
+              />
+              Teacher
+            </label>
+          )}
         </div>
       </div>
 

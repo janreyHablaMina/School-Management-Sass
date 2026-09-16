@@ -181,7 +181,7 @@ export function StudentDossierBody({
                     className={styles.dossierPrimaryBtn}
                     onClick={onContact}
                   >
-                    Contact {guardian.relationship.toLowerCase()}
+                    Send Message
                   </button>
                 </div>
               ) : null}

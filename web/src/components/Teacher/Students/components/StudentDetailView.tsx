@@ -6,7 +6,7 @@ import type { TeacherStudentRow } from '@/types/teacherStudents';
 import { listStyles, TeacherToast } from '@/components/ui/shared';;
 import { useGuardianContact } from '../useGuardianContact';
 import { toStudentGradesNav } from '../studentDisplay';
-import { ContactGuardianModal } from './ContactGuardianModal';
+import { MessageModal } from '@/components/ui/MessageModal';
 import {
   StudentDossierBody,
   StudentDossierHero,
@@ -63,11 +63,18 @@ export function StudentDetailView({
       </div>
 
       {target ? (
-        <ContactGuardianModal
-          student={target.student}
-          guardian={target.guardian}
+        <MessageModal
+          isOpen={true}
           onClose={closeContact}
-          onNotice={showToast}
+          recipientCount={1}
+          hideTeacherOption
+          onSend={(data) => {
+            showToast({
+              title: 'Message ready',
+              message: `Draft to ${data.targets.join(', ')} via ${data.channel} will open soon.`,
+            });
+            closeContact();
+          }}
         />
       ) : null}
 

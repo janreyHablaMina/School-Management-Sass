@@ -14,7 +14,7 @@ const ROW_ACTIONS = [
   { icon: '👁', label: 'View Gradebook' },
   { icon: '✎', label: 'Edit Scores' },
   { icon: '📄', label: 'Progress Report' },
-  { icon: '📧', label: 'Message Parent' },
+  { icon: '📧', label: 'Send Message' },
 ] as const;
 
 const DANGER_ACTIONS = [{ icon: '🚩', label: 'Flag for Review' }] as const;

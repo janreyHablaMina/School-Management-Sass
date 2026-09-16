@@ -2,7 +2,7 @@
 
 import type { TeacherClassFocus, TeacherNavRequest } from '@/lib/teacher/classFocus';
 import { listStyles, ResourceListPage, TeacherToast } from '@/components/ui/shared';;
-import { ContactGuardianModal } from './components/ContactGuardianModal';
+import { MessageModal } from '@/components/ui/MessageModal';
 import { StudentFormModal } from './components/StudentFormModal';
 import { MarkInactiveModal } from './components/MarkInactiveModal';
 import { ArchiveStudentModal } from './components/ArchiveStudentModal';
@@ -235,11 +235,18 @@ export function StudentsView({
       ) : null}
 
       {target ? (
-        <ContactGuardianModal
-          student={target.student}
-          guardian={target.guardian}
+        <MessageModal
+          isOpen={true}
           onClose={closeContact}
-          onNotice={showToast}
+          recipientCount={1}
+          hideTeacherOption
+          onSend={(data) => {
+            showToast({
+              title: 'Message ready',
+              message: `Draft to ${data.targets.join(', ')} via ${data.channel} will open soon.`,
+            });
+            closeContact();
+          }}
         />
       ) : null}
 
