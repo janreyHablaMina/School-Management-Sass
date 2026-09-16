@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { TEACHERS_LIST, Teacher } from '@/lib/mock/teachers.mock';
 
 export type SortKey = 'name' | 'employeeId' | 'department' | 'subjects' | 'classes' | 'status' | 'lastActiveDate';
@@ -10,6 +10,14 @@ export const useTeachers = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedTeachers, setSelectedTeachers] = useState<string[]>([]);
   const [sortConfig, setSortConfig] = useState<{ key: SortKey; direction: 'asc' | 'desc' } | null>(null);
+  
+  const [toast, setToast] = useState<{ title: string; message?: string } | null>(null);
+
+  useEffect(() => {
+    if (!toast) return;
+    const timer = window.setTimeout(() => setToast(null), 3500);
+    return () => window.clearTimeout(timer);
+  }, [toast]);
 
   const handleSort = (key: SortKey) => {
     setSortConfig(current => {
@@ -92,6 +100,9 @@ export const useTeachers = () => {
     sortedTeachers,
     totalCount: TEACHERS_LIST.length,
     sortKey: sortConfig?.key ?? null,
-    sortDirection: sortConfig?.direction ?? 'asc'
+    sortDirection: sortConfig?.direction ?? 'asc',
+    toast,
+    dismissToast: () => setToast(null),
+    showToast: (t: { title: string; message?: string }) => setToast(t),
   };
 };

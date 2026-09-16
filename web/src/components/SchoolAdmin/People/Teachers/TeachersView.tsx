@@ -8,7 +8,8 @@ import layoutStyles from '../../shared/layout.module.css';
 import { TeachersFilters } from './TeachersFilters';
 import { TeachersTable } from './TeachersTable';
 import { TeacherProfileView } from './TeacherProfileView';
-import { EmptyState, PaginationBar } from '@/components/ui/shared';;;
+import { EmptyState, PaginationBar, ConfirmActionModal, TeacherToast } from '@/components/ui/shared';;;
+import { MessageModal, MessageData } from '@/components/ui/MessageModal';
 
 export const TeachersView: React.FC = () => {
   const {
@@ -25,10 +26,17 @@ export const TeachersView: React.FC = () => {
     sortKey,
     sortDirection,
     sortedTeachers,
-    totalCount
+    totalCount,
+    toast,
+    dismissToast,
+    showToast
   } = useTeachers();
 
   const [selectedTeacherForDetails, setSelectedTeacherForDetails] = useState<any | null>(null);
+  const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
+  const [teacherToMessage, setTeacherToMessage] = useState<string | null>(null);
+  const [isArchiveModalOpen, setIsArchiveModalOpen] = useState(false);
+  const [teachersToArchive, setTeachersToArchive] = useState<string[]>([]);
 
   // Pagination logic mock
   const [currentPage, setCurrentPage] = useState(1);
@@ -77,8 +85,28 @@ export const TeachersView: React.FC = () => {
           onSelectTeacher={handleSelectTeacher}
           onSort={handleSort}
           onViewDetails={setSelectedTeacherForDetails}
+          onMessage={(ids) => {
+            if (ids.length === 1) setTeacherToMessage(ids[0]);
+            else setTeacherToMessage(null);
+            setIsMessageModalOpen(true);
+          }}
+          onArchive={(ids) => {
+            setTeachersToArchive(ids);
+            setIsArchiveModalOpen(true);
+          }}
         />
       )}
+
+      <MessageModal
+        isOpen={isMessageModalOpen}
+        onClose={() => setIsMessageModalOpen(false)}
+        recipientCount={teacherToMessage ? 1 : selectedTeachers.length}
+        hideTargets={true}
+        onSend={(data) => {
+          console.log('Sending message:', data, 'to', teacherToMessage ? [teacherToMessage] : selectedTeachers);
+          setIsMessageModalOpen(false);
+        }}
+      />
 
       <PaginationBar
         rangeStart={sortedTeachers.length > 0 ? 1 : 0}
@@ -89,6 +117,35 @@ export const TeachersView: React.FC = () => {
         itemLabel="teachers"
         onPageChange={setCurrentPage}
       />
+
+      {isArchiveModalOpen && (
+        <ConfirmActionModal
+          title={teachersToArchive.length === 1 ? "Archive Teacher" : "Archive Teachers"}
+          itemLabel="teacher"
+          count={teachersToArchive.length}
+          actionType="archive"
+          onCancel={() => setIsArchiveModalOpen(false)}
+          onConfirm={() => {
+            console.log('Archiving teachers:', teachersToArchive);
+            if (teachersToArchive.length === 1) {
+              const teacher = sortedTeachers.find(t => t.id === teachersToArchive[0]);
+              showToast({ title: `${teacher?.name || 'Teacher'} archived` });
+            } else {
+              showToast({ title: `${teachersToArchive.length} teachers archived` });
+            }
+            setIsArchiveModalOpen(false);
+            setTeachersToArchive([]);
+          }}
+        />
+      )}
+
+      {toast ? (
+        <TeacherToast
+          title={toast.title}
+          message={toast.message}
+          onClose={dismissToast}
+        />
+      ) : null}
     </div>
   );
 };

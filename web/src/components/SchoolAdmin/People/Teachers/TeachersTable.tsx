@@ -14,16 +14,16 @@ interface TeachersTableProps {
   onSelectTeacher: (id: string) => void;
   onSort: (key: SortKey) => void;
   onViewDetails: (teacher: Teacher) => void;
+  onMessage?: (ids: string[]) => void;
+  onArchive?: (ids: string[]) => void;
 }
 
 const COLUMNS: DataTableColumn[] = [
   { id: 'name', label: 'Teacher', sortable: true },
-  { id: 'employeeId', label: 'Employee ID', sortable: true },
   { id: 'department', label: 'Department', sortable: true },
   { id: 'subjects', label: 'Subjects', sortable: true },
   { id: 'classes', label: 'Classes', sortable: true },
   { id: 'status', label: 'Status', sortable: true },
-  { id: 'lastActiveDate', label: 'Last Active', sortable: true },
   { id: 'actions', label: 'Actions' },
 ];
 
@@ -34,7 +34,7 @@ const ROW_ACTIONS = [
 ] as const;
 
 const DANGER_ACTIONS = [
-  { icon: '🗑️', label: 'Deactivate Account' },
+  { icon: '🗑️', label: 'Archive Teacher' },
 ] as const;
 
 function getInitials(name: string) {
@@ -54,7 +54,9 @@ export const TeachersTable: React.FC<TeachersTableProps> = ({
   onSelectAll,
   onSelectTeacher,
   onSort,
-  onViewDetails
+  onViewDetails,
+  onMessage,
+  onArchive
 }) => {
   const allVisibleSelected = selectedTeachers.length === teachers.length && teachers.length > 0;
 
@@ -67,11 +69,11 @@ export const TeachersTable: React.FC<TeachersTableProps> = ({
         actions={[
           {
             label: 'Send Message',
-            onClick: () => alert('Bulk send message not implemented'),
+            onClick: () => onMessage?.(selectedTeachers),
           },
           {
-            label: 'Deactivate',
-            onClick: () => alert('Deactivate teachers functionality not implemented yet.'),
+            label: 'Archive',
+            onClick: () => onArchive?.(selectedTeachers),
             tone: 'danger',
           }
         ]}
@@ -123,11 +125,10 @@ export const TeachersTable: React.FC<TeachersTableProps> = ({
                   </div>
                   <div className={styles.studentInfo}>
                     <span className={styles.studentName}>{teacher.name}</span>
-                    <span className={styles.studentEmail}>{teacher.email}</span>
+                    <span className={styles.studentEmail}>ID: {teacher.employeeId}</span>
                   </div>
                 </div>
               </td>
-              <td>{teacher.employeeId}</td>
               <td>
                 <span style={{ color: teacher.departmentColor, fontWeight: 500 }}>
                   {teacher.department}
@@ -137,12 +138,6 @@ export const TeachersTable: React.FC<TeachersTableProps> = ({
               <td>{teacher.classes}</td>
               <td>
                 <ChalkBadge label={teacher.status} accent={teacher.statusColor} />
-              </td>
-              <td>
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <span>{teacher.lastActiveDate}</span>
-                  <span className={styles.subText} style={{ color: 'rgba(240, 239, 237, 0.45)', fontSize: '0.8rem' }}>{teacher.lastActiveTime}</span>
-                </div>
               </td>
               <td
                 onClick={(event) => event.stopPropagation()}
@@ -155,8 +150,8 @@ export const TeachersTable: React.FC<TeachersTableProps> = ({
                   onAction={(label) => {
                     if (label === 'View Profile') onViewDetails(teacher);
                     if (label === 'Edit Teacher') alert('Edit not implemented');
-                    if (label === 'Send Message') alert('Send message not implemented');
-                    if (label === 'Deactivate Account') alert('Deactivate not implemented');
+                    if (label === 'Send Message') onMessage?.([teacher.id]);
+                    if (label === 'Archive Teacher') onArchive?.([teacher.id]);
                   }}
                 />
               </td>

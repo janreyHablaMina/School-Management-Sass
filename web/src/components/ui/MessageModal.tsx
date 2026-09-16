@@ -13,6 +13,7 @@ interface MessageModalProps {
   recipientCount: number;
   onSend: (data: MessageData) => void;
   hideTeacherOption?: boolean;
+  hideTargets?: boolean;
 }
 
 const CHANNELS = [
@@ -28,6 +29,7 @@ export const MessageModal: React.FC<MessageModalProps> = ({
   recipientCount,
   onSend,
   hideTeacherOption = false,
+  hideTargets = false,
 }) => {
   const [targets, setTargets] = useState<string[]>(['parent']);
 
@@ -51,7 +53,8 @@ export const MessageModal: React.FC<MessageModalProps> = ({
         </button>
       }
     >
-      <div className={styles.targetSelector}>
+      {!hideTargets && (
+        <div className={styles.targetSelector}>
         <span className={styles.targetLabel}>Send message to:</span>
         <div className={styles.targetGroup}>
           <label className={styles.targetOption}>
@@ -87,9 +90,10 @@ export const MessageModal: React.FC<MessageModalProps> = ({
             </label>
           )}
         </div>
-      </div>
+        </div>
+      )}
 
-      <div className={styles.channelGrid}>
+      <div className={styles.channelGrid} style={{ marginTop: hideTargets ? '1.25rem' : 0 }}>
         {CHANNELS.map((channel) => (
           <button
             key={channel.id}

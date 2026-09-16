@@ -14,7 +14,7 @@ interface ConfirmActionModalProps {
   itemLabel: string;
   /** Number of items for bulk actions. Defaults to 1 (single). */
   count?: number;
-  actionType: 'archive' | 'delete';
+  actionType: 'archive' | 'delete' | 'deactivate';
   onCancel: () => void;
   onConfirm: () => void;
   children?: React.ReactNode;
@@ -32,7 +32,8 @@ export function ConfirmActionModal({
 }: ConfirmActionModalProps) {
   const isBulk = count > 1;
   const isArchive = actionType === 'archive';
-  const actionWord = isArchive ? 'Archive' : 'Delete';
+  const isDeactivate = actionType === 'deactivate';
+  const actionWord = isArchive ? 'Archive' : isDeactivate ? 'Deactivate' : 'Delete';
   const pluralLabel = count === 1 ? itemLabel : `${itemLabel}s`;
   const confirmLabel = isBulk ? `${actionWord} ${count}` : `${actionWord} ${itemLabel}`;
 
@@ -61,6 +62,8 @@ export function ConfirmActionModal({
             <strong>{count}</strong> selected {pluralLabel} will{' '}
             {isArchive
               ? 'move to Archived and leave your Active list. You can restore them anytime from the Archived filter.'
+              : isDeactivate
+              ? 'be deactivated and lose access to the system. You can restore their access anytime.'
               : 'be permanently deleted. This action cannot be undone.'}
           </>
         ) : (
@@ -68,6 +71,8 @@ export function ConfirmActionModal({
             This {itemLabel} will{' '}
             {isArchive
               ? 'move to Archived and leave your Active list. You can restore it anytime from the Archived filter.'
+              : isDeactivate
+              ? 'be deactivated and lose access to the system. You can restore their access anytime.'
               : 'be permanently deleted. This action cannot be undone.'}
           </>
         )}
