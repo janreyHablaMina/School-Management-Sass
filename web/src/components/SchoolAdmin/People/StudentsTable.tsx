@@ -2,7 +2,7 @@ import React from 'react';
 import { ChalkBadge, DataTable, listStyles, ResourceBulkBar, RowActionsMenu, RowSelectCell, SelectAllCheckbox, type DataTableColumn } from '@/components/ui/shared';;;
 import { SortKey } from './useStudents';
 import styles from './students.module.css';
-import { Student } from './StudentProfile/shared/types';
+import { Student } from './types';
 
 interface StudentsTableProps {
   students: Student[];

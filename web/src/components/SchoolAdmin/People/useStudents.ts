@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { schoolAdminMockData } from '@/lib/mock/schoolAdmin.mock';
 import type { StudentProfileFormInput } from '@/types/teacherStudents';
-import type { Student } from './StudentProfile/shared/types';
+import type { Student } from './types';
 
 export type SortKey = 'name' | 'studentId' | 'grade' | 'section' | 'parentGuardian' | 'status' | 'dateEnrolled' | 'attendanceRate' | 'averageGrade';
 export type StudentStatusFilter = 'All Status' | 'Active' | 'Inactive' | 'At Risk' | 'Archived';

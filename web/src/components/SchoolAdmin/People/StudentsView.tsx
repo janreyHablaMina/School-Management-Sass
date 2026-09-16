@@ -6,7 +6,7 @@ import { MetricsGrid, Metric } from '../shared/MetricsGrid';
 import layoutStyles from '../shared/layout.module.css';
 import { StudentsFilters } from './StudentsFilters';
 import { StudentsTable } from './StudentsTable';
-import { Student } from './StudentProfile/shared/types';
+import { Student } from './types';
 import { EmptyState, PaginationBar } from '@/components/ui/shared';;;
 import { StudentFormModal } from '@/components/Teacher/Students/components/StudentFormModal';
 import { StudentDetailView } from '@/components/Teacher/Students/components/StudentDetailView';
