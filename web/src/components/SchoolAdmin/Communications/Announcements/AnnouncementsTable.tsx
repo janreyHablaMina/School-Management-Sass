@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChalkBadge, DataTable, listStyles, ProgressStatCell, ResourceBulkBar, RowActionsMenu, RowSelectCell, SelectAllCheckbox, type DataTableColumn } from '@/components/ui/shared';;;
+import { ChalkBadge, DataTable, listStyles, ResourceBulkBar, RowActionsMenu, RowSelectCell, SelectAllCheckbox, type DataTableColumn } from '@/components/ui/shared';
 import peopleStyles from '../../People/Students/students.module.css';
 import type { AnnouncementRecord, AnnouncementSortKey } from './useAnnouncements';
 
@@ -19,18 +19,14 @@ const COLUMNS: DataTableColumn[] = [
   { id: 'audience', label: 'Audience', sortable: true },
   { id: 'type', label: 'Type', sortable: true },
   { id: 'status', label: 'Status', sortable: true },
-  { id: 'delivery', label: 'Delivery', sortable: true },
   { id: 'publishedSortKey', label: 'Publish Date', sortable: true },
-  { id: 'recipientCount', label: 'Recipients', sortable: true },
-  { id: 'readRate', label: 'Read Rate', sortable: true },
-  { id: 'priority', label: 'Priority', sortable: true },
   { id: 'actions', label: 'Action' },
 ];
 
 const ROW_ACTIONS = [
-  { icon: '>', label: 'View Announcement' },
-  { icon: '@', label: 'Message Audience' },
-  { icon: '#', label: 'Duplicate' },
+  { icon: '👁', label: 'View Announcement' },
+  { icon: '📧', label: 'Message Audience' },
+  { icon: '📋', label: 'Duplicate' },
 ] as const;
 
 function statusAccent(status: string) {
@@ -40,25 +36,12 @@ function statusAccent(status: string) {
   return '#8a9a90';
 }
 
-function priorityAccent(priority: string) {
-  if (priority === 'Urgent') return '#ff4f73';
-  if (priority === 'High') return '#ff7e93';
-  if (priority === 'Medium') return '#f5c842';
-  return '#5cc789';
-}
-
 function typeAccent(type: string) {
   if (type === 'Urgent') return '#ff7e93';
   if (type === 'Event') return '#b68eff';
   if (type === 'Academic') return '#5cc789';
   if (type === 'Reminder') return '#f5c842';
   return '#84a9ff';
-}
-
-function readRateAccent(readRate: number) {
-  if (readRate >= 80) return '#5cc789';
-  if (readRate >= 60) return '#f5c842';
-  return '#ff7e93';
 }
 
 export const AnnouncementsTable: React.FC<AnnouncementsTableProps> = ({
@@ -94,7 +77,7 @@ export const AnnouncementsTable: React.FC<AnnouncementsTableProps> = ({
 
       <DataTable
         columns={COLUMNS}
-        minWidth={1480}
+        minWidth={900}
         sortKey={sortKey}
         sortDirection={sortDirection}
         onSort={(key) => onSort(key as AnnouncementSortKey)}
@@ -146,22 +129,7 @@ export const AnnouncementsTable: React.FC<AnnouncementsTableProps> = ({
             <td>
               <ChalkBadge label={announcement.status} accent={statusAccent(announcement.status)} />
             </td>
-            <td>{announcement.delivery}</td>
             <td>{announcement.publishedAt}</td>
-            <td>{announcement.recipientCount.toLocaleString()}</td>
-            <td>
-              <ProgressStatCell
-                current={announcement.readRate}
-                total={100}
-                barColor={readRateAccent(announcement.readRate)}
-              />
-            </td>
-            <td>
-              <ChalkBadge
-                label={announcement.priority}
-                accent={priorityAccent(announcement.priority)}
-              />
-            </td>
             <td
               onClick={(event) => event.stopPropagation()}
               onKeyDown={(event) => event.stopPropagation()}

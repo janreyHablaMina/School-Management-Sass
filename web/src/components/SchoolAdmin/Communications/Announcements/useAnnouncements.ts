@@ -19,14 +19,12 @@ interface AnnouncementFilters extends Record<string, string> {
   searchTerm: string;
   statusFilter: string;
   typeFilter: string;
-  priorityFilter: string;
 }
 
 const INITIAL_FILTERS: AnnouncementFilters = {
   searchTerm: '',
   statusFilter: 'All Status',
   typeFilter: 'All Types',
-  priorityFilter: 'All Priorities',
 };
 
 function valueForSort(announcement: AnnouncementRecord, key: AnnouncementSortKey) {
@@ -46,11 +44,8 @@ function filterAnnouncement(announcement: AnnouncementRecord, filters: Announcem
     filters.statusFilter === 'All Status' || announcement.status === filters.statusFilter;
   const matchesType =
     filters.typeFilter === 'All Types' || announcement.type === filters.typeFilter;
-  const matchesPriority =
-    filters.priorityFilter === 'All Priorities' ||
-    announcement.priority === filters.priorityFilter;
 
-  return matchesSearch && matchesStatus && matchesType && matchesPriority;
+  return matchesSearch && matchesStatus && matchesType;
 }
 
 export function useAnnouncements() {
@@ -81,8 +76,6 @@ export function useAnnouncements() {
     setStatusFilter: (value: string) => directory.setFilter('statusFilter', value),
     typeFilter: directory.filters.typeFilter,
     setTypeFilter: (value: string) => directory.setFilter('typeFilter', value),
-    priorityFilter: directory.filters.priorityFilter,
-    setPriorityFilter: (value: string) => directory.setFilter('priorityFilter', value),
     currentPage: directory.page,
     setCurrentPage: directory.setPage,
     selectedAnnouncements: directory.selectedIds,

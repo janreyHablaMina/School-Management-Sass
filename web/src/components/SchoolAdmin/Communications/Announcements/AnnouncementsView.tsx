@@ -49,8 +49,6 @@ export const AnnouncementsView: React.FC = () => {
     setStatusFilter,
     typeFilter,
     setTypeFilter,
-    priorityFilter,
-    setPriorityFilter,
     currentPage,
     setCurrentPage,
     selectedAnnouncements,
@@ -153,8 +151,6 @@ export const AnnouncementsView: React.FC = () => {
           setStatusFilter={setStatusFilter}
           typeFilter={typeFilter}
           setTypeFilter={setTypeFilter}
-          priorityFilter={priorityFilter}
-          setPriorityFilter={setPriorityFilter}
           hasActiveFilters={hasActiveFilters}
           onReset={resetFilters}
         />

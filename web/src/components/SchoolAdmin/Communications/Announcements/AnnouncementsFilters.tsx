@@ -8,8 +8,6 @@ interface AnnouncementsFiltersProps {
   setStatusFilter: (status: string) => void;
   typeFilter: string;
   setTypeFilter: (type: string) => void;
-  priorityFilter: string;
-  setPriorityFilter: (priority: string) => void;
   hasActiveFilters: boolean;
   onReset: () => void;
 }
@@ -21,8 +19,6 @@ export const AnnouncementsFilters: React.FC<AnnouncementsFiltersProps> = ({
   setStatusFilter,
   typeFilter,
   setTypeFilter,
-  priorityFilter,
-  setPriorityFilter,
   hasActiveFilters,
   onReset,
 }) => {
@@ -44,12 +40,6 @@ export const AnnouncementsFilters: React.FC<AnnouncementsFiltersProps> = ({
           value: typeFilter,
           onChange: setTypeFilter,
           options: ['All Types', 'General', 'Academic', 'Reminder', 'Event', 'Urgent'],
-        },
-        {
-          label: 'Priority',
-          value: priorityFilter,
-          onChange: setPriorityFilter,
-          options: ['All Priorities', 'Low', 'Medium', 'High', 'Urgent'],
         },
       ]}
       hasActiveFilters={hasActiveFilters}
