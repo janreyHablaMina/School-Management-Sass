@@ -11,6 +11,7 @@ interface CalendarAgendaProps {
   events: TeacherCalendarEvent[];
   onViewDayDetails: () => void;
   onOpenEvent: (event: TeacherCalendarEvent) => void;
+  onAddEvent: () => void;
 }
 
 export function CalendarAgenda({
@@ -18,6 +19,7 @@ export function CalendarAgenda({
   events,
   onViewDayDetails,
   onOpenEvent,
+  onAddEvent,
 }: CalendarAgendaProps) {
   return (
     <aside className={styles.agendaPanel}>
@@ -32,7 +34,7 @@ export function CalendarAgenda({
       <div className={styles.agendaList}>
         {events.length === 0 ? (
           <div className={styles.agendaEmpty}>
-            Pick another day or clear filters to see more schedule items.
+            No events are scheduled for this date.
           </div>
         ) : (
           events.map((event, index) => {
@@ -74,9 +76,15 @@ export function CalendarAgenda({
       </div>
 
       <div className={styles.agendaActions}>
-        <button type="button" className={listStyles.primaryBtn} onClick={onViewDayDetails}>
-          View day details
-        </button>
+        {events.length === 0 ? (
+          <button type="button" className={listStyles.primaryBtn} onClick={onAddEvent}>
+            + Add Event
+          </button>
+        ) : (
+          <button type="button" className={listStyles.primaryBtn} onClick={onViewDayDetails}>
+            View day details
+          </button>
+        )}
       </div>
     </aside>
   );

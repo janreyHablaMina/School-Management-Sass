@@ -6,7 +6,7 @@ import { CalendarAgenda } from './components/CalendarAgenda';
 import { CalendarDayDetailModal } from './components/CalendarDayDetailModal';
 import { CalendarLegend } from './components/CalendarLegend';
 import { CalendarMonthGrid } from './components/CalendarMonthGrid';
-import { CalendarTypeFilters } from './components/CalendarTypeFilters';
+
 import { CreateEventModal } from './components/CreateEventModal';
 import { useCalendar } from './useCalendar';
 import styles from './calendar.module.css';
@@ -14,10 +14,7 @@ import styles from './calendar.module.css';
 export function CalendarView() {
   const {
     metrics,
-    filters,
     classroomOptions,
-    typeFilter,
-    setTypeFilter,
     monthLabel,
     year,
     month,
@@ -60,11 +57,6 @@ export function CalendarView() {
 
       <SummaryMetrics metrics={metrics} columns={4} />
 
-      <CalendarTypeFilters
-        filters={filters}
-        value={typeFilter}
-        onChange={setTypeFilter}
-      />
 
       <div className={styles.layout}>
         <CalendarMonthGrid
@@ -85,6 +77,7 @@ export function CalendarView() {
           events={selectedDayEvents}
           onViewDayDetails={openDayDetail}
           onOpenEvent={openEventDetail}
+          onAddEvent={openCreate}
         />
       </div>
 

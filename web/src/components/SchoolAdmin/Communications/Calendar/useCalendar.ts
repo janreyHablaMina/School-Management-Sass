@@ -1,15 +1,13 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { CALENDAR_FILTERS } from '@/lib/calendar';
 import { adminCalendarPageMock } from '@/lib/mock/adminCalendar.mock';
 import type {
-  CalendarFilter,
   CreateCalendarEventInput,
   TeacherCalendarEvent,
 } from '@/types/teacherCalendar';
 import {
-  buildCalendarMetrics,
+  buildAdminCalendarMetrics,
   buildEventFromInput,
   formatDayLabel,
   formatMonthLabel,
@@ -62,43 +60,39 @@ export function useCalendar() {
   const [viewYear, setViewYear] = useState(initialDate.year);
   const [viewMonth, setViewMonth] = useState(initialDate.month);
   const [selectedDateKey, setSelectedDateKey] = useState(initialKey);
-  const [typeFilter, setTypeFilter] = useState<CalendarFilter>('All');
   const [isDayDetailOpen, setIsDayDetailOpen] = useState(false);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [focusEventId, setFocusEventId] = useState<string | null>(null);
 
   const selected = parseDateKey(selectedDateKey);
-  const metrics = useMemo(() => buildCalendarMetrics(events), [events]);
-
-  const filteredEvents = useMemo(() => {
-    if (typeFilter === 'All') return events;
-    return events.filter((event) => event.type === typeFilter);
-  }, [events, typeFilter]);
+  const metrics = useMemo(() => buildAdminCalendarMetrics(events), [events]);
 
   const eventsByDay = useMemo(() => {
     const prefix = monthPrefix(viewYear, viewMonth);
     return groupEventsByDay(
-      filteredEvents.filter((event) => event.dateKey.startsWith(prefix)),
+      events.filter((event) => event.dateKey.startsWith(prefix)),
     );
-  }, [filteredEvents, viewYear, viewMonth]);
+  }, [events, viewYear, viewMonth]);
 
   const selectedDayEvents = useMemo(
     () =>
-      sortEventsByTime(filteredEvents.filter((event) => event.dateKey === selectedDateKey)),
-    [filteredEvents, selectedDateKey],
+      sortEventsByTime(events.filter((event) => event.dateKey === selectedDateKey)),
+    [events, selectedDateKey],
   );
 
-  const focusDate = (dateKey: string, eventId: string | null = null) => {
+  const focusDate = (dateKey: string, eventId: string | null = null, openModal = true) => {
     const { year, month } = parseDateKey(dateKey);
     setViewYear(year);
     setViewMonth(month);
     setSelectedDateKey(dateKey);
     setFocusEventId(eventId);
-    setIsDayDetailOpen(true);
+    if (openModal) {
+      setIsDayDetailOpen(true);
+    }
   };
 
   const selectDay = (day: number) => {
-    focusDate(toDateKey(viewYear, viewMonth, day));
+    focusDate(toDateKey(viewYear, viewMonth, day), null, false);
   };
 
   const openEventDetail = (event: TeacherCalendarEvent) => {
@@ -143,10 +137,7 @@ export function useCalendar() {
 
   return {
     metrics,
-    filters: CALENDAR_FILTERS,
     classroomOptions,
-    typeFilter,
-    setTypeFilter,
     monthLabel: formatMonthLabel(viewYear, viewMonth),
     year: viewYear,
     month: viewMonth,
