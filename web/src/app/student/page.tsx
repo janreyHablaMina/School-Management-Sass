@@ -29,6 +29,7 @@ import { StudentLibraryView } from '@/components/Student/Library/StudentLibraryV
 import { StudentFormsView } from '@/components/Student/Forms/StudentFormsView';
 import { StudentMessagesView } from '@/components/Student/Messages/StudentMessagesView';
 import { StudentProfileView } from '@/components/Student/Profile/StudentProfileView';
+import { StudentSettingsView } from '@/components/Student/Settings/StudentSettingsView';
 
 // Temporary placeholder for settings
 const StudentPlaceholder = ({ title }: { title: string }) => (
@@ -80,6 +81,7 @@ export default function StudentPortal() {
     if (activeTab === 'Downloadable Forms') return <StudentFormsView />;
     if (activeTab === 'Messages') return <StudentMessagesView />;
     if (activeTab === 'My Profile') return <StudentProfileView />;
+    if (activeTab === 'Settings') return <StudentSettingsView />;
     return <StudentPlaceholder title={activeTab} />;
   };
 
