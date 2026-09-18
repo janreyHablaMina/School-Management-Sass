@@ -28,6 +28,7 @@ import { StudentDigitalIdView } from '@/components/Student/DigitalId/StudentDigi
 import { StudentLibraryView } from '@/components/Student/Library/StudentLibraryView';
 import { StudentFormsView } from '@/components/Student/Forms/StudentFormsView';
 import { StudentMessagesView } from '@/components/Student/Messages/StudentMessagesView';
+import { StudentProfileView } from '@/components/Student/Profile/StudentProfileView';
 
 // Temporary placeholder for settings
 const StudentPlaceholder = ({ title }: { title: string }) => (
@@ -78,6 +79,7 @@ export default function StudentPortal() {
     if (activeTab === 'Library & E-Books') return <StudentLibraryView />;
     if (activeTab === 'Downloadable Forms') return <StudentFormsView />;
     if (activeTab === 'Messages') return <StudentMessagesView />;
+    if (activeTab === 'My Profile') return <StudentProfileView />;
     return <StudentPlaceholder title={activeTab} />;
   };
 
