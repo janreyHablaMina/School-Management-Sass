@@ -22,6 +22,7 @@ import { StudentClinicView } from '@/components/Student/Clinic/StudentClinicView
 import { StudentGuidanceView } from '@/components/Student/Guidance/StudentGuidanceView';
 import { StudentDocumentsView } from '@/components/Student/Documents/StudentDocumentsView';
 import { StudentAnnouncementsView } from '@/components/Student/Announcements/StudentAnnouncementsView';
+import { StudentCalendarView } from '@/components/Student/Calendar/StudentCalendarView';
 import { StudentTuitionView } from '@/components/Student/Tuition/StudentTuitionView';
 import { StudentPaymentHistoryView } from '@/components/Student/PaymentHistory/StudentPaymentHistoryView';
 import { StudentDigitalIdView } from '@/components/Student/DigitalId/StudentDigitalIdView';
@@ -74,6 +75,7 @@ export default function StudentPortal() {
     if (activeTab === 'Guidance Office') return <StudentGuidanceView />;
     if (activeTab === 'Documents') return <StudentDocumentsView />;
     if (activeTab === 'Announcements') return <StudentAnnouncementsView />;
+    if (activeTab === 'Calendar') return <StudentCalendarView />;
     if (activeTab === 'Tuition & Fees') return <StudentTuitionView />;
     if (activeTab === 'Payment History') return <StudentPaymentHistoryView />;
     if (activeTab === 'Digital ID & Pass') return <StudentDigitalIdView />;

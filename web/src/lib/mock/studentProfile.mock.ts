@@ -811,3 +811,15 @@ export const STUDENT_MESSAGES = {
     { id: 'm3', sender: 'Mr. Richard Gomez', isMe: false, text: 'Not at all. Juan, your recent project was excellent. I want to feature it in the exhibit.', time: 'Yesterday, 02:20 PM' },
   ]
 };
+
+// -----------------------------------------
+// CALENDAR & EVENTS DATA
+// -----------------------------------------
+
+export const STUDENT_CALENDAR_EVENTS = [
+  { id: '1', title: 'Midterm Examination Week', type: 'Exam', date: 'Oct 01, 2025 - Oct 05, 2025', time: '8:00 AM - 3:00 PM', location: 'Main Campus', category: 'Academic', color: '#ff7e93', bg: 'rgba(255, 126, 147, 0.1)' },
+  { id: '2', title: 'General Physics Project Submission', type: 'Deadline', date: 'Oct 08, 2025', time: '11:59 PM', location: 'Online Portal', category: 'Assignment', color: '#84a9ff', bg: 'rgba(132, 169, 255, 0.1)' },
+  { id: '3', title: 'Supreme Student Government Meeting', type: 'Event', date: 'Oct 12, 2025', time: '4:00 PM - 5:30 PM', location: 'Audio-Visual Room 2', category: 'Club', color: '#f5c842', bg: 'rgba(245, 200, 66, 0.1)' },
+  { id: '4', title: 'Annual Intramurals & Sportsfest', type: 'Holiday / Event', date: 'Oct 20, 2025 - Oct 24, 2025', time: 'All Day', location: 'School Grounds & Gymnasium', category: 'School-wide', color: '#5cc789', bg: 'rgba(92, 199, 137, 0.1)' },
+  { id: '5', title: 'First Quarter Report Card Distribution', type: 'Important', date: 'Nov 05, 2025', time: '8:00 AM - 12:00 PM', location: 'Homeroom Classrooms', category: 'Academic', color: '#b68eff', bg: 'rgba(182, 142, 255, 0.1)' },
+];
